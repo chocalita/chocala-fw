@@ -1,0 +1,48 @@
+<?= BarView::renderBar('messages'); ?>
+<div class="dialog" style="padding: 0 250px">
+
+    <div class="fRight">
+        <a href="<?= URI::toPage().'dataList'; ?>" class="linkGoBack">Go to data list</a>
+        <a href="<?= URI::toPage().'edit/'.$jobStudentInstance->getPrimaryKey(); ?>" class="linkEdit">Edit JobStudent</a>
+        <a href="<?= URI::toPage().'delete/'.$jobStudentInstance->getPrimaryKey(); ?>" class="linkDelete" onclick="return confirm('¿Do you sure to delete this record?');">Delete JobStudent</a>
+    </div>
+    <h1>JobStudent Details</h1>
+    <hr />
+    
+        
+    <div class="input">
+        <label class="name">NAME</label>
+        <div class="value">
+            <?= $jobStudentInstance->getNAME(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">LASTNAME</label>
+        <div class="value">
+            <?= $jobStudentInstance->getLASTNAME(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">CREATIONDATE</label>
+        <div class="value">
+            <?= $jobStudentInstance->getCREATIONDATE(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">MODIFICATIONDATE</label>
+        <div class="value">
+            <?= $jobStudentInstance->getMODIFICATIONDATE(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">STATUS</label>
+        <div class="value">
+            <?= $jobStudentInstance->getSTATUS(); ?>
+        </div>
+    </div>
+            
+</div>

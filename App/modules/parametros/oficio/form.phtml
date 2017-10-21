@@ -1,0 +1,15 @@
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Nombre">Nombre</label>
+    <div class="col-sm-9">
+        <input type="text" id="nombre" name="Nombre" value="<?=$oficio? $oficio->getNombre(): '';?>" placeholder="Nombre..." autocomplete="off"
+               class="form-control" size="30" maxlength="100" />
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Descripcion">Descripción</label>
+    <div class="col-sm-9">
+        <textarea id="Descripcion" name="Descripcion" placeholder="Descripción..."
+                  class="form-control" rows="2" cols="30"><?=$oficio? $oficio->getDescripcion(): '';?></textarea>
+    </div>
+</div>

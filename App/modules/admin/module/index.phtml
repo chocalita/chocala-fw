@@ -1,0 +1,27 @@
+<section class="content-header">
+    <h1>
+        Módulos del Sistema
+        <small>advanced tables</small>
+    </h1>
+    <ol id="mainBreadcrumb" class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Administración</a></li>
+        <li class="active"><a href="<?=URI::toPage();?>">Módulos del Sistema</a></li>
+        <li class="active"><a href="<?=URI::toPage();?>dataList" class="loadContent" rel="dataList">Listado</a></li>
+    </ol>
+</section><!-- /.content-header -->
+
+<!-- Main content -->
+<section id="mainContent" class="content">
+
+</section>
+
+<!-- page script -->
+<script type="text/javascript">
+$().ready(function(){
+    $('.loadContent').loadContent();
+    var breadcrumbs = $("#mainBreadcrumb .loadContent");
+    if(breadcrumbs.size()>0){
+        breadcrumbs.last().click();
+    }
+});
+</script>

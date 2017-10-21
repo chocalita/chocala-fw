@@ -1,0 +1,102 @@
+<div class="table-toolbar">
+    <div class="row pad">
+        <div class="btn-group">
+            <?php if (PageControl::canCreate()) { ?>
+                <a href="<?= URI::toPage() . 'create'; ?>" class="btn bt-sm btn-success" data-toggle="modal"
+                   data-target="#ajax-modal"><i class="fa fa-plus"></i> Agregar</a>
+            <?php } ?>
+        </div>
+    </div>
+</div>
+<table id="" class="table table-bordered table-striped table-hover ">
+    <thead>
+    <tr>
+        <th>Nº</th>
+        <th>Usuario</th>
+        <th>Nombre Formal</th>
+        <th>Correo</th>
+        <th>DNI</th>
+        <th>Dirección</th>
+        <th>Estado</th>
+        <th>Roles</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tfoot>
+    <tr>
+        <th>Nº</th>
+        <th>Usuario</th>
+        <th>Nombre Formal</th>
+        <th>Correo</th>
+        <th>DNI</th>
+        <th>Dirección</th>
+        <th>Estado</th>
+        <th>Roles</th>
+        <th>Acciones</th>
+    </tr>
+    </tfoot>
+    <tbody>
+    <?php
+    $toDeleteLink = URI::toPage() . "delete/";
+    /** @var  $usuario SysUser */
+    $i = 1;
+    $enumPeriodo = ConGiroNegocio::enumPeriodos();
+    foreach ($usuariosList as $usuario) {
+        $pk = $usuario->getId();
+
+        ?>
+        <tr>
+            <td><?= $i ?></td>
+            <td>
+                <?= $usuario->getUsername(); ?><br/>
+                <small><strong>Creado el: </strong><?=$usuario->getRegisteredDate('d/m/Y h:m');?></small>
+            </td>
+            <td><?= $usuario->formalName(); ?></td>
+            <td><?= $usuario->getEmail(); ?></td>
+            <td><?= $usuario->getDni(); ?></td>
+            <td><?= $usuario->getAddress(); ?></td>
+            <td><?= $enumEstado[$usuario->getStatus()]; ?></td>
+            <td>
+                <?php
+                /**@var  $userXrol SysUserXRol*/
+                foreach($usuario->getSysUserXRols() as $userXrol){
+                    $rol = $userXrol->getSysRol();
+                    $rolEntidad = ConRolEntidadQuery::create()->
+                    filterByIdEntidad(ID_ENTITY)
+                        ->filterByIdRol($rol->getId())
+                        ->findOne();
+                    ?>
+                    <?=$rolEntidad->getNombre();?><br/>
+                <?php
+                }
+                ?>
+            </td>
+            <td width="10%">
+                <?php if (PageControl::canUpdate()) { ?>
+                    <a href="<?= URI::toPage() . 'edit/' . $pk; ?>" class="btn btn-xs btn-primary"
+                       data-toggle="modal" data-target="#ajax-modal" title="Editar">
+                        <i class="fa fa-fw fa-edit"></i>
+                    </a>
+                <?php
+                }
+                if (PageControl::canDelete()) {
+                    ?>
+                    <a href="<?= $toDeleteLink . $pk; ?>" class="btn btn-circle btn-xs btn-danger"
+                       onclick="return confirm('Esta seguro de eliminar este usuario?')"
+                       title="Eliminar">
+                        <i class="fa fa-fw fa-trash"></i>
+                    </a>
+                <?php } ?>
+            </td>
+        </tr>
+        <?php
+        $i++;
+    }
+    ?>
+    </tbody>
+</table>
+<script type="text/javascript">
+    $().ready(function(){
+        oTabla.emptyData($("table"));
+    });
+</script>

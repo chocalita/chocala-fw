@@ -1,0 +1,62 @@
+<?= BarView::renderBar('messages'); ?>
+<div class="dialog" style="padding: 0 250px">
+
+    <div class="btn-group">
+        <a href="<?= URI::toPage().'dataList'; ?>" class="linkGoBack">Go to data list</a>
+        <a href="<?= URI::toPage().'edit/'.$jobAreaRelacionada->getPrimaryKey(); ?>" class="linkEdit">Edit JobAreaRelacionada</a>
+        <a href="<?= URI::toPage().'delete/'.$jobAreaRelacionada->getPrimaryKey(); ?>" class="linkDelete" onclick="return confirm('¿Do you sure to delete this record?');">Delete JobAreaRelacionada</a>
+    </div>
+    <h1>RelacionAreas Details</h1>
+    <hr />
+    
+        
+    <div class="input">
+        <label class="name">JobAreaTecnica</label>
+        <div class="value">
+            <a href="<?= WEB_ROOT.'jobAreaTecnica/show/'.$jobAreaRelacionada->getJobAreaTecnica()->getID(); ?>"><?= $jobAreaRelacionada->getJobAreaTecnica()->get(); ?></a>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">JobAreaTecnica</label>
+        <div class="value">
+            <a href="<?= WEB_ROOT.'jobAreaTecnica/show/'.$jobAreaRelacionada->getJobAreaTecnica()->getID(); ?>"><?= $jobAreaRelacionada->getJobAreaTecnica()->get(); ?></a>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Nivel</label>
+        <div class="value">
+            <?= $jobAreaRelacionada->getNivel(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Status</label>
+        <div class="value">
+            <?= $jobAreaRelacionada->getStatus(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Last User Id</label>
+        <div class="value">
+            <?= $jobAreaRelacionada->getLastUserId(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Creation Date</label>
+        <div class="value">
+            <?= $jobAreaRelacionada->getCreationDate(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Modification Date</label>
+        <div class="value">
+            <?= $jobAreaRelacionada->getModificationDate(); ?>
+        </div>
+    </div>
+            
+</div>

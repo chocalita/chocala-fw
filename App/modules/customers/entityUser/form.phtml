@@ -1,0 +1,81 @@
+<div class="row">
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="username">Nombre</label>
+        <div class="col-sm-9">
+            <input type="text" id="NameSearch" name="NameSearch" value="<?=$entityUser? $entityUser->getSysUser()->getUsername(): '';?>"
+                   size="30" maxlength="30" class="form-control uppercase"
+                   placeholder="Nombre..." autocomplete="off" />
+            <input type="hidden" id="UserId" name="UserId" value="" />
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="Name">Usuario</label>
+        <div class="col-sm-9">
+            <div id="UserCompleteName">---</div>
+            <div id="UserUsername"></div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="email">Email</label>
+        <div class="col-sm-9">
+            <div id="UserEmail">---</div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="type">Rol de Usuario</label>
+        <div class="col-sm-9">
+            <select id="RolId" name="RolId">
+                <option value="">-Seleccionar-</option>
+                <?php
+                foreach($rolPager as $rol){
+                    $sel = is_object($entityUser) && $rol->getId() == $entityUser->getRolId();
+                ?>
+                    <option value="<?=$rol->getId();?>"><?=$rol->getName();?></option>
+                <?php
+                }
+                ?>
+            </select>
+            <br />
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$().ready(function(){
+    $(".datepicker").datepicker({dateFormat: 'dd/mm/yyyy', language: 'es'});
+    $('.ajaxPost').formAjaxPost();
+    $("#NameSearch").autocomplete({
+        minLength: 2,
+        source: function (request, response) {
+            $.ajax({
+                url: "<?=URI::toPage().'findUserJson';?>",
+                type: "GET",
+                data: { completeName: request.term },
+                success: function (data) {
+                    response($.map(data.users, function (item) {
+                        return {
+                            id: item.Id,
+                            username: item.Username,
+                            email: item.Email,
+                            completeName: item.CompleteName,
+                            label: item.CompleteName,
+                            value: item.CompleteName
+                        };
+                    }));
+                }
+            });
+        },
+        select: function( event, ui ) {
+            $("#UserId").val(ui.item.id);
+            $("#UserCompleteName").html(ui.item.completeName);
+            $("#UserUsername").html("(Username: " + ui.item.username + ")");
+            $("#UserEmail").html(ui.item.email);
+//            alert("Seleccionado " + ui.item.value + " aka " + ui.item.id);
+        }
+    });
+});
+</script>

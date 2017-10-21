@@ -1,0 +1,155 @@
+<section class="timeline gray-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="col-md-3 col-lg-3">
+                    <img src="img/Logo-Buscar-Empleos-Click.png" alt="Empleos.click" class="img-responsive text-center" />
+                </div>
+                <div class="col-md-9 col-lg-6">
+                    <h1 class="text-success">Tu Empleo en un Click</h1>
+                    <p>Catálogo de ofertas laborales en Bolivia</p>
+                </div>
+            </div>
+        </div>
+        <div class="row ibox">
+            <div class="ibox-content">
+                <h3>¡Más de <?=sizeof($avisosVigentes);?> Ofertas de Empleo Vigentes!</h3>
+                <div class="row">
+                <?php
+                $i==0;
+                foreach($avisosVigentes as $aviso){
+                    $i++;
+                    ?>
+                    <div class="col-md-4">
+                        <div class="agile-box info-element ">
+                            <h3><?=$aviso->getCargo();?></h3>
+                            <small class="text-blue small"><?=$aviso->getNombreEmpresa();?></small>
+<!--
+                            <div>
+                                <?/*=$aviso->getDescripcion();*/?>
+                            </div>
+-->
+                            <div class="agile-detail">
+                                <a href="<?= URI::toPage().'oportunidad/'.$aviso->getId().'/'.SpecialStrings::text2Url($aviso->getCargo()); ?>"class="pull-right btn btn-xs btn-primary" data-toggle="modal" data-target="#modalDetalle<?=$aviso->getTieneImagen()? 'Big': '';?>">Ver Detalles</a>
+                                <i class="fa fa-clock-o"></i> Vence el <?=$aviso->getFechaVencimiento('d/m/Y');?>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                    if($i%3 == 0){
+                    ?>
+                    </div>
+                    <div class="row">
+                    <?php
+                    }
+                }
+                ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+<section id="ventajas" class="container features">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <div class="navy-line"></div>
+            <h1>El principal portal de Empleos<br/> <span class="navy"> descubra las mejores oportunidades de trabajo</span> </h1>
+            <p>Conseguir el empleo correcto nunca fue tan fácil, ahora en un par de clicks podra encontrar el empleo ideal. </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 text-center wow fadeInLeft">
+            <div>
+                <i class="fa fa-mobile features-icon"></i>
+                <h2>Punto de Encuentro</h2>
+                <p>Empleos.Click es el portal de referencia más especializado del mercado laboral en general. Es el punto de encuentro perfecto entre candidatos y empresas. Ofrece a las empresas toda clase de servicios para facilitar la búsqueda y gestión del talento.</p>
+            </div>
+            <div class="m-t-lg">
+                <i class="fa fa-bar-chart features-icon"></i>
+                <h2>Red de Empresas</h2>
+                <p>Empleos.click es la mayor red de empresas que ofertan empleos en el país, entre los que se encuentran empresas, consultoras, universidades, cámaras de comercio, medios de comunicación, entre otros.</p>
+            </div>
+        </div>
+        <div class="col-md-6 text-center  wow zoomIn">
+            <img src="img/empleo-trabajo-en-la-paz.jpg" alt="Encuentra tu empleo en un click" class="img-responsive">
+        </div>
+        <div class="col-md-3 text-center wow fadeInRight">
+            <div>
+                <i class="fa fa-envelope features-icon"></i>
+                <h2>Alianzas Estratégicas</h2>
+                <p>Nuestras alianzas estratégicas brindan a nuestros usuarios una importante plataforma con tecnología de primer nivel a la hora de buscar su próximo empleo, y otorgan a estas instituciones la posibilidad de reclutar al personal más idóneo para el cargo o puesto que buscan.</p>
+            </div>
+            <div class="m-t-lg">
+                <i class="fa fa-google features-icon"></i>
+                <h2>Postulación & Selección</h2>
+                <p>En el caso de los postulaciones, puede conocerse el perfil del cargo que el servicio respectivo busca proveer, revisando las bases que regulan dicho concurso. En el caso de los procesos de selección, las características del cargo se presentan en el aviso de trabajo respectivo.</p>
+            </div>
+        </div>
+    </div>
+</section>
+<br />
+
+
+<div class="modal inmodal" id="modalDetalle" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Modal title</h4>
+                <small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
+            </div>
+            <div class="modal-body">
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<div class="modal fade bs-modal-lg in" id="ajax-modal-lg" role="dialog" aria-labelledby="ajax-modal-lg" aria-hidden="true">-->
+
+<div class="modal inmodal" id="modalDetalleBig" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Modal title</h4>
+                <small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
+            </div>
+            <div class="modal-body">
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+jQuery(document).ready(function() {
+    var _modalLoadingContent = $("#modalLoadingContent").html();
+    $("#modalDetalle, #modalDetalleBig").on("hidden.bs.modal", function(e){
+        $(this).removeData("bs.modal").find(".modal-content").empty().html(_modalLoadingContent);
+    });
+    $("#modalDetalle, #modalDetalleBig").removeData("bs.modal").find(".modal-content").empty().html(_modalLoadingContent);
+    setTimeout(
+        function(){
+            //alert("Hello");
+            //TODO: set messages
+        },
+        5000);
+    function verifyAdvertising(){
+
+    }
+});
+</script>

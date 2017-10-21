@@ -1,0 +1,319 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Parámetros de Entidad</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a>Parámetros de Entidad</a>
+            </li>
+            <li class="active">
+                <strong>Configuración de Parámetros</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <?= BarView::renderBar('messages'); ?>
+
+    <div class="row">
+
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Entidad Aplicable</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th class="col-md-2">Nombre Comercial:</th>
+                            <td class="col-md-4"><?=$entity->getComercialName();?></td>
+                            <th class="col-md-2">Código:</th>
+                            <td class="col-md-4"><?=$entity->getCode();?></td>
+                        </tr>
+                        <tr>
+                            <th>Nombre Formal:</th>
+                            <td><?=$entity->getFormalName();?></td>
+                            <th>N.I.T.:</th>
+                            <td><?=$entity->getNit();?></td>
+                        </tr>
+                        <tr>
+                            <th>Tipo de Entidad:</th>
+                            <td><?=$entity->getSysEntityType()->getName();?></td>
+                            <th>Descripción:</th>
+                            <td><?=$entity->getDescription();?></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Configuración de Parámetros</h5>
+            </div>
+            <div class="ibox-content">
+
+                <div class="tabs-container">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#tab-1"> Parámetros Disponibles</a></li>
+                        <li class=""><a data-toggle="tab" href="#tab-2"> Parámetros Configurados</a></li>
+                        <li class=""><a data-toggle="tab" href="#tab-3"> Parámetros No Configurados</a></li>
+                        <li class=""><a data-toggle="tab" href="#tab-4"> Parámetros Genéricos</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab-1" class="tab-pane active">
+                            <div class="panel-body">
+
+                                <p>Todos los parámetros disponibles para la entidad.</p>
+                                <hr />
+
+                                <div class="table-responsive">
+
+                                    <table class="table table-striped table-bordered table-hover dataTables" >
+                                        <thead>
+                                        <tr>
+                                            <th width="5%">Nº</th>
+                                            <th>Nombre</th>
+                                            <th>Código</th>
+                                            <th>Valor Genérico</th>
+                                            <th>Valor Aplicado</th>
+                                            <th>Descripción</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        $i = 0;
+                                        foreach($availableParams as $param):
+                                            $pk = $param->getId();
+                                            $entityParam = $param->entityParam($entity);
+                                            ?>
+                                            <tr role="row">
+                                                <td><?= $i+1; ?></td>
+                                                <td><?= $param->getName(); ?></td>
+                                                <td><?= $param->getCode(); ?></td>
+                                                <td><?= $param->getValue(); ?></td>
+                                                <td><?= $param->getCustomizable()? ($entityParam? $entityParam->getValue(): ''): '-N/A-'; ?></td>
+                                                <td><?= $param->getDescription(); ?></td>
+                                            </tr>
+                                            <?php
+                                            $i++;
+                                        endforeach;
+                                        ?>
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="tab-2" class="tab-pane">
+                            <div class="panel-body">
+
+                                <p>Parámetros configurados para la entidad.</p>
+                                <hr />
+
+                                <div class="table-responsive">
+
+                                    <table class="table table-striped table-bordered table-hover dataTables" >
+                                        <thead>
+                                        <tr>
+                                            <th width="5%">Nº</th>
+                                            <th>Nombre</th>
+                                            <th>Código</th>
+                                            <th>Descripción</th>
+                                            <th>Valor Genérico</th>
+                                            <th>Valor Aplicado</th>
+                                            <th>Comentarios</th>
+                                            <th width="15%">Acciones</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        $toEditLink = URI::toPage().'editParam/'.$entity->getId().'?paramId=';
+                                        $i = 0;
+                                        foreach($appliedParams as $entityParam):
+                                            $pk = $entityParam->getId();
+                                            $param = $entityParam->getSysParam();
+                                            ?>
+                                            <tr role="row">
+                                                <td><?= $i+1; ?></td>
+                                                <td><?= $param->getName(); ?></td>
+                                                <td><?= $param->getCode(); ?></td>
+                                                <td><?= $param->getDescription(); ?></td>
+                                                <td><?= $param->getValue(); ?></td>
+                                                <td><?= $entityParam->getValue(); ?></td>
+                                                <td><?= $entityParam->getDescription(); ?></td>
+                                                <td class="text-center">
+                                                    <?php
+                                                    if(PageControl::canUpdate()){
+                                                    ?>
+                                                    <a href="<?= $toDefaultLink.$pk; ?>" class="btn btn-sm btn-success btn-circle" data-toggle="modal" data-target="#ajax-modal">
+                                                        <i class="fa fa-cogs"></i></a>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                            $i++;
+                                        endforeach;
+                                        ?>
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="tab-3" class="tab-pane">
+                            <div class="panel-body">
+
+                                <p>Parámetros disponibles para la entidad que no han sido configurados.</p>
+                                <hr />
+
+                                <div class="table-responsive">
+
+                                    <table class="table table-striped table-bordered table-hover dataTables" >
+                                        <thead>
+                                        <tr>
+                                            <th width="5%">Nº</th>
+                                            <th>Nombre</th>
+                                            <th>Código</th>
+                                            <th>Valor Genérico</th>
+                                            <th>Descripción</th>
+                                            <th width="15%">Acciones</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        $toEditLink = URI::toPage().'editParam/'.$entity->getId().'?paramId=';
+                                        $i = 0;
+                                        foreach($noAppliedParams as $param):
+                                            $pk = $param->getId();
+                                            $entityParam = $param->entityParam($entity);
+                                            ?>
+                                            <tr role="row">
+                                                <td><?= $i+1; ?></td>
+                                                <td><?= $param->getName(); ?></td>
+                                                <td><?= $param->getCode(); ?></td>
+                                                <td><?= $param->getValue(); ?></td>
+                                                <td><?= $param->getDescription(); ?></td>
+                                                <td class="text-center">
+                                                    <?php
+                                                    if(PageControl::canUpdate()) {
+                                                    ?>
+                                                        <a href="<?= $toDefaultLink . $pk; ?>" class="btn btn-sm btn-success btn-circle" data-toggle="modal" data-target="#ajax-modal">
+                                                            <i class="fa fa-cogs"></i></a>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                            $i++;
+                                        endforeach;
+                                        ?>
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="tab-4" class="tab-pane">
+                            <div class="panel-body">
+
+                                <p>Parámetros disponibles para la entidad con valores aplicados genéricos.</p>
+                                <hr />
+
+                                <div class="table-responsive">
+
+                                    <table class="table table-striped table-bordered table-hover dataTables" >
+                                        <thead>
+                                        <tr>
+                                            <th width="5%">Nº</th>
+                                            <th>Nombre</th>
+                                            <th>Código</th>
+                                            <th>Valor Genérico</th>
+                                            <th>Descripción</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        $toDetailsLink = URI::toPage().'show/';
+                                        $toEditLink = URI::toPage().'edit/';
+                                        $toDeleteLink = URI::toPage().'delete/';
+                                        $i = 0;
+                                        foreach($genericParams as $param):
+                                            $pk = $param->getId();
+                                            ?>
+                                            <tr role="row">
+                                                <td><?= $i+1; ?></td>
+                                                <td><?= $param->getName(); ?></td>
+                                                <td><?= $param->getCode(); ?></td>
+                                                <td><?= $param->getValue(); ?></td>
+                                                <td><?= $param->getDescription(); ?></td>
+                                            </tr>
+                                            <?php
+                                            $i++;
+                                        endforeach;
+                                        ?>
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+$(document).ready(function(){
+    $('.dataTables').DataTable({
+        "language": {
+            "emptyTable": "No se encontraron registros"
+        },
+        dom: '<"html5buttons"B>lTfgitp',
+        buttons: [
+            {extend: 'copy', title: 'Copiar'},
+            {extend: 'csv', title: 'Reporte CSV'},
+            {extend: 'excel', title: 'Reporte Excel'},
+            {extend: 'pdf', title: 'Reporte PDF'},
+            {extend: 'print',
+                customize: function (win){
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
+                }
+            }
+        ]
+    });
+});
+</script>

@@ -1,0 +1,17 @@
+<?php
+if($emailValido){
+    if(is_object($usuarioOtro)){
+    ?>
+        <small id="emailExist" class="help-block"><i class="fa fa-times-circle-o"></i> El email ya se encuentra registrado em el sistema.</small>
+    <?php
+    }else{
+    ?>
+        <small id="emailAvailable" class="help-block"><i class="fa fa-check"></i> El email es válido y esta disponible</small>
+    <?php
+    }
+}else{
+?>
+<small id="emailExist" class="help-block"><i class="fa fa-times-circle-o"></i> Debe ingresar un email válido.</small>
+<?php
+}
+?>

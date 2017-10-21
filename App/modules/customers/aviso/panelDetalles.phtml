@@ -1,0 +1,122 @@
+<fieldset>
+
+    <h3 class="underline">
+        <?=$aviso->getCargo();?>
+    </h3>
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="Code">Nombre Empresa</label>
+        <div class="col-sm-9">
+            <?=$aviso->getNombreEmpresa();?>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="FechaPublicacion">Fecha Publicación</label>
+                <?=$aviso->getFechaPublicacion("d/m/Y");?>
+                <label class="control-label col-sm-4" for="FechaVencimiento">Fecha Vencimiento</label>
+                <?=$aviso->getFechaVencimiento("d/m/Y");?>
+
+            </div>
+        </div>
+    </div>
+
+    <h3 class="underline">Información del Aviso</h3>
+
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="AreaId">Area</label>
+        <div class="col-sm-9">
+            <select id="AreaId" name="AreaId"
+                    class="form-control">
+                <option value="">-Seleccionar-</option>
+                <?php
+                foreach($areaList as $area):
+                    $sel = $aviso && $aviso->getAreaId() == $area->getId()? 'selected="yes"': '';
+                ?>
+                <option value="<?= $area->getId(); ?>" <?=$sel;?>><?= $area->getName(); ?> </option>
+                <?php
+                endforeach;
+                ?>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="Descripcion">Descripcion del Puesto</label>
+        <div class="col-sm-9">
+                    <textarea id="Descripcion"  name="Descripcion"
+                              class="form-control" rows="3" cols="20" placeholder="Descripción del puesto..."><?=$aviso? $aviso->getDescripcion(): '';?></textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="Code">Requisitos</label>
+        <div class="col-sm-9">
+            <textarea id="Requisito"  name="Requisito"
+                      class="form-control" rows="3" cols="20" placeholder="Requisitos del puesto..."><?=$aviso? $aviso->getRequisito(): '';?></textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="NivelFormacion">Nivel Formación</label>
+        <div class="col-sm-9">
+            <select id="NivelFormacion" name="NivelFormacion"
+                    class="form-control">
+                <option value="">-Seleccionar-</option>
+                <?php
+                foreach($nivelesFormacion as $nivelFormacion):
+                    $sel = $aviso && $aviso->getNivelFormacion() == $nivelFormacion? 'selected="yes"': '';
+                ?>
+                <option value="<?=$nivelFormacion;?>" <?=$sel;?> ><?=$nivelFormacion;?></option>
+                <?php
+                endforeach;
+                ?>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="Fuente">Fuente</label>
+        <div class="col-sm-9">
+            <select id="Fuente" name="Fuente"
+                    class="form-control">
+                <option value="">-Seleccionar-</option>
+                <?php
+                foreach($fuentes as $fuente):
+                    $sel = $aviso && $aviso->getFuente() == $fuente? 'selected="yes"': '';
+                    ?>
+                    <option value="<?=$fuente;?>" <?=$sel;?> ><?=$fuente;?></option>
+                    <?php
+                endforeach;
+                ?>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="Cargo">Cargo</label>
+        <div class="col-sm-9">
+            <input type="text" id="Cargo" name="Cargo" value="<?=$aviso? $aviso->getCargo(): '';?>"
+                   class="form-control" maxlength="50" placeholder="Cargo..." />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="AniosExperiencia">Años de Experiencia</label>
+        <div class="col-sm-9">
+            <input type="text" id="AniosExperiencia" name="AniosExperiencia" value="<?=$aviso? $aviso->getAniosExperiencia(): '';?>"
+                   class="form-control" maxlength="50" placeholder="Años experiencia..." />
+        </div>
+    </div>
+
+</fieldset>
+
+<script type="text/javascript">
+$().ready(function(){
+    $(".datepicker").datepicker({format: 'dd/mm/yyyy', language: 'es'});
+    $(".ajaxPost").formAjaxPost({
+
+    });
+});
+</script>

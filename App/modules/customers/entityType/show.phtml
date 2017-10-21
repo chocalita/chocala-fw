@@ -1,0 +1,34 @@
+<?= BarView::renderBar('messages'); ?>
+<div class="dialog" style="padding: 0 250px">
+
+    <div class="btn-group">
+        <a href="<?= URI::toPage().'dataList'; ?>" class="linkGoBack">Go to data list</a>
+        <a href="<?= URI::toPage().'edit/'.$sysEntityType->getPrimaryKey(); ?>" class="linkEdit">Edit SysEntityType</a>
+        <a href="<?= URI::toPage().'delete/'.$sysEntityType->getPrimaryKey(); ?>" class="linkDelete" onclick="return confirm('¿Do you sure to delete this record?');">Delete SysEntityType</a>
+    </div>
+    <h1>EntityType Details</h1>
+    <hr />
+    
+        
+    <div class="input">
+        <label class="name">Group</label>
+        <div class="value">
+            <?= $sysEntityType->getGroup(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Name</label>
+        <div class="value">
+            <?= $sysEntityType->getName(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Description</label>
+        <div class="value">
+            <?= $sysEntityType->getDescription(); ?>
+        </div>
+    </div>
+            
+</div>

@@ -1,0 +1,83 @@
+<?= BarView::renderBar('messages'); ?>
+<div class="fRight">
+    <a href="<?= URI::toPage().'create'; ?>" class="linkAdd">Create JobStudent</a>
+</div>
+<h1>JobStudents List</h1>
+
+<hr class="clear" />
+
+<table class="tList tSorter" align="center" width="100%">
+    <thead>
+        <tr>
+            <th>Nº</th>
+                    
+            <th>NAME</th>
+                        
+            <th>LASTNAME</th>
+                        
+            <th>CREATIONDATE</th>
+                        
+            <th>MODIFICATIONDATE</th>
+                        
+            <th>STATUS</th>
+                        
+            <th>Details</th>
+
+            <th>Edit</th>
+
+            <th>Delete</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        $i = 0;
+        foreach($jobStudentPager as $jobStudentInstance):
+        ?>
+        <tr class="<?= $jobStudentPager->isOdd()? 'odd': 'even'; ?>">
+            <td><?= $jobStudentPager->getFirstIndex() + $i; ?></td>
+            
+            <td><?= $jobStudentInstance->getNAME(); ?></td>
+            
+            <td><?= $jobStudentInstance->getLASTNAME(); ?></td>
+            
+            <td><?= $jobStudentInstance->getCREATIONDATE(); ?></td>
+            
+            <td><?= $jobStudentInstance->getMODIFICATIONDATE(); ?></td>
+            
+            <td><?= $jobStudentInstance->getSTATUS(); ?></td>
+            
+            <td class="center">
+                <a href="<?= URI::toPage().'show/'.$jobStudentInstance->getPrimaryKey(); ?>" class=""><img src="<?= ICO_16.'view_details.png' ?>" alt="Show" title="Show" /></a>
+            </td>
+
+            <td class="center">
+                <a href="<?= URI::toPage().'edit/'.$jobStudentInstance->getPrimaryKey(); ?>" class=""><img src="<?= ICO_16.'edit.png' ?>" alt="Edit" title="Edit" /></a>
+            </td>
+
+            <td class="center">
+                <a href="<?= URI::toPage().'delete/'.$jobStudentInstance->getPrimaryKey(); ?>" class=""><img src="<?= ICO_16.'delete.png' ?>" alt="Edit" title="Edit" /></a>
+            </td>
+        </tr>
+        <?php
+            $i++;
+        endforeach;
+        if($jobStudentPager->isEmpty()):
+        ?>
+        <tr class="odd">
+            <td class="center" colspan="9">* There are no JobStudents *</td>
+        </tr>
+        <?php endif; ?>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td class="paginateButtons" colspan="9">
+                <?php if($jobStudentPager->haveToPaginate()): ?>
+                <p>Page <?= $jobStudentPager->getPage(); ?> of <?= $jobStudentPager->getLastPage(); ?> </p>
+                <p>Displaying results <?= $jobStudentPager->getFirstIndex(); ?> to <?= $jobStudentPager->getLastIndex(); ?>
+                    on a total of <?= $jobStudentPager->getNbResults(); ?> </p>
+                <?php endif; ?>
+            </td>
+        </tr>
+    </tfoot>
+</table>

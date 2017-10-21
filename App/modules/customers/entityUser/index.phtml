@@ -1,0 +1,97 @@
+<section class="content-header">
+    <h1>Usuarios</h1>
+</section>
+<!-- Main content -->
+<section id="mainContent" class="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Filtros</h3>
+
+            <div class="box-tools pull-right">
+                <button title="" data-toggle="tooltip" data-widget="collapse" class="btn btn-box-tool"
+                        data-original-title="Collapse"><i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="table-toolbar">
+                    <?php include('filter.phtml');?>
+            </div>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Resultados</h3>
+
+            <div class="box-tools pull-right">
+                <button title="" data-toggle="tooltip" data-widget="collapse" class="btn btn-box-tool"
+                        data-original-title="Collapse"><i class="fa fa-minus"></i></button>
+            </div>
+        </div>
+        <div class="box-body table-responsive">
+
+            <div id="divTablaUsusrios" class="table-responsive"></div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    var oPage = {
+        tabla: function () {
+            $.post("<?=URI::toPage().'tabla';?>", ($('#FilterFormUsuarios').serialize()), function (response) {
+                $('#divTablaUsusrios').html(response).slideDown();
+            });
+            $('.divRestablecer').show();
+        },
+        autoCompleteFilter: function () {
+            $('.inputFilter').focus(function () {
+                var input = $(this);
+                var dataFilter = "";
+                if ($(this).hasClass('inputUsername')) {
+                    dataFilter = "Username";
+                }
+                if ($(this).hasClass('inputNombre')) {
+                    dataFilter = "Nombre";
+                }
+                var inputHidden = $(this).next();
+                input.autocomplete({
+                    minLength: 1,
+                    width: 200,
+                    source: function (request, response) {
+                        $.getJSON("<?=URI::toPage().'searchFilter';?>", {
+                            term: request.term,
+                            dataFilter: dataFilter
+                        }, function (data) {
+                            response($.map(data.datos, function (item) {
+                                return {
+                                    id: item.id,
+                                    label: item.dato,
+                                    username: item.username
+                                }
+                            }));
+                        });
+                    },
+                    select: function (event, ui) {
+                        if (ui.item) {
+                            switch (dataFilter) {
+                                case "Nombre":
+                                    input.val(ui.item.username);
+                                    break;
+                                case "Username":
+                                    input.val(ui.item.username);
+                                    break;
+                            }
+                        }
+                    },
+                    open: function () {
+                    },
+                    close: function () {
+                    }
+                });
+            })
+        }
+    };
+    $().ready(function () {
+        oPage.tabla();
+    });
+</script>

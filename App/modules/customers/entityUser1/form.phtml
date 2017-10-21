@@ -1,0 +1,251 @@
+<style>
+    .datepicker-dropdown {
+    z-index: 10000 !important ;
+    }
+</style>
+<fieldset>
+    <legend>Cuenta de Usuario</legend>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="username">Username</label>
+                <div class="col-sm-8">
+                    <input type="text" id="Username" name="Username" value="<?=$usuario? $usuario->getUsername(): '';?>"
+                           size="30" maxlength="30" class="form-control lowercase validate[required]"
+                           placeholder="Username..." autocomplete="off" />
+                    <div id="usernameVerifyDiv"><small id="emailExist" class="help-block"></small></div>
+                </div>
+
+                <label class="control-label col-sm-4" for="email">Email</label>
+                <div class="col-sm-8">
+                    <input type="email" id="Email" name="Email" value="<?=$usuario? $usuario->getEmail(): '';?>"
+                           size="30" maxlength="50" class="form-control validate[required]"
+                           placeholder="su@email.com" autocomplete="off" />
+                                        <div id="emailVerifyDiv"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="type">Rol de Usuario</label>
+                <div class="col-sm-8">
+                    <select id="IdRolEntidad" name="IdRolEntidad">
+                        <?php
+                        foreach($rolEntidadList as $rolEntidadObj){
+                            $sel = is_object($rolEntidad) && $rolEntidadObj->getId() == $rolEntidad->getId();
+                        ?>
+                            <option value="<?=$rolEntidadObj->getId();?>"><?=$rolEntidadObj->getNombre();?></option>
+                        <?php
+                        }
+                        ?>
+                    </select>
+                    <br />
+                    <ul id="sucursalesUl">
+                        <li>Seleccione las sucursales</li>
+                        <?php
+                        foreach($entidad->sucursales() as $sucursal){
+                            ?>
+                            <li class="checkbox">
+                                <label for="idSucursal<?=$sucursal->getId();?>">
+                                    <input type="checkbox" id="idSucursal<?=$sucursal->getId();?>" name="idSucursal[]" value="<?=$sucursal->getId();?>" /> <?=$sucursal->getNombre();?>
+                                </label>
+                            </li>
+                        <?php
+                        }
+                        ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend>Información Personal</legend>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="FirstName">Primer Nombre</label>
+                <div class="col-sm-8">
+                    <input type="text" id="FirstName" name="FirstName" value="<?=$usuario? $usuario->getFirstName(): '';?>"
+                           size="30" maxlength="30" class="form-control uppercase"
+                           placeholder="Primer nombre..." autocomplete="off" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="SecondName">Segundo Nombre</label>
+                <div class="col-sm-8">
+                    <input type="text" id="SecondName" name="SecondName" value="<?=$usuario? $usuario->getSecondName(): '';?>"
+                           size="30" maxlength="100" class="form-control uppercase"
+                           placeholder="Segundo nombre..." autocomplete="off" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="FirstLastname">Primer Apellido</label>
+                <div class="col-sm-8">
+                    <input type="text" id="FirstLastname" name="FirstLastname" value="<?=$usuario? $usuario->getFirstLastname(): '';?>"
+                           size="30" maxlength="30" class="form-control uppercase"
+                           placeholder="Primer apellido..." autocomplete="off" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="SecondLastname">Segundo Apellido</label>
+                <div class="col-sm-8">
+                    <input type="text" id="SecondLastname" name="SecondLastname" value="<?=$usuario? $usuario->getSecondLastname(): '';?>"
+                           size="30" maxlength="100" class="form-control uppercase"
+                           placeholder="Segundo apellido..." autocomplete="off" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="dni">C.I.</label>
+                <div class="col-sm-8">
+                    <input type="text" id="Dni" name="Dni" value="<?=$usuario? $usuario->getDni(): '';?>"
+                           size="30" maxlength="30" class="form-control"
+                           placeholder="Cédula de Identidad..." autocomplete="off" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="birthday">Fecha Nacimiento</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <div class="input-medium date date-picker" data-date-format="dd/mm/yyyy" data-date-start-date="+0d">
+                            <input type="text" id="birthday" name="birthday" value="<?=$usuario? $usuario->getBirthDate("d/m/Y"): '';?>"
+                                   data-date-format="dd/mm/yyyy" class="form-control datepicker" />
+                            <span class="input-group-btn">
+                                <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="Gender">Sexo</label>
+                <div class="col-sm-8">
+                    <div class="radio-listcc" id="Gender">
+                        <label class="inlineaaas">
+                            <input type="radio" name="Gender" value="MALE"
+                                   class="form-control radio" <?=$usuario? ($usuario->getGender()=='MALE'? 'checked': ''): '';?>/>
+                            Masculino
+                        </label>
+                        &nbsp;&nbsp;
+                        <label class="inlinesad">
+                            <input type="radio" name="Gender" value="FEMALE"
+                                   class="form-control radio" <?=$usuario? ($usuario->getGender()=='FEMALE'? 'checked': ''): '';?>/>
+                            Femenino
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="Address">Dirección</label>
+                <div class="col-sm-8">
+                    <textarea id="Address" name="Address" cols="30" rows="1" class="form-control"
+                              placeholder="Dirección..."><?= $usuario? $usuario->getAddress(): '';?></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="PrimaryPhone">Teléfono Fijo</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-phone"></i></div>
+                        <input type="text" id="PrimaryPhone" name="PrimaryPhone" value="<?= $usuario? $usuario->getPrimaryPhone(): '';?>"
+                               size="30" maxlength="30" class="form-control validate[required]"
+                               placeholder="" autocomplete="off" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="CellPhone">Teléfono Celular</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-phone"></i></div>
+                        <input type="text" id="CellPhone" name="CellPhone" value="<?=$usuario? $usuario->getCellPhone(): '';?>"
+                               size="30" maxlength="30" class="form-control validate[required]"
+                               placeholder="" autocomplete="off" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+<script type="text/javascript">
+    $().ready(function(){
+        $(".datepicker").datepicker({dateFormat: 'dd/mm/yyyy', language: 'es'});
+        $(".ajaxPost").formAjaxPost({
+        });
+        $("#sucursalesUl").hide();
+        var lastUsername = "";
+        $("#username").blur(function(){
+            var username = $("#username").val().trim();
+            if(username!=lastUsername){
+                lastUsername = username;
+                ajaxLoad("<?=URI::toPage().'verifyUsername/';?>", {username: username}, "#username", "#usernameVerifyDiv",function(){
+                    var usernameParent = $("#username").parent();
+                    usernameParent.removeClass("has-success").removeClass("has-error");
+                    if($("#usernameAvailable").length){
+                        usernameParent.addClass("has-success");
+                    }else if($("#usernameExist").length){
+                        usernameParent.addClass("has-error");
+                    }
+                });
+            }
+        });
+        var lastEmail = "";
+        $("#email").blur(function(){
+            var email = $("#email").val().trim();
+            if(email!=lastEmail){
+                lastEmail = email;
+                ajaxLoad("<?=URI::toPage().'verifyEmail/';?>", {email: email}, "#email", "#emailVerifyDiv",function(){
+                    var email = $("#email").parent();
+                    email.removeClass("has-success").removeClass("has-error");
+                    if($("#emailAvailable").length){
+                        email.addClass("has-success");
+                    }else if($("#emailExist").length){
+                        email.addClass("has-error");
+                    }
+                });
+            }
+        });
+        $("#ENT_SUC").click(function(){
+            $this = $(this);
+            if($this.is(":checked")){
+                $("#sucursalesUl").show();
+            }else{
+                $("#sucursalesUl").hide();
+            }
+        });
+    });
+</script>

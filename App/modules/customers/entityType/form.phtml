@@ -1,0 +1,47 @@
+<div class="form-group">
+    <label class="control-label col-sm-3" for="GroupCode">Grupo</label>
+    <div class="col-sm-9">
+        <select id="GroupCode" name="GroupCode" class="form-control">
+            <option>Seleccionar...</option>
+            <?php
+            foreach(SysEntityType::groupsMap('ES') as $kGroup => $vGroup) {
+                $sel = ($entityType && $entityType->getGroupCode()==$kGroup)? 'selected="yes"': '';
+                ?>
+                <option value="<?=$kGroup;?>" <?=$sel;?>><?=$vGroup;?></option>
+                <?php
+            }
+            ?>
+        </select>
+    </div>
+</div>
+    
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Code">Código</label>
+    <div class="col-sm-9">
+        <input type="text" id="Code" name="Code" value="<?=$entityType? $entityType->getCode(): '';?>"
+               size="30" maxlength="20" class="form-control" placeholder="Código..."
+               autocomplete="off" class="validate[required]" />
+    </div>
+</div>
+    
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Name">Nombre</label>
+    <div class="col-sm-9">
+        <input type="text" id="Name" name="Name" value="<?=$entityType? $entityType->getName(): '';?>"
+               size="30" maxlength="200" class="form-control" placeholder="Nombre..."
+               autocomplete="off" class="validate[required]" />
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Description">Descripción</label>
+    <div class="col-sm-9">
+        <textarea id="Description" name="Description" cols="30" rows="2" class="form-control"
+                  placeholder="Descripción..."><?=$entityType? $entityType->getDescription(): '';?></textarea>
+    </div>
+</div>
+<script type="text/javascript">
+$().ready(function(){
+    $('.ajaxPost').formAjaxPost();
+});
+</script>

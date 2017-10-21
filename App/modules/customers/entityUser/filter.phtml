@@ -1,0 +1,76 @@
+<form action="#" id="FilterFormUsuarios" onsubmit="return false" class="filters inline-form">
+    <div class="form-group">
+        <label class="control-label">Usuario</label>
+        <input type="text" value="" class="form-control inputFilter inputUsername" name="UsernameFilter"/>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Nombre</label>
+        <input type="text" value="" class="form-control  inputNombre" name="NombreFilter"/>
+    </div>
+    <div class="form-group" >
+        <label class="control-label col-sm-3" for="IdSucursalFilter">Sucursal</label>
+        <select name="EstadoFilter" class="form-control">
+            <option value="">Todos</option>
+            <?php
+            foreach($sucursalList as $sucursal){
+                ?>
+                <option value="<?=$sucursal->getId();?>"><?=$sucursal->getNombre();?></option>
+            <?php
+            }
+            ?>
+        </select>
+    </div>
+    <div class="form-group" >
+        <label class="control-label col-sm-3" for="EstadoFilter">Estado</label>
+        <select name="EstadoFilter" class="form-control">
+            <option value="">Todos</option>
+            <?php
+            $enumEstados = SysUser::statusMap('ES');
+            unset($enumEstados[SysUser::CLOSED]);
+            foreach($enumEstados as $estado){
+                $estadoKey=array_search($estado,$enumEstados);
+                ?>
+                <option value="<?=$estadoKey;?>"><?=$estado;?></option>
+            <?php
+            }
+            ?>
+        </select>
+    </div>
+
+
+    <div class="btn-group">
+        <?php if (PageControl::canRead()) { ?>
+            <a href="#" class="btn bt-sm btn-primary" id="btngenerar"
+               onclick="oPage.tabla()">
+                <i class="fa fa-search"></i> Generar
+            </a>
+        <?php } ?>
+    </div>
+    <div class="btn-group divRestablecer">
+        <?php if (PageControl::canRead()) { ?>
+            <a href="<?=URI::toPage();?>"
+               class="btn bt-sm btn-default">
+                <i class="fa fa-refresh"></i> Restablecer
+            </a>
+        <?php } ?>
+    </div>
+</form>
+<style type="text/css">
+    .ui-autocomplete {
+        z-index: 50000;
+    }
+    .input-blue{
+        background: white;
+        color: blue;
+    }
+    .input-red{
+        background: white;
+        color: red;
+    }
+</style>
+<script type="text/javascript">
+    $().ready(function(){
+        oPage.autoCompleteFilter();
+        $('.divRestablecer').fadeOut();
+    });
+</script>

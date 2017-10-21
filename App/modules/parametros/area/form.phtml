@@ -1,0 +1,46 @@
+<fieldset>
+    <h3 class="underline">Información del Area</h3>
+
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="Code">Código</label>
+        <div class="col-sm-9">
+            <input type="text" id="Codigo" name="Codigo" value="<?=$area? $area->getCodigo(): '';?>"
+                   size="40" maxlength="40" class="form-control" placeholder="Código..."
+                   autocomplete="off" class="validate[required]" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="Nombre">Nombre</label>
+        <div class="col-sm-9">
+            <input type="text" id="Nombre" name="Nombre" value="<?=$area? $area->getNombre(): '';?>"
+                   size="40" maxlength="40" class="form-control" placeholder="Nombre..."
+                   autocomplete="off" class="validate[required]" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="Code">Descripción</label>
+        <div class="col-sm-9">
+            <input type="text" id="Descripcion" name="Descripcion" value="<?=$area? $area->getDescripcion(): '';?>"
+                   size="40" maxlength="40" class="form-control" placeholder="Descripción..."
+                   autocomplete="off" class="validate[required]" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="Nombre">Estado</label>
+        <div class="col-sm-9">
+            <label>ACTIVO    <input type="radio" name="Status" value="<?=SoftDelete::ACTIVE;?>" checked /></label>
+            <label> INACTIVO <input type="radio" name="Status" value="<?=SoftDelete::INACTIVE;?>" <?=($area && $area->getStatus()==SoftDelete::INACTIVE)? 'checked': '';?>/></label>
+        </div>
+
+</fieldset>
+
+<script type="text/javascript">
+$().ready(function(){
+    $(".datepicker").datepicker({format: 'dd/mm/yyyy', language: 'es'});
+    $(".ajaxPost").formAjaxPost({
+
+    });
+});
+</script>

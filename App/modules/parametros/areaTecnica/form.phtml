@@ -1,0 +1,38 @@
+<fieldset xmlns="http://www.w3.org/1999/html">
+    <h3 class="underline">Información del Area Técnica</h3>
+
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="Nombre">Código</label>
+        <div class="col-sm-9">
+            <input type="text" id="Nombre" name="Nombre" value="<?=$areaTecnica? $areaTecnica->getNombre(): '';?>"
+                   size="40" maxlength="40" class="form-control" placeholder="Nombre..."
+                   autocomplete="off" class="validate[required]" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="Descripcion">Descripción</label>
+        <div class="col-sm-9">
+            <input type="text" id="Descripcion" name="Descripcion" value="<?=$areaTecnica? $areaTecnica->getDescripcion(): '';?>"
+                   size="40" maxlength="40" class="form-control" placeholder="Descripción..."
+                   autocomplete="off" class="validate[required]" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="Nombre">Estado</label>
+        <div class="col-sm-9">
+            <label>ACTIVO    <input type="radio" name="Status" value="<?=SoftDelete::ACTIVE;?>" checked /></label>
+            <label> INACTIVO <input type="radio" name="Status" value="<?=SoftDelete::INACTIVE;?>" <?=($areaTecnica && $areaTecnica->getStatus()==SoftDelete::INACTIVE)? 'checked': '';?>/></label>
+        </div>
+    </div>
+</fieldset>
+
+<script type="text/javascript">
+$().ready(function(){
+    $(".datepicker").datepicker({format: 'dd/mm/yyyy', language: 'es'});
+    $(".ajaxPost").formAjaxPost({
+
+    });
+});
+</script>

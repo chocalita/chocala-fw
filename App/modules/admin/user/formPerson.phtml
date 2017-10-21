@@ -1,0 +1,221 @@
+<style>
+.datepicker-dropdown {
+    z-index: 10000 !important ;
+}
+h3.underline {
+    border-color: #e5e5e5;
+    border-style: none none solid;
+    border-width: 0 0 1px;
+}
+</style>
+
+<fieldset>
+    <h3 class="underline">Información Personal</h3>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="firstName">Primer Nombre</label>
+                <div class="col-sm-8">
+                    <input type="text" id="FirstName" name="FirstName" value="<?=$person? $person->getFirstName(): '';?>"
+                           size="30" maxlength="30" class="form-control uppercase"
+                           placeholder="Primer nombre..." autocomplete="off" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="MiddleName">Segundo Nombre</label>
+                <div class="col-sm-8">
+                    <input type="text" id="MiddleName" name="MiddleName" value="<?=$person? $person->getMiddleName(): '';?>"
+                           size="30" maxlength="30" class="form-control uppercase"
+                           placeholder="Segundo nombre..." autocomplete="off" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="LastName">Primer Apellido</label>
+                <div class="col-sm-8">
+                    <input type="text" id="LastName" name="LastName" value="<?=$person? $person->getLastName(): '';?>"
+                           size="30" maxlength="30" class="form-control uppercase"
+                           placeholder="Primer apellido..." autocomplete="off" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="SecondLastName">Segundo Apellido</label>
+                <div class="col-sm-8">
+                    <input type="text" id="SecondLastName" name="SecondLastName" value="<?=$person? $person->getSecondLastName(): '';?>"
+                           size="30" maxlength="100" class="form-control uppercase"
+                           placeholder="Segundo apellido..." autocomplete="off" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="IdNumber">D.N.I.</label>
+                <div class="col-sm-8">
+                    <input type="text" id="IdNumber" name="IdNumber" value="<?=$person? $person->getIdNumber(): '';?>"
+                           size="30" maxlength="30" class="form-control"
+                           placeholder="Cédula de Identidad..." autocomplete="off" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="Gender">Sexo</label>
+                <div class="col-sm-8">
+                    <div class="radio-listcc" id="Gender">
+                        <label>
+                            <input type="radio" name="Gender" value="MALE"
+                                   class="form-control radio" <?=$person? ($person->getGender()=='MALE'? 'checked="true" ': ''): '';?>/>
+                            Masculino
+                        </label>
+                        &nbsp;&nbsp;
+                        <label>
+                            <input type="radio" name="Gender" value="FEMALE"
+                                   class="form-control radio" <?=$person? ($person->getGender()=='FEMALE'? 'checked="true" ': ''): '';?>/>
+                            Femenino
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group" id="date_birthday">
+                <label class="control-label col-sm-4" for="DateOfBirth">Fecha Nacimiento</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input type="text" id="DateOfBirth" name="DateOfBirth" value="<?=$person? $person->getDateOfBirth("d/m/Y"): '';?>"
+                               class="form-control datepicker" />
+                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="PlaceOfBirth">Lugar Nacimiento</label>
+                <div class="col-sm-8">
+                    <input type="text" id="PlaceOfBirth" name="PlaceOfBirth" value="<?=$person? $person->getPlaceOfBirth(): '';?>"
+                           size="30" maxlength="100" class="form-control"
+                           placeholder="Lugar de Nacimiento..." />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="Address">Dirección</label>
+                <div class="col-sm-8">
+                    <textarea id="Address" name="Address" cols="30" rows="3" class="form-control"
+                              placeholder="Dirección..."><?=$person? $person->getAddress(): '';?></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="City">Ciudad</label>
+                <div class="col-sm-8">
+                    <input type="text" id="City" name="City" value="<?=$person? $person->getCity(): '';?>"
+                           size="30" maxlength="100" class="form-control"
+                           placeholder="Ciudad..." />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="Pob">Casilla Postal</label>
+                <div class="col-sm-8">
+                    <input type="text" id="Pob" name="Pob" value="<?=$person? $person->getPob(): '';?>"
+                           size="30" maxlength="100" class="form-control"
+                           placeholder="Casilla Postal..." />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="PhoneHome">Teléfono Domicilio</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-phone"></i></div>
+                        <input type="text" id="PhoneHome" name="PhoneHome" value="<?=$person? $person->getPhoneHome(): '';?>"
+                               size="30" maxlength="30" class="form-control"
+                               placeholder="" autocomplete="off" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="PhoneWork">Teléfono Trabajo</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-phone"></i></div>
+                        <input type="text" id="PhoneWork" name="PhoneWork" value="<?=$person? $person->getPhoneWork(): '';?>"
+                               size="30" maxlength="30" class="form-control"
+                               placeholder="" autocomplete="off" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="Cellphone1">Celular 1</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-phone"></i></div>
+                        <input type="text" id="Cellphone1" name="Cellphone1" value="<?=$person? $person->getCellphone1(): '';?>"
+                               size="30" maxlength="30" class="form-control"
+                               placeholder="" autocomplete="off" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="Cellphone2">Celular 2</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-phone"></i></div>
+                        <input type="text" id="Cellphone2" name="Cellphone2" value="<?=$person? $person->getCellphone2(): '';?>"
+                               size="30" maxlength="30" class="form-control"
+                               placeholder="" autocomplete="off" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+<script type="text/javascript">
+$().ready(function(){
+    $(".datepicker").datepicker({format: 'dd/mm/yyyy', language: 'es'});
+    $("#date_birthday .input-group.date").datepicker({
+        format: 'dd/mm/yyyy',
+        language: 'es',
+        startView: 2,
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        autoclose: true
+    });
+});
+</script>

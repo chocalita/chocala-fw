@@ -1,0 +1,58 @@
+<?php
+foreach($mapedColumns as $columnMap):
+    $camelName = SpecialStrings::camelCase($columnMap->getPhpName());
+    $pascalName = SpecialStrings::pascalCase($columnMap->getPhpName());
+    $capitalizedName = ucwords(strtolower(str_replace('_',' ', $columnMap->getName())));
+    if($columnMap->isForeignKey()):
+        $relatedClassName = SpecialStrings::camelCase($columnMap->getRelatedTableName());
+        $relatedFieldName = SpecialStrings::camelCase($hashColumns[$columnMap->getName()]['field']);
+        $pascalRelatedClassName = SpecialStrings::pascalCase($relatedClassName);
+        $relatedColumnName = SpecialStrings::camelCase($columnMap->getRelatedColumnName());
+    ?>
+
+<div class="input">
+    <label class="name"><?= $relatedClassName;?></label>
+    <div class="value">
+        <select id="<?= $camelName;?>" name="<?= $camelName;?>">
+            <option value="">-Select-</option>
+        <?=CodeGenerator::TAG_OPEN;?>
+
+        foreach($<?= $pascalRelatedClassName;?>List as $<?= $pascalRelatedClassName;?>Instance):
+        <?=CodeGenerator::TAG_CLOSE;?>
+
+        <option value="<?=CodeGenerator::TAG_OPEN_SHORT;?> $<?= $pascalRelatedClassName;?>Instance->get<?=$relatedColumnName;?>(); <?=CodeGenerator::TAG_CLOSE;?>"><?=CodeGenerator::TAG_OPEN_SHORT;?> $<?= $pascalRelatedClassName;?>Instance->get<?= $relatedFieldName;?>(); <?=CodeGenerator::TAG_CLOSE;?></option>
+        <?=CodeGenerator::TAG_OPEN;?>
+
+        endforeach;
+        <?=CodeGenerator::TAG_CLOSE;?>
+
+        </select>
+    </div>
+</div>
+    <?php
+    elseif(!$columnMap->isPrimaryKey()):
+    ?>
+
+<div class="input">
+    <label class="name"><?= $capitalizedName;?></label>
+    <div class="value">
+        <?php
+        if($columnMap->getType() == \Propel\Generator\Model\PropelTypes::LONGVARCHAR){
+        ?>
+
+        <textarea id="<?= $camelName;?>"  name="<?= $camelName;?>" rows="2" cols="25"></textarea>
+        <?php
+        }else{
+        ?>
+
+        <input type="text" id="<?=$camelName;?>" name="<?=$camelName;?>" value="" <?= $columnMap->getSize()? 'maxlength="'.$columnMap->getSize().'" ': '';?>/>
+        <?php
+        }
+        ?>
+
+    </div>
+</div>
+    <?php
+    endif;
+endforeach;
+?>

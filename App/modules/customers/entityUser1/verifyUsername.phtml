@@ -1,0 +1,11 @@
+<?php
+if(is_object($usuarioOtro)){
+?>
+    <small id="usernameExist" class="help-block"><i class="fa fa-times-circle-o"></i> Ese nombre de usuario ya existe.</small>
+<?php
+}else{
+?>
+    <small id="usernameAvailable" class="help-block"><i class="fa fa-check"></i> El nombre de usuario esta disponible</small>
+<?php
+}
+?>

@@ -1,0 +1,302 @@
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Cargo">Cargo</label>
+    <div class="col-sm-9">
+        <input type="text" id="Cargo" name="Cargo" value="<?=$aviso? $aviso->getCargo(): '';?>"
+               class="form-control" maxlength="100" placeholder="Cargo..." />
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Code">Empresa</label>
+    <div class="col-sm-9">
+        <input type="text" id="NombreEmpresa" name="NombreEmpresa" value="<?=$aviso? $aviso->getNombreEmpresa(): '';?>"
+               size="40" maxlength="500" class="form-control" placeholder="Nombre de la Empresa..."
+               autocomplete="off" class="validate[required]" />
+    </div>
+</div>
+
+<!--<div class="form-group">-->
+<!--    <label class="control-label col-sm-3" for="Direccion">Dirección</label>-->
+<!--    <div class="col-sm-9">-->
+<!--        <textarea id="Direccion"  name="Direccion"-->
+<!--                  class="form-control" rows="1" cols="20" placeholder="Dirección...">--><?//=$aviso? $aviso->getDireccion(): '';?><!--</textarea>-->
+<!--    </div>-->
+<!--</div>-->
+
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Code">Teléfonos</label>
+    <div class="col-sm-3">
+        <input type="text" id="TelefonoContacto" name="TelefonoContacto" value="<?=$aviso? $aviso->getTelefonoContacto(): '';?>"
+               size="30" maxlength="30" class="form-control" placeholder="Telefonos..."
+               autocomplete="off" class="validate[required]" />
+    </div>
+
+    <label class="control-label col-sm-2" for="CorreoContacto">Correo Electrónico</label>
+    <div class="col-sm-4">
+        <input type="text" id="CorreoContacto" name="CorreoContacto" value="<?=$aviso? $aviso->getCorreoContacto(): '';?>"
+               size="25" maxlength="100" class="form-control" placeholder="Email..."
+               autocomplete="off" class="validate[required]" />
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-sm-6">
+
+        <div class="form-group">
+            <label class="control-label col-sm-6" for="FechaPublicacion">Fecha Publicación</label>
+            <div class="col-sm-6">
+                <div class="input-group date">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="text" id="FechaPublicacion" name="FechaPublicacion" value="<?=$aviso && $aviso->getFechaPublicacion("d/m/Y")? $aviso->getFechaPublicacion("d/m/Y"): date("d/m/Y");?>"
+                           class="form-control datepicker" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-6" for="FechaVencimiento">Fecha Vencimiento</label>
+            <div class="col-sm-6">
+                <div class="input-group date">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="text" id="FechaVencimiento" name="FechaVencimiento" value="<?=$aviso? $aviso->getFechaVencimiento("d/m/Y"): '';?>"
+                           class="form-control datepicker" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-sm-6">
+        <label class="control-label col-sm-4" for="CorreoContacto">Imagen</label>
+        <div class="col-sm-8">
+            <input type="file" id="picture" name="picture" /> <!-- -->
+            <?php
+            if($aviso && $aviso->getId()){
+            ?>
+                    <img src="<?=WEB_ROOT.'files/avisos/'.$aviso->getId().'.jpg';?>" alt="" class="col-sm-12" style="max-width: 100%;">
+<!--                <div id="myDropzone" class="dropzone">-->
+<!--                    <small>Arrastre la imagen aqui...</small>-->
+                    <!--            <input type="file" name="profilePicture" />-->
+<!--                    <img src="--><?//=WEB_ROOT.'files/avisos/'.$aviso->getId().'.jpg';?><!--" alt="" class="col-sm-12" style="max-width: 100%;">-->
+<!--                </div>-->
+
+
+<!--                <img src="--><?//=WEB_ROOT.'files/avisos/'.$aviso->getId().'.jpg';?><!--" alt="" class="col-sm-12" style="max-width: 100%;">-->
+            <?php
+            }
+            ?>
+        </div>
+        <!--
+            <div id="myDropzone" class="dropzone">
+                <small>Arrastre la imagen aqui...</small>
+            </div>
+            <!-- -->
+
+    </div>
+</div>
+
+<!--<div class="form-group">-->
+<!--    <label class="control-label col-sm-3" for="Descripcion">Descripcion del Puesto</label>-->
+<!--    <div class="col-sm-9">-->
+<!--        <textarea id="Descripcion"  name="Descripcion"-->
+<!--                  class="form-control" rows="2" cols="20" placeholder="Descripción del puesto...">--><?//=$aviso? $aviso->getDescripcion(): '';?><!--</textarea>-->
+<!--    </div>-->
+<!--</div>-->
+
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Requisito">Requisitos</label>
+    <div class="col-sm-9">
+        <textarea id="Requisito"  name="Requisito"
+                  class="form-control" rows="2" cols="20" placeholder="Requisitos del puesto..."><?=$aviso? $aviso->getRequisito(): '';?></textarea>
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-sm-6">
+<!--        <div class="form-group">
+            <label class="control-label col-sm-6" for="AreaId">Area</label>
+            <div class="col-sm-6">
+                <select id="AreaId" name="AreaId"
+                        class="form-control">
+                    <option value="">-Seleccionar-</option>
+                    <?php
+/*                    foreach($areaList as $area):
+                        $sel = $aviso && $aviso->getAreaId() == $area->getId()? 'selected="yes"': '';
+                        */?>
+                        <option value="<?/*= $area->getId(); */?>" <?/*=$sel;*/?>><?/*= $area->getNombre(); */?> </option>
+                        <?php
+/*                    endforeach;
+                    */?>
+                </select>
+            </div>
+        </div>
+-->
+        <div class="form-group">
+            <label class="control-label col-sm-6" for="NivelFormacion">Nivel Formación</label>
+            <div class="col-sm-6">
+                <select id="NivelFormacion" name="NivelFormacion"
+                        class="form-control">
+                    <option value="">-Seleccionar-</option>
+                    <?php
+                    foreach($nivelesFormacion as $nivelFormacion):
+                        $sel = $aviso && $aviso->getNivelFormacion() == $nivelFormacion? 'selected="yes"': '';
+                        ?>
+                        <option value="<?=$nivelFormacion;?>" <?=$sel;?> ><?=$nivelFormacion;?></option>
+                        <?php
+                    endforeach;
+                    ?>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-6" for="AniosExperiencia">Años de Experiencia</label>
+            <div class="col-sm-6">
+                <input type="number" id="AniosExperiencia" name="AniosExperiencia" value="<?=$aviso? $aviso->getAniosExperiencia(): '';?>"
+                       class="form-control" maxlength="50" placeholder="Años experiencia..." />
+            </div>
+        </div>
+
+    </div>
+    <div class="col-sm-6">
+        <div class="form-group">
+            <label class="control-label col-sm-6" for="Fuente">Fuente</label>
+            <div class="col-sm-6">
+                <?php
+                foreach($fuentes as $fuente):
+                    $check = $aviso && $aviso->getFuente()==$fuente? 'checked="yes"': '';
+                    ?>
+                    <label class="block"><input type="radio" name="Fuente" value="<?=$fuente;?>"
+                            <?=$check;?>> <?=$fuente;?></label>
+    <!--                <br />-->
+                    <?php
+                endforeach;
+                ?>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-6" for="Localizacion">Localización</label>
+            <div class="col-sm-6">
+                <?php
+                foreach($localizaciones as $localizacion):
+                    $check = $aviso && $aviso->getLocalizacion()==$localizacion? 'checked="yes"': '';
+                    ?>
+                    <label class="block"><input type="radio" name="Localizacion" value="<?=$localizacion;?>"
+                            <?=$check;?>> <?=$localizacion;?></label>
+                    <!--                <br />-->
+                    <?php
+                endforeach;
+                ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <h3>Areas Laborales</h3>
+    <div class="col-sm-12">
+        <?php
+        foreach($areaReferenciaList as $areaReferencia):
+            $check = $aviso && $aviso->tieneArea($areaReferencia)? 'checked="yes"': '';
+            ?>
+            <div class="col-md-6 col-lg-4">
+                <label class="block small text-normal"><input type="checkbox" name="AreaReferencia[]" value="<?=$areaReferencia->getNombre();?>"
+                        <?=$check;?>> <?=$areaReferencia->getNombre();?></label>
+            </div>
+            <?php
+        endforeach;
+        ?>
+    </div>
+</div>
+
+<div class="form-group">
+    <h3>Formaciones</h3>
+    <div class="col-sm-12">
+        <?php
+        foreach($formacionReferenciaList as $formacionReferencia):
+            $check = $aviso && $aviso->tieneFormacion($formacionReferencia)? 'checked="yes"': '';
+            ?>
+            <div class="col-md-6 col-lg-4">
+                <label class="block small text-normal"><input type="checkbox" name="FormacionReferencia[]" value="<?=$formacionReferencia->getNombre();?>"
+                        <?=$check;?>> <?=$formacionReferencia->getNombre();?></label>
+            </div>
+            <?php
+        endforeach;
+        ?>
+    </div>
+</div>
+
+<!-- DROPZONE -->
+<link href="<?=CSS_WEB;?>plugins/dropzone/basic.css" rel="stylesheet" />
+<link href="<?=CSS_WEB;?>plugins/dropzone/dropzone.css" rel="stylesheet" />
+<script src="<?=JS_WEB;?>plugins/dropzone/dropzone.js"></script>
+
+<script type="text/javascript">
+$().ready(function(){
+    $(".datepicker").datepicker({format: 'dd/mm/yyyy', language: 'es'});
+   /*
+    $(".ajaxPost").formAjaxPost({
+    });
+    /**/
+    $(".ajaxPost").submit(function(e) {
+        e.preventDefault();
+        $("#wrapper").mask("Cargando...");
+        var $form = $(this);
+        var $formData = new FormData();
+        $form.find('input, textarea, select').each(function(){
+            var input = $(this);
+            var type = input.attr('type');
+            switch (type){
+                case "checkbox":
+                    if(input.is(":checked")) {
+                        $formData.append(input.attr('name'), input.val());
+                    }
+                    break;
+                case "radio":
+                    if(input.is(":checked")) {
+                        $formData.append(input.attr('name'), input.val());
+                    }
+                    break;
+                case "file":
+                    $.each(input.prop("files"),function(i,file){
+                        $formData.append(input.attr("name"), file);
+                    });
+                    break;
+                default:
+                    if(!input.is(":disabled") && type != "submit" && type != "button"){
+                        $formData.append(input.attr('name'), input.val());
+                    }
+            }
+        });
+        $.ajax({
+            url: $form.attr('action'),
+            type: $form.attr('method'),
+            data: $formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        }).done(function(data){
+            $form.find('div.help-block').remove();
+            $form.find('div.has-error').removeClass('has-error');
+            if (!data.success) {
+                $(data.errors).each(function(i, el) {
+                    $form.find('#' + el.field)
+                        .parents('div.form-group')
+                        .first()
+                        .addClass('has-error');
+                    $form.find('#' + el.field)
+                        .parent()
+                        .append('<div class="help-block">'+el.message+'</div>');
+                });
+            } else {
+                window.location = "<?=URI::toPage();?>";
+            }
+            $("#wrapper").unmask();
+        });
+        return false;
+    });
+});
+</script>
+<style type="text/css">
+label.text-normal {
+    font-weight: normal !important;
+}
+</style>

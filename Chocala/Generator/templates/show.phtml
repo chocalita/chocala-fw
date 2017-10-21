@@ -1,0 +1,47 @@
+<?=CodeGenerator::TAG_OPEN_SHORT;?> BarView::renderBar('messages'); <?=CodeGenerator::TAG_CLOSE;?>
+
+<div class="dialog" style="padding: 0 250px">
+
+    <div class="fRight">
+        <a href="<?=CodeGenerator::TAG_OPEN_SHORT;?> URI::toPage().'dataList'; <?=CodeGenerator::TAG_CLOSE;?>" class="linkGoBack">Go to data list</a>
+        <a href="<?=CodeGenerator::TAG_OPEN_SHORT;?> URI::toPage().'edit/'.$#MODEL_NAME#->getPrimaryKey(); <?=CodeGenerator::TAG_CLOSE;?>" class="linkEdit">Edit #MODEL_CLASS_NAME#</a>
+        <a href="<?=CodeGenerator::TAG_OPEN_SHORT;?> URI::toPage().'delete/'.$#MODEL_NAME#->getPrimaryKey(); <?=CodeGenerator::TAG_CLOSE;?>" class="linkDelete" onclick="return confirm('¿Do you sure to delete this record?');">Delete #MODEL_CLASS_NAME#</a>
+    </div>
+    <h1>#MODEL_CLASS_NAME# Details</h1>
+    <hr />
+    
+    <?php
+    foreach($mapedColumns as $columnMap):
+        $camelName = SpecialStrings::camelCase($columnMap->getPhpName());
+        $pascalName = SpecialStrings::pascalCase($columnMap->getPhpName());
+        $capitalizedName = ucwords(strtolower(str_replace('_',' ', $columnMap->getName())));
+        if($columnMap->isForeignKey()):
+            $relatedClassName = SpecialStrings::camelCase($columnMap->getRelatedTableName());
+            $relatedFieldName = SpecialStrings::camelCase($hashColumns[$columnMap->getName()]['field']);
+            $pascalRelatedClassName = SpecialStrings::pascalCase($relatedClassName);
+            $relatedColumnName = SpecialStrings::camelCase($columnMap->getRelatedColumnName());
+        ?>
+    
+    <div class="input">
+        <label class="name"><?= $relatedClassName;?></label>
+        <div class="value">
+            <a href="<?=CodeGenerator::TAG_OPEN_SHORT;?> WEB_ROOT.'<?=$pascalRelatedClassName;?>/show/'.$#MODEL_NAME#->get<?= $relatedClassName;?>()->get<?=$relatedColumnName;?>(); <?=CodeGenerator::TAG_CLOSE;?>"><?=CodeGenerator::TAG_OPEN_SHORT;?> $#MODEL_NAME#->get<?= $relatedClassName;?>()->get<?= $relatedFieldName;?>(); <?=CodeGenerator::TAG_CLOSE;?></a>
+        </div>
+    </div>
+        <?php
+        elseif(!$columnMap->isPrimaryKey()):
+        ?>
+    
+    <div class="input">
+        <label class="name"><?= $capitalizedName;?></label>
+        <div class="value">
+            <?=CodeGenerator::TAG_OPEN_SHORT;?> $#MODEL_NAME#->get<?= $camelName;?>(); <?=CodeGenerator::TAG_CLOSE;?>
+
+        </div>
+    </div>
+        <?php
+        endif;
+    endforeach;
+    ?>
+    
+</div>

@@ -1,0 +1,52 @@
+<div class="loginColumns animated fadeInDown">
+    <div class="row">
+
+        <div class="col-md-6">
+            <h2 class="font-bold">¡Bienvenido!</h2>
+
+            <p>
+                Aqui podrás acceder al sistema
+            </p>
+
+            <p>
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
+            </p>
+
+            <p>
+                <small>El uso de tus datos es completamente confidencial, solamente podrá ser utilizado en casos de reclutamiento y selección de empresas interesadas en tus servicios.</small>
+            </p>
+
+        </div>
+        <div class="col-md-6">
+            <div class="ibox-content">
+                <form class="m-t" role="form" method="post" action="<?= URI::toPage().'login'; ?>">
+                    <div class="form-group">
+                        <input type="text" name="username" class="form-control" placeholder="Usuario" required="">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-control" placeholder="Contraseña" required="">
+                    </div>
+                    <button type="submit" class="btn btn-primary block full-width m-b">Ingresar</button>
+
+                    <a href="#">
+                        <small>¿Olvidaste tu contraseña?</small>
+                    </a>
+
+                    <p class="text-muted text-center">
+                        <small>¿No tienes una cuenta?</small>
+                    </p>
+                    <a class="btn btn-sm btn-white btn-block" href="register.html">Crear una cuenta</a>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br/><br/>
+    <hr/>
+</div>
+
+<!-- page script -->
+<script type="text/javascript">
+$().ready(function(){
+
+});
+</script>

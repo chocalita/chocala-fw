@@ -1,0 +1,23 @@
+<?= BarView::renderBar('messages'); ?>
+<div class="dialog" style="padding: 0 250px">
+    
+    <div class="btn-group">
+        <a href="<?= URI::toPage(); ?>" class="linkGoBack">Cancel edition</a>
+    </div>
+    
+    <h1>Update RelacionAreas</h1>
+    <hr class="clear" />
+    
+    <form action="<?= URI::toPage(); ?>update/<?= $jobAreaRelacionada->getPrimaryKey(); ?>" method="post" role="form" class="ajaxPost form-horizontal">
+
+        <?php include('form.phtml');?>
+
+        <div class="input">
+            <div class="value">
+                <input type="submit" name="update" value="Update" />
+            </div>
+        </div>
+
+    </form>
+
+</div>

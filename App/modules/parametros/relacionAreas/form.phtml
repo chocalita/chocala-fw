@@ -1,0 +1,85 @@
+
+<div class="form-group">
+    <label class="control-label col-sm-3" for="IdArea1">JobAreaTecnica</label>
+    <div class="col-sm-9">
+        <select id="IdArea1" name="IdArea1"
+                class="form-control">
+            <option value="">-Select-</option>
+        <?php
+        foreach($jobAreaTecnicaList as $jobAreaTecnicaInstance):
+        ?>
+        <option value="<?= $jobAreaTecnicaInstance->getID(); ?>"><?= $jobAreaTecnicaInstance->get(); ?></option>
+        <?php
+        endforeach;
+        ?>
+        </select>
+    </div>
+</div>
+    
+<div class="form-group">
+    <label class="control-label col-sm-3" for="IdArea2">JobAreaTecnica</label>
+    <div class="col-sm-9">
+        <select id="IdArea2" name="IdArea2"
+                class="form-control">
+            <option value="">-Select-</option>
+        <?php
+        foreach($jobAreaTecnicaList as $jobAreaTecnicaInstance):
+        ?>
+        <option value="<?= $jobAreaTecnicaInstance->getID(); ?>"><?= $jobAreaTecnicaInstance->get(); ?></option>
+        <?php
+        endforeach;
+        ?>
+        </select>
+    </div>
+</div>
+    
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Nivel">Nivel</label>
+    <div class="col-sm-9">
+        
+        <input type="text" id="Nivel" name="Nivel" value=""
+               class="form-control" />
+        
+    </div>
+</div>
+    
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Status">Status</label>
+    <div class="col-sm-9">
+        
+        <input type="text" id="Status" name="Status" value=""
+               class="form-control" maxlength="10" />
+        
+    </div>
+</div>
+    
+<div class="form-group">
+    <label class="control-label col-sm-3" for="LastUserId">Last User Id</label>
+    <div class="col-sm-9">
+        
+        <input type="text" id="LastUserId" name="LastUserId" value=""
+               class="form-control" />
+        
+    </div>
+</div>
+    
+<div class="form-group">
+    <label class="control-label col-sm-3" for="CreationDate">Creation Date</label>
+    <div class="col-sm-9">
+        
+        <input type="text" id="CreationDate" name="CreationDate" value=""
+               class="form-control" />
+        
+    </div>
+</div>
+    
+<div class="form-group">
+    <label class="control-label col-sm-3" for="ModificationDate">Modification Date</label>
+    <div class="col-sm-9">
+        
+        <input type="text" id="ModificationDate" name="ModificationDate" value=""
+               class="form-control" />
+        
+    </div>
+</div>
+    

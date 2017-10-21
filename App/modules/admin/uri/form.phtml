@@ -1,0 +1,84 @@
+<div class="form-group">
+    <label class="control-label col-sm-3" for="moduleId">Módulo</label>
+    <div class="col-sm-9">
+        <?php
+        if(isset($modules)) {
+            ?>
+            <select id="ModuleId" name="ModuleId" class="form-control">
+                <?php
+                foreach ($modules as $module) {
+                    $sel = ($uri && $uri->getSysModule()->equals($module)) ? ' selected="true"' : '';
+                    ?>
+                    <option value="<?= $module->getId(); ?>"<?= $sel; ?>><?= $module->getName() ?></option>
+                    <?php
+                }
+                ?>
+            </select>
+        <?php
+        }elseif(isset($module)){
+        ?>
+            <?=$module->getName();?>
+            <input type="hidden" id="ModuleId" name="ModuleId" value="<?=$module->getId();?>" />
+        <?php
+        }
+        ?>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Uri">URI</label>
+    <div class="col-sm-9">
+        <input type="text" id="Uri" name="Uri" placeholder="URI..." value="<?=$uri? $uri->getUri(): '';?>"
+               size="30" maxlength="30" class="form-control" autocomplete="off" />
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Title">Título</label>
+    <div class="col-sm-9">
+        <input type="text" id="Title" name="Title" placeholder="Título..." value="<?=$uri? $uri->getTitle(): '';?>"
+               size="30" maxlength="30" class="form-control" autocomplete="off" />
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Access">Acceso</label>
+    <div class="col-sm-9">
+        <select id="Access" name="Access" class="form-control">
+            <option value="">Seleccionar...</option>
+            <?php
+            foreach(PageConfigs::enumAccess() as $kAccess => $vAccess){
+                $sel = ($uri && $uri->getAccess()==$kAccess)? ' selected="true"': '';
+                ?>
+                <option value="<?=$kAccess;?>"<?=$sel;?>><?=$vAccess;?></option>
+            <?php
+            }
+            ?>
+        </select>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Type">Tipo</label>
+    <div class="col-sm-9">
+        <select id="Type" name="Type" class="form-control">
+            <option value="">Seleccionar...</option>
+            <?php
+            foreach(PageConfigs::enumTypes() as $kType => $vType){
+                $sel = ($uri && $uri->getType()==$kType)? ' selected="true"': '';
+                ?>
+                <option value="<?=$kType;?>"<?=$sel;?>><?=$vType;?></option>
+            <?php
+            }
+            ?>
+        </select>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Description">Descripción</label>
+    <div class="col-sm-9">
+        <textarea id="Description" name="Description" placeholder="Descripción..."
+                  cols="30" rows="2" class="form-control"><?=$uri? $uri->getDescription(): '';?></textarea>
+    </div>
+</div>

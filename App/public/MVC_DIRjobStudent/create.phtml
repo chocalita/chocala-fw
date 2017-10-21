@@ -1,0 +1,66 @@
+<?= BarView::renderBar('messages'); ?>
+<div class="dialog" style="padding: 0 250px">
+    
+    <div class="fRight">
+        <a href="<?= URI::toPage(); ?>" class="linkGoBack">Cancel creation</a>
+    </div>
+
+    <h1>Create JobStudent</h1>
+    <hr />
+    
+    <form method="POST" action="<?= URI::toPage(); ?>save">
+        
+        <div class="input">
+            <label class="name">NAME</label>
+            <div class="value">
+                
+                <input type="text" name="nAME" value="" maxlength="20" />
+                
+            </div>
+        </div>
+            
+        <div class="input">
+            <label class="name">LASTNAME</label>
+            <div class="value">
+                
+                <input type="text" name="lASTNAME" value="" maxlength="20" />
+                
+            </div>
+        </div>
+            
+        <div class="input">
+            <label class="name">CREATIONDATE</label>
+            <div class="value">
+                
+                <input type="text" name="cREATIONDATE" value="" />
+                
+            </div>
+        </div>
+            
+        <div class="input">
+            <label class="name">MODIFICATIONDATE</label>
+            <div class="value">
+                
+                <input type="text" name="mODIFICATIONDATE" value="" />
+                
+            </div>
+        </div>
+            
+        <div class="input">
+            <label class="name">STATUS</label>
+            <div class="value">
+                
+                <input type="text" name="sTATUS" value="" maxlength="20" />
+                
+            </div>
+        </div>
+            
+        <div class="input">
+            <div class="value">
+                <input type="submit" name="create" value="Create" />
+            </div>
+        </div>
+
+    </form>
+    
+</div>

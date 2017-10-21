@@ -1,0 +1,164 @@
+<fieldset>
+    <h3 class="underline">Información Comercial</h3>
+
+    <div class="row">
+
+        <div class="col-sm-8">
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="EntityTypeId">Tipo de Entidad</label>
+                <div class="col-sm-9">
+                    <select id="EntityTypeId" name="EntityTypeId"
+                            class="form-control">
+                        <option value="">-Select-</option>
+                        <?php
+                        foreach($entityTypeList as $entityType):
+                            $sel = $entity && $entity->getEntityTypeId() == $entityType->getId()? 'selected="yes"': '';
+                        ?>
+                        <option value="<?= $entityType->getId(); ?>" <?=$sel;?>><?= $entityType->getName(); ?> (<?= SysEntityType::groupFrom($entityType->getGroupCode()); ?>)</></option>
+                        <?php
+                        endforeach;
+                        ?>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="Nit">N.I.T.</label>
+                <div class="col-sm-9">
+                    <input type="text" id="Nit" name="Nit" value="<?=$entity? $entity->getNit(): '';?>"
+                           class="form-control" maxlength="50" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="Activities">Actividades</label>
+                <div class="col-sm-8">
+                    <textarea id="Activities"  name="Activities"
+                              class="form-control" rows="3" cols="25"><?=$entity? $entity->getActivities(): '';?></textarea>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-8">
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="ComercialName">Nombre Comercial</label>
+                <div class="col-sm-9">
+                    <input type="text" id="ComercialName" name="ComercialName" value="<?=$entity? $entity->getComercialName(): '';?>"
+                           class="form-control" maxlength="500" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="FormalName">Razón Social</label>
+                <div class="col-sm-9">
+                    <input type="text" id="FormalName" name="FormalName" value="<?=$entity? $entity->getFormalName(): '';?>"
+                           class="form-control" maxlength="500" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="Description">Descripción</label>
+                <div class="col-sm-8">
+                    <textarea id="Description"  name="Description"
+                              class="form-control" rows="3" cols="25"><?=$entity? $entity->getDescription(): '';?></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</fieldset>
+
+<fieldset>
+    <h3 class="underline">Información de Contacto</h3>
+
+    <div class="row">
+
+        <div class="col-sm-8">
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="Email">Email</label>
+                <div class="col-sm-9">
+                    <input type="text" id="Email" name="Email" value="<?=$entity? $entity->getEmail(): '';?>"
+                           class="form-control" maxlength="200" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="Address">Dirección</label>
+                <div class="col-sm-9">
+                <textarea id="Address"  name="Address"
+                          class="form-control" rows="2" cols="25"><?=$entity? $entity->getAddress(): '';?></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="LocationId">Ciudad</label>
+                <div class="col-sm-9">
+                    <select id="LocationId" name="LocationId"
+                            class="form-control">
+                        <option value="">-Select-</option>
+                        <?php
+                        foreach($locationList as $location):
+                            $sel = $entity && $entity->getLocationId()==$location->getId()? 'selected=""': '';
+                            ?>
+                            <option value="<?= $location->getId(); ?>" <?=$sel;?>><?= $location->getName(); ?></option>
+                            <?php
+                        endforeach;
+                        ?>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="Phone">Teléfono</label>
+                <div class="col-sm-8">
+                    <input type="text" id="Phone" name="Phone" value="<?=$entity? $entity->getPhone(): '';?>"
+                           class="form-control" maxlength="30" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="Cellphone">Celular</label>
+                <div class="col-sm-8">
+                    <input type="text" id="Cellphone" name="Cellphone" value="<?=$entity? $entity->getCellphone(): '';?>"
+                           class="form-control" maxlength="30" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="Fax">Fax</label>
+                <div class="col-sm-8">
+                    <input type="text" id="Fax" name="Fax" value=""
+                           class="form-control" maxlength="30" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</fieldset>
+<script type="text/javascript">
+$().ready(function(){
+    $(".datepicker").datepicker({format: 'dd/mm/yyyy', language: 'es'});
+    $("#date_birthday .input-group.date").datepicker({
+        format: 'dd/mm/yyyy',
+        language: 'es',
+        startView: 2,
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        autoclose: true
+    });
+
+    $(".ajaxPost").formAjaxPost({
+        onSuccess: function (response) {
+            window.location = "<?=  URI::toPage();?>show/"+response.entity.Id;
+        }
+    });
+});
+</script>

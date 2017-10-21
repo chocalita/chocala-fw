@@ -1,0 +1,28 @@
+<?= BarView::renderBar('messages'); ?>
+<div class="dialog" style="padding: 0 250px">
+    
+    <div class="btn-group">
+        <a href="<?= URI::toPage(); ?>" class="linkGoBack">Cancel creation</a>
+    </div>
+
+    <h1>Create RelacionAreas</h1>
+    <hr />
+    
+    <form action="<?= URI::toPage(); ?>save" method="post" role="form" class="ajaxPost form-horizontal">
+
+        <?php include('form.phtml');?>
+
+        <div class="input">
+            <div class="value">
+                <input type="submit" name="create" value="Create" />
+            </div>
+        </div>
+
+    </form>
+    
+</div>
+<script type="text/javascript">
+$().ready(function(){
+    $('.ajaxPost').formAjaxPost();
+});
+</script>

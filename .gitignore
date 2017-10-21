@@ -1,0 +1,7 @@
+*.lock
+.idea/
+.idea/*
+App/public/images/avisos/*
+App/public/files/avisos/*
+Vendor/
+!Vendor/composer/autoload_classmap.php

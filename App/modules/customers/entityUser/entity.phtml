@@ -1,0 +1,144 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Usuarios de Entidad</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a>Usuarios de Entidad</a>
+            </li>
+            <li class="active">
+                <strong>Listado de Usuarios de Entidad</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <?= BarView::renderBar('messages'); ?>
+
+    <div class="row">
+
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Entidad</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th class="col-md-2">Nombre Comercial:</th>
+                            <td class="col-md-4"><?=$entity->getComercialName();?></td>
+                            <th class="col-md-2">Código:</th>
+                            <td class="col-md-4"><?=$entity->getCode();?></td>
+                        </tr>
+                        <tr>
+                            <th>Nombre Formal:</th>
+                            <td><?=$entity->getFormalName();?></td>
+                            <th>N.I.T.:</th>
+                            <td><?=$entity->getNit();?></td>
+                        </tr>
+                        <tr>
+                            <th>Tipo de Entidad:</th>
+                            <td><?=$entity->getSysEntityType()->getName();?></td>
+                            <th>Descripción:</th>
+                            <td><?=$entity->getDescription();?></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Listado de Usuarios</h5>
+            </div>
+            <div class="ibox-content">
+
+                <div class="btn-group">
+                    <?php if(PageControl::canCreate()){ ?>
+                        <a href="<?= URI::toPage().'create/'.$entity->getId(); ?>" class="btn btn-sm btn-primary btn-rounded" data-toggle="modal" data-target="#ajax-modal">
+                            <span class="fa fa-plus-square"></span> Agregar Usuario</a>
+                    <?php } ?>
+                </div>
+
+                <div class="table-responsive">
+
+                    <table class="table table-striped table-bordered table-hover dataTables" >
+                        <thead>
+                        <tr>
+                            <th width="5%">Nº</th>
+                            <th>Nombre</th>
+                            <th>Usuario</th>
+                            <th>Estado</th>
+                            <th>Rol(es)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        $i = 0;
+                        /**
+                         * @var EntityUser $entityUser
+                         */
+                        foreach($entityUsers as $entityUser):
+                            $pk = $entityUser->getId();
+                            ?>
+                            <tr role="row">
+                                <td><?= $i+1; ?></td>
+                                <td><?= $entityUser->getSysUser()->person()->getFirstName(); ?></td>
+                                <td><?= $entityUser->getSysUser()->getUsername(); ?></td>
+                                <td><?= $entityUser->getSysUser()->getStatus(); ?></td>
+                                <td><?= $entityUser->getSysRol()->getName(); ?></td>
+                                <td><?= $entityUser->getActive()? 'Activo': 'Inactivo' ; ?></td>
+                            </tr>
+                            <?php
+                            $i++;
+                        endforeach;
+                        ?>
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+$(document).ready(function(){
+    $('.dataTables').DataTable({
+        "language": {
+            "emptyTable": "No se encontraron registros"
+        },
+        dom: '<"html5buttons"B>lTfgitp',
+        buttons: [
+            {extend: 'copy', title: 'Copiar'},
+            {extend: 'csv', title: 'Reporte CSV'},
+            {extend: 'excel', title: 'Reporte Excel'},
+            {extend: 'pdf', title: 'Reporte PDF'},
+            {extend: 'print',
+                customize: function (win){
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
+                }
+            }
+        ]
+    });
+});
+</script>

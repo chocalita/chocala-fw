@@ -1,0 +1,89 @@
+<section class="content-header">
+    <h1>
+        Roles de Usuario
+        <small>advanced tables</small>
+    </h1>
+    <ol id="mainBreadcrumb" class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Administración</a></li>
+        <li class="active"><a href="<?=URI::toPage();?>">Roles de Usuario</a></li>
+        <li class="active"><a href="<?=URI::toPage();?>dataList" class="loadContent" rel="dataList">Listado</a></li>
+    </ol>
+</section><!-- /.content-header -->
+
+<!-- Main content -->
+<section id="mainContent" class="content">
+
+</section>
+
+<!-- page script -->
+<script type="text/javascript">
+var fun = function(){
+    $('.loadContentOriginal').click(function(){
+        // load info
+        var mainContent = $('#mainContent');
+        var href = $(this).attr('href');
+        // settings info
+        var isRel = $(this).is('[rel]');
+        var containerId = isRel? $(this).attr('rel')+'Div': '';
+        var containerDiv = isRel? $('#'+containerId): null;
+        var containerClass = 'loadContentContainer';
+        var containerClassTemp = 'loadContentContainerTemp';
+        if(isRel && containerDiv.length){
+            $('.'+containerClass).hide();
+            $('.'+containerClassTemp).remove();
+            containerDiv.fadeIn();
+        }else{
+            $.ajax({
+                url: href,
+                type: "POST",
+    //                url: href,
+    //                type: settings.method,
+    //                data: settings.data,
+                beforeSend: function( xhr ) {
+                    mainContent.mask('Cargando...');
+    //                    settings.beforeSend.call(this, xhr);
+                }
+            })
+            .done(function(results) {
+                if (results) {
+                    $('.'+containerClass).hide();
+                    $('.'+containerClassTemp).remove();
+                    if(isRel){
+                        alert('<div id="'+containerId+'" class="'+containerClass+'">'+results+'</div>');
+                        mainContent.append('<div id="'+containerId+'" class="'+containerClass+'">'+results+'</div>');
+                    }else{
+                        mainContent.append('<div class="'+containerClass+' '+containerClassTemp+'">'+results+'</div>');
+                    }
+    //                    $(settings.panelDiv).dialog('close');
+    //                    var $title = $(settings.panelDiv).html(results).dialog('open').find('h1:first');
+    //                    $(settings.panelDiv).dialog('option', 'title', $title.html());
+                }
+            })
+            .fail(function(jqXHR, textStatus){
+            })
+            .always(function(result){
+                if(mainContent.isMasked()){
+                    mainContent.unmask();
+                }
+    //                settings.onComplete.call(this, result, $this);
+            });
+        }
+        return false;
+    });
+}
+
+$().ready(function(){
+    //$('.simpleDialog').simpleDialog();
+    /*
+    $("#example1").dataTable();
+    $('#example2').dataTable({
+        "bPaginate": true,
+        "bLengthChange": false,
+        "bFilter": false,
+        "bSort": true,
+        "bInfo": true,
+        "bAutoWidth": false
+    });
+    */
+});
+</script>

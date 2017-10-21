@@ -1,0 +1,43 @@
+<div class="form-group">
+    <label class="control-label col-sm-3" for="EntityId">Entidad</label>
+    <div class="col-sm-9">
+        <input type="hidden" id="entityId" name="entityId" value="<?=$entityParam->getEntityId();?>" />
+        <?=$entityParam->getSysEntity()->getComercialName();?>
+        <br />
+        <small>(<?=$entityParam->getSysEntity()->getFormalName();?>)</small>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-sm-3" for="ParamId">Parámetro</label>
+    <div class="col-sm-9">
+        <input type="hidden" id="paramId" name="paramId" value="<?=$entityParam->getParamId();?>" />
+        <?=$entityParam->getSysParam()->getName();?>
+        <br />
+        <small>(<?=$entityParam->getSysParam()->getCode();?>)</small>
+    </div>
+</div>
+
+
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Value">Valor</label>
+    <div class="col-sm-9">
+        <input type="text" id="Value" name="Value" value="<?=$entityParam && $entityParam->getValue()? $entityParam->getValue(): $param->getValue();?>" placeholder="Value..."
+               class="form-control" maxlength="200" />
+    </div>
+</div>
+    
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Description">Comentarios</label>
+    <div class="col-sm-9">
+        <textarea id="Description" name="Description"
+                  class="form-control" cols="30" rows="2"><?=$entityParam? $entityParam->getDescription(): '';?></textarea>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+$().ready(function(){
+    $('.ajaxPost').formAjaxPost();
+});
+</script>

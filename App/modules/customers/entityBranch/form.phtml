@@ -1,0 +1,82 @@
+<div class="form-group">
+    <label class="control-label" for="LocationId">Ciudad</label>
+    <div class="">
+        <select id="LocationId" name="LocationId"
+                class="form-control">
+            <option value="">-Select-</option>
+            <?php
+            foreach($locationList as $location):
+                $sel = $entityBranch && $entityBranch->getLocationId()==$location->getId()? 'selected=""': '';
+                ?>
+                <option value="<?= $location->getId(); ?>" <?=$sel;?>><?= $location->getName(); ?></option>
+                <?php
+            endforeach;
+            ?>
+        </select>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label" for="Name">Nombre</label>
+    <div class="">
+        <input type="text" id="Name" name="Name" value="<?=$entityBranch? $entityBranch->getName(): '';?>" placeholder="Nombre..."
+               class="form-control" maxlength="30" />
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label" for="Description">Descripción</label>
+    <div class="">
+        <textarea id="Description" name="Description" placeholder="Descripción..."
+                  class="form-control" rows="1" cols="25"><?=$entityBranch? $entityBranch->getDescription(): '';?></textarea>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label" for="Address">Dirección</label>
+    <div class="">
+        <textarea id="Address" name="Address" placeholder="Dirección..."
+                  class="form-control" rows="1" cols="25"><?=$entityBranch? $entityBranch->getAddress(): '';?></textarea>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label" for="Phone">Teléfono</label>
+    <div class="">
+        <input type="text" id="Phone" name="Phone" value="<?=$entityBranch? $entityBranch->getPhone(): '';?>"placeholder="Teléfono..."
+               class="form-control" maxlength="30" />
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label" for="Cellphone">Celular</label>
+    <div class="">
+        <input type="text" id="Cellphone" name="Cellphone" value="<?=$entityBranch? $entityBranch->getCellphone(): '';?>" placeholder="Celular..."
+               class="form-control" maxlength="30" />
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label" for="Fax">Fax</label>
+    <div class="">
+        <input type="text" id="Fax" name="Fax" value="<?=$entityBranch? $entityBranch->getFax(): '';?>" placeholder="Fax"
+               class="form-control" maxlength="30" />
+    </div>
+</div>
+
+<script type="text/javascript">
+$().ready(function(){
+    $(".datepicker").datepicker({format: 'dd/mm/yyyy', language: 'es'});
+    $("#date_birthday .input-group.date").datepicker({
+        format: 'dd/mm/yyyy',
+        language: 'es',
+        startView: 2,
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        autoclose: true
+    });
+
+    $(".ajaxPost").formAjaxPost();
+});
+</script>

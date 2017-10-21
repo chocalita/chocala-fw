@@ -1,0 +1,586 @@
+<?php
+
+namespace Base;
+
+use \JobAreaHabilidad as ChildJobAreaHabilidad;
+use \JobAreaHabilidadQuery as ChildJobAreaHabilidadQuery;
+use \Exception;
+use \PDO;
+use Map\JobAreaHabilidadTableMap;
+use Propel\Runtime\Propel;
+use Propel\Runtime\ActiveQuery\Criteria;
+use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Propel\Runtime\Collection\ObjectCollection;
+use Propel\Runtime\Connection\ConnectionInterface;
+use Propel\Runtime\Exception\PropelException;
+
+/**
+ * Base class that represents a query for the 'job_area_habilidad' table.
+ *
+ * 
+ *
+ * @method     ChildJobAreaHabilidadQuery orderById($order = Criteria::ASC) Order by the ID column
+ * @method     ChildJobAreaHabilidadQuery orderByNombre($order = Criteria::ASC) Order by the NOMBRE column
+ * @method     ChildJobAreaHabilidadQuery orderByDescripcion($order = Criteria::ASC) Order by the DESCRIPCION column
+ * @method     ChildJobAreaHabilidadQuery orderByStatus($order = Criteria::ASC) Order by the STATUS column
+ * @method     ChildJobAreaHabilidadQuery orderByLastUserId($order = Criteria::ASC) Order by the LAST_USER_ID column
+ * @method     ChildJobAreaHabilidadQuery orderByCreationDate($order = Criteria::ASC) Order by the CREATION_DATE column
+ * @method     ChildJobAreaHabilidadQuery orderByModificationDate($order = Criteria::ASC) Order by the MODIFICATION_DATE column
+ *
+ * @method     ChildJobAreaHabilidadQuery groupById() Group by the ID column
+ * @method     ChildJobAreaHabilidadQuery groupByNombre() Group by the NOMBRE column
+ * @method     ChildJobAreaHabilidadQuery groupByDescripcion() Group by the DESCRIPCION column
+ * @method     ChildJobAreaHabilidadQuery groupByStatus() Group by the STATUS column
+ * @method     ChildJobAreaHabilidadQuery groupByLastUserId() Group by the LAST_USER_ID column
+ * @method     ChildJobAreaHabilidadQuery groupByCreationDate() Group by the CREATION_DATE column
+ * @method     ChildJobAreaHabilidadQuery groupByModificationDate() Group by the MODIFICATION_DATE column
+ *
+ * @method     ChildJobAreaHabilidadQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
+ * @method     ChildJobAreaHabilidadQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
+ * @method     ChildJobAreaHabilidadQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ *
+ * @method     ChildJobAreaHabilidad findOne(ConnectionInterface $con = null) Return the first ChildJobAreaHabilidad matching the query
+ * @method     ChildJobAreaHabilidad findOneOrCreate(ConnectionInterface $con = null) Return the first ChildJobAreaHabilidad matching the query, or a new ChildJobAreaHabilidad object populated from the query conditions when no match is found
+ *
+ * @method     ChildJobAreaHabilidad findOneById(int $ID) Return the first ChildJobAreaHabilidad filtered by the ID column
+ * @method     ChildJobAreaHabilidad findOneByNombre(string $NOMBRE) Return the first ChildJobAreaHabilidad filtered by the NOMBRE column
+ * @method     ChildJobAreaHabilidad findOneByDescripcion(string $DESCRIPCION) Return the first ChildJobAreaHabilidad filtered by the DESCRIPCION column
+ * @method     ChildJobAreaHabilidad findOneByStatus(string $STATUS) Return the first ChildJobAreaHabilidad filtered by the STATUS column
+ * @method     ChildJobAreaHabilidad findOneByLastUserId(int $LAST_USER_ID) Return the first ChildJobAreaHabilidad filtered by the LAST_USER_ID column
+ * @method     ChildJobAreaHabilidad findOneByCreationDate(string $CREATION_DATE) Return the first ChildJobAreaHabilidad filtered by the CREATION_DATE column
+ * @method     ChildJobAreaHabilidad findOneByModificationDate(string $MODIFICATION_DATE) Return the first ChildJobAreaHabilidad filtered by the MODIFICATION_DATE column *
+
+ * @method     ChildJobAreaHabilidad requirePk($key, ConnectionInterface $con = null) Return the ChildJobAreaHabilidad by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobAreaHabilidad requireOne(ConnectionInterface $con = null) Return the first ChildJobAreaHabilidad matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ *
+ * @method     ChildJobAreaHabilidad requireOneById(int $ID) Return the first ChildJobAreaHabilidad filtered by the ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobAreaHabilidad requireOneByNombre(string $NOMBRE) Return the first ChildJobAreaHabilidad filtered by the NOMBRE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobAreaHabilidad requireOneByDescripcion(string $DESCRIPCION) Return the first ChildJobAreaHabilidad filtered by the DESCRIPCION column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobAreaHabilidad requireOneByStatus(string $STATUS) Return the first ChildJobAreaHabilidad filtered by the STATUS column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobAreaHabilidad requireOneByLastUserId(int $LAST_USER_ID) Return the first ChildJobAreaHabilidad filtered by the LAST_USER_ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobAreaHabilidad requireOneByCreationDate(string $CREATION_DATE) Return the first ChildJobAreaHabilidad filtered by the CREATION_DATE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobAreaHabilidad requireOneByModificationDate(string $MODIFICATION_DATE) Return the first ChildJobAreaHabilidad filtered by the MODIFICATION_DATE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ *
+ * @method     ChildJobAreaHabilidad[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildJobAreaHabilidad objects based on current ModelCriteria
+ * @method     ChildJobAreaHabilidad[]|ObjectCollection findById(int $ID) Return ChildJobAreaHabilidad objects filtered by the ID column
+ * @method     ChildJobAreaHabilidad[]|ObjectCollection findByNombre(string $NOMBRE) Return ChildJobAreaHabilidad objects filtered by the NOMBRE column
+ * @method     ChildJobAreaHabilidad[]|ObjectCollection findByDescripcion(string $DESCRIPCION) Return ChildJobAreaHabilidad objects filtered by the DESCRIPCION column
+ * @method     ChildJobAreaHabilidad[]|ObjectCollection findByStatus(string $STATUS) Return ChildJobAreaHabilidad objects filtered by the STATUS column
+ * @method     ChildJobAreaHabilidad[]|ObjectCollection findByLastUserId(int $LAST_USER_ID) Return ChildJobAreaHabilidad objects filtered by the LAST_USER_ID column
+ * @method     ChildJobAreaHabilidad[]|ObjectCollection findByCreationDate(string $CREATION_DATE) Return ChildJobAreaHabilidad objects filtered by the CREATION_DATE column
+ * @method     ChildJobAreaHabilidad[]|ObjectCollection findByModificationDate(string $MODIFICATION_DATE) Return ChildJobAreaHabilidad objects filtered by the MODIFICATION_DATE column
+ * @method     ChildJobAreaHabilidad[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
+ *
+ */
+abstract class JobAreaHabilidadQuery extends ModelCriteria
+{
+    protected $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
+
+    /**
+     * Initializes internal state of \Base\JobAreaHabilidadQuery object.
+     *
+     * @param     string $dbName The database name
+     * @param     string $modelName The phpName of a model, e.g. 'Book'
+     * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
+     */
+    public function __construct($dbName = 'default', $modelName = '\\JobAreaHabilidad', $modelAlias = null)
+    {
+        parent::__construct($dbName, $modelName, $modelAlias);
+    }
+
+    /**
+     * Returns a new ChildJobAreaHabilidadQuery object.
+     *
+     * @param     string $modelAlias The alias of a model in the query
+     * @param     Criteria $criteria Optional Criteria to build the query from
+     *
+     * @return ChildJobAreaHabilidadQuery
+     */
+    public static function create($modelAlias = null, Criteria $criteria = null)
+    {
+        if ($criteria instanceof ChildJobAreaHabilidadQuery) {
+            return $criteria;
+        }
+        $query = new ChildJobAreaHabilidadQuery();
+        if (null !== $modelAlias) {
+            $query->setModelAlias($modelAlias);
+        }
+        if ($criteria instanceof Criteria) {
+            $query->mergeWith($criteria);
+        }
+
+        return $query;
+    }
+
+    /**
+     * Find object by primary key.
+     * Propel uses the instance pool to skip the database if the object exists.
+     * Go fast if the query is untouched.
+     *
+     * <code>
+     * $obj  = $c->findPk(12, $con);
+     * </code>
+     *
+     * @param mixed $key Primary key to use for the query
+     * @param ConnectionInterface $con an optional connection object
+     *
+     * @return ChildJobAreaHabilidad|array|mixed the result, formatted by the current formatter
+     */
+    public function findPk($key, ConnectionInterface $con = null)
+    {
+        if ($key === null) {
+            return null;
+        }
+        if ((null !== ($obj = JobAreaHabilidadTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+        if ($con === null) {
+            $con = Propel::getServiceContainer()->getReadConnection(JobAreaHabilidadTableMap::DATABASE_NAME);
+        }
+        $this->basePreSelect($con);
+        if ($this->formatter || $this->modelAlias || $this->with || $this->select
+         || $this->selectColumns || $this->asColumns || $this->selectModifiers
+         || $this->map || $this->having || $this->joins) {
+            return $this->findPkComplex($key, $con);
+        } else {
+            return $this->findPkSimple($key, $con);
+        }
+    }
+
+    /**
+     * Find object by primary key using raw SQL to go fast.
+     * Bypass doSelect() and the object formatter by using generated code.
+     *
+     * @param     mixed $key Primary key to use for the query
+     * @param     ConnectionInterface $con A connection object
+     *
+     * @throws \Propel\Runtime\Exception\PropelException
+     *
+     * @return ChildJobAreaHabilidad A model object, or null if the key is not found
+     */
+    protected function findPkSimple($key, ConnectionInterface $con)
+    {
+        $sql = 'SELECT ID, NOMBRE, DESCRIPCION, STATUS, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM job_area_habilidad WHERE ID = :p0';
+        try {
+            $stmt = $con->prepare($sql);            
+            $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
+            $stmt->execute();
+        } catch (Exception $e) {
+            Propel::log($e->getMessage(), Propel::LOG_ERR);
+            throw new PropelException(sprintf('Unable to execute SELECT statement [%s]', $sql), 0, $e);
+        }
+        $obj = null;
+        if ($row = $stmt->fetch(\PDO::FETCH_NUM)) {
+            /** @var ChildJobAreaHabilidad $obj */
+            $obj = new ChildJobAreaHabilidad();
+            $obj->hydrate($row);
+            JobAreaHabilidadTableMap::addInstanceToPool($obj, (string) $key);
+        }
+        $stmt->closeCursor();
+
+        return $obj;
+    }
+
+    /**
+     * Find object by primary key.
+     *
+     * @param     mixed $key Primary key to use for the query
+     * @param     ConnectionInterface $con A connection object
+     *
+     * @return ChildJobAreaHabilidad|array|mixed the result, formatted by the current formatter
+     */
+    protected function findPkComplex($key, ConnectionInterface $con)
+    {
+        // As the query uses a PK condition, no limit(1) is necessary.
+        $criteria = $this->isKeepQuery() ? clone $this : $this;
+        $dataFetcher = $criteria
+            ->filterByPrimaryKey($key)
+            ->doSelect($con);
+
+        return $criteria->getFormatter()->init($criteria)->formatOne($dataFetcher);
+    }
+
+    /**
+     * Find objects by primary key
+     * <code>
+     * $objs = $c->findPks(array(12, 56, 832), $con);
+     * </code>
+     * @param     array $keys Primary keys to use for the query
+     * @param     ConnectionInterface $con an optional connection object
+     *
+     * @return ObjectCollection|array|mixed the list of results, formatted by the current formatter
+     */
+    public function findPks($keys, ConnectionInterface $con = null)
+    {
+        if (null === $con) {
+            $con = Propel::getServiceContainer()->getReadConnection($this->getDbName());
+        }
+        $this->basePreSelect($con);
+        $criteria = $this->isKeepQuery() ? clone $this : $this;
+        $dataFetcher = $criteria
+            ->filterByPrimaryKeys($keys)
+            ->doSelect($con);
+
+        return $criteria->getFormatter()->init($criteria)->format($dataFetcher);
+    }
+
+    /**
+     * Filter the query by primary key
+     *
+     * @param     mixed $key Primary key to use for the query
+     *
+     * @return $this|ChildJobAreaHabilidadQuery The current query, for fluid interface
+     */
+    public function filterByPrimaryKey($key)
+    {
+
+        return $this->addUsingAlias(JobAreaHabilidadTableMap::COL_ID, $key, Criteria::EQUAL);
+    }
+
+    /**
+     * Filter the query by a list of primary keys
+     *
+     * @param     array $keys The list of primary key to use for the query
+     *
+     * @return $this|ChildJobAreaHabilidadQuery The current query, for fluid interface
+     */
+    public function filterByPrimaryKeys($keys)
+    {
+
+        return $this->addUsingAlias(JobAreaHabilidadTableMap::COL_ID, $keys, Criteria::IN);
+    }
+
+    /**
+     * Filter the query on the ID column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterById(1234); // WHERE ID = 1234
+     * $query->filterById(array(12, 34)); // WHERE ID IN (12, 34)
+     * $query->filterById(array('min' => 12)); // WHERE ID > 12
+     * </code>
+     *
+     * @param     mixed $id The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobAreaHabilidadQuery The current query, for fluid interface
+     */
+    public function filterById($id = null, $comparison = null)
+    {
+        if (is_array($id)) {
+            $useMinMax = false;
+            if (isset($id['min'])) {
+                $this->addUsingAlias(JobAreaHabilidadTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($id['max'])) {
+                $this->addUsingAlias(JobAreaHabilidadTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(JobAreaHabilidadTableMap::COL_ID, $id, $comparison);
+    }
+
+    /**
+     * Filter the query on the NOMBRE column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByNombre('fooValue');   // WHERE NOMBRE = 'fooValue'
+     * $query->filterByNombre('%fooValue%'); // WHERE NOMBRE LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $nombre The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobAreaHabilidadQuery The current query, for fluid interface
+     */
+    public function filterByNombre($nombre = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($nombre)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $nombre)) {
+                $nombre = str_replace('*', '%', $nombre);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(JobAreaHabilidadTableMap::COL_NOMBRE, $nombre, $comparison);
+    }
+
+    /**
+     * Filter the query on the DESCRIPCION column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByDescripcion('fooValue');   // WHERE DESCRIPCION = 'fooValue'
+     * $query->filterByDescripcion('%fooValue%'); // WHERE DESCRIPCION LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $descripcion The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobAreaHabilidadQuery The current query, for fluid interface
+     */
+    public function filterByDescripcion($descripcion = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($descripcion)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $descripcion)) {
+                $descripcion = str_replace('*', '%', $descripcion);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(JobAreaHabilidadTableMap::COL_DESCRIPCION, $descripcion, $comparison);
+    }
+
+    /**
+     * Filter the query on the STATUS column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByStatus('fooValue');   // WHERE STATUS = 'fooValue'
+     * $query->filterByStatus('%fooValue%'); // WHERE STATUS LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $status The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobAreaHabilidadQuery The current query, for fluid interface
+     */
+    public function filterByStatus($status = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($status)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $status)) {
+                $status = str_replace('*', '%', $status);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(JobAreaHabilidadTableMap::COL_STATUS, $status, $comparison);
+    }
+
+    /**
+     * Filter the query on the LAST_USER_ID column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByLastUserId(1234); // WHERE LAST_USER_ID = 1234
+     * $query->filterByLastUserId(array(12, 34)); // WHERE LAST_USER_ID IN (12, 34)
+     * $query->filterByLastUserId(array('min' => 12)); // WHERE LAST_USER_ID > 12
+     * </code>
+     *
+     * @param     mixed $lastUserId The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobAreaHabilidadQuery The current query, for fluid interface
+     */
+    public function filterByLastUserId($lastUserId = null, $comparison = null)
+    {
+        if (is_array($lastUserId)) {
+            $useMinMax = false;
+            if (isset($lastUserId['min'])) {
+                $this->addUsingAlias(JobAreaHabilidadTableMap::COL_LAST_USER_ID, $lastUserId['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($lastUserId['max'])) {
+                $this->addUsingAlias(JobAreaHabilidadTableMap::COL_LAST_USER_ID, $lastUserId['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(JobAreaHabilidadTableMap::COL_LAST_USER_ID, $lastUserId, $comparison);
+    }
+
+    /**
+     * Filter the query on the CREATION_DATE column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByCreationDate('2011-03-14'); // WHERE CREATION_DATE = '2011-03-14'
+     * $query->filterByCreationDate('now'); // WHERE CREATION_DATE = '2011-03-14'
+     * $query->filterByCreationDate(array('max' => 'yesterday')); // WHERE CREATION_DATE > '2011-03-13'
+     * </code>
+     *
+     * @param     mixed $creationDate The value to use as filter.
+     *              Values can be integers (unix timestamps), DateTime objects, or strings.
+     *              Empty strings are treated as NULL.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobAreaHabilidadQuery The current query, for fluid interface
+     */
+    public function filterByCreationDate($creationDate = null, $comparison = null)
+    {
+        if (is_array($creationDate)) {
+            $useMinMax = false;
+            if (isset($creationDate['min'])) {
+                $this->addUsingAlias(JobAreaHabilidadTableMap::COL_CREATION_DATE, $creationDate['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($creationDate['max'])) {
+                $this->addUsingAlias(JobAreaHabilidadTableMap::COL_CREATION_DATE, $creationDate['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(JobAreaHabilidadTableMap::COL_CREATION_DATE, $creationDate, $comparison);
+    }
+
+    /**
+     * Filter the query on the MODIFICATION_DATE column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByModificationDate('2011-03-14'); // WHERE MODIFICATION_DATE = '2011-03-14'
+     * $query->filterByModificationDate('now'); // WHERE MODIFICATION_DATE = '2011-03-14'
+     * $query->filterByModificationDate(array('max' => 'yesterday')); // WHERE MODIFICATION_DATE > '2011-03-13'
+     * </code>
+     *
+     * @param     mixed $modificationDate The value to use as filter.
+     *              Values can be integers (unix timestamps), DateTime objects, or strings.
+     *              Empty strings are treated as NULL.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobAreaHabilidadQuery The current query, for fluid interface
+     */
+    public function filterByModificationDate($modificationDate = null, $comparison = null)
+    {
+        if (is_array($modificationDate)) {
+            $useMinMax = false;
+            if (isset($modificationDate['min'])) {
+                $this->addUsingAlias(JobAreaHabilidadTableMap::COL_MODIFICATION_DATE, $modificationDate['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($modificationDate['max'])) {
+                $this->addUsingAlias(JobAreaHabilidadTableMap::COL_MODIFICATION_DATE, $modificationDate['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(JobAreaHabilidadTableMap::COL_MODIFICATION_DATE, $modificationDate, $comparison);
+    }
+
+    /**
+     * Exclude object from result
+     *
+     * @param   ChildJobAreaHabilidad $jobAreaHabilidad Object to remove from the list of results
+     *
+     * @return $this|ChildJobAreaHabilidadQuery The current query, for fluid interface
+     */
+    public function prune($jobAreaHabilidad = null)
+    {
+        if ($jobAreaHabilidad) {
+            $this->addUsingAlias(JobAreaHabilidadTableMap::COL_ID, $jobAreaHabilidad->getId(), Criteria::NOT_EQUAL);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Deletes all rows from the job_area_habilidad table.
+     *
+     * @param ConnectionInterface $con the connection to use
+     * @return int The number of affected rows (if supported by underlying database driver).
+     */
+    public function doDeleteAll(ConnectionInterface $con = null)
+    {
+        if (null === $con) {
+            $con = Propel::getServiceContainer()->getWriteConnection(JobAreaHabilidadTableMap::DATABASE_NAME);
+        }
+
+        // use transaction because $criteria could contain info
+        // for more than one table or we could emulating ON DELETE CASCADE, etc.
+        return $con->transaction(function () use ($con) {
+            $affectedRows = 0; // initialize var to track total num of affected rows
+            $affectedRows += parent::doDeleteAll($con);
+            // Because this db requires some delete cascade/set null emulation, we have to
+            // clear the cached instance *after* the emulation has happened (since
+            // instances get re-added by the select statement contained therein).
+            JobAreaHabilidadTableMap::clearInstancePool();
+            JobAreaHabilidadTableMap::clearRelatedInstancePool();
+
+            return $affectedRows;
+        });
+    }
+
+    /**
+     * Performs a DELETE on the database based on the current ModelCriteria
+     *
+     * @param ConnectionInterface $con the connection to use
+     * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
+     *                         if supported by native driver or if emulated using Propel.
+     * @throws PropelException Any exceptions caught during processing will be
+     *                         rethrown wrapped into a PropelException.
+     */
+    public function delete(ConnectionInterface $con = null)
+    {
+        if (null === $con) {
+            $con = Propel::getServiceContainer()->getWriteConnection(JobAreaHabilidadTableMap::DATABASE_NAME);
+        }
+
+        $criteria = $this;
+
+        // Set the correct dbName
+        $criteria->setDbName(JobAreaHabilidadTableMap::DATABASE_NAME);
+
+        // use transaction because $criteria could contain info
+        // for more than one table or we could emulating ON DELETE CASCADE, etc.
+        return $con->transaction(function () use ($con, $criteria) {
+            $affectedRows = 0; // initialize var to track total num of affected rows
+            
+            JobAreaHabilidadTableMap::removeInstanceFromPool($criteria);
+        
+            $affectedRows += ModelCriteria::delete($con);
+            JobAreaHabilidadTableMap::clearRelatedInstancePool();
+
+            return $affectedRows;
+        });
+    }
+
+} // JobAreaHabilidadQuery

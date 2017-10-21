@@ -1,0 +1,13 @@
+{
+    "name": "isaxbo/chocala",
+    "require": {
+        "monolog/monolog": "1.0.*",
+        "propel/propel": "~2.0@dev"
+    },
+    "autoload": {
+        "classmap": ["App/model/domain/"]
+    },
+    "config": {
+        "vendor-dir": "Vendor"
+    }
+}

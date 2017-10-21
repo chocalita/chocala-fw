@@ -1,0 +1,72 @@
+.pointer{
+    cursor: hand;
+    cursor: pointer;
+}
+.uppercase{
+    text-transform: uppercase;
+}
+.lowercase{
+    text-transform: lowercase;
+}
+.capitalize{
+    text-transform: capitalize;
+}
+
+.text-blue {
+    color: #1c84c6;
+}
+
+
+.profile-element .img-circle{
+    max-height: 50px;
+    max-width: 50px;
+}
+
+.datepicker-dropdown {
+    z-index: 10000 !important;
+}
+
+.ui-autocomplete {
+    z-index: 10000 !important;
+}
+
+
+.landing-page .navbar-default .nav li a,
+.landing-page .navbar-default .navbar-nav > .active > a, .landing-page .navbar-default .navbar-nav > .active > a:hover{
+    color: #1AB394;
+}
+
+.agile-box {
+    background: #F8F8F9;
+    border: 1px solid #e7eaec;
+    margin: 0 0 10px 0;
+    padding: 10px;
+    border-radius: 2px;
+}
+.agile-box:hover {
+    /*cursor: pointer;*/
+    background: #fff;
+}
+.agile-detail {
+    margin-top: 5px;
+    font-size: 12px;
+}
+.warning-element {
+    border-left: 3px solid #f8ac59;
+}
+.danger-element {
+    border-left: 3px solid #ed5565;
+}
+.info-element {
+    border-left: 3px solid #1c84c6;
+}
+.success-element {
+    border-left: 3px solid #1ab394;
+}
+.aviso-details {
+    padding: 10px 30px;
+}
+.aviso-details .row{
+    padding: 5px 0;
+
+}

@@ -1,0 +1,30 @@
+<?php
+
+use Base\JobAvisoQuery as BaseJobAvisoQuery;
+
+/**
+ *
+ * @author ypra
+ *
+ * @method static JobAvisoQuery createValids($noDeletes = true, $modelAlias = null, Criteria $criteria = null)
+ * @method JobAvisoQuery filterValids()
+ */
+class JobAvisoQuery extends BaseJobAvisoQuery implements SoftDeletion
+{
+    use SoftQuery;
+
+    /**
+     * @param DateTime $fecha
+     * @param bool|true $vigentes
+     * @return $this|\Propel\Runtime\ActiveQuery\Criteria
+     */
+    public function filterVigentes($fecha, $vigentes = true)
+    {
+        return $this
+            ->_if($vigentes)
+                ->filterByFechaVencimiento($fecha,Criteria::GREATER_EQUAL)
+            ->_else()
+                ->filterByFechaVencimiento($fecha, Criteria::LESS_THAN)
+            ->_endif();
+    }
+}
