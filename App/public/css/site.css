@@ -16,7 +16,26 @@
     color: #1c84c6;
 }
 
-
+/* TOP MENU
+**********************************************************/
+.landing-page .navbar-fixed-top{
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #e7eaec !important;
+}
+.landing-page .navbar-fixed-top .top-left{
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+/* LANDING PAGE BUTTON
+**********************************************************/
+.landing-page .btn-primary{
+    background-color: transparent;
+    color: #1ab394;
+}
+.landing-page .btn-primary:hover{
+    background-color: #1ab394;
+    color: #FFFFFF;
+}
 .profile-element .img-circle{
     max-height: 50px;
     max-width: 50px;
