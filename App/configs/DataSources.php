@@ -26,12 +26,12 @@ class DataSources
     );
     
     static $production = array(
-        'datasource'=>  'demoprod',
-        'host'      =>  '',
-        'port'      =>  '',
-        'dbname'    =>  '',
-        'user'      =>  '',
-        'password'  =>  ''
+        'datasource'=>  'jobsterin',
+        'host'      =>  'mysql.empleos.click',
+        'port'      =>  '3306',
+        'dbname'    =>  'jobsterin',
+        'user'      =>  'jobsterin',
+        'password'  =>  'Jobsterin.2017.pasS'
     );
 
     static $all = array(
