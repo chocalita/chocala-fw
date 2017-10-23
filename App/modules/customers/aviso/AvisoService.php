@@ -66,6 +66,18 @@ class AvisoService extends GenericService
         return $query->find();
     }
 
+
+    /**
+     * @return int
+     */
+    public function countVigentesMes()
+    {
+        // TODO: corregir que esaque solo del mes actual
+        return $this->validsQuery()
+            ->filterPublicadasPeriodo(new DateTime(date('Y-').(date('m')-1).'-01 00:00:00'), new DateTime())
+            ->count();
+    }
+
     /**
      * @param array $data
      * @param JobAviso|null $aviso

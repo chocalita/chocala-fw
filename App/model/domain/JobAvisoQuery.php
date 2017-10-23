@@ -27,4 +27,16 @@ class JobAvisoQuery extends BaseJobAvisoQuery implements SoftDeletion
                 ->filterByFechaVencimiento($fecha, Criteria::LESS_THAN)
             ->_endif();
     }
+
+    /**
+     * @param DateTime $fechaIni
+     * @param DateTime $fechaFin
+     * @return $this|JobAvisoQuery
+     */
+    public function filterPublicadasPeriodo($fechaIni, $fechaFin)
+    {
+        return $this->filterByFechaVencimiento($fechaIni, Criteria::GREATER_EQUAL)
+            ->filterByFechaPublicacion($fechaFin, Criteria::LESS_THAN);
+    }
+
 }

@@ -233,7 +233,17 @@
 
         </div>
         <div class="col-md-8">
-            <img src="<?=WEB_ROOT.'files/avisos/'.$aviso->getId().'.jpg';?>" alt="" class="col-sm-12" style="max-width: 100%;">
+            <?php
+            if(file_exists(PUBLIC_DIR.'files/avisos/'.$aviso->getId().'.jpg')){
+            ?>
+                <img src="<?=WEB_ROOT.'files/avisos/'.$aviso->getId().'.jpg';?>" alt="" class="col-sm-12" style="max-width: 100%;">
+            <?php
+            } else {
+            ?>
+                <img src="<?=WEB_ROOT.'files/avisos/'.$aviso->getId().'.png';?>" alt="" class="col-sm-12" style="max-width: 100%;">
+            <?php
+            }
+            ?>
         </div>
     </div>
     <?php

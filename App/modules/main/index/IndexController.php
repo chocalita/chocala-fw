@@ -18,6 +18,7 @@ class IndexController extends PublicWebController
     {
         $this->set('message', 'This page is running successfully!');
         $avisosVigentes = $this->avisoService->listVigencia(true);
+        $totalMes = $this->avisoService->countVigentesMes();
         $avisosOdd = [];
         $avisosEven = [];
         $i = 0;
@@ -29,6 +30,7 @@ class IndexController extends PublicWebController
             }
         }
         $this->set('avisosVigentes', $avisosVigentes);
+        $this->set('totalMes', $totalMes);
         $this->set('avisosOdd', $avisosOdd);
         $this->set('avisosEven', $avisosEven);
     }
