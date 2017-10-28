@@ -89,3 +89,11 @@
     padding: 5px 0;
 
 }
+
+/*  MEDIA QUERIES
+******************************************************/
+@media only screen and (min-device-width : 320px) {
+    .to-hide{
+        display: none;
+    }
+}
