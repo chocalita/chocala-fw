@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Description of AvisoService
  *
@@ -15,7 +16,7 @@ class AvisoService extends GenericService
     /**
      * @return JobAvisoQuery
      */
-    public function validsQuery($noDeletes=true)
+    public function validsQuery($noDeletes = true)
     {
         return JobAvisoQuery::createValids($noDeletes);
     }
@@ -38,17 +39,16 @@ class AvisoService extends GenericService
      * @param array $filters
      * @return \Propel\Runtime\Util\PropelModelPager|JobAviso[]
      */
-    public function dataList($filters=[])
+    public function dataList($filters = [])
     {
         $query = $this->validsQuery()
-        ->_if(isset($filters['code']))
-        ->filterByDescripcion('%'.$filters['descripcion'].'%', Criteria::ILIKE)
-        ->_endif()
-        ;
+            ->_if(isset($filters['code']))
+            ->filterByDescripcion('%' . $filters['descripcion'] . '%', Criteria::ILIKE)
+            ->_endif();
 
         //$query = nul;
-        $_page = $filters['_page']?: 1;
-        $_max = $filters['_max']?: $query->count();
+        $_page = $filters['_page'] ?: 1;
+        $_max = $filters['_max'] ?: $query->count();
         return $query->paginate($_page, $_max);
     }
 
@@ -57,12 +57,11 @@ class AvisoService extends GenericService
      * @param string $order
      * @return JobAviso[]|\Propel\Runtime\Collection\ObjectCollection
      */
-    public function listVigencia($vigentes=true, $order = Criteria::ASC)
+    public function listVigencia($vigentes = true, $order = Criteria::ASC)
     {
         $query = $this->validsQuery()
             ->filterVigentes(new DateTime(), $vigentes)
-            ->orderByFechaVencimiento($order)
-        ;
+            ->orderByFechaVencimiento($order);
         return $query->find();
     }
 
@@ -72,9 +71,21 @@ class AvisoService extends GenericService
      */
     public function countVigentesMes()
     {
-        // TODO: corregir que esaque solo del mes actual
+        // TODO: corregir que saque solo del mes actual
         return $this->validsQuery()
-            ->filterPublicadasPeriodo(new DateTime(date('Y-').(date('m')-1).'-01 00:00:00'), new DateTime())
+            ->filterPublicadasPeriodo(new DateTime(date('Y-') . (date('m') - 1) . '-01 00:00:00'),
+                new DateTime())
+            ->count();
+    }
+
+    public function countVigentesMesPasado()
+    {
+        // TODO: corregir que esaque solo del mes actual
+        $endDate = new DateTime(date('Y-') . (date('m') - 1) . '-01 23:59:59');
+        $endDate->modify("-1 day");
+        return $this->validsQuery()
+            ->filterPublicadasPeriodo(new DateTime(date('Y-') . (date('m') - 2) . '-01 00:00:00'),
+                $endDate)
             ->count();
     }
 
@@ -84,12 +95,12 @@ class AvisoService extends GenericService
      * @return array mixed
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function insertOrUpdate($data, &$aviso=null)
+    public function insertOrUpdate($data, &$aviso = null)
     {
-        if(!is_object($aviso)){
+        if (!is_object($aviso)) {
             $aviso = new JobAviso();
             $this->prepareInsert($aviso);
-        }else{
+        } else {
             $this->prepareUpdate($aviso);
         }
         $aviso->fromArray($data);
@@ -99,7 +110,7 @@ class AvisoService extends GenericService
         if ($results['success']) {
             $aviso->save();
         }
-        if($data['picture']){
+        if ($data['picture']) {
             $aviso->setMimetype($data['picture']['type']);
             $aviso->setTieneImagen(true);
             $filedata = $data['picture'];

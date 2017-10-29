@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Description of SystemController
  *
@@ -50,12 +51,12 @@ class SystemController extends AdminWebController
     public function naccess()
     {
     }
-    
+
     public function login()
     {
-        if(UserControl::login(Req::_('username'), Req::_('password'))){
+        if (UserControl::login(Req::_('username'), Req::_('password'))) {
             $this->redirectTo(['action' => 'main']);
-        }else{
+        } else {
             $this->redirectTo(['action' => 'access']);
         }
 
@@ -70,62 +71,96 @@ class SystemController extends AdminWebController
 
     public function main()
     {
-        if(UserControl::hasRol('SUPER') || UserControl::hasRol('CODE')){
+        if (UserControl::hasRol('SUPER') || UserControl::hasRol('CODE')) {
             $this->redirectTo(['action' => 'admin']);
-        }else{
+        } else {
             $this->redirectTo(['action' => 'adminOther']);
         }
     }
 
     public function admin()
     {
-        if(UserControl::isLoggedIn()){
+        if (UserControl::isLoggedIn()) {
             $this->set('user', UserControl::user());
             $this->view->changeLayout('private');
-        }else{
+        } else {
             $this->redirectTo(['action' => 'access']);
         }
     }
 
     public function adminOther()
     {
-        if(UserControl::isLoggedIn()){
+        if (UserControl::isLoggedIn()) {
             $this->set('user', UserControl::user());
             $this->view->changeLayout('private');
-        }else{
+        } else {
             $this->redirectTo(['action' => 'access']);
         }
     }
 
     public function createdAccount()
     {
-/*        $handler = curl_init("http://www.google.es");
-        $response = curl_exec ($handler);
-        curl_close($handler);
-        echo $response; exit();*/
-        if(is_object($this->sessionUser) && $this->sessionUser->hasCreatedStatus()){
+        /*        $handler = curl_init("http://www.google.es");
+                $response = curl_exec ($handler);
+                curl_close($handler);
+                echo $response; exit();*/
+        if (is_object($this->sessionUser) && $this->sessionUser->hasCreatedStatus()) {
             $this->set('user', $this->sessionUser);
-        }else{
+        } else {
             $this->redirectTo(['action' => 'main']);
         }
+    }
+
+    public function resetPassword()
+    {
+        $passwordRequest = $this->userService->loadPasswordRequest($this->id);
+        if (!is_object($passwordRequest)) {
+            $this->redirectTo(['action' => 'main']);
+        }
+        $this->set('passwordRequest', $passwordRequest);
+    }
+
+    public function resetPassword2()
+    {
+        $passwordRequest = $this->userService->loadPasswordRequest($this->id);
+//        $user = $passwordRequest->getSysUser();
+        if (!is_object($passwordRequest)) {
+            $this->redirectTo(['action' => 'main']);
+        }
+        if (!$passwordRequest->getActive()) {
+            $errors = 'La solicitud de recuperación no esta vigemte, intente solicitando nuevamente.';
+        } else if (trim(Req::_('Password')) == '' || trim(Req::_('RPassword')) == '') {
+            $errors = 'Debe ingresar y repetir su nueva contraseña.';
+        } else if (Req::_('Password') != Req::_('RPassword')) {
+            $errors = 'Debe repetir la nueva contraseña.';
+        } else if (strlen(Req::_('Password')) < 6) {
+            $errors = 'La contraseña es demasiado corta.';
+        } else {
+            $results = $this->userService->completePasswordRequest($passwordRequest, Req::_('Password'));
+            $success = $results['success'];
+            if ($success) {
+                $errors = 'Se cambió correctamente su password de usuario correctamente';
+            }
+        }
+        $this->set('passwordRequest', $passwordRequest);
     }
 
     public function changePassword()
     {
         $success = false;
-        if(UserControl::isLoggedIn()){
-            if(trim(Req::_('Password'))=='' || trim(Req::_('RPassword'))==''){
+        if (UserControl::isLoggedIn()) {
+            if (trim(Req::_('Password')) == '' || trim(Req::_('RPassword')) == '') {
                 $errors = 'Debe ingresar y repetir su nueva contraseña.';
-            }else if(Req::_('Password') != Req::_('RPassword')){
+            } else if (Req::_('Password') != Req::_('RPassword')) {
                 $errors = 'Debe repetir la nueva contraseña.';
-            }else if(strlen(Req::_('Password'))<6){
+            } else if (strlen(Req::_('Password')) < 6) {
                 $errors = 'La contraseña es demasiado corta.';
-            }else{
+            } else {
                 $data['Password'] = Req::_('Password');
                 $data['Status'] = SysUser::STATUS_ACTIVE;
                 $results = $this->userService->insertOrUpdate($data, $this->sessionUser);
                 $success = $results['success'];
-                if($success){
+                if ($success) {
                     $errors = 'Se cambió correctamente su password de usuario';
                 }
             }
@@ -137,12 +172,12 @@ class SystemController extends AdminWebController
 
     public function emailTracking()
     {
-        try{
+        try {
             $emailSent = $this->emailSentService->hashTracking($this->id);
-        }catch (Exception $e){
+        } catch (Exception $e) {
             $emailSent = null;
         }
-        $this->redirectTo(['url' => IMG_WEB.'divider-bar.png']);
+        $this->redirectTo(['url' => IMG_WEB . 'divider-bar.png']);
     }
 
 }

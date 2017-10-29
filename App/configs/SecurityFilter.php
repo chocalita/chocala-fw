@@ -1,5 +1,6 @@
 <?php
 Chocala::import('Model.security.SecurityRegistry');
+
 /**
  * Description of SecurityFilter
  *
@@ -8,32 +9,34 @@ Chocala::import('Model.security.SecurityRegistry');
 class SecurityFilter extends ChocalaFilter
 {
 
-    private static $noControls = ['system'=>'*'];
+    private static $noControls = ['system' => '*'];
 
     private static $allowedOnCreatedAccount = [
-        'system' => ['index', 'access', 'naccess', 'login', 'logout', 'createdAccount', 'changePassword']
+        'system' => ['index', 'access', 'naccess', 'login', 'logout',
+            'createdAccount', 'changePassword', 'resetPassword']
     ];
 
     public function beforeAction()
     {
         SecurityRegistry::instance();
         $toVerify = !array_key_exists($this->controllerName, self::$noControls);
-        if($toVerify){
-            if(is_array(self::$noControls[$this->controllerName])){
+        if ($toVerify) {
+            if (is_array(self::$noControls[$this->controllerName])) {
                 $toVerify = !in_array($this->actionName,
                     self::$noControls[$this->controllerName]);
             } else {
                 $toVerify = !self::$noControls[$this->controllerName] == '*';
             }
         }
-        if(UserControl::isLoggedIn() && UserControl::user()->hasCreatedStatus() &&
-            !$this->allowedFor(self::$allowedOnCreatedAccount)){
+        if (UserControl::isLoggedIn() && UserControl::user()->hasCreatedStatus() &&
+            !$this->allowedFor(self::$allowedOnCreatedAccount)
+        ) {
             $this->redirectTo(['uri' => 'main/system/createdAccount']);
         }
         // To verify with PageControl
-        if($toVerify){
+        if ($toVerify) {
             $pageControl = PageControl::instance();
-            if($pageControl->isRegistered() && !$pageControl->canRead()){
+            if ($pageControl->isRegistered() && !$pageControl->canRead()) {
                 $this->redirectTo(array('uri' => 'main/system/access'));
             }
         }
@@ -50,12 +53,12 @@ class SecurityFilter extends ChocalaFilter
     public function allowedFor($allowedHash)
     {
         $contollers = array_keys($allowedHash);
-        if(in_array($this->controllerName, $contollers)) {
+        if (in_array($this->controllerName, $contollers)) {
             if (is_array($allowedHash[$this->controllerName])) {
                 return in_array($this->actionName, $allowedHash[$this->controllerName]);
             } else if ($allowedHash[$this->controllerName] == '*') {
                 return true;
-            } else if($allowedHash[$this->controllerName] == $this->actionName){
+            } else if ($allowedHash[$this->controllerName] == $this->actionName) {
                 return true;
             }
         }
