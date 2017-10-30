@@ -116,9 +116,12 @@ class UserControl implements ISingleton
             ->findOne();
         if(is_object($sysUser)){
             if($sysUser->getPassword() == self::crypt($password)){
+                $sysUser->updateAccess();
                 Session::set(self::sessionVar(), $sysUser);
                 SecurityRegistry::instance()->updateRegistry('user', new UserControl());
                 return true;
+            } else {
+                $sysUser->updateAccessFailures();
             }
         }
         return false;
