@@ -48,6 +48,8 @@ class IndexController extends PublicWebController
         Cookie::set("advertising", "no");
         if (HttpManager::isAJAXRequest()) {
             $this->view->changeLayout('ajax');
+        } else {
+            $this->template = 'oportunidadSEO';
         }
     }
 

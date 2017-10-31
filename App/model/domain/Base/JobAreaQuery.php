@@ -23,6 +23,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAreaQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildJobAreaQuery orderByCodigo($order = Criteria::ASC) Order by the CODIGO column
  * @method     ChildJobAreaQuery orderByNombre($order = Criteria::ASC) Order by the NOMBRE column
+ * @method     ChildJobAreaQuery orderByKeywords($order = Criteria::ASC) Order by the KEYWORDS column
  * @method     ChildJobAreaQuery orderByDescripcion($order = Criteria::ASC) Order by the DESCRIPCION column
  * @method     ChildJobAreaQuery orderByStatus($order = Criteria::ASC) Order by the STATUS column
  * @method     ChildJobAreaQuery orderByLastUserId($order = Criteria::ASC) Order by the LAST_USER_ID column
@@ -32,6 +33,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAreaQuery groupById() Group by the ID column
  * @method     ChildJobAreaQuery groupByCodigo() Group by the CODIGO column
  * @method     ChildJobAreaQuery groupByNombre() Group by the NOMBRE column
+ * @method     ChildJobAreaQuery groupByKeywords() Group by the KEYWORDS column
  * @method     ChildJobAreaQuery groupByDescripcion() Group by the DESCRIPCION column
  * @method     ChildJobAreaQuery groupByStatus() Group by the STATUS column
  * @method     ChildJobAreaQuery groupByLastUserId() Group by the LAST_USER_ID column
@@ -54,6 +56,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobArea findOneById(int $ID) Return the first ChildJobArea filtered by the ID column
  * @method     ChildJobArea findOneByCodigo(string $CODIGO) Return the first ChildJobArea filtered by the CODIGO column
  * @method     ChildJobArea findOneByNombre(string $NOMBRE) Return the first ChildJobArea filtered by the NOMBRE column
+ * @method     ChildJobArea findOneByKeywords(string $KEYWORDS) Return the first ChildJobArea filtered by the KEYWORDS column
  * @method     ChildJobArea findOneByDescripcion(string $DESCRIPCION) Return the first ChildJobArea filtered by the DESCRIPCION column
  * @method     ChildJobArea findOneByStatus(string $STATUS) Return the first ChildJobArea filtered by the STATUS column
  * @method     ChildJobArea findOneByLastUserId(int $LAST_USER_ID) Return the first ChildJobArea filtered by the LAST_USER_ID column
@@ -66,6 +69,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobArea requireOneById(int $ID) Return the first ChildJobArea filtered by the ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobArea requireOneByCodigo(string $CODIGO) Return the first ChildJobArea filtered by the CODIGO column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobArea requireOneByNombre(string $NOMBRE) Return the first ChildJobArea filtered by the NOMBRE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobArea requireOneByKeywords(string $KEYWORDS) Return the first ChildJobArea filtered by the KEYWORDS column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobArea requireOneByDescripcion(string $DESCRIPCION) Return the first ChildJobArea filtered by the DESCRIPCION column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobArea requireOneByStatus(string $STATUS) Return the first ChildJobArea filtered by the STATUS column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobArea requireOneByLastUserId(int $LAST_USER_ID) Return the first ChildJobArea filtered by the LAST_USER_ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -76,6 +80,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobArea[]|ObjectCollection findById(int $ID) Return ChildJobArea objects filtered by the ID column
  * @method     ChildJobArea[]|ObjectCollection findByCodigo(string $CODIGO) Return ChildJobArea objects filtered by the CODIGO column
  * @method     ChildJobArea[]|ObjectCollection findByNombre(string $NOMBRE) Return ChildJobArea objects filtered by the NOMBRE column
+ * @method     ChildJobArea[]|ObjectCollection findByKeywords(string $KEYWORDS) Return ChildJobArea objects filtered by the KEYWORDS column
  * @method     ChildJobArea[]|ObjectCollection findByDescripcion(string $DESCRIPCION) Return ChildJobArea objects filtered by the DESCRIPCION column
  * @method     ChildJobArea[]|ObjectCollection findByStatus(string $STATUS) Return ChildJobArea objects filtered by the STATUS column
  * @method     ChildJobArea[]|ObjectCollection findByLastUserId(int $LAST_USER_ID) Return ChildJobArea objects filtered by the LAST_USER_ID column
@@ -173,7 +178,7 @@ abstract class JobAreaQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT ID, CODIGO, NOMBRE, DESCRIPCION, STATUS, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM job_area WHERE ID = :p0';
+        $sql = 'SELECT ID, CODIGO, NOMBRE, KEYWORDS, DESCRIPCION, STATUS, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM job_area WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -360,6 +365,35 @@ abstract class JobAreaQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(JobAreaTableMap::COL_NOMBRE, $nombre, $comparison);
+    }
+
+    /**
+     * Filter the query on the KEYWORDS column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByKeywords('fooValue');   // WHERE KEYWORDS = 'fooValue'
+     * $query->filterByKeywords('%fooValue%'); // WHERE KEYWORDS LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $keywords The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobAreaQuery The current query, for fluid interface
+     */
+    public function filterByKeywords($keywords = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($keywords)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $keywords)) {
+                $keywords = str_replace('*', '%', $keywords);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(JobAreaTableMap::COL_KEYWORDS, $keywords, $comparison);
     }
 
     /**

@@ -210,7 +210,7 @@ class SysEmailSentTableMap extends TableMap
         $this->addColumn('CONTENT', 'Content', 'LONGVARCHAR', true, null, null);
         $this->addColumn('IS_SUCCESS', 'IsSuccess', 'BOOLEAN', true, 1, null);
         $this->addColumn('SHIPPING_DATE', 'ShippingDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');
-        $this->addColumn('OPENING_DATE', 'OpeningDate', 'TIMESTAMP', false, null, '0000-00-00 00:00:00');
+        $this->addColumn('OPENING_DATE', 'OpeningDate', 'TIMESTAMP', false, null, null);
     } // initialize()
 
     /**

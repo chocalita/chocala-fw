@@ -260,7 +260,7 @@ class JobAvisoTableMap extends TableMap
         $this->addColumn('NOMBRE_EMPRESA', 'NombreEmpresa', 'VARCHAR', false, 500, null);
         $this->addColumn('DIRECCION', 'Direccion', 'VARCHAR', false, 200, null);
         $this->addColumn('TELEFONO_CONTACTO', 'TelefonoContacto', 'INTEGER', false, null, null);
-        $this->addColumn('CORREO_CONTACTO', 'CorreoContacto', 'VARCHAR', false, 20, null);
+        $this->addColumn('CORREO_CONTACTO', 'CorreoContacto', 'VARCHAR', false, 100, null);
         $this->addColumn('FECHA_PUBLICACION', 'FechaPublicacion', 'DATE', false, null, null);
         $this->addColumn('FECHA_VENCIMIENTO', 'FechaVencimiento', 'DATE', false, null, null);
         $this->addColumn('REQUISITO', 'Requisito', 'VARCHAR', false, 2000, null);

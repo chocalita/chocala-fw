@@ -132,7 +132,7 @@ class TmpAreaTableMap extends TableMap
         $this->setUseIdGenerator(false);
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('nombre', 'Nombre', 'VARCHAR', true, 200, null);
+        $this->addColumn('nombre', 'Nombre', 'VARCHAR', false, 200, null);
     } // initialize()
 
     /**

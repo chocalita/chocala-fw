@@ -153,7 +153,6 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * The value for the opening_date field.
-     * Note: this column has a database default value of: NULL
      * @var        \DateTime
      */
     protected $opening_date;
@@ -185,7 +184,6 @@ abstract class SysEmailSent implements ActiveRecordInterface
     public function applyDefaultValues()
     {
         $this->sender_id = 0;
-        $this->opening_date = PropelDateTime::newInstance(NULL, null, 'DateTime');
     }
 
     /**
@@ -894,9 +892,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->opening_date !== null || $dt !== null) {
-            if ( ($dt != $this->opening_date) // normalized values don't match
-                || ($dt->format('Y-m-d H:i:s') === NULL) // or the entered value matches the default
-                 ) {
+            if ($this->opening_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->opening_date->format("Y-m-d H:i:s")) {
                 $this->opening_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[SysEmailSentTableMap::COL_OPENING_DATE] = true;
             }
@@ -916,10 +912,6 @@ abstract class SysEmailSent implements ActiveRecordInterface
     public function hasOnlyDefaultValues()
     {
             if ($this->sender_id !== 0) {
-                return false;
-            }
-
-            if ($this->opening_date && $this->opening_date->format('Y-m-d H:i:s') !== NULL) {
                 return false;
             }
 

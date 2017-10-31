@@ -4,6 +4,7 @@
     <column name="ID" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="CODIGO" phpName="Codigo" type="VARCHAR" size="30" required="true"/>
     <column name="NOMBRE" phpName="Nombre" type="VARCHAR" size="100" required="true"/>
+    <column name="KEYWORDS" phpName="Keywords" type="LONGVARCHAR"/>
     <column name="DESCRIPCION" phpName="Descripcion" type="LONGVARCHAR"/>
     <column name="STATUS" phpName="Status" type="VARCHAR" size="20" required="true" defaultValue="ACTIVE"/>
     <column name="LAST_USER_ID" phpName="LastUserId" type="INTEGER" required="true" defaultValue="0"/>
@@ -98,7 +99,7 @@
     <column name="NOMBRE_EMPRESA" phpName="NombreEmpresa" type="VARCHAR" size="500"/>
     <column name="DIRECCION" phpName="Direccion" type="VARCHAR" size="200"/>
     <column name="TELEFONO_CONTACTO" phpName="TelefonoContacto" type="INTEGER"/>
-    <column name="CORREO_CONTACTO" phpName="CorreoContacto" type="VARCHAR" size="20"/>
+    <column name="CORREO_CONTACTO" phpName="CorreoContacto" type="VARCHAR" size="100"/>
     <column name="FECHA_PUBLICACION" phpName="FechaPublicacion" type="DATE"/>
     <column name="FECHA_VENCIMIENTO" phpName="FechaVencimiento" type="DATE"/>
     <column name="REQUISITO" phpName="Requisito" type="VARCHAR" size="2000"/>
@@ -351,7 +352,7 @@
     <column name="TEMPLATE" phpName="Template" type="VARCHAR" size="50"/>
     <column name="LAST_USER_ID" phpName="LastUserId" type="INTEGER" required="true" defaultValue="0"/>
     <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
-    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP"/>
+    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP" defaultValue="0000-00-00 00:00:00"/>
     <unique name="UK_SYS_EMAIL_CODE">
       <unique-column name="CODE"/>
     </unique>
@@ -374,7 +375,7 @@
     <column name="CONTENT" phpName="Content" type="LONGVARCHAR" required="true"/>
     <column name="IS_SUCCESS" phpName="IsSuccess" type="BOOLEAN" size="1" required="true"/>
     <column name="SHIPPING_DATE" phpName="ShippingDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
-    <column name="OPENING_DATE" phpName="OpeningDate" type="TIMESTAMP" defaultValue="0000-00-00 00:00:00"/>
+    <column name="OPENING_DATE" phpName="OpeningDate" type="TIMESTAMP"/>
     <foreign-key foreignTable="sys_email" name="fk_sys_email_sent_email">
       <reference local="EMAIL_ID" foreign="ID"/>
     </foreign-key>
@@ -669,7 +670,7 @@
     <column name="ACTIVE" phpName="Active" type="BOOLEAN" size="1" required="true" defaultValue="true"/>
     <column name="LIFE_TIME" phpName="LifeTime" type="INTEGER" required="true"/>
     <column name="REQUEST_IP" phpName="RequestIp" type="VARCHAR" size="30" required="true"/>
-    <column name="RESTORED_IP" phpName="RestoredIp" type="VARCHAR" size="30" required="true"/>
+    <column name="RESTORED_IP" phpName="RestoredIp" type="VARCHAR" size="30"/>
     <column name="ACCEDED_TIMES" phpName="AccededTimes" type="INTEGER" required="true" defaultValue="0"/>
     <column name="REQUESTED_DATE" phpName="RequestedDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
     <column name="RESTORED_DATE" phpName="RestoredDate" type="TIMESTAMP"/>
@@ -869,7 +870,7 @@
   </table>
   <table name="tmp_area" idMethod="native" phpName="TmpArea">
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="nombre" phpName="Nombre" type="VARCHAR" size="200" required="true"/>
+    <column name="nombre" phpName="Nombre" type="VARCHAR" size="200"/>
     <vendor type="mysql">
       <parameter name="Engine" value="MyISAM"/>
     </vendor>
