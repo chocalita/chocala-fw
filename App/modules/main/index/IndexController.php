@@ -49,7 +49,8 @@ class IndexController extends PublicWebController
         if (HttpManager::isAJAXRequest()) {
             $this->view->changeLayout('ajax');
         } else {
-            $this->template = 'oportunidadSEO';
+            $this->view->renderView('index.oportunidadSEO', "main");
+//            $this->renderView('oportunidadSEO', "index");
         }
     }
 
