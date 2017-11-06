@@ -130,14 +130,12 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * The value for the actual_access field.
-     * Note: this column has a database default value of: NULL
      * @var        \DateTime
      */
     protected $actual_access;
 
     /**
      * The value for the last_access field.
-     * Note: this column has a database default value of: NULL
      * @var        \DateTime
      */
     protected $last_access;
@@ -165,7 +163,6 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * The value for the modification_date field.
-     * Note: this column has a database default value of: NULL
      * @var        \DateTime
      */
     protected $modification_date;
@@ -283,11 +280,8 @@ abstract class SysUser implements ActiveRecordInterface
     public function applyDefaultValues()
     {
         $this->status = 'CREATED';
-        $this->actual_access = PropelDateTime::newInstance(NULL, null, 'DateTime');
-        $this->last_access = PropelDateTime::newInstance(NULL, null, 'DateTime');
         $this->access_failures = 0;
         $this->last_user_id = 0;
-        $this->modification_date = PropelDateTime::newInstance(NULL, null, 'DateTime');
     }
 
     /**
@@ -860,9 +854,7 @@ abstract class SysUser implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->actual_access !== null || $dt !== null) {
-            if ( ($dt != $this->actual_access) // normalized values don't match
-                || ($dt->format('Y-m-d H:i:s') === NULL) // or the entered value matches the default
-                 ) {
+            if ($this->actual_access === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->actual_access->format("Y-m-d H:i:s")) {
                 $this->actual_access = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[SysUserTableMap::COL_ACTUAL_ACCESS] = true;
             }
@@ -882,9 +874,7 @@ abstract class SysUser implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->last_access !== null || $dt !== null) {
-            if ( ($dt != $this->last_access) // normalized values don't match
-                || ($dt->format('Y-m-d H:i:s') === NULL) // or the entered value matches the default
-                 ) {
+            if ($this->last_access === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->last_access->format("Y-m-d H:i:s")) {
                 $this->last_access = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[SysUserTableMap::COL_LAST_ACCESS] = true;
             }
@@ -964,9 +954,7 @@ abstract class SysUser implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->modification_date !== null || $dt !== null) {
-            if ( ($dt != $this->modification_date) // normalized values don't match
-                || ($dt->format('Y-m-d H:i:s') === NULL) // or the entered value matches the default
-                 ) {
+            if ($this->modification_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->modification_date->format("Y-m-d H:i:s")) {
                 $this->modification_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[SysUserTableMap::COL_MODIFICATION_DATE] = true;
             }
@@ -989,23 +977,11 @@ abstract class SysUser implements ActiveRecordInterface
                 return false;
             }
 
-            if ($this->actual_access && $this->actual_access->format('Y-m-d H:i:s') !== NULL) {
-                return false;
-            }
-
-            if ($this->last_access && $this->last_access->format('Y-m-d H:i:s') !== NULL) {
-                return false;
-            }
-
             if ($this->access_failures !== 0) {
                 return false;
             }
 
             if ($this->last_user_id !== 0) {
-                return false;
-            }
-
-            if ($this->modification_date && $this->modification_date->format('Y-m-d H:i:s') !== NULL) {
                 return false;
             }
 

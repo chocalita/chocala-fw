@@ -16,7 +16,7 @@ class JobAvisoQuery extends BaseJobAvisoQuery implements SoftDeletion
     /**
      * @param DateTime $fecha
      * @param bool|true $vigentes
-     * @return $this|\Propel\Runtime\ActiveQuery\Criteria
+     * @return $this|mixed
      */
     public function filterVigentes($fecha, $vigentes = true)
     {

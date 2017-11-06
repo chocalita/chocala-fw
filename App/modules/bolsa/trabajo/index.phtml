@@ -107,11 +107,9 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title">Modal title</h4>
-                <small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
             </div>
             <div class="modal-body">
-
-
+                <small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
@@ -129,11 +127,9 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title">Modal title</h4>
-                <small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
             </div>
             <div class="modal-body">
-
-
+                <small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
@@ -143,35 +139,95 @@
     </div>
 </div>
 
-<script>
+<?php
+if(isset($SUSCRIPCION_MSG_COOKIE)) {
+?>
+    <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content panel panel-success">
+                <div class="panel-heading">
+                    <button type="button" class="close" data-dismiss="modal"><span
+                                aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h1 class="text-center">¡Empleos.Click te avisa!</h1>
+                </div>
+                <div class="panel-body">
+                    <div class="text-success">
+                        Empleos.Click ahora te ayuda más, solo suscribete y estaremos informandote sobre nuevas posibilidades de trabajo que te podrian interesar.
+                    </div>
+
+                    <form id="formSuscripcion" class="m-t" role="form" action="<?=URI::toPage().'suscripcion';?>">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="NombreSimple" name="NombreSimple" placeholder="Nombre" required="">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" id="Email" name="Email" placeholder="Email" required="">
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" id="IdTmpArea" name="IdTmpArea" required="">
+                                <option>- Tu área de interés -</option>
+                                <?php
+                                foreach($formacionReferenciaList as $formacionReferencia):
+                                    ?>
+                                    <option value="<?=$formacionReferencia->getId();?>"> <?=$formacionReferencia->getNombre();?></option>
+                                    <?php
+                                endforeach;
+                                ?>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-info block full-width m-b"><strong>Suscribirme</strong></button>
+
+                        <div class="alert alert-info">
+                            <small class="font-bold">
+                                No compartiremos esta información con terceros, solo servirá para avisarte sobre oportunidades de trabajo.
+                            </small>
+                        </div>
+
+                        <button type="button" class="btn btn-sm btn-white block full-width m-b" data-dismiss="modal">No, gracias</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+<?php
+}
+?>
+
+<script type="text/javascript">
 jQuery(document).ready(function() {
     var _modalLoadingContent = $("#modalLoadingContent").html();
     $("#modalDetalle, #modalDetalleBig").on("hidden.bs.modal", function(e){
         $(this).removeData("bs.modal").find(".modal-content").empty().html(_modalLoadingContent);
     });
     $("#modalDetalle, #modalDetalleBig").removeData("bs.modal").find(".modal-content").empty().html(_modalLoadingContent);
+
+
+    $("#formSuscripcion").formAjaxPost({
+        'onSuccess': function (data) {
+            alert("En breve recibirá un correo de confirmación de su suscripción en: " + $("#Email").val()+ " . Empleos.Click siempre a su servicio.");
+            $("#myModal").modal('hide');
+        }
+    });
     setTimeout(
         function(){
             //alert("Hello");
             //TODO: set messages
         },
         5000);
-    function verifyAdvertising(){
-
-    }
-
+//    $("#myModal").modal('show')
     <?php
     if(isset($SUSCRIPCION_MSG_COOKIE)){
     ?>
     var advCookie = "<?=$SUSCRIPCION_MSG_COOKIE;?>";
     function verifyAdvertising() {
         if ($.cookie(advCookie) == null) {
-            $.cookie(advCookie, 'myValue', {expires: 7});
+            $.cookie(advCookie, 'myValue', {expires: 3});
+            $("#myModal").modal('show');
             console.log("habilitado para mensajes con " + $.cookie(advCookie));
-//            alert("pusimos la cookie " + $.cookie(advCookie));
         }
     }
-    setTimeout(verifyAdvertising, 5000);
+    setTimeout(verifyAdvertising, 45000);
     <?php
     }
     ?>

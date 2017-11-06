@@ -14,6 +14,18 @@ class TrabajoController extends PublicWebController
      */
     protected $avisoService;
 
+    /**
+     * @var SuscriptorService
+     * @service customers.suscriptor.SuscriptorService
+     */
+    protected $suscriptorService;
+
+    /**
+     * @var FormacionReferenciaService Injected service
+     * @service recursos.formacionReferencia.FormacionReferenciaService
+     */
+    protected $formacionReferenciaService;
+
     const SUSCRIPCION_MSG_COOKIE = "SUSCRIPCION_MSG";
 
     public function index()
@@ -37,14 +49,12 @@ class TrabajoController extends PublicWebController
         $this->set('totalMesPasado', $totalMesPasado);
         $this->set('avisosOdd', $avisosOdd);
         $this->set('avisosEven', $avisosEven);
-//        if(!Cookie::has(self::SUSCRIPCION_MSG_COOKIE)){
-//        print_r($_COOKIE); exit();
-//        unset($_COOKIE[self::SUSCRIPCION_MSG_COOKIE]);
-        if(!$_COOKIE[self::SUSCRIPCION_MSG_COOKIE]){
+        // TODO: send an email on suscription
+        if(false && !Cookie::has(self::SUSCRIPCION_MSG_COOKIE)){
+            $formacionReferenciaList = $this->formacionReferenciaService->dataList();
+            $this->set('formacionReferenciaList', $formacionReferenciaList);
             $this->set('SUSCRIPCION_MSG_COOKIE', self::SUSCRIPCION_MSG_COOKIE);
         }
-//        echo Cookie::_("advertising"); exit();
-//        setcookie("advertising", "no");
     }
 
     public function empleo()
@@ -61,8 +71,15 @@ class TrabajoController extends PublicWebController
     }
 
 
-    public function test()
+    public function suscripcion()
     {
+        $data = Req::all();
+        $data['Ip'] =
+        $results = $this->suscriptorService->insertOrUpdate($data);
+        $this->set('suscriptor', $results['object']);
+        $this->set('success', $results['success']);
+        $this->set('errors', $results['errors']);
+        $this->renderAsJSON();
     }
 
 
