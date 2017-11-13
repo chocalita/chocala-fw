@@ -90,10 +90,10 @@ class SuscriptorService extends GenericService
         $results = $this->insertOrUpdate($data);
         if ($results['success']) {
             $suscriptor = $results['object'];
-            $suscriptor->reload();
             $hash = SpecialStrings::generateHash(20);
             $emailService = EmailService::instance();
             $email = $emailService->findByCode(JobSuscriptor::EMAIL_SUBSCRIPTION_INITIAL);
+            $tmpArea = TmpAreaQuery::create()->findPk($suscriptor->getIdTmpArea());
             $emailMap = [
                 'TrackingHash' => $hash,
                 'To' => [
@@ -102,7 +102,7 @@ class SuscriptorService extends GenericService
             ];
             $emailVars = [
                 '~NOMBRE_SIMPLE~' => $suscriptor->getNombreSimple(),
-                '~FORMACION~' => ucwords(strtolower($suscriptor->getTmpArea()->getNombre())),
+                '~FORMACION~' => ucwords(strtolower($tmpArea->getNombre())),
             ];
             $emailSender = EmailSender::instanceFrom($email);
             $emailSent = $emailSender->sendMail($emailMap, $emailVars);
