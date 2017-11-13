@@ -596,9 +596,10 @@ abstract class TmpArea implements ActiveRecordInterface
 
             if ($this->jobSuscriptorsScheduledForDeletion !== null) {
                 if (!$this->jobSuscriptorsScheduledForDeletion->isEmpty()) {
-                    \JobSuscriptorQuery::create()
-                        ->filterByPrimaryKeys($this->jobSuscriptorsScheduledForDeletion->getPrimaryKeys(false))
-                        ->delete($con);
+                    foreach ($this->jobSuscriptorsScheduledForDeletion as $jobSuscriptor) {
+                        // need to save related object because we set the relation to null
+                        $jobSuscriptor->save($con);
+                    }
                     $this->jobSuscriptorsScheduledForDeletion = null;
                 }
             }
@@ -1246,11 +1247,36 @@ abstract class TmpArea implements ActiveRecordInterface
                 $this->jobSuscriptorsScheduledForDeletion = clone $this->collJobSuscriptors;
                 $this->jobSuscriptorsScheduledForDeletion->clear();
             }
-            $this->jobSuscriptorsScheduledForDeletion[]= clone $jobSuscriptor;
+            $this->jobSuscriptorsScheduledForDeletion[]= $jobSuscriptor;
             $jobSuscriptor->setTmpArea(null);
         }
 
         return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this TmpArea is new, it will return
+     * an empty collection; or if this TmpArea has previously
+     * been saved, it will retrieve related JobSuscriptors from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in TmpArea.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildJobSuscriptor[] List of ChildJobSuscriptor objects
+     */
+    public function getJobSuscriptorsJoinTmpFormacion(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildJobSuscriptorQuery::create(null, $criteria);
+        $query->joinWith('TmpFormacion', $joinBehavior);
+
+        return $this->getJobSuscriptors($query, $con);
     }
 
     /**

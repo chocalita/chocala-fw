@@ -93,7 +93,11 @@ class SuscriptorService extends GenericService
             $hash = SpecialStrings::generateHash(20);
             $emailService = EmailService::instance();
             $email = $emailService->findByCode(JobSuscriptor::EMAIL_SUBSCRIPTION_INITIAL);
-            $tmpArea = TmpAreaQuery::create()->findPk($suscriptor->getIdTmpArea());
+//            $tmpArea = TmpAreaQuery::create()->findPk($suscriptor->getIdTmpArea());
+//            print_r($suscriptor);
+//            echo "\n Codigo : ";
+//            echo $suscriptor->getIdTmpArea()."\n";
+//            print_r($tmpArea); exit();
             $emailMap = [
                 'TrackingHash' => $hash,
                 'To' => [
@@ -102,7 +106,7 @@ class SuscriptorService extends GenericService
             ];
             $emailVars = [
                 '~NOMBRE_SIMPLE~' => $suscriptor->getNombreSimple(),
-                '~FORMACION~' => ucwords(strtolower($tmpArea->getNombre())),
+                '~FORMACION~' => ucwords(strtolower($suscriptor->getTmpFormacion()->getNombre())),
             ];
             $emailSender = EmailSender::instanceFrom($email);
             $emailSent = $emailSender->sendMail($emailMap, $emailVars);

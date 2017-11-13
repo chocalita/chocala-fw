@@ -258,7 +258,8 @@
   </table>
   <table name="job_suscriptor" idMethod="native" phpName="JobSuscriptor">
     <column name="ID" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="ID_TMP_AREA" phpName="IdTmpArea" type="INTEGER" required="true"/>
+    <column name="ID_TMP_AREA" phpName="IdTmpArea" type="INTEGER"/>
+    <column name="ID_TMP_FORMACION" phpName="IdTmpFormacion" type="INTEGER" required="true"/>
     <column name="EMAIL" phpName="Email" type="VARCHAR" size="200" required="true"/>
     <column name="NOMBRE_SIMPLE" phpName="NombreSimple" type="VARCHAR" size="100" required="true"/>
     <column name="NOMBRES" phpName="Nombres" type="VARCHAR" size="50"/>
@@ -271,11 +272,14 @@
     <foreign-key foreignTable="tmp_area" name="job_suscriptor_fk1">
       <reference local="ID_TMP_AREA" foreign="id"/>
     </foreign-key>
+    <foreign-key foreignTable="tmp_formacion" name="job_suscriptor_fk2">
+      <reference local="ID_TMP_FORMACION" foreign="id"/>
+    </foreign-key>
     <index name="ID_TMP_AREA">
       <index-column name="ID_TMP_AREA"/>
     </index>
-    <index name="ID_TMP_AREA_2">
-      <index-column name="ID_TMP_AREA"/>
+    <index name="ID_TMP_FORMACION">
+      <index-column name="ID_TMP_FORMACION"/>
     </index>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
@@ -904,7 +908,7 @@
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" required="true"/>
     <column name="nombre" phpName="Nombre" type="VARCHAR" size="200" required="true"/>
     <vendor type="mysql">
-      <parameter name="Engine" value="MyISAM"/>
+      <parameter name="Engine" value="InnoDB"/>
     </vendor>
   </table>
   <table name="tmp_mailing" idMethod="native" phpName="TmpMailing">

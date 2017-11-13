@@ -10,6 +10,7 @@ use Map\TmpFormacionTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Propel\Runtime\ActiveQuery\ModelJoin;
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
@@ -28,6 +29,12 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildTmpFormacionQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildTmpFormacionQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildTmpFormacionQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ *
+ * @method     ChildTmpFormacionQuery leftJoinJobSuscriptor($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobSuscriptor relation
+ * @method     ChildTmpFormacionQuery rightJoinJobSuscriptor($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobSuscriptor relation
+ * @method     ChildTmpFormacionQuery innerJoinJobSuscriptor($relationAlias = null) Adds a INNER JOIN clause to the query using the JobSuscriptor relation
+ *
+ * @method     \JobSuscriptorQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildTmpFormacion findOne(ConnectionInterface $con = null) Return the first ChildTmpFormacion matching the query
  * @method     ChildTmpFormacion findOneOrCreate(ConnectionInterface $con = null) Return the first ChildTmpFormacion matching the query, or a new ChildTmpFormacion object populated from the query conditions when no match is found
@@ -294,6 +301,79 @@ abstract class TmpFormacionQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(TmpFormacionTableMap::COL_NOMBRE, $nombre, $comparison);
+    }
+
+    /**
+     * Filter the query by a related \JobSuscriptor object
+     *
+     * @param \JobSuscriptor|ObjectCollection $jobSuscriptor the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildTmpFormacionQuery The current query, for fluid interface
+     */
+    public function filterByJobSuscriptor($jobSuscriptor, $comparison = null)
+    {
+        if ($jobSuscriptor instanceof \JobSuscriptor) {
+            return $this
+                ->addUsingAlias(TmpFormacionTableMap::COL_ID, $jobSuscriptor->getIdTmpFormacion(), $comparison);
+        } elseif ($jobSuscriptor instanceof ObjectCollection) {
+            return $this
+                ->useJobSuscriptorQuery()
+                ->filterByPrimaryKeys($jobSuscriptor->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByJobSuscriptor() only accepts arguments of type \JobSuscriptor or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the JobSuscriptor relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildTmpFormacionQuery The current query, for fluid interface
+     */
+    public function joinJobSuscriptor($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('JobSuscriptor');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'JobSuscriptor');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the JobSuscriptor relation JobSuscriptor object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \JobSuscriptorQuery A secondary query class using the current class as primary query
+     */
+    public function useJobSuscriptorQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinJobSuscriptor($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'JobSuscriptor', '\JobSuscriptorQuery');
     }
 
     /**

@@ -334,7 +334,7 @@ abstract class TmpAreaQuery extends ModelCriteria
      *
      * @return $this|ChildTmpAreaQuery The current query, for fluid interface
      */
-    public function joinJobSuscriptor($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinJobSuscriptor($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('JobSuscriptor');
@@ -369,7 +369,7 @@ abstract class TmpAreaQuery extends ModelCriteria
      *
      * @return \JobSuscriptorQuery A secondary query class using the current class as primary query
      */
-    public function useJobSuscriptorQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useJobSuscriptorQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         return $this
             ->joinJobSuscriptor($relationAlias, $joinType)

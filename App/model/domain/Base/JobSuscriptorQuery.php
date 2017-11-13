@@ -22,6 +22,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildJobSuscriptorQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildJobSuscriptorQuery orderByIdTmpArea($order = Criteria::ASC) Order by the ID_TMP_AREA column
+ * @method     ChildJobSuscriptorQuery orderByIdTmpFormacion($order = Criteria::ASC) Order by the ID_TMP_FORMACION column
  * @method     ChildJobSuscriptorQuery orderByEmail($order = Criteria::ASC) Order by the EMAIL column
  * @method     ChildJobSuscriptorQuery orderByNombreSimple($order = Criteria::ASC) Order by the NOMBRE_SIMPLE column
  * @method     ChildJobSuscriptorQuery orderByNombres($order = Criteria::ASC) Order by the NOMBRES column
@@ -34,6 +35,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildJobSuscriptorQuery groupById() Group by the ID column
  * @method     ChildJobSuscriptorQuery groupByIdTmpArea() Group by the ID_TMP_AREA column
+ * @method     ChildJobSuscriptorQuery groupByIdTmpFormacion() Group by the ID_TMP_FORMACION column
  * @method     ChildJobSuscriptorQuery groupByEmail() Group by the EMAIL column
  * @method     ChildJobSuscriptorQuery groupByNombreSimple() Group by the NOMBRE_SIMPLE column
  * @method     ChildJobSuscriptorQuery groupByNombres() Group by the NOMBRES column
@@ -52,13 +54,18 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSuscriptorQuery rightJoinTmpArea($relationAlias = null) Adds a RIGHT JOIN clause to the query using the TmpArea relation
  * @method     ChildJobSuscriptorQuery innerJoinTmpArea($relationAlias = null) Adds a INNER JOIN clause to the query using the TmpArea relation
  *
- * @method     \TmpAreaQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     ChildJobSuscriptorQuery leftJoinTmpFormacion($relationAlias = null) Adds a LEFT JOIN clause to the query using the TmpFormacion relation
+ * @method     ChildJobSuscriptorQuery rightJoinTmpFormacion($relationAlias = null) Adds a RIGHT JOIN clause to the query using the TmpFormacion relation
+ * @method     ChildJobSuscriptorQuery innerJoinTmpFormacion($relationAlias = null) Adds a INNER JOIN clause to the query using the TmpFormacion relation
+ *
+ * @method     \TmpAreaQuery|\TmpFormacionQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildJobSuscriptor findOne(ConnectionInterface $con = null) Return the first ChildJobSuscriptor matching the query
  * @method     ChildJobSuscriptor findOneOrCreate(ConnectionInterface $con = null) Return the first ChildJobSuscriptor matching the query, or a new ChildJobSuscriptor object populated from the query conditions when no match is found
  *
  * @method     ChildJobSuscriptor findOneById(int $ID) Return the first ChildJobSuscriptor filtered by the ID column
  * @method     ChildJobSuscriptor findOneByIdTmpArea(int $ID_TMP_AREA) Return the first ChildJobSuscriptor filtered by the ID_TMP_AREA column
+ * @method     ChildJobSuscriptor findOneByIdTmpFormacion(int $ID_TMP_FORMACION) Return the first ChildJobSuscriptor filtered by the ID_TMP_FORMACION column
  * @method     ChildJobSuscriptor findOneByEmail(string $EMAIL) Return the first ChildJobSuscriptor filtered by the EMAIL column
  * @method     ChildJobSuscriptor findOneByNombreSimple(string $NOMBRE_SIMPLE) Return the first ChildJobSuscriptor filtered by the NOMBRE_SIMPLE column
  * @method     ChildJobSuscriptor findOneByNombres(string $NOMBRES) Return the first ChildJobSuscriptor filtered by the NOMBRES column
@@ -74,6 +81,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildJobSuscriptor requireOneById(int $ID) Return the first ChildJobSuscriptor filtered by the ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSuscriptor requireOneByIdTmpArea(int $ID_TMP_AREA) Return the first ChildJobSuscriptor filtered by the ID_TMP_AREA column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobSuscriptor requireOneByIdTmpFormacion(int $ID_TMP_FORMACION) Return the first ChildJobSuscriptor filtered by the ID_TMP_FORMACION column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSuscriptor requireOneByEmail(string $EMAIL) Return the first ChildJobSuscriptor filtered by the EMAIL column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSuscriptor requireOneByNombreSimple(string $NOMBRE_SIMPLE) Return the first ChildJobSuscriptor filtered by the NOMBRE_SIMPLE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSuscriptor requireOneByNombres(string $NOMBRES) Return the first ChildJobSuscriptor filtered by the NOMBRES column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -87,6 +95,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSuscriptor[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildJobSuscriptor objects based on current ModelCriteria
  * @method     ChildJobSuscriptor[]|ObjectCollection findById(int $ID) Return ChildJobSuscriptor objects filtered by the ID column
  * @method     ChildJobSuscriptor[]|ObjectCollection findByIdTmpArea(int $ID_TMP_AREA) Return ChildJobSuscriptor objects filtered by the ID_TMP_AREA column
+ * @method     ChildJobSuscriptor[]|ObjectCollection findByIdTmpFormacion(int $ID_TMP_FORMACION) Return ChildJobSuscriptor objects filtered by the ID_TMP_FORMACION column
  * @method     ChildJobSuscriptor[]|ObjectCollection findByEmail(string $EMAIL) Return ChildJobSuscriptor objects filtered by the EMAIL column
  * @method     ChildJobSuscriptor[]|ObjectCollection findByNombreSimple(string $NOMBRE_SIMPLE) Return ChildJobSuscriptor objects filtered by the NOMBRE_SIMPLE column
  * @method     ChildJobSuscriptor[]|ObjectCollection findByNombres(string $NOMBRES) Return ChildJobSuscriptor objects filtered by the NOMBRES column
@@ -188,7 +197,7 @@ abstract class JobSuscriptorQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT ID, ID_TMP_AREA, EMAIL, NOMBRE_SIMPLE, NOMBRES, APELLIDOS, UBICACION, IP, STATUS, CREATION_DATE, CONFIRMATION FROM job_suscriptor WHERE ID = :p0';
+        $sql = 'SELECT ID, ID_TMP_AREA, ID_TMP_FORMACION, EMAIL, NOMBRE_SIMPLE, NOMBRES, APELLIDOS, UBICACION, IP, STATUS, CREATION_DATE, CONFIRMATION FROM job_suscriptor WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -360,6 +369,49 @@ abstract class JobSuscriptorQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(JobSuscriptorTableMap::COL_ID_TMP_AREA, $idTmpArea, $comparison);
+    }
+
+    /**
+     * Filter the query on the ID_TMP_FORMACION column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByIdTmpFormacion(1234); // WHERE ID_TMP_FORMACION = 1234
+     * $query->filterByIdTmpFormacion(array(12, 34)); // WHERE ID_TMP_FORMACION IN (12, 34)
+     * $query->filterByIdTmpFormacion(array('min' => 12)); // WHERE ID_TMP_FORMACION > 12
+     * </code>
+     *
+     * @see       filterByTmpFormacion()
+     *
+     * @param     mixed $idTmpFormacion The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobSuscriptorQuery The current query, for fluid interface
+     */
+    public function filterByIdTmpFormacion($idTmpFormacion = null, $comparison = null)
+    {
+        if (is_array($idTmpFormacion)) {
+            $useMinMax = false;
+            if (isset($idTmpFormacion['min'])) {
+                $this->addUsingAlias(JobSuscriptorTableMap::COL_ID_TMP_FORMACION, $idTmpFormacion['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($idTmpFormacion['max'])) {
+                $this->addUsingAlias(JobSuscriptorTableMap::COL_ID_TMP_FORMACION, $idTmpFormacion['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(JobSuscriptorTableMap::COL_ID_TMP_FORMACION, $idTmpFormacion, $comparison);
     }
 
     /**
@@ -686,7 +738,7 @@ abstract class JobSuscriptorQuery extends ModelCriteria
      *
      * @return $this|ChildJobSuscriptorQuery The current query, for fluid interface
      */
-    public function joinTmpArea($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinTmpArea($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('TmpArea');
@@ -721,11 +773,88 @@ abstract class JobSuscriptorQuery extends ModelCriteria
      *
      * @return \TmpAreaQuery A secondary query class using the current class as primary query
      */
-    public function useTmpAreaQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useTmpAreaQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         return $this
             ->joinTmpArea($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'TmpArea', '\TmpAreaQuery');
+    }
+
+    /**
+     * Filter the query by a related \TmpFormacion object
+     *
+     * @param \TmpFormacion|ObjectCollection $tmpFormacion The related object(s) to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @throws \Propel\Runtime\Exception\PropelException
+     *
+     * @return ChildJobSuscriptorQuery The current query, for fluid interface
+     */
+    public function filterByTmpFormacion($tmpFormacion, $comparison = null)
+    {
+        if ($tmpFormacion instanceof \TmpFormacion) {
+            return $this
+                ->addUsingAlias(JobSuscriptorTableMap::COL_ID_TMP_FORMACION, $tmpFormacion->getId(), $comparison);
+        } elseif ($tmpFormacion instanceof ObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(JobSuscriptorTableMap::COL_ID_TMP_FORMACION, $tmpFormacion->toKeyValue('PrimaryKey', 'Id'), $comparison);
+        } else {
+            throw new PropelException('filterByTmpFormacion() only accepts arguments of type \TmpFormacion or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the TmpFormacion relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildJobSuscriptorQuery The current query, for fluid interface
+     */
+    public function joinTmpFormacion($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('TmpFormacion');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'TmpFormacion');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the TmpFormacion relation TmpFormacion object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \TmpFormacionQuery A secondary query class using the current class as primary query
+     */
+    public function useTmpFormacionQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinTmpFormacion($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'TmpFormacion', '\TmpFormacionQuery');
     }
 
     /**

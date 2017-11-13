@@ -140,6 +140,13 @@ class TmpFormacionTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('JobSuscriptor', '\\JobSuscriptor', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':ID_TMP_FORMACION',
+    1 => ':id',
+  ),
+), null, null, 'JobSuscriptors', false);
     } // buildRelations()
 
     /**

@@ -12,6 +12,9 @@ class JobSuscriptor extends BaseJobSuscriptor implements JsonSerializable
 
     static $validationRules = [
         'IdTmpArea' => [
+            'null' => true, 'blank' => false,
+        ],
+        'IdTmpFormacion' => [
             'null' => false, 'blank' => false,
         ],
         'Email' => [
@@ -53,7 +56,8 @@ class JobSuscriptor extends BaseJobSuscriptor implements JsonSerializable
 
     public function preSave()
     {
-        $this->id_tmp_area = $this->id_tmp_area?: "";
+        $this->id_tmp_area = $this->id_tmp_area?: null;
+        $this->id_tmp_formacion = $this->id_tmp_formacion?: null;
         $this->email = trim(strtolower($this->email))?: null;
         $this->nombre_simple = trim($this->nombre_simple)?: null;
         $this->nombres = trim($this->nombres)?: null;

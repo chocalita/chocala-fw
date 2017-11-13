@@ -59,7 +59,7 @@ class JobSuscriptorTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 11;
+    const NUM_COLUMNS = 12;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,7 @@ class JobSuscriptorTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 11;
+    const NUM_HYDRATE_COLUMNS = 12;
 
     /**
      * the column name for the ID field
@@ -80,6 +80,11 @@ class JobSuscriptorTableMap extends TableMap
      * the column name for the ID_TMP_AREA field
      */
     const COL_ID_TMP_AREA = 'job_suscriptor.ID_TMP_AREA';
+
+    /**
+     * the column name for the ID_TMP_FORMACION field
+     */
+    const COL_ID_TMP_FORMACION = 'job_suscriptor.ID_TMP_FORMACION';
 
     /**
      * the column name for the EMAIL field
@@ -138,11 +143,11 @@ class JobSuscriptorTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'IdTmpArea', 'Email', 'NombreSimple', 'Nombres', 'Apellidos', 'Ubicacion', 'Ip', 'Status', 'CreationDate', 'Confirmation', ),
-        self::TYPE_CAMELNAME     => array('id', 'idTmpArea', 'email', 'nombreSimple', 'nombres', 'apellidos', 'ubicacion', 'ip', 'status', 'creationDate', 'confirmation', ),
-        self::TYPE_COLNAME       => array(JobSuscriptorTableMap::COL_ID, JobSuscriptorTableMap::COL_ID_TMP_AREA, JobSuscriptorTableMap::COL_EMAIL, JobSuscriptorTableMap::COL_NOMBRE_SIMPLE, JobSuscriptorTableMap::COL_NOMBRES, JobSuscriptorTableMap::COL_APELLIDOS, JobSuscriptorTableMap::COL_UBICACION, JobSuscriptorTableMap::COL_IP, JobSuscriptorTableMap::COL_STATUS, JobSuscriptorTableMap::COL_CREATION_DATE, JobSuscriptorTableMap::COL_CONFIRMATION, ),
-        self::TYPE_FIELDNAME     => array('ID', 'ID_TMP_AREA', 'EMAIL', 'NOMBRE_SIMPLE', 'NOMBRES', 'APELLIDOS', 'UBICACION', 'IP', 'STATUS', 'CREATION_DATE', 'CONFIRMATION', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
+        self::TYPE_PHPNAME       => array('Id', 'IdTmpArea', 'IdTmpFormacion', 'Email', 'NombreSimple', 'Nombres', 'Apellidos', 'Ubicacion', 'Ip', 'Status', 'CreationDate', 'Confirmation', ),
+        self::TYPE_CAMELNAME     => array('id', 'idTmpArea', 'idTmpFormacion', 'email', 'nombreSimple', 'nombres', 'apellidos', 'ubicacion', 'ip', 'status', 'creationDate', 'confirmation', ),
+        self::TYPE_COLNAME       => array(JobSuscriptorTableMap::COL_ID, JobSuscriptorTableMap::COL_ID_TMP_AREA, JobSuscriptorTableMap::COL_ID_TMP_FORMACION, JobSuscriptorTableMap::COL_EMAIL, JobSuscriptorTableMap::COL_NOMBRE_SIMPLE, JobSuscriptorTableMap::COL_NOMBRES, JobSuscriptorTableMap::COL_APELLIDOS, JobSuscriptorTableMap::COL_UBICACION, JobSuscriptorTableMap::COL_IP, JobSuscriptorTableMap::COL_STATUS, JobSuscriptorTableMap::COL_CREATION_DATE, JobSuscriptorTableMap::COL_CONFIRMATION, ),
+        self::TYPE_FIELDNAME     => array('ID', 'ID_TMP_AREA', 'ID_TMP_FORMACION', 'EMAIL', 'NOMBRE_SIMPLE', 'NOMBRES', 'APELLIDOS', 'UBICACION', 'IP', 'STATUS', 'CREATION_DATE', 'CONFIRMATION', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
     );
 
     /**
@@ -152,11 +157,11 @@ class JobSuscriptorTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'IdTmpArea' => 1, 'Email' => 2, 'NombreSimple' => 3, 'Nombres' => 4, 'Apellidos' => 5, 'Ubicacion' => 6, 'Ip' => 7, 'Status' => 8, 'CreationDate' => 9, 'Confirmation' => 10, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'idTmpArea' => 1, 'email' => 2, 'nombreSimple' => 3, 'nombres' => 4, 'apellidos' => 5, 'ubicacion' => 6, 'ip' => 7, 'status' => 8, 'creationDate' => 9, 'confirmation' => 10, ),
-        self::TYPE_COLNAME       => array(JobSuscriptorTableMap::COL_ID => 0, JobSuscriptorTableMap::COL_ID_TMP_AREA => 1, JobSuscriptorTableMap::COL_EMAIL => 2, JobSuscriptorTableMap::COL_NOMBRE_SIMPLE => 3, JobSuscriptorTableMap::COL_NOMBRES => 4, JobSuscriptorTableMap::COL_APELLIDOS => 5, JobSuscriptorTableMap::COL_UBICACION => 6, JobSuscriptorTableMap::COL_IP => 7, JobSuscriptorTableMap::COL_STATUS => 8, JobSuscriptorTableMap::COL_CREATION_DATE => 9, JobSuscriptorTableMap::COL_CONFIRMATION => 10, ),
-        self::TYPE_FIELDNAME     => array('ID' => 0, 'ID_TMP_AREA' => 1, 'EMAIL' => 2, 'NOMBRE_SIMPLE' => 3, 'NOMBRES' => 4, 'APELLIDOS' => 5, 'UBICACION' => 6, 'IP' => 7, 'STATUS' => 8, 'CREATION_DATE' => 9, 'CONFIRMATION' => 10, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'IdTmpArea' => 1, 'IdTmpFormacion' => 2, 'Email' => 3, 'NombreSimple' => 4, 'Nombres' => 5, 'Apellidos' => 6, 'Ubicacion' => 7, 'Ip' => 8, 'Status' => 9, 'CreationDate' => 10, 'Confirmation' => 11, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'idTmpArea' => 1, 'idTmpFormacion' => 2, 'email' => 3, 'nombreSimple' => 4, 'nombres' => 5, 'apellidos' => 6, 'ubicacion' => 7, 'ip' => 8, 'status' => 9, 'creationDate' => 10, 'confirmation' => 11, ),
+        self::TYPE_COLNAME       => array(JobSuscriptorTableMap::COL_ID => 0, JobSuscriptorTableMap::COL_ID_TMP_AREA => 1, JobSuscriptorTableMap::COL_ID_TMP_FORMACION => 2, JobSuscriptorTableMap::COL_EMAIL => 3, JobSuscriptorTableMap::COL_NOMBRE_SIMPLE => 4, JobSuscriptorTableMap::COL_NOMBRES => 5, JobSuscriptorTableMap::COL_APELLIDOS => 6, JobSuscriptorTableMap::COL_UBICACION => 7, JobSuscriptorTableMap::COL_IP => 8, JobSuscriptorTableMap::COL_STATUS => 9, JobSuscriptorTableMap::COL_CREATION_DATE => 10, JobSuscriptorTableMap::COL_CONFIRMATION => 11, ),
+        self::TYPE_FIELDNAME     => array('ID' => 0, 'ID_TMP_AREA' => 1, 'ID_TMP_FORMACION' => 2, 'EMAIL' => 3, 'NOMBRE_SIMPLE' => 4, 'NOMBRES' => 5, 'APELLIDOS' => 6, 'UBICACION' => 7, 'IP' => 8, 'STATUS' => 9, 'CREATION_DATE' => 10, 'CONFIRMATION' => 11, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
     );
 
     /**
@@ -177,7 +182,8 @@ class JobSuscriptorTableMap extends TableMap
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
-        $this->addForeignKey('ID_TMP_AREA', 'IdTmpArea', 'INTEGER', 'tmp_area', 'id', true, null, null);
+        $this->addForeignKey('ID_TMP_AREA', 'IdTmpArea', 'INTEGER', 'tmp_area', 'id', false, null, null);
+        $this->addForeignKey('ID_TMP_FORMACION', 'IdTmpFormacion', 'INTEGER', 'tmp_formacion', 'id', true, null, null);
         $this->addColumn('EMAIL', 'Email', 'VARCHAR', true, 200, null);
         $this->addColumn('NOMBRE_SIMPLE', 'NombreSimple', 'VARCHAR', true, 100, null);
         $this->addColumn('NOMBRES', 'Nombres', 'VARCHAR', false, 50, null);
@@ -198,6 +204,13 @@ class JobSuscriptorTableMap extends TableMap
   0 =>
   array (
     0 => ':ID_TMP_AREA',
+    1 => ':id',
+  ),
+), null, null, null, false);
+        $this->addRelation('TmpFormacion', '\\TmpFormacion', RelationMap::MANY_TO_ONE, array (
+  0 =>
+  array (
+    0 => ':ID_TMP_FORMACION',
     1 => ':id',
   ),
 ), null, null, null, false);
@@ -346,6 +359,7 @@ class JobSuscriptorTableMap extends TableMap
         if (null === $alias) {
             $criteria->addSelectColumn(JobSuscriptorTableMap::COL_ID);
             $criteria->addSelectColumn(JobSuscriptorTableMap::COL_ID_TMP_AREA);
+            $criteria->addSelectColumn(JobSuscriptorTableMap::COL_ID_TMP_FORMACION);
             $criteria->addSelectColumn(JobSuscriptorTableMap::COL_EMAIL);
             $criteria->addSelectColumn(JobSuscriptorTableMap::COL_NOMBRE_SIMPLE);
             $criteria->addSelectColumn(JobSuscriptorTableMap::COL_NOMBRES);
@@ -358,6 +372,7 @@ class JobSuscriptorTableMap extends TableMap
         } else {
             $criteria->addSelectColumn($alias . '.ID');
             $criteria->addSelectColumn($alias . '.ID_TMP_AREA');
+            $criteria->addSelectColumn($alias . '.ID_TMP_FORMACION');
             $criteria->addSelectColumn($alias . '.EMAIL');
             $criteria->addSelectColumn($alias . '.NOMBRE_SIMPLE');
             $criteria->addSelectColumn($alias . '.NOMBRES');
