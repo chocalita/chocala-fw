@@ -48,7 +48,7 @@ abstract class GenericService extends ChocalaSingleService
             $object->setLastUserId(UserControl::isLoggedIn()? UserControl::user()->getId(): 0);
         }
         if(method_exists($object, 'setCreationDate')){
-            $object->setCreationDate(date('Y-m-d'));
+            $object->setCreationDate(new DateTime());
         }
         return $object;
     }

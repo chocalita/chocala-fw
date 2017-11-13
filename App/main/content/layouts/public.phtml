@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Language" content="es-bo"/>
-    <meta name="description" content="El nuevo portal de empleos en Bolivia. La mejor conexión entre trabajo y talento.">
+    <meta name="description" content="<?=Flash::_("page_description", "El nuevo portal de empleos en Bolivia. La mejor conexión entre trabajo y talento.");?>">
 
-    <title>Empleos en Bolivia en un click</title>
+    <title><?=Flash::_("page_title", "Empleos en Bolivia en un click");?></title>
 
     <link rel="apple-touch-icon" sizes="180x180" href="<?= IMG_WEB ?>favicons/empleos.click-180x180.png">
     <link rel="icon" type="image/png" sizes="180x180" href="<?= IMG_WEB ?>favicons/empleos.click-180x180.png">
@@ -44,7 +44,8 @@
     <!--    <script src="<?=JS_WEB;?>plugins/gritter/jquery.gritter.min.js"></script>-->
 
     <!-- Our plugins javascript -->
-    <link href="<?=JQUERY_WEB;?>jquery.loadmask.css" rel="stylesheet" type="text/css" />
+    <link href="<?=JQUERY_WEB;?>jquery.empleos-loadmask.css" rel="stylesheet" type="text/css" />
+    <!--link href="<?=JQUERY_WEB;?>jquery.loadmask.css" rel="stylesheet" type="text/css" /-->
     <script src="<?=JQUERY_WEB;?>jquery.loadmask.js" type="text/javascript"></script>
     <script src="<?=JQUERY_WEB;?>jquery.formAjaxPost.js" type="text/javascript"></script>
 

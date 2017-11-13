@@ -61,9 +61,9 @@ abstract class ChocalaInitVars
 
             // URL paths for public Web access
             define('WEB_ROOT',
-                (isset($_SERVER['REQUEST_SCHEME']) ? $_SERVER['REQUEST_SCHEME'] : "https") .
-                '://' . $_SERVER['HTTP_HOST'] .
-//                'http://' . $_SERVER['HTTP_HOST'] .
+//                (isset($_SERVER['REQUEST_SCHEME']) ? $_SERVER['REQUEST_SCHEME'] : "https") .
+//                '://' . $_SERVER['HTTP_HOST'] .
+                'http://' . $_SERVER['HTTP_HOST'] .
                 ($_SERVER['SCRIPT_NAME'] != '' ?
                     (str_replace('index.php', '', $_SERVER['SCRIPT_NAME'])) :
                     '/'));

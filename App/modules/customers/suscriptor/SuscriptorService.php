@@ -1,4 +1,6 @@
 <?php
+Chocala::import("Model.utils.EmailSender");
+Chocala::import("Modules.system.email.EmailService");
 
 /**
  * Description of SuscriptorService
@@ -80,9 +82,32 @@ class SuscriptorService extends GenericService
     public function prepareInsert($object)
     {
         parent::prepareInsert($object);
-        $object->setIp($_SERVER['REMOTE_ADDR']);
         $object->setStatus('INICIADO');
     }
 
+    public function insertAndNotify(array $data)
+    {
+        $results = $this->insertOrUpdate($data);
+        if ($results['success']) {
+            $suscriptor = $results['object'];
+            $hash = SpecialStrings::generateHash(20);
+            $emailService = EmailService::instance();
+            $email = $emailService->findByCode(JobSuscriptor::EMAIL_SUBSCRIPTION_INITIAL);
+            $emailMap = [
+                'TrackingHash' => $hash,
+                'To' => [
+                    ['Email' => $suscriptor->getEmail(), 'Name' => $suscriptor->getNombreSimple()],
+                ],
+            ];
+            $emailVars = [
+                '~NOMBRE_SIMPLE~' => $suscriptor->getNombreSimple(),
+                '~FORMACION~' => ucwords(strtolower($suscriptor->getTmpArea()->getNombre())),
+            ];
+            $emailSender = EmailSender::instanceFrom($email);
+            $emailSent = $emailSender->sendMail($emailMap, $emailVars);
+            $results['email'] = $emailSent->getToEmail();
+        }
+        return $results;
+    }
 
 }

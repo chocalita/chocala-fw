@@ -26,7 +26,7 @@ class TrabajoController extends PublicWebController
      */
     protected $formacionReferenciaService;
 
-    const SUSCRIPCION_MSG_COOKIE = "SUSCRIPCION_MSG";
+    const SUSCRIPCION_MSG_COOKIE = "SUSCRIPCION_MSG_TMP1";
 
     public function index()
     {
@@ -50,7 +50,7 @@ class TrabajoController extends PublicWebController
         $this->set('avisosOdd', $avisosOdd);
         $this->set('avisosEven', $avisosEven);
         // TODO: send an email on suscription
-        if(false && !Cookie::has(self::SUSCRIPCION_MSG_COOKIE)){
+        if (!Cookie::has(self::SUSCRIPCION_MSG_COOKIE)) {
             $formacionReferenciaList = $this->formacionReferenciaService->dataList();
             $this->set('formacionReferenciaList', $formacionReferenciaList);
             $this->set('SUSCRIPCION_MSG_COOKIE', self::SUSCRIPCION_MSG_COOKIE);
@@ -65,23 +65,27 @@ class TrabajoController extends PublicWebController
         if (HttpManager::isAJAXRequest()) {
             $this->view->changeLayout('ajax');
         } else {
+            Flash::set('page_title', 'Empleos.Click - Trabajos en Bolivia - ' . $aviso->getCargo());
+            Flash::set('page_description', 'Trabajo para ' . $aviso->getCargo() . ' en ' .
+                ($aviso->getLocalizacion() ?: $aviso->getNombreEmpresa()) .
+                ". Requerimiento de Personal para " . ucwords(strtolower($aviso->getFormacionesReferencia())) .
+                ". " . $aviso->getRequisito());
             $this->view->renderView('trabajo.empleoSEO', "bolsa");
 //            $this->renderView('oportunidadSEO', "index");
         }
     }
 
-
     public function suscripcion()
     {
         $data = Req::all();
-        $data['Ip'] =
-        $results = $this->suscriptorService->insertOrUpdate($data);
+        $data['Ip'] = $_SERVER['REMOTE_ADDR'];
+        $results = $this->suscriptorService->insertAndNotify($data);
         $this->set('suscriptor', $results['object']);
         $this->set('success', $results['success']);
         $this->set('errors', $results['errors']);
+        $this->set('email', $results['email']);
         $this->renderAsJSON();
     }
-
 
     public function avisoIfExist()
     {

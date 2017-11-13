@@ -47,27 +47,27 @@ class UserService extends GenericService
     {
         $query = $this->validsQuery()
             ->_if(isset($filters['email']))
-                ->filterByEmail('%' . $filters['email'] . '%', Criteria::ILIKE)
+            ->filterByEmail('%' . $filters['email'] . '%', Criteria::ILIKE)
             ->_endif()
             ->_if(isset($filters['username']))
-                ->filterByUsername('%' . $filters['username'] . '%', Criteria::ILIKE)
+            ->filterByUsername('%' . $filters['username'] . '%', Criteria::ILIKE)
             ->_endif()
             ->_if(isset($filters['status']))
-                ->filterByStatus($filters['status'])
+            ->filterByStatus($filters['status'])
             ->_endif()
             ->useSysPersonQuery()
-                ->withColumn('CONCAT(SysPerson.LastName, " ", COALESCE(SysPerson.SecondLastName,""), " ",
+            ->withColumn('CONCAT(SysPerson.LastName, " ", COALESCE(SysPerson.SecondLastName,""), " ",
                          SysPerson.FirstName, " ", COALESCE(SysPerson.MiddleName,""))', 'CompleteName')
-                ->orderBy('CompleteName', 'asc')
-                ->_if(isset($filters['completeName']))
-                    ->where('CONCAT("%", SysPerson.LastName, "%", COALESCE(SysPerson.SecondLastName, "%"), "%",
+            ->orderBy('CompleteName', 'asc')
+            ->_if(isset($filters['completeName']))
+            ->where('CONCAT("%", SysPerson.LastName, "%", COALESCE(SysPerson.SecondLastName, "%"), "%",
                                      SysPerson.FirstName, "%", COALESCE(SysPerson.MiddleName, "%"), "%") LIKE ?',
-                        '%' . str_replace(' ', '%', $filters['completeName']) . '%')
-                    ->_or()
-                    ->where('CONCAT("%", SysPerson.FirstName, "%", COALESCE(SysPerson.MiddleName, "%"), "%",
+                '%' . str_replace(' ', '%', $filters['completeName']) . '%')
+            ->_or()
+            ->where('CONCAT("%", SysPerson.FirstName, "%", COALESCE(SysPerson.MiddleName, "%"), "%",
                                      SysPerson.LastName, "%", COALESCE(SysPerson.SecondLastName, "%"), "%") LIKE ?',
-                        '%' . str_replace(' ', '%', $filters['completeName']) . '%')
-                ->_endif()
+                '%' . str_replace(' ', '%', $filters['completeName']) . '%')
+            ->_endif()
             ->endUse()
             ->orderByUsername();
         $_page = $filters['_page'] ?: 1;

@@ -202,29 +202,54 @@ jQuery(document).ready(function() {
     });
     $("#modalDetalle, #modalDetalleBig").removeData("bs.modal").find(".modal-content").empty().html(_modalLoadingContent);
 
-
-    $("#formSuscripcion").formAjaxPost({
-        'onSuccess': function (data) {
-            alert("En breve recibirá un correo de confirmación de su suscripción en: " + $("#Email").val()+ " . Empleos.Click siempre a su servicio.");
-            $("#myModal").modal('hide');
-        }
-    });
     setTimeout(
         function(){
             //alert("Hello");
             //TODO: set messages
         },
         5000);
-//    $("#myModal").modal('show')
+
     <?php
     if(isset($SUSCRIPCION_MSG_COOKIE)){
     ?>
+    $("#formSuscripcion").formAjaxPost({
+        'beforeSend': function(xhr){
+            $(".modal-dialog").mask("");
+        },
+        'onErrors': function ($form, errors) {
+            $form.find('div.help-block').remove();
+            $form.find('div.has-error').removeClass('has-error');
+            $(errors).each(function(i, el) {
+                $form.find('#' + el.field)
+                    .parents('div.form-group')
+                    .first()
+                    .addClass('has-error');
+                //.append('<div class="help-block">'+el.message+'</div>');
+                $form.find('#' + el.field)
+                    .parent()
+                    .append('<div class="help-block">'+el.message+'</div>');
+            });
+            $(".modal-dialog").unmask();
+        },
+        'onSuccess': function (data) {
+            $("#myModal .panel-body").html(
+                "<br /><div class=\"alert alert-success\">" +
+                    "En breve recibirás un correo de confirmación en: <strong>" + $("#Email").val()+ "</strong>" +
+                    " , si no lo encuentras en tu Bandeja de Entrada por favor verifica en Spam y márcanos como correo confiable." +
+                    " <br /> ¡Empleos.Click siempre a tu servicio!." +
+                "</div>" +
+                "<button type=\"button\" class=\"btn btn-sm btn-success block full-width m-b\" data-dismiss=\"modal\">Ok, revisare mi correo</button>"
+            );
+            $(".modal-dialog").unmask();
+        }
+    });
+
     var advCookie = "<?=$SUSCRIPCION_MSG_COOKIE;?>";
     function verifyAdvertising() {
         if ($.cookie(advCookie) == null) {
-            $.cookie(advCookie, 'myValue', {expires: 3});
+            $.cookie(advCookie, 'myValue', {expires: 5});
             $("#myModal").modal('show');
-            console.log("habilitado para mensajes con " + $.cookie(advCookie));
+            console.log("Habilitado para mensajes con " + $.cookie(advCookie));
         }
     }
     setTimeout(verifyAdvertising, 45000);
