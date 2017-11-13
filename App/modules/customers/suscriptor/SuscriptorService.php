@@ -90,6 +90,7 @@ class SuscriptorService extends GenericService
         $results = $this->insertOrUpdate($data);
         if ($results['success']) {
             $suscriptor = $results['object'];
+            $suscriptor->reload();
             $hash = SpecialStrings::generateHash(20);
             $emailService = EmailService::instance();
             $email = $emailService->findByCode(JobSuscriptor::EMAIL_SUBSCRIPTION_INITIAL);
