@@ -1,4 +1,6 @@
 <?php
+Chocala::import("Model.utils.EmailSender");
+Chocala::import("Modules.system.email.EmailService");
 
 /**
  * Description of FormacionReferenciaController
