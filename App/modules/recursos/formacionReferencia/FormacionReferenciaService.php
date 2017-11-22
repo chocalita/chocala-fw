@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Description of FormacionReferenciaService
  *
@@ -15,7 +16,7 @@ class FormacionReferenciaService extends GenericService
     /**
      * @return TmpFormacionQuery
      */
-    public function validsQuery($noDeletes=true)
+    public function validsQuery($noDeletes = true)
     {
         return TmpFormacionQuery::createValids($noDeletes);
     }
@@ -38,15 +39,15 @@ class FormacionReferenciaService extends GenericService
      * @param array $filters
      * @return TmpFormacion[]|\Propel\Runtime\Util\PropelModelPager
      */
-    public function dataList($filters=[])
+    public function dataList($filters = [])
     {
         $query = $this->validsQuery()
             ->_if(isset($filters['nombre']))
-                ->filterByNombre('%'.$filters['nombre'].'%', Criteria::ILIKE)
+            ->filterByNombre('%' . $filters['nombre'] . '%', Criteria::ILIKE)
             ->_endif()
-        ;
-        $_page = $filters['_page']?: 1;
-        $_max = $filters['_max']?: $query->count();
+            ->orderByNombre();
+        $_page = $filters['_page'] ?: 1;
+        $_max = $filters['_max'] ?: $query->count();
         return $query->paginate($_page, $_max);
     }
 
@@ -56,15 +57,31 @@ class FormacionReferenciaService extends GenericService
      * @return array mixed
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function insertOrUpdate($data, &$formacion=null)
+    public function insertOrUpdate($data, &$formacion = null)
     {
-        if(!is_object($formacion)){
+        if (!is_object($formacion)) {
             $formacion = new TmpFormacion();
         }
         $formacion->fromArray($data);
         $results['success'] = $formacion->validate();
         if ($results['success']) {
             $formacion->save();
+
+            if ($data['FormacionesReferencia'] != '') {
+                $formacionesReferencia = explode(';', $data['FormacionesReferencia']);
+                foreach ($formacionesReferencia as $formacionReferencia) {
+                    $formacionTmp = $this->validsQuery()->findOneByNombre($formacionReferencia);
+                    if (is_object($formacionTmp) && !$formacionTmp->tieneFormacion($formacion)){
+                        $formacionesStr = $formacion->getNombre();
+                        if(strlen($formacionTmp->listaFormacionesReferencia())>0){
+                            $formacionesStr.=';'.$formacionTmp->getFormacionesReferencia();
+                        }
+                        $formacionTmp->setFormacionesReferencia($formacionesStr);
+                        $formacionTmp->save();
+                    }
+                }
+            }
+
         }
         $results['object'] = $formacion;
         $results['errors'] = $formacion->getErrorsMap();

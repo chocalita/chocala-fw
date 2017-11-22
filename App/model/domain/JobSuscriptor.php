@@ -10,6 +10,8 @@ class JobSuscriptor extends BaseJobSuscriptor implements JsonSerializable
 
     const EMAIL_SUBSCRIPTION_INITIAL = 'J_EMAIL_SUBSCRIPTION_INITIAL';
 
+    const EMAIL_NOTIFICATION_SUBSCRIBE = 'J_EMAIL_NOTIFICATION_SUBSCRIBE';
+
     static $validationRules = [
         'IdTmpArea' => [
             'null' => true, 'blank' => false,
@@ -59,7 +61,7 @@ class JobSuscriptor extends BaseJobSuscriptor implements JsonSerializable
         $this->id_tmp_area = $this->id_tmp_area?: null;
         $this->id_tmp_formacion = $this->id_tmp_formacion?: null;
         $this->email = trim(strtolower($this->email))?: null;
-        $this->nombre_simple = trim($this->nombre_simple)?: null;
+        $this->nombre_simple = ucwords(strtolower(trim($this->nombre_simple)))?: null;
         $this->nombres = trim($this->nombres)?: null;
         $this->apellidos = trim($this->apellidos)?: null;
         $this->ubicacion = trim($this->ubicacion)?: null;

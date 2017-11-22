@@ -28,7 +28,7 @@ class JobAviso extends BaseJobAviso implements JsonSerializable
      */
     public function isVigente()
     {
-        return $this->getFechaVencimiento()>= new DateTime("now");
+        return $this->getFechaVencimiento() >= new DateTime("now");
     }
 
     static $validationRules = [
@@ -82,11 +82,11 @@ class JobAviso extends BaseJobAviso implements JsonSerializable
 
     public function preSave()
     {
-        $this->descripcion = trim($this->descripcion)?: null;
-        $this->direccion = trim($this->direccion)?: null;
-        $this->correo_contacto = trim($this->correo_contacto)?: null;
-        $this->areas_referencia = trim($this->areas_referencia)?: null;
-        $this->formaciones_referencia = trim($this->formaciones_referencia)?: null;
+        $this->descripcion = trim($this->descripcion) ?: null;
+        $this->direccion = trim($this->direccion) ?: null;
+        $this->correo_contacto = trim($this->correo_contacto) ?: null;
+        $this->areas_referencia = trim($this->areas_referencia) ?: null;
+        $this->formaciones_referencia = trim($this->formaciones_referencia) ?: null;
         return parent::preSave();
     }
 
@@ -107,7 +107,7 @@ class JobAviso extends BaseJobAviso implements JsonSerializable
 
     public function estadoVigente()
     {
-        return $this->isVigente()? 'Vigente': 'Caduco';
+        return $this->isVigente() ? 'Vigente' : 'Caduco';
     }
 
     /**
@@ -115,7 +115,7 @@ class JobAviso extends BaseJobAviso implements JsonSerializable
      */
     public function imageName()
     {
-        return $this->id.'.'.ImageMimeTypes::mimeExtensionFrom($this->mimetype);
+        return $this->id . '.' . ImageMimeTypes::mimeExtensionFrom($this->mimetype);
     }
 
     /**
@@ -123,7 +123,7 @@ class JobAviso extends BaseJobAviso implements JsonSerializable
      */
     public function imageDir()
     {
-        return FilesHelper::dirPath(self::AVISOS_DIR).$this->imageName();
+        return FilesHelper::dirPath(self::AVISOS_DIR) . $this->imageName();
     }
 
     /**
@@ -131,7 +131,7 @@ class JobAviso extends BaseJobAviso implements JsonSerializable
      */
     public function imageWeb()
     {
-        return FilesHelper::webPath(self::AVISOS_DIR).$this->imageName();
+        return FilesHelper::webPath(self::AVISOS_DIR) . $this->imageName();
     }
 
     /**

@@ -76,6 +76,24 @@ abstract class TmpFormacion implements ActiveRecordInterface
     protected $nombre;
 
     /**
+     * The value for the keywords field.
+     * @var        string
+     */
+    protected $keywords;
+
+    /**
+     * The value for the areas_referencia field.
+     * @var        string
+     */
+    protected $areas_referencia;
+
+    /**
+     * The value for the formaciones_referencia field.
+     * @var        string
+     */
+    protected $formaciones_referencia;
+
+    /**
      * @var        ObjectCollection|ChildJobSuscriptor[] Collection to store aggregation of ChildJobSuscriptor objects.
      */
     protected $collJobSuscriptors;
@@ -333,6 +351,36 @@ abstract class TmpFormacion implements ActiveRecordInterface
     }
 
     /**
+     * Get the [keywords] column value.
+     * 
+     * @return string
+     */
+    public function getKeywords()
+    {
+        return $this->keywords;
+    }
+
+    /**
+     * Get the [areas_referencia] column value.
+     * 
+     * @return string
+     */
+    public function getAreasReferencia()
+    {
+        return $this->areas_referencia;
+    }
+
+    /**
+     * Get the [formaciones_referencia] column value.
+     * 
+     * @return string
+     */
+    public function getFormacionesReferencia()
+    {
+        return $this->formaciones_referencia;
+    }
+
+    /**
      * Set the value of [id] column.
      * 
      * @param int $v new value
@@ -371,6 +419,66 @@ abstract class TmpFormacion implements ActiveRecordInterface
 
         return $this;
     } // setNombre()
+
+    /**
+     * Set the value of [keywords] column.
+     * 
+     * @param string $v new value
+     * @return $this|\TmpFormacion The current object (for fluent API support)
+     */
+    public function setKeywords($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->keywords !== $v) {
+            $this->keywords = $v;
+            $this->modifiedColumns[TmpFormacionTableMap::COL_KEYWORDS] = true;
+        }
+
+        return $this;
+    } // setKeywords()
+
+    /**
+     * Set the value of [areas_referencia] column.
+     * 
+     * @param string $v new value
+     * @return $this|\TmpFormacion The current object (for fluent API support)
+     */
+    public function setAreasReferencia($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->areas_referencia !== $v) {
+            $this->areas_referencia = $v;
+            $this->modifiedColumns[TmpFormacionTableMap::COL_AREAS_REFERENCIA] = true;
+        }
+
+        return $this;
+    } // setAreasReferencia()
+
+    /**
+     * Set the value of [formaciones_referencia] column.
+     * 
+     * @param string $v new value
+     * @return $this|\TmpFormacion The current object (for fluent API support)
+     */
+    public function setFormacionesReferencia($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->formaciones_referencia !== $v) {
+            $this->formaciones_referencia = $v;
+            $this->modifiedColumns[TmpFormacionTableMap::COL_FORMACIONES_REFERENCIA] = true;
+        }
+
+        return $this;
+    } // setFormacionesReferencia()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -413,6 +521,15 @@ abstract class TmpFormacion implements ActiveRecordInterface
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : TmpFormacionTableMap::translateFieldName('Nombre', TableMap::TYPE_PHPNAME, $indexType)];
             $this->nombre = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : TmpFormacionTableMap::translateFieldName('Keywords', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->keywords = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : TmpFormacionTableMap::translateFieldName('AreasReferencia', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->areas_referencia = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : TmpFormacionTableMap::translateFieldName('FormacionesReferencia', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->formaciones_referencia = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -421,7 +538,7 @@ abstract class TmpFormacion implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 2; // 2 = TmpFormacionTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 5; // 5 = TmpFormacionTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\TmpFormacion'), 0, $e);
@@ -639,6 +756,15 @@ abstract class TmpFormacion implements ActiveRecordInterface
         if ($this->isColumnModified(TmpFormacionTableMap::COL_NOMBRE)) {
             $modifiedColumns[':p' . $index++]  = 'nombre';
         }
+        if ($this->isColumnModified(TmpFormacionTableMap::COL_KEYWORDS)) {
+            $modifiedColumns[':p' . $index++]  = 'keywords';
+        }
+        if ($this->isColumnModified(TmpFormacionTableMap::COL_AREAS_REFERENCIA)) {
+            $modifiedColumns[':p' . $index++]  = 'areas_referencia';
+        }
+        if ($this->isColumnModified(TmpFormacionTableMap::COL_FORMACIONES_REFERENCIA)) {
+            $modifiedColumns[':p' . $index++]  = 'formaciones_referencia';
+        }
 
         $sql = sprintf(
             'INSERT INTO tmp_formacion (%s) VALUES (%s)',
@@ -655,6 +781,15 @@ abstract class TmpFormacion implements ActiveRecordInterface
                         break;
                     case 'nombre':                        
                         $stmt->bindValue($identifier, $this->nombre, PDO::PARAM_STR);
+                        break;
+                    case 'keywords':                        
+                        $stmt->bindValue($identifier, $this->keywords, PDO::PARAM_STR);
+                        break;
+                    case 'areas_referencia':                        
+                        $stmt->bindValue($identifier, $this->areas_referencia, PDO::PARAM_STR);
+                        break;
+                    case 'formaciones_referencia':                        
+                        $stmt->bindValue($identifier, $this->formaciones_referencia, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -717,6 +852,15 @@ abstract class TmpFormacion implements ActiveRecordInterface
             case 1:
                 return $this->getNombre();
                 break;
+            case 2:
+                return $this->getKeywords();
+                break;
+            case 3:
+                return $this->getAreasReferencia();
+                break;
+            case 4:
+                return $this->getFormacionesReferencia();
+                break;
             default:
                 return null;
                 break;
@@ -749,6 +893,9 @@ abstract class TmpFormacion implements ActiveRecordInterface
         $result = array(
             $keys[0] => $this->getId(),
             $keys[1] => $this->getNombre(),
+            $keys[2] => $this->getKeywords(),
+            $keys[3] => $this->getAreasReferencia(),
+            $keys[4] => $this->getFormacionesReferencia(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -811,6 +958,15 @@ abstract class TmpFormacion implements ActiveRecordInterface
             case 1:
                 $this->setNombre($value);
                 break;
+            case 2:
+                $this->setKeywords($value);
+                break;
+            case 3:
+                $this->setAreasReferencia($value);
+                break;
+            case 4:
+                $this->setFormacionesReferencia($value);
+                break;
         } // switch()
 
         return $this;
@@ -842,6 +998,15 @@ abstract class TmpFormacion implements ActiveRecordInterface
         }
         if (array_key_exists($keys[1], $arr)) {
             $this->setNombre($arr[$keys[1]]);
+        }
+        if (array_key_exists($keys[2], $arr)) {
+            $this->setKeywords($arr[$keys[2]]);
+        }
+        if (array_key_exists($keys[3], $arr)) {
+            $this->setAreasReferencia($arr[$keys[3]]);
+        }
+        if (array_key_exists($keys[4], $arr)) {
+            $this->setFormacionesReferencia($arr[$keys[4]]);
         }
     }
 
@@ -889,6 +1054,15 @@ abstract class TmpFormacion implements ActiveRecordInterface
         }
         if ($this->isColumnModified(TmpFormacionTableMap::COL_NOMBRE)) {
             $criteria->add(TmpFormacionTableMap::COL_NOMBRE, $this->nombre);
+        }
+        if ($this->isColumnModified(TmpFormacionTableMap::COL_KEYWORDS)) {
+            $criteria->add(TmpFormacionTableMap::COL_KEYWORDS, $this->keywords);
+        }
+        if ($this->isColumnModified(TmpFormacionTableMap::COL_AREAS_REFERENCIA)) {
+            $criteria->add(TmpFormacionTableMap::COL_AREAS_REFERENCIA, $this->areas_referencia);
+        }
+        if ($this->isColumnModified(TmpFormacionTableMap::COL_FORMACIONES_REFERENCIA)) {
+            $criteria->add(TmpFormacionTableMap::COL_FORMACIONES_REFERENCIA, $this->formaciones_referencia);
         }
 
         return $criteria;
@@ -978,6 +1152,9 @@ abstract class TmpFormacion implements ActiveRecordInterface
     {
         $copyObj->setId($this->getId());
         $copyObj->setNombre($this->getNombre());
+        $copyObj->setKeywords($this->getKeywords());
+        $copyObj->setAreasReferencia($this->getAreasReferencia());
+        $copyObj->setFormacionesReferencia($this->getFormacionesReferencia());
 
         if ($deepCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1287,6 +1464,9 @@ abstract class TmpFormacion implements ActiveRecordInterface
     {
         $this->id = null;
         $this->nombre = null;
+        $this->keywords = null;
+        $this->areas_referencia = null;
+        $this->formaciones_referencia = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();

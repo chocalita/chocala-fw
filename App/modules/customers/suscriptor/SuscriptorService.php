@@ -106,7 +106,7 @@ class SuscriptorService extends GenericService
             ];
             $emailVars = [
                 '~NOMBRE_SIMPLE~' => $suscriptor->getNombreSimple(),
-                '~FORMACION~' => ucwords(strtolower($suscriptor->getTmpFormacion()->getNombre())),
+                '~FORMACION~' => htmlspecialchars(ucwords(strtolower($suscriptor->getTmpFormacion()->getNombre()))),
             ];
             $emailSender = EmailSender::instanceFrom($email);
             $emailSent = $emailSender->sendMail($emailMap, $emailVars);

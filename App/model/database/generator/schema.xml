@@ -907,6 +907,9 @@
   <table name="tmp_formacion" idMethod="native" phpName="TmpFormacion">
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" required="true"/>
     <column name="nombre" phpName="Nombre" type="VARCHAR" size="200" required="true"/>
+    <column name="keywords" phpName="Keywords" type="LONGVARCHAR"/>
+    <column name="areas_referencia" phpName="AreasReferencia" type="VARCHAR" size="2000"/>
+    <column name="formaciones_referencia" phpName="FormacionesReferencia" type="VARCHAR" size="2000"/>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
