@@ -12,6 +12,18 @@ class JobSuscriptor extends BaseJobSuscriptor implements JsonSerializable
 
     const EMAIL_NOTIFICATION_SUBSCRIBE = 'J_EMAIL_NOTIFICATION_SUBSCRIBE';
 
+
+    const INICIADO = 'INICIADO', INICIADO_VALUE = 'Iniciado';
+    const CONFIRMADO = 'CONFIRMADO', CONFIRMADO_VALUE = 'Confirmado';
+
+    /**
+     * @var array Status Map values
+     */
+    protected static $statusMap = [
+        self::INICIADO => self::INICIADO,
+        self::CONFIRMADO => self::CONFIRMADO_VALUE,
+    ];
+
     static $validationRules = [
         'IdTmpArea' => [
             'null' => true, 'blank' => false,
@@ -55,6 +67,14 @@ class JobSuscriptor extends BaseJobSuscriptor implements JsonSerializable
             'null' => true, 'blank' => true,
         ],
     ];
+
+    /**
+     * @return array
+     */
+    public static function statusMap()
+    {
+        return static::$statusMap;
+    }
 
     public function preSave()
     {

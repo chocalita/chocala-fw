@@ -43,7 +43,7 @@ class AvisoService extends GenericService
     {
         $query = $this->validsQuery()
             ->_if(isset($filters['code']))
-            ->filterByDescripcion('%' . $filters['descripcion'] . '%', Criteria::ILIKE)
+                ->filterByDescripcion('%' . $filters['descripcion'] . '%', Criteria::ILIKE)
             ->_endif();
 
         //$query = nul;
@@ -60,7 +60,7 @@ class AvisoService extends GenericService
     public function listVigencia($vigentes = true, $order = Criteria::ASC)
     {
         $query = $this->validsQuery()
-            ->filterVigentes(new DateTime(), $vigentes)
+                ->filterVigentes(new DateTime(), $vigentes)
             ->orderByFechaVencimiento($order);
         return $query->find();
     }

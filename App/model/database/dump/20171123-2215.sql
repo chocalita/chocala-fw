@@ -3165,7 +3165,7 @@ CREATE TABLE `tmp_prospecto` (
 --
 DROP TABLE IF EXISTS `tmp_intereses`;
 
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINDEFINER VIEW `tmp_intereses`  AS  select `p`.`id` AS `id`,`p`.`nombres` AS `nombres`,`p`.`primer_apellido` AS `primer_apellido`,`p`.`segundo_apellido` AS `segundo_apellido`,`p`.`email` AS `email`,`p`.`areas` AS `areas`,`p`.`formaciones` AS `formaciones`,`busca_avisos`(`p`.`areas`,`p`.`formaciones`) AS `avisos` from `tmp_prospecto` `p` order by `p`.`id` ;
+CREATE VIEW `tmp_intereses`  AS  select `p`.`id` AS `id`,`p`.`nombres` AS `nombres`,`p`.`primer_apellido` AS `primer_apellido`,`p`.`segundo_apellido` AS `segundo_apellido`,`p`.`email` AS `email`,`p`.`areas` AS `areas`,`p`.`formaciones` AS `formaciones`,`busca_avisos`(`p`.`areas`,`p`.`formaciones`) AS `avisos` from `tmp_prospecto` `p` order by `p`.`id` ;
 
 --
 -- Índices para tablas volcadas

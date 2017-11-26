@@ -13,6 +13,11 @@ class SysUserQuery extends BaseSysUserQuery implements SoftDeletion
 {
     use SoftQuery;
 
+    public static function statusMap()
+    {
+        return SysUser::statusMap();
+    }
+
     /**
      * @return JobCurriculumQuery|SysUserQuery
      */
@@ -53,11 +58,6 @@ class SysUserQuery extends BaseSysUserQuery implements SoftDeletion
         return $this->useSysPersonQuery()
                 ->orderByFormalName($order)
             ->endUse();
-    }
-
-    public static function statusMap()
-    {
-        return SysUser::statusMap();
     }
 
 }

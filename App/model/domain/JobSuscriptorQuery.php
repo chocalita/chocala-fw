@@ -13,6 +13,11 @@ class JobSuscriptorQuery extends BaseJobSuscriptorQuery implements SoftDeletion
 {
     use SoftQuery;
 
+    public static function statusMap()
+    {
+        return JobSuscriptor::statusMap();
+    }
+
     /**
      * @param DateTime $fecha
      * @param bool|true $vigentes
@@ -20,6 +25,8 @@ class JobSuscriptorQuery extends BaseJobSuscriptorQuery implements SoftDeletion
      */
     public function filterVigentes($fecha, $vigentes = true)
     {
+        echo "sas JobSuscriptoQuery::filterVigentes no corre";
+        exit();
         return $this;
     }
 

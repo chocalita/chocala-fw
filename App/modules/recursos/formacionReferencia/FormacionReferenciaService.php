@@ -71,10 +71,10 @@ class FormacionReferenciaService extends GenericService
                 $formacionesReferencia = explode(';', $data['FormacionesReferencia']);
                 foreach ($formacionesReferencia as $formacionReferencia) {
                     $formacionTmp = $this->validsQuery()->findOneByNombre($formacionReferencia);
-                    if (is_object($formacionTmp) && !$formacionTmp->tieneFormacion($formacion)){
+                    if (is_object($formacionTmp) && !$formacionTmp->tieneFormacion($formacion)) {
                         $formacionesStr = $formacion->getNombre();
-                        if(strlen($formacionTmp->listaFormacionesReferencia())>0){
-                            $formacionesStr.=';'.$formacionTmp->getFormacionesReferencia();
+                        if (strlen($formacionTmp->listaFormacionesReferencia()) > 0) {
+                            $formacionesStr .= ';' . $formacionTmp->getFormacionesReferencia();
                         }
                         $formacionTmp->setFormacionesReferencia($formacionesStr);
                         $formacionTmp->save();
@@ -86,6 +86,24 @@ class FormacionReferenciaService extends GenericService
         $results['object'] = $formacion;
         $results['errors'] = $formacion->getErrorsMap();
         return $results;
+    }
+
+    /**
+     * @param $tmpFormacionNombre
+     * @param DateTime|null $dateTime
+     * @return JobAviso[]|\Propel\Runtime\Collection\ObjectCollection
+     */
+    public function avisosVigentes($tmpFormacionNombre, DateTime $dateTime = null)
+    {
+        if ($dateTime == '') {
+            $dateTime = new DateUtil();
+        }
+        return JobAvisoQuery::create()
+                ->filterVigentes($dateTime)
+                ->filterByCreationDate($dateTime, Criteria::LESS_EQUAL)
+                ->filterByFormacionesReferencia("%{$tmpFormacionNombre}%",
+                    Criteria::LIKE)
+            ->find();
     }
 
 }

@@ -21,6 +21,7 @@ class JobAvisoQuery extends BaseJobAvisoQuery implements SoftDeletion
     public function filterVigentes($fecha, $vigentes = true)
     {
         return $this
+            ->filterByCreationDate($fecha, Criteria::LESS_THAN)
             ->_if($vigentes)
                 ->filterByFechaVencimiento($fecha,Criteria::GREATER_EQUAL)
             ->_else()

@@ -59,7 +59,8 @@ trait SoftQuery
      */
     public function filterValids()
     {
-        return $this->filterByStatus(static::validStatusList(), Criteria::IN);
+        return method_exists($this, "filterByStatus")?
+            $this->filterByStatus(static::validStatusList(), Criteria::IN): $this;
     }
 
     /**
