@@ -42,6 +42,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAvisoQuery orderByMimetype($order = Criteria::ASC) Order by the MIMETYPE column
  * @method     ChildJobAvisoQuery orderByAreasReferencia($order = Criteria::ASC) Order by the AREAS_REFERENCIA column
  * @method     ChildJobAvisoQuery orderByFormacionesReferencia($order = Criteria::ASC) Order by the FORMACIONES_REFERENCIA column
+ * @method     ChildJobAvisoQuery orderByDestacado($order = Criteria::ASC) Order by the DESTACADO column
  * @method     ChildJobAvisoQuery orderByStatus($order = Criteria::ASC) Order by the STATUS column
  * @method     ChildJobAvisoQuery orderByLastUserId($order = Criteria::ASC) Order by the LAST_USER_ID column
  * @method     ChildJobAvisoQuery orderByCreationDate($order = Criteria::ASC) Order by the CREATION_DATE column
@@ -69,6 +70,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAvisoQuery groupByMimetype() Group by the MIMETYPE column
  * @method     ChildJobAvisoQuery groupByAreasReferencia() Group by the AREAS_REFERENCIA column
  * @method     ChildJobAvisoQuery groupByFormacionesReferencia() Group by the FORMACIONES_REFERENCIA column
+ * @method     ChildJobAvisoQuery groupByDestacado() Group by the DESTACADO column
  * @method     ChildJobAvisoQuery groupByStatus() Group by the STATUS column
  * @method     ChildJobAvisoQuery groupByLastUserId() Group by the LAST_USER_ID column
  * @method     ChildJobAvisoQuery groupByCreationDate() Group by the CREATION_DATE column
@@ -113,6 +115,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAviso findOneByMimetype(string $MIMETYPE) Return the first ChildJobAviso filtered by the MIMETYPE column
  * @method     ChildJobAviso findOneByAreasReferencia(string $AREAS_REFERENCIA) Return the first ChildJobAviso filtered by the AREAS_REFERENCIA column
  * @method     ChildJobAviso findOneByFormacionesReferencia(string $FORMACIONES_REFERENCIA) Return the first ChildJobAviso filtered by the FORMACIONES_REFERENCIA column
+ * @method     ChildJobAviso findOneByDestacado(boolean $DESTACADO) Return the first ChildJobAviso filtered by the DESTACADO column
  * @method     ChildJobAviso findOneByStatus(string $STATUS) Return the first ChildJobAviso filtered by the STATUS column
  * @method     ChildJobAviso findOneByLastUserId(string $LAST_USER_ID) Return the first ChildJobAviso filtered by the LAST_USER_ID column
  * @method     ChildJobAviso findOneByCreationDate(string $CREATION_DATE) Return the first ChildJobAviso filtered by the CREATION_DATE column
@@ -143,6 +146,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAviso requireOneByMimetype(string $MIMETYPE) Return the first ChildJobAviso filtered by the MIMETYPE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobAviso requireOneByAreasReferencia(string $AREAS_REFERENCIA) Return the first ChildJobAviso filtered by the AREAS_REFERENCIA column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobAviso requireOneByFormacionesReferencia(string $FORMACIONES_REFERENCIA) Return the first ChildJobAviso filtered by the FORMACIONES_REFERENCIA column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobAviso requireOneByDestacado(boolean $DESTACADO) Return the first ChildJobAviso filtered by the DESTACADO column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobAviso requireOneByStatus(string $STATUS) Return the first ChildJobAviso filtered by the STATUS column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobAviso requireOneByLastUserId(string $LAST_USER_ID) Return the first ChildJobAviso filtered by the LAST_USER_ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobAviso requireOneByCreationDate(string $CREATION_DATE) Return the first ChildJobAviso filtered by the CREATION_DATE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -171,6 +175,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAviso[]|ObjectCollection findByMimetype(string $MIMETYPE) Return ChildJobAviso objects filtered by the MIMETYPE column
  * @method     ChildJobAviso[]|ObjectCollection findByAreasReferencia(string $AREAS_REFERENCIA) Return ChildJobAviso objects filtered by the AREAS_REFERENCIA column
  * @method     ChildJobAviso[]|ObjectCollection findByFormacionesReferencia(string $FORMACIONES_REFERENCIA) Return ChildJobAviso objects filtered by the FORMACIONES_REFERENCIA column
+ * @method     ChildJobAviso[]|ObjectCollection findByDestacado(boolean $DESTACADO) Return ChildJobAviso objects filtered by the DESTACADO column
  * @method     ChildJobAviso[]|ObjectCollection findByStatus(string $STATUS) Return ChildJobAviso objects filtered by the STATUS column
  * @method     ChildJobAviso[]|ObjectCollection findByLastUserId(string $LAST_USER_ID) Return ChildJobAviso objects filtered by the LAST_USER_ID column
  * @method     ChildJobAviso[]|ObjectCollection findByCreationDate(string $CREATION_DATE) Return ChildJobAviso objects filtered by the CREATION_DATE column
@@ -267,7 +272,7 @@ abstract class JobAvisoQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT ID, AREA_ID, AREA_TECNICA_ID, LOCALIZACION, CARGO, DESCRIPCION, NOMBRE_EMPRESA, DIRECCION, TELEFONO_CONTACTO, CORREO_CONTACTO, FECHA_PUBLICACION, FECHA_VENCIMIENTO, REQUISITO, ANIOS_EXPERIENCIA, NIVEL_FORMACION, SALARIO, PROFESION, FUENTE, TIENE_IMAGEN, MIMETYPE, AREAS_REFERENCIA, FORMACIONES_REFERENCIA, STATUS, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM job_aviso WHERE ID = :p0';
+        $sql = 'SELECT ID, AREA_ID, AREA_TECNICA_ID, LOCALIZACION, CARGO, DESCRIPCION, NOMBRE_EMPRESA, DIRECCION, TELEFONO_CONTACTO, CORREO_CONTACTO, FECHA_PUBLICACION, FECHA_VENCIMIENTO, REQUISITO, ANIOS_EXPERIENCIA, NIVEL_FORMACION, SALARIO, PROFESION, FUENTE, TIENE_IMAGEN, MIMETYPE, AREAS_REFERENCIA, FORMACIONES_REFERENCIA, DESTACADO, STATUS, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM job_aviso WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -1095,6 +1100,33 @@ abstract class JobAvisoQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(JobAvisoTableMap::COL_FORMACIONES_REFERENCIA, $formacionesReferencia, $comparison);
+    }
+
+    /**
+     * Filter the query on the DESTACADO column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByDestacado(true); // WHERE DESTACADO = true
+     * $query->filterByDestacado('yes'); // WHERE DESTACADO = true
+     * </code>
+     *
+     * @param     boolean|string $destacado The value to use as filter.
+     *              Non-boolean arguments are converted using the following rules:
+     *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobAvisoQuery The current query, for fluid interface
+     */
+    public function filterByDestacado($destacado = null, $comparison = null)
+    {
+        if (is_string($destacado)) {
+            $destacado = in_array(strtolower($destacado), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+        }
+
+        return $this->addUsingAlias(JobAvisoTableMap::COL_DESTACADO, $destacado, $comparison);
     }
 
     /**

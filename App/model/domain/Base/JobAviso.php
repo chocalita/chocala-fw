@@ -199,6 +199,13 @@ abstract class JobAviso implements ActiveRecordInterface
     protected $formaciones_referencia;
 
     /**
+     * The value for the destacado field.
+     * Note: this column has a database default value of: false
+     * @var        boolean
+     */
+    protected $destacado;
+
+    /**
      * The value for the status field.
      * Note: this column has a database default value of: 'ACTIVE'
      * @var        string
@@ -252,6 +259,7 @@ abstract class JobAviso implements ActiveRecordInterface
     public function applyDefaultValues()
     {
         $this->tiene_imagen = false;
+        $this->destacado = false;
         $this->status = 'ACTIVE';
         $this->last_user_id = '0';
     }
@@ -723,6 +731,26 @@ abstract class JobAviso implements ActiveRecordInterface
     public function getFormacionesReferencia()
     {
         return $this->formaciones_referencia;
+    }
+
+    /**
+     * Get the [destacado] column value.
+     * 
+     * @return boolean
+     */
+    public function getDestacado()
+    {
+        return $this->destacado;
+    }
+
+    /**
+     * Get the [destacado] column value.
+     * 
+     * @return boolean
+     */
+    public function isDestacado()
+    {
+        return $this->getDestacado();
     }
 
     /**
@@ -1242,6 +1270,34 @@ abstract class JobAviso implements ActiveRecordInterface
     } // setFormacionesReferencia()
 
     /**
+     * Sets the value of the [destacado] column.
+     * Non-boolean arguments are converted using the following rules:
+     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     * 
+     * @param  boolean|integer|string $v The new value
+     * @return $this|\JobAviso The current object (for fluent API support)
+     */
+    public function setDestacado($v)
+    {
+        if ($v !== null) {
+            if (is_string($v)) {
+                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+            } else {
+                $v = (boolean) $v;
+            }
+        }
+
+        if ($this->destacado !== $v) {
+            $this->destacado = $v;
+            $this->modifiedColumns[JobAvisoTableMap::COL_DESTACADO] = true;
+        }
+
+        return $this;
+    } // setDestacado()
+
+    /**
      * Set the value of [status] column.
      * 
      * @param string $v new value
@@ -1332,6 +1388,10 @@ abstract class JobAviso implements ActiveRecordInterface
     public function hasOnlyDefaultValues()
     {
             if ($this->tiene_imagen !== false) {
+                return false;
+            }
+
+            if ($this->destacado !== false) {
                 return false;
             }
 
@@ -1441,19 +1501,22 @@ abstract class JobAviso implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 21 + $startcol : JobAvisoTableMap::translateFieldName('FormacionesReferencia', TableMap::TYPE_PHPNAME, $indexType)];
             $this->formaciones_referencia = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 22 + $startcol : JobAvisoTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 22 + $startcol : JobAvisoTableMap::translateFieldName('Destacado', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->destacado = (null !== $col) ? (boolean) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 23 + $startcol : JobAvisoTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
             $this->status = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 23 + $startcol : JobAvisoTableMap::translateFieldName('LastUserId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 24 + $startcol : JobAvisoTableMap::translateFieldName('LastUserId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->last_user_id = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 24 + $startcol : JobAvisoTableMap::translateFieldName('CreationDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 25 + $startcol : JobAvisoTableMap::translateFieldName('CreationDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->creation_date = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 25 + $startcol : JobAvisoTableMap::translateFieldName('ModificationDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 26 + $startcol : JobAvisoTableMap::translateFieldName('ModificationDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
@@ -1466,7 +1529,7 @@ abstract class JobAviso implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 26; // 26 = JobAvisoTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 27; // 27 = JobAvisoTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\JobAviso'), 0, $e);
@@ -1756,6 +1819,9 @@ abstract class JobAviso implements ActiveRecordInterface
         if ($this->isColumnModified(JobAvisoTableMap::COL_FORMACIONES_REFERENCIA)) {
             $modifiedColumns[':p' . $index++]  = 'FORMACIONES_REFERENCIA';
         }
+        if ($this->isColumnModified(JobAvisoTableMap::COL_DESTACADO)) {
+            $modifiedColumns[':p' . $index++]  = 'DESTACADO';
+        }
         if ($this->isColumnModified(JobAvisoTableMap::COL_STATUS)) {
             $modifiedColumns[':p' . $index++]  = 'STATUS';
         }
@@ -1844,6 +1910,9 @@ abstract class JobAviso implements ActiveRecordInterface
                         break;
                     case 'FORMACIONES_REFERENCIA':                        
                         $stmt->bindValue($identifier, $this->formaciones_referencia, PDO::PARAM_STR);
+                        break;
+                    case 'DESTACADO':
+                        $stmt->bindValue($identifier, (int) $this->destacado, PDO::PARAM_INT);
                         break;
                     case 'STATUS':                        
                         $stmt->bindValue($identifier, $this->status, PDO::PARAM_STR);
@@ -1986,15 +2055,18 @@ abstract class JobAviso implements ActiveRecordInterface
                 return $this->getFormacionesReferencia();
                 break;
             case 22:
-                return $this->getStatus();
+                return $this->getDestacado();
                 break;
             case 23:
-                return $this->getLastUserId();
+                return $this->getStatus();
                 break;
             case 24:
-                return $this->getCreationDate();
+                return $this->getLastUserId();
                 break;
             case 25:
+                return $this->getCreationDate();
+                break;
+            case 26:
                 return $this->getModificationDate();
                 break;
             default:
@@ -2049,10 +2121,11 @@ abstract class JobAviso implements ActiveRecordInterface
             $keys[19] => $this->getMimetype(),
             $keys[20] => $this->getAreasReferencia(),
             $keys[21] => $this->getFormacionesReferencia(),
-            $keys[22] => $this->getStatus(),
-            $keys[23] => $this->getLastUserId(),
-            $keys[24] => $this->getCreationDate(),
-            $keys[25] => $this->getModificationDate(),
+            $keys[22] => $this->getDestacado(),
+            $keys[23] => $this->getStatus(),
+            $keys[24] => $this->getLastUserId(),
+            $keys[25] => $this->getCreationDate(),
+            $keys[26] => $this->getModificationDate(),
         );
 
         $utc = new \DateTimeZone('utc');
@@ -2068,16 +2141,16 @@ abstract class JobAviso implements ActiveRecordInterface
             $result[$keys[11]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
         }
         
-        if ($result[$keys[24]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[24]];
-            $result[$keys[24]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
-        }
-        
         if ($result[$keys[25]] instanceof \DateTime) {
             // When changing timezone we don't want to change existing instances
             $dateTime = clone $result[$keys[25]];
             $result[$keys[25]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+        }
+        
+        if ($result[$keys[26]] instanceof \DateTime) {
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[26]];
+            $result[$keys[26]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
         }
         
         $virtualColumns = $this->virtualColumns;
@@ -2217,15 +2290,18 @@ abstract class JobAviso implements ActiveRecordInterface
                 $this->setFormacionesReferencia($value);
                 break;
             case 22:
-                $this->setStatus($value);
+                $this->setDestacado($value);
                 break;
             case 23:
-                $this->setLastUserId($value);
+                $this->setStatus($value);
                 break;
             case 24:
-                $this->setCreationDate($value);
+                $this->setLastUserId($value);
                 break;
             case 25:
+                $this->setCreationDate($value);
+                break;
+            case 26:
                 $this->setModificationDate($value);
                 break;
         } // switch()
@@ -2321,16 +2397,19 @@ abstract class JobAviso implements ActiveRecordInterface
             $this->setFormacionesReferencia($arr[$keys[21]]);
         }
         if (array_key_exists($keys[22], $arr)) {
-            $this->setStatus($arr[$keys[22]]);
+            $this->setDestacado($arr[$keys[22]]);
         }
         if (array_key_exists($keys[23], $arr)) {
-            $this->setLastUserId($arr[$keys[23]]);
+            $this->setStatus($arr[$keys[23]]);
         }
         if (array_key_exists($keys[24], $arr)) {
-            $this->setCreationDate($arr[$keys[24]]);
+            $this->setLastUserId($arr[$keys[24]]);
         }
         if (array_key_exists($keys[25], $arr)) {
-            $this->setModificationDate($arr[$keys[25]]);
+            $this->setCreationDate($arr[$keys[25]]);
+        }
+        if (array_key_exists($keys[26], $arr)) {
+            $this->setModificationDate($arr[$keys[26]]);
         }
     }
 
@@ -2438,6 +2517,9 @@ abstract class JobAviso implements ActiveRecordInterface
         }
         if ($this->isColumnModified(JobAvisoTableMap::COL_FORMACIONES_REFERENCIA)) {
             $criteria->add(JobAvisoTableMap::COL_FORMACIONES_REFERENCIA, $this->formaciones_referencia);
+        }
+        if ($this->isColumnModified(JobAvisoTableMap::COL_DESTACADO)) {
+            $criteria->add(JobAvisoTableMap::COL_DESTACADO, $this->destacado);
         }
         if ($this->isColumnModified(JobAvisoTableMap::COL_STATUS)) {
             $criteria->add(JobAvisoTableMap::COL_STATUS, $this->status);
@@ -2558,6 +2640,7 @@ abstract class JobAviso implements ActiveRecordInterface
         $copyObj->setMimetype($this->getMimetype());
         $copyObj->setAreasReferencia($this->getAreasReferencia());
         $copyObj->setFormacionesReferencia($this->getFormacionesReferencia());
+        $copyObj->setDestacado($this->getDestacado());
         $copyObj->setStatus($this->getStatus());
         $copyObj->setLastUserId($this->getLastUserId());
         $copyObj->setCreationDate($this->getCreationDate());
@@ -2727,6 +2810,7 @@ abstract class JobAviso implements ActiveRecordInterface
         $this->mimetype = null;
         $this->areas_referencia = null;
         $this->formaciones_referencia = null;
+        $this->destacado = null;
         $this->status = null;
         $this->last_user_id = null;
         $this->creation_date = null;

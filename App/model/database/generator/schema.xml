@@ -112,6 +112,7 @@
     <column name="MIMETYPE" phpName="Mimetype" type="VARCHAR" size="30"/>
     <column name="AREAS_REFERENCIA" phpName="AreasReferencia" type="VARCHAR" size="500"/>
     <column name="FORMACIONES_REFERENCIA" phpName="FormacionesReferencia" type="VARCHAR" size="2000"/>
+    <column name="DESTACADO" phpName="Destacado" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
     <column name="STATUS" phpName="Status" type="VARCHAR" size="10" required="true" defaultValue="ACTIVE"/>
     <column name="LAST_USER_ID" phpName="LastUserId" type="VARCHAR" size="20" required="true" defaultValue="0"/>
     <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
