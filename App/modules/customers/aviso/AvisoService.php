@@ -61,6 +61,7 @@ class AvisoService extends GenericService
     {
         $query = $this->validsQuery()
                 ->filterVigentes(new DateTime(), $vigentes)
+            ->orderByDestacado(Criteria::DESC)
             ->orderByFechaVencimiento($order);
         return $query->find();
     }

@@ -43,7 +43,7 @@ class FormacionReferenciaService extends GenericService
     {
         $query = $this->validsQuery()
             ->_if(isset($filters['nombre']))
-            ->filterByNombre('%' . $filters['nombre'] . '%', Criteria::ILIKE)
+                ->filterByNombre('%' . $filters['nombre'] . '%', Criteria::ILIKE)
             ->_endif()
             ->orderByNombre();
         $_page = $filters['_page'] ?: 1;
@@ -73,7 +73,7 @@ class FormacionReferenciaService extends GenericService
                     $formacionTmp = $this->validsQuery()->findOneByNombre($formacionReferencia);
                     if (is_object($formacionTmp) && !$formacionTmp->tieneFormacion($formacion)) {
                         $formacionesStr = $formacion->getNombre();
-                        if (strlen($formacionTmp->listaFormacionesReferencia()) > 0) {
+                        if (sizeof($formacionTmp->listaFormacionesReferencia()) > 0) {
                             $formacionesStr .= ';' . $formacionTmp->getFormacionesReferencia();
                         }
                         $formacionTmp->setFormacionesReferencia($formacionesStr);
