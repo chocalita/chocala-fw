@@ -97,6 +97,7 @@ class JobAviso extends BaseJobAviso implements JsonSerializable
 
     public function preInsert()
     {
+        $this->creation_date = new DateUtil();
         return $this->preSave();
     }
 
