@@ -2,8 +2,8 @@
 
 namespace Map;
 
-use \SysLocation;
-use \SysLocationQuery;
+use \JobEmpresaSuscrita;
+use \JobEmpresaSuscritaQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -16,7 +16,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'sys_location' table.
+ * This class defines the structure of the 'job_empresa_suscrita' table.
  *
  *
  *
@@ -26,7 +26,7 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class SysLocationTableMap extends TableMap
+class JobEmpresaSuscritaTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
@@ -34,7 +34,7 @@ class SysLocationTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.SysLocationTableMap';
+    const CLASS_NAME = '.Map.JobEmpresaSuscritaTableMap';
 
     /**
      * The default database name for this class
@@ -44,22 +44,22 @@ class SysLocationTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'sys_location';
+    const TABLE_NAME = 'job_empresa_suscrita';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\SysLocation';
+    const OM_CLASS = '\\JobEmpresaSuscrita';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'SysLocation';
+    const CLASS_DEFAULT = 'JobEmpresaSuscrita';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 12;
+    const NUM_COLUMNS = 14;
 
     /**
      * The number of lazy-loaded columns
@@ -69,67 +69,77 @@ class SysLocationTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 12;
+    const NUM_HYDRATE_COLUMNS = 14;
 
     /**
      * the column name for the ID field
      */
-    const COL_ID = 'sys_location.ID';
+    const COL_ID = 'job_empresa_suscrita.ID';
 
     /**
-     * the column name for the MAIN_ID field
+     * the column name for the ENTITY_TYPE_ID field
      */
-    const COL_MAIN_ID = 'sys_location.MAIN_ID';
+    const COL_ENTITY_TYPE_ID = 'job_empresa_suscrita.ENTITY_TYPE_ID';
 
     /**
-     * the column name for the CODE field
+     * the column name for the LOCATION_ID field
      */
-    const COL_CODE = 'sys_location.CODE';
+    const COL_LOCATION_ID = 'job_empresa_suscrita.LOCATION_ID';
 
     /**
-     * the column name for the STATUS field
+     * the column name for the SCRAP_EMPRESA_ID field
      */
-    const COL_STATUS = 'sys_location.STATUS';
+    const COL_SCRAP_EMPRESA_ID = 'job_empresa_suscrita.SCRAP_EMPRESA_ID';
 
     /**
-     * the column name for the NAME field
+     * the column name for the NOMBRE field
      */
-    const COL_NAME = 'sys_location.NAME';
+    const COL_NOMBRE = 'job_empresa_suscrita.NOMBRE';
 
     /**
-     * the column name for the TYPE field
+     * the column name for the NIT field
      */
-    const COL_TYPE = 'sys_location.TYPE';
+    const COL_NIT = 'job_empresa_suscrita.NIT';
 
     /**
-     * the column name for the LEVEL field
+     * the column name for the EMAIL field
      */
-    const COL_LEVEL = 'sys_location.LEVEL';
+    const COL_EMAIL = 'job_empresa_suscrita.EMAIL';
 
     /**
-     * the column name for the LFT field
+     * the column name for the DIRECCION field
      */
-    const COL_LFT = 'sys_location.LFT';
+    const COL_DIRECCION = 'job_empresa_suscrita.DIRECCION';
 
     /**
-     * the column name for the RGT field
+     * the column name for the REPRESENTANTE field
      */
-    const COL_RGT = 'sys_location.RGT';
+    const COL_REPRESENTANTE = 'job_empresa_suscrita.REPRESENTANTE';
+
+    /**
+     * the column name for the TELEFONO field
+     */
+    const COL_TELEFONO = 'job_empresa_suscrita.TELEFONO';
+
+    /**
+     * the column name for the CELULAR field
+     */
+    const COL_CELULAR = 'job_empresa_suscrita.CELULAR';
 
     /**
      * the column name for the LAST_USER_ID field
      */
-    const COL_LAST_USER_ID = 'sys_location.LAST_USER_ID';
+    const COL_LAST_USER_ID = 'job_empresa_suscrita.LAST_USER_ID';
 
     /**
      * the column name for the CREATION_DATE field
      */
-    const COL_CREATION_DATE = 'sys_location.CREATION_DATE';
+    const COL_CREATION_DATE = 'job_empresa_suscrita.CREATION_DATE';
 
     /**
-     * the column name for the MODIFICATION_DATE field
+     * the column name for the MODIFICACION_DATE field
      */
-    const COL_MODIFICATION_DATE = 'sys_location.MODIFICATION_DATE';
+    const COL_MODIFICACION_DATE = 'job_empresa_suscrita.MODIFICACION_DATE';
 
     /**
      * The default string format for model objects of the related table
@@ -143,11 +153,11 @@ class SysLocationTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'MainId', 'Code', 'Status', 'Name', 'Type', 'Level', 'Lft', 'Rgt', 'LastUserId', 'CreationDate', 'ModificationDate', ),
-        self::TYPE_CAMELNAME     => array('id', 'mainId', 'code', 'status', 'name', 'type', 'level', 'lft', 'rgt', 'lastUserId', 'creationDate', 'modificationDate', ),
-        self::TYPE_COLNAME       => array(SysLocationTableMap::COL_ID, SysLocationTableMap::COL_MAIN_ID, SysLocationTableMap::COL_CODE, SysLocationTableMap::COL_STATUS, SysLocationTableMap::COL_NAME, SysLocationTableMap::COL_TYPE, SysLocationTableMap::COL_LEVEL, SysLocationTableMap::COL_LFT, SysLocationTableMap::COL_RGT, SysLocationTableMap::COL_LAST_USER_ID, SysLocationTableMap::COL_CREATION_DATE, SysLocationTableMap::COL_MODIFICATION_DATE, ),
-        self::TYPE_FIELDNAME     => array('ID', 'MAIN_ID', 'CODE', 'STATUS', 'NAME', 'TYPE', 'LEVEL', 'LFT', 'RGT', 'LAST_USER_ID', 'CREATION_DATE', 'MODIFICATION_DATE', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
+        self::TYPE_PHPNAME       => array('Id', 'EntityTypeId', 'LocationId', 'ScrapEmpresaId', 'Nombre', 'Nit', 'Email', 'Direccion', 'Representante', 'Telefono', 'Celular', 'LastUserId', 'CreationDate', 'ModificacionDate', ),
+        self::TYPE_CAMELNAME     => array('id', 'entityTypeId', 'locationId', 'scrapEmpresaId', 'nombre', 'nit', 'email', 'direccion', 'representante', 'telefono', 'celular', 'lastUserId', 'creationDate', 'modificacionDate', ),
+        self::TYPE_COLNAME       => array(JobEmpresaSuscritaTableMap::COL_ID, JobEmpresaSuscritaTableMap::COL_ENTITY_TYPE_ID, JobEmpresaSuscritaTableMap::COL_LOCATION_ID, JobEmpresaSuscritaTableMap::COL_SCRAP_EMPRESA_ID, JobEmpresaSuscritaTableMap::COL_NOMBRE, JobEmpresaSuscritaTableMap::COL_NIT, JobEmpresaSuscritaTableMap::COL_EMAIL, JobEmpresaSuscritaTableMap::COL_DIRECCION, JobEmpresaSuscritaTableMap::COL_REPRESENTANTE, JobEmpresaSuscritaTableMap::COL_TELEFONO, JobEmpresaSuscritaTableMap::COL_CELULAR, JobEmpresaSuscritaTableMap::COL_LAST_USER_ID, JobEmpresaSuscritaTableMap::COL_CREATION_DATE, JobEmpresaSuscritaTableMap::COL_MODIFICACION_DATE, ),
+        self::TYPE_FIELDNAME     => array('ID', 'ENTITY_TYPE_ID', 'LOCATION_ID', 'SCRAP_EMPRESA_ID', 'NOMBRE', 'NIT', 'EMAIL', 'DIRECCION', 'REPRESENTANTE', 'TELEFONO', 'CELULAR', 'LAST_USER_ID', 'CREATION_DATE', 'MODIFICACION_DATE', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
     );
 
     /**
@@ -157,11 +167,11 @@ class SysLocationTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'MainId' => 1, 'Code' => 2, 'Status' => 3, 'Name' => 4, 'Type' => 5, 'Level' => 6, 'Lft' => 7, 'Rgt' => 8, 'LastUserId' => 9, 'CreationDate' => 10, 'ModificationDate' => 11, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'mainId' => 1, 'code' => 2, 'status' => 3, 'name' => 4, 'type' => 5, 'level' => 6, 'lft' => 7, 'rgt' => 8, 'lastUserId' => 9, 'creationDate' => 10, 'modificationDate' => 11, ),
-        self::TYPE_COLNAME       => array(SysLocationTableMap::COL_ID => 0, SysLocationTableMap::COL_MAIN_ID => 1, SysLocationTableMap::COL_CODE => 2, SysLocationTableMap::COL_STATUS => 3, SysLocationTableMap::COL_NAME => 4, SysLocationTableMap::COL_TYPE => 5, SysLocationTableMap::COL_LEVEL => 6, SysLocationTableMap::COL_LFT => 7, SysLocationTableMap::COL_RGT => 8, SysLocationTableMap::COL_LAST_USER_ID => 9, SysLocationTableMap::COL_CREATION_DATE => 10, SysLocationTableMap::COL_MODIFICATION_DATE => 11, ),
-        self::TYPE_FIELDNAME     => array('ID' => 0, 'MAIN_ID' => 1, 'CODE' => 2, 'STATUS' => 3, 'NAME' => 4, 'TYPE' => 5, 'LEVEL' => 6, 'LFT' => 7, 'RGT' => 8, 'LAST_USER_ID' => 9, 'CREATION_DATE' => 10, 'MODIFICATION_DATE' => 11, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'EntityTypeId' => 1, 'LocationId' => 2, 'ScrapEmpresaId' => 3, 'Nombre' => 4, 'Nit' => 5, 'Email' => 6, 'Direccion' => 7, 'Representante' => 8, 'Telefono' => 9, 'Celular' => 10, 'LastUserId' => 11, 'CreationDate' => 12, 'ModificacionDate' => 13, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'entityTypeId' => 1, 'locationId' => 2, 'scrapEmpresaId' => 3, 'nombre' => 4, 'nit' => 5, 'email' => 6, 'direccion' => 7, 'representante' => 8, 'telefono' => 9, 'celular' => 10, 'lastUserId' => 11, 'creationDate' => 12, 'modificacionDate' => 13, ),
+        self::TYPE_COLNAME       => array(JobEmpresaSuscritaTableMap::COL_ID => 0, JobEmpresaSuscritaTableMap::COL_ENTITY_TYPE_ID => 1, JobEmpresaSuscritaTableMap::COL_LOCATION_ID => 2, JobEmpresaSuscritaTableMap::COL_SCRAP_EMPRESA_ID => 3, JobEmpresaSuscritaTableMap::COL_NOMBRE => 4, JobEmpresaSuscritaTableMap::COL_NIT => 5, JobEmpresaSuscritaTableMap::COL_EMAIL => 6, JobEmpresaSuscritaTableMap::COL_DIRECCION => 7, JobEmpresaSuscritaTableMap::COL_REPRESENTANTE => 8, JobEmpresaSuscritaTableMap::COL_TELEFONO => 9, JobEmpresaSuscritaTableMap::COL_CELULAR => 10, JobEmpresaSuscritaTableMap::COL_LAST_USER_ID => 11, JobEmpresaSuscritaTableMap::COL_CREATION_DATE => 12, JobEmpresaSuscritaTableMap::COL_MODIFICACION_DATE => 13, ),
+        self::TYPE_FIELDNAME     => array('ID' => 0, 'ENTITY_TYPE_ID' => 1, 'LOCATION_ID' => 2, 'SCRAP_EMPRESA_ID' => 3, 'NOMBRE' => 4, 'NIT' => 5, 'EMAIL' => 6, 'DIRECCION' => 7, 'REPRESENTANTE' => 8, 'TELEFONO' => 9, 'CELULAR' => 10, 'LAST_USER_ID' => 11, 'CREATION_DATE' => 12, 'MODIFICACION_DATE' => 13, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
     );
 
     /**
@@ -174,25 +184,27 @@ class SysLocationTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('sys_location');
-        $this->setPhpName('SysLocation');
+        $this->setName('job_empresa_suscrita');
+        $this->setPhpName('JobEmpresaSuscrita');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\SysLocation');
+        $this->setClassName('\\JobEmpresaSuscrita');
         $this->setPackage('');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('MAIN_ID', 'MainId', 'INTEGER', false, null, null);
-        $this->addColumn('CODE', 'Code', 'VARCHAR', true, 30, null);
-        $this->addColumn('STATUS', 'Status', 'VARCHAR', true, 30, null);
-        $this->addColumn('NAME', 'Name', 'VARCHAR', true, 200, null);
-        $this->addColumn('TYPE', 'Type', 'VARCHAR', true, 30, null);
-        $this->addColumn('LEVEL', 'Level', 'INTEGER', true, null, null);
-        $this->addColumn('LFT', 'Lft', 'INTEGER', false, null, null);
-        $this->addColumn('RGT', 'Rgt', 'INTEGER', false, null, null);
+        $this->addForeignKey('ENTITY_TYPE_ID', 'EntityTypeId', 'INTEGER', 'sys_entity_type', 'ID', true, null, null);
+        $this->addForeignKey('LOCATION_ID', 'LocationId', 'INTEGER', 'sys_location', 'ID', false, null, null);
+        $this->addColumn('SCRAP_EMPRESA_ID', 'ScrapEmpresaId', 'INTEGER', false, null, null);
+        $this->addColumn('NOMBRE', 'Nombre', 'VARCHAR', true, 500, null);
+        $this->addColumn('NIT', 'Nit', 'VARCHAR', true, 50, null);
+        $this->addColumn('EMAIL', 'Email', 'VARCHAR', true, 200, null);
+        $this->addColumn('DIRECCION', 'Direccion', 'LONGVARCHAR', true, null, null);
+        $this->addColumn('REPRESENTANTE', 'Representante', 'VARCHAR', true, 200, null);
+        $this->addColumn('TELEFONO', 'Telefono', 'VARCHAR', false, 30, null);
+        $this->addColumn('CELULAR', 'Celular', 'VARCHAR', false, 30, null);
         $this->addColumn('LAST_USER_ID', 'LastUserId', 'INTEGER', true, null, null);
-        $this->addColumn('CREATION_DATE', 'CreationDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');
-        $this->addColumn('MODIFICATION_DATE', 'ModificationDate', 'TIMESTAMP', false, null, '0000-00-00 00:00:00');
+        $this->addColumn('CREATION_DATE', 'CreationDate', 'TIMESTAMP', true, null, null);
+        $this->addColumn('MODIFICACION_DATE', 'ModificacionDate', 'TIMESTAMP', true, null, null);
     } // initialize()
 
     /**
@@ -200,27 +212,20 @@ class SysLocationTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('JobEmpresaSuscrita', '\\JobEmpresaSuscrita', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('SysEntityType', '\\SysEntityType', RelationMap::MANY_TO_ONE, array (
+  0 =>
+  array (
+    0 => ':ENTITY_TYPE_ID',
+    1 => ':ID',
+  ),
+), null, null, null, false);
+        $this->addRelation('SysLocation', '\\SysLocation', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':LOCATION_ID',
     1 => ':ID',
   ),
-), null, null, 'JobEmpresaSuscritas', false);
-        $this->addRelation('SysEntity', '\\SysEntity', RelationMap::ONE_TO_MANY, array (
-  0 =>
-  array (
-    0 => ':LOCATION_ID',
-    1 => ':ID',
-  ),
-), null, null, 'SysEntities', false);
-        $this->addRelation('SysEntityBranch', '\\SysEntityBranch', RelationMap::ONE_TO_MANY, array (
-  0 =>
-  array (
-    0 => ':LOCATION_ID',
-    1 => ':ID',
-  ),
-), null, null, 'SysEntityBranches', false);
+), null, null, null, false);
     } // buildRelations()
 
     /**
@@ -280,7 +285,7 @@ class SysLocationTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? SysLocationTableMap::CLASS_DEFAULT : SysLocationTableMap::OM_CLASS;
+        return $withPrefix ? JobEmpresaSuscritaTableMap::CLASS_DEFAULT : JobEmpresaSuscritaTableMap::OM_CLASS;
     }
 
     /**
@@ -294,22 +299,22 @@ class SysLocationTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (SysLocation object, last column rank)
+     * @return array           (JobEmpresaSuscrita object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = SysLocationTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = SysLocationTableMap::getInstanceFromPool($key))) {
+        $key = JobEmpresaSuscritaTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = JobEmpresaSuscritaTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + SysLocationTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + JobEmpresaSuscritaTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = SysLocationTableMap::OM_CLASS;
-            /** @var SysLocation $obj */
+            $cls = JobEmpresaSuscritaTableMap::OM_CLASS;
+            /** @var JobEmpresaSuscrita $obj */
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            SysLocationTableMap::addInstanceToPool($obj, $key);
+            JobEmpresaSuscritaTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -332,18 +337,18 @@ class SysLocationTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = SysLocationTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = SysLocationTableMap::getInstanceFromPool($key))) {
+            $key = JobEmpresaSuscritaTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = JobEmpresaSuscritaTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
                 $results[] = $obj;
             } else {
-                /** @var SysLocation $obj */
+                /** @var JobEmpresaSuscrita $obj */
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                SysLocationTableMap::addInstanceToPool($obj, $key);
+                JobEmpresaSuscritaTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -364,31 +369,35 @@ class SysLocationTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(SysLocationTableMap::COL_ID);
-            $criteria->addSelectColumn(SysLocationTableMap::COL_MAIN_ID);
-            $criteria->addSelectColumn(SysLocationTableMap::COL_CODE);
-            $criteria->addSelectColumn(SysLocationTableMap::COL_STATUS);
-            $criteria->addSelectColumn(SysLocationTableMap::COL_NAME);
-            $criteria->addSelectColumn(SysLocationTableMap::COL_TYPE);
-            $criteria->addSelectColumn(SysLocationTableMap::COL_LEVEL);
-            $criteria->addSelectColumn(SysLocationTableMap::COL_LFT);
-            $criteria->addSelectColumn(SysLocationTableMap::COL_RGT);
-            $criteria->addSelectColumn(SysLocationTableMap::COL_LAST_USER_ID);
-            $criteria->addSelectColumn(SysLocationTableMap::COL_CREATION_DATE);
-            $criteria->addSelectColumn(SysLocationTableMap::COL_MODIFICATION_DATE);
+            $criteria->addSelectColumn(JobEmpresaSuscritaTableMap::COL_ID);
+            $criteria->addSelectColumn(JobEmpresaSuscritaTableMap::COL_ENTITY_TYPE_ID);
+            $criteria->addSelectColumn(JobEmpresaSuscritaTableMap::COL_LOCATION_ID);
+            $criteria->addSelectColumn(JobEmpresaSuscritaTableMap::COL_SCRAP_EMPRESA_ID);
+            $criteria->addSelectColumn(JobEmpresaSuscritaTableMap::COL_NOMBRE);
+            $criteria->addSelectColumn(JobEmpresaSuscritaTableMap::COL_NIT);
+            $criteria->addSelectColumn(JobEmpresaSuscritaTableMap::COL_EMAIL);
+            $criteria->addSelectColumn(JobEmpresaSuscritaTableMap::COL_DIRECCION);
+            $criteria->addSelectColumn(JobEmpresaSuscritaTableMap::COL_REPRESENTANTE);
+            $criteria->addSelectColumn(JobEmpresaSuscritaTableMap::COL_TELEFONO);
+            $criteria->addSelectColumn(JobEmpresaSuscritaTableMap::COL_CELULAR);
+            $criteria->addSelectColumn(JobEmpresaSuscritaTableMap::COL_LAST_USER_ID);
+            $criteria->addSelectColumn(JobEmpresaSuscritaTableMap::COL_CREATION_DATE);
+            $criteria->addSelectColumn(JobEmpresaSuscritaTableMap::COL_MODIFICACION_DATE);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
-            $criteria->addSelectColumn($alias . '.MAIN_ID');
-            $criteria->addSelectColumn($alias . '.CODE');
-            $criteria->addSelectColumn($alias . '.STATUS');
-            $criteria->addSelectColumn($alias . '.NAME');
-            $criteria->addSelectColumn($alias . '.TYPE');
-            $criteria->addSelectColumn($alias . '.LEVEL');
-            $criteria->addSelectColumn($alias . '.LFT');
-            $criteria->addSelectColumn($alias . '.RGT');
+            $criteria->addSelectColumn($alias . '.ENTITY_TYPE_ID');
+            $criteria->addSelectColumn($alias . '.LOCATION_ID');
+            $criteria->addSelectColumn($alias . '.SCRAP_EMPRESA_ID');
+            $criteria->addSelectColumn($alias . '.NOMBRE');
+            $criteria->addSelectColumn($alias . '.NIT');
+            $criteria->addSelectColumn($alias . '.EMAIL');
+            $criteria->addSelectColumn($alias . '.DIRECCION');
+            $criteria->addSelectColumn($alias . '.REPRESENTANTE');
+            $criteria->addSelectColumn($alias . '.TELEFONO');
+            $criteria->addSelectColumn($alias . '.CELULAR');
             $criteria->addSelectColumn($alias . '.LAST_USER_ID');
             $criteria->addSelectColumn($alias . '.CREATION_DATE');
-            $criteria->addSelectColumn($alias . '.MODIFICATION_DATE');
+            $criteria->addSelectColumn($alias . '.MODIFICACION_DATE');
         }
     }
 
@@ -401,7 +410,7 @@ class SysLocationTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(SysLocationTableMap::DATABASE_NAME)->getTable(SysLocationTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(JobEmpresaSuscritaTableMap::DATABASE_NAME)->getTable(JobEmpresaSuscritaTableMap::TABLE_NAME);
     }
 
     /**
@@ -409,16 +418,16 @@ class SysLocationTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(SysLocationTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(SysLocationTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new SysLocationTableMap());
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(JobEmpresaSuscritaTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(JobEmpresaSuscritaTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new JobEmpresaSuscritaTableMap());
         }
     }
 
     /**
-     * Performs a DELETE on the database, given a SysLocation or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a JobEmpresaSuscrita or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or SysLocation object or primary key or array of primary keys
+     * @param mixed               $values Criteria or JobEmpresaSuscrita object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param  ConnectionInterface $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -429,27 +438,27 @@ class SysLocationTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(SysLocationTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(JobEmpresaSuscritaTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \SysLocation) { // it's a model object
+        } elseif ($values instanceof \JobEmpresaSuscrita) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(SysLocationTableMap::DATABASE_NAME);
-            $criteria->add(SysLocationTableMap::COL_ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(JobEmpresaSuscritaTableMap::DATABASE_NAME);
+            $criteria->add(JobEmpresaSuscritaTableMap::COL_ID, (array) $values, Criteria::IN);
         }
 
-        $query = SysLocationQuery::create()->mergeWith($criteria);
+        $query = JobEmpresaSuscritaQuery::create()->mergeWith($criteria);
 
         if ($values instanceof Criteria) {
-            SysLocationTableMap::clearInstancePool();
+            JobEmpresaSuscritaTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
             foreach ((array) $values as $singleval) {
-                SysLocationTableMap::removeInstanceFromPool($singleval);
+                JobEmpresaSuscritaTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -457,20 +466,20 @@ class SysLocationTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the sys_location table.
+     * Deletes all rows from the job_empresa_suscrita table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return SysLocationQuery::create()->doDeleteAll($con);
+        return JobEmpresaSuscritaQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a SysLocation or Criteria object.
+     * Performs an INSERT on the database, given a JobEmpresaSuscrita or Criteria object.
      *
-     * @param mixed               $criteria Criteria or SysLocation object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or JobEmpresaSuscrita object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -479,22 +488,22 @@ class SysLocationTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(SysLocationTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(JobEmpresaSuscritaTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from SysLocation object
+            $criteria = $criteria->buildCriteria(); // build Criteria from JobEmpresaSuscrita object
         }
 
-        if ($criteria->containsKey(SysLocationTableMap::COL_ID) && $criteria->keyContainsValue(SysLocationTableMap::COL_ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.SysLocationTableMap::COL_ID.')');
+        if ($criteria->containsKey(JobEmpresaSuscritaTableMap::COL_ID) && $criteria->keyContainsValue(JobEmpresaSuscritaTableMap::COL_ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.JobEmpresaSuscritaTableMap::COL_ID.')');
         }
 
 
         // Set the correct dbName
-        $query = SysLocationQuery::create()->mergeWith($criteria);
+        $query = JobEmpresaSuscritaQuery::create()->mergeWith($criteria);
 
         // use transaction because $criteria could contain info
         // for more than one table (I guess, conceivably)
@@ -503,7 +512,7 @@ class SysLocationTableMap extends TableMap
         });
     }
 
-} // SysLocationTableMap
+} // JobEmpresaSuscritaTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-SysLocationTableMap::buildTableMap();
+JobEmpresaSuscritaTableMap::buildTableMap();
