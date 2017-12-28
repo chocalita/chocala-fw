@@ -42,8 +42,11 @@ class EntityTypeService extends GenericService
     public function dataList($filters=[])
     {
         $query = $this->validsQuery()
-            ->_if(isset($filters['groupCode']))
+            ->_if(isset($filters['groupCode']) && !is_array($filters['groupCode']))
                 ->filterByGroupCode($filters['groupCode'])
+            ->_endif()
+            ->_if(isset($filters['groupCode']) && is_array($filters['groupCode']))
+                ->filterByGroupCode($filters['groupCode'], Criteria::IN)
             ->_endif()
             ->_if(isset($filters['code']))
                 ->filterByCode('%'.$filters['code'].'%', Criteria::ILIKE)

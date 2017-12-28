@@ -1,18 +1,16 @@
 <?php
-
 use Base\JobEmpresaSuscritaQuery as BaseJobEmpresaSuscritaQuery;
 
 /**
- * Skeleton subclass for performing query and update operations on the 'job_empresa_suscrita' table.
  *
- * 
+ * @author ypra
  *
- * You should add additional methods to this class to meet the
- * application requirements.  This class will only be generated as
- * long as it does not already exist in the output directory.
- *
+ * @method static JobEmpresaSuscritaQuery createValids($noDeletes = true, $modelAlias = null, Criteria $criteria = null)
+ * @method JobEmpresaSuscritaQuery filterValids()
  */
-class JobEmpresaSuscritaQuery extends BaseJobEmpresaSuscritaQuery
+class JobEmpresaSuscritaQuery extends BaseJobEmpresaSuscritaQuery //implements SoftDeletion
 {
+    use SoftQuery;
+
 
 }

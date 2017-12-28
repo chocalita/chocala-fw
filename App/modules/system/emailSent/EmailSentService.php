@@ -101,7 +101,7 @@ class EmailSentService extends GenericService
         $emailSent = $this->findByHashString($hashString);
         if(is_object($emailSent)){
             if(!$emailSent->getOpeningDate()){
-                $emailSent->setOpeningDate(time());
+                $emailSent->setOpeningDate(new DateTime());
                 $emailSent->save();
                 return true;
             }

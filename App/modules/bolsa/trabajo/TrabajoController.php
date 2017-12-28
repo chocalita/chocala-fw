@@ -15,6 +15,18 @@ class TrabajoController extends PublicWebController
     protected $avisoService;
 
     /**
+     * @var EntityTypeService Injected service
+     * @service customers.entityType.EntityTypeService
+     */
+    protected $entityTypeService;
+
+    /**
+     * @var EmpresaSuscritaService
+     * @service customers.empresaSuscrita.EmpresaSuscritaService
+     */
+    protected $empresaSuscritaService;
+
+    /**
      * @var SuscriptorService
      * @service customers.suscriptor.SuscriptorService
      */
@@ -81,6 +93,26 @@ class TrabajoController extends PublicWebController
         $data['Ip'] = $_SERVER['REMOTE_ADDR'];
         $results = $this->suscriptorService->insertAndNotify($data);
         $this->set('suscriptor', $results['object']);
+        $this->set('success', $results['success']);
+        $this->set('errors', $results['errors']);
+        $this->set('email', $results['email']);
+        $this->renderAsJSON();
+    }
+
+    public function empresa()
+    {
+        $entityTypeList = $this->entityTypeService
+            ->dataList(['groupCode' => [SysEntityType::GROUP_FORMAL_COMPANY]]);
+        $this->set('entityTypeList', $entityTypeList);
+    }
+
+
+    public function suscribir()
+    {
+        $data = Req::all();
+        $data['Ip'] = $_SERVER['REMOTE_ADDR'];
+        $results = $this->empresaSuscritaService->insertAndNotify($data);
+        $this->set('empresaSuscriptora', $results['object']);
         $this->set('success', $results['success']);
         $this->set('errors', $results['errors']);
         $this->set('email', $results['email']);

@@ -221,7 +221,7 @@ class PageControl implements ISingleton
                 ->endUse()
                 ->useSysModuleQuery()
             //TODO. corregir para php 5.6.25
-//                    ->orderByPosition()
+                    ->orderByPosition()
                 ->endUse()
                 ->orderByPosition()
             ->find();

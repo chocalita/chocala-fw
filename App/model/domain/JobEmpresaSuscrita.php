@@ -3,16 +3,54 @@
 use Base\JobEmpresaSuscrita as BaseJobEmpresaSuscrita;
 
 /**
- * Skeleton subclass for representing a row from the 'job_empresa_suscrita' table.
- *
- * 
- *
- * You should add additional methods to this class to meet the
- * application requirements.  This class will only be generated as
- * long as it does not already exist in the output directory.
  *
  */
-class JobEmpresaSuscrita extends BaseJobEmpresaSuscrita
+class JobEmpresaSuscrita extends BaseJobEmpresaSuscrita implements JsonSerializable
 {
+    use  Validatable, Convertible;
+
+    static $validationRules = [
+        'EntityTypeId' => [
+            'null' => true, 'blank' => false,
+        ],
+        'Nombre' => [
+            'null' => false, 'blank' => false,
+            'size' => ['min' => 2, 'max' => 250],
+        ],
+        'Email' => [
+            'null' => true, 'blank' => false,
+            'email' => true, 'unique' => true,
+            'size' => ['min' => 10, 'max' => 100],
+        ],
+        'Representante' => [
+            'null' => false, 'blank' => false,
+            'size' => ['min' => 2, 'max' => 100],
+        ],
+    ];
+
+    public function preSave()
+    {
+        $this->id = $this->id_tmp_area?: null;
+        $this->entity_type_id= trim(strtolower($this->email))?: null;
+        $this->nombre = ucwords(strtolower(trim($this->nombre)))?: null;
+        $this->representante = ucwords(strtolower(trim($this->representante)))?: null;
+        return parent::preSave();
+    }
+
+    public function preValidate()
+    {
+        return $this->preSave();
+    }
+
+    public function preInsert()
+    {
+        return $this->preSave();
+    }
+
+    public function preUpdate()
+    {
+        return $this->preSave();
+    }
+
 
 }
