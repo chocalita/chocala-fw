@@ -220,7 +220,6 @@ class PageControl implements ISingleton
                     ->filterBySysRol($rols, Criteria::IN)
                 ->endUse()
                 ->useSysModuleQuery()
-            //TODO. corregir para php 5.6.25
                     ->orderByPosition()
                 ->endUse()
                 ->orderByPosition()
