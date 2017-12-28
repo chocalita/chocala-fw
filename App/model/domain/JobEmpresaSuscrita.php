@@ -9,6 +9,10 @@ class JobEmpresaSuscrita extends BaseJobEmpresaSuscrita implements JsonSerializa
 {
     use  Validatable, Convertible;
 
+    const EMAIL_SUBSCRIPTION = 'J_EMAIL_ENTITY_SUBSCRIPTION';
+
+    const EMAIL_SUCCESS_SUBSCRIPTION = 'J_EMAIL_SUCCESS_SUBSCRIPTION';
+
     static $validationRules = [
         'EntityTypeId' => [
             'null' => true, 'blank' => false,
