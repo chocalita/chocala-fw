@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author ypra
  * Date: 02/12/2017
@@ -17,7 +18,7 @@ class EmpresaSuscritaService extends GenericService
      * @param bool $noDeletes
      * @return JobEmpresaSuscritaQuery
      */
-    public function validsQuery($noDeletes=true)
+    public function validsQuery($noDeletes = true)
     {
         return JobEmpresaSuscritaQuery::createValids($noDeletes);
     }
@@ -40,19 +41,18 @@ class EmpresaSuscritaService extends GenericService
      * @param array $filters
      * @return \Propel\Runtime\Util\PropelModelPager|JobEntidadSuscrita[]
      */
-    public function dataList($filters=[])
+    public function dataList($filters = [])
     {
         $query = $this->validsQuery()
             ->_if(isset($filters['nit']))
-                ->filterByNit('%'.$filters['nit'].'%', Criteria::ILIKE)
+            ->filterByNit('%' . $filters['nit'] . '%', Criteria::ILIKE)
             ->_endif()
             ->_if(isset($filters['nombre']))
-                ->filterByNombre('%'.$filters['nombre'].'%', Criteria::ILIKE)
+            ->filterByNombre('%' . $filters['nombre'] . '%', Criteria::ILIKE)
             ->_endif()
-            ->orderByNombre()
-        ;
-        $_page = $filters['_page']?: 1;
-        $_max = $filters['_max']?: $query->count();
+            ->orderByNombre();
+        $_page = $filters['_page'] ?: 1;
+        $_max = $filters['_max'] ?: $query->count();
         return $query->paginate($_page, $_max);
     }
 
@@ -62,9 +62,9 @@ class EmpresaSuscritaService extends GenericService
      * @return array mixed
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function insertOrUpdate($data, &$empresaSuscrita=null)
+    public function insertOrUpdate($data, &$empresaSuscrita = null)
     {
-        if(!is_object($empresaSuscrita)){
+        if (!is_object($empresaSuscrita)) {
             $empresaSuscrita = new JobEmpresaSuscrita();
         }
         $empresaSuscrita->fromArray($data);
@@ -82,9 +82,9 @@ class EmpresaSuscritaService extends GenericService
     {
         $results = $this->insertOrUpdate($data);
         if ($results['success']) {
-/*            $empresaSuscrita = $results['object'];
+            $empresaSuscrita = $results['object'];
             $hash = SpecialStrings::generateHash(20);
-            $email = EmailService::instance()->findByCode(JobSuscriptor::EMAIL_SUBSCRIPTION_INITIAL);
+            $email = EmailService::instance()->findByCode(JobEmpresaSuscrita::EMAIL_SUBSCRIPTION);
 //            $tmpArea = TmpAreaQuery::create()->findPk($suscriptor->getIdTmpArea());
 //            print_r($suscriptor);
 //            echo "\n Codigo : ";
@@ -101,21 +101,23 @@ class EmpresaSuscritaService extends GenericService
                 '~FORMACION~' => htmlspecialchars(ucwords(strtolower($empresaSuscrita->getTmpFormacion()->getNombre()))),
             ];
             $emailSent = EmailSender::instanceFrom($email)->sendMail($emailMap, $emailVars);
-            $results['email'] = $emailSent->getToEmail();*/
+            $results['email'] = $emailSent->getToEmail();
         }
         return $results;
     }
 
 
-    public static function logoFileExist($pkEntidad = ID_ENTITY){
-        return file_exists(PUBLIC_DIR."images/imgEntidad/".$pkEntidad.".jpg");
+    public static function logoFileExist($pkEntidad = ID_ENTITY)
+    {
+        return file_exists(PUBLIC_DIR . "images/imgEntidad/" . $pkEntidad . ".jpg");
     }
 
-    public static function logoSrc($pkEntidad = ID_ENTITY){
-        if(!self::logoFileExist($pkEntidad)){
-            return IMG_WEB."imgEntidad/empresa_default.jpg";
-        }else{
-            return IMG_WEB."imgEntidad/".$pkEntidad.".jpg";
+    public static function logoSrc($pkEntidad = ID_ENTITY)
+    {
+        if (!self::logoFileExist($pkEntidad)) {
+            return IMG_WEB . "imgEntidad/empresa_default.jpg";
+        } else {
+            return IMG_WEB . "imgEntidad/" . $pkEntidad . ".jpg";
         }
     }
 

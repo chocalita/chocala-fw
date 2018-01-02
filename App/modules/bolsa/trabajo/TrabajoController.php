@@ -107,7 +107,7 @@ class TrabajoController extends PublicWebController
     }
 
 
-    public function suscribir()
+    public function suscribirEmpresa()
     {
         $data = Req::all();
         $data['Ip'] = $_SERVER['REMOTE_ADDR'];
