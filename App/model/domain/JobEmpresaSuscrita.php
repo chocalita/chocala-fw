@@ -15,7 +15,7 @@ class JobEmpresaSuscrita extends BaseJobEmpresaSuscrita implements JsonSerializa
 
     static $validationRules = [
         'EntityTypeId' => [
-            'null' => true, 'blank' => false,
+            'null' => false, 'blank' => false,
         ],
         'Nombre' => [
             'null' => false, 'blank' => false,

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Description of ChocalaI18N
  *
@@ -35,19 +36,19 @@ class ChocalaI18N
      */
     public static function mainInstance()
     {
-        if(self::$mainInstance == null){
+        if (self::$mainInstance == null) {
             self::$mainInstance = new self();
         }
         return self::$mainInstance;
     }
-    
+
     /**
-     *
      * @return array
+     * @throws ChocalaException
      */
     public function defaultMessages()
     {
-        if(self::mainInstance()->defaultMessages === null){
+        if (self::mainInstance()->defaultMessages === null) {
             self::mainInstance()->loadDefaultMessages();
         }
         return self::mainInstance()->defaultMessages;
@@ -64,29 +65,29 @@ class ChocalaI18N
      */
     public function loadDefaultMessages()
     {
-        if(file_exists(I18N_DIR.self::DEFAULT_LANG_FILE.self::EXTENSION)){
-            $this->defaultMessages = require_once(I18N_DIR.
-                    self::DEFAULT_LANG_FILE.self::EXTENSION);
-            if(!is_array($this->defaultMessages)){
+        if (file_exists(I18N_DIR . self::DEFAULT_LANG_FILE . self::EXTENSION)) {
+            $this->defaultMessages = require_once(I18N_DIR .
+                self::DEFAULT_LANG_FILE . self::EXTENSION);
+            if (!is_array($this->defaultMessages)) {
                 $this->defaultMessages = array();
             }
-        }else{
+        } else {
             throw new ChocalaException('Failed to open i18n file resource');
         }
     }
 
     /**
-     *
-     * @param string $lang
+     * @param string null $lang
+     * @throws ChocalaException
      */
     public function loadLangMessages($lang = null)
     {
-        if($lang != '' && file_exists(I18N_DIR.$lang.self::EXTENSION)){
-            $this->langMessages = require_once(I18N_DIR.$lang.self::EXTENSION);
-            if(!is_array($this->langMessages)){
+        if ($lang != '' && file_exists(I18N_DIR . $lang . self::EXTENSION)) {
+            $this->langMessages = require_once(I18N_DIR . $lang . self::EXTENSION);
+            if (!is_array($this->langMessages)) {
                 $this->langMessages = array();
             }
-        }else{
+        } else {
             $this->loadDefaultMessages();
             $this->langMessages = $this->defaultMessages;
         }
@@ -98,35 +99,35 @@ class ChocalaI18N
      * @param array $args
      * @return string
      */
-    public static function proccessMessage($message, $args=null)
+    public static function proccessMessage($message, $args = null)
     {
-        if(empty($args)){
+        if (empty($args)) {
             return $message;
-        }else{
+        } else {
             $keywords = array();
-            foreach($args as $k => $v){
-                $keywords['[{'.$k.'}]'] = $v;
+            foreach ($args as $k => $v) {
+                $keywords['[{' . $k . '}]'] = $v;
             }
             return strtr($message, $keywords);
         }
     }
 
     /**
-     *
      * @param string $key
      * @param array $args
      * @return string
+     * @throws ChocalaException
      */
     public static function translate($key, $args)
     {
-        if(isset(self::mainInstance()->langMessages[$key])){
+        if (isset(self::mainInstance()->langMessages[$key])) {
             return self::proccessMessage(self::mainInstance()
-                    ->langMessages[$key], $args);
-        }else{
+                ->langMessages[$key], $args);
+        } else {
             $defaultMessages = self::mainInstance()->defaultMessages();
-            if(isset($defaultMessages[$key])){
+            if (isset($defaultMessages[$key])) {
                 return self::proccessMessage($defaultMessages[$key], $args);
-            }else{
+            } else {
                 return $key;
             }
         }
@@ -134,8 +135,8 @@ class ChocalaI18N
 
 }
 
-if(!function_exists('__()')){
-    function __($text, $args=array())
+if (!function_exists('__()')) {
+    function __($text, $args = [])
     {
         return ChocalaI18N::translate($text, $args);
     }

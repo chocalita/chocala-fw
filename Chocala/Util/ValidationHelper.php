@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Description of ValidationHelper
  *
@@ -7,209 +8,289 @@
 abstract class ValidationHelper
 {
 
-    public static function validateNotNull($field, $value)
+    /**
+     * @param string $field
+     * @param string $key
+     * @param array $messageArgs
+     * @param string $className
+     * @return ValidationFailed
+     */
+    public static function createFailure($field, $key, $messageArgs = [], $className = null)
     {
-        return is_null($value)?
-            new ValidationFailed($field, __('validate.null')): null;
+        $messageKey = ($className != null) ? ($className . '.' . $field . "." . $key) : $key;
+        $message = __($messageKey, $messageArgs);
+        if ($message == $messageKey) {
+            $message = __($key, $messageArgs);
+        }
+        return new ValidationFailed($message, $field, $className);
     }
 
-    public static function validateNotBlank($field, $value)
+    /**
+     * @param string $field
+     * @param mixed $value
+     * @param string $className
+     * @return null|ValidationFailed
+     */
+    public static function validateNotNull($field, $value, $className)
     {
-        return is_string($value) && trim($value)===''?
-            new ValidationFailed($field, __('validate.blank')): null;
+        return is_null($value) ? self::createFailure($field, 'validate.null', [], $className) : null;
     }
 
-    public static function validateRange($field, $value, $min, $max)
+    /**
+     * @param string $field
+     * @param mixed $value
+     * @param string $className
+     * @return null|ValidationFailed
+     */
+    public static function validateNotBlank($field, $value, $className)
     {
-        return ($value<$min || $value>$max)?
-            new ValidationFailed($field, __('validate.range',
-                    array('min' => $min, 'max' => $max))): null;
+        return is_string($value) && trim($value) === '' ?
+            self::createFailure($field, 'validate.blank', [], $className) : null;
     }
 
-    public static function validateMinValue($field, $value, $min)
+    /**
+     * @param string $field
+     * @param double $value
+     * @param double $min
+     * @param double $max
+     * @param string $className
+     * @return null|ValidationFailed
+     */
+    public static function validateRange($field, $value, $min, $max, $className)
     {
-        return $value<$min? new ValidationFailed($field,
-                __('validate.min.value', array('min' => $min))): null;
+        return ($value < $min || $value > $max) ?
+            self::createFailure($field, 'validate.range', ['min' => $min, 'max' => $max], $className) : null;
     }
 
-    public static function validateMaxValue($field, $value, $max)
+    /**
+     * @param string $field
+     * @param double $value
+     * @param double $min
+     * @param string $className
+     * @return null|ValidationFailed
+     */
+    public static function validateMinValue($field, $value, $min, $className)
     {
-        return $value>$max? new ValidationFailed($field,
-                __('validate.max.value', array('max' => $max))): null;
+        return $value < $min ?
+            self::createFailure($field, 'validate.min.value', ['min' => $min], $className) : null;
     }
 
-    public static function validateSize($field, $value, $min, $max)
+    /**
+     * @param string $field
+     * @param double $value
+     * @param double $max
+     * @param string $className
+     * @return null|ValidationFailed
+     */
+    public static function validateMaxValue($field, $value, $max, $className)
     {
-        return (mb_strlen($value)<$min || mb_strlen($value)>$max)?
-            new ValidationFailed($field, __('validate.size',
-                    array('min' => $min, 'max' => $max))): null;
+        return $value > $max ?
+            self::createFailure($field, 'validate.max.value', ['max' => $max], $className) : null;
     }
 
-    public static function validateMinSize($field, $value, $min)
+    /**
+     * @param string $field
+     * @param string $value
+     * @param int $min
+     * @param int $max
+     * @param string $className
+     * @return null|ValidationFailed
+     */
+    public static function validateSize($field, $value, $min, $max, $className)
     {
-        return mb_strlen($value)<$min? new ValidationFailed($field, 
-                __('validate.min.size', array('min' => $min))): null;
+        return (mb_strlen($value) < $min || mb_strlen($value) > $max) ?
+            self::createFailure($field, 'validate.size', ['min' => $min, 'max' => $max], $className) : null;
     }
 
-    public static function validateMaxSize($field, $value, $max)
+    /**
+     * @param string $field
+     * @param string $value
+     * @param int $min
+     * @param string $className
+     * @return ValidationFailed
+     */
+    public static function validateMinSize($field, $value, $min, $className)
     {
-        return mb_strlen($value)>$max? new ValidationFailed($field, 
-                __('validate.max.size', array('max' => $max))): null;
+        return mb_strlen($value) < $min ?
+            self::createFailure($field, 'validate.min.size', ['min' => $min], $className) : null;
     }
 
-    public static function validateNotEqual($field, $value, $val)
+    /**
+     * @param string $field
+     * @param string $value
+     * @param int $max
+     * @param string $className
+     * @return null|ValidationFailed
+     */
+    public static function validateMaxSize($field, $value, $max, $className)
     {
-        return $value!=$val? new ValidationFailed($field, 
-                __('validate.not.equal', array('val' => $val))): null;
+        return mb_strlen($value) > $max ?
+            self::createFailure($field, 'validate.max.size', ['max' => $max], $className) : null;
     }
 
-    public static function validateNotEmail($field, $value)
+    /**
+     * @param string $field
+     * @param mixed $value
+     * @param mixed $val
+     * @param string $className
+     * @return null|ValidationFailed
+     */
+    public static function validateNotEqual($field, $value, $val, $className)
     {
-        return !Validation::isEmail($value)? new ValidationFailed($field, 
-                __('validate.email')): null;
+        return $value != $val ?
+            self::createFailure($field, 'validate.not.equal', ['val' => $val], $className) : null;
     }
 
-    public static function validateInList($field, $value, $list)
+    /**
+     * @param string $field
+     * @param string $value
+     * @param string $className
+     * @return null|ValidationFailed
+     */
+    public static function validateNotEmail($field, $value, $className)
     {
-        return !in_array($value, $list)? new ValidationFailed($field,
-                __('validate.not.inlist', array('val' => $value))): null;
+        return !Validation::isEmail($value) ?
+            self::createFailure($field, 'validate.email', [], $className) : null;
     }
 
-    public static function validateUnique($field, $value, $queryClass)
+    /**
+     * @param string $field
+     * @param mixed $value
+     * @param array $list
+     * @param string $className
+     * @return null|ValidationFailed
+     */
+    public static function validateInList($field, $value, $list, $className)
     {
-        return $queryClass->count() > 0? new ValidationFailed($field,
-                __('validate.unique', array('val' => $value))): null;
+        return !in_array($value, $list) ?
+            self::createFailure($field, 'validate.not.inlist', ['val' => $value], $className) : null;
+    }
+
+    /**
+     * @param string $field
+     * @param mixed $value
+     * @param \Propel\Runtime\ActiveQuery\ModelCriteria $queryClass
+     * @param string $className
+     * @return null|ValidationFailed
+     */
+    public static function validateUnique($field, $value, $queryClass, $className)
+    {
+        return $queryClass->count() > 0 ?
+            self::createFailure($field, 'validate.unique', ['val' => $value], $className) : null;
     }
 
     public static function validateField($obj, $field, $validations)
     {
+        $className = get_class($obj);
         $fieldName = ucfirst(trim($field));
-        $getter = 'get'.$fieldName;
+        $getter = 'get' . $fieldName;
         $value = $obj->$getter();
         $keys = array_keys($validations);
-        $isNull =  $validations['null']? is_null($value): false;
-        foreach($validations as $type => $option){
+        $isNull = $validations['null'] ? is_null($value) : false;
+        foreach ($validations as $type => $option) {
             $validateResult = null;
-            switch (strtolower($type)){
+            switch (strtolower($type)) {
                 case 'null':
-                    $validateResult = !$option? 
-                        self::validateNotNull($field, $value): null;
+                    $validateResult = !$option ?
+                        self::validateNotNull($field, $value, $className) : null;
                     break;
                 case 'blank':
-                    $validateResult = !$option? 
-                        self::validateNotBlank($field, $value): null;
+                    $validateResult = !$option ?
+                        self::validateNotBlank($field, $value, $className) : null;
                     break;
                 case 'value':
                 case 'range':
-                    if(!$isNull){
+                    if (!$isNull) {
                         $min = $option['min'];
                         $max = $option['max'];
-                        if(self::isNumeric($min) && self::isNumeric($max)){
-                            $validateResult = self::validateRange($field,
-                                $value, $min, $max);
-                        }elseif(self::isNumeric($min)){
-                            $validateResult = self::validateMinValue($field,
-                                $value, $min);
-                        }elseif(self::isNumeric($max)){
-                            $validateResult = self::validateMaxValue($field,
-                                $value, $max);
-                        }else{
-                            throw new ChocalaException(
-                                'INVALID VALUE VALIDATION DATA');
+                        if (self::isNumeric($min) && self::isNumeric($max)) {
+                            $validateResult = self::validateRange($field, $value, $min, $max, $className);
+                        } elseif (self::isNumeric($min)) {
+                            $validateResult = self::validateMinValue($field, $value, $min, $className);
+                        } elseif (self::isNumeric($max)) {
+                            $validateResult = self::validateMaxValue($field, $value, $max, $className);
+                        } else {
+                            throw new ChocalaException('INVALID RANGE VALIDATION DATA');
                         }
                     }
                     break;
                 case 'size':
-                    if(!$isNull){
+                    if (!$isNull) {
                         $min = $option['min'];
                         $max = $option['max'];
-                        if(self::isInteger($min) && self::isInteger($max)){
-                            $validateResult = self::validateSize($field,
-                                $value, $min, $max);
-                        }elseif(is_integer($min)){
-                            $validateResult = self::validateMinSize($field,
-                                $value, $min);
-                        }elseif(is_integer($max)){
-                            $validateResult = self::validateMaxSize($field,
-                                $value, $max);
-                        }else{
-                            throw new ChocalaException(
-                                'INVALID SIZE VALIDATION DATA');
+                        if (self::isInteger($min) && self::isInteger($max)) {
+                            $validateResult = self::validateSize($field, $value, $min, $max, $className);
+                        } elseif (is_integer($min)) {
+                            $validateResult = self::validateMinSize($field, $value, $min, $className);
+                        } elseif (is_integer($max)) {
+                            $validateResult = self::validateMaxSize($field, $value, $max, $className);
+                        } else {
+                            throw new ChocalaException('INVALID SIZE VALIDATION DATA');
                         }
                     }
                     break;
                 case 'equal':
-                    $validateResult = self::validateNotEqual($field, $value,
-                            $option);
+                    $validateResult = self::validateNotEqual($field, $value, $option, $className);
                     break;
                 case 'email':
-                    if(!$isNull){
-                        $validateResult = $option? self::validateNotEmail(
-                            $field, $value): null;
+                    if (!$isNull) {
+                        $validateResult = $option ? self::validateNotEmail($field, $value, $className) : null;
                     }
                     break;
                 case 'inlist':
-                    if(!$isNull){
-                        if(is_array($option)){
-                            $validateResult = self::validateInList($field,
-                                $value, $option);
-                        }else{
-                            throw new ChocalaException(
-                                'INVALID LIST VALIDATION DATA');
+                    if (!$isNull) {
+                        if (is_array($option)) {
+                            $validateResult = self::validateInList($field, $value, $option, $className);
+                        } else {
+                            throw new ChocalaException('INVALID LIST VALIDATION DATA');
                         }
                     }
                     break;
                 case 'unique':
-                    $className = get_class($obj);
-                    $queryClassName = $className.'Query';
+                    $queryClassName = $className . 'Query';
                     $queryClass = $queryClassName::create();
-                    if(is_string($option)){
+                    if (is_string($option)) {
                         $option = [$option];
                     }
-                    if(is_array($option)){
-                        foreach($option as $uField){
+                    if (is_array($option)) {
+                        foreach ($option as $uField) {
                             $uFieldName = ucfirst($uField);
-                            $uGetter = 'get'.$uFieldName;
+                            $uGetter = 'get' . $uFieldName;
                             $uValue = $obj->$uGetter();
-                            $uFilter = 'filterBy'.$uFieldName;
+                            $uFilter = 'filterBy' . $uFieldName;
                             $queryClass = $queryClass->$uFilter($uValue);
                         }
                     }
-                    try{
-                        if($option) {
+                    try {
+                        if ($option) {
                             if (!$obj->isNew()) {
                                 $queryClass = $queryClass->prune($obj);
                             }
                             $filterName = 'filterBy' . $fieldName;
                             $queryClass = $queryClass->$filterName($value);
-                            $validateResult = self::validateUnique($field, $value,
-                                $queryClass);
+                            $validateResult = self::validateUnique($field, $value, $queryClass, $className);
                         }
-                    }catch (Exception $e) {
-                        throw new ChocalaException(
-                            'INVALID UNIQUE VALIDATION DATA');
+                    } catch (Exception $e) {
+                        throw new ChocalaException('INVALID UNIQUE VALIDATION DATA');
                     }
                     break;
                 case 'validator':
-                    if(is_string($option) && method_exists($obj, $option)){
+                    if (is_string($option) && method_exists($obj, $option)) {
                         $validateResult = $obj->$option($value);
-                        if(!(is_null($validateResult) ||
-                            ($validateResult instanceof ValidationFailed))){
-                            throw new ChocalaException(
-                                'VALIDATOR METHOD INVALID RETURN VALUE');
+                        if (!(is_null($validateResult) || ($validateResult instanceof ValidationFailed))) {
+                            throw new ChocalaException('VALIDATOR METHOD INVALID RETURN VALUE');
                         }
-                    }else{
-                        throw new ChocalaException(
-                            'VALIDATOR METHOD NOT EXIST');
+                    } else {
+                        throw new ChocalaException('VALIDATOR METHOD NOT EXIST');
                     }
                     break;
                 default:
-                    if(is_callable($option)){
+                    if (is_callable($option)) {
                         $validateResult = $option($value, $obj);
                     }
                     break;
             }
-            if(!is_null($validateResult)){
+            if (!is_null($validateResult)) {
                 return $validateResult;
             }
         }
@@ -218,43 +299,42 @@ abstract class ValidationHelper
 
     public static function validateObject($obj, $validations)
     {
-        $failures = array();
-        foreach ($validations as $kVal => $vVal){
+        $failures = [];
+        foreach ($validations as $kVal => $vVal) {
             $fails = self::validateField($obj, $kVal, $vVal);
-            if($fails != ''){
+            if ($fails != '') {
                 $failures[] = $fails;
             }
         }
         return $failures;
     }
-    
+
     public static function mergeFailures($parentErrors, $validationErrors)
     {
-        if(is_array($parentErrors)){
-            if(!empty($validationErrors)){
+        if (is_array($parentErrors)) {
+            if (!empty($validationErrors)) {
                 $validationErrors = array_merge($parentErrors,
-                        $validationErrors);
-            }else{
+                    $validationErrors);
+            } else {
                 $validationErrors = $parentErrors;
             }
             return $validationErrors;
-        }elseif($parentErrors === true){
-            if(empty($validationErrors)){
+        } elseif ($parentErrors === true) {
+            if (empty($validationErrors)) {
                 return true;
-            }else{
+            } else {
                 return $validationErrors;
             }
-        }else{
-            throw UnexpectedValueException('Unexpected validation state.');
+        } else {
+            throw new UnexpectedValueException('Unexpected validation state.');
         }
     }
 
     public static function failuresMap($failures)
     {
-        return array_map( function($obj){
-                    return array(   'field' => $obj->getColumn(),
-                                    'message' => $obj->getMessage());
-                }, $failures);
+        return array_map(function ($obj) {
+            return ['field' => $obj->getColumn(), 'message' => $obj->getMessage()];
+        }, $failures);
     }
 
     /**
@@ -264,7 +344,7 @@ abstract class ValidationHelper
      */
     public static function isInteger($var)
     {
-        return is_numeric($var) && is_integer($var*1);
+        return is_numeric($var) && is_integer($var * 1);
     }
 
     /**
@@ -294,7 +374,7 @@ abstract class ValidationHelper
      */
     public static function isMinLength($var, $min)
     {
-        return (strlen(trim($var))>=$min);
+        return (strlen(trim($var)) >= $min);
     }
 
     /**
@@ -304,9 +384,9 @@ abstract class ValidationHelper
      */
     public static function isEmail($var)
     {
-        return  preg_match('#^(((([a-z\d][\.\-\+_]?)*)[a-z0-9])+)\@'.
-                '(((([a-z\d][\.\-_]?){0,62})[a-z\d])+)\.([a-z\d]{2,6})$#i',
-                trim($var));
+        return preg_match('#^(((([a-z\d][\.\-\+_]?)*)[a-z0-9])+)\@' .
+            '(((([a-z\d][\.\-_]?){0,62})[a-z\d])+)\.([a-z\d]{2,6})$#i',
+            trim($var));
     }
 
     /**
@@ -326,18 +406,18 @@ abstract class ValidationHelper
      */
     public static function isIP($var)
     {
-        return preg_match('^(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)'.
-                '(?:[.](?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}$', trim($var));
+        return preg_match('^(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)' .
+            '(?:[.](?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}$', trim($var));
     }
 
     /**
      *
      * @param string $key
-     * @return bool 
+     * @return bool
      */
     public static function isFile($key)
     {
-        return (isset($_FILES[$key]) && $_FILES[$key]['error']==0);
+        return (isset($_FILES[$key]) && $_FILES[$key]['error'] == 0);
     }
 
     /**
@@ -435,7 +515,7 @@ abstract class ValidationHelper
     /**
      *
      * @param string $key
-     * @return bool 
+     * @return bool
      */
     public static function isPostEmail($key)
     {

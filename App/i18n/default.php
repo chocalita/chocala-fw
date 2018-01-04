@@ -12,7 +12,17 @@ return array(
     'validate.email' => 'El valor de la propiedad no es un email válido',
     'validate.not.inlist' => 'El valor de la propiedad no corresponde a la lista válida',
     'validate.unique' => 'La propiedad debe ser ùnica',
-    
+
+    /* JobSuscriptor */
+    'JobSuscriptor.NombreSimple.validate.size' => 'La longitud del nombre debe ser de [{min}] a [{max}] caracteres',
+    'JobSuscriptor.Email.validate.unique' => 'Este email ya se encuentra registrado',
+    'JobSuscriptor.IdTmpFormacion.validate.null' => 'Debe ingresar la Formación de su interés',
+
+    /* JobEmpresaSuscrita */
+    'JobEmpresaSuscrita.Nombre.validate.null' => 'Debe ingresar el nombre de la empresa',
+    'JobEmpresaSuscrita.Nombre.blank.null' => 'Debe ingresar el nombre de la empresa',
+    'JobEmpresaSuscrita.Nombre.validate.size' => 'La longitud del nombre debe ser de [{min}] a [{max}] caracteres',
+
     'Displayed related class attrib' => 'Displayed attrib of [{class}] class',
     
     'user.name.null' => 'Subtitulo',
