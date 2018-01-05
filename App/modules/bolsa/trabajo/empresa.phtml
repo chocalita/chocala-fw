@@ -43,6 +43,7 @@
                         <div class="form-group">
                             <label>Tipo de empresa</label>
                             <select id="EntityTypeId" name="EntityTypeId" class="form-control required">
+                                <option value="">- Selecciomar -</option>
                                 <?php
                                 foreach ($entityTypeList as $entityType) {
                                 ?>
@@ -86,7 +87,7 @@
 <!--                <p><a class="navy-link" href="#" role="button">Details »</a></p>-->
             </div>
             <div class="col-sm-3 text-justify">
-                <h2><span class="text-blue">Alto</span> rendimiento</h2>
+                <h2><span class="text-blue">Máximo</span> rendimiento</h2>
                 <p>Desde el mes de septiembre de 2017, <strong>Empleos.Click</strong> se constituye en el portal de referencia para la
                     conexión de empleos, en los pocos meses nuestor alto rendimiento nos consolidadó en un importante mecanismo de contacto
                     entre especialistas y empresas.
@@ -173,18 +174,19 @@ jQuery(document).ready(function() {
             $("#divSuscripcion").parent().unmask();
         },
         'onSuccess': function (data) {
-            $("#myModal .panel-body").html(
-                "<br /><div class=\"alert alert-success\">" +
-                "En breve recibirás un correo de confirmación en: <strong>" + $("#Email").val()+ "</strong>" +
-                " , si no lo encuentras en tu Bandeja de Entrada por favor verifica en Spam y márcanos como correo confiable." +
-                " <br /> ¡Empleos.Click siempre a tu servicio!." +
-                "</div>" +
-                "<button type=\"button\" class=\"btn btn-sm btn-success block full-width m-b\" data-dismiss=\"modal\">Ok, revisare mi correo</button>"
-            );
+            // $("#formSuscripcion").reset();
             $("#divSuscripcion").parent().unmask();
+            alert("Registro completado!");
+            $("#myModal .panel-body").html(
+            "<br /><div class=\"alert alert-success\">" +
+            "En breve recibirás un correo de confirmación en: <strong>" + $("#Email").val()+ "</strong>" +
+            " , si no lo encuentras en tu Bandeja de Entrada por favor verifica en Spam y márcanos como correo confiable." +
+            " <br /> ¡Empleos.Click siempre a tu servicio!." +
+            "</div>" +
+            "<button type=\"button\" class=\"btn btn-sm btn-success block full-width m-b\" data-dismiss=\"modal\">Ok, revisare mi correo</button>"
+        );
         }
     });
-
 
 });
 </script>

@@ -20,8 +20,19 @@ return array(
 
     /* JobEmpresaSuscrita */
     'JobEmpresaSuscrita.Nombre.validate.null' => 'Debe ingresar el nombre de la empresa',
-    'JobEmpresaSuscrita.Nombre.blank.null' => 'Debe ingresar el nombre de la empresa',
+    'JobEmpresaSuscrita.Nombre.validate.blank' => 'Debe ingresar el nombre de la empresa',
     'JobEmpresaSuscrita.Nombre.validate.size' => 'La longitud del nombre debe ser de [{min}] a [{max}] caracteres',
+    'JobEmpresaSuscrita.Nombre.validate.unique' => 'Este nombre ya se encuentra registrado',
+    'JobEmpresaSuscrita.Email.validate.null' => 'Debe ingresar el email de la empresa',
+    'JobEmpresaSuscrita.Email.validate.blank' => 'Debe ingresar el email de la empresa',
+    'JobEmpresaSuscrita.Email.validate.email' => 'Debe ingresar un email válido',
+    'JobEmpresaSuscrita.Email.validate.unique' => 'Este email ya se encuentra registrado',
+    'JobEmpresaSuscrita.Representante.validate.null' => 'Debe ingresar el nombre del representante',
+    'JobEmpresaSuscrita.Representante.validate.blank' => 'Debe ingresar el nombre del representante',
+    'JobEmpresaSuscrita.Representante.validate.size' => 'La longitud debe ser de [{min}] a [{max}] caracteres',
+    'JobEmpresaSuscrita.EntityTypeId.validate.null' => 'Debe especificar el tipo de empresa o negocio',
+    'JobEmpresaSuscrita.EntityTypeId.validate.blank' => 'Debe especificar el tipo de empresa o negocio',
+
 
     'Displayed related class attrib' => 'Displayed attrib of [{class}] class',
     

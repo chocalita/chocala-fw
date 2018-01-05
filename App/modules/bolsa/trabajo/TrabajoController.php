@@ -102,7 +102,7 @@ class TrabajoController extends PublicWebController
     public function empresa()
     {
         $entityTypeList = $this->entityTypeService
-            ->dataList(['groupCode' => [SysEntityType::GROUP_FORMAL_COMPANY]]);
+            ->dataList(['groupCode' => [SysEntityType::GROUP_FORMAL_COMPANY, SysEntityType::GROUP_BUSINESS]]);
         $this->set('entityTypeList', $entityTypeList);
     }
 

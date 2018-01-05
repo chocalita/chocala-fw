@@ -19,10 +19,11 @@ class JobEmpresaSuscrita extends BaseJobEmpresaSuscrita implements JsonSerializa
         ],
         'Nombre' => [
             'null' => false, 'blank' => false,
+            'unique' => true,
             'size' => ['min' => 2, 'max' => 250],
         ],
         'Email' => [
-            'null' => true, 'blank' => false,
+            'null' => false, 'blank' => false,
             'email' => true, 'unique' => true,
             'size' => ['min' => 10, 'max' => 100],
         ],
@@ -34,9 +35,9 @@ class JobEmpresaSuscrita extends BaseJobEmpresaSuscrita implements JsonSerializa
 
     public function preSave()
     {
-        $this->id = $this->id_tmp_area?: null;
-        $this->entity_type_id= trim(strtolower($this->email))?: null;
+        $this->entity_type_id= trim(strtolower($this->entity_type_id))?: null;
         $this->nombre = ucwords(strtolower(trim($this->nombre)))?: null;
+        $this->email= trim(strtolower($this->email))?: null;
         $this->representante = ucwords(strtolower(trim($this->representante)))?: null;
         return parent::preSave();
     }

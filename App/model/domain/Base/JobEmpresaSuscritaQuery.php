@@ -24,6 +24,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobEmpresaSuscritaQuery orderByEntityTypeId($order = Criteria::ASC) Order by the ENTITY_TYPE_ID column
  * @method     ChildJobEmpresaSuscritaQuery orderByLocationId($order = Criteria::ASC) Order by the LOCATION_ID column
  * @method     ChildJobEmpresaSuscritaQuery orderByScrapEmpresaId($order = Criteria::ASC) Order by the SCRAP_EMPRESA_ID column
+ * @method     ChildJobEmpresaSuscritaQuery orderByHashCode($order = Criteria::ASC) Order by the HASH_CODE column
  * @method     ChildJobEmpresaSuscritaQuery orderByNombre($order = Criteria::ASC) Order by the NOMBRE column
  * @method     ChildJobEmpresaSuscritaQuery orderByNit($order = Criteria::ASC) Order by the NIT column
  * @method     ChildJobEmpresaSuscritaQuery orderByEmail($order = Criteria::ASC) Order by the EMAIL column
@@ -39,6 +40,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobEmpresaSuscritaQuery groupByEntityTypeId() Group by the ENTITY_TYPE_ID column
  * @method     ChildJobEmpresaSuscritaQuery groupByLocationId() Group by the LOCATION_ID column
  * @method     ChildJobEmpresaSuscritaQuery groupByScrapEmpresaId() Group by the SCRAP_EMPRESA_ID column
+ * @method     ChildJobEmpresaSuscritaQuery groupByHashCode() Group by the HASH_CODE column
  * @method     ChildJobEmpresaSuscritaQuery groupByNombre() Group by the NOMBRE column
  * @method     ChildJobEmpresaSuscritaQuery groupByNit() Group by the NIT column
  * @method     ChildJobEmpresaSuscritaQuery groupByEmail() Group by the EMAIL column
@@ -71,6 +73,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobEmpresaSuscrita findOneByEntityTypeId(int $ENTITY_TYPE_ID) Return the first ChildJobEmpresaSuscrita filtered by the ENTITY_TYPE_ID column
  * @method     ChildJobEmpresaSuscrita findOneByLocationId(int $LOCATION_ID) Return the first ChildJobEmpresaSuscrita filtered by the LOCATION_ID column
  * @method     ChildJobEmpresaSuscrita findOneByScrapEmpresaId(int $SCRAP_EMPRESA_ID) Return the first ChildJobEmpresaSuscrita filtered by the SCRAP_EMPRESA_ID column
+ * @method     ChildJobEmpresaSuscrita findOneByHashCode(string $HASH_CODE) Return the first ChildJobEmpresaSuscrita filtered by the HASH_CODE column
  * @method     ChildJobEmpresaSuscrita findOneByNombre(string $NOMBRE) Return the first ChildJobEmpresaSuscrita filtered by the NOMBRE column
  * @method     ChildJobEmpresaSuscrita findOneByNit(string $NIT) Return the first ChildJobEmpresaSuscrita filtered by the NIT column
  * @method     ChildJobEmpresaSuscrita findOneByEmail(string $EMAIL) Return the first ChildJobEmpresaSuscrita filtered by the EMAIL column
@@ -89,6 +92,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobEmpresaSuscrita requireOneByEntityTypeId(int $ENTITY_TYPE_ID) Return the first ChildJobEmpresaSuscrita filtered by the ENTITY_TYPE_ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobEmpresaSuscrita requireOneByLocationId(int $LOCATION_ID) Return the first ChildJobEmpresaSuscrita filtered by the LOCATION_ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobEmpresaSuscrita requireOneByScrapEmpresaId(int $SCRAP_EMPRESA_ID) Return the first ChildJobEmpresaSuscrita filtered by the SCRAP_EMPRESA_ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobEmpresaSuscrita requireOneByHashCode(string $HASH_CODE) Return the first ChildJobEmpresaSuscrita filtered by the HASH_CODE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobEmpresaSuscrita requireOneByNombre(string $NOMBRE) Return the first ChildJobEmpresaSuscrita filtered by the NOMBRE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobEmpresaSuscrita requireOneByNit(string $NIT) Return the first ChildJobEmpresaSuscrita filtered by the NIT column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobEmpresaSuscrita requireOneByEmail(string $EMAIL) Return the first ChildJobEmpresaSuscrita filtered by the EMAIL column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -105,6 +109,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobEmpresaSuscrita[]|ObjectCollection findByEntityTypeId(int $ENTITY_TYPE_ID) Return ChildJobEmpresaSuscrita objects filtered by the ENTITY_TYPE_ID column
  * @method     ChildJobEmpresaSuscrita[]|ObjectCollection findByLocationId(int $LOCATION_ID) Return ChildJobEmpresaSuscrita objects filtered by the LOCATION_ID column
  * @method     ChildJobEmpresaSuscrita[]|ObjectCollection findByScrapEmpresaId(int $SCRAP_EMPRESA_ID) Return ChildJobEmpresaSuscrita objects filtered by the SCRAP_EMPRESA_ID column
+ * @method     ChildJobEmpresaSuscrita[]|ObjectCollection findByHashCode(string $HASH_CODE) Return ChildJobEmpresaSuscrita objects filtered by the HASH_CODE column
  * @method     ChildJobEmpresaSuscrita[]|ObjectCollection findByNombre(string $NOMBRE) Return ChildJobEmpresaSuscrita objects filtered by the NOMBRE column
  * @method     ChildJobEmpresaSuscrita[]|ObjectCollection findByNit(string $NIT) Return ChildJobEmpresaSuscrita objects filtered by the NIT column
  * @method     ChildJobEmpresaSuscrita[]|ObjectCollection findByEmail(string $EMAIL) Return ChildJobEmpresaSuscrita objects filtered by the EMAIL column
@@ -207,7 +212,7 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT ID, ENTITY_TYPE_ID, LOCATION_ID, SCRAP_EMPRESA_ID, NOMBRE, NIT, EMAIL, DIRECCION, REPRESENTANTE, TELEFONO, CELULAR, LAST_USER_ID, CREATION_DATE, MODIFICACION_DATE FROM job_empresa_suscrita WHERE ID = :p0';
+        $sql = 'SELECT ID, ENTITY_TYPE_ID, LOCATION_ID, SCRAP_EMPRESA_ID, HASH_CODE, NOMBRE, NIT, EMAIL, DIRECCION, REPRESENTANTE, TELEFONO, CELULAR, LAST_USER_ID, CREATION_DATE, MODIFICACION_DATE FROM job_empresa_suscrita WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -463,6 +468,35 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(JobEmpresaSuscritaTableMap::COL_SCRAP_EMPRESA_ID, $scrapEmpresaId, $comparison);
+    }
+
+    /**
+     * Filter the query on the HASH_CODE column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByHashCode('fooValue');   // WHERE HASH_CODE = 'fooValue'
+     * $query->filterByHashCode('%fooValue%'); // WHERE HASH_CODE LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $hashCode The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobEmpresaSuscritaQuery The current query, for fluid interface
+     */
+    public function filterByHashCode($hashCode = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($hashCode)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $hashCode)) {
+                $hashCode = str_replace('*', '%', $hashCode);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(JobEmpresaSuscritaTableMap::COL_HASH_CODE, $hashCode, $comparison);
     }
 
     /**

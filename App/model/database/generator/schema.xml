@@ -158,16 +158,17 @@
     <column name="ENTITY_TYPE_ID" phpName="EntityTypeId" type="INTEGER" required="true"/>
     <column name="LOCATION_ID" phpName="LocationId" type="INTEGER"/>
     <column name="SCRAP_EMPRESA_ID" phpName="ScrapEmpresaId" type="INTEGER"/>
+    <column name="HASH_CODE" phpName="HashCode" type="VARCHAR" size="50"/>
     <column name="NOMBRE" phpName="Nombre" type="VARCHAR" size="500" required="true"/>
-    <column name="NIT" phpName="Nit" type="VARCHAR" size="50" required="true"/>
+    <column name="NIT" phpName="Nit" type="VARCHAR" size="50"/>
     <column name="EMAIL" phpName="Email" type="VARCHAR" size="200" required="true"/>
-    <column name="DIRECCION" phpName="Direccion" type="LONGVARCHAR" required="true"/>
+    <column name="DIRECCION" phpName="Direccion" type="LONGVARCHAR"/>
     <column name="REPRESENTANTE" phpName="Representante" type="VARCHAR" size="200" required="true"/>
     <column name="TELEFONO" phpName="Telefono" type="VARCHAR" size="30"/>
     <column name="CELULAR" phpName="Celular" type="VARCHAR" size="30"/>
-    <column name="LAST_USER_ID" phpName="LastUserId" type="INTEGER" required="true"/>
-    <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true"/>
-    <column name="MODIFICACION_DATE" phpName="ModificacionDate" type="TIMESTAMP" required="true"/>
+    <column name="LAST_USER_ID" phpName="LastUserId" type="INTEGER" required="true" defaultValue="0"/>
+    <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
+    <column name="MODIFICACION_DATE" phpName="ModificacionDate" type="TIMESTAMP"/>
     <foreign-key foreignTable="sys_entity_type" name="fk_entity_entity_type_new">
       <reference local="ENTITY_TYPE_ID" foreign="ID"/>
     </foreign-key>
@@ -187,6 +188,9 @@
       <index-column name="SCRAP_EMPRESA_ID"/>
     </index>
     <unique name="UK_SYS_ENTITY_NIT">
+      <unique-column name="NIT"/>
+    </unique>
+    <unique name="NIT">
       <unique-column name="NIT"/>
     </unique>
     <vendor type="mysql">
@@ -422,7 +426,7 @@
     <column name="TEMPLATE" phpName="Template" type="VARCHAR" size="50"/>
     <column name="LAST_USER_ID" phpName="LastUserId" type="INTEGER" required="true" defaultValue="0"/>
     <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
-    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP" defaultValue="0000-00-00 00:00:00"/>
+    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP"/>
     <unique name="UK_SYS_EMAIL_CODE">
       <unique-column name="CODE"/>
     </unique>

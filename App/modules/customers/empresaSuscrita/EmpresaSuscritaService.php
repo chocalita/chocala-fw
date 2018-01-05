@@ -80,25 +80,31 @@ class EmpresaSuscritaService extends GenericService
 
     public function insertAndNotify(array $data)
     {
+        // TODO: validate nombre completo de representante (por lo menos un espacio)
         $results = $this->insertOrUpdate($data);
         if ($results['success']) {
             $empresaSuscrita = $results['object'];
             $hash = SpecialStrings::generateHash(20);
+            $empresaSuscrita->setHashCode($hash);
+            $empresaSuscrita->save();
+            // TODO: hash encrypt to base64 * 2
+            $hashLink = $hash;
             $email = EmailService::instance()->findByCode(JobEmpresaSuscrita::EMAIL_SUBSCRIPTION);
 //            $tmpArea = TmpAreaQuery::create()->findPk($suscriptor->getIdTmpArea());
 //            print_r($suscriptor);
 //            echo "\n Codigo : ";
 //            echo $suscriptor->getIdTmpArea()."\n";
 //            print_r($tmpArea); exit();
+            $linkRegistro = WEB_ROOT.'bolsa/trabajo/completar/'.$hashLink;
             $emailMap = [
                 'TrackingHash' => $hash,
                 'To' => [
-                    ['Email' => $empresaSuscrita->getEmail(), 'Name' => $empresaSuscrita->getNombreSimple()],
+                    ['Email' => $empresaSuscrita->getEmail(), 'Name' => $empresaSuscrita->getNombre()],
                 ],
             ];
             $emailVars = [
-                '~NOMBRE_SIMPLE~' => $empresaSuscrita->getNombreSimple(),
-                '~FORMACION~' => htmlspecialchars(ucwords(strtolower($empresaSuscrita->getTmpFormacion()->getNombre()))),
+                '~NOMBRE_SIMPLE~' => $empresaSuscrita->getNombre(),
+                '~LINK_CONFIRMACION~' => $linkRegistro,
             ];
             $emailSent = EmailSender::instanceFrom($email)->sendMail($emailMap, $emailVars);
             $results['email'] = $emailSent->getToEmail();

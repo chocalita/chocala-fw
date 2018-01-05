@@ -90,6 +90,12 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
     protected $scrap_empresa_id;
 
     /**
+     * The value for the hash_code field.
+     * @var        string
+     */
+    protected $hash_code;
+
+    /**
      * The value for the nombre field.
      * @var        string
      */
@@ -133,12 +139,14 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * The value for the last_user_id field.
+     * Note: this column has a database default value of: 0
      * @var        int
      */
     protected $last_user_id;
 
     /**
      * The value for the creation_date field.
+     * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
      * @var        \DateTime
      */
     protected $creation_date;
@@ -168,10 +176,23 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
+     * Applies default values to this object.
+     * This method should be called from the object's constructor (or
+     * equivalent initialization method).
+     * @see __construct()
+     */
+    public function applyDefaultValues()
+    {
+        $this->last_user_id = 0;
+    }
+
+    /**
      * Initializes internal state of Base\JobEmpresaSuscrita object.
+     * @see applyDefaults()
      */
     public function __construct()
     {
+        $this->applyDefaultValues();
     }
 
     /**
@@ -425,6 +446,16 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
     }
 
     /**
+     * Get the [hash_code] column value.
+     * 
+     * @return string
+     */
+    public function getHashCode()
+    {
+        return $this->hash_code;
+    }
+
+    /**
      * Get the [nombre] column value.
      * 
      * @return string
@@ -631,6 +662,26 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
         return $this;
     } // setScrapEmpresaId()
+
+    /**
+     * Set the value of [hash_code] column.
+     * 
+     * @param string $v new value
+     * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
+     */
+    public function setHashCode($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->hash_code !== $v) {
+            $this->hash_code = $v;
+            $this->modifiedColumns[JobEmpresaSuscritaTableMap::COL_HASH_CODE] = true;
+        }
+
+        return $this;
+    } // setHashCode()
 
     /**
      * Set the value of [nombre] column.
@@ -842,6 +893,10 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
      */
     public function hasOnlyDefaultValues()
     {
+            if ($this->last_user_id !== 0) {
+                return false;
+            }
+
         // otherwise, everything was equal, so return TRUE
         return true;
     } // hasOnlyDefaultValues()
@@ -880,37 +935,40 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('ScrapEmpresaId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->scrap_empresa_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('Nombre', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('HashCode', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->hash_code = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('Nombre', TableMap::TYPE_PHPNAME, $indexType)];
             $this->nombre = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('Nit', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('Nit', TableMap::TYPE_PHPNAME, $indexType)];
             $this->nit = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('Email', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('Email', TableMap::TYPE_PHPNAME, $indexType)];
             $this->email = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('Direccion', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('Direccion', TableMap::TYPE_PHPNAME, $indexType)];
             $this->direccion = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('Representante', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('Representante', TableMap::TYPE_PHPNAME, $indexType)];
             $this->representante = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('Telefono', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('Telefono', TableMap::TYPE_PHPNAME, $indexType)];
             $this->telefono = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('Celular', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('Celular', TableMap::TYPE_PHPNAME, $indexType)];
             $this->celular = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('LastUserId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('LastUserId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->last_user_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('CreationDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 13 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('CreationDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->creation_date = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 13 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('ModificacionDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 14 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('ModificacionDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
@@ -923,7 +981,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 14; // 14 = JobEmpresaSuscritaTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 15; // 15 = JobEmpresaSuscritaTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\JobEmpresaSuscrita'), 0, $e);
@@ -1159,6 +1217,9 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
         if ($this->isColumnModified(JobEmpresaSuscritaTableMap::COL_SCRAP_EMPRESA_ID)) {
             $modifiedColumns[':p' . $index++]  = 'SCRAP_EMPRESA_ID';
         }
+        if ($this->isColumnModified(JobEmpresaSuscritaTableMap::COL_HASH_CODE)) {
+            $modifiedColumns[':p' . $index++]  = 'HASH_CODE';
+        }
         if ($this->isColumnModified(JobEmpresaSuscritaTableMap::COL_NOMBRE)) {
             $modifiedColumns[':p' . $index++]  = 'NOMBRE';
         }
@@ -1211,6 +1272,9 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
                         break;
                     case 'SCRAP_EMPRESA_ID':                        
                         $stmt->bindValue($identifier, $this->scrap_empresa_id, PDO::PARAM_INT);
+                        break;
+                    case 'HASH_CODE':                        
+                        $stmt->bindValue($identifier, $this->hash_code, PDO::PARAM_STR);
                         break;
                     case 'NOMBRE':                        
                         $stmt->bindValue($identifier, $this->nombre, PDO::PARAM_STR);
@@ -1317,33 +1381,36 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
                 return $this->getScrapEmpresaId();
                 break;
             case 4:
-                return $this->getNombre();
+                return $this->getHashCode();
                 break;
             case 5:
-                return $this->getNit();
+                return $this->getNombre();
                 break;
             case 6:
-                return $this->getEmail();
+                return $this->getNit();
                 break;
             case 7:
-                return $this->getDireccion();
+                return $this->getEmail();
                 break;
             case 8:
-                return $this->getRepresentante();
+                return $this->getDireccion();
                 break;
             case 9:
-                return $this->getTelefono();
+                return $this->getRepresentante();
                 break;
             case 10:
-                return $this->getCelular();
+                return $this->getTelefono();
                 break;
             case 11:
-                return $this->getLastUserId();
+                return $this->getCelular();
                 break;
             case 12:
-                return $this->getCreationDate();
+                return $this->getLastUserId();
                 break;
             case 13:
+                return $this->getCreationDate();
+                break;
+            case 14:
                 return $this->getModificacionDate();
                 break;
             default:
@@ -1380,29 +1447,30 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
             $keys[1] => $this->getEntityTypeId(),
             $keys[2] => $this->getLocationId(),
             $keys[3] => $this->getScrapEmpresaId(),
-            $keys[4] => $this->getNombre(),
-            $keys[5] => $this->getNit(),
-            $keys[6] => $this->getEmail(),
-            $keys[7] => $this->getDireccion(),
-            $keys[8] => $this->getRepresentante(),
-            $keys[9] => $this->getTelefono(),
-            $keys[10] => $this->getCelular(),
-            $keys[11] => $this->getLastUserId(),
-            $keys[12] => $this->getCreationDate(),
-            $keys[13] => $this->getModificacionDate(),
+            $keys[4] => $this->getHashCode(),
+            $keys[5] => $this->getNombre(),
+            $keys[6] => $this->getNit(),
+            $keys[7] => $this->getEmail(),
+            $keys[8] => $this->getDireccion(),
+            $keys[9] => $this->getRepresentante(),
+            $keys[10] => $this->getTelefono(),
+            $keys[11] => $this->getCelular(),
+            $keys[12] => $this->getLastUserId(),
+            $keys[13] => $this->getCreationDate(),
+            $keys[14] => $this->getModificacionDate(),
         );
 
         $utc = new \DateTimeZone('utc');
-        if ($result[$keys[12]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[12]];
-            $result[$keys[12]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
-        }
-        
         if ($result[$keys[13]] instanceof \DateTime) {
             // When changing timezone we don't want to change existing instances
             $dateTime = clone $result[$keys[13]];
             $result[$keys[13]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+        }
+        
+        if ($result[$keys[14]] instanceof \DateTime) {
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[14]];
+            $result[$keys[14]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
         }
         
         $virtualColumns = $this->virtualColumns;
@@ -1488,33 +1556,36 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
                 $this->setScrapEmpresaId($value);
                 break;
             case 4:
-                $this->setNombre($value);
+                $this->setHashCode($value);
                 break;
             case 5:
-                $this->setNit($value);
+                $this->setNombre($value);
                 break;
             case 6:
-                $this->setEmail($value);
+                $this->setNit($value);
                 break;
             case 7:
-                $this->setDireccion($value);
+                $this->setEmail($value);
                 break;
             case 8:
-                $this->setRepresentante($value);
+                $this->setDireccion($value);
                 break;
             case 9:
-                $this->setTelefono($value);
+                $this->setRepresentante($value);
                 break;
             case 10:
-                $this->setCelular($value);
+                $this->setTelefono($value);
                 break;
             case 11:
-                $this->setLastUserId($value);
+                $this->setCelular($value);
                 break;
             case 12:
-                $this->setCreationDate($value);
+                $this->setLastUserId($value);
                 break;
             case 13:
+                $this->setCreationDate($value);
+                break;
+            case 14:
                 $this->setModificacionDate($value);
                 break;
         } // switch()
@@ -1556,34 +1627,37 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
             $this->setScrapEmpresaId($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setNombre($arr[$keys[4]]);
+            $this->setHashCode($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
-            $this->setNit($arr[$keys[5]]);
+            $this->setNombre($arr[$keys[5]]);
         }
         if (array_key_exists($keys[6], $arr)) {
-            $this->setEmail($arr[$keys[6]]);
+            $this->setNit($arr[$keys[6]]);
         }
         if (array_key_exists($keys[7], $arr)) {
-            $this->setDireccion($arr[$keys[7]]);
+            $this->setEmail($arr[$keys[7]]);
         }
         if (array_key_exists($keys[8], $arr)) {
-            $this->setRepresentante($arr[$keys[8]]);
+            $this->setDireccion($arr[$keys[8]]);
         }
         if (array_key_exists($keys[9], $arr)) {
-            $this->setTelefono($arr[$keys[9]]);
+            $this->setRepresentante($arr[$keys[9]]);
         }
         if (array_key_exists($keys[10], $arr)) {
-            $this->setCelular($arr[$keys[10]]);
+            $this->setTelefono($arr[$keys[10]]);
         }
         if (array_key_exists($keys[11], $arr)) {
-            $this->setLastUserId($arr[$keys[11]]);
+            $this->setCelular($arr[$keys[11]]);
         }
         if (array_key_exists($keys[12], $arr)) {
-            $this->setCreationDate($arr[$keys[12]]);
+            $this->setLastUserId($arr[$keys[12]]);
         }
         if (array_key_exists($keys[13], $arr)) {
-            $this->setModificacionDate($arr[$keys[13]]);
+            $this->setCreationDate($arr[$keys[13]]);
+        }
+        if (array_key_exists($keys[14], $arr)) {
+            $this->setModificacionDate($arr[$keys[14]]);
         }
     }
 
@@ -1637,6 +1711,9 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
         }
         if ($this->isColumnModified(JobEmpresaSuscritaTableMap::COL_SCRAP_EMPRESA_ID)) {
             $criteria->add(JobEmpresaSuscritaTableMap::COL_SCRAP_EMPRESA_ID, $this->scrap_empresa_id);
+        }
+        if ($this->isColumnModified(JobEmpresaSuscritaTableMap::COL_HASH_CODE)) {
+            $criteria->add(JobEmpresaSuscritaTableMap::COL_HASH_CODE, $this->hash_code);
         }
         if ($this->isColumnModified(JobEmpresaSuscritaTableMap::COL_NOMBRE)) {
             $criteria->add(JobEmpresaSuscritaTableMap::COL_NOMBRE, $this->nombre);
@@ -1757,6 +1834,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
         $copyObj->setEntityTypeId($this->getEntityTypeId());
         $copyObj->setLocationId($this->getLocationId());
         $copyObj->setScrapEmpresaId($this->getScrapEmpresaId());
+        $copyObj->setHashCode($this->getHashCode());
         $copyObj->setNombre($this->getNombre());
         $copyObj->setNit($this->getNit());
         $copyObj->setEmail($this->getEmail());
@@ -1914,6 +1992,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
         $this->entity_type_id = null;
         $this->location_id = null;
         $this->scrap_empresa_id = null;
+        $this->hash_code = null;
         $this->nombre = null;
         $this->nit = null;
         $this->email = null;
@@ -1926,6 +2005,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
         $this->modificacion_date = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
+        $this->applyDefaultValues();
         $this->resetModified();
         $this->setNew(true);
         $this->setDeleted(false);
