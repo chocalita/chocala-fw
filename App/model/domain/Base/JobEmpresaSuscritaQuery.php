@@ -32,6 +32,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobEmpresaSuscritaQuery orderByRepresentante($order = Criteria::ASC) Order by the REPRESENTANTE column
  * @method     ChildJobEmpresaSuscritaQuery orderByTelefono($order = Criteria::ASC) Order by the TELEFONO column
  * @method     ChildJobEmpresaSuscritaQuery orderByCelular($order = Criteria::ASC) Order by the CELULAR column
+ * @method     ChildJobEmpresaSuscritaQuery orderByStatus($order = Criteria::ASC) Order by the STATUS column
  * @method     ChildJobEmpresaSuscritaQuery orderByLastUserId($order = Criteria::ASC) Order by the LAST_USER_ID column
  * @method     ChildJobEmpresaSuscritaQuery orderByCreationDate($order = Criteria::ASC) Order by the CREATION_DATE column
  * @method     ChildJobEmpresaSuscritaQuery orderByModificacionDate($order = Criteria::ASC) Order by the MODIFICACION_DATE column
@@ -48,6 +49,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobEmpresaSuscritaQuery groupByRepresentante() Group by the REPRESENTANTE column
  * @method     ChildJobEmpresaSuscritaQuery groupByTelefono() Group by the TELEFONO column
  * @method     ChildJobEmpresaSuscritaQuery groupByCelular() Group by the CELULAR column
+ * @method     ChildJobEmpresaSuscritaQuery groupByStatus() Group by the STATUS column
  * @method     ChildJobEmpresaSuscritaQuery groupByLastUserId() Group by the LAST_USER_ID column
  * @method     ChildJobEmpresaSuscritaQuery groupByCreationDate() Group by the CREATION_DATE column
  * @method     ChildJobEmpresaSuscritaQuery groupByModificacionDate() Group by the MODIFICACION_DATE column
@@ -81,6 +83,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobEmpresaSuscrita findOneByRepresentante(string $REPRESENTANTE) Return the first ChildJobEmpresaSuscrita filtered by the REPRESENTANTE column
  * @method     ChildJobEmpresaSuscrita findOneByTelefono(string $TELEFONO) Return the first ChildJobEmpresaSuscrita filtered by the TELEFONO column
  * @method     ChildJobEmpresaSuscrita findOneByCelular(string $CELULAR) Return the first ChildJobEmpresaSuscrita filtered by the CELULAR column
+ * @method     ChildJobEmpresaSuscrita findOneByStatus(string $STATUS) Return the first ChildJobEmpresaSuscrita filtered by the STATUS column
  * @method     ChildJobEmpresaSuscrita findOneByLastUserId(int $LAST_USER_ID) Return the first ChildJobEmpresaSuscrita filtered by the LAST_USER_ID column
  * @method     ChildJobEmpresaSuscrita findOneByCreationDate(string $CREATION_DATE) Return the first ChildJobEmpresaSuscrita filtered by the CREATION_DATE column
  * @method     ChildJobEmpresaSuscrita findOneByModificacionDate(string $MODIFICACION_DATE) Return the first ChildJobEmpresaSuscrita filtered by the MODIFICACION_DATE column *
@@ -100,6 +103,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobEmpresaSuscrita requireOneByRepresentante(string $REPRESENTANTE) Return the first ChildJobEmpresaSuscrita filtered by the REPRESENTANTE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobEmpresaSuscrita requireOneByTelefono(string $TELEFONO) Return the first ChildJobEmpresaSuscrita filtered by the TELEFONO column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobEmpresaSuscrita requireOneByCelular(string $CELULAR) Return the first ChildJobEmpresaSuscrita filtered by the CELULAR column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobEmpresaSuscrita requireOneByStatus(string $STATUS) Return the first ChildJobEmpresaSuscrita filtered by the STATUS column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobEmpresaSuscrita requireOneByLastUserId(int $LAST_USER_ID) Return the first ChildJobEmpresaSuscrita filtered by the LAST_USER_ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobEmpresaSuscrita requireOneByCreationDate(string $CREATION_DATE) Return the first ChildJobEmpresaSuscrita filtered by the CREATION_DATE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobEmpresaSuscrita requireOneByModificacionDate(string $MODIFICACION_DATE) Return the first ChildJobEmpresaSuscrita filtered by the MODIFICACION_DATE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -117,6 +121,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobEmpresaSuscrita[]|ObjectCollection findByRepresentante(string $REPRESENTANTE) Return ChildJobEmpresaSuscrita objects filtered by the REPRESENTANTE column
  * @method     ChildJobEmpresaSuscrita[]|ObjectCollection findByTelefono(string $TELEFONO) Return ChildJobEmpresaSuscrita objects filtered by the TELEFONO column
  * @method     ChildJobEmpresaSuscrita[]|ObjectCollection findByCelular(string $CELULAR) Return ChildJobEmpresaSuscrita objects filtered by the CELULAR column
+ * @method     ChildJobEmpresaSuscrita[]|ObjectCollection findByStatus(string $STATUS) Return ChildJobEmpresaSuscrita objects filtered by the STATUS column
  * @method     ChildJobEmpresaSuscrita[]|ObjectCollection findByLastUserId(int $LAST_USER_ID) Return ChildJobEmpresaSuscrita objects filtered by the LAST_USER_ID column
  * @method     ChildJobEmpresaSuscrita[]|ObjectCollection findByCreationDate(string $CREATION_DATE) Return ChildJobEmpresaSuscrita objects filtered by the CREATION_DATE column
  * @method     ChildJobEmpresaSuscrita[]|ObjectCollection findByModificacionDate(string $MODIFICACION_DATE) Return ChildJobEmpresaSuscrita objects filtered by the MODIFICACION_DATE column
@@ -212,7 +217,7 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT ID, ENTITY_TYPE_ID, LOCATION_ID, SCRAP_EMPRESA_ID, HASH_CODE, NOMBRE, NIT, EMAIL, DIRECCION, REPRESENTANTE, TELEFONO, CELULAR, LAST_USER_ID, CREATION_DATE, MODIFICACION_DATE FROM job_empresa_suscrita WHERE ID = :p0';
+        $sql = 'SELECT ID, ENTITY_TYPE_ID, LOCATION_ID, SCRAP_EMPRESA_ID, HASH_CODE, NOMBRE, NIT, EMAIL, DIRECCION, REPRESENTANTE, TELEFONO, CELULAR, STATUS, LAST_USER_ID, CREATION_DATE, MODIFICACION_DATE FROM job_empresa_suscrita WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -700,6 +705,35 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(JobEmpresaSuscritaTableMap::COL_CELULAR, $celular, $comparison);
+    }
+
+    /**
+     * Filter the query on the STATUS column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByStatus('fooValue');   // WHERE STATUS = 'fooValue'
+     * $query->filterByStatus('%fooValue%'); // WHERE STATUS LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $status The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobEmpresaSuscritaQuery The current query, for fluid interface
+     */
+    public function filterByStatus($status = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($status)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $status)) {
+                $status = str_replace('*', '%', $status);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(JobEmpresaSuscritaTableMap::COL_STATUS, $status, $comparison);
     }
 
     /**

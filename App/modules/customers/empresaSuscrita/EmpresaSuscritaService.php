@@ -65,7 +65,9 @@ class EmpresaSuscritaService extends GenericService
     public function insertOrUpdate($data, &$empresaSuscrita = null)
     {
         if (!is_object($empresaSuscrita)) {
+            $hash = SpecialStrings::generateHash(20);
             $empresaSuscrita = new JobEmpresaSuscrita();
+            $empresaSuscrita->setHashCode($hash);
         }
         $empresaSuscrita->fromArray($data);
         $results['success'] = $empresaSuscrita->validate();
@@ -84,11 +86,9 @@ class EmpresaSuscritaService extends GenericService
         $results = $this->insertOrUpdate($data);
         if ($results['success']) {
             $empresaSuscrita = $results['object'];
-            $hash = SpecialStrings::generateHash(20);
-            $empresaSuscrita->setHashCode($hash);
             $empresaSuscrita->save();
             // TODO: hash encrypt to base64 * 2
-            $hashLink = $hash;
+            $hashLink = $empresaSuscrita->getHashCode();
             $email = EmailService::instance()->findByCode(JobEmpresaSuscrita::EMAIL_SUBSCRIPTION);
 //            $tmpArea = TmpAreaQuery::create()->findPk($suscriptor->getIdTmpArea());
 //            print_r($suscriptor);

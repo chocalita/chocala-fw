@@ -17,6 +17,11 @@ class JobEmpresaSuscrita extends BaseJobEmpresaSuscrita implements JsonSerializa
         'EntityTypeId' => [
             'null' => false, 'blank' => false,
         ],
+        'HashCode' => [
+            'null' => true, 'blank' => false,
+            'unique' => true,
+            'size' => ['min' => 2, 'max' => 50],
+        ],
         'Nombre' => [
             'null' => false, 'blank' => false,
             'unique' => true,
@@ -36,6 +41,7 @@ class JobEmpresaSuscrita extends BaseJobEmpresaSuscrita implements JsonSerializa
     public function preSave()
     {
         $this->entity_type_id= trim(strtolower($this->entity_type_id))?: null;
+        $this->hash_code = trim($this->hash_code)?: null;
         $this->nombre = ucwords(strtolower(trim($this->nombre)))?: null;
         $this->email= trim(strtolower($this->email))?: null;
         $this->representante = ucwords(strtolower(trim($this->representante)))?: null;

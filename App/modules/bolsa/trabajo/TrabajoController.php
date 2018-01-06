@@ -87,6 +87,15 @@ class TrabajoController extends PublicWebController
         }
     }
 
+    public function avisoIfExist()
+    {
+        try {
+            return $this->avisoService->findPk($this->id);
+        } catch (ChocalaException $che) {
+            HttpManager::responseAs404();
+        }
+    }
+
     public function suscripcion()
     {
         $data = Req::all();
@@ -117,15 +126,6 @@ class TrabajoController extends PublicWebController
         $this->set('errors', $results['errors']);
         $this->set('email', $results['email']);
         $this->renderAsJSON();
-    }
-
-    public function avisoIfExist()
-    {
-        try {
-            return $this->avisoService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
-        }
     }
 
 }

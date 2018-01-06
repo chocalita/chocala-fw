@@ -138,6 +138,13 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
     protected $celular;
 
     /**
+     * The value for the status field.
+     * Note: this column has a database default value of: 'INITIAL'
+     * @var        string
+     */
+    protected $status;
+
+    /**
      * The value for the last_user_id field.
      * Note: this column has a database default value of: 0
      * @var        int
@@ -183,6 +190,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
      */
     public function applyDefaultValues()
     {
+        $this->status = 'INITIAL';
         $this->last_user_id = 0;
     }
 
@@ -526,6 +534,16 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
     }
 
     /**
+     * Get the [status] column value.
+     * 
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
      * Get the [last_user_id] column value.
      * 
      * @return int
@@ -824,6 +842,26 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
     } // setCelular()
 
     /**
+     * Set the value of [status] column.
+     * 
+     * @param string $v new value
+     * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
+     */
+    public function setStatus($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->status !== $v) {
+            $this->status = $v;
+            $this->modifiedColumns[JobEmpresaSuscritaTableMap::COL_STATUS] = true;
+        }
+
+        return $this;
+    } // setStatus()
+
+    /**
      * Set the value of [last_user_id] column.
      * 
      * @param int $v new value
@@ -893,6 +931,10 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
      */
     public function hasOnlyDefaultValues()
     {
+            if ($this->status !== 'INITIAL') {
+                return false;
+            }
+
             if ($this->last_user_id !== 0) {
                 return false;
             }
@@ -959,16 +1001,19 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('Celular', TableMap::TYPE_PHPNAME, $indexType)];
             $this->celular = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('LastUserId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->status = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 13 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('LastUserId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->last_user_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 13 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('CreationDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 14 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('CreationDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->creation_date = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 14 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('ModificacionDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 15 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('ModificacionDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
@@ -981,7 +1026,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 15; // 15 = JobEmpresaSuscritaTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 16; // 16 = JobEmpresaSuscritaTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\JobEmpresaSuscrita'), 0, $e);
@@ -1241,6 +1286,9 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
         if ($this->isColumnModified(JobEmpresaSuscritaTableMap::COL_CELULAR)) {
             $modifiedColumns[':p' . $index++]  = 'CELULAR';
         }
+        if ($this->isColumnModified(JobEmpresaSuscritaTableMap::COL_STATUS)) {
+            $modifiedColumns[':p' . $index++]  = 'STATUS';
+        }
         if ($this->isColumnModified(JobEmpresaSuscritaTableMap::COL_LAST_USER_ID)) {
             $modifiedColumns[':p' . $index++]  = 'LAST_USER_ID';
         }
@@ -1296,6 +1344,9 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
                         break;
                     case 'CELULAR':                        
                         $stmt->bindValue($identifier, $this->celular, PDO::PARAM_STR);
+                        break;
+                    case 'STATUS':                        
+                        $stmt->bindValue($identifier, $this->status, PDO::PARAM_STR);
                         break;
                     case 'LAST_USER_ID':                        
                         $stmt->bindValue($identifier, $this->last_user_id, PDO::PARAM_INT);
@@ -1405,12 +1456,15 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
                 return $this->getCelular();
                 break;
             case 12:
-                return $this->getLastUserId();
+                return $this->getStatus();
                 break;
             case 13:
-                return $this->getCreationDate();
+                return $this->getLastUserId();
                 break;
             case 14:
+                return $this->getCreationDate();
+                break;
+            case 15:
                 return $this->getModificacionDate();
                 break;
             default:
@@ -1455,22 +1509,23 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
             $keys[9] => $this->getRepresentante(),
             $keys[10] => $this->getTelefono(),
             $keys[11] => $this->getCelular(),
-            $keys[12] => $this->getLastUserId(),
-            $keys[13] => $this->getCreationDate(),
-            $keys[14] => $this->getModificacionDate(),
+            $keys[12] => $this->getStatus(),
+            $keys[13] => $this->getLastUserId(),
+            $keys[14] => $this->getCreationDate(),
+            $keys[15] => $this->getModificacionDate(),
         );
 
         $utc = new \DateTimeZone('utc');
-        if ($result[$keys[13]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[13]];
-            $result[$keys[13]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
-        }
-        
         if ($result[$keys[14]] instanceof \DateTime) {
             // When changing timezone we don't want to change existing instances
             $dateTime = clone $result[$keys[14]];
             $result[$keys[14]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+        }
+        
+        if ($result[$keys[15]] instanceof \DateTime) {
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[15]];
+            $result[$keys[15]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
         }
         
         $virtualColumns = $this->virtualColumns;
@@ -1580,12 +1635,15 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
                 $this->setCelular($value);
                 break;
             case 12:
-                $this->setLastUserId($value);
+                $this->setStatus($value);
                 break;
             case 13:
-                $this->setCreationDate($value);
+                $this->setLastUserId($value);
                 break;
             case 14:
+                $this->setCreationDate($value);
+                break;
+            case 15:
                 $this->setModificacionDate($value);
                 break;
         } // switch()
@@ -1651,13 +1709,16 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
             $this->setCelular($arr[$keys[11]]);
         }
         if (array_key_exists($keys[12], $arr)) {
-            $this->setLastUserId($arr[$keys[12]]);
+            $this->setStatus($arr[$keys[12]]);
         }
         if (array_key_exists($keys[13], $arr)) {
-            $this->setCreationDate($arr[$keys[13]]);
+            $this->setLastUserId($arr[$keys[13]]);
         }
         if (array_key_exists($keys[14], $arr)) {
-            $this->setModificacionDate($arr[$keys[14]]);
+            $this->setCreationDate($arr[$keys[14]]);
+        }
+        if (array_key_exists($keys[15], $arr)) {
+            $this->setModificacionDate($arr[$keys[15]]);
         }
     }
 
@@ -1735,6 +1796,9 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
         }
         if ($this->isColumnModified(JobEmpresaSuscritaTableMap::COL_CELULAR)) {
             $criteria->add(JobEmpresaSuscritaTableMap::COL_CELULAR, $this->celular);
+        }
+        if ($this->isColumnModified(JobEmpresaSuscritaTableMap::COL_STATUS)) {
+            $criteria->add(JobEmpresaSuscritaTableMap::COL_STATUS, $this->status);
         }
         if ($this->isColumnModified(JobEmpresaSuscritaTableMap::COL_LAST_USER_ID)) {
             $criteria->add(JobEmpresaSuscritaTableMap::COL_LAST_USER_ID, $this->last_user_id);
@@ -1842,6 +1906,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
         $copyObj->setRepresentante($this->getRepresentante());
         $copyObj->setTelefono($this->getTelefono());
         $copyObj->setCelular($this->getCelular());
+        $copyObj->setStatus($this->getStatus());
         $copyObj->setLastUserId($this->getLastUserId());
         $copyObj->setCreationDate($this->getCreationDate());
         $copyObj->setModificacionDate($this->getModificacionDate());
@@ -2000,6 +2065,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
         $this->representante = null;
         $this->telefono = null;
         $this->celular = null;
+        $this->status = null;
         $this->last_user_id = null;
         $this->creation_date = null;
         $this->modificacion_date = null;

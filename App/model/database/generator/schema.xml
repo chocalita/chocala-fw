@@ -166,6 +166,7 @@
     <column name="REPRESENTANTE" phpName="Representante" type="VARCHAR" size="200" required="true"/>
     <column name="TELEFONO" phpName="Telefono" type="VARCHAR" size="30"/>
     <column name="CELULAR" phpName="Celular" type="VARCHAR" size="30"/>
+    <column name="STATUS" phpName="Status" type="VARCHAR" size="30" required="true" defaultValue="INITIAL"/>
     <column name="LAST_USER_ID" phpName="LastUserId" type="INTEGER" required="true" defaultValue="0"/>
     <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
     <column name="MODIFICACION_DATE" phpName="ModificacionDate" type="TIMESTAMP"/>
@@ -655,7 +656,7 @@
     <column name="RGT" phpName="Rgt" type="INTEGER"/>
     <column name="LAST_USER_ID" phpName="LastUserId" type="INTEGER" required="true"/>
     <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
-    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP" defaultValue="0000-00-00 00:00:00"/>
+    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP"/>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>

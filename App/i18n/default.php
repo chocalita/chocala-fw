@@ -1,22 +1,23 @@
 <?php
 return array(
-    'validate.null' => 'La propiedad no puede ser nula',
-    'validate.blank' => 'La propiedad no puede ser vacía',
-    'validate.range' => 'El valor de la propiedad debe estar dentro del rango [{min}] - [{max}]',
-    'validate.size' => 'El tamaño de la propiedad debe estar entre el rango [{min}] - [{max}]',
-    'validate.min.value' => 'El valor mínimo de la propiedad es [{min}]',
-    'validate.max.value' => 'El valor máximo de la propiedad es [{max}]',
-    'validate.min.size' => 'El tamaño mínimo de la propiedad es [{min}]',
-    'validate.max.size' => 'El tamaño máximo de la propiedad es [{max}}]',
-    'validate.not.equal' => 'El valor de la propiedad no puede ser [{val}]',
-    'validate.email' => 'El valor de la propiedad no es un email válido',
-    'validate.not.inlist' => 'El valor de la propiedad no corresponde a la lista válida',
-    'validate.unique' => 'La propiedad debe ser ùnica',
+    'validate.null' => 'Este campo es requerido',
+    'validate.blank' => 'Este campo es requerido',
+    'validate.range' => 'El valor debe estar entre [{min}] y [{max}]',
+    'validate.size' => 'La longitud permitidaes de [{min}] a [{max}] caracteres',
+    'validate.min.value' => 'El valor mínimo permitido es [{min}]',
+    'validate.max.value' => 'El valor máximo permitido es [{max}]',
+    'validate.min.size' => 'El tamaño mínimo es de [{min}] caracteres',
+    'validate.max.size' => 'El tamaño máximo es de [{max}}] caracteres',
+    'validate.not.equal' => 'El valor "[{val}]" no esta permitido',
+    'validate.email' => 'El valor ingresado no es un email válido',
+    'validate.not.inlist' => 'El valor no se encuentra en la lista válida',
+    'validate.unique' => 'Este valor ya se encuentra registrado',
 
     /* JobSuscriptor */
-    'JobSuscriptor.NombreSimple.validate.size' => 'La longitud del nombre debe ser de [{min}] a [{max}] caracteres',
+    'JobSuscriptor.NombreSimple.validate.size' => 'El nombre debe tener entre [{min}] y [{max}] caracteres',
+    'JobSuscriptor.Email.validate.size' => 'El correo debe tener entre [{min}] y [{max}] caracteres',
     'JobSuscriptor.Email.validate.unique' => 'Este email ya se encuentra registrado',
-    'JobSuscriptor.IdTmpFormacion.validate.null' => 'Debe ingresar la Formación de su interés',
+    'JobSuscriptor.IdTmpFormacion.validate.null' => 'Debe especificar el área de su interés',
 
     /* JobEmpresaSuscrita */
     'JobEmpresaSuscrita.Nombre.validate.null' => 'Debe ingresar el nombre de la empresa',
