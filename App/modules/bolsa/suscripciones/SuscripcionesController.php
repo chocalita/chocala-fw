@@ -35,13 +35,15 @@ class SuscripcionesController extends AdminWebController
     public function empresa()
     {
         $this->view->changeLayout('public');
-        $data = Req::all();
-        $data['Ip'] = $_SERVER['REMOTE_ADDR'];
-        $results = $this->empresaSuscritaService->insertAndNotify($data);
-        $this->set('empresaSuscriptora', $results['object']);
-        $this->set('success', $results['success']);
-        $this->set('errors', $results['errors']);
-        $this->set('email', $results['email']);
+
+        $empresaSuscrita = JobEmpresaSuscritaQuery::create()->findOneById(1);
+        $esEmpresaFormal = $empresaSuscrita->getSysEntityType()->getGroupCode()==SysEntityType::GROUP_FORMAL_COMPANY;
+
+        $locaciones = SysLocationQuery::create()->filterByType("DEPARTAMENT")->find();
+
+        $this->set('empresaSuscrita', $empresaSuscrita);
+        $this->set('esEmpresaFormal', $esEmpresaFormal);
+        $this->set('locaciones', $locaciones);
     }
 
     public function aMethod()

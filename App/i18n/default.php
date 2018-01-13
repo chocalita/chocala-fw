@@ -4,11 +4,12 @@ return array(
     'validate.blank' => 'Este campo es requerido',
     'validate.range' => 'El valor debe estar entre [{min}] y [{max}]',
     'validate.size' => 'La longitud permitidaes de [{min}] a [{max}] caracteres',
-    'validate.min.value' => 'El valor mínimo permitido es [{min}]',
-    'validate.max.value' => 'El valor máximo permitido es [{max}]',
-    'validate.min.size' => 'El tamaño mínimo es de [{min}] caracteres',
-    'validate.max.size' => 'El tamaño máximo es de [{max}}] caracteres',
+    'validate.size.min' => 'El tamaño mínimo es de [{min}] caracteres',
+    'validate.size.max' => 'El tamaño máximo es de [{max}}] caracteres',
+    'validate.size.fix' => 'El tamaño permitido es de [{fix}] caracteres',
     'validate.not.equal' => 'El valor "[{val}]" no esta permitido',
+    'validate.value.min' => 'El valor mínimo permitido es [{min}]',
+    'validate.value.max' => 'El valor máximo permitido es [{max}]',
     'validate.email' => 'El valor ingresado no es un email válido',
     'validate.not.inlist' => 'El valor no se encuentra en la lista válida',
     'validate.unique' => 'Este valor ya se encuentra registrado',
@@ -22,7 +23,7 @@ return array(
     /* JobEmpresaSuscrita */
     'JobEmpresaSuscrita.Nombre.validate.null' => 'Debe ingresar el nombre de la empresa',
     'JobEmpresaSuscrita.Nombre.validate.blank' => 'Debe ingresar el nombre de la empresa',
-    'JobEmpresaSuscrita.Nombre.validate.size' => 'La longitud del nombre debe ser de [{min}] a [{max}] caracteres',
+    'JobEmpresaSuscrita.Nombre.validate.size' => 'El nombre debe tener de [{min}] a [{max}] caracteres',
     'JobEmpresaSuscrita.Nombre.validate.unique' => 'Este nombre ya se encuentra registrado',
     'JobEmpresaSuscrita.Email.validate.null' => 'Debe ingresar el email de la empresa',
     'JobEmpresaSuscrita.Email.validate.blank' => 'Debe ingresar el email de la empresa',
@@ -33,6 +34,12 @@ return array(
     'JobEmpresaSuscrita.Representante.validate.size' => 'La longitud debe ser de [{min}] a [{max}] caracteres',
     'JobEmpresaSuscrita.EntityTypeId.validate.null' => 'Debe especificar el tipo de empresa o negocio',
     'JobEmpresaSuscrita.EntityTypeId.validate.blank' => 'Debe especificar el tipo de empresa o negocio',
+
+    'JobEmpresaSuscrita.Direccion.validate.null' => 'Debe ingresar la dirección de la empresa',
+    'JobEmpresaSuscrita.Direccion.validate.blank' => 'Debe ingresar la dirección de la empresa',
+    'JobEmpresaSuscrita.Direccion.validate.size' => 'La dirección debe tener de [{min}] a [{max}] caracteres',
+    'JobEmpresaSuscrita.Telefono.validate.size' => 'El teléfono debe tener de [{min}] a [{max}] caracteres',
+    'JobEmpresaSuscrita.Celular.validate.size' => 'El celular debe tener de [{min}] a [{max}] caracteres',
 
 
     'Displayed related class attrib' => 'Displayed attrib of [{class}] class',

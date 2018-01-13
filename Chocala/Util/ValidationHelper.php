@@ -72,7 +72,7 @@ abstract class ValidationHelper
     public static function validateMinValue($field, $value, $min, $className)
     {
         return $value < $min ?
-            self::createFailure($field, 'validate.min.value', ['min' => $min], $className) : null;
+            self::createFailure($field, 'validate.value.min', ['min' => $min], $className) : null;
     }
 
     /**
@@ -85,7 +85,7 @@ abstract class ValidationHelper
     public static function validateMaxValue($field, $value, $max, $className)
     {
         return $value > $max ?
-            self::createFailure($field, 'validate.max.value', ['max' => $max], $className) : null;
+            self::createFailure($field, 'validate.value.max', ['max' => $max], $className) : null;
     }
 
     /**
@@ -109,10 +109,10 @@ abstract class ValidationHelper
      * @param string $className
      * @return ValidationFailed
      */
-    public static function validateMinSize($field, $value, $min, $className)
+    public static function validateSizeMin($field, $value, $min, $className)
     {
         return mb_strlen($value) < $min ?
-            self::createFailure($field, 'validate.min.size', ['min' => $min], $className) : null;
+            self::createFailure($field, 'validate.size.min', ['min' => $min], $className) : null;
     }
 
     /**
@@ -122,10 +122,23 @@ abstract class ValidationHelper
      * @param string $className
      * @return null|ValidationFailed
      */
-    public static function validateMaxSize($field, $value, $max, $className)
+    public static function validateSizeMax($field, $value, $max, $className)
     {
         return mb_strlen($value) > $max ?
-            self::createFailure($field, 'validate.max.size', ['max' => $max], $className) : null;
+            self::createFailure($field, 'validate.size.max', ['max' => $max], $className) : null;
+    }
+
+    /**
+     * @param string $field
+     * @param string $value
+     * @param int $fix
+     * @param string $className
+     * @return ValidationFailed
+     */
+    public static function validateSizeFix($field, $value, $fix, $className)
+    {
+        return mb_strlen($value) != $fix ?
+            self::createFailure($field, 'validate.size.fix', ['fix' => $fix], $className) : null;
     }
 
     /**
@@ -218,12 +231,15 @@ abstract class ValidationHelper
                     if (!$isNull) {
                         $min = $option['min'];
                         $max = $option['max'];
+                        $fix = $option['fixed'];
                         if (self::isInteger($min) && self::isInteger($max)) {
                             $validateResult = self::validateSize($field, $value, $min, $max, $className);
                         } elseif (is_integer($min)) {
-                            $validateResult = self::validateMinSize($field, $value, $min, $className);
+                            $validateResult = self::validateSizeMin($field, $value, $min, $className);
                         } elseif (is_integer($max)) {
-                            $validateResult = self::validateMaxSize($field, $value, $max, $className);
+                            $validateResult = self::validateSizeMax($field, $value, $max, $className);
+                        } elseif (is_integer($fix)) {
+                            $validateResult = self::validateSizeFix($field, $value, $fix, $className);
                         } else {
                             throw new ChocalaException('INVALID SIZE VALIDATION DATA');
                         }
@@ -262,12 +278,12 @@ abstract class ValidationHelper
                         }
                     }
                     try {
-                        if ($option) {
+                        if ($option && $value !== null) {
                             if (!$obj->isNew()) {
                                 $queryClass = $queryClass->prune($obj);
                             }
-                            $filterName = 'filterBy' . $fieldName;
-                            $queryClass = $queryClass->$filterName($value);
+                            $filterField = 'filterBy' . $fieldName;
+                            $queryClass = $queryClass->$filterField($value);
                             $validateResult = self::validateUnique($field, $value, $queryClass, $className);
                         }
                     } catch (Exception $e) {
