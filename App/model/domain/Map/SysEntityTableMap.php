@@ -221,8 +221,8 @@ class SysEntityTableMap extends TableMap
         $this->addColumn('ACTIVITIES', 'Activities', 'LONGVARCHAR', false, null, null);
         $this->addColumn('DESCRIPTION', 'Description', 'LONGVARCHAR', false, null, null);
         $this->addColumn('LAST_USER_ID', 'LastUserId', 'INTEGER', true, null, null);
-        $this->addColumn('CREATION_DATE', 'CreationDate', 'TIMESTAMP', true, null, null);
-        $this->addColumn('MODIFICACION_DATE', 'ModificacionDate', 'TIMESTAMP', true, null, null);
+        $this->addColumn('CREATION_DATE', 'CreationDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');
+        $this->addColumn('MODIFICACION_DATE', 'ModificacionDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');
     } // initialize()
 
     /**

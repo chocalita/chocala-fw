@@ -21,7 +21,7 @@
     <column name="STATUS" phpName="Status" type="VARCHAR" size="10" required="true"/>
     <column name="LAST_USER_ID" phpName="LastUserId" type="INTEGER" required="true"/>
     <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
-    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP" defaultValue="0000-00-00 00:00:00"/>
+    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP"/>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
@@ -33,7 +33,7 @@
     <column name="STATUS" phpName="Status" type="VARCHAR" size="10" required="true"/>
     <column name="LAST_USER_ID" phpName="LastUserId" type="INTEGER" required="true" defaultValue="0"/>
     <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
-    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP" defaultValue="0000-00-00 00:00:00"/>
+    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP"/>
     <foreign-key foreignTable="job_area_tecnica" name="FK_AREA_RELACIONADA_1">
       <reference local="ID_AREA_1" foreign="ID"/>
     </foreign-key>
@@ -72,7 +72,7 @@
     <column name="STATUS" phpName="Status" type="VARCHAR" size="10" required="true" defaultValue="ACTIVE"/>
     <column name="LAST_USER_ID" phpName="LastUserId" type="INTEGER" required="true" defaultValue="0"/>
     <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
-    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP" defaultValue="0000-00-00 00:00:00"/>
+    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP"/>
     <foreign-key foreignTable="job_area_tecnica" name="FK_AREA_TEC_PRO_AREA_TEC">
       <reference local="ID_AREA_TECNICA" foreign="ID"/>
     </foreign-key>
@@ -116,7 +116,7 @@
     <column name="STATUS" phpName="Status" type="VARCHAR" size="10" required="true" defaultValue="ACTIVE"/>
     <column name="LAST_USER_ID" phpName="LastUserId" type="VARCHAR" size="20" required="true" defaultValue="0"/>
     <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
-    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP"/>
+    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
     <foreign-key foreignTable="job_area_tecnica" name="job_aviso_fk1">
       <reference local="AREA_TECNICA_ID" foreign="ID"/>
     </foreign-key>
@@ -169,7 +169,7 @@
     <column name="STATUS" phpName="Status" type="VARCHAR" size="30" required="true" defaultValue="INITIAL"/>
     <column name="LAST_USER_ID" phpName="LastUserId" type="INTEGER" required="true" defaultValue="0"/>
     <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
-    <column name="MODIFICACION_DATE" phpName="ModificacionDate" type="TIMESTAMP"/>
+    <column name="MODIFICACION_DATE" phpName="ModificacionDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
     <foreign-key foreignTable="sys_entity_type" name="fk_entity_entity_type_new">
       <reference local="ENTITY_TYPE_ID" foreign="ID"/>
     </foreign-key>
@@ -223,7 +223,7 @@
     <column name="STATUS" phpName="Status" type="VARCHAR" size="20" required="true" defaultValue="ACTIVE"/>
     <column name="LAST_USER_ID" phpName="LastUserId" type="INTEGER" required="true" defaultValue="0"/>
     <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
-    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP" required="true" defaultValue="0000-00-00 00:00:00"/>
+    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP"/>
     <foreign-key foreignTable="job_tipo_formacion" name="job_formacion_academica_fk1">
       <reference local="ID_TIPO_FORMACION" foreign="ID"/>
     </foreign-key>
@@ -254,7 +254,7 @@
     <column name="STATUS" phpName="Status" type="VARCHAR" size="10" required="true" defaultValue="ACTIVE"/>
     <column name="LAST_USER_ID" phpName="LastUserId" type="INTEGER" required="true" defaultValue="0"/>
     <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
-    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP" defaultValue="0000-00-00 00:00:00"/>
+    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP"/>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
@@ -265,7 +265,7 @@
     <column name="STATUS" phpName="Status" type="VARCHAR" size="20" required="true" defaultValue="ACTIVE"/>
     <column name="LAST_USER_ID" phpName="LastUserId" type="INTEGER" required="true" defaultValue="0"/>
     <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
-    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP" required="true" defaultValue="0000-00-00 00:00:00"/>
+    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP"/>
     <foreign-key foreignTable="job_curriculum" name="FK_OFICIO_CURRICULUM_CURRICULUM">
       <reference local="ID_CURRICULUM" foreign="ID"/>
     </foreign-key>
@@ -291,7 +291,7 @@
     <column name="STATUS" phpName="Status" type="VARCHAR" size="10" required="true" defaultValue="ACTIVE"/>
     <column name="LAST_USER_ID" phpName="LastUserId" type="INTEGER" required="true" defaultValue="0"/>
     <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
-    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP" defaultValue="0000-00-00 00:00:00"/>
+    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP"/>
     <foreign-key foreignTable="job_tipo_formacion" name="job_profesion_fk1">
       <reference local="ID_TIPO_FORMACION" foreign="ID"/>
     </foreign-key>
@@ -313,8 +313,9 @@
     <column name="UBICACION" phpName="Ubicacion" type="VARCHAR" size="30"/>
     <column name="IP" phpName="Ip" type="VARCHAR" size="50" required="true"/>
     <column name="STATUS" phpName="Status" type="VARCHAR" size="30" required="true" defaultValue="INICIADO"/>
-    <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
     <column name="CONFIRMATION" phpName="Confirmation" type="TIMESTAMP"/>
+    <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
+    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
     <foreign-key foreignTable="tmp_area" name="job_suscriptor_fk1">
       <reference local="ID_TMP_AREA" foreign="id"/>
     </foreign-key>
@@ -483,8 +484,8 @@
     <column name="ACTIVITIES" phpName="Activities" type="LONGVARCHAR"/>
     <column name="DESCRIPTION" phpName="Description" type="LONGVARCHAR"/>
     <column name="LAST_USER_ID" phpName="LastUserId" type="INTEGER" required="true"/>
-    <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true"/>
-    <column name="MODIFICACION_DATE" phpName="ModificacionDate" type="TIMESTAMP" required="true"/>
+    <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
+    <column name="MODIFICACION_DATE" phpName="ModificacionDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
     <foreign-key foreignTable="sys_entity_type" name="fk_entity_entity_type">
       <reference local="ENTITY_TYPE_ID" foreign="ID"/>
     </foreign-key>

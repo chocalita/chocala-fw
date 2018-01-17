@@ -174,7 +174,7 @@ class JobProfesionTableMap extends TableMap
         $this->addColumn('STATUS', 'Status', 'VARCHAR', true, 10, 'ACTIVE');
         $this->addColumn('LAST_USER_ID', 'LastUserId', 'INTEGER', true, null, 0);
         $this->addColumn('CREATION_DATE', 'CreationDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');
-        $this->addColumn('MODIFICATION_DATE', 'ModificationDate', 'TIMESTAMP', false, null, '0000-00-00 00:00:00');
+        $this->addColumn('MODIFICATION_DATE', 'ModificationDate', 'TIMESTAMP', false, null, null);
     } // initialize()
 
     /**

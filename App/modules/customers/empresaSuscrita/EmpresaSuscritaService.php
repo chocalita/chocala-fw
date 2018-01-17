@@ -25,12 +25,26 @@ class EmpresaSuscritaService extends GenericService
 
     /**
      * @param $pk
-     * @return array|mixed|JobEntidadSuscrita
+     * @return array|JobEmpresaSuscrita|mixed
      * @throws ChocalaException
      */
     public function findPk($pk)
     {
         $empresaSuscrita = $this->validsQuery()->findPk($pk);
+        if (!is_object($empresaSuscrita)) {
+            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+        }
+        return $empresaSuscrita;
+    }
+
+    /**
+     * @param $hashCode
+     * @return JobEmpresaSuscrita
+     * @throws ChocalaException
+     */
+    public function findByHashCode($hashCode)
+    {
+        $empresaSuscrita = JobEmpresaSuscritaQuery::create()->findOneByHashCode($hashCode);
         if (!is_object($empresaSuscrita)) {
             throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
         }

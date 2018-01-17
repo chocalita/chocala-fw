@@ -228,6 +228,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * The value for the modification_date field.
+     * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
      * @var        \DateTime
      */
     protected $modification_date;

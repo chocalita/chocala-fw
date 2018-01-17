@@ -216,7 +216,7 @@ class JobEmpresaSuscritaTableMap extends TableMap
         $this->addColumn('STATUS', 'Status', 'VARCHAR', true, 30, 'INITIAL');
         $this->addColumn('LAST_USER_ID', 'LastUserId', 'INTEGER', true, null, 0);
         $this->addColumn('CREATION_DATE', 'CreationDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');
-        $this->addColumn('MODIFICACION_DATE', 'ModificacionDate', 'TIMESTAMP', false, null, null);
+        $this->addColumn('MODIFICACION_DATE', 'ModificacionDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');
     } // initialize()
 
     /**

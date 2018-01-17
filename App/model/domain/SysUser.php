@@ -78,7 +78,7 @@ class SysUser extends BaseSysUser implements JsonSerializable
         ],
         'Status' => [
             'null' => false, 'blank' => false,
-            'inlist' => [self::STATUS_CREATED, self::STATUS_ACTIVE,
+            'inList' => [self::STATUS_CREATED, self::STATUS_ACTIVE,
                 self::STATUS_BLOCKED, self::STATUS_CLOSED]
         ],
         'Location' => [

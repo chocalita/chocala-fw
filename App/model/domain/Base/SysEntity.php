@@ -165,12 +165,14 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * The value for the creation_date field.
+     * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
      * @var        \DateTime
      */
     protected $creation_date;
 
     /**
      * The value for the modificacion_date field.
+     * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
      * @var        \DateTime
      */
     protected $modificacion_date;
@@ -230,10 +232,22 @@ abstract class SysEntity implements ActiveRecordInterface
     protected $sysEntityUsersScheduledForDeletion = null;
 
     /**
+     * Applies default values to this object.
+     * This method should be called from the object's constructor (or
+     * equivalent initialization method).
+     * @see __construct()
+     */
+    public function applyDefaultValues()
+    {
+    }
+
+    /**
      * Initializes internal state of Base\SysEntity object.
+     * @see applyDefaults()
      */
     public function __construct()
     {
+        $this->applyDefaultValues();
     }
 
     /**
@@ -3054,6 +3068,7 @@ abstract class SysEntity implements ActiveRecordInterface
         $this->modificacion_date = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
+        $this->applyDefaultValues();
         $this->resetModified();
         $this->setNew(true);
         $this->setDeleted(false);

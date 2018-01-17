@@ -30,8 +30,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSuscriptorQuery orderByUbicacion($order = Criteria::ASC) Order by the UBICACION column
  * @method     ChildJobSuscriptorQuery orderByIp($order = Criteria::ASC) Order by the IP column
  * @method     ChildJobSuscriptorQuery orderByStatus($order = Criteria::ASC) Order by the STATUS column
- * @method     ChildJobSuscriptorQuery orderByCreationDate($order = Criteria::ASC) Order by the CREATION_DATE column
  * @method     ChildJobSuscriptorQuery orderByConfirmation($order = Criteria::ASC) Order by the CONFIRMATION column
+ * @method     ChildJobSuscriptorQuery orderByCreationDate($order = Criteria::ASC) Order by the CREATION_DATE column
+ * @method     ChildJobSuscriptorQuery orderByModificationDate($order = Criteria::ASC) Order by the MODIFICATION_DATE column
  *
  * @method     ChildJobSuscriptorQuery groupById() Group by the ID column
  * @method     ChildJobSuscriptorQuery groupByIdTmpArea() Group by the ID_TMP_AREA column
@@ -43,8 +44,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSuscriptorQuery groupByUbicacion() Group by the UBICACION column
  * @method     ChildJobSuscriptorQuery groupByIp() Group by the IP column
  * @method     ChildJobSuscriptorQuery groupByStatus() Group by the STATUS column
- * @method     ChildJobSuscriptorQuery groupByCreationDate() Group by the CREATION_DATE column
  * @method     ChildJobSuscriptorQuery groupByConfirmation() Group by the CONFIRMATION column
+ * @method     ChildJobSuscriptorQuery groupByCreationDate() Group by the CREATION_DATE column
+ * @method     ChildJobSuscriptorQuery groupByModificationDate() Group by the MODIFICATION_DATE column
  *
  * @method     ChildJobSuscriptorQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildJobSuscriptorQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -73,8 +75,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSuscriptor findOneByUbicacion(string $UBICACION) Return the first ChildJobSuscriptor filtered by the UBICACION column
  * @method     ChildJobSuscriptor findOneByIp(string $IP) Return the first ChildJobSuscriptor filtered by the IP column
  * @method     ChildJobSuscriptor findOneByStatus(string $STATUS) Return the first ChildJobSuscriptor filtered by the STATUS column
+ * @method     ChildJobSuscriptor findOneByConfirmation(string $CONFIRMATION) Return the first ChildJobSuscriptor filtered by the CONFIRMATION column
  * @method     ChildJobSuscriptor findOneByCreationDate(string $CREATION_DATE) Return the first ChildJobSuscriptor filtered by the CREATION_DATE column
- * @method     ChildJobSuscriptor findOneByConfirmation(string $CONFIRMATION) Return the first ChildJobSuscriptor filtered by the CONFIRMATION column *
+ * @method     ChildJobSuscriptor findOneByModificationDate(string $MODIFICATION_DATE) Return the first ChildJobSuscriptor filtered by the MODIFICATION_DATE column *
 
  * @method     ChildJobSuscriptor requirePk($key, ConnectionInterface $con = null) Return the ChildJobSuscriptor by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSuscriptor requireOne(ConnectionInterface $con = null) Return the first ChildJobSuscriptor matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -89,8 +92,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSuscriptor requireOneByUbicacion(string $UBICACION) Return the first ChildJobSuscriptor filtered by the UBICACION column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSuscriptor requireOneByIp(string $IP) Return the first ChildJobSuscriptor filtered by the IP column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSuscriptor requireOneByStatus(string $STATUS) Return the first ChildJobSuscriptor filtered by the STATUS column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildJobSuscriptor requireOneByCreationDate(string $CREATION_DATE) Return the first ChildJobSuscriptor filtered by the CREATION_DATE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSuscriptor requireOneByConfirmation(string $CONFIRMATION) Return the first ChildJobSuscriptor filtered by the CONFIRMATION column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobSuscriptor requireOneByCreationDate(string $CREATION_DATE) Return the first ChildJobSuscriptor filtered by the CREATION_DATE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobSuscriptor requireOneByModificationDate(string $MODIFICATION_DATE) Return the first ChildJobSuscriptor filtered by the MODIFICATION_DATE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildJobSuscriptor[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildJobSuscriptor objects based on current ModelCriteria
  * @method     ChildJobSuscriptor[]|ObjectCollection findById(int $ID) Return ChildJobSuscriptor objects filtered by the ID column
@@ -103,8 +107,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSuscriptor[]|ObjectCollection findByUbicacion(string $UBICACION) Return ChildJobSuscriptor objects filtered by the UBICACION column
  * @method     ChildJobSuscriptor[]|ObjectCollection findByIp(string $IP) Return ChildJobSuscriptor objects filtered by the IP column
  * @method     ChildJobSuscriptor[]|ObjectCollection findByStatus(string $STATUS) Return ChildJobSuscriptor objects filtered by the STATUS column
- * @method     ChildJobSuscriptor[]|ObjectCollection findByCreationDate(string $CREATION_DATE) Return ChildJobSuscriptor objects filtered by the CREATION_DATE column
  * @method     ChildJobSuscriptor[]|ObjectCollection findByConfirmation(string $CONFIRMATION) Return ChildJobSuscriptor objects filtered by the CONFIRMATION column
+ * @method     ChildJobSuscriptor[]|ObjectCollection findByCreationDate(string $CREATION_DATE) Return ChildJobSuscriptor objects filtered by the CREATION_DATE column
+ * @method     ChildJobSuscriptor[]|ObjectCollection findByModificationDate(string $MODIFICATION_DATE) Return ChildJobSuscriptor objects filtered by the MODIFICATION_DATE column
  * @method     ChildJobSuscriptor[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
@@ -197,7 +202,7 @@ abstract class JobSuscriptorQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT ID, ID_TMP_AREA, ID_TMP_FORMACION, EMAIL, NOMBRE_SIMPLE, NOMBRES, APELLIDOS, UBICACION, IP, STATUS, CREATION_DATE, CONFIRMATION FROM job_suscriptor WHERE ID = :p0';
+        $sql = 'SELECT ID, ID_TMP_AREA, ID_TMP_FORMACION, EMAIL, NOMBRE_SIMPLE, NOMBRES, APELLIDOS, UBICACION, IP, STATUS, CONFIRMATION, CREATION_DATE, MODIFICATION_DATE FROM job_suscriptor WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -618,6 +623,49 @@ abstract class JobSuscriptorQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query on the CONFIRMATION column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByConfirmation('2011-03-14'); // WHERE CONFIRMATION = '2011-03-14'
+     * $query->filterByConfirmation('now'); // WHERE CONFIRMATION = '2011-03-14'
+     * $query->filterByConfirmation(array('max' => 'yesterday')); // WHERE CONFIRMATION > '2011-03-13'
+     * </code>
+     *
+     * @param     mixed $confirmation The value to use as filter.
+     *              Values can be integers (unix timestamps), DateTime objects, or strings.
+     *              Empty strings are treated as NULL.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobSuscriptorQuery The current query, for fluid interface
+     */
+    public function filterByConfirmation($confirmation = null, $comparison = null)
+    {
+        if (is_array($confirmation)) {
+            $useMinMax = false;
+            if (isset($confirmation['min'])) {
+                $this->addUsingAlias(JobSuscriptorTableMap::COL_CONFIRMATION, $confirmation['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($confirmation['max'])) {
+                $this->addUsingAlias(JobSuscriptorTableMap::COL_CONFIRMATION, $confirmation['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(JobSuscriptorTableMap::COL_CONFIRMATION, $confirmation, $comparison);
+    }
+
+    /**
      * Filter the query on the CREATION_DATE column
      *
      * Example usage:
@@ -661,16 +709,16 @@ abstract class JobSuscriptorQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the CONFIRMATION column
+     * Filter the query on the MODIFICATION_DATE column
      *
      * Example usage:
      * <code>
-     * $query->filterByConfirmation('2011-03-14'); // WHERE CONFIRMATION = '2011-03-14'
-     * $query->filterByConfirmation('now'); // WHERE CONFIRMATION = '2011-03-14'
-     * $query->filterByConfirmation(array('max' => 'yesterday')); // WHERE CONFIRMATION > '2011-03-13'
+     * $query->filterByModificationDate('2011-03-14'); // WHERE MODIFICATION_DATE = '2011-03-14'
+     * $query->filterByModificationDate('now'); // WHERE MODIFICATION_DATE = '2011-03-14'
+     * $query->filterByModificationDate(array('max' => 'yesterday')); // WHERE MODIFICATION_DATE > '2011-03-13'
      * </code>
      *
-     * @param     mixed $confirmation The value to use as filter.
+     * @param     mixed $modificationDate The value to use as filter.
      *              Values can be integers (unix timestamps), DateTime objects, or strings.
      *              Empty strings are treated as NULL.
      *              Use scalar values for equality.
@@ -680,16 +728,16 @@ abstract class JobSuscriptorQuery extends ModelCriteria
      *
      * @return $this|ChildJobSuscriptorQuery The current query, for fluid interface
      */
-    public function filterByConfirmation($confirmation = null, $comparison = null)
+    public function filterByModificationDate($modificationDate = null, $comparison = null)
     {
-        if (is_array($confirmation)) {
+        if (is_array($modificationDate)) {
             $useMinMax = false;
-            if (isset($confirmation['min'])) {
-                $this->addUsingAlias(JobSuscriptorTableMap::COL_CONFIRMATION, $confirmation['min'], Criteria::GREATER_EQUAL);
+            if (isset($modificationDate['min'])) {
+                $this->addUsingAlias(JobSuscriptorTableMap::COL_MODIFICATION_DATE, $modificationDate['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($confirmation['max'])) {
-                $this->addUsingAlias(JobSuscriptorTableMap::COL_CONFIRMATION, $confirmation['max'], Criteria::LESS_EQUAL);
+            if (isset($modificationDate['max'])) {
+                $this->addUsingAlias(JobSuscriptorTableMap::COL_MODIFICATION_DATE, $modificationDate['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -700,7 +748,7 @@ abstract class JobSuscriptorQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(JobSuscriptorTableMap::COL_CONFIRMATION, $confirmation, $comparison);
+        return $this->addUsingAlias(JobSuscriptorTableMap::COL_MODIFICATION_DATE, $modificationDate, $comparison);
     }
 
     /**

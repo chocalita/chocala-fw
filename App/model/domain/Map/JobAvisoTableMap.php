@@ -282,7 +282,7 @@ class JobAvisoTableMap extends TableMap
         $this->addColumn('STATUS', 'Status', 'VARCHAR', true, 10, 'ACTIVE');
         $this->addColumn('LAST_USER_ID', 'LastUserId', 'VARCHAR', true, 20, '0');
         $this->addColumn('CREATION_DATE', 'CreationDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');
-        $this->addColumn('MODIFICATION_DATE', 'ModificationDate', 'TIMESTAMP', false, null, null);
+        $this->addColumn('MODIFICATION_DATE', 'ModificationDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');
     } // initialize()
 
     /**

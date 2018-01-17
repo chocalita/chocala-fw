@@ -1,17 +1,21 @@
 <?php
 return array(
+    'validate.value' => 'El valor ingresado no es válido',
+    'validate.required' => 'Este campo es requerido',
     'validate.null' => 'Este campo es requerido',
     'validate.blank' => 'Este campo es requerido',
+    'validate.equal' => 'El valor permitido es "[{val}]"',
+    'validate.notEsqual' => 'El valor "[{val}]" no esta permitido',
+    'validate.min' => 'El valor mínimo debe ser [{min}]',
+    'validate.max' => 'El valor máximo debe ser [{max}]',
     'validate.range' => 'El valor debe estar entre [{min}] y [{max}]',
-    'validate.size' => 'La longitud permitidaes de [{min}] a [{max}] caracteres',
+    'validate.size' => 'La longitud permitida es de [{min}] a [{max}] caracteres',
     'validate.size.min' => 'El tamaño mínimo es de [{min}] caracteres',
     'validate.size.max' => 'El tamaño máximo es de [{max}}] caracteres',
     'validate.size.fix' => 'El tamaño permitido es de [{fix}] caracteres',
-    'validate.not.equal' => 'El valor "[{val}]" no esta permitido',
-    'validate.value.min' => 'El valor mínimo permitido es [{min}]',
-    'validate.value.max' => 'El valor máximo permitido es [{max}]',
     'validate.email' => 'El valor ingresado no es un email válido',
-    'validate.not.inlist' => 'El valor no se encuentra en la lista válida',
+    'validate.inList' => 'El valor no se encuentra en la entre los valores permmitidos',
+    'validate.notInList' => 'El valor se encuentra entre los valores no permitidos',
     'validate.unique' => 'Este valor ya se encuentra registrado',
 
     /* JobSuscriptor */
@@ -35,17 +39,17 @@ return array(
     'JobEmpresaSuscrita.EntityTypeId.validate.null' => 'Debe especificar el tipo de empresa o negocio',
     'JobEmpresaSuscrita.EntityTypeId.validate.blank' => 'Debe especificar el tipo de empresa o negocio',
 
+    'JobEmpresaSuscrita.LocationId.validate.required' => 'La localización es requerida',
     'JobEmpresaSuscrita.Direccion.validate.null' => 'Debe ingresar la dirección de la empresa',
     'JobEmpresaSuscrita.Direccion.validate.blank' => 'Debe ingresar la dirección de la empresa',
     'JobEmpresaSuscrita.Direccion.validate.size' => 'La dirección debe tener de [{min}] a [{max}] caracteres',
     'JobEmpresaSuscrita.Telefono.validate.size' => 'El teléfono debe tener de [{min}] a [{max}] caracteres',
     'JobEmpresaSuscrita.Celular.validate.size' => 'El celular debe tener de [{min}] a [{max}] caracteres',
+    'JobEmpresaSuscrita.validate.telefonos' => 'Debe ingresar al menos un número de teléfono o celular',
 
 
     'Displayed related class attrib' => 'Displayed attrib of [{class}] class',
-    
-    'user.name.null' => 'Subtitulo',
-    
+
     'message.uno' => 'Subtitulo',
     
     'Datasources Configs'           => 'Configuraciones de Base de Datos',

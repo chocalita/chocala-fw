@@ -122,7 +122,6 @@ abstract class JobProfesion implements ActiveRecordInterface
 
     /**
      * The value for the modification_date field.
-     * Note: this column has a database default value of: NULL
      * @var        \DateTime
      */
     protected $modification_date;
@@ -174,7 +173,6 @@ abstract class JobProfesion implements ActiveRecordInterface
     {
         $this->status = 'ACTIVE';
         $this->last_user_id = 0;
-        $this->modification_date = PropelDateTime::newInstance(NULL, null, 'DateTime');
     }
 
     /**
@@ -681,9 +679,7 @@ abstract class JobProfesion implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->modification_date !== null || $dt !== null) {
-            if ( ($dt != $this->modification_date) // normalized values don't match
-                || ($dt->format('Y-m-d H:i:s') === NULL) // or the entered value matches the default
-                 ) {
+            if ($this->modification_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->modification_date->format("Y-m-d H:i:s")) {
                 $this->modification_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[JobProfesionTableMap::COL_MODIFICATION_DATE] = true;
             }
@@ -707,10 +703,6 @@ abstract class JobProfesion implements ActiveRecordInterface
             }
 
             if ($this->last_user_id !== 0) {
-                return false;
-            }
-
-            if ($this->modification_date && $this->modification_date->format('Y-m-d H:i:s') !== NULL) {
                 return false;
             }
 

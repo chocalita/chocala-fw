@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Description of SuscripcionesController
  *
@@ -35,19 +36,44 @@ class SuscripcionesController extends AdminWebController
     public function empresa()
     {
         $this->view->changeLayout('public');
-
         $empresaSuscrita = JobEmpresaSuscritaQuery::create()->findOneById(1);
-        $esEmpresaFormal = $empresaSuscrita->getSysEntityType()->getGroupCode()==SysEntityType::GROUP_FORMAL_COMPANY;
+        if (is_object($empresaSuscrita)) {
+            if ($empresaSuscrita->getStatus() == JobEmpresaSuscrita::STATUS_INITIAL) {
+                $esEmpresaFormal = $empresaSuscrita->getSysEntityType()->getGroupCode() == SysEntityType::GROUP_FORMAL_COMPANY;
+                $tipoSuscripcion = $esEmpresaFormal ? 'Empresa' : 'Negocio';
+                $locaciones = SysLocationQuery::create()->filterByType("DEPARTAMENT")->find();
 
-        $locaciones = SysLocationQuery::create()->filterByType("DEPARTAMENT")->find();
+                $this->set('empresaSuscrita', $empresaSuscrita);
+                $this->set('tipoSuscripcion', $tipoSuscripcion);
+                $this->set('esEmpresaFormal', $esEmpresaFormal);
+                $this->set('locaciones', $locaciones);
+            } else {
 
-        $this->set('empresaSuscrita', $empresaSuscrita);
-        $this->set('esEmpresaFormal', $esEmpresaFormal);
-        $this->set('locaciones', $locaciones);
+                $this->redirectTo(URI::toModule() . 'trabajo/empresa');
+            }
+        } else {
+            $this->redirectTo(URI::toModule() . 'trabajo/empresa');
+        }
     }
 
-    public function aMethod()
+    public function step1()
     {
+        $results = ['success' => false, 'errors' => []];
+        $empresaSuscrita = $this->empresaSuscritaService->findByHashCode(Req::_('hc'));
+        if (is_object($empresaSuscrita) && $empresaSuscrita->getStatus() == JobEmpresaSuscrita::STATUS_INITIAL) {
+            $data = Req::all();
+            $data['Status'] = JobEmpresaSuscrita::STATUS_CONFIRMED;
+            $empresaSuscrita->fromArray($data);
+            $results['success'] = $empresaSuscrita->validate();
+            $results['errors'] = $empresaSuscrita->getErrorsMap();
+            if ($results['success']) {
+                Session::set('empresaSuscrita', $empresaSuscrita);
+            }
+        }
+        $this->set('success', $results['success']);
+        $this->set('errors', $results['errors']);
+        $this->renderAsJSON();
+        return $results;
     }
 
 
@@ -73,7 +99,7 @@ class SuscripcionesController extends AdminWebController
             move_uploaded_file($_FILES['archivoImg']['tmp_name'],
                 $nombreDirectorio . $nombreFichero);
         }
-        $this->set('dirFichero', IMG_WEB.'imgEntidad/'.$nombreFichero);
+        $this->set('dirFichero', IMG_WEB . 'imgEntidad/' . $nombreFichero);
         $this->view->changeLayout('ajax');
         $this->renderAsJSON();
     }

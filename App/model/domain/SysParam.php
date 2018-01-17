@@ -56,7 +56,7 @@ class SysParam extends BaseSysParam
     static $validationRules = [
         'Visibility' => [
             'null' => false, 'blank' => false,
-            'inlist' => [self::VISIBILITY_GLOBAL, self::VISIBILITY_ENTITY,
+            'inList' => [self::VISIBILITY_GLOBAL, self::VISIBILITY_ENTITY,
                 self::VISIBILITY_USER],
         ],
         'Code' => [
@@ -67,7 +67,7 @@ class SysParam extends BaseSysParam
         ],
         'Type' => [
             'null' => false, 'blank' => false,
-            'inlist' => [self::TYPE_BOOLEAN, self::TYPE_DATE,
+            'inList' => [self::TYPE_BOOLEAN, self::TYPE_DATE,
                 self::TYPE_INTEGER, self::TYPE_LIST, self::TYPE_NUMBER,
                 self::TYPE_STRING]
         ],

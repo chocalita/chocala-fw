@@ -127,6 +127,12 @@ abstract class JobSuscriptor implements ActiveRecordInterface
     protected $status;
 
     /**
+     * The value for the confirmation field.
+     * @var        \DateTime
+     */
+    protected $confirmation;
+
+    /**
      * The value for the creation_date field.
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
      * @var        \DateTime
@@ -134,10 +140,11 @@ abstract class JobSuscriptor implements ActiveRecordInterface
     protected $creation_date;
 
     /**
-     * The value for the confirmation field.
+     * The value for the modification_date field.
+     * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
      * @var        \DateTime
      */
-    protected $confirmation;
+    protected $modification_date;
 
     /**
      * @var        ChildTmpArea
@@ -488,6 +495,26 @@ abstract class JobSuscriptor implements ActiveRecordInterface
     }
 
     /**
+     * Get the [optionally formatted] temporal [confirmation] column value.
+     * 
+     *
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *                            If format is NULL, then the raw DateTime object will be returned.
+     *
+     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
+     *
+     * @throws PropelException - if unable to parse/validate the date/time value.
+     */
+    public function getConfirmation($format = NULL)
+    {
+        if ($format === null) {
+            return $this->confirmation;
+        } else {
+            return $this->confirmation instanceof \DateTime ? $this->confirmation->format($format) : null;
+        }
+    }
+
+    /**
      * Get the [optionally formatted] temporal [creation_date] column value.
      * 
      *
@@ -508,7 +535,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
     }
 
     /**
-     * Get the [optionally formatted] temporal [confirmation] column value.
+     * Get the [optionally formatted] temporal [modification_date] column value.
      * 
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
@@ -518,12 +545,12 @@ abstract class JobSuscriptor implements ActiveRecordInterface
      *
      * @throws PropelException - if unable to parse/validate the date/time value.
      */
-    public function getConfirmation($format = NULL)
+    public function getModificationDate($format = NULL)
     {
         if ($format === null) {
-            return $this->confirmation;
+            return $this->modification_date;
         } else {
-            return $this->confirmation instanceof \DateTime ? $this->confirmation->format($format) : null;
+            return $this->modification_date instanceof \DateTime ? $this->modification_date->format($format) : null;
         }
     }
 
@@ -736,6 +763,26 @@ abstract class JobSuscriptor implements ActiveRecordInterface
     } // setStatus()
 
     /**
+     * Sets the value of [confirmation] column to a normalized version of the date/time value specified.
+     * 
+     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     *               Empty strings are treated as NULL.
+     * @return $this|\JobSuscriptor The current object (for fluent API support)
+     */
+    public function setConfirmation($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->confirmation !== null || $dt !== null) {
+            if ($this->confirmation === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->confirmation->format("Y-m-d H:i:s")) {
+                $this->confirmation = $dt === null ? null : clone $dt;
+                $this->modifiedColumns[JobSuscriptorTableMap::COL_CONFIRMATION] = true;
+            }
+        } // if either are not null
+
+        return $this;
+    } // setConfirmation()
+
+    /**
      * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
      * 
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
@@ -756,24 +803,24 @@ abstract class JobSuscriptor implements ActiveRecordInterface
     } // setCreationDate()
 
     /**
-     * Sets the value of [confirmation] column to a normalized version of the date/time value specified.
+     * Sets the value of [modification_date] column to a normalized version of the date/time value specified.
      * 
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobSuscriptor The current object (for fluent API support)
      */
-    public function setConfirmation($v)
+    public function setModificationDate($v)
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
-        if ($this->confirmation !== null || $dt !== null) {
-            if ($this->confirmation === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->confirmation->format("Y-m-d H:i:s")) {
-                $this->confirmation = $dt === null ? null : clone $dt;
-                $this->modifiedColumns[JobSuscriptorTableMap::COL_CONFIRMATION] = true;
+        if ($this->modification_date !== null || $dt !== null) {
+            if ($this->modification_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->modification_date->format("Y-m-d H:i:s")) {
+                $this->modification_date = $dt === null ? null : clone $dt;
+                $this->modifiedColumns[JobSuscriptorTableMap::COL_MODIFICATION_DATE] = true;
             }
         } // if either are not null
 
         return $this;
-    } // setConfirmation()
+    } // setModificationDate()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -845,17 +892,23 @@ abstract class JobSuscriptor implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : JobSuscriptorTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
             $this->status = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : JobSuscriptorTableMap::translateFieldName('CreationDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : JobSuscriptorTableMap::translateFieldName('Confirmation', TableMap::TYPE_PHPNAME, $indexType)];
+            if ($col === '0000-00-00 00:00:00') {
+                $col = null;
+            }
+            $this->confirmation = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : JobSuscriptorTableMap::translateFieldName('CreationDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->creation_date = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : JobSuscriptorTableMap::translateFieldName('Confirmation', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : JobSuscriptorTableMap::translateFieldName('ModificationDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
-            $this->confirmation = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+            $this->modification_date = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -864,7 +917,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 12; // 12 = JobSuscriptorTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 13; // 13 = JobSuscriptorTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\JobSuscriptor'), 0, $e);
@@ -1118,11 +1171,14 @@ abstract class JobSuscriptor implements ActiveRecordInterface
         if ($this->isColumnModified(JobSuscriptorTableMap::COL_STATUS)) {
             $modifiedColumns[':p' . $index++]  = 'STATUS';
         }
+        if ($this->isColumnModified(JobSuscriptorTableMap::COL_CONFIRMATION)) {
+            $modifiedColumns[':p' . $index++]  = 'CONFIRMATION';
+        }
         if ($this->isColumnModified(JobSuscriptorTableMap::COL_CREATION_DATE)) {
             $modifiedColumns[':p' . $index++]  = 'CREATION_DATE';
         }
-        if ($this->isColumnModified(JobSuscriptorTableMap::COL_CONFIRMATION)) {
-            $modifiedColumns[':p' . $index++]  = 'CONFIRMATION';
+        if ($this->isColumnModified(JobSuscriptorTableMap::COL_MODIFICATION_DATE)) {
+            $modifiedColumns[':p' . $index++]  = 'MODIFICATION_DATE';
         }
 
         $sql = sprintf(
@@ -1165,11 +1221,14 @@ abstract class JobSuscriptor implements ActiveRecordInterface
                     case 'STATUS':                        
                         $stmt->bindValue($identifier, $this->status, PDO::PARAM_STR);
                         break;
+                    case 'CONFIRMATION':                        
+                        $stmt->bindValue($identifier, $this->confirmation ? $this->confirmation->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        break;
                     case 'CREATION_DATE':                        
                         $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'CONFIRMATION':                        
-                        $stmt->bindValue($identifier, $this->confirmation ? $this->confirmation->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                    case 'MODIFICATION_DATE':                        
+                        $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1264,10 +1323,13 @@ abstract class JobSuscriptor implements ActiveRecordInterface
                 return $this->getStatus();
                 break;
             case 10:
-                return $this->getCreationDate();
+                return $this->getConfirmation();
                 break;
             case 11:
-                return $this->getConfirmation();
+                return $this->getCreationDate();
+                break;
+            case 12:
+                return $this->getModificationDate();
                 break;
             default:
                 return null;
@@ -1309,8 +1371,9 @@ abstract class JobSuscriptor implements ActiveRecordInterface
             $keys[7] => $this->getUbicacion(),
             $keys[8] => $this->getIp(),
             $keys[9] => $this->getStatus(),
-            $keys[10] => $this->getCreationDate(),
-            $keys[11] => $this->getConfirmation(),
+            $keys[10] => $this->getConfirmation(),
+            $keys[11] => $this->getCreationDate(),
+            $keys[12] => $this->getModificationDate(),
         );
 
         $utc = new \DateTimeZone('utc');
@@ -1324,6 +1387,12 @@ abstract class JobSuscriptor implements ActiveRecordInterface
             // When changing timezone we don't want to change existing instances
             $dateTime = clone $result[$keys[11]];
             $result[$keys[11]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+        }
+        
+        if ($result[$keys[12]] instanceof \DateTime) {
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[12]];
+            $result[$keys[12]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
         }
         
         $virtualColumns = $this->virtualColumns;
@@ -1427,10 +1496,13 @@ abstract class JobSuscriptor implements ActiveRecordInterface
                 $this->setStatus($value);
                 break;
             case 10:
-                $this->setCreationDate($value);
+                $this->setConfirmation($value);
                 break;
             case 11:
-                $this->setConfirmation($value);
+                $this->setCreationDate($value);
+                break;
+            case 12:
+                $this->setModificationDate($value);
                 break;
         } // switch()
 
@@ -1489,10 +1561,13 @@ abstract class JobSuscriptor implements ActiveRecordInterface
             $this->setStatus($arr[$keys[9]]);
         }
         if (array_key_exists($keys[10], $arr)) {
-            $this->setCreationDate($arr[$keys[10]]);
+            $this->setConfirmation($arr[$keys[10]]);
         }
         if (array_key_exists($keys[11], $arr)) {
-            $this->setConfirmation($arr[$keys[11]]);
+            $this->setCreationDate($arr[$keys[11]]);
+        }
+        if (array_key_exists($keys[12], $arr)) {
+            $this->setModificationDate($arr[$keys[12]]);
         }
     }
 
@@ -1565,11 +1640,14 @@ abstract class JobSuscriptor implements ActiveRecordInterface
         if ($this->isColumnModified(JobSuscriptorTableMap::COL_STATUS)) {
             $criteria->add(JobSuscriptorTableMap::COL_STATUS, $this->status);
         }
+        if ($this->isColumnModified(JobSuscriptorTableMap::COL_CONFIRMATION)) {
+            $criteria->add(JobSuscriptorTableMap::COL_CONFIRMATION, $this->confirmation);
+        }
         if ($this->isColumnModified(JobSuscriptorTableMap::COL_CREATION_DATE)) {
             $criteria->add(JobSuscriptorTableMap::COL_CREATION_DATE, $this->creation_date);
         }
-        if ($this->isColumnModified(JobSuscriptorTableMap::COL_CONFIRMATION)) {
-            $criteria->add(JobSuscriptorTableMap::COL_CONFIRMATION, $this->confirmation);
+        if ($this->isColumnModified(JobSuscriptorTableMap::COL_MODIFICATION_DATE)) {
+            $criteria->add(JobSuscriptorTableMap::COL_MODIFICATION_DATE, $this->modification_date);
         }
 
         return $criteria;
@@ -1666,8 +1744,9 @@ abstract class JobSuscriptor implements ActiveRecordInterface
         $copyObj->setUbicacion($this->getUbicacion());
         $copyObj->setIp($this->getIp());
         $copyObj->setStatus($this->getStatus());
-        $copyObj->setCreationDate($this->getCreationDate());
         $copyObj->setConfirmation($this->getConfirmation());
+        $copyObj->setCreationDate($this->getCreationDate());
+        $copyObj->setModificationDate($this->getModificationDate());
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1821,8 +1900,9 @@ abstract class JobSuscriptor implements ActiveRecordInterface
         $this->ubicacion = null;
         $this->ip = null;
         $this->status = null;
-        $this->creation_date = null;
         $this->confirmation = null;
+        $this->creation_date = null;
+        $this->modification_date = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->applyDefaultValues();

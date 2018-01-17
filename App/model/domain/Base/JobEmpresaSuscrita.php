@@ -160,6 +160,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * The value for the modificacion_date field.
+     * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
      * @var        \DateTime
      */
     protected $modificacion_date;

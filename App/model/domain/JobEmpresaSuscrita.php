@@ -14,6 +14,7 @@ class JobEmpresaSuscrita extends BaseJobEmpresaSuscrita implements JsonSerializa
     const EMAIL_SUCCESS_SUBSCRIPTION = 'J_EMAIL_SUCCESS_SUBSCRIPTION';
 
     const STATUS_INITIAL = 'INITIAL';
+    const STATUS_CONFIRMED = 'CONFIRMED';
     const STATUS_SUSCRIBED = 'SUSCRIBED';
 
     static $validationRules = [
@@ -22,6 +23,7 @@ class JobEmpresaSuscrita extends BaseJobEmpresaSuscrita implements JsonSerializa
         ],
         'LocationId' => [
             'null' => true, 'blank' => false,
+            'validator' => true
         ],
         'HashCode' => [
             'null' => true, 'blank' => false,
@@ -46,34 +48,75 @@ class JobEmpresaSuscrita extends BaseJobEmpresaSuscrita implements JsonSerializa
             'null' => true, 'blank' => false,
             'unique' => true,
             'size' => ['min' => 5, 'max' => 20],
+            'validator' => true
         ],
         'Direccion' => [
             'null' => true, 'blank' => false,
             'size' => ['min' => 10, 'max' => 200],
+            'validator' => true
         ],
         'Telefono' => [
             'null' => true, 'blank' => false,
             'size' => ['size' => 7, 'max' => 20],
+            'validator' => 'validateTelefonos'
         ],
         'Celular' => [
             'null' => true, 'blank' => false,
             'size' => ['fix' => 8],
+            'validator' => 'validateTelefonos'
         ],
     ];
 
+    public function __validateLocationId($value)
+    {
+        if (!$this->isInitial() && !is_object($this->getSysLocation())) {
+            return 'validate.required';
+        }
+        return true;
+    }
+
+    public function __validateNit($value)
+    {
+        if (!$this->isInitial() && $this->getSysEntityType()->esEmpresaFormal()) {
+            if ($value != '') {
+                //TODO: verificar que el nit sea unico
+            } else {
+                return 'validate.required';
+            }
+        }
+        return true;
+    }
+
+    public function __validateDireccion($value)
+    {
+        if (!$this->isInitial() && Validation::isEmpty($this->direccion)) {
+            return 'validate.required';
+        }
+        return true;
+    }
+
+    public function validateTelefonos($value)
+    {
+        if (!$this->isInitial() && Validation::isEmpty($this->telefono) && Validation::isEmpty($this->celular)) {
+            return 'validate.telefonos';
+        }
+        return true;
+    }
+
+
     public function preSave()
     {
-        $this->entity_type_id = trim(strtolower($this->entity_type_id)) ?: null;
+        $this->setEntityTypeId($this->entity_type_id ?: null);
         $this->hash_code = trim($this->hash_code) ?: null;
         $this->nombre = ucwords(strtolower(trim($this->nombre))) ?: null;
         $this->email = trim(strtolower($this->email)) ?: null;
         $this->representante = ucwords(strtolower(trim($this->representante))) ?: null;
-
-        $this->nit = trim(strtolower($this->nit)) ?: null;
-
-        $this->direccion = trim(strtolower($this->direccion)) ?: null;
-        $this->telefono = trim(strtolower($this->telefono)) ?: null;
-        $this->celular = trim(strtolower($this->celular)) ?: null;
+        //Informacion complementada en la confirmacion
+        $this->setLocationId($this->location_id ?: null);
+        $this->nit = trim($this->nit) ?: null;
+        $this->direccion = trim($this->direccion) ?: null;
+        $this->telefono = trim($this->telefono) ?: null;
+        $this->celular = trim($this->celular) ?: null;
         return parent::preSave();
     }
 
@@ -92,5 +135,9 @@ class JobEmpresaSuscrita extends BaseJobEmpresaSuscrita implements JsonSerializa
         return $this->preSave();
     }
 
+    public function isInitial()
+    {
+        return $this->status == self::STATUS_INITIAL;
+    }
 
 }

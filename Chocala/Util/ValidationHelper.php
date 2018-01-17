@@ -20,6 +20,10 @@ abstract class ValidationHelper
         $messageKey = ($className != null) ? ($className . '.' . $field . "." . $key) : $key;
         $message = __($messageKey, $messageArgs);
         if ($message == $messageKey) {
+            $messageKey = ($className != null) ? ($className . '.' . $key) : $key;
+            $message = __($messageKey, $messageArgs);
+        }
+        if ($message == $messageKey) {
             $message = __($key, $messageArgs);
         }
         return new ValidationFailed($message, $field, $className);
@@ -72,7 +76,7 @@ abstract class ValidationHelper
     public static function validateMinValue($field, $value, $min, $className)
     {
         return $value < $min ?
-            self::createFailure($field, 'validate.value.min', ['min' => $min], $className) : null;
+            self::createFailure($field, 'validate.min', ['min' => $min], $className) : null;
     }
 
     /**
@@ -85,7 +89,7 @@ abstract class ValidationHelper
     public static function validateMaxValue($field, $value, $max, $className)
     {
         return $value > $max ?
-            self::createFailure($field, 'validate.value.max', ['max' => $max], $className) : null;
+            self::createFailure($field, 'validate.max', ['max' => $max], $className) : null;
     }
 
     /**
@@ -148,10 +152,23 @@ abstract class ValidationHelper
      * @param string $className
      * @return null|ValidationFailed
      */
-    public static function validateNotEqual($field, $value, $val, $className)
+    public static function validateEqual($field, $value, $val, $className)
     {
         return $value != $val ?
-            self::createFailure($field, 'validate.not.equal', ['val' => $val], $className) : null;
+            self::createFailure($field, 'validate.equal', ['val' => $val], $className) : null;
+    }
+
+    /**
+     * @param string $field
+     * @param mixed $value
+     * @param mixed $val
+     * @param string $className
+     * @return null|ValidationFailed
+     */
+    public static function validateNotEqual($field, $value, $val, $className)
+    {
+        return $value == $val ?
+            self::createFailure($field, 'validate.notEqual', ['val' => $val], $className) : null;
     }
 
     /**
@@ -176,7 +193,20 @@ abstract class ValidationHelper
     public static function validateInList($field, $value, $list, $className)
     {
         return !in_array($value, $list) ?
-            self::createFailure($field, 'validate.not.inlist', ['val' => $value], $className) : null;
+            self::createFailure($field, 'validate.inList', ['val' => $value], $className) : null;
+    }
+
+    /**
+     * @param string $field
+     * @param mixed $value
+     * @param array $list
+     * @param string $className
+     * @return null|ValidationFailed
+     */
+    public static function validateNotInList($field, $value, $list, $className)
+    {
+        return in_array($value, $list) ?
+            self::createFailure($field, 'validate.notInList', ['val' => $value], $className) : null;
     }
 
     /**
@@ -190,6 +220,28 @@ abstract class ValidationHelper
     {
         return $queryClass->count() > 0 ?
             self::createFailure($field, 'validate.unique', ['val' => $value], $className) : null;
+    }
+
+    /**
+     * @param string $field
+     * @param mixed $value
+     * @param mixed $obj
+     * @param string $validator
+     * @param string $className
+     * @return null|ValidationFailed
+     */
+    public static function validateValidator($field, $value, $obj, $validator, $className)
+    {
+        $validateResult = $obj->$validator($value);
+        if ($validateResult == false || trim($validateResult) == '') {
+            return self::createFailure($field, 'validate.value', ['val' => $value], $className);
+        } else if (is_string($validateResult)) {
+            return self::createFailure($field, $validateResult, ['val' => $value], $className);
+        } else if (is_array($validateResult) && array_key_exists('msg')) {
+            //TODO : custom validation messages with 'args' $validateResult['args']
+            return self::createFailure($field, $validateResult['msg'], ['val' => $value], $className);
+        }
+        return null;
     }
 
     public static function validateField($obj, $field, $validations)
@@ -211,7 +263,12 @@ abstract class ValidationHelper
                     $validateResult = !$option ?
                         self::validateNotBlank($field, $value, $className) : null;
                     break;
-                case 'value':
+                case 'equal':
+                    $validateResult = self::validateEqual($field, $value, $option, $className);
+                    break;
+                case 'notEqual':
+                    $validateResult = self::validateNotEqual($field, $value, $option, $className);
+                    break;
                 case 'range':
                     if (!$isNull) {
                         $min = $option['min'];
@@ -223,7 +280,7 @@ abstract class ValidationHelper
                         } elseif (self::isNumeric($max)) {
                             $validateResult = self::validateMaxValue($field, $value, $max, $className);
                         } else {
-                            throw new ChocalaException('INVALID RANGE VALIDATION DATA');
+                            throw new ChocalaException('INVALID RANGE VALIDATION DATA IN ' . $className);
                         }
                     }
                     break;
@@ -231,7 +288,7 @@ abstract class ValidationHelper
                     if (!$isNull) {
                         $min = $option['min'];
                         $max = $option['max'];
-                        $fix = $option['fixed'];
+                        $fix = $option['fix'];
                         if (self::isInteger($min) && self::isInteger($max)) {
                             $validateResult = self::validateSize($field, $value, $min, $max, $className);
                         } elseif (is_integer($min)) {
@@ -241,24 +298,30 @@ abstract class ValidationHelper
                         } elseif (is_integer($fix)) {
                             $validateResult = self::validateSizeFix($field, $value, $fix, $className);
                         } else {
-                            throw new ChocalaException('INVALID SIZE VALIDATION DATA');
+                            throw new ChocalaException('INVALID SIZE VALIDATION DATA IN ' . $className);
                         }
                     }
-                    break;
-                case 'equal':
-                    $validateResult = self::validateNotEqual($field, $value, $option, $className);
                     break;
                 case 'email':
                     if (!$isNull) {
                         $validateResult = $option ? self::validateNotEmail($field, $value, $className) : null;
                     }
                     break;
-                case 'inlist':
+                case 'inList':
                     if (!$isNull) {
                         if (is_array($option)) {
                             $validateResult = self::validateInList($field, $value, $option, $className);
                         } else {
-                            throw new ChocalaException('INVALID LIST VALIDATION DATA');
+                            throw new ChocalaException('INVALID IN LIST VALIDATION DATA IN ' . $className);
+                        }
+                    }
+                    break;
+                case 'notInList':
+                    if (!$isNull) {
+                        if (is_array($option)) {
+                            $validateResult = self::validateNotInList($field, $value, $option, $className);
+                        } else {
+                            throw new ChocalaException('INVALID NOT IN LIST VALIDATION DATA IN ' . $className);
                         }
                     }
                     break;
@@ -287,20 +350,26 @@ abstract class ValidationHelper
                             $validateResult = self::validateUnique($field, $value, $queryClass, $className);
                         }
                     } catch (Exception $e) {
-                        throw new ChocalaException('INVALID UNIQUE VALIDATION DATA');
+                        throw new ChocalaException('INVALID UNIQUE VALIDATION DATA IN ' . $className);
                     }
                     break;
                 case 'validator':
-                    if (is_string($option) && method_exists($obj, $option)) {
-                        $validateResult = $obj->$option($value);
-                        if (!(is_null($validateResult) || ($validateResult instanceof ValidationFailed))) {
-                            throw new ChocalaException('VALIDATOR METHOD INVALID RETURN VALUE');
+                    if (($option != null || $option != '') &&
+                        (is_bool($option) || is_numeric($option) || is_string($option))) {
+                        $validator = '__validate' . $field;
+                        if (is_string($option)) {
+                            $validator = $option;
                         }
-                    } else {
-                        throw new ChocalaException('VALIDATOR METHOD NOT EXIST');
+                        //TODO: validate args size in validator method
+                        if (method_exists($obj, $validator)) {
+                            $validateResult = self::validateValidator($field, $value, $obj, $validator, $className);
+                        } else {
+                            throw new ChocalaException('VALIDATOR METHOD \'' . $validator . '\' NOT EXIST in ' . $className);
+                        }
                     }
                     break;
                 default:
+                    //TODO: remove, is a potential bug (execute scripts)
                     if (is_callable($option)) {
                         $validateResult = $option($value, $obj);
                     }
