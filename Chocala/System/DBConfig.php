@@ -49,7 +49,7 @@ class DBConfig
         $dsn = $conf['driver'].':';
         switch ($conf['adapter']){
             case 'mysql':
-                $dsn.= 'host='.$conf['host'].';dbname='.$conf['dbname'].
+                $dsn.= 'host='.$conf['host'].';port='.$conf['port'].';dbname='.$conf['dbname'].
                     ';charset=UTF8';
                 break;
             case 'pgsql':
