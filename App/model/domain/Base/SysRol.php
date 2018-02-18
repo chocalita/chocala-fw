@@ -12,7 +12,10 @@ use \SysUserXRol as ChildSysUserXRol;
 use \SysUserXRolQuery as ChildSysUserXRolQuery;
 use \Exception;
 use \PDO;
+use Map\SysEntityUserTableMap;
 use Map\SysRolTableMap;
+use Map\SysRolXUriTableMap;
+use Map\SysUserXRolTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -29,11 +32,11 @@ use Propel\Runtime\Parser\AbstractParser;
 /**
  * Base class that represents a row from the 'sys_rol' table.
  *
- * 
+ *
  *
 * @package    propel.generator..Base
 */
-abstract class SysRol implements ActiveRecordInterface 
+abstract class SysRol implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -69,24 +72,28 @@ abstract class SysRol implements ActiveRecordInterface
 
     /**
      * The value for the id field.
+     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the code field.
+     *
      * @var        string
      */
     protected $code;
 
     /**
      * The value for the name field.
+     *
      * @var        string
      */
     protected $name;
 
     /**
      * The value for the description field.
+     *
      * @var        string
      */
     protected $description;
@@ -349,12 +356,20 @@ abstract class SysRol implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        return array_keys(get_object_vars($this));
+        $cls = new \ReflectionClass($this);
+        $propertyNames = [];
+        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
+
+        foreach($serializableProperties as $property) {
+            $propertyNames[] = $property->getName();
+        }
+
+        return $propertyNames;
     }
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return int
      */
     public function getId()
@@ -364,7 +379,7 @@ abstract class SysRol implements ActiveRecordInterface
 
     /**
      * Get the [code] column value.
-     * 
+     *
      * @return string
      */
     public function getCode()
@@ -374,7 +389,7 @@ abstract class SysRol implements ActiveRecordInterface
 
     /**
      * Get the [name] column value.
-     * 
+     *
      * @return string
      */
     public function getName()
@@ -384,7 +399,7 @@ abstract class SysRol implements ActiveRecordInterface
 
     /**
      * Get the [description] column value.
-     * 
+     *
      * @return string
      */
     public function getDescription()
@@ -394,7 +409,7 @@ abstract class SysRol implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysRol The current object (for fluent API support)
      */
@@ -414,7 +429,7 @@ abstract class SysRol implements ActiveRecordInterface
 
     /**
      * Set the value of [code] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysRol The current object (for fluent API support)
      */
@@ -434,7 +449,7 @@ abstract class SysRol implements ActiveRecordInterface
 
     /**
      * Set the value of [name] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysRol The current object (for fluent API support)
      */
@@ -454,7 +469,7 @@ abstract class SysRol implements ActiveRecordInterface
 
     /**
      * Set the value of [description] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysRol The current object (for fluent API support)
      */
@@ -804,16 +819,16 @@ abstract class SysRol implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'CODE':                        
+                    case 'CODE':
                         $stmt->bindValue($identifier, $this->code, PDO::PARAM_STR);
                         break;
-                    case 'NAME':                        
+                    case 'NAME':
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
                         break;
-                    case 'DESCRIPTION':                        
+                    case 'DESCRIPTION':
                         $stmt->bindValue($identifier, $this->description, PDO::PARAM_STR);
                         break;
                 }
@@ -929,10 +944,10 @@ abstract class SysRol implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->collSysEntityUsers) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysEntityUsers';
@@ -943,11 +958,11 @@ abstract class SysRol implements ActiveRecordInterface
                     default:
                         $key = 'SysEntityUsers';
                 }
-        
+
                 $result[$key] = $this->collSysEntityUsers->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collSysRolXUris) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysRolXUris';
@@ -958,11 +973,11 @@ abstract class SysRol implements ActiveRecordInterface
                     default:
                         $key = 'SysRolXUris';
                 }
-        
+
                 $result[$key] = $this->collSysRolXUris->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collSysUserXRols) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysUserXRols';
@@ -973,7 +988,7 @@ abstract class SysRol implements ActiveRecordInterface
                     default:
                         $key = 'SysUserXRols';
                 }
-        
+
                 $result[$key] = $this->collSysUserXRols->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
@@ -1156,7 +1171,7 @@ abstract class SysRol implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-        
+
     /**
      * Returns the primary key for this object (row).
      * @return int
@@ -1317,7 +1332,10 @@ abstract class SysRol implements ActiveRecordInterface
         if (null !== $this->collSysEntityUsers && !$overrideExisting) {
             return;
         }
-        $this->collSysEntityUsers = new ObjectCollection();
+
+        $collectionClassName = SysEntityUserTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collSysEntityUsers = new $collectionClassName;
         $this->collSysEntityUsers->setModel('\SysEntityUser');
     }
 
@@ -1394,7 +1412,7 @@ abstract class SysRol implements ActiveRecordInterface
         /** @var ChildSysEntityUser[] $sysEntityUsersToDelete */
         $sysEntityUsersToDelete = $this->getSysEntityUsers(new Criteria(), $con)->diff($sysEntityUsers);
 
-        
+
         $this->sysEntityUsersScheduledForDeletion = $sysEntityUsersToDelete;
 
         foreach ($sysEntityUsersToDelete as $sysEntityUserRemoved) {
@@ -1462,6 +1480,10 @@ abstract class SysRol implements ActiveRecordInterface
 
         if (!$this->collSysEntityUsers->contains($l)) {
             $this->doAddSysEntityUser($l);
+
+            if ($this->sysEntityUsersScheduledForDeletion and $this->sysEntityUsersScheduledForDeletion->contains($l)) {
+                $this->sysEntityUsersScheduledForDeletion->remove($this->sysEntityUsersScheduledForDeletion->search($l));
+            }
         }
 
         return $this;
@@ -1585,7 +1607,10 @@ abstract class SysRol implements ActiveRecordInterface
         if (null !== $this->collSysRolXUris && !$overrideExisting) {
             return;
         }
-        $this->collSysRolXUris = new ObjectCollection();
+
+        $collectionClassName = SysRolXUriTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collSysRolXUris = new $collectionClassName;
         $this->collSysRolXUris->setModel('\SysRolXUri');
     }
 
@@ -1662,7 +1687,7 @@ abstract class SysRol implements ActiveRecordInterface
         /** @var ChildSysRolXUri[] $sysRolXUrisToDelete */
         $sysRolXUrisToDelete = $this->getSysRolXUris(new Criteria(), $con)->diff($sysRolXUris);
 
-        
+
         //since at least one column in the foreign key is at the same time a PK
         //we can not just set a PK to NULL in the lines below. We have to store
         //a backup of all values, so we are able to manipulate these items based on the onDelete value later.
@@ -1733,6 +1758,10 @@ abstract class SysRol implements ActiveRecordInterface
 
         if (!$this->collSysRolXUris->contains($l)) {
             $this->doAddSysRolXUri($l);
+
+            if ($this->sysRolXUrisScheduledForDeletion and $this->sysRolXUrisScheduledForDeletion->contains($l)) {
+                $this->sysRolXUrisScheduledForDeletion->remove($this->sysRolXUrisScheduledForDeletion->search($l));
+            }
         }
 
         return $this;
@@ -1831,7 +1860,10 @@ abstract class SysRol implements ActiveRecordInterface
         if (null !== $this->collSysUserXRols && !$overrideExisting) {
             return;
         }
-        $this->collSysUserXRols = new ObjectCollection();
+
+        $collectionClassName = SysUserXRolTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collSysUserXRols = new $collectionClassName;
         $this->collSysUserXRols->setModel('\SysUserXRol');
     }
 
@@ -1908,7 +1940,7 @@ abstract class SysRol implements ActiveRecordInterface
         /** @var ChildSysUserXRol[] $sysUserXRolsToDelete */
         $sysUserXRolsToDelete = $this->getSysUserXRols(new Criteria(), $con)->diff($sysUserXRols);
 
-        
+
         //since at least one column in the foreign key is at the same time a PK
         //we can not just set a PK to NULL in the lines below. We have to store
         //a backup of all values, so we are able to manipulate these items based on the onDelete value later.
@@ -1979,6 +2011,10 @@ abstract class SysRol implements ActiveRecordInterface
 
         if (!$this->collSysUserXRols->contains($l)) {
             $this->doAddSysUserXRol($l);
+
+            if ($this->sysUserXRolsScheduledForDeletion and $this->sysUserXRolsScheduledForDeletion->contains($l)) {
+                $this->sysUserXRolsScheduledForDeletion->remove($this->sysUserXRolsScheduledForDeletion->search($l));
+            }
         }
 
         return $this;

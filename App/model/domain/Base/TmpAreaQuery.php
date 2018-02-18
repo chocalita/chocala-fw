@@ -17,7 +17,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'tmp_area' table.
  *
- * 
+ *
  *
  * @method     ChildTmpAreaQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildTmpAreaQuery orderByNombre($order = Criteria::ASC) Order by the nombre column
@@ -28,6 +28,10 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildTmpAreaQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildTmpAreaQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildTmpAreaQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ *
+ * @method     ChildTmpAreaQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildTmpAreaQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildTmpAreaQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
  * @method     ChildTmpArea findOne(ConnectionInterface $con = null) Return the first ChildTmpArea matching the query
  * @method     ChildTmpArea findOneOrCreate(ConnectionInterface $con = null) Return the first ChildTmpArea matching the query, or a new ChildTmpArea object populated from the query conditions when no match is found
@@ -106,7 +110,7 @@ abstract class TmpAreaQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = TmpAreaTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = TmpAreaTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -138,7 +142,7 @@ abstract class TmpAreaQuery extends ModelCriteria
     {
         $sql = 'SELECT id, nombre FROM tmp_area WHERE id = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -150,7 +154,7 @@ abstract class TmpAreaQuery extends ModelCriteria
             /** @var ChildTmpArea $obj */
             $obj = new ChildTmpArea();
             $obj->hydrate($row);
-            TmpAreaTableMap::addInstanceToPool($obj, (string) $key);
+            TmpAreaTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -363,9 +367,9 @@ abstract class TmpAreaQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             TmpAreaTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             TmpAreaTableMap::clearRelatedInstancePool();
 

@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'job_aviso' table.
  *
- * 
+ *
  *
  * @method     ChildJobAvisoQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildJobAvisoQuery orderByAreaId($order = Criteria::ASC) Order by the AREA_ID column
@@ -78,13 +78,29 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAvisoQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildJobAvisoQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildJobAvisoQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildJobAvisoQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildJobAvisoQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildJobAvisoQuery leftJoinJobAreaTecnica($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobAreaTecnica relation
  * @method     ChildJobAvisoQuery rightJoinJobAreaTecnica($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobAreaTecnica relation
  * @method     ChildJobAvisoQuery innerJoinJobAreaTecnica($relationAlias = null) Adds a INNER JOIN clause to the query using the JobAreaTecnica relation
  *
+ * @method     ChildJobAvisoQuery joinWithJobAreaTecnica($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobAreaTecnica relation
+ *
+ * @method     ChildJobAvisoQuery leftJoinWithJobAreaTecnica() Adds a LEFT JOIN clause and with to the query using the JobAreaTecnica relation
+ * @method     ChildJobAvisoQuery rightJoinWithJobAreaTecnica() Adds a RIGHT JOIN clause and with to the query using the JobAreaTecnica relation
+ * @method     ChildJobAvisoQuery innerJoinWithJobAreaTecnica() Adds a INNER JOIN clause and with to the query using the JobAreaTecnica relation
+ *
  * @method     ChildJobAvisoQuery leftJoinJobArea($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobArea relation
  * @method     ChildJobAvisoQuery rightJoinJobArea($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobArea relation
  * @method     ChildJobAvisoQuery innerJoinJobArea($relationAlias = null) Adds a INNER JOIN clause to the query using the JobArea relation
+ *
+ * @method     ChildJobAvisoQuery joinWithJobArea($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobArea relation
+ *
+ * @method     ChildJobAvisoQuery leftJoinWithJobArea() Adds a LEFT JOIN clause and with to the query using the JobArea relation
+ * @method     ChildJobAvisoQuery rightJoinWithJobArea() Adds a RIGHT JOIN clause and with to the query using the JobArea relation
+ * @method     ChildJobAvisoQuery innerJoinWithJobArea() Adds a INNER JOIN clause and with to the query using the JobArea relation
  *
  * @method     \JobAreaTecnicaQuery|\JobAreaQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -237,7 +253,7 @@ abstract class JobAvisoQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = JobAvisoTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = JobAvisoTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -269,7 +285,7 @@ abstract class JobAvisoQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, AREA_ID, AREA_TECNICA_ID, LOCALIZACION, CARGO, DESCRIPCION, NOMBRE_EMPRESA, DIRECCION, TELEFONO_CONTACTO, CORREO_CONTACTO, FECHA_PUBLICACION, FECHA_VENCIMIENTO, REQUISITO, ANIOS_EXPERIENCIA, NIVEL_FORMACION, SALARIO, PROFESION, FUENTE, TIENE_IMAGEN, MIMETYPE, AREAS_REFERENCIA, FORMACIONES_REFERENCIA, STATUS, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM job_aviso WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -281,7 +297,7 @@ abstract class JobAvisoQuery extends ModelCriteria
             /** @var ChildJobAviso $obj */
             $obj = new ChildJobAviso();
             $obj->hydrate($row);
-            JobAvisoTableMap::addInstanceToPool($obj, (string) $key);
+            JobAvisoTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -1462,9 +1478,9 @@ abstract class JobAvisoQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             JobAvisoTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             JobAvisoTableMap::clearRelatedInstancePool();
 

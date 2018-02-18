@@ -27,11 +27,11 @@ use Propel\Runtime\Util\PropelDateTime;
 /**
  * Base class that represents a row from the 'job_aviso' table.
  *
- * 
+ *
  *
 * @package    propel.generator..Base
 */
-abstract class JobAviso implements ActiveRecordInterface 
+abstract class JobAviso implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -67,114 +67,133 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * The value for the id field.
+     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the area_id field.
+     *
      * @var        int
      */
     protected $area_id;
 
     /**
      * The value for the area_tecnica_id field.
+     *
      * @var        int
      */
     protected $area_tecnica_id;
 
     /**
      * The value for the localizacion field.
+     *
      * @var        string
      */
     protected $localizacion;
 
     /**
      * The value for the cargo field.
+     *
      * @var        string
      */
     protected $cargo;
 
     /**
      * The value for the descripcion field.
+     *
      * @var        string
      */
     protected $descripcion;
 
     /**
      * The value for the nombre_empresa field.
+     *
      * @var        string
      */
     protected $nombre_empresa;
 
     /**
      * The value for the direccion field.
+     *
      * @var        string
      */
     protected $direccion;
 
     /**
      * The value for the telefono_contacto field.
+     *
      * @var        int
      */
     protected $telefono_contacto;
 
     /**
      * The value for the correo_contacto field.
+     *
      * @var        string
      */
     protected $correo_contacto;
 
     /**
      * The value for the fecha_publicacion field.
+     *
      * @var        \DateTime
      */
     protected $fecha_publicacion;
 
     /**
      * The value for the fecha_vencimiento field.
+     *
      * @var        \DateTime
      */
     protected $fecha_vencimiento;
 
     /**
      * The value for the requisito field.
+     *
      * @var        string
      */
     protected $requisito;
 
     /**
      * The value for the anios_experiencia field.
+     *
      * @var        int
      */
     protected $anios_experiencia;
 
     /**
      * The value for the nivel_formacion field.
+     *
      * @var        string
      */
     protected $nivel_formacion;
 
     /**
      * The value for the salario field.
+     *
      * @var        string
      */
     protected $salario;
 
     /**
      * The value for the profesion field.
+     *
      * @var        string
      */
     protected $profesion;
 
     /**
      * The value for the fuente field.
+     *
      * @var        string
      */
     protected $fuente;
 
     /**
      * The value for the tiene_imagen field.
+     *
      * Note: this column has a database default value of: false
      * @var        boolean
      */
@@ -182,24 +201,28 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * The value for the mimetype field.
+     *
      * @var        string
      */
     protected $mimetype;
 
     /**
      * The value for the areas_referencia field.
+     *
      * @var        string
      */
     protected $areas_referencia;
 
     /**
      * The value for the formaciones_referencia field.
+     *
      * @var        string
      */
     protected $formaciones_referencia;
 
     /**
      * The value for the status field.
+     *
      * Note: this column has a database default value of: 'ACTIVE'
      * @var        string
      */
@@ -207,6 +230,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * The value for the last_user_id field.
+     *
      * Note: this column has a database default value of: '0'
      * @var        string
      */
@@ -214,6 +238,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * The value for the creation_date field.
+     *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
      * @var        \DateTime
      */
@@ -221,6 +246,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * The value for the modification_date field.
+     *
      * @var        \DateTime
      */
     protected $modification_date;
@@ -472,12 +498,20 @@ abstract class JobAviso implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        return array_keys(get_object_vars($this));
+        $cls = new \ReflectionClass($this);
+        $propertyNames = [];
+        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
+
+        foreach($serializableProperties as $property) {
+            $propertyNames[] = $property->getName();
+        }
+
+        return $propertyNames;
     }
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return int
      */
     public function getId()
@@ -487,7 +521,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [area_id] column value.
-     * 
+     *
      * @return int
      */
     public function getAreaId()
@@ -497,7 +531,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [area_tecnica_id] column value.
-     * 
+     *
      * @return int
      */
     public function getAreaTecnicaId()
@@ -507,7 +541,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [localizacion] column value.
-     * 
+     *
      * @return string
      */
     public function getLocalizacion()
@@ -517,7 +551,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [cargo] column value.
-     * 
+     *
      * @return string
      */
     public function getCargo()
@@ -527,7 +561,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [descripcion] column value.
-     * 
+     *
      * @return string
      */
     public function getDescripcion()
@@ -537,7 +571,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [nombre_empresa] column value.
-     * 
+     *
      * @return string
      */
     public function getNombreEmpresa()
@@ -547,7 +581,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [direccion] column value.
-     * 
+     *
      * @return string
      */
     public function getDireccion()
@@ -557,7 +591,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [telefono_contacto] column value.
-     * 
+     *
      * @return int
      */
     public function getTelefonoContacto()
@@ -567,7 +601,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [correo_contacto] column value.
-     * 
+     *
      * @return string
      */
     public function getCorreoContacto()
@@ -577,7 +611,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [fecha_publicacion] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -597,7 +631,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [fecha_vencimiento] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -617,7 +651,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [requisito] column value.
-     * 
+     *
      * @return string
      */
     public function getRequisito()
@@ -627,7 +661,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [anios_experiencia] column value.
-     * 
+     *
      * @return int
      */
     public function getAniosExperiencia()
@@ -637,7 +671,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [nivel_formacion] column value.
-     * 
+     *
      * @return string
      */
     public function getNivelFormacion()
@@ -647,7 +681,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [salario] column value.
-     * 
+     *
      * @return string
      */
     public function getSalario()
@@ -657,7 +691,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [profesion] column value.
-     * 
+     *
      * @return string
      */
     public function getProfesion()
@@ -667,7 +701,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [fuente] column value.
-     * 
+     *
      * @return string
      */
     public function getFuente()
@@ -677,7 +711,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [tiene_imagen] column value.
-     * 
+     *
      * @return boolean
      */
     public function getTieneImagen()
@@ -687,7 +721,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [tiene_imagen] column value.
-     * 
+     *
      * @return boolean
      */
     public function isTieneImagen()
@@ -697,7 +731,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [mimetype] column value.
-     * 
+     *
      * @return string
      */
     public function getMimetype()
@@ -707,7 +741,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [areas_referencia] column value.
-     * 
+     *
      * @return string
      */
     public function getAreasReferencia()
@@ -717,7 +751,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [formaciones_referencia] column value.
-     * 
+     *
      * @return string
      */
     public function getFormacionesReferencia()
@@ -727,7 +761,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [status] column value.
-     * 
+     *
      * @return string
      */
     public function getStatus()
@@ -737,7 +771,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [last_user_id] column value.
-     * 
+     *
      * @return string
      */
     public function getLastUserId()
@@ -747,7 +781,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [creation_date] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -767,7 +801,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [modification_date] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -787,7 +821,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobAviso The current object (for fluent API support)
      */
@@ -807,7 +841,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Set the value of [area_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobAviso The current object (for fluent API support)
      */
@@ -831,7 +865,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Set the value of [area_tecnica_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobAviso The current object (for fluent API support)
      */
@@ -855,7 +889,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Set the value of [localizacion] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobAviso The current object (for fluent API support)
      */
@@ -875,7 +909,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Set the value of [cargo] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobAviso The current object (for fluent API support)
      */
@@ -895,7 +929,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Set the value of [descripcion] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobAviso The current object (for fluent API support)
      */
@@ -915,7 +949,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Set the value of [nombre_empresa] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobAviso The current object (for fluent API support)
      */
@@ -935,7 +969,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Set the value of [direccion] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobAviso The current object (for fluent API support)
      */
@@ -955,7 +989,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Set the value of [telefono_contacto] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobAviso The current object (for fluent API support)
      */
@@ -975,7 +1009,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Set the value of [correo_contacto] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobAviso The current object (for fluent API support)
      */
@@ -995,7 +1029,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Sets the value of [fecha_publicacion] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobAviso The current object (for fluent API support)
@@ -1015,7 +1049,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Sets the value of [fecha_vencimiento] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobAviso The current object (for fluent API support)
@@ -1035,7 +1069,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Set the value of [requisito] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobAviso The current object (for fluent API support)
      */
@@ -1055,7 +1089,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Set the value of [anios_experiencia] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobAviso The current object (for fluent API support)
      */
@@ -1075,7 +1109,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Set the value of [nivel_formacion] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobAviso The current object (for fluent API support)
      */
@@ -1095,7 +1129,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Set the value of [salario] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobAviso The current object (for fluent API support)
      */
@@ -1115,7 +1149,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Set the value of [profesion] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobAviso The current object (for fluent API support)
      */
@@ -1135,7 +1169,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Set the value of [fuente] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobAviso The current object (for fluent API support)
      */
@@ -1159,7 +1193,7 @@ abstract class JobAviso implements ActiveRecordInterface
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     * 
+     *
      * @param  boolean|integer|string $v The new value
      * @return $this|\JobAviso The current object (for fluent API support)
      */
@@ -1183,7 +1217,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Set the value of [mimetype] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobAviso The current object (for fluent API support)
      */
@@ -1203,7 +1237,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Set the value of [areas_referencia] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobAviso The current object (for fluent API support)
      */
@@ -1223,7 +1257,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Set the value of [formaciones_referencia] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobAviso The current object (for fluent API support)
      */
@@ -1243,7 +1277,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Set the value of [status] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobAviso The current object (for fluent API support)
      */
@@ -1263,7 +1297,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Set the value of [last_user_id] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobAviso The current object (for fluent API support)
      */
@@ -1283,7 +1317,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobAviso The current object (for fluent API support)
@@ -1303,7 +1337,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
     /**
      * Sets the value of [modification_date] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobAviso The current object (for fluent API support)
@@ -1779,82 +1813,82 @@ abstract class JobAviso implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'AREA_ID':                        
+                    case 'AREA_ID':
                         $stmt->bindValue($identifier, $this->area_id, PDO::PARAM_INT);
                         break;
-                    case 'AREA_TECNICA_ID':                        
+                    case 'AREA_TECNICA_ID':
                         $stmt->bindValue($identifier, $this->area_tecnica_id, PDO::PARAM_INT);
                         break;
-                    case 'LOCALIZACION':                        
+                    case 'LOCALIZACION':
                         $stmt->bindValue($identifier, $this->localizacion, PDO::PARAM_STR);
                         break;
-                    case 'CARGO':                        
+                    case 'CARGO':
                         $stmt->bindValue($identifier, $this->cargo, PDO::PARAM_STR);
                         break;
-                    case 'DESCRIPCION':                        
+                    case 'DESCRIPCION':
                         $stmt->bindValue($identifier, $this->descripcion, PDO::PARAM_STR);
                         break;
-                    case 'NOMBRE_EMPRESA':                        
+                    case 'NOMBRE_EMPRESA':
                         $stmt->bindValue($identifier, $this->nombre_empresa, PDO::PARAM_STR);
                         break;
-                    case 'DIRECCION':                        
+                    case 'DIRECCION':
                         $stmt->bindValue($identifier, $this->direccion, PDO::PARAM_STR);
                         break;
-                    case 'TELEFONO_CONTACTO':                        
+                    case 'TELEFONO_CONTACTO':
                         $stmt->bindValue($identifier, $this->telefono_contacto, PDO::PARAM_INT);
                         break;
-                    case 'CORREO_CONTACTO':                        
+                    case 'CORREO_CONTACTO':
                         $stmt->bindValue($identifier, $this->correo_contacto, PDO::PARAM_STR);
                         break;
-                    case 'FECHA_PUBLICACION':                        
+                    case 'FECHA_PUBLICACION':
                         $stmt->bindValue($identifier, $this->fecha_publicacion ? $this->fecha_publicacion->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'FECHA_VENCIMIENTO':                        
+                    case 'FECHA_VENCIMIENTO':
                         $stmt->bindValue($identifier, $this->fecha_vencimiento ? $this->fecha_vencimiento->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'REQUISITO':                        
+                    case 'REQUISITO':
                         $stmt->bindValue($identifier, $this->requisito, PDO::PARAM_STR);
                         break;
-                    case 'ANIOS_EXPERIENCIA':                        
+                    case 'ANIOS_EXPERIENCIA':
                         $stmt->bindValue($identifier, $this->anios_experiencia, PDO::PARAM_INT);
                         break;
-                    case 'NIVEL_FORMACION':                        
+                    case 'NIVEL_FORMACION':
                         $stmt->bindValue($identifier, $this->nivel_formacion, PDO::PARAM_STR);
                         break;
-                    case 'SALARIO':                        
+                    case 'SALARIO':
                         $stmt->bindValue($identifier, $this->salario, PDO::PARAM_STR);
                         break;
-                    case 'PROFESION':                        
+                    case 'PROFESION':
                         $stmt->bindValue($identifier, $this->profesion, PDO::PARAM_STR);
                         break;
-                    case 'FUENTE':                        
+                    case 'FUENTE':
                         $stmt->bindValue($identifier, $this->fuente, PDO::PARAM_STR);
                         break;
                     case 'TIENE_IMAGEN':
                         $stmt->bindValue($identifier, (int) $this->tiene_imagen, PDO::PARAM_INT);
                         break;
-                    case 'MIMETYPE':                        
+                    case 'MIMETYPE':
                         $stmt->bindValue($identifier, $this->mimetype, PDO::PARAM_STR);
                         break;
-                    case 'AREAS_REFERENCIA':                        
+                    case 'AREAS_REFERENCIA':
                         $stmt->bindValue($identifier, $this->areas_referencia, PDO::PARAM_STR);
                         break;
-                    case 'FORMACIONES_REFERENCIA':                        
+                    case 'FORMACIONES_REFERENCIA':
                         $stmt->bindValue($identifier, $this->formaciones_referencia, PDO::PARAM_STR);
                         break;
-                    case 'STATUS':                        
+                    case 'STATUS':
                         $stmt->bindValue($identifier, $this->status, PDO::PARAM_STR);
                         break;
-                    case 'LAST_USER_ID':                        
+                    case 'LAST_USER_ID':
                         $stmt->bindValue($identifier, $this->last_user_id, PDO::PARAM_STR);
                         break;
-                    case 'CREATION_DATE':                        
+                    case 'CREATION_DATE':
                         $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'MODIFICATION_DATE':                        
+                    case 'MODIFICATION_DATE':
                         $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                 }
@@ -2054,40 +2088,30 @@ abstract class JobAviso implements ActiveRecordInterface
             $keys[24] => $this->getCreationDate(),
             $keys[25] => $this->getModificationDate(),
         );
-
-        $utc = new \DateTimeZone('utc');
         if ($result[$keys[10]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[10]];
-            $result[$keys[10]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[10]] = $result[$keys[10]]->format('c');
         }
-        
+
         if ($result[$keys[11]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[11]];
-            $result[$keys[11]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[11]] = $result[$keys[11]]->format('c');
         }
-        
+
         if ($result[$keys[24]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[24]];
-            $result[$keys[24]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[24]] = $result[$keys[24]]->format('c');
         }
-        
+
         if ($result[$keys[25]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[25]];
-            $result[$keys[25]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[25]] = $result[$keys[25]]->format('c');
         }
-        
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->aJobAreaTecnica) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'jobAreaTecnica';
@@ -2098,11 +2122,11 @@ abstract class JobAviso implements ActiveRecordInterface
                     default:
                         $key = 'JobAreaTecnica';
                 }
-        
+
                 $result[$key] = $this->aJobAreaTecnica->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aJobArea) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'jobArea';
@@ -2113,7 +2137,7 @@ abstract class JobAviso implements ActiveRecordInterface
                     default:
                         $key = 'JobArea';
                 }
-        
+
                 $result[$key] = $this->aJobArea->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
@@ -2494,7 +2518,7 @@ abstract class JobAviso implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-        
+
     /**
      * Returns the primary key for this object (row).
      * @return int

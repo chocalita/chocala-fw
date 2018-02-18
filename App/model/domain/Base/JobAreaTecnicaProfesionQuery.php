@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'job_area_tecnica_profesion' table.
  *
- * 
+ *
  *
  * @method     ChildJobAreaTecnicaProfesionQuery orderByIdAreaTecnica($order = Criteria::ASC) Order by the ID_AREA_TECNICA column
  * @method     ChildJobAreaTecnicaProfesionQuery orderByIdProfesion($order = Criteria::ASC) Order by the ID_PROFESION column
@@ -40,13 +40,29 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAreaTecnicaProfesionQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildJobAreaTecnicaProfesionQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildJobAreaTecnicaProfesionQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildJobAreaTecnicaProfesionQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildJobAreaTecnicaProfesionQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildJobAreaTecnicaProfesionQuery leftJoinJobAreaTecnica($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobAreaTecnica relation
  * @method     ChildJobAreaTecnicaProfesionQuery rightJoinJobAreaTecnica($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobAreaTecnica relation
  * @method     ChildJobAreaTecnicaProfesionQuery innerJoinJobAreaTecnica($relationAlias = null) Adds a INNER JOIN clause to the query using the JobAreaTecnica relation
  *
+ * @method     ChildJobAreaTecnicaProfesionQuery joinWithJobAreaTecnica($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobAreaTecnica relation
+ *
+ * @method     ChildJobAreaTecnicaProfesionQuery leftJoinWithJobAreaTecnica() Adds a LEFT JOIN clause and with to the query using the JobAreaTecnica relation
+ * @method     ChildJobAreaTecnicaProfesionQuery rightJoinWithJobAreaTecnica() Adds a RIGHT JOIN clause and with to the query using the JobAreaTecnica relation
+ * @method     ChildJobAreaTecnicaProfesionQuery innerJoinWithJobAreaTecnica() Adds a INNER JOIN clause and with to the query using the JobAreaTecnica relation
+ *
  * @method     ChildJobAreaTecnicaProfesionQuery leftJoinJobProfesion($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobProfesion relation
  * @method     ChildJobAreaTecnicaProfesionQuery rightJoinJobProfesion($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobProfesion relation
  * @method     ChildJobAreaTecnicaProfesionQuery innerJoinJobProfesion($relationAlias = null) Adds a INNER JOIN clause to the query using the JobProfesion relation
+ *
+ * @method     ChildJobAreaTecnicaProfesionQuery joinWithJobProfesion($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobProfesion relation
+ *
+ * @method     ChildJobAreaTecnicaProfesionQuery leftJoinWithJobProfesion() Adds a LEFT JOIN clause and with to the query using the JobProfesion relation
+ * @method     ChildJobAreaTecnicaProfesionQuery rightJoinWithJobProfesion() Adds a RIGHT JOIN clause and with to the query using the JobProfesion relation
+ * @method     ChildJobAreaTecnicaProfesionQuery innerJoinWithJobProfesion() Adds a INNER JOIN clause and with to the query using the JobProfesion relation
  *
  * @method     \JobAreaTecnicaQuery|\JobProfesionQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -142,7 +158,7 @@ abstract class JobAreaTecnicaProfesionQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = JobAreaTecnicaProfesionTableMap::getInstanceFromPool(serialize(array((string) $key[0], (string) $key[1]))))) && !$this->formatter) {
+        if ((null !== ($obj = JobAreaTecnicaProfesionTableMap::getInstanceFromPool(serialize([(null === $key[0] || is_scalar($key[0]) || is_callable([$key[0], '__toString']) ? (string) $key[0] : $key[0]), (null === $key[1] || is_scalar($key[1]) || is_callable([$key[1], '__toString']) ? (string) $key[1] : $key[1])])))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -174,8 +190,8 @@ abstract class JobAreaTecnicaProfesionQuery extends ModelCriteria
     {
         $sql = 'SELECT ID_AREA_TECNICA, ID_PROFESION, NIVEL, STATUS, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM job_area_tecnica_profesion WHERE ID_AREA_TECNICA = :p0 AND ID_PROFESION = :p1';
         try {
-            $stmt = $con->prepare($sql);            
-            $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);            
+            $stmt = $con->prepare($sql);
+            $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
             $stmt->bindValue(':p1', $key[1], PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -187,7 +203,7 @@ abstract class JobAreaTecnicaProfesionQuery extends ModelCriteria
             /** @var ChildJobAreaTecnicaProfesion $obj */
             $obj = new ChildJobAreaTecnicaProfesion();
             $obj->hydrate($row);
-            JobAreaTecnicaProfesionTableMap::addInstanceToPool($obj, serialize(array((string) $key[0], (string) $key[1])));
+            JobAreaTecnicaProfesionTableMap::addInstanceToPool($obj, serialize([(null === $key[0] || is_scalar($key[0]) || is_callable([$key[0], '__toString']) ? (string) $key[0] : $key[0]), (null === $key[1] || is_scalar($key[1]) || is_callable([$key[1], '__toString']) ? (string) $key[1] : $key[1])]));
         }
         $stmt->closeCursor();
 
@@ -780,9 +796,9 @@ abstract class JobAreaTecnicaProfesionQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             JobAreaTecnicaProfesionTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             JobAreaTecnicaProfesionTableMap::clearRelatedInstancePool();
 

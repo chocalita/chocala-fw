@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'sys_password' table.
  *
- * 
+ *
  *
  * @method     ChildSysPasswordQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysPasswordQuery orderByUserId($order = Criteria::ASC) Order by the USER_ID column
@@ -38,13 +38,29 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysPasswordQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildSysPasswordQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildSysPasswordQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildSysPasswordQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildSysPasswordQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildSysPasswordQuery leftJoinSysUser($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysUser relation
  * @method     ChildSysPasswordQuery rightJoinSysUser($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysUser relation
  * @method     ChildSysPasswordQuery innerJoinSysUser($relationAlias = null) Adds a INNER JOIN clause to the query using the SysUser relation
  *
+ * @method     ChildSysPasswordQuery joinWithSysUser($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysUser relation
+ *
+ * @method     ChildSysPasswordQuery leftJoinWithSysUser() Adds a LEFT JOIN clause and with to the query using the SysUser relation
+ * @method     ChildSysPasswordQuery rightJoinWithSysUser() Adds a RIGHT JOIN clause and with to the query using the SysUser relation
+ * @method     ChildSysPasswordQuery innerJoinWithSysUser() Adds a INNER JOIN clause and with to the query using the SysUser relation
+ *
  * @method     ChildSysPasswordQuery leftJoinSysPasswordRequest($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysPasswordRequest relation
  * @method     ChildSysPasswordQuery rightJoinSysPasswordRequest($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysPasswordRequest relation
  * @method     ChildSysPasswordQuery innerJoinSysPasswordRequest($relationAlias = null) Adds a INNER JOIN clause to the query using the SysPasswordRequest relation
+ *
+ * @method     ChildSysPasswordQuery joinWithSysPasswordRequest($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysPasswordRequest relation
+ *
+ * @method     ChildSysPasswordQuery leftJoinWithSysPasswordRequest() Adds a LEFT JOIN clause and with to the query using the SysPasswordRequest relation
+ * @method     ChildSysPasswordQuery rightJoinWithSysPasswordRequest() Adds a RIGHT JOIN clause and with to the query using the SysPasswordRequest relation
+ * @method     ChildSysPasswordQuery innerJoinWithSysPasswordRequest() Adds a INNER JOIN clause and with to the query using the SysPasswordRequest relation
  *
  * @method     \SysUserQuery|\SysPasswordRequestQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -137,7 +153,7 @@ abstract class SysPasswordQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysPasswordTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = SysPasswordTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -169,7 +185,7 @@ abstract class SysPasswordQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, USER_ID, PASSWORD_REQUEST_ID, VALUE, TYPE, START_DATE FROM sys_password WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -181,7 +197,7 @@ abstract class SysPasswordQuery extends ModelCriteria
             /** @var ChildSysPassword $obj */
             $obj = new ChildSysPassword();
             $obj->hydrate($row);
-            SysPasswordTableMap::addInstanceToPool($obj, (string) $key);
+            SysPasswordTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -706,9 +722,9 @@ abstract class SysPasswordQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             SysPasswordTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             SysPasswordTableMap::clearRelatedInstancePool();
 

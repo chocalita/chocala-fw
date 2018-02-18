@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'sys_rol_x_uri' table.
  *
- * 
+ *
  *
  * @method     ChildSysRolXUriQuery orderByRolId($order = Criteria::ASC) Order by the ROL_ID column
  * @method     ChildSysRolXUriQuery orderByUriId($order = Criteria::ASC) Order by the URI_ID column
@@ -38,13 +38,29 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysRolXUriQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildSysRolXUriQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildSysRolXUriQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildSysRolXUriQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildSysRolXUriQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildSysRolXUriQuery leftJoinSysRol($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysRol relation
  * @method     ChildSysRolXUriQuery rightJoinSysRol($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysRol relation
  * @method     ChildSysRolXUriQuery innerJoinSysRol($relationAlias = null) Adds a INNER JOIN clause to the query using the SysRol relation
  *
+ * @method     ChildSysRolXUriQuery joinWithSysRol($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysRol relation
+ *
+ * @method     ChildSysRolXUriQuery leftJoinWithSysRol() Adds a LEFT JOIN clause and with to the query using the SysRol relation
+ * @method     ChildSysRolXUriQuery rightJoinWithSysRol() Adds a RIGHT JOIN clause and with to the query using the SysRol relation
+ * @method     ChildSysRolXUriQuery innerJoinWithSysRol() Adds a INNER JOIN clause and with to the query using the SysRol relation
+ *
  * @method     ChildSysRolXUriQuery leftJoinSysUri($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysUri relation
  * @method     ChildSysRolXUriQuery rightJoinSysUri($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysUri relation
  * @method     ChildSysRolXUriQuery innerJoinSysUri($relationAlias = null) Adds a INNER JOIN clause to the query using the SysUri relation
+ *
+ * @method     ChildSysRolXUriQuery joinWithSysUri($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysUri relation
+ *
+ * @method     ChildSysRolXUriQuery leftJoinWithSysUri() Adds a LEFT JOIN clause and with to the query using the SysUri relation
+ * @method     ChildSysRolXUriQuery rightJoinWithSysUri() Adds a RIGHT JOIN clause and with to the query using the SysUri relation
+ * @method     ChildSysRolXUriQuery innerJoinWithSysUri() Adds a INNER JOIN clause and with to the query using the SysUri relation
  *
  * @method     \SysRolQuery|\SysUriQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -137,7 +153,7 @@ abstract class SysRolXUriQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysRolXUriTableMap::getInstanceFromPool(serialize(array((string) $key[0], (string) $key[1]))))) && !$this->formatter) {
+        if ((null !== ($obj = SysRolXUriTableMap::getInstanceFromPool(serialize([(null === $key[0] || is_scalar($key[0]) || is_callable([$key[0], '__toString']) ? (string) $key[0] : $key[0]), (null === $key[1] || is_scalar($key[1]) || is_callable([$key[1], '__toString']) ? (string) $key[1] : $key[1])])))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -169,8 +185,8 @@ abstract class SysRolXUriQuery extends ModelCriteria
     {
         $sql = 'SELECT ROL_ID, URI_ID, AUT_READ, AUT_CREATE, AUT_UPDATE, AUT_DELETE FROM sys_rol_x_uri WHERE ROL_ID = :p0 AND URI_ID = :p1';
         try {
-            $stmt = $con->prepare($sql);            
-            $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);            
+            $stmt = $con->prepare($sql);
+            $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
             $stmt->bindValue(':p1', $key[1], PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -182,7 +198,7 @@ abstract class SysRolXUriQuery extends ModelCriteria
             /** @var ChildSysRolXUri $obj */
             $obj = new ChildSysRolXUri();
             $obj->hydrate($row);
-            SysRolXUriTableMap::addInstanceToPool($obj, serialize(array((string) $key[0], (string) $key[1])));
+            SysRolXUriTableMap::addInstanceToPool($obj, serialize([(null === $key[0] || is_scalar($key[0]) || is_callable([$key[0], '__toString']) ? (string) $key[0] : $key[0]), (null === $key[1] || is_scalar($key[1]) || is_callable([$key[1], '__toString']) ? (string) $key[1] : $key[1])]));
         }
         $stmt->closeCursor();
 
@@ -686,9 +702,9 @@ abstract class SysRolXUriQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             SysRolXUriTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             SysRolXUriTableMap::clearRelatedInstancePool();
 

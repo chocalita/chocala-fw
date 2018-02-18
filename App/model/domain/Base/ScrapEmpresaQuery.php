@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'scrap_empresa' table.
  *
- * 
+ *
  *
  * @method     ChildScrapEmpresaQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildScrapEmpresaQuery orderByIdPagina($order = Criteria::ASC) Order by the ID_PAGINA column
@@ -58,17 +58,39 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildScrapEmpresaQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildScrapEmpresaQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildScrapEmpresaQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildScrapEmpresaQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildScrapEmpresaQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildScrapEmpresaQuery leftJoinScrapActividad($relationAlias = null) Adds a LEFT JOIN clause to the query using the ScrapActividad relation
  * @method     ChildScrapEmpresaQuery rightJoinScrapActividad($relationAlias = null) Adds a RIGHT JOIN clause to the query using the ScrapActividad relation
  * @method     ChildScrapEmpresaQuery innerJoinScrapActividad($relationAlias = null) Adds a INNER JOIN clause to the query using the ScrapActividad relation
+ *
+ * @method     ChildScrapEmpresaQuery joinWithScrapActividad($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the ScrapActividad relation
+ *
+ * @method     ChildScrapEmpresaQuery leftJoinWithScrapActividad() Adds a LEFT JOIN clause and with to the query using the ScrapActividad relation
+ * @method     ChildScrapEmpresaQuery rightJoinWithScrapActividad() Adds a RIGHT JOIN clause and with to the query using the ScrapActividad relation
+ * @method     ChildScrapEmpresaQuery innerJoinWithScrapActividad() Adds a INNER JOIN clause and with to the query using the ScrapActividad relation
  *
  * @method     ChildScrapEmpresaQuery leftJoinScrapTipoEmpresa($relationAlias = null) Adds a LEFT JOIN clause to the query using the ScrapTipoEmpresa relation
  * @method     ChildScrapEmpresaQuery rightJoinScrapTipoEmpresa($relationAlias = null) Adds a RIGHT JOIN clause to the query using the ScrapTipoEmpresa relation
  * @method     ChildScrapEmpresaQuery innerJoinScrapTipoEmpresa($relationAlias = null) Adds a INNER JOIN clause to the query using the ScrapTipoEmpresa relation
  *
+ * @method     ChildScrapEmpresaQuery joinWithScrapTipoEmpresa($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the ScrapTipoEmpresa relation
+ *
+ * @method     ChildScrapEmpresaQuery leftJoinWithScrapTipoEmpresa() Adds a LEFT JOIN clause and with to the query using the ScrapTipoEmpresa relation
+ * @method     ChildScrapEmpresaQuery rightJoinWithScrapTipoEmpresa() Adds a RIGHT JOIN clause and with to the query using the ScrapTipoEmpresa relation
+ * @method     ChildScrapEmpresaQuery innerJoinWithScrapTipoEmpresa() Adds a INNER JOIN clause and with to the query using the ScrapTipoEmpresa relation
+ *
  * @method     ChildScrapEmpresaQuery leftJoinScrapPagina($relationAlias = null) Adds a LEFT JOIN clause to the query using the ScrapPagina relation
  * @method     ChildScrapEmpresaQuery rightJoinScrapPagina($relationAlias = null) Adds a RIGHT JOIN clause to the query using the ScrapPagina relation
  * @method     ChildScrapEmpresaQuery innerJoinScrapPagina($relationAlias = null) Adds a INNER JOIN clause to the query using the ScrapPagina relation
+ *
+ * @method     ChildScrapEmpresaQuery joinWithScrapPagina($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the ScrapPagina relation
+ *
+ * @method     ChildScrapEmpresaQuery leftJoinWithScrapPagina() Adds a LEFT JOIN clause and with to the query using the ScrapPagina relation
+ * @method     ChildScrapEmpresaQuery rightJoinWithScrapPagina() Adds a RIGHT JOIN clause and with to the query using the ScrapPagina relation
+ * @method     ChildScrapEmpresaQuery innerJoinWithScrapPagina() Adds a INNER JOIN clause and with to the query using the ScrapPagina relation
  *
  * @method     \ScrapActividadQuery|\ScrapTipoEmpresaQuery|\ScrapPaginaQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -191,7 +213,7 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = ScrapEmpresaTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = ScrapEmpresaTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -223,7 +245,7 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, ID_PAGINA, ID_ACTIVIDAD, ID_TIPO_EMPRESA, ID_EMPRESA, NIT, NOMBRE, EMAIL, ACTIVIDAD, LEIDO, MATRICULA, LICENCIA, MUNICIPIO, DIRECCION, TELEFONO, FAX FROM scrap_empresa WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -235,7 +257,7 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
             /** @var ChildScrapEmpresa $obj */
             $obj = new ChildScrapEmpresa();
             $obj->hydrate($row);
-            ScrapEmpresaTableMap::addInstanceToPool($obj, (string) $key);
+            ScrapEmpresaTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -1125,9 +1147,9 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             ScrapEmpresaTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             ScrapEmpresaTableMap::clearRelatedInstancePool();
 

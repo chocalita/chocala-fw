@@ -8,6 +8,7 @@ use \SysEntityType as ChildSysEntityType;
 use \SysEntityTypeQuery as ChildSysEntityTypeQuery;
 use \Exception;
 use \PDO;
+use Map\SysEntityTableMap;
 use Map\SysEntityTypeTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -25,11 +26,11 @@ use Propel\Runtime\Parser\AbstractParser;
 /**
  * Base class that represents a row from the 'sys_entity_type' table.
  *
- * 
+ *
  *
 * @package    propel.generator..Base
 */
-abstract class SysEntityType implements ActiveRecordInterface 
+abstract class SysEntityType implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -65,30 +66,35 @@ abstract class SysEntityType implements ActiveRecordInterface
 
     /**
      * The value for the id field.
+     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the group_code field.
+     *
      * @var        string
      */
     protected $group_code;
 
     /**
      * The value for the code field.
+     *
      * @var        string
      */
     protected $code;
 
     /**
      * The value for the name field.
+     *
      * @var        string
      */
     protected $name;
 
     /**
      * The value for the description field.
+     *
      * @var        string
      */
     protected $description;
@@ -327,12 +333,20 @@ abstract class SysEntityType implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        return array_keys(get_object_vars($this));
+        $cls = new \ReflectionClass($this);
+        $propertyNames = [];
+        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
+
+        foreach($serializableProperties as $property) {
+            $propertyNames[] = $property->getName();
+        }
+
+        return $propertyNames;
     }
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return int
      */
     public function getId()
@@ -342,7 +356,7 @@ abstract class SysEntityType implements ActiveRecordInterface
 
     /**
      * Get the [group_code] column value.
-     * 
+     *
      * @return string
      */
     public function getGroupCode()
@@ -352,7 +366,7 @@ abstract class SysEntityType implements ActiveRecordInterface
 
     /**
      * Get the [code] column value.
-     * 
+     *
      * @return string
      */
     public function getCode()
@@ -362,7 +376,7 @@ abstract class SysEntityType implements ActiveRecordInterface
 
     /**
      * Get the [name] column value.
-     * 
+     *
      * @return string
      */
     public function getName()
@@ -372,7 +386,7 @@ abstract class SysEntityType implements ActiveRecordInterface
 
     /**
      * Get the [description] column value.
-     * 
+     *
      * @return string
      */
     public function getDescription()
@@ -382,7 +396,7 @@ abstract class SysEntityType implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysEntityType The current object (for fluent API support)
      */
@@ -402,7 +416,7 @@ abstract class SysEntityType implements ActiveRecordInterface
 
     /**
      * Set the value of [group_code] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysEntityType The current object (for fluent API support)
      */
@@ -422,7 +436,7 @@ abstract class SysEntityType implements ActiveRecordInterface
 
     /**
      * Set the value of [code] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysEntityType The current object (for fluent API support)
      */
@@ -442,7 +456,7 @@ abstract class SysEntityType implements ActiveRecordInterface
 
     /**
      * Set the value of [name] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysEntityType The current object (for fluent API support)
      */
@@ -462,7 +476,7 @@ abstract class SysEntityType implements ActiveRecordInterface
 
     /**
      * Set the value of [description] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysEntityType The current object (for fluent API support)
      */
@@ -780,19 +794,19 @@ abstract class SysEntityType implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'GROUP_CODE':                        
+                    case 'GROUP_CODE':
                         $stmt->bindValue($identifier, $this->group_code, PDO::PARAM_STR);
                         break;
-                    case 'CODE':                        
+                    case 'CODE':
                         $stmt->bindValue($identifier, $this->code, PDO::PARAM_STR);
                         break;
-                    case 'NAME':                        
+                    case 'NAME':
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
                         break;
-                    case 'DESCRIPTION':                        
+                    case 'DESCRIPTION':
                         $stmt->bindValue($identifier, $this->description, PDO::PARAM_STR);
                         break;
                 }
@@ -912,10 +926,10 @@ abstract class SysEntityType implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->collSysEntities) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysEntities';
@@ -926,7 +940,7 @@ abstract class SysEntityType implements ActiveRecordInterface
                     default:
                         $key = 'SysEntities';
                 }
-        
+
                 $result[$key] = $this->collSysEntities->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
@@ -1118,7 +1132,7 @@ abstract class SysEntityType implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-        
+
     /**
      * Returns the primary key for this object (row).
      * @return int
@@ -1262,7 +1276,10 @@ abstract class SysEntityType implements ActiveRecordInterface
         if (null !== $this->collSysEntities && !$overrideExisting) {
             return;
         }
-        $this->collSysEntities = new ObjectCollection();
+
+        $collectionClassName = SysEntityTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collSysEntities = new $collectionClassName;
         $this->collSysEntities->setModel('\SysEntity');
     }
 
@@ -1339,7 +1356,7 @@ abstract class SysEntityType implements ActiveRecordInterface
         /** @var ChildSysEntity[] $sysEntitiesToDelete */
         $sysEntitiesToDelete = $this->getSysEntities(new Criteria(), $con)->diff($sysEntities);
 
-        
+
         $this->sysEntitiesScheduledForDeletion = $sysEntitiesToDelete;
 
         foreach ($sysEntitiesToDelete as $sysEntityRemoved) {
@@ -1407,6 +1424,10 @@ abstract class SysEntityType implements ActiveRecordInterface
 
         if (!$this->collSysEntities->contains($l)) {
             $this->doAddSysEntity($l);
+
+            if ($this->sysEntitiesScheduledForDeletion and $this->sysEntitiesScheduledForDeletion->contains($l)) {
+                $this->sysEntitiesScheduledForDeletion->remove($this->sysEntitiesScheduledForDeletion->search($l));
+            }
         }
 
         return $this;

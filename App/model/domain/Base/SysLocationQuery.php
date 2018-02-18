@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'sys_location' table.
  *
- * 
+ *
  *
  * @method     ChildSysLocationQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysLocationQuery orderByMainId($order = Criteria::ASC) Order by the MAIN_ID column
@@ -50,13 +50,29 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysLocationQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildSysLocationQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildSysLocationQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildSysLocationQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildSysLocationQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildSysLocationQuery leftJoinSysEntity($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEntity relation
  * @method     ChildSysLocationQuery rightJoinSysEntity($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEntity relation
  * @method     ChildSysLocationQuery innerJoinSysEntity($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEntity relation
  *
+ * @method     ChildSysLocationQuery joinWithSysEntity($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEntity relation
+ *
+ * @method     ChildSysLocationQuery leftJoinWithSysEntity() Adds a LEFT JOIN clause and with to the query using the SysEntity relation
+ * @method     ChildSysLocationQuery rightJoinWithSysEntity() Adds a RIGHT JOIN clause and with to the query using the SysEntity relation
+ * @method     ChildSysLocationQuery innerJoinWithSysEntity() Adds a INNER JOIN clause and with to the query using the SysEntity relation
+ *
  * @method     ChildSysLocationQuery leftJoinSysEntityBranch($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEntityBranch relation
  * @method     ChildSysLocationQuery rightJoinSysEntityBranch($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEntityBranch relation
  * @method     ChildSysLocationQuery innerJoinSysEntityBranch($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEntityBranch relation
+ *
+ * @method     ChildSysLocationQuery joinWithSysEntityBranch($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEntityBranch relation
+ *
+ * @method     ChildSysLocationQuery leftJoinWithSysEntityBranch() Adds a LEFT JOIN clause and with to the query using the SysEntityBranch relation
+ * @method     ChildSysLocationQuery rightJoinWithSysEntityBranch() Adds a RIGHT JOIN clause and with to the query using the SysEntityBranch relation
+ * @method     ChildSysLocationQuery innerJoinWithSysEntityBranch() Adds a INNER JOIN clause and with to the query using the SysEntityBranch relation
  *
  * @method     \SysEntityQuery|\SysEntityBranchQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -167,7 +183,7 @@ abstract class SysLocationQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysLocationTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = SysLocationTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -199,7 +215,7 @@ abstract class SysLocationQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, MAIN_ID, CODE, STATUS, NAME, TYPE, LEVEL, LFT, RGT, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM sys_location WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -211,7 +227,7 @@ abstract class SysLocationQuery extends ModelCriteria
             /** @var ChildSysLocation $obj */
             $obj = new ChildSysLocation();
             $obj->hydrate($row);
-            SysLocationTableMap::addInstanceToPool($obj, (string) $key);
+            SysLocationTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -948,9 +964,9 @@ abstract class SysLocationQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             SysLocationTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             SysLocationTableMap::clearRelatedInstancePool();
 

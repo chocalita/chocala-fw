@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'job_oficio_curriculum' table.
  *
- * 
+ *
  *
  * @method     ChildJobOficioCurriculumQuery orderByIdOficio($order = Criteria::ASC) Order by the ID_OFICIO column
  * @method     ChildJobOficioCurriculumQuery orderByIdCurriculum($order = Criteria::ASC) Order by the ID_CURRICULUM column
@@ -38,13 +38,29 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobOficioCurriculumQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildJobOficioCurriculumQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildJobOficioCurriculumQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildJobOficioCurriculumQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildJobOficioCurriculumQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildJobOficioCurriculumQuery leftJoinJobCurriculum($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobCurriculum relation
  * @method     ChildJobOficioCurriculumQuery rightJoinJobCurriculum($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobCurriculum relation
  * @method     ChildJobOficioCurriculumQuery innerJoinJobCurriculum($relationAlias = null) Adds a INNER JOIN clause to the query using the JobCurriculum relation
  *
+ * @method     ChildJobOficioCurriculumQuery joinWithJobCurriculum($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobCurriculum relation
+ *
+ * @method     ChildJobOficioCurriculumQuery leftJoinWithJobCurriculum() Adds a LEFT JOIN clause and with to the query using the JobCurriculum relation
+ * @method     ChildJobOficioCurriculumQuery rightJoinWithJobCurriculum() Adds a RIGHT JOIN clause and with to the query using the JobCurriculum relation
+ * @method     ChildJobOficioCurriculumQuery innerJoinWithJobCurriculum() Adds a INNER JOIN clause and with to the query using the JobCurriculum relation
+ *
  * @method     ChildJobOficioCurriculumQuery leftJoinJobOficio($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobOficio relation
  * @method     ChildJobOficioCurriculumQuery rightJoinJobOficio($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobOficio relation
  * @method     ChildJobOficioCurriculumQuery innerJoinJobOficio($relationAlias = null) Adds a INNER JOIN clause to the query using the JobOficio relation
+ *
+ * @method     ChildJobOficioCurriculumQuery joinWithJobOficio($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobOficio relation
+ *
+ * @method     ChildJobOficioCurriculumQuery leftJoinWithJobOficio() Adds a LEFT JOIN clause and with to the query using the JobOficio relation
+ * @method     ChildJobOficioCurriculumQuery rightJoinWithJobOficio() Adds a RIGHT JOIN clause and with to the query using the JobOficio relation
+ * @method     ChildJobOficioCurriculumQuery innerJoinWithJobOficio() Adds a INNER JOIN clause and with to the query using the JobOficio relation
  *
  * @method     \JobCurriculumQuery|\JobOficioQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -137,7 +153,7 @@ abstract class JobOficioCurriculumQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = JobOficioCurriculumTableMap::getInstanceFromPool(serialize(array((string) $key[0], (string) $key[1]))))) && !$this->formatter) {
+        if ((null !== ($obj = JobOficioCurriculumTableMap::getInstanceFromPool(serialize([(null === $key[0] || is_scalar($key[0]) || is_callable([$key[0], '__toString']) ? (string) $key[0] : $key[0]), (null === $key[1] || is_scalar($key[1]) || is_callable([$key[1], '__toString']) ? (string) $key[1] : $key[1])])))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -169,8 +185,8 @@ abstract class JobOficioCurriculumQuery extends ModelCriteria
     {
         $sql = 'SELECT ID_OFICIO, ID_CURRICULUM, STATUS, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM job_oficio_curriculum WHERE ID_OFICIO = :p0 AND ID_CURRICULUM = :p1';
         try {
-            $stmt = $con->prepare($sql);            
-            $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);            
+            $stmt = $con->prepare($sql);
+            $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
             $stmt->bindValue(':p1', $key[1], PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -182,7 +198,7 @@ abstract class JobOficioCurriculumQuery extends ModelCriteria
             /** @var ChildJobOficioCurriculum $obj */
             $obj = new ChildJobOficioCurriculum();
             $obj->hydrate($row);
-            JobOficioCurriculumTableMap::addInstanceToPool($obj, serialize(array((string) $key[0], (string) $key[1])));
+            JobOficioCurriculumTableMap::addInstanceToPool($obj, serialize([(null === $key[0] || is_scalar($key[0]) || is_callable([$key[0], '__toString']) ? (string) $key[0] : $key[0]), (null === $key[1] || is_scalar($key[1]) || is_callable([$key[1], '__toString']) ? (string) $key[1] : $key[1])]));
         }
         $stmt->closeCursor();
 
@@ -734,9 +750,9 @@ abstract class JobOficioCurriculumQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             JobOficioCurriculumTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             JobOficioCurriculumTableMap::clearRelatedInstancePool();
 

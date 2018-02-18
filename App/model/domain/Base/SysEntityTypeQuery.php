@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'sys_entity_type' table.
  *
- * 
+ *
  *
  * @method     ChildSysEntityTypeQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysEntityTypeQuery orderByGroupCode($order = Criteria::ASC) Order by the GROUP_CODE column
@@ -36,9 +36,19 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysEntityTypeQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildSysEntityTypeQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildSysEntityTypeQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildSysEntityTypeQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildSysEntityTypeQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildSysEntityTypeQuery leftJoinSysEntity($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEntity relation
  * @method     ChildSysEntityTypeQuery rightJoinSysEntity($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEntity relation
  * @method     ChildSysEntityTypeQuery innerJoinSysEntity($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEntity relation
+ *
+ * @method     ChildSysEntityTypeQuery joinWithSysEntity($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEntity relation
+ *
+ * @method     ChildSysEntityTypeQuery leftJoinWithSysEntity() Adds a LEFT JOIN clause and with to the query using the SysEntity relation
+ * @method     ChildSysEntityTypeQuery rightJoinWithSysEntity() Adds a RIGHT JOIN clause and with to the query using the SysEntity relation
+ * @method     ChildSysEntityTypeQuery innerJoinWithSysEntity() Adds a INNER JOIN clause and with to the query using the SysEntity relation
  *
  * @method     \SysEntityQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -128,7 +138,7 @@ abstract class SysEntityTypeQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysEntityTypeTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = SysEntityTypeTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -160,7 +170,7 @@ abstract class SysEntityTypeQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, GROUP_CODE, CODE, NAME, DESCRIPTION FROM sys_entity_type WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -172,7 +182,7 @@ abstract class SysEntityTypeQuery extends ModelCriteria
             /** @var ChildSysEntityType $obj */
             $obj = new ChildSysEntityType();
             $obj->hydrate($row);
-            SysEntityTypeTableMap::addInstanceToPool($obj, (string) $key);
+            SysEntityTypeTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -545,9 +555,9 @@ abstract class SysEntityTypeQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             SysEntityTypeTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             SysEntityTypeTableMap::clearRelatedInstancePool();
 

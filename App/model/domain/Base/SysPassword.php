@@ -27,11 +27,11 @@ use Propel\Runtime\Util\PropelDateTime;
 /**
  * Base class that represents a row from the 'sys_password' table.
  *
- * 
+ *
  *
 * @package    propel.generator..Base
 */
-abstract class SysPassword implements ActiveRecordInterface 
+abstract class SysPassword implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -67,36 +67,42 @@ abstract class SysPassword implements ActiveRecordInterface
 
     /**
      * The value for the id field.
+     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the user_id field.
+     *
      * @var        int
      */
     protected $user_id;
 
     /**
      * The value for the password_request_id field.
+     *
      * @var        int
      */
     protected $password_request_id;
 
     /**
      * The value for the value field.
+     *
      * @var        string
      */
     protected $value;
 
     /**
      * The value for the type field.
+     *
      * @var        string
      */
     protected $type;
 
     /**
      * The value for the start_date field.
+     *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
      * @var        \DateTime
      */
@@ -346,12 +352,20 @@ abstract class SysPassword implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        return array_keys(get_object_vars($this));
+        $cls = new \ReflectionClass($this);
+        $propertyNames = [];
+        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
+
+        foreach($serializableProperties as $property) {
+            $propertyNames[] = $property->getName();
+        }
+
+        return $propertyNames;
     }
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return int
      */
     public function getId()
@@ -361,7 +375,7 @@ abstract class SysPassword implements ActiveRecordInterface
 
     /**
      * Get the [user_id] column value.
-     * 
+     *
      * @return int
      */
     public function getUserId()
@@ -371,7 +385,7 @@ abstract class SysPassword implements ActiveRecordInterface
 
     /**
      * Get the [password_request_id] column value.
-     * 
+     *
      * @return int
      */
     public function getPasswordRequestId()
@@ -381,7 +395,7 @@ abstract class SysPassword implements ActiveRecordInterface
 
     /**
      * Get the [value] column value.
-     * 
+     *
      * @return string
      */
     public function getValue()
@@ -391,7 +405,7 @@ abstract class SysPassword implements ActiveRecordInterface
 
     /**
      * Get the [type] column value.
-     * 
+     *
      * @return string
      */
     public function getType()
@@ -401,7 +415,7 @@ abstract class SysPassword implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [start_date] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -421,7 +435,7 @@ abstract class SysPassword implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysPassword The current object (for fluent API support)
      */
@@ -441,7 +455,7 @@ abstract class SysPassword implements ActiveRecordInterface
 
     /**
      * Set the value of [user_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysPassword The current object (for fluent API support)
      */
@@ -465,7 +479,7 @@ abstract class SysPassword implements ActiveRecordInterface
 
     /**
      * Set the value of [password_request_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysPassword The current object (for fluent API support)
      */
@@ -489,7 +503,7 @@ abstract class SysPassword implements ActiveRecordInterface
 
     /**
      * Set the value of [value] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysPassword The current object (for fluent API support)
      */
@@ -509,7 +523,7 @@ abstract class SysPassword implements ActiveRecordInterface
 
     /**
      * Set the value of [type] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysPassword The current object (for fluent API support)
      */
@@ -529,7 +543,7 @@ abstract class SysPassword implements ActiveRecordInterface
 
     /**
      * Sets the value of [start_date] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysPassword The current object (for fluent API support)
@@ -864,22 +878,22 @@ abstract class SysPassword implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'USER_ID':                        
+                    case 'USER_ID':
                         $stmt->bindValue($identifier, $this->user_id, PDO::PARAM_INT);
                         break;
-                    case 'PASSWORD_REQUEST_ID':                        
+                    case 'PASSWORD_REQUEST_ID':
                         $stmt->bindValue($identifier, $this->password_request_id, PDO::PARAM_INT);
                         break;
-                    case 'VALUE':                        
+                    case 'VALUE':
                         $stmt->bindValue($identifier, $this->value, PDO::PARAM_STR);
                         break;
-                    case 'TYPE':                        
+                    case 'TYPE':
                         $stmt->bindValue($identifier, $this->type, PDO::PARAM_STR);
                         break;
-                    case 'START_DATE':                        
+                    case 'START_DATE':
                         $stmt->bindValue($identifier, $this->start_date ? $this->start_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                 }
@@ -999,22 +1013,18 @@ abstract class SysPassword implements ActiveRecordInterface
             $keys[4] => $this->getType(),
             $keys[5] => $this->getStartDate(),
         );
-
-        $utc = new \DateTimeZone('utc');
         if ($result[$keys[5]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[5]];
-            $result[$keys[5]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[5]] = $result[$keys[5]]->format('c');
         }
-        
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->aSysUser) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysUser';
@@ -1025,11 +1035,11 @@ abstract class SysPassword implements ActiveRecordInterface
                     default:
                         $key = 'SysUser';
                 }
-        
+
                 $result[$key] = $this->aSysUser->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aSysPasswordRequest) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysPasswordRequest';
@@ -1040,7 +1050,7 @@ abstract class SysPassword implements ActiveRecordInterface
                     default:
                         $key = 'SysPasswordRequest';
                 }
-        
+
                 $result[$key] = $this->aSysPasswordRequest->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
@@ -1241,7 +1251,7 @@ abstract class SysPassword implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-        
+
     /**
      * Returns the primary key for this object (row).
      * @return int

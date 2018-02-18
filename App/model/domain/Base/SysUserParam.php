@@ -27,11 +27,11 @@ use Propel\Runtime\Util\PropelDateTime;
 /**
  * Base class that represents a row from the 'sys_user_param' table.
  *
- * 
+ *
  *
 * @package    propel.generator..Base
 */
-abstract class SysUserParam implements ActiveRecordInterface 
+abstract class SysUserParam implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -67,36 +67,42 @@ abstract class SysUserParam implements ActiveRecordInterface
 
     /**
      * The value for the id field.
+     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the user_id field.
+     *
      * @var        int
      */
     protected $user_id;
 
     /**
      * The value for the param_id field.
+     *
      * @var        int
      */
     protected $param_id;
 
     /**
      * The value for the value field.
+     *
      * @var        string
      */
     protected $value;
 
     /**
      * The value for the description field.
+     *
      * @var        string
      */
     protected $description;
 
     /**
      * The value for the last_user_id field.
+     *
      * Note: this column has a database default value of: 0
      * @var        int
      */
@@ -104,6 +110,7 @@ abstract class SysUserParam implements ActiveRecordInterface
 
     /**
      * The value for the creation_date field.
+     *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
      * @var        \DateTime
      */
@@ -111,6 +118,7 @@ abstract class SysUserParam implements ActiveRecordInterface
 
     /**
      * The value for the modification_date field.
+     *
      * Note: this column has a database default value of: NULL
      * @var        \DateTime
      */
@@ -362,12 +370,20 @@ abstract class SysUserParam implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        return array_keys(get_object_vars($this));
+        $cls = new \ReflectionClass($this);
+        $propertyNames = [];
+        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
+
+        foreach($serializableProperties as $property) {
+            $propertyNames[] = $property->getName();
+        }
+
+        return $propertyNames;
     }
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return int
      */
     public function getId()
@@ -377,7 +393,7 @@ abstract class SysUserParam implements ActiveRecordInterface
 
     /**
      * Get the [user_id] column value.
-     * 
+     *
      * @return int
      */
     public function getUserId()
@@ -387,7 +403,7 @@ abstract class SysUserParam implements ActiveRecordInterface
 
     /**
      * Get the [param_id] column value.
-     * 
+     *
      * @return int
      */
     public function getParamId()
@@ -397,7 +413,7 @@ abstract class SysUserParam implements ActiveRecordInterface
 
     /**
      * Get the [value] column value.
-     * 
+     *
      * @return string
      */
     public function getValue()
@@ -407,7 +423,7 @@ abstract class SysUserParam implements ActiveRecordInterface
 
     /**
      * Get the [description] column value.
-     * 
+     *
      * @return string
      */
     public function getDescription()
@@ -417,7 +433,7 @@ abstract class SysUserParam implements ActiveRecordInterface
 
     /**
      * Get the [last_user_id] column value.
-     * 
+     *
      * @return int
      */
     public function getLastUserId()
@@ -427,7 +443,7 @@ abstract class SysUserParam implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [creation_date] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -447,7 +463,7 @@ abstract class SysUserParam implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [modification_date] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -467,7 +483,7 @@ abstract class SysUserParam implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysUserParam The current object (for fluent API support)
      */
@@ -487,7 +503,7 @@ abstract class SysUserParam implements ActiveRecordInterface
 
     /**
      * Set the value of [user_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysUserParam The current object (for fluent API support)
      */
@@ -511,7 +527,7 @@ abstract class SysUserParam implements ActiveRecordInterface
 
     /**
      * Set the value of [param_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysUserParam The current object (for fluent API support)
      */
@@ -535,7 +551,7 @@ abstract class SysUserParam implements ActiveRecordInterface
 
     /**
      * Set the value of [value] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysUserParam The current object (for fluent API support)
      */
@@ -555,7 +571,7 @@ abstract class SysUserParam implements ActiveRecordInterface
 
     /**
      * Set the value of [description] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysUserParam The current object (for fluent API support)
      */
@@ -575,7 +591,7 @@ abstract class SysUserParam implements ActiveRecordInterface
 
     /**
      * Set the value of [last_user_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysUserParam The current object (for fluent API support)
      */
@@ -595,7 +611,7 @@ abstract class SysUserParam implements ActiveRecordInterface
 
     /**
      * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysUserParam The current object (for fluent API support)
@@ -615,7 +631,7 @@ abstract class SysUserParam implements ActiveRecordInterface
 
     /**
      * Sets the value of [modification_date] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysUserParam The current object (for fluent API support)
@@ -975,28 +991,28 @@ abstract class SysUserParam implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'USER_ID':                        
+                    case 'USER_ID':
                         $stmt->bindValue($identifier, $this->user_id, PDO::PARAM_INT);
                         break;
-                    case 'PARAM_ID':                        
+                    case 'PARAM_ID':
                         $stmt->bindValue($identifier, $this->param_id, PDO::PARAM_INT);
                         break;
-                    case 'VALUE':                        
+                    case 'VALUE':
                         $stmt->bindValue($identifier, $this->value, PDO::PARAM_STR);
                         break;
-                    case 'DESCRIPTION':                        
+                    case 'DESCRIPTION':
                         $stmt->bindValue($identifier, $this->description, PDO::PARAM_STR);
                         break;
-                    case 'LAST_USER_ID':                        
+                    case 'LAST_USER_ID':
                         $stmt->bindValue($identifier, $this->last_user_id, PDO::PARAM_INT);
                         break;
-                    case 'CREATION_DATE':                        
+                    case 'CREATION_DATE':
                         $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'MODIFICATION_DATE':                        
+                    case 'MODIFICATION_DATE':
                         $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                 }
@@ -1124,28 +1140,22 @@ abstract class SysUserParam implements ActiveRecordInterface
             $keys[6] => $this->getCreationDate(),
             $keys[7] => $this->getModificationDate(),
         );
-
-        $utc = new \DateTimeZone('utc');
         if ($result[$keys[6]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[6]];
-            $result[$keys[6]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[6]] = $result[$keys[6]]->format('c');
         }
-        
+
         if ($result[$keys[7]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[7]];
-            $result[$keys[7]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[7]] = $result[$keys[7]]->format('c');
         }
-        
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->aSysParam) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysParam';
@@ -1156,11 +1166,11 @@ abstract class SysUserParam implements ActiveRecordInterface
                     default:
                         $key = 'SysParam';
                 }
-        
+
                 $result[$key] = $this->aSysParam->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aSysUser) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysUser';
@@ -1171,7 +1181,7 @@ abstract class SysUserParam implements ActiveRecordInterface
                     default:
                         $key = 'SysUser';
                 }
-        
+
                 $result[$key] = $this->aSysUser->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
@@ -1390,7 +1400,7 @@ abstract class SysUserParam implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-        
+
     /**
      * Returns the primary key for this object (row).
      * @return int

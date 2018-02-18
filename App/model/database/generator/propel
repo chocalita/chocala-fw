@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+propel model:build --output-dir="../../domain"
+cd ..
+cd ..
+cd ..
+cd ..
+composer update

@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'sys_entity_branch' table.
  *
- * 
+ *
  *
  * @method     ChildSysEntityBranchQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysEntityBranchQuery orderByEntityId($order = Criteria::ASC) Order by the ENTITY_ID column
@@ -46,13 +46,29 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysEntityBranchQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildSysEntityBranchQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildSysEntityBranchQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildSysEntityBranchQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildSysEntityBranchQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildSysEntityBranchQuery leftJoinSysEntity($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEntity relation
  * @method     ChildSysEntityBranchQuery rightJoinSysEntity($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEntity relation
  * @method     ChildSysEntityBranchQuery innerJoinSysEntity($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEntity relation
  *
+ * @method     ChildSysEntityBranchQuery joinWithSysEntity($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEntity relation
+ *
+ * @method     ChildSysEntityBranchQuery leftJoinWithSysEntity() Adds a LEFT JOIN clause and with to the query using the SysEntity relation
+ * @method     ChildSysEntityBranchQuery rightJoinWithSysEntity() Adds a RIGHT JOIN clause and with to the query using the SysEntity relation
+ * @method     ChildSysEntityBranchQuery innerJoinWithSysEntity() Adds a INNER JOIN clause and with to the query using the SysEntity relation
+ *
  * @method     ChildSysEntityBranchQuery leftJoinSysLocation($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysLocation relation
  * @method     ChildSysEntityBranchQuery rightJoinSysLocation($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysLocation relation
  * @method     ChildSysEntityBranchQuery innerJoinSysLocation($relationAlias = null) Adds a INNER JOIN clause to the query using the SysLocation relation
+ *
+ * @method     ChildSysEntityBranchQuery joinWithSysLocation($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysLocation relation
+ *
+ * @method     ChildSysEntityBranchQuery leftJoinWithSysLocation() Adds a LEFT JOIN clause and with to the query using the SysLocation relation
+ * @method     ChildSysEntityBranchQuery rightJoinWithSysLocation() Adds a RIGHT JOIN clause and with to the query using the SysLocation relation
+ * @method     ChildSysEntityBranchQuery innerJoinWithSysLocation() Adds a INNER JOIN clause and with to the query using the SysLocation relation
  *
  * @method     \SysEntityQuery|\SysLocationQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -157,7 +173,7 @@ abstract class SysEntityBranchQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysEntityBranchTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = SysEntityBranchTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -189,7 +205,7 @@ abstract class SysEntityBranchQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, ENTITY_ID, LOCATION_ID, STATUS, NAME, ADDRESS, PHONE, CELLPHONE, FAX, DESCRIPTION FROM sys_entity_branch WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -201,7 +217,7 @@ abstract class SysEntityBranchQuery extends ModelCriteria
             /** @var ChildSysEntityBranch $obj */
             $obj = new ChildSysEntityBranch();
             $obj->hydrate($row);
-            SysEntityBranchTableMap::addInstanceToPool($obj, (string) $key);
+            SysEntityBranchTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -828,9 +844,9 @@ abstract class SysEntityBranchQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             SysEntityBranchTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             SysEntityBranchTableMap::clearRelatedInstancePool();
 

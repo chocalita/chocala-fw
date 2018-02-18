@@ -23,11 +23,11 @@ use Propel\Runtime\Util\PropelDateTime;
 /**
  * Base class that represents a row from the 'tmp_mailing' table.
  *
- * 
+ *
  *
 * @package    propel.generator..Base
 */
-abstract class TmpMailing implements ActiveRecordInterface 
+abstract class TmpMailing implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -63,48 +63,56 @@ abstract class TmpMailing implements ActiveRecordInterface
 
     /**
      * The value for the id field.
+     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the id_prospecto field.
+     *
      * @var        int
      */
     protected $id_prospecto;
 
     /**
      * The value for the email field.
+     *
      * @var        string
      */
     protected $email;
 
     /**
      * The value for the avisos field.
+     *
      * @var        string
      */
     protected $avisos;
 
     /**
      * The value for the fecha_interes field.
+     *
      * @var        \DateTime
      */
     protected $fecha_interes;
 
     /**
      * The value for the fecha_hora_envio field.
+     *
      * @var        \DateTime
      */
     protected $fecha_hora_envio;
 
     /**
      * The value for the enviado field.
+     *
      * @var        boolean
      */
     protected $enviado;
 
     /**
      * The value for the abierto field.
+     *
      * @var        boolean
      */
     protected $abierto;
@@ -331,12 +339,20 @@ abstract class TmpMailing implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        return array_keys(get_object_vars($this));
+        $cls = new \ReflectionClass($this);
+        $propertyNames = [];
+        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
+
+        foreach($serializableProperties as $property) {
+            $propertyNames[] = $property->getName();
+        }
+
+        return $propertyNames;
     }
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return int
      */
     public function getId()
@@ -346,7 +362,7 @@ abstract class TmpMailing implements ActiveRecordInterface
 
     /**
      * Get the [id_prospecto] column value.
-     * 
+     *
      * @return int
      */
     public function getIdProspecto()
@@ -356,7 +372,7 @@ abstract class TmpMailing implements ActiveRecordInterface
 
     /**
      * Get the [email] column value.
-     * 
+     *
      * @return string
      */
     public function getEmail()
@@ -366,7 +382,7 @@ abstract class TmpMailing implements ActiveRecordInterface
 
     /**
      * Get the [avisos] column value.
-     * 
+     *
      * @return string
      */
     public function getAvisos()
@@ -376,7 +392,7 @@ abstract class TmpMailing implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [fecha_interes] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -396,7 +412,7 @@ abstract class TmpMailing implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [fecha_hora_envio] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -416,7 +432,7 @@ abstract class TmpMailing implements ActiveRecordInterface
 
     /**
      * Get the [enviado] column value.
-     * 
+     *
      * @return boolean
      */
     public function getEnviado()
@@ -426,7 +442,7 @@ abstract class TmpMailing implements ActiveRecordInterface
 
     /**
      * Get the [enviado] column value.
-     * 
+     *
      * @return boolean
      */
     public function isEnviado()
@@ -436,7 +452,7 @@ abstract class TmpMailing implements ActiveRecordInterface
 
     /**
      * Get the [abierto] column value.
-     * 
+     *
      * @return boolean
      */
     public function getAbierto()
@@ -446,7 +462,7 @@ abstract class TmpMailing implements ActiveRecordInterface
 
     /**
      * Get the [abierto] column value.
-     * 
+     *
      * @return boolean
      */
     public function isAbierto()
@@ -456,7 +472,7 @@ abstract class TmpMailing implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\TmpMailing The current object (for fluent API support)
      */
@@ -476,7 +492,7 @@ abstract class TmpMailing implements ActiveRecordInterface
 
     /**
      * Set the value of [id_prospecto] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\TmpMailing The current object (for fluent API support)
      */
@@ -496,7 +512,7 @@ abstract class TmpMailing implements ActiveRecordInterface
 
     /**
      * Set the value of [email] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\TmpMailing The current object (for fluent API support)
      */
@@ -516,7 +532,7 @@ abstract class TmpMailing implements ActiveRecordInterface
 
     /**
      * Set the value of [avisos] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\TmpMailing The current object (for fluent API support)
      */
@@ -536,7 +552,7 @@ abstract class TmpMailing implements ActiveRecordInterface
 
     /**
      * Sets the value of [fecha_interes] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\TmpMailing The current object (for fluent API support)
@@ -556,7 +572,7 @@ abstract class TmpMailing implements ActiveRecordInterface
 
     /**
      * Sets the value of [fecha_hora_envio] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\TmpMailing The current object (for fluent API support)
@@ -580,7 +596,7 @@ abstract class TmpMailing implements ActiveRecordInterface
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     * 
+     *
      * @param  boolean|integer|string $v The new value
      * @return $this|\TmpMailing The current object (for fluent API support)
      */
@@ -608,7 +624,7 @@ abstract class TmpMailing implements ActiveRecordInterface
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     * 
+     *
      * @param  boolean|integer|string $v The new value
      * @return $this|\TmpMailing The current object (for fluent API support)
      */
@@ -935,22 +951,22 @@ abstract class TmpMailing implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'id':                        
+                    case 'id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'id_prospecto':                        
+                    case 'id_prospecto':
                         $stmt->bindValue($identifier, $this->id_prospecto, PDO::PARAM_INT);
                         break;
-                    case 'email':                        
+                    case 'email':
                         $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
                         break;
-                    case 'avisos':                        
+                    case 'avisos':
                         $stmt->bindValue($identifier, $this->avisos, PDO::PARAM_STR);
                         break;
-                    case 'fecha_interes':                        
+                    case 'fecha_interes':
                         $stmt->bindValue($identifier, $this->fecha_interes ? $this->fecha_interes->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'fecha_hora_envio':                        
+                    case 'fecha_hora_envio':
                         $stmt->bindValue($identifier, $this->fecha_hora_envio ? $this->fecha_hora_envio->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                     case 'enviado':
@@ -1083,25 +1099,19 @@ abstract class TmpMailing implements ActiveRecordInterface
             $keys[6] => $this->getEnviado(),
             $keys[7] => $this->getAbierto(),
         );
-
-        $utc = new \DateTimeZone('utc');
         if ($result[$keys[4]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[4]];
-            $result[$keys[4]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[4]] = $result[$keys[4]]->format('c');
         }
-        
+
         if ($result[$keys[5]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[5]];
-            $result[$keys[5]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[5]] = $result[$keys[5]]->format('c');
         }
-        
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
 
         return $result;
     }
@@ -1317,7 +1327,7 @@ abstract class TmpMailing implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-        
+
     /**
      * Returns the primary key for this object (row).
      * @return int

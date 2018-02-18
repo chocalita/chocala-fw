@@ -21,11 +21,11 @@ use Propel\Runtime\Parser\AbstractParser;
 /**
  * Base class that represents a row from the 'tmp_formacion' table.
  *
- * 
+ *
  *
 * @package    propel.generator..Base
 */
-abstract class TmpFormacion implements ActiveRecordInterface 
+abstract class TmpFormacion implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -61,12 +61,14 @@ abstract class TmpFormacion implements ActiveRecordInterface
 
     /**
      * The value for the id field.
+     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the nombre field.
+     *
      * @var        string
      */
     protected $nombre;
@@ -293,12 +295,20 @@ abstract class TmpFormacion implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        return array_keys(get_object_vars($this));
+        $cls = new \ReflectionClass($this);
+        $propertyNames = [];
+        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
+
+        foreach($serializableProperties as $property) {
+            $propertyNames[] = $property->getName();
+        }
+
+        return $propertyNames;
     }
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return int
      */
     public function getId()
@@ -308,7 +318,7 @@ abstract class TmpFormacion implements ActiveRecordInterface
 
     /**
      * Get the [nombre] column value.
-     * 
+     *
      * @return string
      */
     public function getNombre()
@@ -318,7 +328,7 @@ abstract class TmpFormacion implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\TmpFormacion The current object (for fluent API support)
      */
@@ -338,7 +348,7 @@ abstract class TmpFormacion implements ActiveRecordInterface
 
     /**
      * Set the value of [nombre] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\TmpFormacion The current object (for fluent API support)
      */
@@ -615,10 +625,10 @@ abstract class TmpFormacion implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'id':                        
+                    case 'id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'nombre':                        
+                    case 'nombre':
                         $stmt->bindValue($identifier, $this->nombre, PDO::PARAM_STR);
                         break;
                 }
@@ -718,7 +728,7 @@ abstract class TmpFormacion implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
 
         return $result;
     }
@@ -880,7 +890,7 @@ abstract class TmpFormacion implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-        
+
     /**
      * Returns the primary key for this object (row).
      * @return int
