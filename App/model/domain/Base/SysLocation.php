@@ -2,6 +2,8 @@
 
 namespace Base;
 
+use \JobEmpresaSuscrita as ChildJobEmpresaSuscrita;
+use \JobEmpresaSuscritaQuery as ChildJobEmpresaSuscritaQuery;
 use \SysEntity as ChildSysEntity;
 use \SysEntityBranch as ChildSysEntityBranch;
 use \SysEntityBranchQuery as ChildSysEntityBranchQuery;
@@ -11,8 +13,6 @@ use \SysLocationQuery as ChildSysLocationQuery;
 use \DateTime;
 use \Exception;
 use \PDO;
-use Map\SysEntityBranchTableMap;
-use Map\SysEntityTableMap;
 use Map\SysLocationTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -31,11 +31,11 @@ use Propel\Runtime\Util\PropelDateTime;
 /**
  * Base class that represents a row from the 'sys_location' table.
  *
- *
+ * 
  *
 * @package    propel.generator..Base
 */
-abstract class SysLocation implements ActiveRecordInterface
+abstract class SysLocation implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -71,77 +71,66 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * The value for the id field.
-     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the main_id field.
-     *
      * @var        int
      */
     protected $main_id;
 
     /**
      * The value for the code field.
-     *
      * @var        string
      */
     protected $code;
 
     /**
      * The value for the status field.
-     *
      * @var        string
      */
     protected $status;
 
     /**
      * The value for the name field.
-     *
      * @var        string
      */
     protected $name;
 
     /**
      * The value for the type field.
-     *
      * @var        string
      */
     protected $type;
 
     /**
      * The value for the level field.
-     *
      * @var        int
      */
     protected $level;
 
     /**
      * The value for the lft field.
-     *
      * @var        int
      */
     protected $lft;
 
     /**
      * The value for the rgt field.
-     *
      * @var        int
      */
     protected $rgt;
 
     /**
      * The value for the last_user_id field.
-     *
      * @var        int
      */
     protected $last_user_id;
 
     /**
      * The value for the creation_date field.
-     *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
      * @var        \DateTime
      */
@@ -149,11 +138,15 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * The value for the modification_date field.
-     *
-     * Note: this column has a database default value of: NULL
      * @var        \DateTime
      */
     protected $modification_date;
+
+    /**
+     * @var        ObjectCollection|ChildJobEmpresaSuscrita[] Collection to store aggregation of ChildJobEmpresaSuscrita objects.
+     */
+    protected $collJobEmpresaSuscritas;
+    protected $collJobEmpresaSuscritasPartial;
 
     /**
      * @var        ObjectCollection|ChildSysEntity[] Collection to store aggregation of ChildSysEntity objects.
@@ -177,6 +170,12 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * An array of objects scheduled for deletion.
+     * @var ObjectCollection|ChildJobEmpresaSuscrita[]
+     */
+    protected $jobEmpresaSuscritasScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
      * @var ObjectCollection|ChildSysEntity[]
      */
     protected $sysEntitiesScheduledForDeletion = null;
@@ -195,7 +194,6 @@ abstract class SysLocation implements ActiveRecordInterface
      */
     public function applyDefaultValues()
     {
-        $this->modification_date = PropelDateTime::newInstance(NULL, null, 'DateTime');
     }
 
     /**
@@ -414,20 +412,12 @@ abstract class SysLocation implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        $cls = new \ReflectionClass($this);
-        $propertyNames = [];
-        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
-
-        foreach($serializableProperties as $property) {
-            $propertyNames[] = $property->getName();
-        }
-
-        return $propertyNames;
+        return array_keys(get_object_vars($this));
     }
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return int
      */
     public function getId()
@@ -437,7 +427,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Get the [main_id] column value.
-     *
+     * 
      * @return int
      */
     public function getMainId()
@@ -447,7 +437,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Get the [code] column value.
-     *
+     * 
      * @return string
      */
     public function getCode()
@@ -457,7 +447,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Get the [status] column value.
-     *
+     * 
      * @return string
      */
     public function getStatus()
@@ -467,7 +457,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Get the [name] column value.
-     *
+     * 
      * @return string
      */
     public function getName()
@@ -477,7 +467,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Get the [type] column value.
-     *
+     * 
      * @return string
      */
     public function getType()
@@ -487,7 +477,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Get the [level] column value.
-     *
+     * 
      * @return int
      */
     public function getLevel()
@@ -497,7 +487,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Get the [lft] column value.
-     *
+     * 
      * @return int
      */
     public function getLft()
@@ -507,7 +497,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Get the [rgt] column value.
-     *
+     * 
      * @return int
      */
     public function getRgt()
@@ -517,7 +507,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Get the [last_user_id] column value.
-     *
+     * 
      * @return int
      */
     public function getLastUserId()
@@ -527,7 +517,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [creation_date] column value.
-     *
+     * 
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -547,7 +537,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [modification_date] column value.
-     *
+     * 
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -567,7 +557,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\SysLocation The current object (for fluent API support)
      */
@@ -587,7 +577,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Set the value of [main_id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\SysLocation The current object (for fluent API support)
      */
@@ -607,7 +597,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Set the value of [code] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysLocation The current object (for fluent API support)
      */
@@ -627,7 +617,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Set the value of [status] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysLocation The current object (for fluent API support)
      */
@@ -647,7 +637,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Set the value of [name] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysLocation The current object (for fluent API support)
      */
@@ -667,7 +657,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Set the value of [type] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysLocation The current object (for fluent API support)
      */
@@ -687,7 +677,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Set the value of [level] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\SysLocation The current object (for fluent API support)
      */
@@ -707,7 +697,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Set the value of [lft] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\SysLocation The current object (for fluent API support)
      */
@@ -727,7 +717,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Set the value of [rgt] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\SysLocation The current object (for fluent API support)
      */
@@ -747,7 +737,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Set the value of [last_user_id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\SysLocation The current object (for fluent API support)
      */
@@ -767,7 +757,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
-     *
+     * 
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysLocation The current object (for fluent API support)
@@ -787,7 +777,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Sets the value of [modification_date] column to a normalized version of the date/time value specified.
-     *
+     * 
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysLocation The current object (for fluent API support)
@@ -796,9 +786,7 @@ abstract class SysLocation implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->modification_date !== null || $dt !== null) {
-            if ( ($dt != $this->modification_date) // normalized values don't match
-                || ($dt->format('Y-m-d H:i:s') === NULL) // or the entered value matches the default
-                 ) {
+            if ($this->modification_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->modification_date->format("Y-m-d H:i:s")) {
                 $this->modification_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[SysLocationTableMap::COL_MODIFICATION_DATE] = true;
             }
@@ -817,10 +805,6 @@ abstract class SysLocation implements ActiveRecordInterface
      */
     public function hasOnlyDefaultValues()
     {
-            if ($this->modification_date && $this->modification_date->format('Y-m-d H:i:s') !== NULL) {
-                return false;
-            }
-
         // otherwise, everything was equal, so return TRUE
         return true;
     } // hasOnlyDefaultValues()
@@ -957,6 +941,8 @@ abstract class SysLocation implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
+            $this->collJobEmpresaSuscritas = null;
+
             $this->collSysEntities = null;
 
             $this->collSysEntityBranches = null;
@@ -1071,6 +1057,24 @@ abstract class SysLocation implements ActiveRecordInterface
                 $this->resetModified();
             }
 
+            if ($this->jobEmpresaSuscritasScheduledForDeletion !== null) {
+                if (!$this->jobEmpresaSuscritasScheduledForDeletion->isEmpty()) {
+                    foreach ($this->jobEmpresaSuscritasScheduledForDeletion as $jobEmpresaSuscrita) {
+                        // need to save related object because we set the relation to null
+                        $jobEmpresaSuscrita->save($con);
+                    }
+                    $this->jobEmpresaSuscritasScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collJobEmpresaSuscritas !== null) {
+                foreach ($this->collJobEmpresaSuscritas as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
             if ($this->sysEntitiesScheduledForDeletion !== null) {
                 if (!$this->sysEntitiesScheduledForDeletion->isEmpty()) {
                     foreach ($this->sysEntitiesScheduledForDeletion as $sysEntity) {
@@ -1179,40 +1183,40 @@ abstract class SysLocation implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':
+                    case 'ID':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'MAIN_ID':
+                    case 'MAIN_ID':                        
                         $stmt->bindValue($identifier, $this->main_id, PDO::PARAM_INT);
                         break;
-                    case 'CODE':
+                    case 'CODE':                        
                         $stmt->bindValue($identifier, $this->code, PDO::PARAM_STR);
                         break;
-                    case 'STATUS':
+                    case 'STATUS':                        
                         $stmt->bindValue($identifier, $this->status, PDO::PARAM_STR);
                         break;
-                    case 'NAME':
+                    case 'NAME':                        
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
                         break;
-                    case 'TYPE':
+                    case 'TYPE':                        
                         $stmt->bindValue($identifier, $this->type, PDO::PARAM_STR);
                         break;
-                    case 'LEVEL':
+                    case 'LEVEL':                        
                         $stmt->bindValue($identifier, $this->level, PDO::PARAM_INT);
                         break;
-                    case 'LFT':
+                    case 'LFT':                        
                         $stmt->bindValue($identifier, $this->lft, PDO::PARAM_INT);
                         break;
-                    case 'RGT':
+                    case 'RGT':                        
                         $stmt->bindValue($identifier, $this->rgt, PDO::PARAM_INT);
                         break;
-                    case 'LAST_USER_ID':
+                    case 'LAST_USER_ID':                        
                         $stmt->bindValue($identifier, $this->last_user_id, PDO::PARAM_INT);
                         break;
-                    case 'CREATION_DATE':
+                    case 'CREATION_DATE':                        
                         $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'MODIFICATION_DATE':
+                    case 'MODIFICATION_DATE':                        
                         $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                 }
@@ -1356,22 +1360,43 @@ abstract class SysLocation implements ActiveRecordInterface
             $keys[10] => $this->getCreationDate(),
             $keys[11] => $this->getModificationDate(),
         );
+
+        $utc = new \DateTimeZone('utc');
         if ($result[$keys[10]] instanceof \DateTime) {
-            $result[$keys[10]] = $result[$keys[10]]->format('c');
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[10]];
+            $result[$keys[10]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
         }
-
+        
         if ($result[$keys[11]] instanceof \DateTime) {
-            $result[$keys[11]] = $result[$keys[11]]->format('c');
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[11]];
+            $result[$keys[11]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
         }
-
+        
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
         if ($includeForeignObjects) {
+            if (null !== $this->collJobEmpresaSuscritas) {
+                
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'jobEmpresaSuscritas';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'job_empresa_suscritas';
+                        break;
+                    default:
+                        $key = 'JobEmpresaSuscritas';
+                }
+        
+                $result[$key] = $this->collJobEmpresaSuscritas->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
             if (null !== $this->collSysEntities) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysEntities';
@@ -1382,11 +1407,11 @@ abstract class SysLocation implements ActiveRecordInterface
                     default:
                         $key = 'SysEntities';
                 }
-
+        
                 $result[$key] = $this->collSysEntities->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collSysEntityBranches) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysEntityBranches';
@@ -1397,7 +1422,7 @@ abstract class SysLocation implements ActiveRecordInterface
                     default:
                         $key = 'SysEntityBranches';
                 }
-
+        
                 $result[$key] = $this->collSysEntityBranches->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
@@ -1652,7 +1677,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-
+        
     /**
      * Returns the primary key for this object (row).
      * @return int
@@ -1712,6 +1737,12 @@ abstract class SysLocation implements ActiveRecordInterface
             // the getter/setter methods for fkey referrer objects.
             $copyObj->setNew(false);
 
+            foreach ($this->getJobEmpresaSuscritas() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addJobEmpresaSuscrita($relObj->copy($deepCopy));
+                }
+            }
+
             foreach ($this->getSysEntities() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
                     $copyObj->addSysEntity($relObj->copy($deepCopy));
@@ -1765,12 +1796,258 @@ abstract class SysLocation implements ActiveRecordInterface
      */
     public function initRelation($relationName)
     {
+        if ('JobEmpresaSuscrita' == $relationName) {
+            return $this->initJobEmpresaSuscritas();
+        }
         if ('SysEntity' == $relationName) {
             return $this->initSysEntities();
         }
         if ('SysEntityBranch' == $relationName) {
             return $this->initSysEntityBranches();
         }
+    }
+
+    /**
+     * Clears out the collJobEmpresaSuscritas collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addJobEmpresaSuscritas()
+     */
+    public function clearJobEmpresaSuscritas()
+    {
+        $this->collJobEmpresaSuscritas = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collJobEmpresaSuscritas collection loaded partially.
+     */
+    public function resetPartialJobEmpresaSuscritas($v = true)
+    {
+        $this->collJobEmpresaSuscritasPartial = $v;
+    }
+
+    /**
+     * Initializes the collJobEmpresaSuscritas collection.
+     *
+     * By default this just sets the collJobEmpresaSuscritas collection to an empty array (like clearcollJobEmpresaSuscritas());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initJobEmpresaSuscritas($overrideExisting = true)
+    {
+        if (null !== $this->collJobEmpresaSuscritas && !$overrideExisting) {
+            return;
+        }
+        $this->collJobEmpresaSuscritas = new ObjectCollection();
+        $this->collJobEmpresaSuscritas->setModel('\JobEmpresaSuscrita');
+    }
+
+    /**
+     * Gets an array of ChildJobEmpresaSuscrita objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildSysLocation is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return ObjectCollection|ChildJobEmpresaSuscrita[] List of ChildJobEmpresaSuscrita objects
+     * @throws PropelException
+     */
+    public function getJobEmpresaSuscritas(Criteria $criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collJobEmpresaSuscritasPartial && !$this->isNew();
+        if (null === $this->collJobEmpresaSuscritas || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collJobEmpresaSuscritas) {
+                // return empty collection
+                $this->initJobEmpresaSuscritas();
+            } else {
+                $collJobEmpresaSuscritas = ChildJobEmpresaSuscritaQuery::create(null, $criteria)
+                    ->filterBySysLocation($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collJobEmpresaSuscritasPartial && count($collJobEmpresaSuscritas)) {
+                        $this->initJobEmpresaSuscritas(false);
+
+                        foreach ($collJobEmpresaSuscritas as $obj) {
+                            if (false == $this->collJobEmpresaSuscritas->contains($obj)) {
+                                $this->collJobEmpresaSuscritas->append($obj);
+                            }
+                        }
+
+                        $this->collJobEmpresaSuscritasPartial = true;
+                    }
+
+                    return $collJobEmpresaSuscritas;
+                }
+
+                if ($partial && $this->collJobEmpresaSuscritas) {
+                    foreach ($this->collJobEmpresaSuscritas as $obj) {
+                        if ($obj->isNew()) {
+                            $collJobEmpresaSuscritas[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collJobEmpresaSuscritas = $collJobEmpresaSuscritas;
+                $this->collJobEmpresaSuscritasPartial = false;
+            }
+        }
+
+        return $this->collJobEmpresaSuscritas;
+    }
+
+    /**
+     * Sets a collection of ChildJobEmpresaSuscrita objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $jobEmpresaSuscritas A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return $this|ChildSysLocation The current object (for fluent API support)
+     */
+    public function setJobEmpresaSuscritas(Collection $jobEmpresaSuscritas, ConnectionInterface $con = null)
+    {
+        /** @var ChildJobEmpresaSuscrita[] $jobEmpresaSuscritasToDelete */
+        $jobEmpresaSuscritasToDelete = $this->getJobEmpresaSuscritas(new Criteria(), $con)->diff($jobEmpresaSuscritas);
+
+        
+        $this->jobEmpresaSuscritasScheduledForDeletion = $jobEmpresaSuscritasToDelete;
+
+        foreach ($jobEmpresaSuscritasToDelete as $jobEmpresaSuscritaRemoved) {
+            $jobEmpresaSuscritaRemoved->setSysLocation(null);
+        }
+
+        $this->collJobEmpresaSuscritas = null;
+        foreach ($jobEmpresaSuscritas as $jobEmpresaSuscrita) {
+            $this->addJobEmpresaSuscrita($jobEmpresaSuscrita);
+        }
+
+        $this->collJobEmpresaSuscritas = $jobEmpresaSuscritas;
+        $this->collJobEmpresaSuscritasPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related JobEmpresaSuscrita objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related JobEmpresaSuscrita objects.
+     * @throws PropelException
+     */
+    public function countJobEmpresaSuscritas(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collJobEmpresaSuscritasPartial && !$this->isNew();
+        if (null === $this->collJobEmpresaSuscritas || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collJobEmpresaSuscritas) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getJobEmpresaSuscritas());
+            }
+
+            $query = ChildJobEmpresaSuscritaQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterBySysLocation($this)
+                ->count($con);
+        }
+
+        return count($this->collJobEmpresaSuscritas);
+    }
+
+    /**
+     * Method called to associate a ChildJobEmpresaSuscrita object to this object
+     * through the ChildJobEmpresaSuscrita foreign key attribute.
+     *
+     * @param  ChildJobEmpresaSuscrita $l ChildJobEmpresaSuscrita
+     * @return $this|\SysLocation The current object (for fluent API support)
+     */
+    public function addJobEmpresaSuscrita(ChildJobEmpresaSuscrita $l)
+    {
+        if ($this->collJobEmpresaSuscritas === null) {
+            $this->initJobEmpresaSuscritas();
+            $this->collJobEmpresaSuscritasPartial = true;
+        }
+
+        if (!$this->collJobEmpresaSuscritas->contains($l)) {
+            $this->doAddJobEmpresaSuscrita($l);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ChildJobEmpresaSuscrita $jobEmpresaSuscrita The ChildJobEmpresaSuscrita object to add.
+     */
+    protected function doAddJobEmpresaSuscrita(ChildJobEmpresaSuscrita $jobEmpresaSuscrita)
+    {
+        $this->collJobEmpresaSuscritas[]= $jobEmpresaSuscrita;
+        $jobEmpresaSuscrita->setSysLocation($this);
+    }
+
+    /**
+     * @param  ChildJobEmpresaSuscrita $jobEmpresaSuscrita The ChildJobEmpresaSuscrita object to remove.
+     * @return $this|ChildSysLocation The current object (for fluent API support)
+     */
+    public function removeJobEmpresaSuscrita(ChildJobEmpresaSuscrita $jobEmpresaSuscrita)
+    {
+        if ($this->getJobEmpresaSuscritas()->contains($jobEmpresaSuscrita)) {
+            $pos = $this->collJobEmpresaSuscritas->search($jobEmpresaSuscrita);
+            $this->collJobEmpresaSuscritas->remove($pos);
+            if (null === $this->jobEmpresaSuscritasScheduledForDeletion) {
+                $this->jobEmpresaSuscritasScheduledForDeletion = clone $this->collJobEmpresaSuscritas;
+                $this->jobEmpresaSuscritasScheduledForDeletion->clear();
+            }
+            $this->jobEmpresaSuscritasScheduledForDeletion[]= $jobEmpresaSuscrita;
+            $jobEmpresaSuscrita->setSysLocation(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this SysLocation is new, it will return
+     * an empty collection; or if this SysLocation has previously
+     * been saved, it will retrieve related JobEmpresaSuscritas from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in SysLocation.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildJobEmpresaSuscrita[] List of ChildJobEmpresaSuscrita objects
+     */
+    public function getJobEmpresaSuscritasJoinSysEntityType(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildJobEmpresaSuscritaQuery::create(null, $criteria);
+        $query->joinWith('SysEntityType', $joinBehavior);
+
+        return $this->getJobEmpresaSuscritas($query, $con);
     }
 
     /**
@@ -1812,10 +2089,7 @@ abstract class SysLocation implements ActiveRecordInterface
         if (null !== $this->collSysEntities && !$overrideExisting) {
             return;
         }
-
-        $collectionClassName = SysEntityTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collSysEntities = new $collectionClassName;
+        $this->collSysEntities = new ObjectCollection();
         $this->collSysEntities->setModel('\SysEntity');
     }
 
@@ -1892,7 +2166,7 @@ abstract class SysLocation implements ActiveRecordInterface
         /** @var ChildSysEntity[] $sysEntitiesToDelete */
         $sysEntitiesToDelete = $this->getSysEntities(new Criteria(), $con)->diff($sysEntities);
 
-
+        
         $this->sysEntitiesScheduledForDeletion = $sysEntitiesToDelete;
 
         foreach ($sysEntitiesToDelete as $sysEntityRemoved) {
@@ -1960,10 +2234,6 @@ abstract class SysLocation implements ActiveRecordInterface
 
         if (!$this->collSysEntities->contains($l)) {
             $this->doAddSysEntity($l);
-
-            if ($this->sysEntitiesScheduledForDeletion and $this->sysEntitiesScheduledForDeletion->contains($l)) {
-                $this->sysEntitiesScheduledForDeletion->remove($this->sysEntitiesScheduledForDeletion->search($l));
-            }
         }
 
         return $this;
@@ -2062,10 +2332,7 @@ abstract class SysLocation implements ActiveRecordInterface
         if (null !== $this->collSysEntityBranches && !$overrideExisting) {
             return;
         }
-
-        $collectionClassName = SysEntityBranchTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collSysEntityBranches = new $collectionClassName;
+        $this->collSysEntityBranches = new ObjectCollection();
         $this->collSysEntityBranches->setModel('\SysEntityBranch');
     }
 
@@ -2142,7 +2409,7 @@ abstract class SysLocation implements ActiveRecordInterface
         /** @var ChildSysEntityBranch[] $sysEntityBranchesToDelete */
         $sysEntityBranchesToDelete = $this->getSysEntityBranches(new Criteria(), $con)->diff($sysEntityBranches);
 
-
+        
         $this->sysEntityBranchesScheduledForDeletion = $sysEntityBranchesToDelete;
 
         foreach ($sysEntityBranchesToDelete as $sysEntityBranchRemoved) {
@@ -2210,10 +2477,6 @@ abstract class SysLocation implements ActiveRecordInterface
 
         if (!$this->collSysEntityBranches->contains($l)) {
             $this->doAddSysEntityBranch($l);
-
-            if ($this->sysEntityBranchesScheduledForDeletion and $this->sysEntityBranchesScheduledForDeletion->contains($l)) {
-                $this->sysEntityBranchesScheduledForDeletion->remove($this->sysEntityBranchesScheduledForDeletion->search($l));
-            }
         }
 
         return $this;
@@ -2311,6 +2574,11 @@ abstract class SysLocation implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
+            if ($this->collJobEmpresaSuscritas) {
+                foreach ($this->collJobEmpresaSuscritas as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
             if ($this->collSysEntities) {
                 foreach ($this->collSysEntities as $o) {
                     $o->clearAllReferences($deep);
@@ -2323,6 +2591,7 @@ abstract class SysLocation implements ActiveRecordInterface
             }
         } // if ($deep)
 
+        $this->collJobEmpresaSuscritas = null;
         $this->collSysEntities = null;
         $this->collSysEntityBranches = null;
     }

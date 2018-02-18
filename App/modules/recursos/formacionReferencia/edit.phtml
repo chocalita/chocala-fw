@@ -1,0 +1,41 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Formaciones de Referencia</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a href="<?=URI::toPage();?>">Formaciones de Referencia</a>
+            </li>
+            <li class="active">
+                <strong>Editar Formación de Referencia</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <?= BarView::renderBar('messages'); ?>
+
+    <div class="row">
+
+        <form action="" method="post" role="form" class="ajaxPost form-horizontal dropzone">
+            <input type="hidden" id="action" name="action" value="update" />
+            <input type="hidden" id="id" name="id" value="<?=$formacionTmp->getId();?>" />
+
+            <div class="modal-body">
+                <?php include('form.phtml'); ?>
+            </div>
+            <div class="modal-footer clearfix">
+                <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Aceptar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancelar</button>
+            </div>
+        </form>
+
+    </div>
+</div>

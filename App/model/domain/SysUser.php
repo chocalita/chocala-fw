@@ -78,7 +78,7 @@ class SysUser extends BaseSysUser implements JsonSerializable
         ],
         'Status' => [
             'null' => false, 'blank' => false,
-            'inlist' => [self::STATUS_CREATED, self::STATUS_ACTIVE,
+            'inList' => [self::STATUS_CREATED, self::STATUS_ACTIVE,
                 self::STATUS_BLOCKED, self::STATUS_CLOSED]
         ],
         'Location' => [
@@ -175,11 +175,11 @@ class SysUser extends BaseSysUser implements JsonSerializable
      */
     public function changePassword($oldPassword, $newPassword)
     {
-        if(self::crypt($oldPassword) != $this->getPassword()){
+        if (self::crypt($oldPassword) != $this->getPassword()) {
             $this->setPassword(self::crypt($newPassword));
             $this->save();
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -220,6 +220,21 @@ class SysUser extends BaseSysUser implements JsonSerializable
     public function inOrderRols($noDeletes=true)
     {
         return SysRolQuery::findByUser($this, $noDeletes);
+    }
+
+    public function updateAccess()
+    {
+        $this->setLastAccess($this->actual_access);
+        $this->setActualAccess(time());
+        $this->setModificationDate(time());
+        $this->save();
+    }
+
+    public function updateAccessFailures()
+    {
+        $this->setAccessFailures($this->getAccessFailures()+1);
+        $this->setModificationDate(time());
+        $this->save();
     }
 
     public function imageName($size='')

@@ -53,7 +53,7 @@ class SysPerson extends BaseSysPerson implements JsonSerializable
         ],
         'Gender' => [
             'null' => false, 'blank' => false,
-            'inlist' => [self::GENDER_MALE, self:: GENDER_FEMALE],
+            'inList' => [self::GENDER_MALE, self:: GENDER_FEMALE],
         ],
         'DateOfBirth' => [
             'null' => true, 'blank' => false,

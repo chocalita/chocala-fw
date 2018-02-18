@@ -1,291 +1,342 @@
-<?xml version="1.0" encoding="utf-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+        xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+    <!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
     <url>
-        <loc>http://www.empleos.click/index.htm</loc>
+        <loc>https://www.empleos.click/index.htm</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/573/Administradora_de_empresas</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/652/Medico_general/Clinica</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/627/Jefe_comercial</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/653/Auxiliar_de_enfermeria/Clinica</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/623/Encargado_de_turno</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/748/Medic_del_trabajo_o_laboral_y_fonoadiolog/Mym_Srl</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/613/Contador_Jr</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/651/Centro_de_control_y_supervisor/Trueno_Seguridad</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/596/Asistente_Gerencial_Secretaria</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/656/Ingenieroa_Civil_especialista_en_asfaltos/Empresa_Constructora</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/588/Ingenieroa_Civil_o_Arquitectoa</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/657/Ingenieroa_Electricoa/Empresa_Contructora</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/580/Bartender</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/658/Topografoa/Empresa_Constructora</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/577/Asistente_Trade_Marketing</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/659/Ingeniero/Empresa_Constructora</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/569/Recepcionista</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/661/Recepcionista/Loki_Hostel</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/561/Residente_de_obra</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/662/Seguridad/Loki_Hostel</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/543/Ingenierosas_Civiles</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/663/Contadora/Sorinsa_S.r.l.</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/614/Agentes_de_seguros</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/665/Personal_operativo/Empresa_Industrial</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/546/Agentes_de_seguros</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/666/Capataz_General/Premebol</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/540/Tecnico_en_comercio_exterior</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/674/Cocineroa_Pasteleroa/Hotel</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/523/Ing._Civil_especialista_en_hidraulica_y_estructuras</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/676/Administradora_de_campamento/Constructora</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/520/Disenadora_Graficoa_junior</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/706/Jefe_de_ventas_y_marketing/Empresa_Hotelera</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/517/Ejecutivoa_comercial</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/708/Jefe_de_almacenes/Empresa_De_Servicios_Petroleros</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/609/Administradora_de_tienda</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/738/Ejecutivoa_de_Ventas/Sinapsis_S.r.l.</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/591/Auditora_Internoa</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/772/Chofer_para_Gerencia/Pragma_Invest_S.a.</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/549/Choferes</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/773/Consultora/Ong</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/532/Coordinadora_de_gestion_del_talento</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/793/Auxiliar_de_Contrataciones/Industrias_Venado_S.a.</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/631/Auditor_interno</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/794/Analista_Contable/Empresa_Industrial</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/508/Ginecologoa_Obstetricia</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/795/Ingeniero_Control_de_Calidad_y_Produccion/Empresa_Industrial</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/414/Maestroa_de_Fisica</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/678/Especialista_comercial/Fecafeb</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/628/TraductorInterprete</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/721/Operadora/Bto_Contact_Center</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/610/Arquitectoa</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/722/Tecnico_Quimico_o_Ingenieroa_Quimicoa_Jr/Empresa_Minera</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/601/Visitadora_Medico</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/723/Tecnico_Electromecanico__electrico/Petroleum</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/597/Ejecutivosas_de_ventas</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/727/Encargadoa_de_Sistemas/Direccion_General_De_Las_Uacs-ucb</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/582/Asistente_de_direccion_y_programas</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/728/Secretaria_Ejecutiva/Direccion_General_De_Las_Uacs-ucb</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/560/Ejecutivoa_de_ventas_externo</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/729/Administradora/Empresa_De_Transporte</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/552/Encargadoa_de_centros_de_distribucion_y_logistica</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/730/Auxiliar_contable/Empresa_De_Transporte_Nacional</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/528/Gerente_de_ventas</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/731/Encargadoa_mantenimiento/Empresa_De_Transporte_Nacional</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/572/Ingenieroa_Comercial</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/732/Odontologo/Centro_Medico_San_Sebastian</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/637/Ejecutivo_de_ventas</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/733/Regente_Farmaceutico/Empresa_Farmaceutica</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/574/Vendedora</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/734/Supervisora_de_ventas/Empresa</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/625/Jefe_o_analista_de_recursos_humanos</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/735/Ejecutivoa_de_ventas/Empresa</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/626/Vendedor</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/775/Responsable_Comercial/Texla</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/615/Coordinador_de_planta</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/799/Contadora_General/Empresa_Comercial_-_Industrial</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/622/Gerente_de_restaurante</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/800/Contadora_General_-_Comercial/Empresa_Comercial_-_Industrial</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/603/Asistente_de_Gerencia</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/808/Ingenieroa_Comercial/Empresa</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/604/Jefe_de_operaciones</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/815/Ejecutivosas_de_Ventas/Autosud_Ltda</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/589/Arqueologoa</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/746/Analista_de_Administracion/Bisa_Seguros_Y_Reaseguros_S.a.</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/595/Ejecutivosas_de_ventas</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/755/Supervisora_de_Promotoras/Texla</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/581/Agente_de_seguridad</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/756/Supervisora_de_Promotoras/Texla</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/583/Administradora_de_empresas</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/757/Supervisora_de_Promotoras/Texla</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/578/Auxiliar_contable</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/762/Administradora/Grupo_Empresarial</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/571/Seguridad</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/768/Ingenieroa_Electricoa/Empresa_Constructora</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/579/Recepcionista</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/769/Ingenieroa_Electromecanicoa_yo_Industrial/Empresa_Constructora</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/562/Ingenieroa_Industrial</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/770/Ingeniero_Informatico_yo_Sistemas/Empresa_Constructora</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/563/Ejecutivoa_de_cuentas</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/771/Tecnicoa_Topografoa/Empresa_Constructora</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/576/Ingenieroa_en_telecomunicaciones___Jefe_de_proyecto_</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/783/Vendedora/</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/544/Geologosas</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/784/Vendedora/</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/545/Ingenierosas_en_telecomunicaciones</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/785/Vendedora/Empresa_De_Materiales_De_Construccion</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/634/Supervisor_de_ventas</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/787/Directora_de_Contabilidad/Grupo_Rosario_Hoteleria_Y_Turismo</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/636/Jefe_de_marketing_y_publicidad</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/788/Regente_Farmaceutico/Empresa_Farmaceutica</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/550/Guia_turistico</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/789/Cobradora_para_Provincias/Empresa_Farmaceutica</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/555/Analista_contable</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/790/Asistente_Contable/Empresa_De_Transporte_Y_Logistica</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/541/Secretaria</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/801/Especialista_en_Comunicacion_e_Imagen/Empresa_Publica</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/542/Auxiliar_contable</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/807/Auxiliar_Contable/Grupo_Rosario_Hoteleria_Y_Turismo</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/524/Ing._Geologo_Especialista_en_geologia_geotecnica_y_materiales</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/810/Asistente_Administrativo_y_de_R.R.H.H./Kpmg</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/539/Contadora_general</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/811/Tecnico/Deltacom</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/522/Ing._Civil_Gerente_de_supervision_y_control</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/736/Administradora_Nacional/Empresa_Comercial</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/521/Jefe_de_mantenimiento</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/739/Vendedor/Dosis</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/519/Vendedoresas</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/741/Auditora_Interno/Industria_Farmaceutica</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/518/Cajeroa</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/742/Jefe_Comercial/Empresa</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/619/Coordinadora_de_gestion_del_talento</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/745/Jefe_de_Marketing/Empresa_Comercial</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/624/Administrador_de_tienda</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/747/Visitadora_Medico/Empresa_Farmaceutica</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/605/Sub_gerente_de_recursos_humanos</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/758/Analista_de_riesgo_operativo/Empresa_Financiera</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/592/Ayudante_de_chofer</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/761/Jefe_de_riesgo_operativo_y_seguridad_de_la_informacion/Empresa_Financiera</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/559/Gerente_general</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/766/Ingeniero_Civil_yo_Arquitecto/Empresa_Constructora</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/564/Tecnico_en_mantenimiento</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/767/Ingenieroa_Civil_yo_Arquitectoa/Empresa_Constructora</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/547/Vendedoresas</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/804/Medico/Empresa_Internacional</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/548/Administradoresas</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/805/Enfermera/Empresa_Internacional</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/633/Oficial_de_credito</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/806/Ejecutivoa_de_ventas/Empresa_Internacional</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/530/Responsable_de_mantenimiento</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/809/Impulsadora/Union_Agronegocios</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/566/Supervisora_de_exportaciones</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/744/Supervisor_de_ventas/Empresa_Comercial</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/629/Ejecutivoa_de_ventas</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/779/Contadora_de_Sucursal/Empresa_Farmaceutica</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/415/Profesora_de_Ciencias_Sociales</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/791/Sub_Gerente_de_Recursos_Humanos/Empresa</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/507/Especialista_en_Medicina_Interna</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/797/Sindico_Titular/Institucion_Financiera</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/630/Psicologo_organizacional</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/798/Gerente_de_Central_de_Servicios_Compartidos./Grupo_Empresarial</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/413/Maestroa_de_primaria</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/786/Soporte_y_Mantenimiento_de_equipos/Empresa_Tecnologica</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/621/Jefe_de_Ventas</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/740/Encargada_de_tienda_y_auxiliar_en_ventas/Kids_Collection_Ltda</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/616/Inspector_de_riesgos</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/774/Counter/Agencia_De_Viajes</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/607/Ingenieroa_Mecanico_o_Electromecanico</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/776/Administradora_de_restaurante/Hotel_De_Uyuni</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/602/Jefea_nacional_del_producto</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/777/Chofer/Hotel_De_Uyuni</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/600/Mensajeroa_-_Asistente_de_limpieza</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/778/Auxiliar_de_almacen/Hotel_De_Uyuni</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/598/Distribuidora_y_Cobradora</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/780/Educadores_Parvularios/Institucion_Educativa</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/594/Asistente_de_produccion</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/781/Auxiliar_Administrativoa/Empresa_Minera</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/590/Vendedora</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/782/Auditores_Senior/Empresa_Consultora</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/568/Controller_comercial</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/792/Ingenieroa_especialista_en_asfaltos/Empresa_Constructora</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/565/Ingenieroa_para_proyectos_y_calibraciones_junior</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/796/Guardia_de_Seguridad/Farmacorp</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/554/Contadora</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/802/Facturador/Promedical</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/556/Quimico_farmaceutico_yo_ingeniero_quimico</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/803/Vendedoresas/Empresa_De_Aromatizacion_De_Ambientes</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/529/Ejecutivoa_de_ventas</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/812/Profesora_de_primaria/Unidad_Educativa_Privada_Cristiana_Evangelica</loc>
     </url>
     <url>
-        <loc>http://www.empleos.click/main/index/oportunidad/531/Secretarioa_general</loc>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/813/Profesora_de_Matematicas/Unidad_Educativa_Privada_Cristiana_Evangelica</loc>
+    </url>
+    <url>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/814/Profesora_de_sociales/Unidad_Educativa_Privada_Cristiana_Evangelica</loc>
+    </url>
+    <url>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/572/Ingenieroa_Comercial/Empresa_Internacional</loc>
+    </url>
+    <url>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/573/Administradora_de_empresas/Empresa_Internacional</loc>
+    </url>
+    <url>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/749/Jefe_de_Ventas_Corporativas/Empresa_Comercial</loc>
+    </url>
+    <url>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/759/Recepcionista/Loki_Hostel</loc>
+    </url>
+    <url>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/760/Seguridad/Loki_Hostel</loc>
+    </url>
+    <url>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/763/Chofer_-_vendedor/Piposal</loc>
+    </url>
+    <url>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/764/Jefe_de_Planta/Empresa_Industrial</loc>
+    </url>
+    <url>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/743/Gerente_de_Ventas/Empresa_De_Distribucion</loc>
+    </url>
+    <url>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/765/Responsable_de_ventas/Sendassaltas_Operadores_De_Turismo_Srl</loc>
+    </url>
+    <url>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/750/Profesoras_y_auxiliares_para_Nivel_INICIAL/Unidad_Educativa_Privada</loc>
+    </url>
+    <url>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/751/Profesoresas_Nivel_Primario/Unidad_Educativa_Privada</loc>
+    </url>
+    <url>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/752/Profesoresas_Nivel_Secundario_en_todas_las_areas/Unidad_Educativa_Privada</loc>
+    </url>
+    <url>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/753/Secretariao/Unidad_Educativa_Privada</loc>
+    </url>
+    <url>
+        <loc>https://www.empleos.click/bolsa/trabajo/empleo/754/Regentea/Unidad_Educativa_Privada</loc>
     </url>
 </urlset>

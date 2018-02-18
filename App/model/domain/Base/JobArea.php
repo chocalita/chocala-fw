@@ -10,7 +10,6 @@ use \DateTime;
 use \Exception;
 use \PDO;
 use Map\JobAreaTableMap;
-use Map\JobAvisoTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -28,11 +27,11 @@ use Propel\Runtime\Util\PropelDateTime;
 /**
  * Base class that represents a row from the 'job_area' table.
  *
- *
+ * 
  *
 * @package    propel.generator..Base
 */
-abstract class JobArea implements ActiveRecordInterface
+abstract class JobArea implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -68,35 +67,36 @@ abstract class JobArea implements ActiveRecordInterface
 
     /**
      * The value for the id field.
-     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the codigo field.
-     *
      * @var        string
      */
     protected $codigo;
 
     /**
      * The value for the nombre field.
-     *
      * @var        string
      */
     protected $nombre;
 
     /**
+     * The value for the keywords field.
+     * @var        string
+     */
+    protected $keywords;
+
+    /**
      * The value for the descripcion field.
-     *
      * @var        string
      */
     protected $descripcion;
 
     /**
      * The value for the status field.
-     *
      * Note: this column has a database default value of: 'ACTIVE'
      * @var        string
      */
@@ -104,7 +104,6 @@ abstract class JobArea implements ActiveRecordInterface
 
     /**
      * The value for the last_user_id field.
-     *
      * Note: this column has a database default value of: 0
      * @var        int
      */
@@ -112,7 +111,6 @@ abstract class JobArea implements ActiveRecordInterface
 
     /**
      * The value for the creation_date field.
-     *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
      * @var        \DateTime
      */
@@ -120,7 +118,6 @@ abstract class JobArea implements ActiveRecordInterface
 
     /**
      * The value for the modification_date field.
-     *
      * @var        \DateTime
      */
     protected $modification_date;
@@ -373,20 +370,12 @@ abstract class JobArea implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        $cls = new \ReflectionClass($this);
-        $propertyNames = [];
-        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
-
-        foreach($serializableProperties as $property) {
-            $propertyNames[] = $property->getName();
-        }
-
-        return $propertyNames;
+        return array_keys(get_object_vars($this));
     }
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return int
      */
     public function getId()
@@ -396,7 +385,7 @@ abstract class JobArea implements ActiveRecordInterface
 
     /**
      * Get the [codigo] column value.
-     *
+     * 
      * @return string
      */
     public function getCodigo()
@@ -406,7 +395,7 @@ abstract class JobArea implements ActiveRecordInterface
 
     /**
      * Get the [nombre] column value.
-     *
+     * 
      * @return string
      */
     public function getNombre()
@@ -415,8 +404,18 @@ abstract class JobArea implements ActiveRecordInterface
     }
 
     /**
+     * Get the [keywords] column value.
+     * 
+     * @return string
+     */
+    public function getKeywords()
+    {
+        return $this->keywords;
+    }
+
+    /**
      * Get the [descripcion] column value.
-     *
+     * 
      * @return string
      */
     public function getDescripcion()
@@ -426,7 +425,7 @@ abstract class JobArea implements ActiveRecordInterface
 
     /**
      * Get the [status] column value.
-     *
+     * 
      * @return string
      */
     public function getStatus()
@@ -436,7 +435,7 @@ abstract class JobArea implements ActiveRecordInterface
 
     /**
      * Get the [last_user_id] column value.
-     *
+     * 
      * @return int
      */
     public function getLastUserId()
@@ -446,7 +445,7 @@ abstract class JobArea implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [creation_date] column value.
-     *
+     * 
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -466,7 +465,7 @@ abstract class JobArea implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [modification_date] column value.
-     *
+     * 
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -486,7 +485,7 @@ abstract class JobArea implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\JobArea The current object (for fluent API support)
      */
@@ -506,7 +505,7 @@ abstract class JobArea implements ActiveRecordInterface
 
     /**
      * Set the value of [codigo] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\JobArea The current object (for fluent API support)
      */
@@ -526,7 +525,7 @@ abstract class JobArea implements ActiveRecordInterface
 
     /**
      * Set the value of [nombre] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\JobArea The current object (for fluent API support)
      */
@@ -545,8 +544,28 @@ abstract class JobArea implements ActiveRecordInterface
     } // setNombre()
 
     /**
+     * Set the value of [keywords] column.
+     * 
+     * @param string $v new value
+     * @return $this|\JobArea The current object (for fluent API support)
+     */
+    public function setKeywords($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->keywords !== $v) {
+            $this->keywords = $v;
+            $this->modifiedColumns[JobAreaTableMap::COL_KEYWORDS] = true;
+        }
+
+        return $this;
+    } // setKeywords()
+
+    /**
      * Set the value of [descripcion] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\JobArea The current object (for fluent API support)
      */
@@ -566,7 +585,7 @@ abstract class JobArea implements ActiveRecordInterface
 
     /**
      * Set the value of [status] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\JobArea The current object (for fluent API support)
      */
@@ -586,7 +605,7 @@ abstract class JobArea implements ActiveRecordInterface
 
     /**
      * Set the value of [last_user_id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\JobArea The current object (for fluent API support)
      */
@@ -606,7 +625,7 @@ abstract class JobArea implements ActiveRecordInterface
 
     /**
      * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
-     *
+     * 
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobArea The current object (for fluent API support)
@@ -626,7 +645,7 @@ abstract class JobArea implements ActiveRecordInterface
 
     /**
      * Sets the value of [modification_date] column to a normalized version of the date/time value specified.
-     *
+     * 
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobArea The current object (for fluent API support)
@@ -697,22 +716,25 @@ abstract class JobArea implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : JobAreaTableMap::translateFieldName('Nombre', TableMap::TYPE_PHPNAME, $indexType)];
             $this->nombre = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : JobAreaTableMap::translateFieldName('Descripcion', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : JobAreaTableMap::translateFieldName('Keywords', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->keywords = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : JobAreaTableMap::translateFieldName('Descripcion', TableMap::TYPE_PHPNAME, $indexType)];
             $this->descripcion = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : JobAreaTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : JobAreaTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
             $this->status = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : JobAreaTableMap::translateFieldName('LastUserId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : JobAreaTableMap::translateFieldName('LastUserId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->last_user_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : JobAreaTableMap::translateFieldName('CreationDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : JobAreaTableMap::translateFieldName('CreationDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->creation_date = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : JobAreaTableMap::translateFieldName('ModificationDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : JobAreaTableMap::translateFieldName('ModificationDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
@@ -725,7 +747,7 @@ abstract class JobArea implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 8; // 8 = JobAreaTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 9; // 9 = JobAreaTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\JobArea'), 0, $e);
@@ -951,6 +973,9 @@ abstract class JobArea implements ActiveRecordInterface
         if ($this->isColumnModified(JobAreaTableMap::COL_NOMBRE)) {
             $modifiedColumns[':p' . $index++]  = 'NOMBRE';
         }
+        if ($this->isColumnModified(JobAreaTableMap::COL_KEYWORDS)) {
+            $modifiedColumns[':p' . $index++]  = 'KEYWORDS';
+        }
         if ($this->isColumnModified(JobAreaTableMap::COL_DESCRIPCION)) {
             $modifiedColumns[':p' . $index++]  = 'DESCRIPCION';
         }
@@ -977,28 +1002,31 @@ abstract class JobArea implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':
+                    case 'ID':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'CODIGO':
+                    case 'CODIGO':                        
                         $stmt->bindValue($identifier, $this->codigo, PDO::PARAM_STR);
                         break;
-                    case 'NOMBRE':
+                    case 'NOMBRE':                        
                         $stmt->bindValue($identifier, $this->nombre, PDO::PARAM_STR);
                         break;
-                    case 'DESCRIPCION':
+                    case 'KEYWORDS':                        
+                        $stmt->bindValue($identifier, $this->keywords, PDO::PARAM_STR);
+                        break;
+                    case 'DESCRIPCION':                        
                         $stmt->bindValue($identifier, $this->descripcion, PDO::PARAM_STR);
                         break;
-                    case 'STATUS':
+                    case 'STATUS':                        
                         $stmt->bindValue($identifier, $this->status, PDO::PARAM_STR);
                         break;
-                    case 'LAST_USER_ID':
+                    case 'LAST_USER_ID':                        
                         $stmt->bindValue($identifier, $this->last_user_id, PDO::PARAM_INT);
                         break;
-                    case 'CREATION_DATE':
+                    case 'CREATION_DATE':                        
                         $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'MODIFICATION_DATE':
+                    case 'MODIFICATION_DATE':                        
                         $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                 }
@@ -1073,18 +1101,21 @@ abstract class JobArea implements ActiveRecordInterface
                 return $this->getNombre();
                 break;
             case 3:
-                return $this->getDescripcion();
+                return $this->getKeywords();
                 break;
             case 4:
-                return $this->getStatus();
+                return $this->getDescripcion();
                 break;
             case 5:
-                return $this->getLastUserId();
+                return $this->getStatus();
                 break;
             case 6:
-                return $this->getCreationDate();
+                return $this->getLastUserId();
                 break;
             case 7:
+                return $this->getCreationDate();
+                break;
+            case 8:
                 return $this->getModificationDate();
                 break;
             default:
@@ -1120,28 +1151,35 @@ abstract class JobArea implements ActiveRecordInterface
             $keys[0] => $this->getId(),
             $keys[1] => $this->getCodigo(),
             $keys[2] => $this->getNombre(),
-            $keys[3] => $this->getDescripcion(),
-            $keys[4] => $this->getStatus(),
-            $keys[5] => $this->getLastUserId(),
-            $keys[6] => $this->getCreationDate(),
-            $keys[7] => $this->getModificationDate(),
+            $keys[3] => $this->getKeywords(),
+            $keys[4] => $this->getDescripcion(),
+            $keys[5] => $this->getStatus(),
+            $keys[6] => $this->getLastUserId(),
+            $keys[7] => $this->getCreationDate(),
+            $keys[8] => $this->getModificationDate(),
         );
-        if ($result[$keys[6]] instanceof \DateTime) {
-            $result[$keys[6]] = $result[$keys[6]]->format('c');
-        }
 
+        $utc = new \DateTimeZone('utc');
         if ($result[$keys[7]] instanceof \DateTime) {
-            $result[$keys[7]] = $result[$keys[7]]->format('c');
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[7]];
+            $result[$keys[7]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
         }
-
+        
+        if ($result[$keys[8]] instanceof \DateTime) {
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[8]];
+            $result[$keys[8]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+        }
+        
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
         if ($includeForeignObjects) {
             if (null !== $this->collJobAvisos) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'jobAvisos';
@@ -1152,7 +1190,7 @@ abstract class JobArea implements ActiveRecordInterface
                     default:
                         $key = 'JobAvisos';
                 }
-
+        
                 $result[$key] = $this->collJobAvisos->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
@@ -1199,18 +1237,21 @@ abstract class JobArea implements ActiveRecordInterface
                 $this->setNombre($value);
                 break;
             case 3:
-                $this->setDescripcion($value);
+                $this->setKeywords($value);
                 break;
             case 4:
-                $this->setStatus($value);
+                $this->setDescripcion($value);
                 break;
             case 5:
-                $this->setLastUserId($value);
+                $this->setStatus($value);
                 break;
             case 6:
-                $this->setCreationDate($value);
+                $this->setLastUserId($value);
                 break;
             case 7:
+                $this->setCreationDate($value);
+                break;
+            case 8:
                 $this->setModificationDate($value);
                 break;
         } // switch()
@@ -1249,19 +1290,22 @@ abstract class JobArea implements ActiveRecordInterface
             $this->setNombre($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setDescripcion($arr[$keys[3]]);
+            $this->setKeywords($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setStatus($arr[$keys[4]]);
+            $this->setDescripcion($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
-            $this->setLastUserId($arr[$keys[5]]);
+            $this->setStatus($arr[$keys[5]]);
         }
         if (array_key_exists($keys[6], $arr)) {
-            $this->setCreationDate($arr[$keys[6]]);
+            $this->setLastUserId($arr[$keys[6]]);
         }
         if (array_key_exists($keys[7], $arr)) {
-            $this->setModificationDate($arr[$keys[7]]);
+            $this->setCreationDate($arr[$keys[7]]);
+        }
+        if (array_key_exists($keys[8], $arr)) {
+            $this->setModificationDate($arr[$keys[8]]);
         }
     }
 
@@ -1312,6 +1356,9 @@ abstract class JobArea implements ActiveRecordInterface
         }
         if ($this->isColumnModified(JobAreaTableMap::COL_NOMBRE)) {
             $criteria->add(JobAreaTableMap::COL_NOMBRE, $this->nombre);
+        }
+        if ($this->isColumnModified(JobAreaTableMap::COL_KEYWORDS)) {
+            $criteria->add(JobAreaTableMap::COL_KEYWORDS, $this->keywords);
         }
         if ($this->isColumnModified(JobAreaTableMap::COL_DESCRIPCION)) {
             $criteria->add(JobAreaTableMap::COL_DESCRIPCION, $this->descripcion);
@@ -1371,7 +1418,7 @@ abstract class JobArea implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-
+        
     /**
      * Returns the primary key for this object (row).
      * @return int
@@ -1416,6 +1463,7 @@ abstract class JobArea implements ActiveRecordInterface
     {
         $copyObj->setCodigo($this->getCodigo());
         $copyObj->setNombre($this->getNombre());
+        $copyObj->setKeywords($this->getKeywords());
         $copyObj->setDescripcion($this->getDescripcion());
         $copyObj->setStatus($this->getStatus());
         $copyObj->setLastUserId($this->getLastUserId());
@@ -1518,10 +1566,7 @@ abstract class JobArea implements ActiveRecordInterface
         if (null !== $this->collJobAvisos && !$overrideExisting) {
             return;
         }
-
-        $collectionClassName = JobAvisoTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collJobAvisos = new $collectionClassName;
+        $this->collJobAvisos = new ObjectCollection();
         $this->collJobAvisos->setModel('\JobAviso');
     }
 
@@ -1598,7 +1643,7 @@ abstract class JobArea implements ActiveRecordInterface
         /** @var ChildJobAviso[] $jobAvisosToDelete */
         $jobAvisosToDelete = $this->getJobAvisos(new Criteria(), $con)->diff($jobAvisos);
 
-
+        
         $this->jobAvisosScheduledForDeletion = $jobAvisosToDelete;
 
         foreach ($jobAvisosToDelete as $jobAvisoRemoved) {
@@ -1666,10 +1711,6 @@ abstract class JobArea implements ActiveRecordInterface
 
         if (!$this->collJobAvisos->contains($l)) {
             $this->doAddJobAviso($l);
-
-            if ($this->jobAvisosScheduledForDeletion and $this->jobAvisosScheduledForDeletion->contains($l)) {
-                $this->jobAvisosScheduledForDeletion->remove($this->jobAvisosScheduledForDeletion->search($l));
-            }
         }
 
         return $this;
@@ -1739,6 +1780,7 @@ abstract class JobArea implements ActiveRecordInterface
         $this->id = null;
         $this->codigo = null;
         $this->nombre = null;
+        $this->keywords = null;
         $this->descripcion = null;
         $this->status = null;
         $this->last_user_id = null;

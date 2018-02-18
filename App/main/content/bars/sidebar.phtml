@@ -50,7 +50,7 @@
             }))>0? ' open': '';
             $activeClass = $openClass!=''? ' active': '';
             $selectedSpan = $openClass!=''? '<span class="selected"></span>': '';
-            $icon = $userModule['module'] && false? $userModule['module']->getIcon(): 'fa-th-large';
+            $icon = $userModule['module']? $userModule['module']->getIconClass(): 'fa-th-large';
             ?>
             <li class="<?=$activeClass;?>">
                 <a href="javascript:;">
@@ -64,7 +64,7 @@
                         ?>
                         <li class="<?=$activeSubmenuClass;?>">
                             <a href="<?=URI::instance()->createURLTo(['module' => $userModule['module']->getUri(), 'uri' => $userUri->getUri()]);?>">
-                                <?=$userUri->getTitle();?>
+                                <?=$userUri->getTitle().$openClass;?>
                             </a>
                         </li>
                         <?php

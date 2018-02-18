@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Description of Cookie
  *
@@ -19,28 +20,32 @@ class Cookie extends GlobalVar
      */
     public static function instance()
     {
-        if(!is_object(self::$instance)){
+        if (!is_object(self::$instance)) {
             self::$instance = new self();
         }
         return self::$instance;
     }
 
-    private function __construct()
+    private function __construct($id = null)
     {
         $this->name = 'COOKIE';
+        //TODO: set and ID
+        $this->read($id);
     }
 
     /**
-     * 
+     *
      * @param string $id
      * @return void
      */
-    public function read($id=null)
+    public function read($id = null)
     {
+        $this->data = &$_COOKIE;
+        return null;
     }
 
     /**
-     * 
+     *
      * @return boolean
      */
     public function write()
@@ -48,7 +53,7 @@ class Cookie extends GlobalVar
     }
 
     /**
-     * 
+     *
      * @return boolean
      */
     public function restart()
@@ -56,7 +61,7 @@ class Cookie extends GlobalVar
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function regenerate()
@@ -64,11 +69,39 @@ class Cookie extends GlobalVar
     }
 
     /**
-     * 
+     *
      * @return boolean
      */
     public function destroy()
     {
     }
+
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     * @param null $expire
+     * @param bool $httponly
+     * @param string $path
+     * @param string $domain
+     * @return GlobalVar
+     */
+    public static function set($key, $value, $expire = null, $httponly = false, $path = "", $domain = "")
+    {
+        $expire = time() + ($expire === null ? Configs::value('cookie.default.expire') : $expire);
+        $secure = (strtoupper(Configs::value('app.run.environment')) != 'DEVELOPMENT');
+        setcookie($key, $value, $expire, $path, $domain, $secure, $httponly);
+        return parent::set($key, $value);
+    }
+
+    /**
+     * @param string $key
+     */
+    public static function delete($key)
+    {
+        setcookie($key, null, time() - 86400);
+        parent::delete($key);
+    }
+
 
 }

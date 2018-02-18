@@ -31,7 +31,7 @@ class Flash
     private $newVars = null;
 
     /**
-     * 
+     *
      * @return Flash
      */
     public static function initialize()

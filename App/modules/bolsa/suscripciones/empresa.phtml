@@ -1,0 +1,316 @@
+<link href="<?= CSS_WEB; ?>plugins/steps/jquery.steps.css" rel="stylesheet">
+
+<style type="text/css">
+.wizard > .content > .body {
+    position: relative;
+}
+.formFieldset {
+    background: #eee;
+    /*border-top: 10px solid #0d70b7;*/
+}
+.formFieldset .msg {
+    color: #1c84c6;
+    display: block;
+    font-size: 95%;
+    padding-bottom: 10px;
+    /*border-top: 10px solid #0d70b7;*/
+}
+</style>
+
+<section class="timeline gray-section">
+
+    <div class="container text-left">
+
+        <br />
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>Complete el Registro de su <?= $tipoSuscripcion; ?></h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h2>Registro de <?= $tipoSuscripcion; ?></h2>
+                        <p>
+                            <span class="text-blue">¡En 3 simples pasos podrá publicar sus anuncios gratis!</span>
+                        </p>
+
+                        <form id="form" action="#" class="form-horizontal wizard-big">
+                            <h1><?= $tipoSuscripcion; ?></h1>
+                            <fieldset>
+                                <h2>Datos de su <?= $tipoSuscripcion; ?></h2>
+                                <div class="row">
+                                    <div class="col-lg-8">
+
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-4 col-md-3">Email</label>
+                                            <div class="col-xs-8 col-md-9">
+                                                <p class="form-control-static">
+                                                    <span class="text-blue"><?= $empresaSuscrita->getEmail(); ?></span>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-4 col-md-3">Nombre
+                                                de <?= $tipoSuscripcion; ?></label>
+                                            <div class="col-xs-8 col-md-9">
+                                                <input id="Nombre" name="Nombre"
+                                                       value="<?= $empresaSuscrita->getNombre(); ?>"
+                                                       maxlength="250" minlength="2"
+                                                       class="form-control"
+                                                       placeholder="Nombre de Empresa/Negocio"/>
+                                            </div>
+                                        </div>
+
+                                        <?php
+                                        if ($esEmpresaFormal) {
+                                            ?>
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-4 col-md-3">N.I.T.</label>
+                                                <div class="col-xs-8 col-md-9">
+                                                    <input id="Nit" name="Nit" placeholder="N.I.T."
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <?php
+                                        }
+                                        ?>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-4 col-md-3">Ciudad</label>
+                                            <div class="col-xs-8 col-md-9">
+                                                <select id="LocationId" name="LocationId" class="form-control">
+                                                    <option value="">- Seleccionar -</option>
+                                                    <?php
+                                                    foreach ($locaciones as $locacion) {
+                                                        ?>
+                                                        <option value="<?= $locacion->getId(); ?>"><?= $locacion->getName(); ?></option>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-4 col-md-3">Dirección</label>
+                                            <div class="col-xs-8 col-md-9">
+                                                    <textarea id="Direccion" name="Direccion" rows="2"
+                                                              class="form-control" placeholder="Dirección"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-4 col-md-3">Teléfono</label>
+                                            <div class="col-xs-8 col-md-9">
+                                                <input id="Telefono" name="Telefono"
+                                                       class="form-control" placeholder="Teléfono"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-4 col-md-3">Celular</label>
+                                            <div class="col-xs-8 col-md-9">
+                                                <input id="Celular" name="Celular"
+                                                       class="form-control" placeholder="Celular"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-4 col-md-3">Representante</label>
+                                            <div class="col-xs-8 col-md-9">
+                                                <input id="Representante" name="Representante"
+                                                       value="<?= $empresaSuscrita->getRepresentante(); ?>"
+                                                       class="form-control" placeholder="Nombre de Representante"/>
+                                            </div>
+                                        </div>
+
+
+<!--                                        <div class="form-group">
+                                            <label>Username *</label>
+                                            <input id="userName" name="userName" type="text" class="form-control required">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Password *</label>
+                                            <input id="password" name="password" type="text" class="form-control required">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Confirm Password *</label>
+                                            <input id="confirm" name="confirm" type="text" class="form-control required">
+                                        </div>
+-->                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="text-center">
+                                            <div style="margin-top: 20px">
+                                                <i class="fa fa-sign-in" style="font-size: 180px;color: #e5e5e5 "></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <input type="hidden" name="hc" value="<?= $empresaSuscrita->getHashCode(); ?>" />
+
+                            </fieldset>
+                            <h1>Profile</h1>
+                            <fieldset>
+                                <h2>Profile Information</h2>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>First name *</label>
+                                            <input id="name" name="name" type="text" class="form-control required">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Last name *</label>
+                                            <input id="surname" name="surname" type="text" class="form-control required">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Email *</label>
+                                            <input id="email" name="email" type="text" class="form-control required email">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Address *</label>
+                                            <input id="address" name="address" type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <h1>Warning</h1>
+                            <fieldset>
+                                <div class="text-center" style="margin-top: 120px">
+                                    <h2>You did it Man :-)</h2>
+                                </div>
+                            </fieldset>
+
+                            <h1>Finish</h1>
+                            <fieldset>
+                                <h2>Terms and Conditions</h2>
+                                <input id="acceptTerms" name="acceptTerms" type="checkbox" class="required"> <label for="acceptTerms">I agree with the Terms and Conditions.</label>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div style="clear: both;"></div>
+
+        <section class="features">
+            <div class="container">
+                <!--                <div class="row">-->
+                <div class="col-lg-12 text-center">
+                    <div class="navy-line"></div>
+                    <h1>El mejor canal gratuito para tus anuncios</h1>
+                    <p>Ponemos tus anuncios al alcance de más de 5000 personas que estan en busca de empleo</p>
+                </div>
+                <!--                </div>-->
+                <!--                <div class="row">-->
+                <div class="col-lg-5 col-lg-offset-1 features-text">
+                    <small>Empleos.Click</small>
+                    <h2>Logra amplia difusión</h2>
+                    <i class="fa fa-bullhorn big-icon pull-left"></i>
+                    <p>Registra tus ofertas de empleo con tu cuenta de empresa completamente gratis,
+                        asi logras amplio alcance a través de nuestros canales de difusión,
+                        todo completamente en línea desde la comodidad de tu hogar u oficina.
+                    </p>
+                </div>
+                <div class="col-lg-5 features-text">
+                    <small>Empleos.Click</small>
+                    <h2>Encuentra los mejores candidatos</h2>
+                    <i class="fa fa-users big-icon pull-right"></i>
+                    <p>Sabemos que el principal factor de desarrollo de cada empresa es el talento humano,
+                        por eso, innovamos en brindar un medio efectivo para la obtención de prospectos y candidatos
+                        que puedan cubrir de mejor manera los espacios de empleo requeridos.
+                    </p>
+                </div>
+                <!--                </div>-->
+            </div>
+
+        </section>
+    </div>
+
+</section>
+
+<br/>
+
+<div class="row">
+    <div class="col-lg-12 text-center">
+        <p class="m-t-sm">
+            Contáctanos y síguenos en nuestros canales sociales
+        </p>
+        <ul class="list-inline social-icon">
+            <li><a href="https://www.twitter.com/EmpleosClick/" target="_blank"><i class="fa fa-twitter"></i></a>
+            </li>
+            <li><a href="https://www.facebook.com/empleos.clic/" target="_blank"><i class="fa fa-facebook"></i></a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
+        <p><strong>&copy; <?= date('Y'); ?> Empleos.Click</strong><br/> Empleos en Bolivia</p>
+    </div>
+</div>
+
+<!-- Steps -->
+<script src="<?= JS_WEB; ?>plugins/staps/jquery.steps.min.js"></script>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        $("#form").steps({
+            bodyTag: "fieldset",
+            onStepChanging: function (event, currentIndex, newIndex) {
+                if (currentIndex > newIndex) {
+                    return true;
+                }
+                return validate("<?=URI::toPage().'step';?>" + newIndex , $("#form-p-" + currentIndex));
+            },
+            onStepChanged: function (event, currentIndex, priorIndex) {
+            }
+        });
+
+        function validate(action, fieldset) {
+            var success = false;
+            fieldset.find('div.help-block').remove();
+            fieldset.find('div.has-error').removeClass('has-error');
+            $.ajax({
+                url: action,
+                type: "POST",
+                data: fieldset.serialize(),
+                beforeSend: function( xhr ) {
+                    fieldset.parent().mask("");
+                }
+            })
+                .done(function(data) {
+                    var result = eval(data);
+                    if (!result.success) {
+                        fieldset.find('div.help-block').remove();
+                        fieldset.find('div.has-error').removeClass('has-error');
+                        $(result.errors).each(function(i, el) {
+                            fieldset.find('#' + el.field)
+                                .parents('div.form-group')
+                                .first()
+                                .addClass('has-error');
+                            fieldset.find('#' + el.field)
+                                .parent()
+                                .append('<div class="help-block">'+el.message+'</div>');
+                        });
+                    } else {
+                        success = true;
+                    }
+                })
+                .fail(function(jqXHR, textStatus){
+                    alert("ERROR: error en envío de datos");
+                })
+                .always(function(){
+                    fieldset.parent().unmask();
+                });
+            return success;
+        }
+        
+    });
+</script>

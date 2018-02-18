@@ -13,7 +13,7 @@ class SysPersonQuery extends BaseSysPersonQuery //implements SoftDeletion
     use SoftQuery;
 
     /**
-     * @return $this|\Propel\Runtime\ActiveQuery\ModelCriteria
+     * @return $this|mixed
      */
     public function withCompleteName()
     {
@@ -23,16 +23,15 @@ class SysPersonQuery extends BaseSysPersonQuery //implements SoftDeletion
 
     /**
      * @param string $order
-     * @return $this|\Propel\Runtime\ActiveQuery\ModelCriteria
+     * @return $this|mixed
      */
     public function orderByCompleteName($order = Criteria::ASC)
     {
         return $this->withCompleteName()->orderBy("CompleteName", $order);
-
     }
 
     /**
-     * @return $this|\Propel\Runtime\ActiveQuery\ModelCriteria
+     * @return $this|mic
      */
     public function withFormalName()
     {

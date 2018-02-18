@@ -10,6 +10,7 @@ use Map\TmpFormacionTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Propel\Runtime\ActiveQuery\ModelJoin;
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
@@ -17,37 +18,54 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'tmp_formacion' table.
  *
- *
+ * 
  *
  * @method     ChildTmpFormacionQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildTmpFormacionQuery orderByNombre($order = Criteria::ASC) Order by the nombre column
+ * @method     ChildTmpFormacionQuery orderByKeywords($order = Criteria::ASC) Order by the keywords column
+ * @method     ChildTmpFormacionQuery orderByAreasReferencia($order = Criteria::ASC) Order by the areas_referencia column
+ * @method     ChildTmpFormacionQuery orderByFormacionesReferencia($order = Criteria::ASC) Order by the formaciones_referencia column
  *
  * @method     ChildTmpFormacionQuery groupById() Group by the id column
  * @method     ChildTmpFormacionQuery groupByNombre() Group by the nombre column
+ * @method     ChildTmpFormacionQuery groupByKeywords() Group by the keywords column
+ * @method     ChildTmpFormacionQuery groupByAreasReferencia() Group by the areas_referencia column
+ * @method     ChildTmpFormacionQuery groupByFormacionesReferencia() Group by the formaciones_referencia column
  *
  * @method     ChildTmpFormacionQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildTmpFormacionQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildTmpFormacionQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildTmpFormacionQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
- * @method     ChildTmpFormacionQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
- * @method     ChildTmpFormacionQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ * @method     ChildTmpFormacionQuery leftJoinJobSuscriptor($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobSuscriptor relation
+ * @method     ChildTmpFormacionQuery rightJoinJobSuscriptor($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobSuscriptor relation
+ * @method     ChildTmpFormacionQuery innerJoinJobSuscriptor($relationAlias = null) Adds a INNER JOIN clause to the query using the JobSuscriptor relation
+ *
+ * @method     \JobSuscriptorQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildTmpFormacion findOne(ConnectionInterface $con = null) Return the first ChildTmpFormacion matching the query
  * @method     ChildTmpFormacion findOneOrCreate(ConnectionInterface $con = null) Return the first ChildTmpFormacion matching the query, or a new ChildTmpFormacion object populated from the query conditions when no match is found
  *
  * @method     ChildTmpFormacion findOneById(int $id) Return the first ChildTmpFormacion filtered by the id column
- * @method     ChildTmpFormacion findOneByNombre(string $nombre) Return the first ChildTmpFormacion filtered by the nombre column *
+ * @method     ChildTmpFormacion findOneByNombre(string $nombre) Return the first ChildTmpFormacion filtered by the nombre column
+ * @method     ChildTmpFormacion findOneByKeywords(string $keywords) Return the first ChildTmpFormacion filtered by the keywords column
+ * @method     ChildTmpFormacion findOneByAreasReferencia(string $areas_referencia) Return the first ChildTmpFormacion filtered by the areas_referencia column
+ * @method     ChildTmpFormacion findOneByFormacionesReferencia(string $formaciones_referencia) Return the first ChildTmpFormacion filtered by the formaciones_referencia column *
 
  * @method     ChildTmpFormacion requirePk($key, ConnectionInterface $con = null) Return the ChildTmpFormacion by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildTmpFormacion requireOne(ConnectionInterface $con = null) Return the first ChildTmpFormacion matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildTmpFormacion requireOneById(int $id) Return the first ChildTmpFormacion filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildTmpFormacion requireOneByNombre(string $nombre) Return the first ChildTmpFormacion filtered by the nombre column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildTmpFormacion requireOneByKeywords(string $keywords) Return the first ChildTmpFormacion filtered by the keywords column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildTmpFormacion requireOneByAreasReferencia(string $areas_referencia) Return the first ChildTmpFormacion filtered by the areas_referencia column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildTmpFormacion requireOneByFormacionesReferencia(string $formaciones_referencia) Return the first ChildTmpFormacion filtered by the formaciones_referencia column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildTmpFormacion[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildTmpFormacion objects based on current ModelCriteria
  * @method     ChildTmpFormacion[]|ObjectCollection findById(int $id) Return ChildTmpFormacion objects filtered by the id column
  * @method     ChildTmpFormacion[]|ObjectCollection findByNombre(string $nombre) Return ChildTmpFormacion objects filtered by the nombre column
+ * @method     ChildTmpFormacion[]|ObjectCollection findByKeywords(string $keywords) Return ChildTmpFormacion objects filtered by the keywords column
+ * @method     ChildTmpFormacion[]|ObjectCollection findByAreasReferencia(string $areas_referencia) Return ChildTmpFormacion objects filtered by the areas_referencia column
+ * @method     ChildTmpFormacion[]|ObjectCollection findByFormacionesReferencia(string $formaciones_referencia) Return ChildTmpFormacion objects filtered by the formaciones_referencia column
  * @method     ChildTmpFormacion[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
@@ -110,7 +128,7 @@ abstract class TmpFormacionQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = TmpFormacionTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
+        if ((null !== ($obj = TmpFormacionTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -140,9 +158,9 @@ abstract class TmpFormacionQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, nombre FROM tmp_formacion WHERE id = :p0';
+        $sql = 'SELECT id, nombre, keywords, areas_referencia, formaciones_referencia FROM tmp_formacion WHERE id = :p0';
         try {
-            $stmt = $con->prepare($sql);
+            $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -154,7 +172,7 @@ abstract class TmpFormacionQuery extends ModelCriteria
             /** @var ChildTmpFormacion $obj */
             $obj = new ChildTmpFormacion();
             $obj->hydrate($row);
-            TmpFormacionTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
+            TmpFormacionTableMap::addInstanceToPool($obj, (string) $key);
         }
         $stmt->closeCursor();
 
@@ -301,6 +319,166 @@ abstract class TmpFormacionQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query on the keywords column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByKeywords('fooValue');   // WHERE keywords = 'fooValue'
+     * $query->filterByKeywords('%fooValue%'); // WHERE keywords LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $keywords The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildTmpFormacionQuery The current query, for fluid interface
+     */
+    public function filterByKeywords($keywords = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($keywords)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $keywords)) {
+                $keywords = str_replace('*', '%', $keywords);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(TmpFormacionTableMap::COL_KEYWORDS, $keywords, $comparison);
+    }
+
+    /**
+     * Filter the query on the areas_referencia column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByAreasReferencia('fooValue');   // WHERE areas_referencia = 'fooValue'
+     * $query->filterByAreasReferencia('%fooValue%'); // WHERE areas_referencia LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $areasReferencia The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildTmpFormacionQuery The current query, for fluid interface
+     */
+    public function filterByAreasReferencia($areasReferencia = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($areasReferencia)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $areasReferencia)) {
+                $areasReferencia = str_replace('*', '%', $areasReferencia);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(TmpFormacionTableMap::COL_AREAS_REFERENCIA, $areasReferencia, $comparison);
+    }
+
+    /**
+     * Filter the query on the formaciones_referencia column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByFormacionesReferencia('fooValue');   // WHERE formaciones_referencia = 'fooValue'
+     * $query->filterByFormacionesReferencia('%fooValue%'); // WHERE formaciones_referencia LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $formacionesReferencia The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildTmpFormacionQuery The current query, for fluid interface
+     */
+    public function filterByFormacionesReferencia($formacionesReferencia = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($formacionesReferencia)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $formacionesReferencia)) {
+                $formacionesReferencia = str_replace('*', '%', $formacionesReferencia);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(TmpFormacionTableMap::COL_FORMACIONES_REFERENCIA, $formacionesReferencia, $comparison);
+    }
+
+    /**
+     * Filter the query by a related \JobSuscriptor object
+     *
+     * @param \JobSuscriptor|ObjectCollection $jobSuscriptor the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildTmpFormacionQuery The current query, for fluid interface
+     */
+    public function filterByJobSuscriptor($jobSuscriptor, $comparison = null)
+    {
+        if ($jobSuscriptor instanceof \JobSuscriptor) {
+            return $this
+                ->addUsingAlias(TmpFormacionTableMap::COL_ID, $jobSuscriptor->getIdTmpFormacion(), $comparison);
+        } elseif ($jobSuscriptor instanceof ObjectCollection) {
+            return $this
+                ->useJobSuscriptorQuery()
+                ->filterByPrimaryKeys($jobSuscriptor->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByJobSuscriptor() only accepts arguments of type \JobSuscriptor or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the JobSuscriptor relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildTmpFormacionQuery The current query, for fluid interface
+     */
+    public function joinJobSuscriptor($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('JobSuscriptor');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'JobSuscriptor');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the JobSuscriptor relation JobSuscriptor object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \JobSuscriptorQuery A secondary query class using the current class as primary query
+     */
+    public function useJobSuscriptorQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinJobSuscriptor($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'JobSuscriptor', '\JobSuscriptorQuery');
+    }
+
+    /**
      * Exclude object from result
      *
      * @param   ChildTmpFormacion $tmpFormacion Object to remove from the list of results
@@ -367,9 +545,9 @@ abstract class TmpFormacionQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-
+            
             TmpFormacionTableMap::removeInstanceFromPool($criteria);
-
+        
             $affectedRows += ModelCriteria::delete($con);
             TmpFormacionTableMap::clearRelatedInstancePool();
 

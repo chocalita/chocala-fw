@@ -2,6 +2,9 @@
 
 namespace Base;
 
+use \JobSuscriptor as ChildJobSuscriptor;
+use \JobSuscriptorQuery as ChildJobSuscriptorQuery;
+use \TmpArea as ChildTmpArea;
 use \TmpAreaQuery as ChildTmpAreaQuery;
 use \Exception;
 use \PDO;
@@ -11,6 +14,7 @@ use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Collection\Collection;
+use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\BadMethodCallException;
 use Propel\Runtime\Exception\LogicException;
@@ -21,11 +25,11 @@ use Propel\Runtime\Parser\AbstractParser;
 /**
  * Base class that represents a row from the 'tmp_area' table.
  *
- *
+ * 
  *
 * @package    propel.generator..Base
 */
-abstract class TmpArea implements ActiveRecordInterface
+abstract class TmpArea implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -61,17 +65,21 @@ abstract class TmpArea implements ActiveRecordInterface
 
     /**
      * The value for the id field.
-     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the nombre field.
-     *
      * @var        string
      */
     protected $nombre;
+
+    /**
+     * @var        ObjectCollection|ChildJobSuscriptor[] Collection to store aggregation of ChildJobSuscriptor objects.
+     */
+    protected $collJobSuscriptors;
+    protected $collJobSuscriptorsPartial;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -80,6 +88,12 @@ abstract class TmpArea implements ActiveRecordInterface
      * @var boolean
      */
     protected $alreadyInSave = false;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection|ChildJobSuscriptor[]
+     */
+    protected $jobSuscriptorsScheduledForDeletion = null;
 
     /**
      * Initializes internal state of Base\TmpArea object.
@@ -295,20 +309,12 @@ abstract class TmpArea implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        $cls = new \ReflectionClass($this);
-        $propertyNames = [];
-        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
-
-        foreach($serializableProperties as $property) {
-            $propertyNames[] = $property->getName();
-        }
-
-        return $propertyNames;
+        return array_keys(get_object_vars($this));
     }
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return int
      */
     public function getId()
@@ -318,7 +324,7 @@ abstract class TmpArea implements ActiveRecordInterface
 
     /**
      * Get the [nombre] column value.
-     *
+     * 
      * @return string
      */
     public function getNombre()
@@ -328,7 +334,7 @@ abstract class TmpArea implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\TmpArea The current object (for fluent API support)
      */
@@ -348,7 +354,7 @@ abstract class TmpArea implements ActiveRecordInterface
 
     /**
      * Set the value of [nombre] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\TmpArea The current object (for fluent API support)
      */
@@ -476,6 +482,8 @@ abstract class TmpArea implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
+            $this->collJobSuscriptors = null;
+
         } // if (deep)
     }
 
@@ -586,6 +594,24 @@ abstract class TmpArea implements ActiveRecordInterface
                 $this->resetModified();
             }
 
+            if ($this->jobSuscriptorsScheduledForDeletion !== null) {
+                if (!$this->jobSuscriptorsScheduledForDeletion->isEmpty()) {
+                    foreach ($this->jobSuscriptorsScheduledForDeletion as $jobSuscriptor) {
+                        // need to save related object because we set the relation to null
+                        $jobSuscriptor->save($con);
+                    }
+                    $this->jobSuscriptorsScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collJobSuscriptors !== null) {
+                foreach ($this->collJobSuscriptors as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
             $this->alreadyInSave = false;
 
         }
@@ -625,10 +651,10 @@ abstract class TmpArea implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'id':
+                    case 'id':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'nombre':
+                    case 'nombre':                        
                         $stmt->bindValue($identifier, $this->nombre, PDO::PARAM_STR);
                         break;
                 }
@@ -709,10 +735,11 @@ abstract class TmpArea implements ActiveRecordInterface
      *                    Defaults to TableMap::TYPE_PHPNAME.
      * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
      * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
+     * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
      *
      * @return array an associative array containing the field names (as keys) and field values
      */
-    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
+    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
 
         if (isset($alreadyDumpedObjects['TmpArea'][$this->hashCode()])) {
@@ -728,7 +755,24 @@ abstract class TmpArea implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
+        if ($includeForeignObjects) {
+            if (null !== $this->collJobSuscriptors) {
+                
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'jobSuscriptors';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'job_suscriptors';
+                        break;
+                    default:
+                        $key = 'JobSuscriptors';
+                }
+        
+                $result[$key] = $this->collJobSuscriptors->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+        }
 
         return $result;
     }
@@ -890,7 +934,7 @@ abstract class TmpArea implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-
+        
     /**
      * Returns the primary key for this object (row).
      * @return int
@@ -935,6 +979,20 @@ abstract class TmpArea implements ActiveRecordInterface
     {
         $copyObj->setId($this->getId());
         $copyObj->setNombre($this->getNombre());
+
+        if ($deepCopy) {
+            // important: temporarily setNew(false) because this affects the behavior of
+            // the getter/setter methods for fkey referrer objects.
+            $copyObj->setNew(false);
+
+            foreach ($this->getJobSuscriptors() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addJobSuscriptor($relObj->copy($deepCopy));
+                }
+            }
+
+        } // if ($deepCopy)
+
         if ($makeNew) {
             $copyObj->setNew(true);
         }
@@ -960,6 +1018,265 @@ abstract class TmpArea implements ActiveRecordInterface
         $this->copyInto($copyObj, $deepCopy);
 
         return $copyObj;
+    }
+
+
+    /**
+     * Initializes a collection based on the name of a relation.
+     * Avoids crafting an 'init[$relationName]s' method name
+     * that wouldn't work when StandardEnglishPluralizer is used.
+     *
+     * @param      string $relationName The name of the relation to initialize
+     * @return void
+     */
+    public function initRelation($relationName)
+    {
+        if ('JobSuscriptor' == $relationName) {
+            return $this->initJobSuscriptors();
+        }
+    }
+
+    /**
+     * Clears out the collJobSuscriptors collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addJobSuscriptors()
+     */
+    public function clearJobSuscriptors()
+    {
+        $this->collJobSuscriptors = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collJobSuscriptors collection loaded partially.
+     */
+    public function resetPartialJobSuscriptors($v = true)
+    {
+        $this->collJobSuscriptorsPartial = $v;
+    }
+
+    /**
+     * Initializes the collJobSuscriptors collection.
+     *
+     * By default this just sets the collJobSuscriptors collection to an empty array (like clearcollJobSuscriptors());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initJobSuscriptors($overrideExisting = true)
+    {
+        if (null !== $this->collJobSuscriptors && !$overrideExisting) {
+            return;
+        }
+        $this->collJobSuscriptors = new ObjectCollection();
+        $this->collJobSuscriptors->setModel('\JobSuscriptor');
+    }
+
+    /**
+     * Gets an array of ChildJobSuscriptor objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildTmpArea is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return ObjectCollection|ChildJobSuscriptor[] List of ChildJobSuscriptor objects
+     * @throws PropelException
+     */
+    public function getJobSuscriptors(Criteria $criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collJobSuscriptorsPartial && !$this->isNew();
+        if (null === $this->collJobSuscriptors || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collJobSuscriptors) {
+                // return empty collection
+                $this->initJobSuscriptors();
+            } else {
+                $collJobSuscriptors = ChildJobSuscriptorQuery::create(null, $criteria)
+                    ->filterByTmpArea($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collJobSuscriptorsPartial && count($collJobSuscriptors)) {
+                        $this->initJobSuscriptors(false);
+
+                        foreach ($collJobSuscriptors as $obj) {
+                            if (false == $this->collJobSuscriptors->contains($obj)) {
+                                $this->collJobSuscriptors->append($obj);
+                            }
+                        }
+
+                        $this->collJobSuscriptorsPartial = true;
+                    }
+
+                    return $collJobSuscriptors;
+                }
+
+                if ($partial && $this->collJobSuscriptors) {
+                    foreach ($this->collJobSuscriptors as $obj) {
+                        if ($obj->isNew()) {
+                            $collJobSuscriptors[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collJobSuscriptors = $collJobSuscriptors;
+                $this->collJobSuscriptorsPartial = false;
+            }
+        }
+
+        return $this->collJobSuscriptors;
+    }
+
+    /**
+     * Sets a collection of ChildJobSuscriptor objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $jobSuscriptors A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return $this|ChildTmpArea The current object (for fluent API support)
+     */
+    public function setJobSuscriptors(Collection $jobSuscriptors, ConnectionInterface $con = null)
+    {
+        /** @var ChildJobSuscriptor[] $jobSuscriptorsToDelete */
+        $jobSuscriptorsToDelete = $this->getJobSuscriptors(new Criteria(), $con)->diff($jobSuscriptors);
+
+        
+        $this->jobSuscriptorsScheduledForDeletion = $jobSuscriptorsToDelete;
+
+        foreach ($jobSuscriptorsToDelete as $jobSuscriptorRemoved) {
+            $jobSuscriptorRemoved->setTmpArea(null);
+        }
+
+        $this->collJobSuscriptors = null;
+        foreach ($jobSuscriptors as $jobSuscriptor) {
+            $this->addJobSuscriptor($jobSuscriptor);
+        }
+
+        $this->collJobSuscriptors = $jobSuscriptors;
+        $this->collJobSuscriptorsPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related JobSuscriptor objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related JobSuscriptor objects.
+     * @throws PropelException
+     */
+    public function countJobSuscriptors(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collJobSuscriptorsPartial && !$this->isNew();
+        if (null === $this->collJobSuscriptors || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collJobSuscriptors) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getJobSuscriptors());
+            }
+
+            $query = ChildJobSuscriptorQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByTmpArea($this)
+                ->count($con);
+        }
+
+        return count($this->collJobSuscriptors);
+    }
+
+    /**
+     * Method called to associate a ChildJobSuscriptor object to this object
+     * through the ChildJobSuscriptor foreign key attribute.
+     *
+     * @param  ChildJobSuscriptor $l ChildJobSuscriptor
+     * @return $this|\TmpArea The current object (for fluent API support)
+     */
+    public function addJobSuscriptor(ChildJobSuscriptor $l)
+    {
+        if ($this->collJobSuscriptors === null) {
+            $this->initJobSuscriptors();
+            $this->collJobSuscriptorsPartial = true;
+        }
+
+        if (!$this->collJobSuscriptors->contains($l)) {
+            $this->doAddJobSuscriptor($l);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ChildJobSuscriptor $jobSuscriptor The ChildJobSuscriptor object to add.
+     */
+    protected function doAddJobSuscriptor(ChildJobSuscriptor $jobSuscriptor)
+    {
+        $this->collJobSuscriptors[]= $jobSuscriptor;
+        $jobSuscriptor->setTmpArea($this);
+    }
+
+    /**
+     * @param  ChildJobSuscriptor $jobSuscriptor The ChildJobSuscriptor object to remove.
+     * @return $this|ChildTmpArea The current object (for fluent API support)
+     */
+    public function removeJobSuscriptor(ChildJobSuscriptor $jobSuscriptor)
+    {
+        if ($this->getJobSuscriptors()->contains($jobSuscriptor)) {
+            $pos = $this->collJobSuscriptors->search($jobSuscriptor);
+            $this->collJobSuscriptors->remove($pos);
+            if (null === $this->jobSuscriptorsScheduledForDeletion) {
+                $this->jobSuscriptorsScheduledForDeletion = clone $this->collJobSuscriptors;
+                $this->jobSuscriptorsScheduledForDeletion->clear();
+            }
+            $this->jobSuscriptorsScheduledForDeletion[]= $jobSuscriptor;
+            $jobSuscriptor->setTmpArea(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this TmpArea is new, it will return
+     * an empty collection; or if this TmpArea has previously
+     * been saved, it will retrieve related JobSuscriptors from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in TmpArea.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildJobSuscriptor[] List of ChildJobSuscriptor objects
+     */
+    public function getJobSuscriptorsJoinTmpFormacion(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildJobSuscriptorQuery::create(null, $criteria);
+        $query->joinWith('TmpFormacion', $joinBehavior);
+
+        return $this->getJobSuscriptors($query, $con);
     }
 
     /**
@@ -989,8 +1306,14 @@ abstract class TmpArea implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
+            if ($this->collJobSuscriptors) {
+                foreach ($this->collJobSuscriptors as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
         } // if ($deep)
 
+        $this->collJobSuscriptors = null;
     }
 
     /**

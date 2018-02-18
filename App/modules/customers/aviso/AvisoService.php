@@ -43,7 +43,7 @@ class AvisoService extends GenericService
     {
         $query = $this->validsQuery()
             ->_if(isset($filters['code']))
-            ->filterByDescripcion('%' . $filters['descripcion'] . '%', Criteria::ILIKE)
+                ->filterByDescripcion('%' . $filters['descripcion'] . '%', Criteria::ILIKE)
             ->_endif();
 
         //$query = nul;
@@ -60,7 +60,8 @@ class AvisoService extends GenericService
     public function listVigencia($vigentes = true, $order = Criteria::ASC)
     {
         $query = $this->validsQuery()
-            ->filterVigentes(new DateTime(), $vigentes)
+                ->filterVigentes(new DateTime(), $vigentes)
+            ->orderByDestacado(Criteria::DESC)
             ->orderByFechaVencimiento($order);
         return $query->find();
     }
@@ -81,10 +82,10 @@ class AvisoService extends GenericService
     public function countVigentesMesPasado()
     {
         // TODO: corregir que esaque solo del mes actual
-        $endDate = new DateTime(date('Y-') . (date('m') - 1) . '-01 23:59:59');
+        $endDate = new DateTime(date('Y-') . (date('m')) . '-01 23:59:59');
         $endDate->modify("-1 day");
         return $this->validsQuery()
-            ->filterPublicadasPeriodo(new DateTime(date('Y-') . (date('m') - 2) . '-01 00:00:00'),
+            ->filterPublicadasPeriodo(new DateTime(date('Y-') . (date('m') - 1) . '-01 00:00:00'),
                 $endDate)
             ->count();
     }

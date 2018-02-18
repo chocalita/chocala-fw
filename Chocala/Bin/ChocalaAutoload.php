@@ -32,6 +32,7 @@ class ChocalaAutoload
         'ChocalaFiltersManager'     =>  'Base/ChocalaFiltersManager',
         'ChocalaI18N'               =>  'Base/ChocalaI18N',
         'ChocalaPreprocessor'       =>  'Base/ChocalaPreprocessor',
+        'ChocalaRouter'             =>  'Base/ChocalaRouter',
         'ChocalaService'            =>  'Base/ChocalaService',
         'ChocalaSingleService'      =>  'Base/ChocalaSingleService',
         'ChocalaVars'               =>  'Base/ChocalaVars',

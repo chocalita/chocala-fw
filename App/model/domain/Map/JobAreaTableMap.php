@@ -59,7 +59,7 @@ class JobAreaTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 8;
+    const NUM_COLUMNS = 9;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,7 @@ class JobAreaTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 8;
+    const NUM_HYDRATE_COLUMNS = 9;
 
     /**
      * the column name for the ID field
@@ -85,6 +85,11 @@ class JobAreaTableMap extends TableMap
      * the column name for the NOMBRE field
      */
     const COL_NOMBRE = 'job_area.NOMBRE';
+
+    /**
+     * the column name for the KEYWORDS field
+     */
+    const COL_KEYWORDS = 'job_area.KEYWORDS';
 
     /**
      * the column name for the DESCRIPCION field
@@ -123,11 +128,11 @@ class JobAreaTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Codigo', 'Nombre', 'Descripcion', 'Status', 'LastUserId', 'CreationDate', 'ModificationDate', ),
-        self::TYPE_CAMELNAME     => array('id', 'codigo', 'nombre', 'descripcion', 'status', 'lastUserId', 'creationDate', 'modificationDate', ),
-        self::TYPE_COLNAME       => array(JobAreaTableMap::COL_ID, JobAreaTableMap::COL_CODIGO, JobAreaTableMap::COL_NOMBRE, JobAreaTableMap::COL_DESCRIPCION, JobAreaTableMap::COL_STATUS, JobAreaTableMap::COL_LAST_USER_ID, JobAreaTableMap::COL_CREATION_DATE, JobAreaTableMap::COL_MODIFICATION_DATE, ),
-        self::TYPE_FIELDNAME     => array('ID', 'CODIGO', 'NOMBRE', 'DESCRIPCION', 'STATUS', 'LAST_USER_ID', 'CREATION_DATE', 'MODIFICATION_DATE', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
+        self::TYPE_PHPNAME       => array('Id', 'Codigo', 'Nombre', 'Keywords', 'Descripcion', 'Status', 'LastUserId', 'CreationDate', 'ModificationDate', ),
+        self::TYPE_CAMELNAME     => array('id', 'codigo', 'nombre', 'keywords', 'descripcion', 'status', 'lastUserId', 'creationDate', 'modificationDate', ),
+        self::TYPE_COLNAME       => array(JobAreaTableMap::COL_ID, JobAreaTableMap::COL_CODIGO, JobAreaTableMap::COL_NOMBRE, JobAreaTableMap::COL_KEYWORDS, JobAreaTableMap::COL_DESCRIPCION, JobAreaTableMap::COL_STATUS, JobAreaTableMap::COL_LAST_USER_ID, JobAreaTableMap::COL_CREATION_DATE, JobAreaTableMap::COL_MODIFICATION_DATE, ),
+        self::TYPE_FIELDNAME     => array('ID', 'CODIGO', 'NOMBRE', 'KEYWORDS', 'DESCRIPCION', 'STATUS', 'LAST_USER_ID', 'CREATION_DATE', 'MODIFICATION_DATE', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 
     /**
@@ -137,11 +142,11 @@ class JobAreaTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Codigo' => 1, 'Nombre' => 2, 'Descripcion' => 3, 'Status' => 4, 'LastUserId' => 5, 'CreationDate' => 6, 'ModificationDate' => 7, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'codigo' => 1, 'nombre' => 2, 'descripcion' => 3, 'status' => 4, 'lastUserId' => 5, 'creationDate' => 6, 'modificationDate' => 7, ),
-        self::TYPE_COLNAME       => array(JobAreaTableMap::COL_ID => 0, JobAreaTableMap::COL_CODIGO => 1, JobAreaTableMap::COL_NOMBRE => 2, JobAreaTableMap::COL_DESCRIPCION => 3, JobAreaTableMap::COL_STATUS => 4, JobAreaTableMap::COL_LAST_USER_ID => 5, JobAreaTableMap::COL_CREATION_DATE => 6, JobAreaTableMap::COL_MODIFICATION_DATE => 7, ),
-        self::TYPE_FIELDNAME     => array('ID' => 0, 'CODIGO' => 1, 'NOMBRE' => 2, 'DESCRIPCION' => 3, 'STATUS' => 4, 'LAST_USER_ID' => 5, 'CREATION_DATE' => 6, 'MODIFICATION_DATE' => 7, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Codigo' => 1, 'Nombre' => 2, 'Keywords' => 3, 'Descripcion' => 4, 'Status' => 5, 'LastUserId' => 6, 'CreationDate' => 7, 'ModificationDate' => 8, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'codigo' => 1, 'nombre' => 2, 'keywords' => 3, 'descripcion' => 4, 'status' => 5, 'lastUserId' => 6, 'creationDate' => 7, 'modificationDate' => 8, ),
+        self::TYPE_COLNAME       => array(JobAreaTableMap::COL_ID => 0, JobAreaTableMap::COL_CODIGO => 1, JobAreaTableMap::COL_NOMBRE => 2, JobAreaTableMap::COL_KEYWORDS => 3, JobAreaTableMap::COL_DESCRIPCION => 4, JobAreaTableMap::COL_STATUS => 5, JobAreaTableMap::COL_LAST_USER_ID => 6, JobAreaTableMap::COL_CREATION_DATE => 7, JobAreaTableMap::COL_MODIFICATION_DATE => 8, ),
+        self::TYPE_FIELDNAME     => array('ID' => 0, 'CODIGO' => 1, 'NOMBRE' => 2, 'KEYWORDS' => 3, 'DESCRIPCION' => 4, 'STATUS' => 5, 'LAST_USER_ID' => 6, 'CREATION_DATE' => 7, 'MODIFICATION_DATE' => 8, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 
     /**
@@ -164,6 +169,7 @@ class JobAreaTableMap extends TableMap
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
         $this->addColumn('CODIGO', 'Codigo', 'VARCHAR', true, 30, null);
         $this->addColumn('NOMBRE', 'Nombre', 'VARCHAR', true, 100, null);
+        $this->addColumn('KEYWORDS', 'Keywords', 'LONGVARCHAR', false, null, null);
         $this->addColumn('DESCRIPCION', 'Descripcion', 'LONGVARCHAR', false, null, null);
         $this->addColumn('STATUS', 'Status', 'VARCHAR', true, 20, 'ACTIVE');
         $this->addColumn('LAST_USER_ID', 'LastUserId', 'INTEGER', true, null, 0);
@@ -329,6 +335,7 @@ class JobAreaTableMap extends TableMap
             $criteria->addSelectColumn(JobAreaTableMap::COL_ID);
             $criteria->addSelectColumn(JobAreaTableMap::COL_CODIGO);
             $criteria->addSelectColumn(JobAreaTableMap::COL_NOMBRE);
+            $criteria->addSelectColumn(JobAreaTableMap::COL_KEYWORDS);
             $criteria->addSelectColumn(JobAreaTableMap::COL_DESCRIPCION);
             $criteria->addSelectColumn(JobAreaTableMap::COL_STATUS);
             $criteria->addSelectColumn(JobAreaTableMap::COL_LAST_USER_ID);
@@ -338,6 +345,7 @@ class JobAreaTableMap extends TableMap
             $criteria->addSelectColumn($alias . '.ID');
             $criteria->addSelectColumn($alias . '.CODIGO');
             $criteria->addSelectColumn($alias . '.NOMBRE');
+            $criteria->addSelectColumn($alias . '.KEYWORDS');
             $criteria->addSelectColumn($alias . '.DESCRIPCION');
             $criteria->addSelectColumn($alias . '.STATUS');
             $criteria->addSelectColumn($alias . '.LAST_USER_ID');

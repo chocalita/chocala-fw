@@ -22,6 +22,16 @@ class Validation
      * @param mixed $var
      * @return boolean
      */
+    public static function isEmpty($var)
+    {
+        return (trim($var) == '');
+    }
+
+    /**
+     *
+     * @param mixed $var
+     * @return boolean
+     */
     public static function isNotEmpty($var)
     {
         return (trim($var) != '');

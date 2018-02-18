@@ -57,9 +57,9 @@ class SystemController extends AdminWebController
         if (UserControl::login(Req::_('username'), Req::_('password'))) {
             $this->redirectTo(['action' => 'main']);
         } else {
+            Flash::error("Datos de Acceso Inválidos.");
             $this->redirectTo(['action' => 'access']);
         }
-
     }
 
     public function logout()
@@ -123,26 +123,32 @@ class SystemController extends AdminWebController
     public function resetPassword2()
     {
         $passwordRequest = $this->userService->loadPasswordRequest($this->id);
+        $success = false;
+        $errors = array();
 //        $user = $passwordRequest->getSysUser();
         if (!is_object($passwordRequest)) {
             $this->redirectTo(['action' => 'main']);
         }
         if (!$passwordRequest->getActive()) {
-            $errors = 'La solicitud de recuperación no esta vigemte, intente solicitando nuevamente.';
+            $errors = 'La solicitud de recuperación no esta vigente, intente solicitando nuevamente.';
         } else if (trim(Req::_('Password')) == '' || trim(Req::_('RPassword')) == '') {
-            $errors = 'Debe ingresar y repetir su nueva contraseña.';
+            $errors = 'Debe ingresar su nueva contraseña y repetirla.';
         } else if (Req::_('Password') != Req::_('RPassword')) {
             $errors = 'Debe repetir la nueva contraseña.';
         } else if (strlen(Req::_('Password')) < 6) {
             $errors = 'La contraseña es demasiado corta.';
         } else {
-            $results = $this->userService->completePasswordRequest($passwordRequest, Req::_('Password'));
+            $results = $this->userService->completePasswordRenew($passwordRequest, Req::_('Password'));
             $success = $results['success'];
             if ($success) {
                 $errors = 'Se cambió correctamente su password de usuario correctamente';
             }
         }
+        $this->set('message', $errors);
         $this->set('passwordRequest', $passwordRequest);
+        $this->set('success', $success);
+        $this->set('errors', $errors);
+        $this->renderAsJSON();
     }
 
     public function changePassword()
@@ -156,7 +162,7 @@ class SystemController extends AdminWebController
             } else if (strlen(Req::_('Password')) < 6) {
                 $errors = 'La contraseña es demasiado corta.';
             } else {
-                $data['Password'] = Req::_('Password');
+                $data['Password'] = UserControl::crypt(Req::_('Password'));
                 $data['Status'] = SysUser::STATUS_ACTIVE;
                 $results = $this->userService->insertOrUpdate($data, $this->sessionUser);
                 $success = $results['success'];

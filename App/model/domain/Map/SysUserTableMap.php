@@ -199,12 +199,12 @@ class SysUserTableMap extends TableMap
         $this->addColumn('LOCATION', 'Location', 'VARCHAR', false, 100, null);
         $this->addColumn('ADDRESS', 'Address', 'LONGVARCHAR', false, null, null);
         $this->addColumn('IMAGE_MIME', 'ImageMime', 'VARCHAR', false, 20, null);
-        $this->addColumn('ACTUAL_ACCESS', 'ActualAccess', 'TIMESTAMP', true, null, '0000-00-00 00:00:00');
-        $this->addColumn('LAST_ACCESS', 'LastAccess', 'TIMESTAMP', true, null, '0000-00-00 00:00:00');
+        $this->addColumn('ACTUAL_ACCESS', 'ActualAccess', 'TIMESTAMP', false, null, null);
+        $this->addColumn('LAST_ACCESS', 'LastAccess', 'TIMESTAMP', false, null, null);
         $this->addColumn('ACCESS_FAILURES', 'AccessFailures', 'INTEGER', true, null, 0);
         $this->addColumn('LAST_USER_ID', 'LastUserId', 'INTEGER', true, null, 0);
         $this->addColumn('CREATION_DATE', 'CreationDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');
-        $this->addColumn('MODIFICATION_DATE', 'ModificationDate', 'TIMESTAMP', false, null, '0000-00-00 00:00:00');
+        $this->addColumn('MODIFICATION_DATE', 'ModificationDate', 'TIMESTAMP', false, null, null);
     } // initialize()
 
     /**

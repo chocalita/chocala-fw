@@ -183,7 +183,7 @@ class SysPasswordRequestTableMap extends TableMap
         $this->addColumn('ACTIVE', 'Active', 'BOOLEAN', true, 1, true);
         $this->addColumn('LIFE_TIME', 'LifeTime', 'INTEGER', true, null, null);
         $this->addColumn('REQUEST_IP', 'RequestIp', 'VARCHAR', true, 30, null);
-        $this->addColumn('RESTORED_IP', 'RestoredIp', 'VARCHAR', true, 30, null);
+        $this->addColumn('RESTORED_IP', 'RestoredIp', 'VARCHAR', false, 30, null);
         $this->addColumn('ACCEDED_TIMES', 'AccededTimes', 'INTEGER', true, null, 0);
         $this->addColumn('REQUESTED_DATE', 'RequestedDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');
         $this->addColumn('RESTORED_DATE', 'RestoredDate', 'TIMESTAMP', false, null, null);

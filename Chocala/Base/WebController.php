@@ -30,7 +30,7 @@ abstract class WebController implements IController
      * The template file that will be used for generate the page
      * @var string
      */
-    protected $template = null;
+//    protected $template = null;
 
     /**
      * The ID that drive the page

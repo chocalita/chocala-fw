@@ -1,0 +1,128 @@
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Nombre">Nombre</label>
+    <div class="col-sm-9">
+        <input type="text" id="Nombre" name="Nombre" value="<?=$formacionTmp? $formacionTmp->getNombre(): '';?>"
+               class="form-control" maxlength="100" placeholder="Cargo..." />
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Keywords">Keywords</label>
+    <div class="col-sm-9">
+        <textarea id="Keywords" name="Keywords"
+                  class="form-control" rows="2" cols="20" placeholder="Keywords..."><?=$formacionTmp? $formacionTmp->getKeywords(): '';?></textarea>
+    </div>
+</div>
+
+<div class="form-group">
+    <h3>Areas Laborales</h3>
+    <div class="col-sm-12">
+        <?php
+        foreach($areaReferenciaListZZZZZ as $areaReferencia):
+            $check = $formacionTmp && $formacionTmp->tieneArea($areaReferencia)? 'checked="yes"': '';
+            ?>
+            <div class="col-md-6 col-lg-4">
+                <label class="block small text-normal"><input type="checkbox" name="AreaReferencia[]" value="<?=$areaReferencia->getNombre();?>"
+                        <?=$check;?>> <?=$areaReferencia->getNombre();?></label>
+            </div>
+            <?php
+        endforeach;
+        ?>
+    </div>
+</div>
+
+<div class="form-group">
+    <h3>Formaciones</h3>
+    <div class="col-sm-12">
+        <?php
+        foreach ($formacionReferenciaList as $formacionReferencia):
+            $check = $formacionTmp && $formacionTmp->tieneFormacion($formacionReferencia) ? 'checked="yes"' : '';
+            if ($formacionTmp && $formacionTmp->getId() != $formacionReferencia->getId()) {
+            ?>
+            <div class="col-md-6 col-lg-4">
+                <label class="block small text-normal"><input type="checkbox" name="FormacionReferencia[]" value="<?=$formacionReferencia->getNombre();?>"
+                        <?=$check;?>> <?=$formacionReferencia->getNombre();?></label>
+            </div>
+            <?php
+            }
+        endforeach;
+        ?>
+    </div>
+</div>
+
+<!-- DROPZONE -->
+<link href="<?=CSS_WEB;?>plugins/dropzone/basic.css" rel="stylesheet" />
+<link href="<?=CSS_WEB;?>plugins/dropzone/dropzone.css" rel="stylesheet" />
+<script src="<?=JS_WEB;?>plugins/dropzone/dropzone.js"></script>
+
+<script type="text/javascript">
+$().ready(function(){
+    $(".datepicker").datepicker({format: 'dd/mm/yyyy', language: 'es'});
+   /*
+    $(".ajaxPost").formAjaxPost({
+    });
+    /**/
+    $(".ajaxPost").submit(function(e) {
+        e.preventDefault();
+        $("#wrapper").mask("Cargando...");
+        var $form = $(this);
+        var $formData = new FormData();
+        $form.find('input, textarea, select').each(function(){
+            var input = $(this);
+            var type = input.attr('type');
+            switch (type){
+                case "checkbox":
+                    if(input.is(":checked")) {
+                        $formData.append(input.attr('name'), input.val());
+                    }
+                    break;
+                case "radio":
+                    if(input.is(":checked")) {
+                        $formData.append(input.attr('name'), input.val());
+                    }
+                    break;
+                case "file":
+                    $.each(input.prop("files"),function(i,file){
+                        $formData.append(input.attr("name"), file);
+                    });
+                    break;
+                default:
+                    if(!input.is(":disabled") && type != "submit" && type != "button"){
+                        $formData.append(input.attr('name'), input.val());
+                    }
+            }
+        });
+        $.ajax({
+            url: $form.attr('action'),
+            type: $form.attr('method'),
+            data: $formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        }).done(function(data){
+            $form.find('div.help-block').remove();
+            $form.find('div.has-error').removeClass('has-error');
+            if (!data.success) {
+                $(data.errors).each(function(i, el) {
+                    $form.find('#' + el.field)
+                        .parents('div.form-group')
+                        .first()
+                        .addClass('has-error');
+                    $form.find('#' + el.field)
+                        .parent()
+                        .append('<div class="help-block">'+el.message+'</div>');
+                });
+            } else {
+                window.location = "<?=URI::toPage();?>";
+            }
+            $("#wrapper").unmask();
+        });
+        return false;
+    });
+});
+</script>
+<style type="text/css">
+label.text-normal {
+    font-weight: normal !important;
+}
+</style>

@@ -192,7 +192,7 @@ class SysLocationTableMap extends TableMap
         $this->addColumn('RGT', 'Rgt', 'INTEGER', false, null, null);
         $this->addColumn('LAST_USER_ID', 'LastUserId', 'INTEGER', true, null, null);
         $this->addColumn('CREATION_DATE', 'CreationDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');
-        $this->addColumn('MODIFICATION_DATE', 'ModificationDate', 'TIMESTAMP', false, null, '0000-00-00 00:00:00');
+        $this->addColumn('MODIFICATION_DATE', 'ModificationDate', 'TIMESTAMP', false, null, null);
     } // initialize()
 
     /**
@@ -200,6 +200,13 @@ class SysLocationTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('JobEmpresaSuscrita', '\\JobEmpresaSuscrita', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':LOCATION_ID',
+    1 => ':ID',
+  ),
+), null, null, 'JobEmpresaSuscritas', false);
         $this->addRelation('SysEntity', '\\SysEntity', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (

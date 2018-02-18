@@ -27,11 +27,11 @@ use Propel\Runtime\Util\PropelDateTime;
 /**
  * Base class that represents a row from the 'sys_email_sent' table.
  *
- *
+ * 
  *
 * @package    propel.generator..Base
 */
-abstract class SysEmailSent implements ActiveRecordInterface
+abstract class SysEmailSent implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -67,28 +67,24 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * The value for the id field.
-     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the email_id field.
-     *
      * @var        int
      */
     protected $email_id;
 
     /**
      * The value for the user_id field.
-     *
      * @var        int
      */
     protected $user_id;
 
     /**
      * The value for the sender_id field.
-     *
      * Note: this column has a database default value of: 0
      * @var        int
      */
@@ -96,70 +92,60 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * The value for the hash_string field.
-     *
      * @var        string
      */
     protected $hash_string;
 
     /**
      * The value for the from_name field.
-     *
      * @var        string
      */
     protected $from_name;
 
     /**
      * The value for the from_email field.
-     *
      * @var        string
      */
     protected $from_email;
 
     /**
      * The value for the to_email field.
-     *
      * @var        string
      */
     protected $to_email;
 
     /**
      * The value for the cc field.
-     *
      * @var        string
      */
     protected $cc;
 
     /**
      * The value for the bcc field.
-     *
      * @var        string
      */
     protected $bcc;
 
     /**
      * The value for the subject field.
-     *
      * @var        string
      */
     protected $subject;
 
     /**
      * The value for the content field.
-     *
      * @var        string
      */
     protected $content;
 
     /**
      * The value for the is_success field.
-     *
      * @var        boolean
      */
     protected $is_success;
 
     /**
      * The value for the shipping_date field.
-     *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
      * @var        \DateTime
      */
@@ -167,8 +153,6 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * The value for the opening_date field.
-     *
-     * Note: this column has a database default value of: NULL
      * @var        \DateTime
      */
     protected $opening_date;
@@ -200,7 +184,6 @@ abstract class SysEmailSent implements ActiveRecordInterface
     public function applyDefaultValues()
     {
         $this->sender_id = 0;
-        $this->opening_date = PropelDateTime::newInstance(NULL, null, 'DateTime');
     }
 
     /**
@@ -419,20 +402,12 @@ abstract class SysEmailSent implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        $cls = new \ReflectionClass($this);
-        $propertyNames = [];
-        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
-
-        foreach($serializableProperties as $property) {
-            $propertyNames[] = $property->getName();
-        }
-
-        return $propertyNames;
+        return array_keys(get_object_vars($this));
     }
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return int
      */
     public function getId()
@@ -442,7 +417,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Get the [email_id] column value.
-     *
+     * 
      * @return int
      */
     public function getEmailId()
@@ -452,7 +427,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Get the [user_id] column value.
-     *
+     * 
      * @return int
      */
     public function getUserId()
@@ -462,7 +437,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Get the [sender_id] column value.
-     *
+     * 
      * @return int
      */
     public function getSenderId()
@@ -472,7 +447,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Get the [hash_string] column value.
-     *
+     * 
      * @return string
      */
     public function getHashString()
@@ -482,7 +457,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Get the [from_name] column value.
-     *
+     * 
      * @return string
      */
     public function getFromName()
@@ -492,7 +467,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Get the [from_email] column value.
-     *
+     * 
      * @return string
      */
     public function getFromEmail()
@@ -502,7 +477,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Get the [to_email] column value.
-     *
+     * 
      * @return string
      */
     public function getToEmail()
@@ -512,7 +487,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Get the [cc] column value.
-     *
+     * 
      * @return string
      */
     public function getCc()
@@ -522,7 +497,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Get the [bcc] column value.
-     *
+     * 
      * @return string
      */
     public function getBcc()
@@ -532,7 +507,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Get the [subject] column value.
-     *
+     * 
      * @return string
      */
     public function getSubject()
@@ -542,7 +517,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Get the [content] column value.
-     *
+     * 
      * @return string
      */
     public function getContent()
@@ -552,7 +527,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Get the [is_success] column value.
-     *
+     * 
      * @return boolean
      */
     public function getIsSuccess()
@@ -562,7 +537,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Get the [is_success] column value.
-     *
+     * 
      * @return boolean
      */
     public function isSuccess()
@@ -572,7 +547,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [shipping_date] column value.
-     *
+     * 
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -592,7 +567,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [opening_date] column value.
-     *
+     * 
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -612,7 +587,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\SysEmailSent The current object (for fluent API support)
      */
@@ -632,7 +607,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Set the value of [email_id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\SysEmailSent The current object (for fluent API support)
      */
@@ -656,7 +631,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Set the value of [user_id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\SysEmailSent The current object (for fluent API support)
      */
@@ -680,7 +655,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Set the value of [sender_id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\SysEmailSent The current object (for fluent API support)
      */
@@ -700,7 +675,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Set the value of [hash_string] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysEmailSent The current object (for fluent API support)
      */
@@ -720,7 +695,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Set the value of [from_name] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysEmailSent The current object (for fluent API support)
      */
@@ -740,7 +715,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Set the value of [from_email] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysEmailSent The current object (for fluent API support)
      */
@@ -760,7 +735,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Set the value of [to_email] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysEmailSent The current object (for fluent API support)
      */
@@ -780,7 +755,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Set the value of [cc] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysEmailSent The current object (for fluent API support)
      */
@@ -800,7 +775,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Set the value of [bcc] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysEmailSent The current object (for fluent API support)
      */
@@ -820,7 +795,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Set the value of [subject] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysEmailSent The current object (for fluent API support)
      */
@@ -840,7 +815,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Set the value of [content] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysEmailSent The current object (for fluent API support)
      */
@@ -864,7 +839,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     *
+     * 
      * @param  boolean|integer|string $v The new value
      * @return $this|\SysEmailSent The current object (for fluent API support)
      */
@@ -888,7 +863,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Sets the value of [shipping_date] column to a normalized version of the date/time value specified.
-     *
+     * 
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysEmailSent The current object (for fluent API support)
@@ -908,7 +883,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
     /**
      * Sets the value of [opening_date] column to a normalized version of the date/time value specified.
-     *
+     * 
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysEmailSent The current object (for fluent API support)
@@ -917,9 +892,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->opening_date !== null || $dt !== null) {
-            if ( ($dt != $this->opening_date) // normalized values don't match
-                || ($dt->format('Y-m-d H:i:s') === NULL) // or the entered value matches the default
-                 ) {
+            if ($this->opening_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->opening_date->format("Y-m-d H:i:s")) {
                 $this->opening_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[SysEmailSentTableMap::COL_OPENING_DATE] = true;
             }
@@ -939,10 +912,6 @@ abstract class SysEmailSent implements ActiveRecordInterface
     public function hasOnlyDefaultValues()
     {
             if ($this->sender_id !== 0) {
-                return false;
-            }
-
-            if ($this->opening_date && $this->opening_date->format('Y-m-d H:i:s') !== NULL) {
                 return false;
             }
 
@@ -1310,49 +1279,49 @@ abstract class SysEmailSent implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':
+                    case 'ID':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'EMAIL_ID':
+                    case 'EMAIL_ID':                        
                         $stmt->bindValue($identifier, $this->email_id, PDO::PARAM_INT);
                         break;
-                    case 'USER_ID':
+                    case 'USER_ID':                        
                         $stmt->bindValue($identifier, $this->user_id, PDO::PARAM_INT);
                         break;
-                    case 'SENDER_ID':
+                    case 'SENDER_ID':                        
                         $stmt->bindValue($identifier, $this->sender_id, PDO::PARAM_INT);
                         break;
-                    case 'HASH_STRING':
+                    case 'HASH_STRING':                        
                         $stmt->bindValue($identifier, $this->hash_string, PDO::PARAM_STR);
                         break;
-                    case 'FROM_NAME':
+                    case 'FROM_NAME':                        
                         $stmt->bindValue($identifier, $this->from_name, PDO::PARAM_STR);
                         break;
-                    case 'FROM_EMAIL':
+                    case 'FROM_EMAIL':                        
                         $stmt->bindValue($identifier, $this->from_email, PDO::PARAM_STR);
                         break;
-                    case 'TO_EMAIL':
+                    case 'TO_EMAIL':                        
                         $stmt->bindValue($identifier, $this->to_email, PDO::PARAM_STR);
                         break;
-                    case 'CC':
+                    case 'CC':                        
                         $stmt->bindValue($identifier, $this->cc, PDO::PARAM_STR);
                         break;
-                    case 'BCC':
+                    case 'BCC':                        
                         $stmt->bindValue($identifier, $this->bcc, PDO::PARAM_STR);
                         break;
-                    case 'SUBJECT':
+                    case 'SUBJECT':                        
                         $stmt->bindValue($identifier, $this->subject, PDO::PARAM_STR);
                         break;
-                    case 'CONTENT':
+                    case 'CONTENT':                        
                         $stmt->bindValue($identifier, $this->content, PDO::PARAM_STR);
                         break;
                     case 'IS_SUCCESS':
                         $stmt->bindValue($identifier, (int) $this->is_success, PDO::PARAM_INT);
                         break;
-                    case 'SHIPPING_DATE':
+                    case 'SHIPPING_DATE':                        
                         $stmt->bindValue($identifier, $this->shipping_date ? $this->shipping_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'OPENING_DATE':
+                    case 'OPENING_DATE':                        
                         $stmt->bindValue($identifier, $this->opening_date ? $this->opening_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                 }
@@ -1508,22 +1477,28 @@ abstract class SysEmailSent implements ActiveRecordInterface
             $keys[13] => $this->getShippingDate(),
             $keys[14] => $this->getOpeningDate(),
         );
+
+        $utc = new \DateTimeZone('utc');
         if ($result[$keys[13]] instanceof \DateTime) {
-            $result[$keys[13]] = $result[$keys[13]]->format('c');
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[13]];
+            $result[$keys[13]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
         }
-
+        
         if ($result[$keys[14]] instanceof \DateTime) {
-            $result[$keys[14]] = $result[$keys[14]]->format('c');
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[14]];
+            $result[$keys[14]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
         }
-
+        
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
         if ($includeForeignObjects) {
             if (null !== $this->aSysEmail) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysEmail';
@@ -1534,11 +1509,11 @@ abstract class SysEmailSent implements ActiveRecordInterface
                     default:
                         $key = 'SysEmail';
                 }
-
+        
                 $result[$key] = $this->aSysEmail->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aSysUser) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysUser';
@@ -1549,7 +1524,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
                     default:
                         $key = 'SysUser';
                 }
-
+        
                 $result[$key] = $this->aSysUser->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
@@ -1831,7 +1806,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-
+        
     /**
      * Returns the primary key for this object (row).
      * @return int

@@ -132,7 +132,7 @@ class TmpAreaTableMap extends TableMap
         $this->setUseIdGenerator(false);
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('nombre', 'Nombre', 'VARCHAR', true, 200, null);
+        $this->addColumn('nombre', 'Nombre', 'VARCHAR', false, 200, null);
     } // initialize()
 
     /**
@@ -140,6 +140,13 @@ class TmpAreaTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('JobSuscriptor', '\\JobSuscriptor', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':ID_TMP_AREA',
+    1 => ':id',
+  ),
+), null, null, 'JobSuscriptors', false);
     } // buildRelations()
 
     /**

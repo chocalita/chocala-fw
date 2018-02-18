@@ -13,8 +13,13 @@ class SysUserQuery extends BaseSysUserQuery implements SoftDeletion
 {
     use SoftQuery;
 
+    public static function statusMap()
+    {
+        return SysUser::statusMap();
+    }
+
     /**
-     * @return JobCurriculumQuery|\Propel\Runtime\ActiveQuery\ModelCriteria|SysUserQuery
+     * @return JobCurriculumQuery|SysUserQuery
      */
     public function withCompleteName()
     {
@@ -25,7 +30,7 @@ class SysUserQuery extends BaseSysUserQuery implements SoftDeletion
 
     /**
      * @param string $order
-     * @return JobCurriculumQuery|\Propel\Runtime\ActiveQuery\ModelCriteria|SysUserQuery
+     * @return JobCurriculumQuery|SysUserQuery
      */
     public function orderByCompleteName($order = Criteria::ASC)
     {
@@ -35,7 +40,7 @@ class SysUserQuery extends BaseSysUserQuery implements SoftDeletion
     }
 
     /**
-     * @return JobCurriculumQuery|\Propel\Runtime\ActiveQuery\ModelCriteria|SysUserQuery
+     * @return JobCurriculumQuery|SysUserQuery
      */
     public function withFormalName()
     {
@@ -46,18 +51,13 @@ class SysUserQuery extends BaseSysUserQuery implements SoftDeletion
 
     /**
      * @param string $order
-     * @return JobCurriculumQuery|\Propel\Runtime\ActiveQuery\ModelCriteria|SysUserQuery
+     * @return JobCurriculumQuery|SysUserQuery
      */
     public function orderByFormalName($order = Criteria::ASC)
     {
         return $this->useSysPersonQuery()
                 ->orderByFormalName($order)
             ->endUse();
-    }
-
-    public static function statusMap()
-    {
-        return SysUser::statusMap();
     }
 
 }

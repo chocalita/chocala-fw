@@ -12,11 +12,11 @@ class DateUtil extends DateTime
     /**
      *
      * @param string $time
-     * @param DateTimeZone $object 
+     * @param DateTimeZone $timezone
      */
-    public function __construct($time, $object=null)
+    public function __construct($time='now', $timezone=null)
     {
-        parent::__construct($time);
+        parent::__construct($time, $timezone);
     }
 
     /**
@@ -85,7 +85,10 @@ class DateUtil extends DateTime
         }
     }
 
-
+    /**
+     * @param $fecha
+     * @return null|string
+     */
     public static function mysql($fecha)
     {
         $nfecha = explode("/",$fecha);

@@ -61,7 +61,7 @@ class EmailSender
     {
         $instance = new self();
         $instance->email = $email;
-        if(is_object($user)){
+        if (is_object($user)) {
             $instance->user = $user;
         }
         $instance->emailEngine = new EmailEngine();
@@ -83,7 +83,7 @@ class EmailSender
     public function renderBody($emailMap)
     {
         $template = $this->email->getTemplate();
-        $emailContent = $template!=''? (new EmailView())->renderView($template): $emailMap['Body'];
+        $emailContent = $template != '' ? (new EmailView())->renderView($template) : $emailMap['Body'];
         $emailContent = str_replace('#SUBJECT#', $emailMap['Subject'], $emailContent);
         $emailContent = str_replace('#CONTENT#', $emailMap['Body'], $emailContent);
         $emailContent = str_replace('#TRACING_LINK#', $emailMap['TrackingLink'], $emailContent);
@@ -97,48 +97,48 @@ class EmailSender
      */
     public function sendMail($emailMap, $emailVars)
     {
-        if(!isset($emailMap['FromName'])){
+        if (!isset($emailMap['FromName'])) {
             $emailMap['FromName'] = $this->email->getFromName();
         }
-        if(!isset($emailMap['FromEmail'])){
+        if (!isset($emailMap['FromEmail'])) {
             $emailMap['FromEmail'] = $this->email->getFromEmail();
         }
-        if(!isset($emailMap['CC'])){
+        if (!isset($emailMap['CC'])) {
             $CCs = explode(";", $this->email->getCc());
-            if(sizeof($CCs)>0){
+            if (sizeof($CCs) > 0) {
                 $emailMap['CC'] = [];
-                foreach($CCs as $CC){
+                foreach ($CCs as $CC) {
                     array_push($emailMap['CC'], ['Email' => $CC]);
                 }
             }
         }
-        if(!isset($emailMap['BCC'])){
+        if (!isset($emailMap['BCC'])) {
             $BCCs = explode(";", $this->email->getBcc());
-            if(sizeof($BCCs)>0){
+            if (sizeof($BCCs) > 0) {
                 $emailMap['BCC'] = [];
-                foreach($BCCs as $BCC){
+                foreach ($BCCs as $BCC) {
                     array_push($emailMap['BCC'], ['Email' => $BCC]);
                 }
             }
         }
-        if(!isset($emailMap['Subject'])){
+        if (!isset($emailMap['Subject'])) {
             $emailMap['Subject'] = $this->email->getSubject();
         }
-        if(!isset($emailMap['Body'])){
+        if (!isset($emailMap['Body'])) {
             $emailMap['Body'] = $this->email->getBody();
         }
-        $trackingHash = isset($emailMap['TrackingHash'])? $emailMap['TrackingHash']: SpecialStrings::generateHash(30);
-        $emailMap['TrackingLink'] = WEB_ROOT. AppParam::value(AppParam::G_EMAIL_TRACKING_URI).$trackingHash;
+        $trackingHash = isset($emailMap['TrackingHash']) ? $emailMap['TrackingHash'] : SpecialStrings::generateHash(30);
+        $emailMap['TrackingLink'] = WEB_ROOT . AppParam::value(AppParam::G_EMAIL_TRACKING_URI) . $trackingHash;
         $emailMap['Body'] = $this->renderBody($emailMap);
         $this->emailEngine->prepare($emailMap, $emailVars);
         $this->emailEngine->processVars();
         $nSents = 0;
         $maxTries = AppParam::value(AppParam::G_EMAIL_MAX_SENDING_TRIES);
         $timeBetween = AppParam::value(AppParam::G_EMAIL_TIME_BETWEEN_SEND);
-        do{
+        do {
             $success = $this->emailEngine->Send();
             sleep($timeBetween);
-        }while(!$success && $nSents++ < $maxTries);
+        } while (!$success && ++$nSents < $maxTries);
         return $this->logEmail($trackingHash, $success);
     }
 
@@ -152,10 +152,10 @@ class EmailSender
     {
         $emailSent = new SysEmailSent();
         $emailSent->setSysEmail($this->email);
-        if(is_object($this->user)){
+        if (is_object($this->user)) {
             $emailSent->setSysUser($this->user);
         }
-        if(UserControl::isLoggedIn()){
+        if (UserControl::isLoggedIn()) {
             $emailSent->setSenderId(UserControl::user()->getId());
         }
         $emailSent->setHashString($hash);
@@ -167,7 +167,7 @@ class EmailSender
         $emailSent->setBcc($this->emailEngine->serializeBCC());
         $emailSent->setSubject($this->emailEngine->Subject);
         $emailSent->setContent($this->emailEngine->Body);
-        return $emailSent->save()? $emailSent: null;
+        return $emailSent->save() ? $emailSent : null;
     }
 
 }

@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'sys_location' table.
  *
- *
+ * 
  *
  * @method     ChildSysLocationQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysLocationQuery orderByMainId($order = Criteria::ASC) Order by the MAIN_ID column
@@ -50,31 +50,19 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysLocationQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildSysLocationQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildSysLocationQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
- * @method     ChildSysLocationQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
- * @method     ChildSysLocationQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ * @method     ChildSysLocationQuery leftJoinJobEmpresaSuscrita($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobEmpresaSuscrita relation
+ * @method     ChildSysLocationQuery rightJoinJobEmpresaSuscrita($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobEmpresaSuscrita relation
+ * @method     ChildSysLocationQuery innerJoinJobEmpresaSuscrita($relationAlias = null) Adds a INNER JOIN clause to the query using the JobEmpresaSuscrita relation
  *
  * @method     ChildSysLocationQuery leftJoinSysEntity($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEntity relation
  * @method     ChildSysLocationQuery rightJoinSysEntity($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEntity relation
  * @method     ChildSysLocationQuery innerJoinSysEntity($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEntity relation
  *
- * @method     ChildSysLocationQuery joinWithSysEntity($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEntity relation
- *
- * @method     ChildSysLocationQuery leftJoinWithSysEntity() Adds a LEFT JOIN clause and with to the query using the SysEntity relation
- * @method     ChildSysLocationQuery rightJoinWithSysEntity() Adds a RIGHT JOIN clause and with to the query using the SysEntity relation
- * @method     ChildSysLocationQuery innerJoinWithSysEntity() Adds a INNER JOIN clause and with to the query using the SysEntity relation
- *
  * @method     ChildSysLocationQuery leftJoinSysEntityBranch($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEntityBranch relation
  * @method     ChildSysLocationQuery rightJoinSysEntityBranch($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEntityBranch relation
  * @method     ChildSysLocationQuery innerJoinSysEntityBranch($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEntityBranch relation
  *
- * @method     ChildSysLocationQuery joinWithSysEntityBranch($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEntityBranch relation
- *
- * @method     ChildSysLocationQuery leftJoinWithSysEntityBranch() Adds a LEFT JOIN clause and with to the query using the SysEntityBranch relation
- * @method     ChildSysLocationQuery rightJoinWithSysEntityBranch() Adds a RIGHT JOIN clause and with to the query using the SysEntityBranch relation
- * @method     ChildSysLocationQuery innerJoinWithSysEntityBranch() Adds a INNER JOIN clause and with to the query using the SysEntityBranch relation
- *
- * @method     \SysEntityQuery|\SysEntityBranchQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \JobEmpresaSuscritaQuery|\SysEntityQuery|\SysEntityBranchQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildSysLocation findOne(ConnectionInterface $con = null) Return the first ChildSysLocation matching the query
  * @method     ChildSysLocation findOneOrCreate(ConnectionInterface $con = null) Return the first ChildSysLocation matching the query, or a new ChildSysLocation object populated from the query conditions when no match is found
@@ -183,7 +171,7 @@ abstract class SysLocationQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysLocationTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
+        if ((null !== ($obj = SysLocationTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -215,7 +203,7 @@ abstract class SysLocationQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, MAIN_ID, CODE, STATUS, NAME, TYPE, LEVEL, LFT, RGT, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM sys_location WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);
+            $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -227,7 +215,7 @@ abstract class SysLocationQuery extends ModelCriteria
             /** @var ChildSysLocation $obj */
             $obj = new ChildSysLocation();
             $obj->hydrate($row);
-            SysLocationTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
+            SysLocationTableMap::addInstanceToPool($obj, (string) $key);
         }
         $stmt->closeCursor();
 
@@ -752,6 +740,79 @@ abstract class SysLocationQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query by a related \JobEmpresaSuscrita object
+     *
+     * @param \JobEmpresaSuscrita|ObjectCollection $jobEmpresaSuscrita the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildSysLocationQuery The current query, for fluid interface
+     */
+    public function filterByJobEmpresaSuscrita($jobEmpresaSuscrita, $comparison = null)
+    {
+        if ($jobEmpresaSuscrita instanceof \JobEmpresaSuscrita) {
+            return $this
+                ->addUsingAlias(SysLocationTableMap::COL_ID, $jobEmpresaSuscrita->getLocationId(), $comparison);
+        } elseif ($jobEmpresaSuscrita instanceof ObjectCollection) {
+            return $this
+                ->useJobEmpresaSuscritaQuery()
+                ->filterByPrimaryKeys($jobEmpresaSuscrita->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByJobEmpresaSuscrita() only accepts arguments of type \JobEmpresaSuscrita or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the JobEmpresaSuscrita relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildSysLocationQuery The current query, for fluid interface
+     */
+    public function joinJobEmpresaSuscrita($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('JobEmpresaSuscrita');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'JobEmpresaSuscrita');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the JobEmpresaSuscrita relation JobEmpresaSuscrita object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \JobEmpresaSuscritaQuery A secondary query class using the current class as primary query
+     */
+    public function useJobEmpresaSuscritaQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinJobEmpresaSuscrita($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'JobEmpresaSuscrita', '\JobEmpresaSuscritaQuery');
+    }
+
+    /**
      * Filter the query by a related \SysEntity object
      *
      * @param \SysEntity|ObjectCollection $sysEntity the related object to use as filter
@@ -964,9 +1025,9 @@ abstract class SysLocationQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-
+            
             SysLocationTableMap::removeInstanceFromPool($criteria);
-
+        
             $affectedRows += ModelCriteria::delete($con);
             SysLocationTableMap::clearRelatedInstancePool();
 

@@ -57,15 +57,15 @@ class UserService extends GenericService
             ->_endif()
             ->useSysPersonQuery()
             ->withColumn('CONCAT(SysPerson.LastName, " ", COALESCE(SysPerson.SecondLastName,""), " ",
-                     SysPerson.FirstName, " ", COALESCE(SysPerson.MiddleName,""))', 'CompleteName')
+                         SysPerson.FirstName, " ", COALESCE(SysPerson.MiddleName,""))', 'CompleteName')
             ->orderBy('CompleteName', 'asc')
             ->_if(isset($filters['completeName']))
             ->where('CONCAT("%", SysPerson.LastName, "%", COALESCE(SysPerson.SecondLastName, "%"), "%",
-                             SysPerson.FirstName, "%", COALESCE(SysPerson.MiddleName, "%"), "%") LIKE ?',
+                                     SysPerson.FirstName, "%", COALESCE(SysPerson.MiddleName, "%"), "%") LIKE ?',
                 '%' . str_replace(' ', '%', $filters['completeName']) . '%')
             ->_or()
             ->where('CONCAT("%", SysPerson.FirstName, "%", COALESCE(SysPerson.MiddleName, "%"), "%",
-                             SysPerson.LastName, "%", COALESCE(SysPerson.SecondLastName, "%"), "%") LIKE ?',
+                                     SysPerson.LastName, "%", COALESCE(SysPerson.SecondLastName, "%"), "%") LIKE ?',
                 '%' . str_replace(' ', '%', $filters['completeName']) . '%')
             ->_endif()
             ->endUse()
@@ -236,17 +236,17 @@ class UserService extends GenericService
         return $passwordRequest;
     }
 
-    public function completePasswordRequest(SysPasswordRequest $passwordRequest, $newPassword)
+    public function completePasswordRenew(SysPasswordRequest $passwordRequest, $newPassword)
     {
-        $data['Password'] = $newPassword;
+        $data['Password'] = UserControl::crypt($newPassword);
         $data['Status'] = SysUser::STATUS_ACTIVE;
         $passwordRequest->setActive(false);
         $passwordRequest->setRestoredIp($_SERVER['REMOTE_ADDR']);
         $passwordRequest->setRestoredDate(time());
         $passwordRequest->save();
         $results = $this->insertOrUpdate($data, $passwordRequest->getSysUser());
-        if($results['success']){
-            Session::instance()->destroy();
+        if ($results['success']) {
+            UserControl::login($passwordRequest->getSysUser()->getUsername(), $newPassword);
         }
         return $results;
     }

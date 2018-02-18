@@ -2,6 +2,9 @@
 
 namespace Base;
 
+use \JobSuscriptor as ChildJobSuscriptor;
+use \JobSuscriptorQuery as ChildJobSuscriptorQuery;
+use \TmpFormacion as ChildTmpFormacion;
 use \TmpFormacionQuery as ChildTmpFormacionQuery;
 use \Exception;
 use \PDO;
@@ -11,6 +14,7 @@ use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Collection\Collection;
+use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\BadMethodCallException;
 use Propel\Runtime\Exception\LogicException;
@@ -21,11 +25,11 @@ use Propel\Runtime\Parser\AbstractParser;
 /**
  * Base class that represents a row from the 'tmp_formacion' table.
  *
- *
+ * 
  *
 * @package    propel.generator..Base
 */
-abstract class TmpFormacion implements ActiveRecordInterface
+abstract class TmpFormacion implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -61,17 +65,39 @@ abstract class TmpFormacion implements ActiveRecordInterface
 
     /**
      * The value for the id field.
-     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the nombre field.
-     *
      * @var        string
      */
     protected $nombre;
+
+    /**
+     * The value for the keywords field.
+     * @var        string
+     */
+    protected $keywords;
+
+    /**
+     * The value for the areas_referencia field.
+     * @var        string
+     */
+    protected $areas_referencia;
+
+    /**
+     * The value for the formaciones_referencia field.
+     * @var        string
+     */
+    protected $formaciones_referencia;
+
+    /**
+     * @var        ObjectCollection|ChildJobSuscriptor[] Collection to store aggregation of ChildJobSuscriptor objects.
+     */
+    protected $collJobSuscriptors;
+    protected $collJobSuscriptorsPartial;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -80,6 +106,12 @@ abstract class TmpFormacion implements ActiveRecordInterface
      * @var boolean
      */
     protected $alreadyInSave = false;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection|ChildJobSuscriptor[]
+     */
+    protected $jobSuscriptorsScheduledForDeletion = null;
 
     /**
      * Initializes internal state of Base\TmpFormacion object.
@@ -295,20 +327,12 @@ abstract class TmpFormacion implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        $cls = new \ReflectionClass($this);
-        $propertyNames = [];
-        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
-
-        foreach($serializableProperties as $property) {
-            $propertyNames[] = $property->getName();
-        }
-
-        return $propertyNames;
+        return array_keys(get_object_vars($this));
     }
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return int
      */
     public function getId()
@@ -318,7 +342,7 @@ abstract class TmpFormacion implements ActiveRecordInterface
 
     /**
      * Get the [nombre] column value.
-     *
+     * 
      * @return string
      */
     public function getNombre()
@@ -327,8 +351,38 @@ abstract class TmpFormacion implements ActiveRecordInterface
     }
 
     /**
+     * Get the [keywords] column value.
+     * 
+     * @return string
+     */
+    public function getKeywords()
+    {
+        return $this->keywords;
+    }
+
+    /**
+     * Get the [areas_referencia] column value.
+     * 
+     * @return string
+     */
+    public function getAreasReferencia()
+    {
+        return $this->areas_referencia;
+    }
+
+    /**
+     * Get the [formaciones_referencia] column value.
+     * 
+     * @return string
+     */
+    public function getFormacionesReferencia()
+    {
+        return $this->formaciones_referencia;
+    }
+
+    /**
      * Set the value of [id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\TmpFormacion The current object (for fluent API support)
      */
@@ -348,7 +402,7 @@ abstract class TmpFormacion implements ActiveRecordInterface
 
     /**
      * Set the value of [nombre] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\TmpFormacion The current object (for fluent API support)
      */
@@ -365,6 +419,66 @@ abstract class TmpFormacion implements ActiveRecordInterface
 
         return $this;
     } // setNombre()
+
+    /**
+     * Set the value of [keywords] column.
+     * 
+     * @param string $v new value
+     * @return $this|\TmpFormacion The current object (for fluent API support)
+     */
+    public function setKeywords($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->keywords !== $v) {
+            $this->keywords = $v;
+            $this->modifiedColumns[TmpFormacionTableMap::COL_KEYWORDS] = true;
+        }
+
+        return $this;
+    } // setKeywords()
+
+    /**
+     * Set the value of [areas_referencia] column.
+     * 
+     * @param string $v new value
+     * @return $this|\TmpFormacion The current object (for fluent API support)
+     */
+    public function setAreasReferencia($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->areas_referencia !== $v) {
+            $this->areas_referencia = $v;
+            $this->modifiedColumns[TmpFormacionTableMap::COL_AREAS_REFERENCIA] = true;
+        }
+
+        return $this;
+    } // setAreasReferencia()
+
+    /**
+     * Set the value of [formaciones_referencia] column.
+     * 
+     * @param string $v new value
+     * @return $this|\TmpFormacion The current object (for fluent API support)
+     */
+    public function setFormacionesReferencia($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->formaciones_referencia !== $v) {
+            $this->formaciones_referencia = $v;
+            $this->modifiedColumns[TmpFormacionTableMap::COL_FORMACIONES_REFERENCIA] = true;
+        }
+
+        return $this;
+    } // setFormacionesReferencia()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -407,6 +521,15 @@ abstract class TmpFormacion implements ActiveRecordInterface
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : TmpFormacionTableMap::translateFieldName('Nombre', TableMap::TYPE_PHPNAME, $indexType)];
             $this->nombre = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : TmpFormacionTableMap::translateFieldName('Keywords', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->keywords = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : TmpFormacionTableMap::translateFieldName('AreasReferencia', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->areas_referencia = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : TmpFormacionTableMap::translateFieldName('FormacionesReferencia', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->formaciones_referencia = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -415,7 +538,7 @@ abstract class TmpFormacion implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 2; // 2 = TmpFormacionTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 5; // 5 = TmpFormacionTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\TmpFormacion'), 0, $e);
@@ -475,6 +598,8 @@ abstract class TmpFormacion implements ActiveRecordInterface
         $this->hydrate($row, 0, true, $dataFetcher->getIndexType()); // rehydrate
 
         if ($deep) {  // also de-associate any related objects?
+
+            $this->collJobSuscriptors = null;
 
         } // if (deep)
     }
@@ -586,6 +711,23 @@ abstract class TmpFormacion implements ActiveRecordInterface
                 $this->resetModified();
             }
 
+            if ($this->jobSuscriptorsScheduledForDeletion !== null) {
+                if (!$this->jobSuscriptorsScheduledForDeletion->isEmpty()) {
+                    \JobSuscriptorQuery::create()
+                        ->filterByPrimaryKeys($this->jobSuscriptorsScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->jobSuscriptorsScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collJobSuscriptors !== null) {
+                foreach ($this->collJobSuscriptors as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
             $this->alreadyInSave = false;
 
         }
@@ -614,6 +756,15 @@ abstract class TmpFormacion implements ActiveRecordInterface
         if ($this->isColumnModified(TmpFormacionTableMap::COL_NOMBRE)) {
             $modifiedColumns[':p' . $index++]  = 'nombre';
         }
+        if ($this->isColumnModified(TmpFormacionTableMap::COL_KEYWORDS)) {
+            $modifiedColumns[':p' . $index++]  = 'keywords';
+        }
+        if ($this->isColumnModified(TmpFormacionTableMap::COL_AREAS_REFERENCIA)) {
+            $modifiedColumns[':p' . $index++]  = 'areas_referencia';
+        }
+        if ($this->isColumnModified(TmpFormacionTableMap::COL_FORMACIONES_REFERENCIA)) {
+            $modifiedColumns[':p' . $index++]  = 'formaciones_referencia';
+        }
 
         $sql = sprintf(
             'INSERT INTO tmp_formacion (%s) VALUES (%s)',
@@ -625,11 +776,20 @@ abstract class TmpFormacion implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'id':
+                    case 'id':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'nombre':
+                    case 'nombre':                        
                         $stmt->bindValue($identifier, $this->nombre, PDO::PARAM_STR);
+                        break;
+                    case 'keywords':                        
+                        $stmt->bindValue($identifier, $this->keywords, PDO::PARAM_STR);
+                        break;
+                    case 'areas_referencia':                        
+                        $stmt->bindValue($identifier, $this->areas_referencia, PDO::PARAM_STR);
+                        break;
+                    case 'formaciones_referencia':                        
+                        $stmt->bindValue($identifier, $this->formaciones_referencia, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -692,6 +852,15 @@ abstract class TmpFormacion implements ActiveRecordInterface
             case 1:
                 return $this->getNombre();
                 break;
+            case 2:
+                return $this->getKeywords();
+                break;
+            case 3:
+                return $this->getAreasReferencia();
+                break;
+            case 4:
+                return $this->getFormacionesReferencia();
+                break;
             default:
                 return null;
                 break;
@@ -709,10 +878,11 @@ abstract class TmpFormacion implements ActiveRecordInterface
      *                    Defaults to TableMap::TYPE_PHPNAME.
      * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
      * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
+     * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
      *
      * @return array an associative array containing the field names (as keys) and field values
      */
-    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
+    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
 
         if (isset($alreadyDumpedObjects['TmpFormacion'][$this->hashCode()])) {
@@ -723,12 +893,32 @@ abstract class TmpFormacion implements ActiveRecordInterface
         $result = array(
             $keys[0] => $this->getId(),
             $keys[1] => $this->getNombre(),
+            $keys[2] => $this->getKeywords(),
+            $keys[3] => $this->getAreasReferencia(),
+            $keys[4] => $this->getFormacionesReferencia(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
+        if ($includeForeignObjects) {
+            if (null !== $this->collJobSuscriptors) {
+                
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'jobSuscriptors';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'job_suscriptors';
+                        break;
+                    default:
+                        $key = 'JobSuscriptors';
+                }
+        
+                $result[$key] = $this->collJobSuscriptors->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+        }
 
         return $result;
     }
@@ -768,6 +958,15 @@ abstract class TmpFormacion implements ActiveRecordInterface
             case 1:
                 $this->setNombre($value);
                 break;
+            case 2:
+                $this->setKeywords($value);
+                break;
+            case 3:
+                $this->setAreasReferencia($value);
+                break;
+            case 4:
+                $this->setFormacionesReferencia($value);
+                break;
         } // switch()
 
         return $this;
@@ -799,6 +998,15 @@ abstract class TmpFormacion implements ActiveRecordInterface
         }
         if (array_key_exists($keys[1], $arr)) {
             $this->setNombre($arr[$keys[1]]);
+        }
+        if (array_key_exists($keys[2], $arr)) {
+            $this->setKeywords($arr[$keys[2]]);
+        }
+        if (array_key_exists($keys[3], $arr)) {
+            $this->setAreasReferencia($arr[$keys[3]]);
+        }
+        if (array_key_exists($keys[4], $arr)) {
+            $this->setFormacionesReferencia($arr[$keys[4]]);
         }
     }
 
@@ -847,6 +1055,15 @@ abstract class TmpFormacion implements ActiveRecordInterface
         if ($this->isColumnModified(TmpFormacionTableMap::COL_NOMBRE)) {
             $criteria->add(TmpFormacionTableMap::COL_NOMBRE, $this->nombre);
         }
+        if ($this->isColumnModified(TmpFormacionTableMap::COL_KEYWORDS)) {
+            $criteria->add(TmpFormacionTableMap::COL_KEYWORDS, $this->keywords);
+        }
+        if ($this->isColumnModified(TmpFormacionTableMap::COL_AREAS_REFERENCIA)) {
+            $criteria->add(TmpFormacionTableMap::COL_AREAS_REFERENCIA, $this->areas_referencia);
+        }
+        if ($this->isColumnModified(TmpFormacionTableMap::COL_FORMACIONES_REFERENCIA)) {
+            $criteria->add(TmpFormacionTableMap::COL_FORMACIONES_REFERENCIA, $this->formaciones_referencia);
+        }
 
         return $criteria;
     }
@@ -890,7 +1107,7 @@ abstract class TmpFormacion implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-
+        
     /**
      * Returns the primary key for this object (row).
      * @return int
@@ -935,6 +1152,23 @@ abstract class TmpFormacion implements ActiveRecordInterface
     {
         $copyObj->setId($this->getId());
         $copyObj->setNombre($this->getNombre());
+        $copyObj->setKeywords($this->getKeywords());
+        $copyObj->setAreasReferencia($this->getAreasReferencia());
+        $copyObj->setFormacionesReferencia($this->getFormacionesReferencia());
+
+        if ($deepCopy) {
+            // important: temporarily setNew(false) because this affects the behavior of
+            // the getter/setter methods for fkey referrer objects.
+            $copyObj->setNew(false);
+
+            foreach ($this->getJobSuscriptors() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addJobSuscriptor($relObj->copy($deepCopy));
+                }
+            }
+
+        } // if ($deepCopy)
+
         if ($makeNew) {
             $copyObj->setNew(true);
         }
@@ -962,6 +1196,265 @@ abstract class TmpFormacion implements ActiveRecordInterface
         return $copyObj;
     }
 
+
+    /**
+     * Initializes a collection based on the name of a relation.
+     * Avoids crafting an 'init[$relationName]s' method name
+     * that wouldn't work when StandardEnglishPluralizer is used.
+     *
+     * @param      string $relationName The name of the relation to initialize
+     * @return void
+     */
+    public function initRelation($relationName)
+    {
+        if ('JobSuscriptor' == $relationName) {
+            return $this->initJobSuscriptors();
+        }
+    }
+
+    /**
+     * Clears out the collJobSuscriptors collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addJobSuscriptors()
+     */
+    public function clearJobSuscriptors()
+    {
+        $this->collJobSuscriptors = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collJobSuscriptors collection loaded partially.
+     */
+    public function resetPartialJobSuscriptors($v = true)
+    {
+        $this->collJobSuscriptorsPartial = $v;
+    }
+
+    /**
+     * Initializes the collJobSuscriptors collection.
+     *
+     * By default this just sets the collJobSuscriptors collection to an empty array (like clearcollJobSuscriptors());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initJobSuscriptors($overrideExisting = true)
+    {
+        if (null !== $this->collJobSuscriptors && !$overrideExisting) {
+            return;
+        }
+        $this->collJobSuscriptors = new ObjectCollection();
+        $this->collJobSuscriptors->setModel('\JobSuscriptor');
+    }
+
+    /**
+     * Gets an array of ChildJobSuscriptor objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildTmpFormacion is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return ObjectCollection|ChildJobSuscriptor[] List of ChildJobSuscriptor objects
+     * @throws PropelException
+     */
+    public function getJobSuscriptors(Criteria $criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collJobSuscriptorsPartial && !$this->isNew();
+        if (null === $this->collJobSuscriptors || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collJobSuscriptors) {
+                // return empty collection
+                $this->initJobSuscriptors();
+            } else {
+                $collJobSuscriptors = ChildJobSuscriptorQuery::create(null, $criteria)
+                    ->filterByTmpFormacion($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collJobSuscriptorsPartial && count($collJobSuscriptors)) {
+                        $this->initJobSuscriptors(false);
+
+                        foreach ($collJobSuscriptors as $obj) {
+                            if (false == $this->collJobSuscriptors->contains($obj)) {
+                                $this->collJobSuscriptors->append($obj);
+                            }
+                        }
+
+                        $this->collJobSuscriptorsPartial = true;
+                    }
+
+                    return $collJobSuscriptors;
+                }
+
+                if ($partial && $this->collJobSuscriptors) {
+                    foreach ($this->collJobSuscriptors as $obj) {
+                        if ($obj->isNew()) {
+                            $collJobSuscriptors[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collJobSuscriptors = $collJobSuscriptors;
+                $this->collJobSuscriptorsPartial = false;
+            }
+        }
+
+        return $this->collJobSuscriptors;
+    }
+
+    /**
+     * Sets a collection of ChildJobSuscriptor objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $jobSuscriptors A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return $this|ChildTmpFormacion The current object (for fluent API support)
+     */
+    public function setJobSuscriptors(Collection $jobSuscriptors, ConnectionInterface $con = null)
+    {
+        /** @var ChildJobSuscriptor[] $jobSuscriptorsToDelete */
+        $jobSuscriptorsToDelete = $this->getJobSuscriptors(new Criteria(), $con)->diff($jobSuscriptors);
+
+        
+        $this->jobSuscriptorsScheduledForDeletion = $jobSuscriptorsToDelete;
+
+        foreach ($jobSuscriptorsToDelete as $jobSuscriptorRemoved) {
+            $jobSuscriptorRemoved->setTmpFormacion(null);
+        }
+
+        $this->collJobSuscriptors = null;
+        foreach ($jobSuscriptors as $jobSuscriptor) {
+            $this->addJobSuscriptor($jobSuscriptor);
+        }
+
+        $this->collJobSuscriptors = $jobSuscriptors;
+        $this->collJobSuscriptorsPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related JobSuscriptor objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related JobSuscriptor objects.
+     * @throws PropelException
+     */
+    public function countJobSuscriptors(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collJobSuscriptorsPartial && !$this->isNew();
+        if (null === $this->collJobSuscriptors || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collJobSuscriptors) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getJobSuscriptors());
+            }
+
+            $query = ChildJobSuscriptorQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByTmpFormacion($this)
+                ->count($con);
+        }
+
+        return count($this->collJobSuscriptors);
+    }
+
+    /**
+     * Method called to associate a ChildJobSuscriptor object to this object
+     * through the ChildJobSuscriptor foreign key attribute.
+     *
+     * @param  ChildJobSuscriptor $l ChildJobSuscriptor
+     * @return $this|\TmpFormacion The current object (for fluent API support)
+     */
+    public function addJobSuscriptor(ChildJobSuscriptor $l)
+    {
+        if ($this->collJobSuscriptors === null) {
+            $this->initJobSuscriptors();
+            $this->collJobSuscriptorsPartial = true;
+        }
+
+        if (!$this->collJobSuscriptors->contains($l)) {
+            $this->doAddJobSuscriptor($l);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ChildJobSuscriptor $jobSuscriptor The ChildJobSuscriptor object to add.
+     */
+    protected function doAddJobSuscriptor(ChildJobSuscriptor $jobSuscriptor)
+    {
+        $this->collJobSuscriptors[]= $jobSuscriptor;
+        $jobSuscriptor->setTmpFormacion($this);
+    }
+
+    /**
+     * @param  ChildJobSuscriptor $jobSuscriptor The ChildJobSuscriptor object to remove.
+     * @return $this|ChildTmpFormacion The current object (for fluent API support)
+     */
+    public function removeJobSuscriptor(ChildJobSuscriptor $jobSuscriptor)
+    {
+        if ($this->getJobSuscriptors()->contains($jobSuscriptor)) {
+            $pos = $this->collJobSuscriptors->search($jobSuscriptor);
+            $this->collJobSuscriptors->remove($pos);
+            if (null === $this->jobSuscriptorsScheduledForDeletion) {
+                $this->jobSuscriptorsScheduledForDeletion = clone $this->collJobSuscriptors;
+                $this->jobSuscriptorsScheduledForDeletion->clear();
+            }
+            $this->jobSuscriptorsScheduledForDeletion[]= clone $jobSuscriptor;
+            $jobSuscriptor->setTmpFormacion(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this TmpFormacion is new, it will return
+     * an empty collection; or if this TmpFormacion has previously
+     * been saved, it will retrieve related JobSuscriptors from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in TmpFormacion.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildJobSuscriptor[] List of ChildJobSuscriptor objects
+     */
+    public function getJobSuscriptorsJoinTmpArea(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildJobSuscriptorQuery::create(null, $criteria);
+        $query->joinWith('TmpArea', $joinBehavior);
+
+        return $this->getJobSuscriptors($query, $con);
+    }
+
     /**
      * Clears the current object, sets all attributes to their default values and removes
      * outgoing references as well as back-references (from other objects to this one. Results probably in a database
@@ -971,6 +1464,9 @@ abstract class TmpFormacion implements ActiveRecordInterface
     {
         $this->id = null;
         $this->nombre = null;
+        $this->keywords = null;
+        $this->areas_referencia = null;
+        $this->formaciones_referencia = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
@@ -989,8 +1485,14 @@ abstract class TmpFormacion implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
+            if ($this->collJobSuscriptors) {
+                foreach ($this->collJobSuscriptors as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
         } // if ($deep)
 
+        $this->collJobSuscriptors = null;
     }
 
     /**

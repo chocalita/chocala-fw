@@ -1,9 +1,7 @@
 <?php
 
 /**
- * This file is part of the Propel package.
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * This file was part of the Propel package and is improved to Chocala to validate entities.
  *
  * @license    MIT License
  */
@@ -17,14 +15,17 @@
  * An array of these objects will be returned by BasePeer::doValidate() if validation
  * failed.
  *
- * @author     Hans Lellelid <hans@xmpl.org>
- * @version    $Revision$
- * @package    propel.runtime.validator
- * @see        BasePeer::doValidate()
+ * @author: ypra
+ * Date: 2/8/2016
+ * Time: 9:09 p.m.
  */
 class ValidationFailed
 {
-    /** Column name in tablename.COLUMN_NAME format */
+
+    /** Column name in ENTITY_NAME format */
+    private $entityName;
+
+    /** Column name in entity.COLUMN_NAME format */
     private $colname;
 
     /** Message to display to user. */
@@ -36,15 +37,37 @@ class ValidationFailed
     /**
      * Construct a new ValidationFailed object.
      *
-     * @param string $colname   Column name.
-     * @param string $message   Message to display to user.
-     * @param object $validator The Validator that caused this column to fail.
+     * @param string $message       Message to display to user.
+     * @param string $colname       Column name.
+     * @param string $entityName    Entity name.
+     * @param object $validator     The Validator that caused this column to fail.
      */
-    public function __construct($colname, $message, $validator = null)
+    public function __construct($message, $colname, $entityName = null, $validator = null)
     {
-        $this->colname = $colname;
         $this->message = $message;
+        $this->colname = $colname;
+        $this->entityName = $entityName;
         $this->validator = $validator;
+    }
+
+    /**
+     * Set the message for the validation failure.
+     *
+     * @param string $v
+     */
+    public function setMessage($v)
+    {
+        $this->message = $v;
+    }
+
+    /**
+     * Gets the message for the validation failure.
+     *
+     * @return string
+     */
+    public function getMessage()
+    {
+        return $this->message;
     }
 
     /**
@@ -68,23 +91,23 @@ class ValidationFailed
     }
 
     /**
-     * Set the message for the validation failure.
+     * Set the entity name.
      *
      * @param string $v
      */
-    public function setMessage($v)
+    public function setEntityName($v)
     {
-        $this->message = $v;
+        $this->entityName = $v;
     }
 
     /**
-     * Gets the message for the validation failure.
+     * Gets the entity name.
      *
      * @return string
      */
-    public function getMessage()
+    public function getEntityName()
     {
-        return $this->message;
+        return $this->entityName;
     }
 
     /**

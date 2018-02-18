@@ -141,6 +141,7 @@ class URI implements ISingleton
 
     private function __construct()
     {
+        //TODO: URL mapping routing
         if(isset($_REQUEST['url'])){
             $nVars = explode(self::SEPARATOR, $_REQUEST['url']);
             foreach($nVars as $nVar){

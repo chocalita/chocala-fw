@@ -23,15 +23,7 @@ use \SysUserXRolQuery as ChildSysUserXRolQuery;
 use \DateTime;
 use \Exception;
 use \PDO;
-use Map\SysEmailSentTableMap;
-use Map\SysEntityUserTableMap;
-use Map\SysImageTableMap;
-use Map\SysPasswordRequestTableMap;
-use Map\SysPasswordTableMap;
-use Map\SysPersonTableMap;
-use Map\SysUserParamTableMap;
 use Map\SysUserTableMap;
-use Map\SysUserXRolTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -49,11 +41,11 @@ use Propel\Runtime\Util\PropelDateTime;
 /**
  * Base class that represents a row from the 'sys_user' table.
  *
- *
+ * 
  *
 * @package    propel.generator..Base
 */
-abstract class SysUser implements ActiveRecordInterface
+abstract class SysUser implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -89,35 +81,30 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * The value for the id field.
-     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the email field.
-     *
      * @var        string
      */
     protected $email;
 
     /**
      * The value for the username field.
-     *
      * @var        string
      */
     protected $username;
 
     /**
      * The value for the password field.
-     *
      * @var        string
      */
     protected $password;
 
     /**
      * The value for the status field.
-     *
      * Note: this column has a database default value of: 'CREATED'
      * @var        string
      */
@@ -125,44 +112,36 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * The value for the location field.
-     *
      * @var        string
      */
     protected $location;
 
     /**
      * The value for the address field.
-     *
      * @var        string
      */
     protected $address;
 
     /**
      * The value for the image_mime field.
-     *
      * @var        string
      */
     protected $image_mime;
 
     /**
      * The value for the actual_access field.
-     *
-     * Note: this column has a database default value of: NULL
      * @var        \DateTime
      */
     protected $actual_access;
 
     /**
      * The value for the last_access field.
-     *
-     * Note: this column has a database default value of: NULL
      * @var        \DateTime
      */
     protected $last_access;
 
     /**
      * The value for the access_failures field.
-     *
      * Note: this column has a database default value of: 0
      * @var        int
      */
@@ -170,7 +149,6 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * The value for the last_user_id field.
-     *
      * Note: this column has a database default value of: 0
      * @var        int
      */
@@ -178,7 +156,6 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * The value for the creation_date field.
-     *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
      * @var        \DateTime
      */
@@ -186,8 +163,6 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * The value for the modification_date field.
-     *
-     * Note: this column has a database default value of: NULL
      * @var        \DateTime
      */
     protected $modification_date;
@@ -305,11 +280,8 @@ abstract class SysUser implements ActiveRecordInterface
     public function applyDefaultValues()
     {
         $this->status = 'CREATED';
-        $this->actual_access = PropelDateTime::newInstance(NULL, null, 'DateTime');
-        $this->last_access = PropelDateTime::newInstance(NULL, null, 'DateTime');
         $this->access_failures = 0;
         $this->last_user_id = 0;
-        $this->modification_date = PropelDateTime::newInstance(NULL, null, 'DateTime');
     }
 
     /**
@@ -528,20 +500,12 @@ abstract class SysUser implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        $cls = new \ReflectionClass($this);
-        $propertyNames = [];
-        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
-
-        foreach($serializableProperties as $property) {
-            $propertyNames[] = $property->getName();
-        }
-
-        return $propertyNames;
+        return array_keys(get_object_vars($this));
     }
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return int
      */
     public function getId()
@@ -551,7 +515,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Get the [email] column value.
-     *
+     * 
      * @return string
      */
     public function getEmail()
@@ -561,7 +525,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Get the [username] column value.
-     *
+     * 
      * @return string
      */
     public function getUsername()
@@ -571,7 +535,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Get the [password] column value.
-     *
+     * 
      * @return string
      */
     public function getPassword()
@@ -581,7 +545,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Get the [status] column value.
-     *
+     * 
      * @return string
      */
     public function getStatus()
@@ -591,7 +555,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Get the [location] column value.
-     *
+     * 
      * @return string
      */
     public function getLocation()
@@ -601,7 +565,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Get the [address] column value.
-     *
+     * 
      * @return string
      */
     public function getAddress()
@@ -611,7 +575,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Get the [image_mime] column value.
-     *
+     * 
      * @return string
      */
     public function getImageMime()
@@ -621,7 +585,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [actual_access] column value.
-     *
+     * 
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -641,7 +605,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [last_access] column value.
-     *
+     * 
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -661,7 +625,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Get the [access_failures] column value.
-     *
+     * 
      * @return int
      */
     public function getAccessFailures()
@@ -671,7 +635,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Get the [last_user_id] column value.
-     *
+     * 
      * @return int
      */
     public function getLastUserId()
@@ -681,7 +645,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [creation_date] column value.
-     *
+     * 
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -701,7 +665,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [modification_date] column value.
-     *
+     * 
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -721,7 +685,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\SysUser The current object (for fluent API support)
      */
@@ -741,7 +705,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Set the value of [email] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysUser The current object (for fluent API support)
      */
@@ -761,7 +725,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Set the value of [username] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysUser The current object (for fluent API support)
      */
@@ -781,7 +745,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Set the value of [password] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysUser The current object (for fluent API support)
      */
@@ -801,7 +765,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Set the value of [status] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysUser The current object (for fluent API support)
      */
@@ -821,7 +785,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Set the value of [location] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysUser The current object (for fluent API support)
      */
@@ -841,7 +805,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Set the value of [address] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysUser The current object (for fluent API support)
      */
@@ -861,7 +825,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Set the value of [image_mime] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysUser The current object (for fluent API support)
      */
@@ -881,7 +845,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Sets the value of [actual_access] column to a normalized version of the date/time value specified.
-     *
+     * 
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysUser The current object (for fluent API support)
@@ -890,9 +854,7 @@ abstract class SysUser implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->actual_access !== null || $dt !== null) {
-            if ( ($dt != $this->actual_access) // normalized values don't match
-                || ($dt->format('Y-m-d H:i:s') === NULL) // or the entered value matches the default
-                 ) {
+            if ($this->actual_access === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->actual_access->format("Y-m-d H:i:s")) {
                 $this->actual_access = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[SysUserTableMap::COL_ACTUAL_ACCESS] = true;
             }
@@ -903,7 +865,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Sets the value of [last_access] column to a normalized version of the date/time value specified.
-     *
+     * 
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysUser The current object (for fluent API support)
@@ -912,9 +874,7 @@ abstract class SysUser implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->last_access !== null || $dt !== null) {
-            if ( ($dt != $this->last_access) // normalized values don't match
-                || ($dt->format('Y-m-d H:i:s') === NULL) // or the entered value matches the default
-                 ) {
+            if ($this->last_access === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->last_access->format("Y-m-d H:i:s")) {
                 $this->last_access = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[SysUserTableMap::COL_LAST_ACCESS] = true;
             }
@@ -925,7 +885,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Set the value of [access_failures] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\SysUser The current object (for fluent API support)
      */
@@ -945,7 +905,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Set the value of [last_user_id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\SysUser The current object (for fluent API support)
      */
@@ -965,7 +925,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
-     *
+     * 
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysUser The current object (for fluent API support)
@@ -985,7 +945,7 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Sets the value of [modification_date] column to a normalized version of the date/time value specified.
-     *
+     * 
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysUser The current object (for fluent API support)
@@ -994,9 +954,7 @@ abstract class SysUser implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->modification_date !== null || $dt !== null) {
-            if ( ($dt != $this->modification_date) // normalized values don't match
-                || ($dt->format('Y-m-d H:i:s') === NULL) // or the entered value matches the default
-                 ) {
+            if ($this->modification_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->modification_date->format("Y-m-d H:i:s")) {
                 $this->modification_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[SysUserTableMap::COL_MODIFICATION_DATE] = true;
             }
@@ -1019,23 +977,11 @@ abstract class SysUser implements ActiveRecordInterface
                 return false;
             }
 
-            if ($this->actual_access && $this->actual_access->format('Y-m-d H:i:s') !== NULL) {
-                return false;
-            }
-
-            if ($this->last_access && $this->last_access->format('Y-m-d H:i:s') !== NULL) {
-                return false;
-            }
-
             if ($this->access_failures !== 0) {
                 return false;
             }
 
             if ($this->last_user_id !== 0) {
-                return false;
-            }
-
-            if ($this->modification_date && $this->modification_date->format('Y-m-d H:i:s') !== NULL) {
                 return false;
             }
 
@@ -1529,46 +1475,46 @@ abstract class SysUser implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':
+                    case 'ID':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'EMAIL':
+                    case 'EMAIL':                        
                         $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
                         break;
-                    case 'USERNAME':
+                    case 'USERNAME':                        
                         $stmt->bindValue($identifier, $this->username, PDO::PARAM_STR);
                         break;
-                    case 'PASSWORD':
+                    case 'PASSWORD':                        
                         $stmt->bindValue($identifier, $this->password, PDO::PARAM_STR);
                         break;
-                    case 'STATUS':
+                    case 'STATUS':                        
                         $stmt->bindValue($identifier, $this->status, PDO::PARAM_STR);
                         break;
-                    case 'LOCATION':
+                    case 'LOCATION':                        
                         $stmt->bindValue($identifier, $this->location, PDO::PARAM_STR);
                         break;
-                    case 'ADDRESS':
+                    case 'ADDRESS':                        
                         $stmt->bindValue($identifier, $this->address, PDO::PARAM_STR);
                         break;
-                    case 'IMAGE_MIME':
+                    case 'IMAGE_MIME':                        
                         $stmt->bindValue($identifier, $this->image_mime, PDO::PARAM_STR);
                         break;
-                    case 'ACTUAL_ACCESS':
+                    case 'ACTUAL_ACCESS':                        
                         $stmt->bindValue($identifier, $this->actual_access ? $this->actual_access->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'LAST_ACCESS':
+                    case 'LAST_ACCESS':                        
                         $stmt->bindValue($identifier, $this->last_access ? $this->last_access->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'ACCESS_FAILURES':
+                    case 'ACCESS_FAILURES':                        
                         $stmt->bindValue($identifier, $this->access_failures, PDO::PARAM_INT);
                         break;
-                    case 'LAST_USER_ID':
+                    case 'LAST_USER_ID':                        
                         $stmt->bindValue($identifier, $this->last_user_id, PDO::PARAM_INT);
                         break;
-                    case 'CREATION_DATE':
+                    case 'CREATION_DATE':                        
                         $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'MODIFICATION_DATE':
+                    case 'MODIFICATION_DATE':                        
                         $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                 }
@@ -1720,30 +1666,40 @@ abstract class SysUser implements ActiveRecordInterface
             $keys[12] => $this->getCreationDate(),
             $keys[13] => $this->getModificationDate(),
         );
+
+        $utc = new \DateTimeZone('utc');
         if ($result[$keys[8]] instanceof \DateTime) {
-            $result[$keys[8]] = $result[$keys[8]]->format('c');
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[8]];
+            $result[$keys[8]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
         }
-
+        
         if ($result[$keys[9]] instanceof \DateTime) {
-            $result[$keys[9]] = $result[$keys[9]]->format('c');
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[9]];
+            $result[$keys[9]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
         }
-
+        
         if ($result[$keys[12]] instanceof \DateTime) {
-            $result[$keys[12]] = $result[$keys[12]]->format('c');
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[12]];
+            $result[$keys[12]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
         }
-
+        
         if ($result[$keys[13]] instanceof \DateTime) {
-            $result[$keys[13]] = $result[$keys[13]]->format('c');
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[13]];
+            $result[$keys[13]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
         }
-
+        
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
         if ($includeForeignObjects) {
             if (null !== $this->collSysEmailSents) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysEmailSents';
@@ -1754,11 +1710,11 @@ abstract class SysUser implements ActiveRecordInterface
                     default:
                         $key = 'SysEmailSents';
                 }
-
+        
                 $result[$key] = $this->collSysEmailSents->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collSysEntityUsers) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysEntityUsers';
@@ -1769,11 +1725,11 @@ abstract class SysUser implements ActiveRecordInterface
                     default:
                         $key = 'SysEntityUsers';
                 }
-
+        
                 $result[$key] = $this->collSysEntityUsers->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collSysImages) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysImages';
@@ -1784,11 +1740,11 @@ abstract class SysUser implements ActiveRecordInterface
                     default:
                         $key = 'SysImages';
                 }
-
+        
                 $result[$key] = $this->collSysImages->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collSysPasswords) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysPasswords';
@@ -1799,11 +1755,11 @@ abstract class SysUser implements ActiveRecordInterface
                     default:
                         $key = 'SysPasswords';
                 }
-
+        
                 $result[$key] = $this->collSysPasswords->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collSysPasswordRequests) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysPasswordRequests';
@@ -1814,11 +1770,11 @@ abstract class SysUser implements ActiveRecordInterface
                     default:
                         $key = 'SysPasswordRequests';
                 }
-
+        
                 $result[$key] = $this->collSysPasswordRequests->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collSyspeople) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'syspeople';
@@ -1829,11 +1785,11 @@ abstract class SysUser implements ActiveRecordInterface
                     default:
                         $key = 'Syspeople';
                 }
-
+        
                 $result[$key] = $this->collSyspeople->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collSysUserParams) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysUserParams';
@@ -1844,11 +1800,11 @@ abstract class SysUser implements ActiveRecordInterface
                     default:
                         $key = 'SysUserParams';
                 }
-
+        
                 $result[$key] = $this->collSysUserParams->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collSysUserXRols) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysUserXRols';
@@ -1859,7 +1815,7 @@ abstract class SysUser implements ActiveRecordInterface
                     default:
                         $key = 'SysUserXRols';
                 }
-
+        
                 $result[$key] = $this->collSysUserXRols->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
@@ -2132,7 +2088,7 @@ abstract class SysUser implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-
+        
     /**
      * Returns the primary key for this object (row).
      * @return int
@@ -2348,10 +2304,7 @@ abstract class SysUser implements ActiveRecordInterface
         if (null !== $this->collSysEmailSents && !$overrideExisting) {
             return;
         }
-
-        $collectionClassName = SysEmailSentTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collSysEmailSents = new $collectionClassName;
+        $this->collSysEmailSents = new ObjectCollection();
         $this->collSysEmailSents->setModel('\SysEmailSent');
     }
 
@@ -2428,7 +2381,7 @@ abstract class SysUser implements ActiveRecordInterface
         /** @var ChildSysEmailSent[] $sysEmailSentsToDelete */
         $sysEmailSentsToDelete = $this->getSysEmailSents(new Criteria(), $con)->diff($sysEmailSents);
 
-
+        
         $this->sysEmailSentsScheduledForDeletion = $sysEmailSentsToDelete;
 
         foreach ($sysEmailSentsToDelete as $sysEmailSentRemoved) {
@@ -2496,10 +2449,6 @@ abstract class SysUser implements ActiveRecordInterface
 
         if (!$this->collSysEmailSents->contains($l)) {
             $this->doAddSysEmailSent($l);
-
-            if ($this->sysEmailSentsScheduledForDeletion and $this->sysEmailSentsScheduledForDeletion->contains($l)) {
-                $this->sysEmailSentsScheduledForDeletion->remove($this->sysEmailSentsScheduledForDeletion->search($l));
-            }
         }
 
         return $this;
@@ -2598,10 +2547,7 @@ abstract class SysUser implements ActiveRecordInterface
         if (null !== $this->collSysEntityUsers && !$overrideExisting) {
             return;
         }
-
-        $collectionClassName = SysEntityUserTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collSysEntityUsers = new $collectionClassName;
+        $this->collSysEntityUsers = new ObjectCollection();
         $this->collSysEntityUsers->setModel('\SysEntityUser');
     }
 
@@ -2678,7 +2624,7 @@ abstract class SysUser implements ActiveRecordInterface
         /** @var ChildSysEntityUser[] $sysEntityUsersToDelete */
         $sysEntityUsersToDelete = $this->getSysEntityUsers(new Criteria(), $con)->diff($sysEntityUsers);
 
-
+        
         $this->sysEntityUsersScheduledForDeletion = $sysEntityUsersToDelete;
 
         foreach ($sysEntityUsersToDelete as $sysEntityUserRemoved) {
@@ -2746,10 +2692,6 @@ abstract class SysUser implements ActiveRecordInterface
 
         if (!$this->collSysEntityUsers->contains($l)) {
             $this->doAddSysEntityUser($l);
-
-            if ($this->sysEntityUsersScheduledForDeletion and $this->sysEntityUsersScheduledForDeletion->contains($l)) {
-                $this->sysEntityUsersScheduledForDeletion->remove($this->sysEntityUsersScheduledForDeletion->search($l));
-            }
         }
 
         return $this;
@@ -2873,10 +2815,7 @@ abstract class SysUser implements ActiveRecordInterface
         if (null !== $this->collSysImages && !$overrideExisting) {
             return;
         }
-
-        $collectionClassName = SysImageTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collSysImages = new $collectionClassName;
+        $this->collSysImages = new ObjectCollection();
         $this->collSysImages->setModel('\SysImage');
     }
 
@@ -2953,7 +2892,7 @@ abstract class SysUser implements ActiveRecordInterface
         /** @var ChildSysImage[] $sysImagesToDelete */
         $sysImagesToDelete = $this->getSysImages(new Criteria(), $con)->diff($sysImages);
 
-
+        
         $this->sysImagesScheduledForDeletion = $sysImagesToDelete;
 
         foreach ($sysImagesToDelete as $sysImageRemoved) {
@@ -3021,10 +2960,6 @@ abstract class SysUser implements ActiveRecordInterface
 
         if (!$this->collSysImages->contains($l)) {
             $this->doAddSysImage($l);
-
-            if ($this->sysImagesScheduledForDeletion and $this->sysImagesScheduledForDeletion->contains($l)) {
-                $this->sysImagesScheduledForDeletion->remove($this->sysImagesScheduledForDeletion->search($l));
-            }
         }
 
         return $this;
@@ -3098,10 +3033,7 @@ abstract class SysUser implements ActiveRecordInterface
         if (null !== $this->collSysPasswords && !$overrideExisting) {
             return;
         }
-
-        $collectionClassName = SysPasswordTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collSysPasswords = new $collectionClassName;
+        $this->collSysPasswords = new ObjectCollection();
         $this->collSysPasswords->setModel('\SysPassword');
     }
 
@@ -3178,7 +3110,7 @@ abstract class SysUser implements ActiveRecordInterface
         /** @var ChildSysPassword[] $sysPasswordsToDelete */
         $sysPasswordsToDelete = $this->getSysPasswords(new Criteria(), $con)->diff($sysPasswords);
 
-
+        
         $this->sysPasswordsScheduledForDeletion = $sysPasswordsToDelete;
 
         foreach ($sysPasswordsToDelete as $sysPasswordRemoved) {
@@ -3246,10 +3178,6 @@ abstract class SysUser implements ActiveRecordInterface
 
         if (!$this->collSysPasswords->contains($l)) {
             $this->doAddSysPassword($l);
-
-            if ($this->sysPasswordsScheduledForDeletion and $this->sysPasswordsScheduledForDeletion->contains($l)) {
-                $this->sysPasswordsScheduledForDeletion->remove($this->sysPasswordsScheduledForDeletion->search($l));
-            }
         }
 
         return $this;
@@ -3348,10 +3276,7 @@ abstract class SysUser implements ActiveRecordInterface
         if (null !== $this->collSysPasswordRequests && !$overrideExisting) {
             return;
         }
-
-        $collectionClassName = SysPasswordRequestTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collSysPasswordRequests = new $collectionClassName;
+        $this->collSysPasswordRequests = new ObjectCollection();
         $this->collSysPasswordRequests->setModel('\SysPasswordRequest');
     }
 
@@ -3428,7 +3353,7 @@ abstract class SysUser implements ActiveRecordInterface
         /** @var ChildSysPasswordRequest[] $sysPasswordRequestsToDelete */
         $sysPasswordRequestsToDelete = $this->getSysPasswordRequests(new Criteria(), $con)->diff($sysPasswordRequests);
 
-
+        
         $this->sysPasswordRequestsScheduledForDeletion = $sysPasswordRequestsToDelete;
 
         foreach ($sysPasswordRequestsToDelete as $sysPasswordRequestRemoved) {
@@ -3496,10 +3421,6 @@ abstract class SysUser implements ActiveRecordInterface
 
         if (!$this->collSysPasswordRequests->contains($l)) {
             $this->doAddSysPasswordRequest($l);
-
-            if ($this->sysPasswordRequestsScheduledForDeletion and $this->sysPasswordRequestsScheduledForDeletion->contains($l)) {
-                $this->sysPasswordRequestsScheduledForDeletion->remove($this->sysPasswordRequestsScheduledForDeletion->search($l));
-            }
         }
 
         return $this;
@@ -3573,10 +3494,7 @@ abstract class SysUser implements ActiveRecordInterface
         if (null !== $this->collSyspeople && !$overrideExisting) {
             return;
         }
-
-        $collectionClassName = SysPersonTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collSyspeople = new $collectionClassName;
+        $this->collSyspeople = new ObjectCollection();
         $this->collSyspeople->setModel('\SysPerson');
     }
 
@@ -3653,7 +3571,7 @@ abstract class SysUser implements ActiveRecordInterface
         /** @var ChildSysPerson[] $syspeopleToDelete */
         $syspeopleToDelete = $this->getSyspeople(new Criteria(), $con)->diff($syspeople);
 
-
+        
         $this->syspeopleScheduledForDeletion = $syspeopleToDelete;
 
         foreach ($syspeopleToDelete as $sysPersonRemoved) {
@@ -3721,10 +3639,6 @@ abstract class SysUser implements ActiveRecordInterface
 
         if (!$this->collSyspeople->contains($l)) {
             $this->doAddSysPerson($l);
-
-            if ($this->syspeopleScheduledForDeletion and $this->syspeopleScheduledForDeletion->contains($l)) {
-                $this->syspeopleScheduledForDeletion->remove($this->syspeopleScheduledForDeletion->search($l));
-            }
         }
 
         return $this;
@@ -3798,10 +3712,7 @@ abstract class SysUser implements ActiveRecordInterface
         if (null !== $this->collSysUserParams && !$overrideExisting) {
             return;
         }
-
-        $collectionClassName = SysUserParamTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collSysUserParams = new $collectionClassName;
+        $this->collSysUserParams = new ObjectCollection();
         $this->collSysUserParams->setModel('\SysUserParam');
     }
 
@@ -3878,7 +3789,7 @@ abstract class SysUser implements ActiveRecordInterface
         /** @var ChildSysUserParam[] $sysUserParamsToDelete */
         $sysUserParamsToDelete = $this->getSysUserParams(new Criteria(), $con)->diff($sysUserParams);
 
-
+        
         $this->sysUserParamsScheduledForDeletion = $sysUserParamsToDelete;
 
         foreach ($sysUserParamsToDelete as $sysUserParamRemoved) {
@@ -3946,10 +3857,6 @@ abstract class SysUser implements ActiveRecordInterface
 
         if (!$this->collSysUserParams->contains($l)) {
             $this->doAddSysUserParam($l);
-
-            if ($this->sysUserParamsScheduledForDeletion and $this->sysUserParamsScheduledForDeletion->contains($l)) {
-                $this->sysUserParamsScheduledForDeletion->remove($this->sysUserParamsScheduledForDeletion->search($l));
-            }
         }
 
         return $this;
@@ -4048,10 +3955,7 @@ abstract class SysUser implements ActiveRecordInterface
         if (null !== $this->collSysUserXRols && !$overrideExisting) {
             return;
         }
-
-        $collectionClassName = SysUserXRolTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collSysUserXRols = new $collectionClassName;
+        $this->collSysUserXRols = new ObjectCollection();
         $this->collSysUserXRols->setModel('\SysUserXRol');
     }
 
@@ -4128,7 +4032,7 @@ abstract class SysUser implements ActiveRecordInterface
         /** @var ChildSysUserXRol[] $sysUserXRolsToDelete */
         $sysUserXRolsToDelete = $this->getSysUserXRols(new Criteria(), $con)->diff($sysUserXRols);
 
-
+        
         //since at least one column in the foreign key is at the same time a PK
         //we can not just set a PK to NULL in the lines below. We have to store
         //a backup of all values, so we are able to manipulate these items based on the onDelete value later.
@@ -4199,10 +4103,6 @@ abstract class SysUser implements ActiveRecordInterface
 
         if (!$this->collSysUserXRols->contains($l)) {
             $this->doAddSysUserXRol($l);
-
-            if ($this->sysUserXRolsScheduledForDeletion and $this->sysUserXRolsScheduledForDeletion->contains($l)) {
-                $this->sysUserXRolsScheduledForDeletion->remove($this->sysUserXRolsScheduledForDeletion->search($l));
-            }
         }
 
         return $this;
