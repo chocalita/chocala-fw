@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'scrap_pagina' table.
  *
- *
+ * 
  *
  * @method     ChildScrapPaginaQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildScrapPaginaQuery orderByDepartamento($order = Criteria::ASC) Order by the DEPARTAMENTO column
@@ -34,19 +34,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildScrapPaginaQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildScrapPaginaQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildScrapPaginaQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
- * @method     ChildScrapPaginaQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
- * @method     ChildScrapPaginaQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
- *
  * @method     ChildScrapPaginaQuery leftJoinScrapEmpresa($relationAlias = null) Adds a LEFT JOIN clause to the query using the ScrapEmpresa relation
  * @method     ChildScrapPaginaQuery rightJoinScrapEmpresa($relationAlias = null) Adds a RIGHT JOIN clause to the query using the ScrapEmpresa relation
  * @method     ChildScrapPaginaQuery innerJoinScrapEmpresa($relationAlias = null) Adds a INNER JOIN clause to the query using the ScrapEmpresa relation
- *
- * @method     ChildScrapPaginaQuery joinWithScrapEmpresa($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the ScrapEmpresa relation
- *
- * @method     ChildScrapPaginaQuery leftJoinWithScrapEmpresa() Adds a LEFT JOIN clause and with to the query using the ScrapEmpresa relation
- * @method     ChildScrapPaginaQuery rightJoinWithScrapEmpresa() Adds a RIGHT JOIN clause and with to the query using the ScrapEmpresa relation
- * @method     ChildScrapPaginaQuery innerJoinWithScrapEmpresa() Adds a INNER JOIN clause and with to the query using the ScrapEmpresa relation
  *
  * @method     \ScrapEmpresaQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -133,7 +123,7 @@ abstract class ScrapPaginaQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = ScrapPaginaTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
+        if ((null !== ($obj = ScrapPaginaTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -165,7 +155,7 @@ abstract class ScrapPaginaQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, DEPARTAMENTO, NUMERO, LEIDO FROM scrap_pagina WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);
+            $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -177,7 +167,7 @@ abstract class ScrapPaginaQuery extends ModelCriteria
             /** @var ChildScrapPagina $obj */
             $obj = new ChildScrapPagina();
             $obj->hydrate($row);
-            ScrapPaginaTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
+            ScrapPaginaTableMap::addInstanceToPool($obj, (string) $key);
         }
         $stmt->closeCursor();
 
@@ -531,9 +521,9 @@ abstract class ScrapPaginaQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-
+            
             ScrapPaginaTableMap::removeInstanceFromPool($criteria);
-
+        
             $affectedRows += ModelCriteria::delete($con);
             ScrapPaginaTableMap::clearRelatedInstancePool();
 

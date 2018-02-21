@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'job_oficio' table.
  *
- *
+ * 
  *
  * @method     ChildJobOficioQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildJobOficioQuery orderByNombre($order = Criteria::ASC) Order by the NOMBRE column
@@ -42,19 +42,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobOficioQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildJobOficioQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildJobOficioQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
- * @method     ChildJobOficioQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
- * @method     ChildJobOficioQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
- *
  * @method     ChildJobOficioQuery leftJoinJobOficioCurriculum($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobOficioCurriculum relation
  * @method     ChildJobOficioQuery rightJoinJobOficioCurriculum($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobOficioCurriculum relation
  * @method     ChildJobOficioQuery innerJoinJobOficioCurriculum($relationAlias = null) Adds a INNER JOIN clause to the query using the JobOficioCurriculum relation
- *
- * @method     ChildJobOficioQuery joinWithJobOficioCurriculum($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobOficioCurriculum relation
- *
- * @method     ChildJobOficioQuery leftJoinWithJobOficioCurriculum() Adds a LEFT JOIN clause and with to the query using the JobOficioCurriculum relation
- * @method     ChildJobOficioQuery rightJoinWithJobOficioCurriculum() Adds a RIGHT JOIN clause and with to the query using the JobOficioCurriculum relation
- * @method     ChildJobOficioQuery innerJoinWithJobOficioCurriculum() Adds a INNER JOIN clause and with to the query using the JobOficioCurriculum relation
  *
  * @method     \JobOficioCurriculumQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -153,7 +143,7 @@ abstract class JobOficioQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = JobOficioTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
+        if ((null !== ($obj = JobOficioTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -185,7 +175,7 @@ abstract class JobOficioQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, NOMBRE, DESCRIPCION, VERIFICADO, STATUS, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM job_oficio WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);
+            $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -197,7 +187,7 @@ abstract class JobOficioQuery extends ModelCriteria
             /** @var ChildJobOficio $obj */
             $obj = new ChildJobOficio();
             $obj->hydrate($row);
-            JobOficioTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
+            JobOficioTableMap::addInstanceToPool($obj, (string) $key);
         }
         $stmt->closeCursor();
 
@@ -695,9 +685,9 @@ abstract class JobOficioQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-
+            
             JobOficioTableMap::removeInstanceFromPool($criteria);
-
+        
             $affectedRows += ModelCriteria::delete($con);
             JobOficioTableMap::clearRelatedInstancePool();
 

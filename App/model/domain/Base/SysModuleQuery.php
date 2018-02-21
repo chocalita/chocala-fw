@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'sys_module' table.
  *
- *
+ * 
  *
  * @method     ChildSysModuleQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysModuleQuery orderByName($order = Criteria::ASC) Order by the NAME column
@@ -40,19 +40,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysModuleQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildSysModuleQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildSysModuleQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
- * @method     ChildSysModuleQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
- * @method     ChildSysModuleQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
- *
  * @method     ChildSysModuleQuery leftJoinSysUri($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysUri relation
  * @method     ChildSysModuleQuery rightJoinSysUri($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysUri relation
  * @method     ChildSysModuleQuery innerJoinSysUri($relationAlias = null) Adds a INNER JOIN clause to the query using the SysUri relation
- *
- * @method     ChildSysModuleQuery joinWithSysUri($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysUri relation
- *
- * @method     ChildSysModuleQuery leftJoinWithSysUri() Adds a LEFT JOIN clause and with to the query using the SysUri relation
- * @method     ChildSysModuleQuery rightJoinWithSysUri() Adds a RIGHT JOIN clause and with to the query using the SysUri relation
- * @method     ChildSysModuleQuery innerJoinWithSysUri() Adds a INNER JOIN clause and with to the query using the SysUri relation
  *
  * @method     \SysUriQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -148,7 +138,7 @@ abstract class SysModuleQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysModuleTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
+        if ((null !== ($obj = SysModuleTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -180,7 +170,7 @@ abstract class SysModuleQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, NAME, URI, ACCESS, POSITION, DESCRIPTION, ICON_CLASS FROM sys_module WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);
+            $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -192,7 +182,7 @@ abstract class SysModuleQuery extends ModelCriteria
             /** @var ChildSysModule $obj */
             $obj = new ChildSysModule();
             $obj->hydrate($row);
-            SysModuleTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
+            SysModuleTableMap::addInstanceToPool($obj, (string) $key);
         }
         $stmt->closeCursor();
 
@@ -635,9 +625,9 @@ abstract class SysModuleQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-
+            
             SysModuleTableMap::removeInstanceFromPool($criteria);
-
+        
             $affectedRows += ModelCriteria::delete($con);
             SysModuleTableMap::clearRelatedInstancePool();
 

@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'sys_user_x_rol' table.
  *
- *
+ * 
  *
  * @method     ChildSysUserXRolQuery orderByUserId($order = Criteria::ASC) Order by the USER_ID column
  * @method     ChildSysUserXRolQuery orderByRolId($order = Criteria::ASC) Order by the ROL_ID column
@@ -30,29 +30,13 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysUserXRolQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildSysUserXRolQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildSysUserXRolQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
- * @method     ChildSysUserXRolQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
- * @method     ChildSysUserXRolQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
- *
  * @method     ChildSysUserXRolQuery leftJoinSysUser($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysUser relation
  * @method     ChildSysUserXRolQuery rightJoinSysUser($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysUser relation
  * @method     ChildSysUserXRolQuery innerJoinSysUser($relationAlias = null) Adds a INNER JOIN clause to the query using the SysUser relation
  *
- * @method     ChildSysUserXRolQuery joinWithSysUser($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysUser relation
- *
- * @method     ChildSysUserXRolQuery leftJoinWithSysUser() Adds a LEFT JOIN clause and with to the query using the SysUser relation
- * @method     ChildSysUserXRolQuery rightJoinWithSysUser() Adds a RIGHT JOIN clause and with to the query using the SysUser relation
- * @method     ChildSysUserXRolQuery innerJoinWithSysUser() Adds a INNER JOIN clause and with to the query using the SysUser relation
- *
  * @method     ChildSysUserXRolQuery leftJoinSysRol($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysRol relation
  * @method     ChildSysUserXRolQuery rightJoinSysRol($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysRol relation
  * @method     ChildSysUserXRolQuery innerJoinSysRol($relationAlias = null) Adds a INNER JOIN clause to the query using the SysRol relation
- *
- * @method     ChildSysUserXRolQuery joinWithSysRol($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysRol relation
- *
- * @method     ChildSysUserXRolQuery leftJoinWithSysRol() Adds a LEFT JOIN clause and with to the query using the SysRol relation
- * @method     ChildSysUserXRolQuery rightJoinWithSysRol() Adds a RIGHT JOIN clause and with to the query using the SysRol relation
- * @method     ChildSysUserXRolQuery innerJoinWithSysRol() Adds a INNER JOIN clause and with to the query using the SysRol relation
  *
  * @method     \SysUserQuery|\SysRolQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -133,7 +117,7 @@ abstract class SysUserXRolQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysUserXRolTableMap::getInstanceFromPool(serialize([(null === $key[0] || is_scalar($key[0]) || is_callable([$key[0], '__toString']) ? (string) $key[0] : $key[0]), (null === $key[1] || is_scalar($key[1]) || is_callable([$key[1], '__toString']) ? (string) $key[1] : $key[1])])))) && !$this->formatter) {
+        if ((null !== ($obj = SysUserXRolTableMap::getInstanceFromPool(serialize(array((string) $key[0], (string) $key[1]))))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -165,8 +149,8 @@ abstract class SysUserXRolQuery extends ModelCriteria
     {
         $sql = 'SELECT USER_ID, ROL_ID FROM sys_user_x_rol WHERE USER_ID = :p0 AND ROL_ID = :p1';
         try {
-            $stmt = $con->prepare($sql);
-            $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
+            $stmt = $con->prepare($sql);            
+            $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);            
             $stmt->bindValue(':p1', $key[1], PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -178,7 +162,7 @@ abstract class SysUserXRolQuery extends ModelCriteria
             /** @var ChildSysUserXRol $obj */
             $obj = new ChildSysUserXRol();
             $obj->hydrate($row);
-            SysUserXRolTableMap::addInstanceToPool($obj, serialize([(null === $key[0] || is_scalar($key[0]) || is_callable([$key[0], '__toString']) ? (string) $key[0] : $key[0]), (null === $key[1] || is_scalar($key[1]) || is_callable([$key[1], '__toString']) ? (string) $key[1] : $key[1])]));
+            SysUserXRolTableMap::addInstanceToPool($obj, serialize(array((string) $key[0], (string) $key[1])));
         }
         $stmt->closeCursor();
 
@@ -574,9 +558,9 @@ abstract class SysUserXRolQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-
+            
             SysUserXRolTableMap::removeInstanceFromPool($criteria);
-
+        
             $affectedRows += ModelCriteria::delete($con);
             SysUserXRolTableMap::clearRelatedInstancePool();
 

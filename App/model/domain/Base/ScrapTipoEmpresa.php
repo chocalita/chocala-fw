@@ -8,7 +8,6 @@ use \ScrapTipoEmpresa as ChildScrapTipoEmpresa;
 use \ScrapTipoEmpresaQuery as ChildScrapTipoEmpresaQuery;
 use \Exception;
 use \PDO;
-use Map\ScrapEmpresaTableMap;
 use Map\ScrapTipoEmpresaTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -26,11 +25,11 @@ use Propel\Runtime\Parser\AbstractParser;
 /**
  * Base class that represents a row from the 'scrap_tipo_empresa' table.
  *
- *
+ * 
  *
 * @package    propel.generator..Base
 */
-abstract class ScrapTipoEmpresa implements ActiveRecordInterface
+abstract class ScrapTipoEmpresa implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -66,21 +65,18 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
 
     /**
      * The value for the id field.
-     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the nombre field.
-     *
      * @var        string
      */
     protected $nombre;
 
     /**
      * The value for the descripcion field.
-     *
      * @var        string
      */
     protected $descripcion;
@@ -319,20 +315,12 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        $cls = new \ReflectionClass($this);
-        $propertyNames = [];
-        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
-
-        foreach($serializableProperties as $property) {
-            $propertyNames[] = $property->getName();
-        }
-
-        return $propertyNames;
+        return array_keys(get_object_vars($this));
     }
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return int
      */
     public function getId()
@@ -342,7 +330,7 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
 
     /**
      * Get the [nombre] column value.
-     *
+     * 
      * @return string
      */
     public function getNombre()
@@ -352,7 +340,7 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
 
     /**
      * Get the [descripcion] column value.
-     *
+     * 
      * @return string
      */
     public function getDescripcion()
@@ -362,7 +350,7 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\ScrapTipoEmpresa The current object (for fluent API support)
      */
@@ -382,7 +370,7 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
 
     /**
      * Set the value of [nombre] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\ScrapTipoEmpresa The current object (for fluent API support)
      */
@@ -402,7 +390,7 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
 
     /**
      * Set the value of [descripcion] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\ScrapTipoEmpresa The current object (for fluent API support)
      */
@@ -709,13 +697,13 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':
+                    case 'ID':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'NOMBRE':
+                    case 'NOMBRE':                        
                         $stmt->bindValue($identifier, $this->nombre, PDO::PARAM_STR);
                         break;
-                    case 'DESCRIPCION':
+                    case 'DESCRIPCION':                        
                         $stmt->bindValue($identifier, $this->descripcion, PDO::PARAM_STR);
                         break;
                 }
@@ -827,10 +815,10 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
         if ($includeForeignObjects) {
             if (null !== $this->collScrapEmpresas) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'scrapEmpresas';
@@ -841,7 +829,7 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
                     default:
                         $key = 'ScrapEmpresas';
                 }
-
+        
                 $result[$key] = $this->collScrapEmpresas->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
@@ -1015,7 +1003,7 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-
+        
     /**
      * Returns the primary key for this object (row).
      * @return int
@@ -1157,10 +1145,7 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
         if (null !== $this->collScrapEmpresas && !$overrideExisting) {
             return;
         }
-
-        $collectionClassName = ScrapEmpresaTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collScrapEmpresas = new $collectionClassName;
+        $this->collScrapEmpresas = new ObjectCollection();
         $this->collScrapEmpresas->setModel('\ScrapEmpresa');
     }
 
@@ -1237,7 +1222,7 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
         /** @var ChildScrapEmpresa[] $scrapEmpresasToDelete */
         $scrapEmpresasToDelete = $this->getScrapEmpresas(new Criteria(), $con)->diff($scrapEmpresas);
 
-
+        
         $this->scrapEmpresasScheduledForDeletion = $scrapEmpresasToDelete;
 
         foreach ($scrapEmpresasToDelete as $scrapEmpresaRemoved) {
@@ -1305,10 +1290,6 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
 
         if (!$this->collScrapEmpresas->contains($l)) {
             $this->doAddScrapEmpresa($l);
-
-            if ($this->scrapEmpresasScheduledForDeletion and $this->scrapEmpresasScheduledForDeletion->contains($l)) {
-                $this->scrapEmpresasScheduledForDeletion->remove($this->scrapEmpresasScheduledForDeletion->search($l));
-            }
         }
 
         return $this;

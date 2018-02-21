@@ -25,11 +25,11 @@ use Propel\Runtime\Util\PropelDateTime;
 /**
  * Base class that represents a row from the 'sys_image' table.
  *
- *
+ * 
  *
 * @package    propel.generator..Base
 */
-abstract class SysImage implements ActiveRecordInterface
+abstract class SysImage implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -65,63 +65,54 @@ abstract class SysImage implements ActiveRecordInterface
 
     /**
      * The value for the id field.
-     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the user_id field.
-     *
      * @var        int
      */
     protected $user_id;
 
     /**
      * The value for the title field.
-     *
      * @var        string
      */
     protected $title;
 
     /**
      * The value for the description field.
-     *
      * @var        string
      */
     protected $description;
 
     /**
      * The value for the img_name field.
-     *
      * @var        string
      */
     protected $img_name;
 
     /**
      * The value for the img_type field.
-     *
      * @var        string
      */
     protected $img_type;
 
     /**
      * The value for the img_size field.
-     *
      * @var        int
      */
     protected $img_size;
 
     /**
      * The value for the last_user_id field.
-     *
      * @var        int
      */
     protected $last_user_id;
 
     /**
      * The value for the creation_date field.
-     *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
      * @var        \DateTime
      */
@@ -129,7 +120,6 @@ abstract class SysImage implements ActiveRecordInterface
 
     /**
      * The value for the modification_date field.
-     *
      * @var        \DateTime
      */
     protected $modification_date;
@@ -373,20 +363,12 @@ abstract class SysImage implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        $cls = new \ReflectionClass($this);
-        $propertyNames = [];
-        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
-
-        foreach($serializableProperties as $property) {
-            $propertyNames[] = $property->getName();
-        }
-
-        return $propertyNames;
+        return array_keys(get_object_vars($this));
     }
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return int
      */
     public function getId()
@@ -396,7 +378,7 @@ abstract class SysImage implements ActiveRecordInterface
 
     /**
      * Get the [user_id] column value.
-     *
+     * 
      * @return int
      */
     public function getUserId()
@@ -406,7 +388,7 @@ abstract class SysImage implements ActiveRecordInterface
 
     /**
      * Get the [title] column value.
-     *
+     * 
      * @return string
      */
     public function getTitle()
@@ -416,7 +398,7 @@ abstract class SysImage implements ActiveRecordInterface
 
     /**
      * Get the [description] column value.
-     *
+     * 
      * @return string
      */
     public function getDescription()
@@ -426,7 +408,7 @@ abstract class SysImage implements ActiveRecordInterface
 
     /**
      * Get the [img_name] column value.
-     *
+     * 
      * @return string
      */
     public function getImgName()
@@ -436,7 +418,7 @@ abstract class SysImage implements ActiveRecordInterface
 
     /**
      * Get the [img_type] column value.
-     *
+     * 
      * @return string
      */
     public function getImgType()
@@ -446,7 +428,7 @@ abstract class SysImage implements ActiveRecordInterface
 
     /**
      * Get the [img_size] column value.
-     *
+     * 
      * @return int
      */
     public function getImgSize()
@@ -456,7 +438,7 @@ abstract class SysImage implements ActiveRecordInterface
 
     /**
      * Get the [last_user_id] column value.
-     *
+     * 
      * @return int
      */
     public function getLastUserId()
@@ -466,7 +448,7 @@ abstract class SysImage implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [creation_date] column value.
-     *
+     * 
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -486,7 +468,7 @@ abstract class SysImage implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [modification_date] column value.
-     *
+     * 
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -506,7 +488,7 @@ abstract class SysImage implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\SysImage The current object (for fluent API support)
      */
@@ -526,7 +508,7 @@ abstract class SysImage implements ActiveRecordInterface
 
     /**
      * Set the value of [user_id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\SysImage The current object (for fluent API support)
      */
@@ -550,7 +532,7 @@ abstract class SysImage implements ActiveRecordInterface
 
     /**
      * Set the value of [title] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysImage The current object (for fluent API support)
      */
@@ -570,7 +552,7 @@ abstract class SysImage implements ActiveRecordInterface
 
     /**
      * Set the value of [description] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysImage The current object (for fluent API support)
      */
@@ -590,7 +572,7 @@ abstract class SysImage implements ActiveRecordInterface
 
     /**
      * Set the value of [img_name] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysImage The current object (for fluent API support)
      */
@@ -610,7 +592,7 @@ abstract class SysImage implements ActiveRecordInterface
 
     /**
      * Set the value of [img_type] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysImage The current object (for fluent API support)
      */
@@ -630,7 +612,7 @@ abstract class SysImage implements ActiveRecordInterface
 
     /**
      * Set the value of [img_size] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\SysImage The current object (for fluent API support)
      */
@@ -650,7 +632,7 @@ abstract class SysImage implements ActiveRecordInterface
 
     /**
      * Set the value of [last_user_id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\SysImage The current object (for fluent API support)
      */
@@ -670,7 +652,7 @@ abstract class SysImage implements ActiveRecordInterface
 
     /**
      * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
-     *
+     * 
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysImage The current object (for fluent API support)
@@ -690,7 +672,7 @@ abstract class SysImage implements ActiveRecordInterface
 
     /**
      * Sets the value of [modification_date] column to a normalized version of the date/time value specified.
-     *
+     * 
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysImage The current object (for fluent API support)
@@ -1041,34 +1023,34 @@ abstract class SysImage implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':
+                    case 'ID':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'USER_ID':
+                    case 'USER_ID':                        
                         $stmt->bindValue($identifier, $this->user_id, PDO::PARAM_INT);
                         break;
-                    case 'TITLE':
+                    case 'TITLE':                        
                         $stmt->bindValue($identifier, $this->title, PDO::PARAM_STR);
                         break;
-                    case 'DESCRIPTION':
+                    case 'DESCRIPTION':                        
                         $stmt->bindValue($identifier, $this->description, PDO::PARAM_STR);
                         break;
-                    case 'IMG_NAME':
+                    case 'IMG_NAME':                        
                         $stmt->bindValue($identifier, $this->img_name, PDO::PARAM_STR);
                         break;
-                    case 'IMG_TYPE':
+                    case 'IMG_TYPE':                        
                         $stmt->bindValue($identifier, $this->img_type, PDO::PARAM_STR);
                         break;
-                    case 'IMG_SIZE':
+                    case 'IMG_SIZE':                        
                         $stmt->bindValue($identifier, $this->img_size, PDO::PARAM_INT);
                         break;
-                    case 'LAST_USER_ID':
+                    case 'LAST_USER_ID':                        
                         $stmt->bindValue($identifier, $this->last_user_id, PDO::PARAM_INT);
                         break;
-                    case 'CREATION_DATE':
+                    case 'CREATION_DATE':                        
                         $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'MODIFICATION_DATE':
+                    case 'MODIFICATION_DATE':                        
                         $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                 }
@@ -1204,22 +1186,28 @@ abstract class SysImage implements ActiveRecordInterface
             $keys[8] => $this->getCreationDate(),
             $keys[9] => $this->getModificationDate(),
         );
+
+        $utc = new \DateTimeZone('utc');
         if ($result[$keys[8]] instanceof \DateTime) {
-            $result[$keys[8]] = $result[$keys[8]]->format('c');
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[8]];
+            $result[$keys[8]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
         }
-
+        
         if ($result[$keys[9]] instanceof \DateTime) {
-            $result[$keys[9]] = $result[$keys[9]]->format('c');
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[9]];
+            $result[$keys[9]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
         }
-
+        
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
         if ($includeForeignObjects) {
             if (null !== $this->aSysUser) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysUser';
@@ -1230,7 +1218,7 @@ abstract class SysImage implements ActiveRecordInterface
                     default:
                         $key = 'SysUser';
                 }
-
+        
                 $result[$key] = $this->aSysUser->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
@@ -1467,7 +1455,7 @@ abstract class SysImage implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-
+        
     /**
      * Returns the primary key for this object (row).
      * @return int

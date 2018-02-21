@@ -10,7 +10,6 @@ use \SysUri as ChildSysUri;
 use \SysUriQuery as ChildSysUriQuery;
 use \Exception;
 use \PDO;
-use Map\SysRolXUriTableMap;
 use Map\SysUriTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -28,11 +27,11 @@ use Propel\Runtime\Parser\AbstractParser;
 /**
  * Base class that represents a row from the 'sys_uri' table.
  *
- *
+ * 
  *
 * @package    propel.generator..Base
 */
-abstract class SysUri implements ActiveRecordInterface
+abstract class SysUri implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -68,77 +67,66 @@ abstract class SysUri implements ActiveRecordInterface
 
     /**
      * The value for the id field.
-     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the module_id field.
-     *
      * @var        int
      */
     protected $module_id;
 
     /**
      * The value for the uri field.
-     *
      * @var        string
      */
     protected $uri;
 
     /**
      * The value for the title field.
-     *
      * @var        string
      */
     protected $title;
 
     /**
      * The value for the access field.
-     *
      * @var        string
      */
     protected $access;
 
     /**
      * The value for the type field.
-     *
      * @var        string
      */
     protected $type;
 
     /**
      * The value for the position field.
-     *
      * @var        int
      */
     protected $position;
 
     /**
      * The value for the description field.
-     *
      * @var        string
      */
     protected $description;
 
     /**
      * The value for the icon field.
-     *
      * @var        string
      */
     protected $icon;
 
     /**
      * The value for the mark field.
-     *
      * @var        string
      */
     protected $mark;
 
     /**
      * The value for the after_divisor field.
-     *
      * Note: this column has a database default value of: false
      * @var        boolean
      */
@@ -396,20 +384,12 @@ abstract class SysUri implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        $cls = new \ReflectionClass($this);
-        $propertyNames = [];
-        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
-
-        foreach($serializableProperties as $property) {
-            $propertyNames[] = $property->getName();
-        }
-
-        return $propertyNames;
+        return array_keys(get_object_vars($this));
     }
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return int
      */
     public function getId()
@@ -419,7 +399,7 @@ abstract class SysUri implements ActiveRecordInterface
 
     /**
      * Get the [module_id] column value.
-     *
+     * 
      * @return int
      */
     public function getModuleId()
@@ -429,7 +409,7 @@ abstract class SysUri implements ActiveRecordInterface
 
     /**
      * Get the [uri] column value.
-     *
+     * 
      * @return string
      */
     public function getUri()
@@ -439,7 +419,7 @@ abstract class SysUri implements ActiveRecordInterface
 
     /**
      * Get the [title] column value.
-     *
+     * 
      * @return string
      */
     public function getTitle()
@@ -449,7 +429,7 @@ abstract class SysUri implements ActiveRecordInterface
 
     /**
      * Get the [access] column value.
-     *
+     * 
      * @return string
      */
     public function getAccess()
@@ -459,7 +439,7 @@ abstract class SysUri implements ActiveRecordInterface
 
     /**
      * Get the [type] column value.
-     *
+     * 
      * @return string
      */
     public function getType()
@@ -469,7 +449,7 @@ abstract class SysUri implements ActiveRecordInterface
 
     /**
      * Get the [position] column value.
-     *
+     * 
      * @return int
      */
     public function getPosition()
@@ -479,7 +459,7 @@ abstract class SysUri implements ActiveRecordInterface
 
     /**
      * Get the [description] column value.
-     *
+     * 
      * @return string
      */
     public function getDescription()
@@ -489,7 +469,7 @@ abstract class SysUri implements ActiveRecordInterface
 
     /**
      * Get the [icon] column value.
-     *
+     * 
      * @return string
      */
     public function getIcon()
@@ -499,7 +479,7 @@ abstract class SysUri implements ActiveRecordInterface
 
     /**
      * Get the [mark] column value.
-     *
+     * 
      * @return string
      */
     public function getMark()
@@ -509,7 +489,7 @@ abstract class SysUri implements ActiveRecordInterface
 
     /**
      * Get the [after_divisor] column value.
-     *
+     * 
      * @return boolean
      */
     public function getAfterDivisor()
@@ -519,7 +499,7 @@ abstract class SysUri implements ActiveRecordInterface
 
     /**
      * Get the [after_divisor] column value.
-     *
+     * 
      * @return boolean
      */
     public function isAfterDivisor()
@@ -529,7 +509,7 @@ abstract class SysUri implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\SysUri The current object (for fluent API support)
      */
@@ -549,7 +529,7 @@ abstract class SysUri implements ActiveRecordInterface
 
     /**
      * Set the value of [module_id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\SysUri The current object (for fluent API support)
      */
@@ -573,7 +553,7 @@ abstract class SysUri implements ActiveRecordInterface
 
     /**
      * Set the value of [uri] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysUri The current object (for fluent API support)
      */
@@ -593,7 +573,7 @@ abstract class SysUri implements ActiveRecordInterface
 
     /**
      * Set the value of [title] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysUri The current object (for fluent API support)
      */
@@ -613,7 +593,7 @@ abstract class SysUri implements ActiveRecordInterface
 
     /**
      * Set the value of [access] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysUri The current object (for fluent API support)
      */
@@ -633,7 +613,7 @@ abstract class SysUri implements ActiveRecordInterface
 
     /**
      * Set the value of [type] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysUri The current object (for fluent API support)
      */
@@ -653,7 +633,7 @@ abstract class SysUri implements ActiveRecordInterface
 
     /**
      * Set the value of [position] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\SysUri The current object (for fluent API support)
      */
@@ -673,7 +653,7 @@ abstract class SysUri implements ActiveRecordInterface
 
     /**
      * Set the value of [description] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysUri The current object (for fluent API support)
      */
@@ -693,7 +673,7 @@ abstract class SysUri implements ActiveRecordInterface
 
     /**
      * Set the value of [icon] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysUri The current object (for fluent API support)
      */
@@ -713,7 +693,7 @@ abstract class SysUri implements ActiveRecordInterface
 
     /**
      * Set the value of [mark] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysUri The current object (for fluent API support)
      */
@@ -737,7 +717,7 @@ abstract class SysUri implements ActiveRecordInterface
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     *
+     * 
      * @param  boolean|integer|string $v The new value
      * @return $this|\SysUri The current object (for fluent API support)
      */
@@ -1115,34 +1095,34 @@ abstract class SysUri implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':
+                    case 'ID':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'MODULE_ID':
+                    case 'MODULE_ID':                        
                         $stmt->bindValue($identifier, $this->module_id, PDO::PARAM_INT);
                         break;
-                    case 'URI':
+                    case 'URI':                        
                         $stmt->bindValue($identifier, $this->uri, PDO::PARAM_STR);
                         break;
-                    case 'TITLE':
+                    case 'TITLE':                        
                         $stmt->bindValue($identifier, $this->title, PDO::PARAM_STR);
                         break;
-                    case 'ACCESS':
+                    case 'ACCESS':                        
                         $stmt->bindValue($identifier, $this->access, PDO::PARAM_STR);
                         break;
-                    case 'TYPE':
+                    case 'TYPE':                        
                         $stmt->bindValue($identifier, $this->type, PDO::PARAM_STR);
                         break;
-                    case 'POSITION':
+                    case 'POSITION':                        
                         $stmt->bindValue($identifier, $this->position, PDO::PARAM_INT);
                         break;
-                    case 'DESCRIPTION':
+                    case 'DESCRIPTION':                        
                         $stmt->bindValue($identifier, $this->description, PDO::PARAM_STR);
                         break;
-                    case 'ICON':
+                    case 'ICON':                        
                         $stmt->bindValue($identifier, $this->icon, PDO::PARAM_STR);
                         break;
-                    case 'MARK':
+                    case 'MARK':                        
                         $stmt->bindValue($identifier, $this->mark, PDO::PARAM_STR);
                         break;
                     case 'AFTER_DIVISOR':
@@ -1289,10 +1269,10 @@ abstract class SysUri implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
         if ($includeForeignObjects) {
             if (null !== $this->aSysModule) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysModule';
@@ -1303,11 +1283,11 @@ abstract class SysUri implements ActiveRecordInterface
                     default:
                         $key = 'SysModule';
                 }
-
+        
                 $result[$key] = $this->aSysModule->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->collSysRolXUris) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysRolXUris';
@@ -1318,7 +1298,7 @@ abstract class SysUri implements ActiveRecordInterface
                     default:
                         $key = 'SysRolXUris';
                 }
-
+        
                 $result[$key] = $this->collSysRolXUris->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
@@ -1564,7 +1544,7 @@ abstract class SysUri implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-
+        
     /**
      * Returns the primary key for this object (row).
      * @return int
@@ -1765,10 +1745,7 @@ abstract class SysUri implements ActiveRecordInterface
         if (null !== $this->collSysRolXUris && !$overrideExisting) {
             return;
         }
-
-        $collectionClassName = SysRolXUriTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collSysRolXUris = new $collectionClassName;
+        $this->collSysRolXUris = new ObjectCollection();
         $this->collSysRolXUris->setModel('\SysRolXUri');
     }
 
@@ -1845,7 +1822,7 @@ abstract class SysUri implements ActiveRecordInterface
         /** @var ChildSysRolXUri[] $sysRolXUrisToDelete */
         $sysRolXUrisToDelete = $this->getSysRolXUris(new Criteria(), $con)->diff($sysRolXUris);
 
-
+        
         //since at least one column in the foreign key is at the same time a PK
         //we can not just set a PK to NULL in the lines below. We have to store
         //a backup of all values, so we are able to manipulate these items based on the onDelete value later.
@@ -1916,10 +1893,6 @@ abstract class SysUri implements ActiveRecordInterface
 
         if (!$this->collSysRolXUris->contains($l)) {
             $this->doAddSysRolXUri($l);
-
-            if ($this->sysRolXUrisScheduledForDeletion and $this->sysRolXUrisScheduledForDeletion->contains($l)) {
-                $this->sysRolXUrisScheduledForDeletion->remove($this->sysRolXUrisScheduledForDeletion->search($l));
-            }
         }
 
         return $this;

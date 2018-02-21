@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'scrap_actividad' table.
  *
- *
+ * 
  *
  * @method     ChildScrapActividadQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildScrapActividadQuery orderByCodigo($order = Criteria::ASC) Order by the CODIGO column
@@ -38,19 +38,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildScrapActividadQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildScrapActividadQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildScrapActividadQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
- * @method     ChildScrapActividadQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
- * @method     ChildScrapActividadQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
- *
  * @method     ChildScrapActividadQuery leftJoinScrapEmpresa($relationAlias = null) Adds a LEFT JOIN clause to the query using the ScrapEmpresa relation
  * @method     ChildScrapActividadQuery rightJoinScrapEmpresa($relationAlias = null) Adds a RIGHT JOIN clause to the query using the ScrapEmpresa relation
  * @method     ChildScrapActividadQuery innerJoinScrapEmpresa($relationAlias = null) Adds a INNER JOIN clause to the query using the ScrapEmpresa relation
- *
- * @method     ChildScrapActividadQuery joinWithScrapEmpresa($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the ScrapEmpresa relation
- *
- * @method     ChildScrapActividadQuery leftJoinWithScrapEmpresa() Adds a LEFT JOIN clause and with to the query using the ScrapEmpresa relation
- * @method     ChildScrapActividadQuery rightJoinWithScrapEmpresa() Adds a RIGHT JOIN clause and with to the query using the ScrapEmpresa relation
- * @method     ChildScrapActividadQuery innerJoinWithScrapEmpresa() Adds a INNER JOIN clause and with to the query using the ScrapEmpresa relation
  *
  * @method     \ScrapEmpresaQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -143,7 +133,7 @@ abstract class ScrapActividadQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = ScrapActividadTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
+        if ((null !== ($obj = ScrapActividadTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -175,7 +165,7 @@ abstract class ScrapActividadQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, CODIGO, CODIGO_PRINCIPAL, NIVEL, NOMBRE, DESCRIPCION FROM scrap_actividad WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);
+            $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -187,7 +177,7 @@ abstract class ScrapActividadQuery extends ModelCriteria
             /** @var ChildScrapActividad $obj */
             $obj = new ChildScrapActividad();
             $obj->hydrate($row);
-            ScrapActividadTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
+            ScrapActividadTableMap::addInstanceToPool($obj, (string) $key);
         }
         $stmt->closeCursor();
 
@@ -601,9 +591,9 @@ abstract class ScrapActividadQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-
+            
             ScrapActividadTableMap::removeInstanceFromPool($criteria);
-
+        
             $affectedRows += ModelCriteria::delete($con);
             ScrapActividadTableMap::clearRelatedInstancePool();
 

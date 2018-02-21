@@ -10,8 +10,6 @@ use \JobTipoFormacion as ChildJobTipoFormacion;
 use \JobTipoFormacionQuery as ChildJobTipoFormacionQuery;
 use \Exception;
 use \PDO;
-use Map\JobFormacionAcademicaTableMap;
-use Map\JobProfesionTableMap;
 use Map\JobTipoFormacionTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -29,11 +27,11 @@ use Propel\Runtime\Parser\AbstractParser;
 /**
  * Base class that represents a row from the 'job_tipo_formacion' table.
  *
- *
+ * 
  *
 * @package    propel.generator..Base
 */
-abstract class JobTipoFormacion implements ActiveRecordInterface
+abstract class JobTipoFormacion implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -69,35 +67,30 @@ abstract class JobTipoFormacion implements ActiveRecordInterface
 
     /**
      * The value for the id field.
-     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the codigo field.
-     *
      * @var        string
      */
     protected $codigo;
 
     /**
      * The value for the nivel field.
-     *
      * @var        string
      */
     protected $nivel;
 
     /**
      * The value for the nombre field.
-     *
      * @var        string
      */
     protected $nombre;
 
     /**
      * The value for the descripcion field.
-     *
      * @var        string
      */
     protected $descripcion;
@@ -348,20 +341,12 @@ abstract class JobTipoFormacion implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        $cls = new \ReflectionClass($this);
-        $propertyNames = [];
-        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
-
-        foreach($serializableProperties as $property) {
-            $propertyNames[] = $property->getName();
-        }
-
-        return $propertyNames;
+        return array_keys(get_object_vars($this));
     }
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return int
      */
     public function getId()
@@ -371,7 +356,7 @@ abstract class JobTipoFormacion implements ActiveRecordInterface
 
     /**
      * Get the [codigo] column value.
-     *
+     * 
      * @return string
      */
     public function getCodigo()
@@ -381,7 +366,7 @@ abstract class JobTipoFormacion implements ActiveRecordInterface
 
     /**
      * Get the [nivel] column value.
-     *
+     * 
      * @return string
      */
     public function getNivel()
@@ -391,7 +376,7 @@ abstract class JobTipoFormacion implements ActiveRecordInterface
 
     /**
      * Get the [nombre] column value.
-     *
+     * 
      * @return string
      */
     public function getNombre()
@@ -401,7 +386,7 @@ abstract class JobTipoFormacion implements ActiveRecordInterface
 
     /**
      * Get the [descripcion] column value.
-     *
+     * 
      * @return string
      */
     public function getDescripcion()
@@ -411,7 +396,7 @@ abstract class JobTipoFormacion implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\JobTipoFormacion The current object (for fluent API support)
      */
@@ -431,7 +416,7 @@ abstract class JobTipoFormacion implements ActiveRecordInterface
 
     /**
      * Set the value of [codigo] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\JobTipoFormacion The current object (for fluent API support)
      */
@@ -451,7 +436,7 @@ abstract class JobTipoFormacion implements ActiveRecordInterface
 
     /**
      * Set the value of [nivel] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\JobTipoFormacion The current object (for fluent API support)
      */
@@ -471,7 +456,7 @@ abstract class JobTipoFormacion implements ActiveRecordInterface
 
     /**
      * Set the value of [nombre] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\JobTipoFormacion The current object (for fluent API support)
      */
@@ -491,7 +476,7 @@ abstract class JobTipoFormacion implements ActiveRecordInterface
 
     /**
      * Set the value of [descripcion] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\JobTipoFormacion The current object (for fluent API support)
      */
@@ -828,19 +813,19 @@ abstract class JobTipoFormacion implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':
+                    case 'ID':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'CODIGO':
+                    case 'CODIGO':                        
                         $stmt->bindValue($identifier, $this->codigo, PDO::PARAM_STR);
                         break;
-                    case 'NIVEL':
+                    case 'NIVEL':                        
                         $stmt->bindValue($identifier, $this->nivel, PDO::PARAM_STR);
                         break;
-                    case 'NOMBRE':
+                    case 'NOMBRE':                        
                         $stmt->bindValue($identifier, $this->nombre, PDO::PARAM_STR);
                         break;
-                    case 'DESCRIPCION':
+                    case 'DESCRIPCION':                        
                         $stmt->bindValue($identifier, $this->descripcion, PDO::PARAM_STR);
                         break;
                 }
@@ -960,10 +945,10 @@ abstract class JobTipoFormacion implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
         if ($includeForeignObjects) {
             if (null !== $this->collJobFormacionAcademicas) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'jobFormacionAcademicas';
@@ -974,11 +959,11 @@ abstract class JobTipoFormacion implements ActiveRecordInterface
                     default:
                         $key = 'JobFormacionAcademicas';
                 }
-
+        
                 $result[$key] = $this->collJobFormacionAcademicas->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collJobProfesions) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'jobProfesions';
@@ -989,7 +974,7 @@ abstract class JobTipoFormacion implements ActiveRecordInterface
                     default:
                         $key = 'JobProfesions';
                 }
-
+        
                 $result[$key] = $this->collJobProfesions->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
@@ -1181,7 +1166,7 @@ abstract class JobTipoFormacion implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-
+        
     /**
      * Returns the primary key for this object (row).
      * @return int
@@ -1334,10 +1319,7 @@ abstract class JobTipoFormacion implements ActiveRecordInterface
         if (null !== $this->collJobFormacionAcademicas && !$overrideExisting) {
             return;
         }
-
-        $collectionClassName = JobFormacionAcademicaTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collJobFormacionAcademicas = new $collectionClassName;
+        $this->collJobFormacionAcademicas = new ObjectCollection();
         $this->collJobFormacionAcademicas->setModel('\JobFormacionAcademica');
     }
 
@@ -1414,7 +1396,7 @@ abstract class JobTipoFormacion implements ActiveRecordInterface
         /** @var ChildJobFormacionAcademica[] $jobFormacionAcademicasToDelete */
         $jobFormacionAcademicasToDelete = $this->getJobFormacionAcademicas(new Criteria(), $con)->diff($jobFormacionAcademicas);
 
-
+        
         $this->jobFormacionAcademicasScheduledForDeletion = $jobFormacionAcademicasToDelete;
 
         foreach ($jobFormacionAcademicasToDelete as $jobFormacionAcademicaRemoved) {
@@ -1482,10 +1464,6 @@ abstract class JobTipoFormacion implements ActiveRecordInterface
 
         if (!$this->collJobFormacionAcademicas->contains($l)) {
             $this->doAddJobFormacionAcademica($l);
-
-            if ($this->jobFormacionAcademicasScheduledForDeletion and $this->jobFormacionAcademicasScheduledForDeletion->contains($l)) {
-                $this->jobFormacionAcademicasScheduledForDeletion->remove($this->jobFormacionAcademicasScheduledForDeletion->search($l));
-            }
         }
 
         return $this;
@@ -1609,10 +1587,7 @@ abstract class JobTipoFormacion implements ActiveRecordInterface
         if (null !== $this->collJobProfesions && !$overrideExisting) {
             return;
         }
-
-        $collectionClassName = JobProfesionTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collJobProfesions = new $collectionClassName;
+        $this->collJobProfesions = new ObjectCollection();
         $this->collJobProfesions->setModel('\JobProfesion');
     }
 
@@ -1689,7 +1664,7 @@ abstract class JobTipoFormacion implements ActiveRecordInterface
         /** @var ChildJobProfesion[] $jobProfesionsToDelete */
         $jobProfesionsToDelete = $this->getJobProfesions(new Criteria(), $con)->diff($jobProfesions);
 
-
+        
         $this->jobProfesionsScheduledForDeletion = $jobProfesionsToDelete;
 
         foreach ($jobProfesionsToDelete as $jobProfesionRemoved) {
@@ -1757,10 +1732,6 @@ abstract class JobTipoFormacion implements ActiveRecordInterface
 
         if (!$this->collJobProfesions->contains($l)) {
             $this->doAddJobProfesion($l);
-
-            if ($this->jobProfesionsScheduledForDeletion and $this->jobProfesionsScheduledForDeletion->contains($l)) {
-                $this->jobProfesionsScheduledForDeletion->remove($this->jobProfesionsScheduledForDeletion->search($l));
-            }
         }
 
         return $this;

@@ -17,7 +17,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'tmp_prospecto' table.
  *
- *
+ * 
  *
  * @method     ChildTmpProspectoQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildTmpProspectoQuery orderByPrimerApellido($order = Criteria::ASC) Order by the primer_apellido column
@@ -56,10 +56,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildTmpProspectoQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildTmpProspectoQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildTmpProspectoQuery innerJoin($relation) Adds a INNER JOIN clause to the query
- *
- * @method     ChildTmpProspectoQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
- * @method     ChildTmpProspectoQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
- * @method     ChildTmpProspectoQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
  * @method     ChildTmpProspecto findOne(ConnectionInterface $con = null) Return the first ChildTmpProspecto matching the query
  * @method     ChildTmpProspecto findOneOrCreate(ConnectionInterface $con = null) Return the first ChildTmpProspecto matching the query, or a new ChildTmpProspecto object populated from the query conditions when no match is found
@@ -180,7 +176,7 @@ abstract class TmpProspectoQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = TmpProspectoTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
+        if ((null !== ($obj = TmpProspectoTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -212,7 +208,7 @@ abstract class TmpProspectoQuery extends ModelCriteria
     {
         $sql = 'SELECT id, primer_apellido, segundo_apellido, nombres, fecha_nacimiento, ci, extension_ci, sexo, pais, residencia, direccion, celular, email, salario, areas, formaciones FROM tmp_prospecto WHERE id = :p0';
         try {
-            $stmt = $con->prepare($sql);
+            $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -224,7 +220,7 @@ abstract class TmpProspectoQuery extends ModelCriteria
             /** @var ChildTmpProspecto $obj */
             $obj = new ChildTmpProspecto();
             $obj->hydrate($row);
-            TmpProspectoTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
+            TmpProspectoTableMap::addInstanceToPool($obj, (string) $key);
         }
         $stmt->closeCursor();
 
@@ -869,9 +865,9 @@ abstract class TmpProspectoQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-
+            
             TmpProspectoTableMap::removeInstanceFromPool($criteria);
-
+        
             $affectedRows += ModelCriteria::delete($con);
             TmpProspectoTableMap::clearRelatedInstancePool();
 
