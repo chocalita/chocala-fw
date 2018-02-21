@@ -27,11 +27,11 @@ use Propel\Runtime\Parser\AbstractParser;
 /**
  * Base class that represents a row from the 'scrap_empresa' table.
  *
- *
+ * 
  *
 * @package    propel.generator..Base
 */
-abstract class ScrapEmpresa implements ActiveRecordInterface
+abstract class ScrapEmpresa implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -67,70 +67,60 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * The value for the id field.
-     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the id_pagina field.
-     *
      * @var        int
      */
     protected $id_pagina;
 
     /**
      * The value for the id_actividad field.
-     *
      * @var        int
      */
     protected $id_actividad;
 
     /**
      * The value for the id_tipo_empresa field.
-     *
      * @var        int
      */
     protected $id_tipo_empresa;
 
     /**
      * The value for the id_empresa field.
-     *
      * @var        string
      */
     protected $id_empresa;
 
     /**
      * The value for the nit field.
-     *
      * @var        string
      */
     protected $nit;
 
     /**
      * The value for the nombre field.
-     *
      * @var        string
      */
     protected $nombre;
 
     /**
      * The value for the email field.
-     *
      * @var        string
      */
     protected $email;
 
     /**
      * The value for the actividad field.
-     *
      * @var        string
      */
     protected $actividad;
 
     /**
      * The value for the leido field.
-     *
      * Note: this column has a database default value of: false
      * @var        boolean
      */
@@ -138,42 +128,36 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * The value for the matricula field.
-     *
      * @var        string
      */
     protected $matricula;
 
     /**
      * The value for the licencia field.
-     *
      * @var        string
      */
     protected $licencia;
 
     /**
      * The value for the municipio field.
-     *
      * @var        string
      */
     protected $municipio;
 
     /**
      * The value for the direccion field.
-     *
      * @var        string
      */
     protected $direccion;
 
     /**
      * The value for the telefono field.
-     *
      * @var        string
      */
     protected $telefono;
 
     /**
      * The value for the fax field.
-     *
      * @var        string
      */
     protected $fax;
@@ -428,20 +412,12 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        $cls = new \ReflectionClass($this);
-        $propertyNames = [];
-        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
-
-        foreach($serializableProperties as $property) {
-            $propertyNames[] = $property->getName();
-        }
-
-        return $propertyNames;
+        return array_keys(get_object_vars($this));
     }
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return int
      */
     public function getId()
@@ -451,7 +427,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Get the [id_pagina] column value.
-     *
+     * 
      * @return int
      */
     public function getIdPagina()
@@ -461,7 +437,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Get the [id_actividad] column value.
-     *
+     * 
      * @return int
      */
     public function getIdActividad()
@@ -471,7 +447,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Get the [id_tipo_empresa] column value.
-     *
+     * 
      * @return int
      */
     public function getIdTipoEmpresa()
@@ -481,7 +457,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Get the [id_empresa] column value.
-     *
+     * 
      * @return string
      */
     public function getIdEmpresa()
@@ -491,7 +467,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Get the [nit] column value.
-     *
+     * 
      * @return string
      */
     public function getNit()
@@ -501,7 +477,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Get the [nombre] column value.
-     *
+     * 
      * @return string
      */
     public function getNombre()
@@ -511,7 +487,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Get the [email] column value.
-     *
+     * 
      * @return string
      */
     public function getEmail()
@@ -521,7 +497,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Get the [actividad] column value.
-     *
+     * 
      * @return string
      */
     public function getActividad()
@@ -531,7 +507,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Get the [leido] column value.
-     *
+     * 
      * @return boolean
      */
     public function getLeido()
@@ -541,7 +517,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Get the [leido] column value.
-     *
+     * 
      * @return boolean
      */
     public function isLeido()
@@ -551,7 +527,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Get the [matricula] column value.
-     *
+     * 
      * @return string
      */
     public function getMatricula()
@@ -561,7 +537,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Get the [licencia] column value.
-     *
+     * 
      * @return string
      */
     public function getLicencia()
@@ -571,7 +547,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Get the [municipio] column value.
-     *
+     * 
      * @return string
      */
     public function getMunicipio()
@@ -581,7 +557,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Get the [direccion] column value.
-     *
+     * 
      * @return string
      */
     public function getDireccion()
@@ -591,7 +567,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Get the [telefono] column value.
-     *
+     * 
      * @return string
      */
     public function getTelefono()
@@ -601,7 +577,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Get the [fax] column value.
-     *
+     * 
      * @return string
      */
     public function getFax()
@@ -611,7 +587,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\ScrapEmpresa The current object (for fluent API support)
      */
@@ -631,7 +607,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Set the value of [id_pagina] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\ScrapEmpresa The current object (for fluent API support)
      */
@@ -655,7 +631,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Set the value of [id_actividad] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\ScrapEmpresa The current object (for fluent API support)
      */
@@ -679,7 +655,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Set the value of [id_tipo_empresa] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\ScrapEmpresa The current object (for fluent API support)
      */
@@ -703,7 +679,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Set the value of [id_empresa] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\ScrapEmpresa The current object (for fluent API support)
      */
@@ -723,7 +699,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Set the value of [nit] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\ScrapEmpresa The current object (for fluent API support)
      */
@@ -743,7 +719,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Set the value of [nombre] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\ScrapEmpresa The current object (for fluent API support)
      */
@@ -763,7 +739,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Set the value of [email] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\ScrapEmpresa The current object (for fluent API support)
      */
@@ -783,7 +759,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Set the value of [actividad] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\ScrapEmpresa The current object (for fluent API support)
      */
@@ -807,7 +783,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     *
+     * 
      * @param  boolean|integer|string $v The new value
      * @return $this|\ScrapEmpresa The current object (for fluent API support)
      */
@@ -831,7 +807,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Set the value of [matricula] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\ScrapEmpresa The current object (for fluent API support)
      */
@@ -851,7 +827,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Set the value of [licencia] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\ScrapEmpresa The current object (for fluent API support)
      */
@@ -871,7 +847,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Set the value of [municipio] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\ScrapEmpresa The current object (for fluent API support)
      */
@@ -891,7 +867,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Set the value of [direccion] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\ScrapEmpresa The current object (for fluent API support)
      */
@@ -911,7 +887,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Set the value of [telefono] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\ScrapEmpresa The current object (for fluent API support)
      */
@@ -931,7 +907,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
     /**
      * Set the value of [fax] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\ScrapEmpresa The current object (for fluent API support)
      */
@@ -1338,52 +1314,52 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':
+                    case 'ID':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'ID_PAGINA':
+                    case 'ID_PAGINA':                        
                         $stmt->bindValue($identifier, $this->id_pagina, PDO::PARAM_INT);
                         break;
-                    case 'ID_ACTIVIDAD':
+                    case 'ID_ACTIVIDAD':                        
                         $stmt->bindValue($identifier, $this->id_actividad, PDO::PARAM_INT);
                         break;
-                    case 'ID_TIPO_EMPRESA':
+                    case 'ID_TIPO_EMPRESA':                        
                         $stmt->bindValue($identifier, $this->id_tipo_empresa, PDO::PARAM_INT);
                         break;
-                    case 'ID_EMPRESA':
+                    case 'ID_EMPRESA':                        
                         $stmt->bindValue($identifier, $this->id_empresa, PDO::PARAM_STR);
                         break;
-                    case 'NIT':
+                    case 'NIT':                        
                         $stmt->bindValue($identifier, $this->nit, PDO::PARAM_STR);
                         break;
-                    case 'NOMBRE':
+                    case 'NOMBRE':                        
                         $stmt->bindValue($identifier, $this->nombre, PDO::PARAM_STR);
                         break;
-                    case 'EMAIL':
+                    case 'EMAIL':                        
                         $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
                         break;
-                    case 'ACTIVIDAD':
+                    case 'ACTIVIDAD':                        
                         $stmt->bindValue($identifier, $this->actividad, PDO::PARAM_STR);
                         break;
                     case 'LEIDO':
                         $stmt->bindValue($identifier, (int) $this->leido, PDO::PARAM_INT);
                         break;
-                    case 'MATRICULA':
+                    case 'MATRICULA':                        
                         $stmt->bindValue($identifier, $this->matricula, PDO::PARAM_STR);
                         break;
-                    case 'LICENCIA':
+                    case 'LICENCIA':                        
                         $stmt->bindValue($identifier, $this->licencia, PDO::PARAM_STR);
                         break;
-                    case 'MUNICIPIO':
+                    case 'MUNICIPIO':                        
                         $stmt->bindValue($identifier, $this->municipio, PDO::PARAM_STR);
                         break;
-                    case 'DIRECCION':
+                    case 'DIRECCION':                        
                         $stmt->bindValue($identifier, $this->direccion, PDO::PARAM_STR);
                         break;
-                    case 'TELEFONO':
+                    case 'TELEFONO':                        
                         $stmt->bindValue($identifier, $this->telefono, PDO::PARAM_STR);
                         break;
-                    case 'FAX':
+                    case 'FAX':                        
                         $stmt->bindValue($identifier, $this->fax, PDO::PARAM_STR);
                         break;
                 }
@@ -1547,10 +1523,10 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
         if ($includeForeignObjects) {
             if (null !== $this->aScrapActividad) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'scrapActividad';
@@ -1561,11 +1537,11 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
                     default:
                         $key = 'ScrapActividad';
                 }
-
+        
                 $result[$key] = $this->aScrapActividad->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aScrapTipoEmpresa) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'scrapTipoEmpresa';
@@ -1576,11 +1552,11 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
                     default:
                         $key = 'ScrapTipoEmpresa';
                 }
-
+        
                 $result[$key] = $this->aScrapTipoEmpresa->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aScrapPagina) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'scrapPagina';
@@ -1591,7 +1567,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
                     default:
                         $key = 'ScrapPagina';
                 }
-
+        
                 $result[$key] = $this->aScrapPagina->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
@@ -1882,7 +1858,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-
+        
     /**
      * Returns the primary key for this object (row).
      * @return int

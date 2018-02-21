@@ -201,7 +201,7 @@ class JobAreaTecnicaProfesionTableMap extends TableMap
     {
         if (Propel::isInstancePoolingEnabled()) {
             if (null === $key) {
-                $key = serialize([(null === $obj->getIdAreaTecnica() || is_scalar($obj->getIdAreaTecnica()) || is_callable([$obj->getIdAreaTecnica(), '__toString']) ? (string) $obj->getIdAreaTecnica() : $obj->getIdAreaTecnica()), (null === $obj->getIdProfesion() || is_scalar($obj->getIdProfesion()) || is_callable([$obj->getIdProfesion(), '__toString']) ? (string) $obj->getIdProfesion() : $obj->getIdProfesion())]);
+                $key = serialize(array((string) $obj->getIdAreaTecnica(), (string) $obj->getIdProfesion()));
             } // if key === null
             self::$instances[$key] = $obj;
         }
@@ -221,11 +221,11 @@ class JobAreaTecnicaProfesionTableMap extends TableMap
     {
         if (Propel::isInstancePoolingEnabled() && null !== $value) {
             if (is_object($value) && $value instanceof \JobAreaTecnicaProfesion) {
-                $key = serialize([(null === $value->getIdAreaTecnica() || is_scalar($value->getIdAreaTecnica()) || is_callable([$value->getIdAreaTecnica(), '__toString']) ? (string) $value->getIdAreaTecnica() : $value->getIdAreaTecnica()), (null === $value->getIdProfesion() || is_scalar($value->getIdProfesion()) || is_callable([$value->getIdProfesion(), '__toString']) ? (string) $value->getIdProfesion() : $value->getIdProfesion())]);
+                $key = serialize(array((string) $value->getIdAreaTecnica(), (string) $value->getIdProfesion()));
 
             } elseif (is_array($value) && count($value) === 2) {
                 // assume we've been passed a primary key";
-                $key = serialize([(null === $value[0] || is_scalar($value[0]) || is_callable([$value[0], '__toString']) ? (string) $value[0] : $value[0]), (null === $value[1] || is_scalar($value[1]) || is_callable([$value[1], '__toString']) ? (string) $value[1] : $value[1])]);
+                $key = serialize(array((string) $value[0], (string) $value[1]));
             } elseif ($value instanceof Criteria) {
                 self::$instances = [];
 
@@ -259,7 +259,7 @@ class JobAreaTecnicaProfesionTableMap extends TableMap
             return null;
         }
 
-        return serialize([(null === $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('IdAreaTecnica', TableMap::TYPE_PHPNAME, $indexType)] || is_scalar($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('IdAreaTecnica', TableMap::TYPE_PHPNAME, $indexType)]) || is_callable([$row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('IdAreaTecnica', TableMap::TYPE_PHPNAME, $indexType)], '__toString']) ? (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('IdAreaTecnica', TableMap::TYPE_PHPNAME, $indexType)] : $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('IdAreaTecnica', TableMap::TYPE_PHPNAME, $indexType)]), (null === $row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('IdProfesion', TableMap::TYPE_PHPNAME, $indexType)] || is_scalar($row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('IdProfesion', TableMap::TYPE_PHPNAME, $indexType)]) || is_callable([$row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('IdProfesion', TableMap::TYPE_PHPNAME, $indexType)], '__toString']) ? (string) $row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('IdProfesion', TableMap::TYPE_PHPNAME, $indexType)] : $row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('IdProfesion', TableMap::TYPE_PHPNAME, $indexType)])]);
+        return serialize(array((string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('IdAreaTecnica', TableMap::TYPE_PHPNAME, $indexType)], (string) $row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('IdProfesion', TableMap::TYPE_PHPNAME, $indexType)]));
     }
 
     /**
@@ -277,7 +277,7 @@ class JobAreaTecnicaProfesionTableMap extends TableMap
     public static function getPrimaryKeyFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
             $pks = [];
-
+            
         $pks[] = (int) $row[
             $indexType == TableMap::TYPE_NUM
                 ? 0 + $offset
@@ -291,7 +291,7 @@ class JobAreaTecnicaProfesionTableMap extends TableMap
 
         return $pks;
     }
-
+    
     /**
      * The class that the tableMap will make instances of.
      *
@@ -352,7 +352,7 @@ class JobAreaTecnicaProfesionTableMap extends TableMap
     public static function populateObjects(DataFetcherInterface $dataFetcher)
     {
         $results = array();
-
+    
         // set the class once to avoid overhead in the loop
         $cls = static::getOMClass(false);
         // populate the object(s)

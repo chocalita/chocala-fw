@@ -201,7 +201,7 @@ class JobAreaRelacionadaTableMap extends TableMap
     {
         if (Propel::isInstancePoolingEnabled()) {
             if (null === $key) {
-                $key = serialize([(null === $obj->getIdArea1() || is_scalar($obj->getIdArea1()) || is_callable([$obj->getIdArea1(), '__toString']) ? (string) $obj->getIdArea1() : $obj->getIdArea1()), (null === $obj->getIdArea2() || is_scalar($obj->getIdArea2()) || is_callable([$obj->getIdArea2(), '__toString']) ? (string) $obj->getIdArea2() : $obj->getIdArea2())]);
+                $key = serialize(array((string) $obj->getIdArea1(), (string) $obj->getIdArea2()));
             } // if key === null
             self::$instances[$key] = $obj;
         }
@@ -221,11 +221,11 @@ class JobAreaRelacionadaTableMap extends TableMap
     {
         if (Propel::isInstancePoolingEnabled() && null !== $value) {
             if (is_object($value) && $value instanceof \JobAreaRelacionada) {
-                $key = serialize([(null === $value->getIdArea1() || is_scalar($value->getIdArea1()) || is_callable([$value->getIdArea1(), '__toString']) ? (string) $value->getIdArea1() : $value->getIdArea1()), (null === $value->getIdArea2() || is_scalar($value->getIdArea2()) || is_callable([$value->getIdArea2(), '__toString']) ? (string) $value->getIdArea2() : $value->getIdArea2())]);
+                $key = serialize(array((string) $value->getIdArea1(), (string) $value->getIdArea2()));
 
             } elseif (is_array($value) && count($value) === 2) {
                 // assume we've been passed a primary key";
-                $key = serialize([(null === $value[0] || is_scalar($value[0]) || is_callable([$value[0], '__toString']) ? (string) $value[0] : $value[0]), (null === $value[1] || is_scalar($value[1]) || is_callable([$value[1], '__toString']) ? (string) $value[1] : $value[1])]);
+                $key = serialize(array((string) $value[0], (string) $value[1]));
             } elseif ($value instanceof Criteria) {
                 self::$instances = [];
 
@@ -259,7 +259,7 @@ class JobAreaRelacionadaTableMap extends TableMap
             return null;
         }
 
-        return serialize([(null === $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('IdArea1', TableMap::TYPE_PHPNAME, $indexType)] || is_scalar($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('IdArea1', TableMap::TYPE_PHPNAME, $indexType)]) || is_callable([$row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('IdArea1', TableMap::TYPE_PHPNAME, $indexType)], '__toString']) ? (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('IdArea1', TableMap::TYPE_PHPNAME, $indexType)] : $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('IdArea1', TableMap::TYPE_PHPNAME, $indexType)]), (null === $row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('IdArea2', TableMap::TYPE_PHPNAME, $indexType)] || is_scalar($row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('IdArea2', TableMap::TYPE_PHPNAME, $indexType)]) || is_callable([$row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('IdArea2', TableMap::TYPE_PHPNAME, $indexType)], '__toString']) ? (string) $row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('IdArea2', TableMap::TYPE_PHPNAME, $indexType)] : $row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('IdArea2', TableMap::TYPE_PHPNAME, $indexType)])]);
+        return serialize(array((string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('IdArea1', TableMap::TYPE_PHPNAME, $indexType)], (string) $row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('IdArea2', TableMap::TYPE_PHPNAME, $indexType)]));
     }
 
     /**
@@ -277,7 +277,7 @@ class JobAreaRelacionadaTableMap extends TableMap
     public static function getPrimaryKeyFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
             $pks = [];
-
+            
         $pks[] = (int) $row[
             $indexType == TableMap::TYPE_NUM
                 ? 0 + $offset
@@ -291,7 +291,7 @@ class JobAreaRelacionadaTableMap extends TableMap
 
         return $pks;
     }
-
+    
     /**
      * The class that the tableMap will make instances of.
      *
@@ -352,7 +352,7 @@ class JobAreaRelacionadaTableMap extends TableMap
     public static function populateObjects(DataFetcherInterface $dataFetcher)
     {
         $results = array();
-
+    
         // set the class once to avoid overhead in the loop
         $cls = static::getOMClass(false);
         // populate the object(s)

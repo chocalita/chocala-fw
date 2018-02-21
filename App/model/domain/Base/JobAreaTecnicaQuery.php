@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'job_area_tecnica' table.
  *
- *
+ * 
  *
  * @method     ChildJobAreaTecnicaQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildJobAreaTecnicaQuery orderByIdAreaPrincipal($order = Criteria::ASC) Order by the ID_AREA_PRINCIPAL column
@@ -46,49 +46,21 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAreaTecnicaQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildJobAreaTecnicaQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildJobAreaTecnicaQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
- * @method     ChildJobAreaTecnicaQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
- * @method     ChildJobAreaTecnicaQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
- *
  * @method     ChildJobAreaTecnicaQuery leftJoinJobAreaRelacionadaRelatedByIdArea1($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobAreaRelacionadaRelatedByIdArea1 relation
  * @method     ChildJobAreaTecnicaQuery rightJoinJobAreaRelacionadaRelatedByIdArea1($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobAreaRelacionadaRelatedByIdArea1 relation
  * @method     ChildJobAreaTecnicaQuery innerJoinJobAreaRelacionadaRelatedByIdArea1($relationAlias = null) Adds a INNER JOIN clause to the query using the JobAreaRelacionadaRelatedByIdArea1 relation
- *
- * @method     ChildJobAreaTecnicaQuery joinWithJobAreaRelacionadaRelatedByIdArea1($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobAreaRelacionadaRelatedByIdArea1 relation
- *
- * @method     ChildJobAreaTecnicaQuery leftJoinWithJobAreaRelacionadaRelatedByIdArea1() Adds a LEFT JOIN clause and with to the query using the JobAreaRelacionadaRelatedByIdArea1 relation
- * @method     ChildJobAreaTecnicaQuery rightJoinWithJobAreaRelacionadaRelatedByIdArea1() Adds a RIGHT JOIN clause and with to the query using the JobAreaRelacionadaRelatedByIdArea1 relation
- * @method     ChildJobAreaTecnicaQuery innerJoinWithJobAreaRelacionadaRelatedByIdArea1() Adds a INNER JOIN clause and with to the query using the JobAreaRelacionadaRelatedByIdArea1 relation
  *
  * @method     ChildJobAreaTecnicaQuery leftJoinJobAreaRelacionadaRelatedByIdArea2($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobAreaRelacionadaRelatedByIdArea2 relation
  * @method     ChildJobAreaTecnicaQuery rightJoinJobAreaRelacionadaRelatedByIdArea2($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobAreaRelacionadaRelatedByIdArea2 relation
  * @method     ChildJobAreaTecnicaQuery innerJoinJobAreaRelacionadaRelatedByIdArea2($relationAlias = null) Adds a INNER JOIN clause to the query using the JobAreaRelacionadaRelatedByIdArea2 relation
  *
- * @method     ChildJobAreaTecnicaQuery joinWithJobAreaRelacionadaRelatedByIdArea2($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobAreaRelacionadaRelatedByIdArea2 relation
- *
- * @method     ChildJobAreaTecnicaQuery leftJoinWithJobAreaRelacionadaRelatedByIdArea2() Adds a LEFT JOIN clause and with to the query using the JobAreaRelacionadaRelatedByIdArea2 relation
- * @method     ChildJobAreaTecnicaQuery rightJoinWithJobAreaRelacionadaRelatedByIdArea2() Adds a RIGHT JOIN clause and with to the query using the JobAreaRelacionadaRelatedByIdArea2 relation
- * @method     ChildJobAreaTecnicaQuery innerJoinWithJobAreaRelacionadaRelatedByIdArea2() Adds a INNER JOIN clause and with to the query using the JobAreaRelacionadaRelatedByIdArea2 relation
- *
  * @method     ChildJobAreaTecnicaQuery leftJoinJobAreaTecnicaProfesion($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobAreaTecnicaProfesion relation
  * @method     ChildJobAreaTecnicaQuery rightJoinJobAreaTecnicaProfesion($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobAreaTecnicaProfesion relation
  * @method     ChildJobAreaTecnicaQuery innerJoinJobAreaTecnicaProfesion($relationAlias = null) Adds a INNER JOIN clause to the query using the JobAreaTecnicaProfesion relation
  *
- * @method     ChildJobAreaTecnicaQuery joinWithJobAreaTecnicaProfesion($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobAreaTecnicaProfesion relation
- *
- * @method     ChildJobAreaTecnicaQuery leftJoinWithJobAreaTecnicaProfesion() Adds a LEFT JOIN clause and with to the query using the JobAreaTecnicaProfesion relation
- * @method     ChildJobAreaTecnicaQuery rightJoinWithJobAreaTecnicaProfesion() Adds a RIGHT JOIN clause and with to the query using the JobAreaTecnicaProfesion relation
- * @method     ChildJobAreaTecnicaQuery innerJoinWithJobAreaTecnicaProfesion() Adds a INNER JOIN clause and with to the query using the JobAreaTecnicaProfesion relation
- *
  * @method     ChildJobAreaTecnicaQuery leftJoinJobAviso($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobAviso relation
  * @method     ChildJobAreaTecnicaQuery rightJoinJobAviso($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobAviso relation
  * @method     ChildJobAreaTecnicaQuery innerJoinJobAviso($relationAlias = null) Adds a INNER JOIN clause to the query using the JobAviso relation
- *
- * @method     ChildJobAreaTecnicaQuery joinWithJobAviso($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobAviso relation
- *
- * @method     ChildJobAreaTecnicaQuery leftJoinWithJobAviso() Adds a LEFT JOIN clause and with to the query using the JobAviso relation
- * @method     ChildJobAreaTecnicaQuery rightJoinWithJobAviso() Adds a RIGHT JOIN clause and with to the query using the JobAviso relation
- * @method     ChildJobAreaTecnicaQuery innerJoinWithJobAviso() Adds a INNER JOIN clause and with to the query using the JobAviso relation
  *
  * @method     \JobAreaRelacionadaQuery|\JobAreaTecnicaProfesionQuery|\JobAvisoQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -193,7 +165,7 @@ abstract class JobAreaTecnicaQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = JobAreaTecnicaTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
+        if ((null !== ($obj = JobAreaTecnicaTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -225,7 +197,7 @@ abstract class JobAreaTecnicaQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, ID_AREA_PRINCIPAL, NIVEL, NOMBRE, KEYWORDS, DESCRIPCION, STATUS, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM job_area_tecnica WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);
+            $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -237,7 +209,7 @@ abstract class JobAreaTecnicaQuery extends ModelCriteria
             /** @var ChildJobAreaTecnica $obj */
             $obj = new ChildJobAreaTecnica();
             $obj->hydrate($row);
-            JobAreaTecnicaTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
+            JobAreaTecnicaTableMap::addInstanceToPool($obj, (string) $key);
         }
         $stmt->closeCursor();
 
@@ -1038,9 +1010,9 @@ abstract class JobAreaTecnicaQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-
+            
             JobAreaTecnicaTableMap::removeInstanceFromPool($criteria);
-
+        
             $affectedRows += ModelCriteria::delete($con);
             JobAreaTecnicaTableMap::clearRelatedInstancePool();
 

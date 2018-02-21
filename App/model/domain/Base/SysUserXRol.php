@@ -25,11 +25,11 @@ use Propel\Runtime\Parser\AbstractParser;
 /**
  * Base class that represents a row from the 'sys_user_x_rol' table.
  *
- *
+ * 
  *
 * @package    propel.generator..Base
 */
-abstract class SysUserXRol implements ActiveRecordInterface
+abstract class SysUserXRol implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -65,14 +65,12 @@ abstract class SysUserXRol implements ActiveRecordInterface
 
     /**
      * The value for the user_id field.
-     *
      * @var        int
      */
     protected $user_id;
 
     /**
      * The value for the rol_id field.
-     *
      * @var        int
      */
     protected $rol_id;
@@ -309,20 +307,12 @@ abstract class SysUserXRol implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        $cls = new \ReflectionClass($this);
-        $propertyNames = [];
-        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
-
-        foreach($serializableProperties as $property) {
-            $propertyNames[] = $property->getName();
-        }
-
-        return $propertyNames;
+        return array_keys(get_object_vars($this));
     }
 
     /**
      * Get the [user_id] column value.
-     *
+     * 
      * @return int
      */
     public function getUserId()
@@ -332,7 +322,7 @@ abstract class SysUserXRol implements ActiveRecordInterface
 
     /**
      * Get the [rol_id] column value.
-     *
+     * 
      * @return int
      */
     public function getRolId()
@@ -342,7 +332,7 @@ abstract class SysUserXRol implements ActiveRecordInterface
 
     /**
      * Set the value of [user_id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\SysUserXRol The current object (for fluent API support)
      */
@@ -366,7 +356,7 @@ abstract class SysUserXRol implements ActiveRecordInterface
 
     /**
      * Set the value of [rol_id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\SysUserXRol The current object (for fluent API support)
      */
@@ -674,10 +664,10 @@ abstract class SysUserXRol implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'USER_ID':
+                    case 'USER_ID':                        
                         $stmt->bindValue($identifier, $this->user_id, PDO::PARAM_INT);
                         break;
-                    case 'ROL_ID':
+                    case 'ROL_ID':                        
                         $stmt->bindValue($identifier, $this->rol_id, PDO::PARAM_INT);
                         break;
                 }
@@ -778,10 +768,10 @@ abstract class SysUserXRol implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
         if ($includeForeignObjects) {
             if (null !== $this->aSysUser) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysUser';
@@ -792,11 +782,11 @@ abstract class SysUserXRol implements ActiveRecordInterface
                     default:
                         $key = 'SysUser';
                 }
-
+        
                 $result[$key] = $this->aSysUser->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aSysRol) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysRol';
@@ -807,7 +797,7 @@ abstract class SysUserXRol implements ActiveRecordInterface
                     default:
                         $key = 'SysRol';
                 }
-
+        
                 $result[$key] = $this->aSysRol->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
@@ -988,7 +978,7 @@ abstract class SysUserXRol implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-
+        
     /**
      * Returns the composite primary key for this object.
      * The array elements will be in same order as specified in XML.

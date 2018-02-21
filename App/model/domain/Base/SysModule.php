@@ -9,7 +9,6 @@ use \SysUriQuery as ChildSysUriQuery;
 use \Exception;
 use \PDO;
 use Map\SysModuleTableMap;
-use Map\SysUriTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -26,11 +25,11 @@ use Propel\Runtime\Parser\AbstractParser;
 /**
  * Base class that represents a row from the 'sys_module' table.
  *
- *
+ * 
  *
 * @package    propel.generator..Base
 */
-abstract class SysModule implements ActiveRecordInterface
+abstract class SysModule implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -66,49 +65,42 @@ abstract class SysModule implements ActiveRecordInterface
 
     /**
      * The value for the id field.
-     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the name field.
-     *
      * @var        string
      */
     protected $name;
 
     /**
      * The value for the uri field.
-     *
      * @var        string
      */
     protected $uri;
 
     /**
      * The value for the access field.
-     *
      * @var        string
      */
     protected $access;
 
     /**
      * The value for the position field.
-     *
      * @var        int
      */
     protected $position;
 
     /**
      * The value for the description field.
-     *
      * @var        string
      */
     protected $description;
 
     /**
      * The value for the icon_class field.
-     *
      * @var        string
      */
     protected $icon_class;
@@ -347,20 +339,12 @@ abstract class SysModule implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        $cls = new \ReflectionClass($this);
-        $propertyNames = [];
-        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
-
-        foreach($serializableProperties as $property) {
-            $propertyNames[] = $property->getName();
-        }
-
-        return $propertyNames;
+        return array_keys(get_object_vars($this));
     }
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return int
      */
     public function getId()
@@ -370,7 +354,7 @@ abstract class SysModule implements ActiveRecordInterface
 
     /**
      * Get the [name] column value.
-     *
+     * 
      * @return string
      */
     public function getName()
@@ -380,7 +364,7 @@ abstract class SysModule implements ActiveRecordInterface
 
     /**
      * Get the [uri] column value.
-     *
+     * 
      * @return string
      */
     public function getUri()
@@ -390,7 +374,7 @@ abstract class SysModule implements ActiveRecordInterface
 
     /**
      * Get the [access] column value.
-     *
+     * 
      * @return string
      */
     public function getAccess()
@@ -400,7 +384,7 @@ abstract class SysModule implements ActiveRecordInterface
 
     /**
      * Get the [position] column value.
-     *
+     * 
      * @return int
      */
     public function getPosition()
@@ -410,7 +394,7 @@ abstract class SysModule implements ActiveRecordInterface
 
     /**
      * Get the [description] column value.
-     *
+     * 
      * @return string
      */
     public function getDescription()
@@ -420,7 +404,7 @@ abstract class SysModule implements ActiveRecordInterface
 
     /**
      * Get the [icon_class] column value.
-     *
+     * 
      * @return string
      */
     public function getIconClass()
@@ -430,7 +414,7 @@ abstract class SysModule implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\SysModule The current object (for fluent API support)
      */
@@ -450,7 +434,7 @@ abstract class SysModule implements ActiveRecordInterface
 
     /**
      * Set the value of [name] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysModule The current object (for fluent API support)
      */
@@ -470,7 +454,7 @@ abstract class SysModule implements ActiveRecordInterface
 
     /**
      * Set the value of [uri] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysModule The current object (for fluent API support)
      */
@@ -490,7 +474,7 @@ abstract class SysModule implements ActiveRecordInterface
 
     /**
      * Set the value of [access] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysModule The current object (for fluent API support)
      */
@@ -510,7 +494,7 @@ abstract class SysModule implements ActiveRecordInterface
 
     /**
      * Set the value of [position] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\SysModule The current object (for fluent API support)
      */
@@ -530,7 +514,7 @@ abstract class SysModule implements ActiveRecordInterface
 
     /**
      * Set the value of [description] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysModule The current object (for fluent API support)
      */
@@ -550,7 +534,7 @@ abstract class SysModule implements ActiveRecordInterface
 
     /**
      * Set the value of [icon_class] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\SysModule The current object (for fluent API support)
      */
@@ -880,25 +864,25 @@ abstract class SysModule implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':
+                    case 'ID':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'NAME':
+                    case 'NAME':                        
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
                         break;
-                    case 'URI':
+                    case 'URI':                        
                         $stmt->bindValue($identifier, $this->uri, PDO::PARAM_STR);
                         break;
-                    case 'ACCESS':
+                    case 'ACCESS':                        
                         $stmt->bindValue($identifier, $this->access, PDO::PARAM_STR);
                         break;
-                    case 'POSITION':
+                    case 'POSITION':                        
                         $stmt->bindValue($identifier, $this->position, PDO::PARAM_INT);
                         break;
-                    case 'DESCRIPTION':
+                    case 'DESCRIPTION':                        
                         $stmt->bindValue($identifier, $this->description, PDO::PARAM_STR);
                         break;
-                    case 'ICON_CLASS':
+                    case 'ICON_CLASS':                        
                         $stmt->bindValue($identifier, $this->icon_class, PDO::PARAM_STR);
                         break;
                 }
@@ -1026,10 +1010,10 @@ abstract class SysModule implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
         if ($includeForeignObjects) {
             if (null !== $this->collSysUris) {
-
+                
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysUris';
@@ -1040,7 +1024,7 @@ abstract class SysModule implements ActiveRecordInterface
                     default:
                         $key = 'SysUris';
                 }
-
+        
                 $result[$key] = $this->collSysUris->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
@@ -1250,7 +1234,7 @@ abstract class SysModule implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-
+        
     /**
      * Returns the primary key for this object (row).
      * @return int
@@ -1396,10 +1380,7 @@ abstract class SysModule implements ActiveRecordInterface
         if (null !== $this->collSysUris && !$overrideExisting) {
             return;
         }
-
-        $collectionClassName = SysUriTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collSysUris = new $collectionClassName;
+        $this->collSysUris = new ObjectCollection();
         $this->collSysUris->setModel('\SysUri');
     }
 
@@ -1476,7 +1457,7 @@ abstract class SysModule implements ActiveRecordInterface
         /** @var ChildSysUri[] $sysUrisToDelete */
         $sysUrisToDelete = $this->getSysUris(new Criteria(), $con)->diff($sysUris);
 
-
+        
         $this->sysUrisScheduledForDeletion = $sysUrisToDelete;
 
         foreach ($sysUrisToDelete as $sysUriRemoved) {
@@ -1544,10 +1525,6 @@ abstract class SysModule implements ActiveRecordInterface
 
         if (!$this->collSysUris->contains($l)) {
             $this->doAddSysUri($l);
-
-            if ($this->sysUrisScheduledForDeletion and $this->sysUrisScheduledForDeletion->contains($l)) {
-                $this->sysUrisScheduledForDeletion->remove($this->sysUrisScheduledForDeletion->search($l));
-            }
         }
 
         return $this;

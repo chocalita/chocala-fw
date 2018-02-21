@@ -10,7 +10,7 @@ class DataSources
     static $development = array(
         'datasource'=>  'system',
         'host'      =>  'localhost',
-        'port'      =>  '3306',
+        'port'      =>  '3307',
         'dbname'    =>  'jobs',
         'user'      =>  'root',
         'password'  =>  ''

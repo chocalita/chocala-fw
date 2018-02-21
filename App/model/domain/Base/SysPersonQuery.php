@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'sys_person' table.
  *
- *
+ * 
  *
  * @method     ChildSysPersonQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysPersonQuery orderByUserId($order = Criteria::ASC) Order by the USER_ID column
@@ -74,29 +74,13 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysPersonQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildSysPersonQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildSysPersonQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
- * @method     ChildSysPersonQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
- * @method     ChildSysPersonQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
- *
  * @method     ChildSysPersonQuery leftJoinSysUser($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysUser relation
  * @method     ChildSysPersonQuery rightJoinSysUser($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysUser relation
  * @method     ChildSysPersonQuery innerJoinSysUser($relationAlias = null) Adds a INNER JOIN clause to the query using the SysUser relation
  *
- * @method     ChildSysPersonQuery joinWithSysUser($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysUser relation
- *
- * @method     ChildSysPersonQuery leftJoinWithSysUser() Adds a LEFT JOIN clause and with to the query using the SysUser relation
- * @method     ChildSysPersonQuery rightJoinWithSysUser() Adds a RIGHT JOIN clause and with to the query using the SysUser relation
- * @method     ChildSysPersonQuery innerJoinWithSysUser() Adds a INNER JOIN clause and with to the query using the SysUser relation
- *
  * @method     ChildSysPersonQuery leftJoinJobCurriculum($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobCurriculum relation
  * @method     ChildSysPersonQuery rightJoinJobCurriculum($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobCurriculum relation
  * @method     ChildSysPersonQuery innerJoinJobCurriculum($relationAlias = null) Adds a INNER JOIN clause to the query using the JobCurriculum relation
- *
- * @method     ChildSysPersonQuery joinWithJobCurriculum($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobCurriculum relation
- *
- * @method     ChildSysPersonQuery leftJoinWithJobCurriculum() Adds a LEFT JOIN clause and with to the query using the JobCurriculum relation
- * @method     ChildSysPersonQuery rightJoinWithJobCurriculum() Adds a RIGHT JOIN clause and with to the query using the JobCurriculum relation
- * @method     ChildSysPersonQuery innerJoinWithJobCurriculum() Adds a INNER JOIN clause and with to the query using the JobCurriculum relation
  *
  * @method     \SysUserQuery|\JobCurriculumQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -243,7 +227,7 @@ abstract class SysPersonQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysPersonTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
+        if ((null !== ($obj = SysPersonTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -275,7 +259,7 @@ abstract class SysPersonQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, USER_ID, LOCATION_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SECOND_LAST_NAME, EMAIL, ID_NUMBER, ID_EXTENSION, GENDER, DATE_OF_BIRTH, PLACE_OF_BIRTH, ADDRESS, CITY, POB, PHONE_HOME, PHONE_WORK, CELLPHONE_1, CELLPHONE_2, PHOTO_MIME, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM sys_person WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);
+            $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -287,7 +271,7 @@ abstract class SysPersonQuery extends ModelCriteria
             /** @var ChildSysPerson $obj */
             $obj = new ChildSysPerson();
             $obj->hydrate($row);
-            SysPersonTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
+            SysPersonTableMap::addInstanceToPool($obj, (string) $key);
         }
         $stmt->closeCursor();
 
@@ -1368,9 +1352,9 @@ abstract class SysPersonQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-
+            
             SysPersonTableMap::removeInstanceFromPool($criteria);
-
+        
             $affectedRows += ModelCriteria::delete($con);
             SysPersonTableMap::clearRelatedInstancePool();
 

@@ -23,11 +23,11 @@ use Propel\Runtime\Util\PropelDateTime;
 /**
  * Base class that represents a row from the 'tmp_prospecto' table.
  *
- *
+ * 
  *
 * @package    propel.generator..Base
 */
-abstract class TmpProspecto implements ActiveRecordInterface
+abstract class TmpProspecto implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -63,112 +63,96 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * The value for the id field.
-     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the primer_apellido field.
-     *
      * @var        string
      */
     protected $primer_apellido;
 
     /**
      * The value for the segundo_apellido field.
-     *
      * @var        string
      */
     protected $segundo_apellido;
 
     /**
      * The value for the nombres field.
-     *
      * @var        string
      */
     protected $nombres;
 
     /**
      * The value for the fecha_nacimiento field.
-     *
      * @var        \DateTime
      */
     protected $fecha_nacimiento;
 
     /**
      * The value for the ci field.
-     *
      * @var        string
      */
     protected $ci;
 
     /**
      * The value for the extension_ci field.
-     *
      * @var        string
      */
     protected $extension_ci;
 
     /**
      * The value for the sexo field.
-     *
      * @var        string
      */
     protected $sexo;
 
     /**
      * The value for the pais field.
-     *
      * @var        string
      */
     protected $pais;
 
     /**
      * The value for the residencia field.
-     *
      * @var        string
      */
     protected $residencia;
 
     /**
      * The value for the direccion field.
-     *
      * @var        string
      */
     protected $direccion;
 
     /**
      * The value for the celular field.
-     *
      * @var        string
      */
     protected $celular;
 
     /**
      * The value for the email field.
-     *
      * @var        string
      */
     protected $email;
 
     /**
      * The value for the salario field.
-     *
      * @var        int
      */
     protected $salario;
 
     /**
      * The value for the areas field.
-     *
      * @var        string
      */
     protected $areas;
 
     /**
      * The value for the formaciones field.
-     *
      * @var        string
      */
     protected $formaciones;
@@ -395,20 +379,12 @@ abstract class TmpProspecto implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        $cls = new \ReflectionClass($this);
-        $propertyNames = [];
-        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
-
-        foreach($serializableProperties as $property) {
-            $propertyNames[] = $property->getName();
-        }
-
-        return $propertyNames;
+        return array_keys(get_object_vars($this));
     }
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return int
      */
     public function getId()
@@ -418,7 +394,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Get the [primer_apellido] column value.
-     *
+     * 
      * @return string
      */
     public function getPrimerApellido()
@@ -428,7 +404,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Get the [segundo_apellido] column value.
-     *
+     * 
      * @return string
      */
     public function getSegundoApellido()
@@ -438,7 +414,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Get the [nombres] column value.
-     *
+     * 
      * @return string
      */
     public function getNombres()
@@ -448,7 +424,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [fecha_nacimiento] column value.
-     *
+     * 
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -468,7 +444,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Get the [ci] column value.
-     *
+     * 
      * @return string
      */
     public function getCi()
@@ -478,7 +454,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Get the [extension_ci] column value.
-     *
+     * 
      * @return string
      */
     public function getExtensionCi()
@@ -488,7 +464,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Get the [sexo] column value.
-     *
+     * 
      * @return string
      */
     public function getSexo()
@@ -498,7 +474,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Get the [pais] column value.
-     *
+     * 
      * @return string
      */
     public function getPais()
@@ -508,7 +484,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Get the [residencia] column value.
-     *
+     * 
      * @return string
      */
     public function getResidencia()
@@ -518,7 +494,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Get the [direccion] column value.
-     *
+     * 
      * @return string
      */
     public function getDireccion()
@@ -528,7 +504,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Get the [celular] column value.
-     *
+     * 
      * @return string
      */
     public function getCelular()
@@ -538,7 +514,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Get the [email] column value.
-     *
+     * 
      * @return string
      */
     public function getEmail()
@@ -548,7 +524,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Get the [salario] column value.
-     *
+     * 
      * @return int
      */
     public function getSalario()
@@ -558,7 +534,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Get the [areas] column value.
-     *
+     * 
      * @return string
      */
     public function getAreas()
@@ -568,7 +544,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Get the [formaciones] column value.
-     *
+     * 
      * @return string
      */
     public function getFormaciones()
@@ -578,7 +554,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\TmpProspecto The current object (for fluent API support)
      */
@@ -598,7 +574,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Set the value of [primer_apellido] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\TmpProspecto The current object (for fluent API support)
      */
@@ -618,7 +594,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Set the value of [segundo_apellido] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\TmpProspecto The current object (for fluent API support)
      */
@@ -638,7 +614,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Set the value of [nombres] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\TmpProspecto The current object (for fluent API support)
      */
@@ -658,7 +634,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Sets the value of [fecha_nacimiento] column to a normalized version of the date/time value specified.
-     *
+     * 
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\TmpProspecto The current object (for fluent API support)
@@ -678,7 +654,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Set the value of [ci] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\TmpProspecto The current object (for fluent API support)
      */
@@ -698,7 +674,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Set the value of [extension_ci] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\TmpProspecto The current object (for fluent API support)
      */
@@ -718,7 +694,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Set the value of [sexo] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\TmpProspecto The current object (for fluent API support)
      */
@@ -738,7 +714,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Set the value of [pais] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\TmpProspecto The current object (for fluent API support)
      */
@@ -758,7 +734,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Set the value of [residencia] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\TmpProspecto The current object (for fluent API support)
      */
@@ -778,7 +754,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Set the value of [direccion] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\TmpProspecto The current object (for fluent API support)
      */
@@ -798,7 +774,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Set the value of [celular] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\TmpProspecto The current object (for fluent API support)
      */
@@ -818,7 +794,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Set the value of [email] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\TmpProspecto The current object (for fluent API support)
      */
@@ -838,7 +814,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Set the value of [salario] column.
-     *
+     * 
      * @param int $v new value
      * @return $this|\TmpProspecto The current object (for fluent API support)
      */
@@ -858,7 +834,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Set the value of [areas] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\TmpProspecto The current object (for fluent API support)
      */
@@ -878,7 +854,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
     /**
      * Set the value of [formaciones] column.
-     *
+     * 
      * @param string $v new value
      * @return $this|\TmpProspecto The current object (for fluent API support)
      */
@@ -1242,52 +1218,52 @@ abstract class TmpProspecto implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'id':
+                    case 'id':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'primer_apellido':
+                    case 'primer_apellido':                        
                         $stmt->bindValue($identifier, $this->primer_apellido, PDO::PARAM_STR);
                         break;
-                    case 'segundo_apellido':
+                    case 'segundo_apellido':                        
                         $stmt->bindValue($identifier, $this->segundo_apellido, PDO::PARAM_STR);
                         break;
-                    case 'nombres':
+                    case 'nombres':                        
                         $stmt->bindValue($identifier, $this->nombres, PDO::PARAM_STR);
                         break;
-                    case 'fecha_nacimiento':
+                    case 'fecha_nacimiento':                        
                         $stmt->bindValue($identifier, $this->fecha_nacimiento ? $this->fecha_nacimiento->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'ci':
+                    case 'ci':                        
                         $stmt->bindValue($identifier, $this->ci, PDO::PARAM_STR);
                         break;
-                    case 'extension_ci':
+                    case 'extension_ci':                        
                         $stmt->bindValue($identifier, $this->extension_ci, PDO::PARAM_STR);
                         break;
-                    case 'sexo':
+                    case 'sexo':                        
                         $stmt->bindValue($identifier, $this->sexo, PDO::PARAM_STR);
                         break;
-                    case 'pais':
+                    case 'pais':                        
                         $stmt->bindValue($identifier, $this->pais, PDO::PARAM_STR);
                         break;
-                    case 'residencia':
+                    case 'residencia':                        
                         $stmt->bindValue($identifier, $this->residencia, PDO::PARAM_STR);
                         break;
-                    case 'direccion':
+                    case 'direccion':                        
                         $stmt->bindValue($identifier, $this->direccion, PDO::PARAM_STR);
                         break;
-                    case 'celular':
+                    case 'celular':                        
                         $stmt->bindValue($identifier, $this->celular, PDO::PARAM_STR);
                         break;
-                    case 'email':
+                    case 'email':                        
                         $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
                         break;
-                    case 'salario':
+                    case 'salario':                        
                         $stmt->bindValue($identifier, $this->salario, PDO::PARAM_INT);
                         break;
-                    case 'areas':
+                    case 'areas':                        
                         $stmt->bindValue($identifier, $this->areas, PDO::PARAM_STR);
                         break;
-                    case 'formaciones':
+                    case 'formaciones':                        
                         $stmt->bindValue($identifier, $this->formaciones, PDO::PARAM_STR);
                         break;
                 }
@@ -1439,15 +1415,19 @@ abstract class TmpProspecto implements ActiveRecordInterface
             $keys[14] => $this->getAreas(),
             $keys[15] => $this->getFormaciones(),
         );
-        if ($result[$keys[4]] instanceof \DateTime) {
-            $result[$keys[4]] = $result[$keys[4]]->format('c');
-        }
 
+        $utc = new \DateTimeZone('utc');
+        if ($result[$keys[4]] instanceof \DateTime) {
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[4]];
+            $result[$keys[4]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+        }
+        
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
 
         return $result;
     }
@@ -1735,7 +1715,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-
+        
     /**
      * Returns the primary key for this object (row).
      * @return int

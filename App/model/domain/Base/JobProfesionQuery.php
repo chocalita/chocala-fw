@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'job_profesion' table.
  *
- *
+ * 
  *
  * @method     ChildJobProfesionQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildJobProfesionQuery orderByIdTipoFormacion($order = Criteria::ASC) Order by the ID_TIPO_FORMACION column
@@ -44,39 +44,17 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobProfesionQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildJobProfesionQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildJobProfesionQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
- * @method     ChildJobProfesionQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
- * @method     ChildJobProfesionQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
- *
  * @method     ChildJobProfesionQuery leftJoinJobTipoFormacion($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobTipoFormacion relation
  * @method     ChildJobProfesionQuery rightJoinJobTipoFormacion($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobTipoFormacion relation
  * @method     ChildJobProfesionQuery innerJoinJobTipoFormacion($relationAlias = null) Adds a INNER JOIN clause to the query using the JobTipoFormacion relation
- *
- * @method     ChildJobProfesionQuery joinWithJobTipoFormacion($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobTipoFormacion relation
- *
- * @method     ChildJobProfesionQuery leftJoinWithJobTipoFormacion() Adds a LEFT JOIN clause and with to the query using the JobTipoFormacion relation
- * @method     ChildJobProfesionQuery rightJoinWithJobTipoFormacion() Adds a RIGHT JOIN clause and with to the query using the JobTipoFormacion relation
- * @method     ChildJobProfesionQuery innerJoinWithJobTipoFormacion() Adds a INNER JOIN clause and with to the query using the JobTipoFormacion relation
  *
  * @method     ChildJobProfesionQuery leftJoinJobAreaTecnicaProfesion($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobAreaTecnicaProfesion relation
  * @method     ChildJobProfesionQuery rightJoinJobAreaTecnicaProfesion($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobAreaTecnicaProfesion relation
  * @method     ChildJobProfesionQuery innerJoinJobAreaTecnicaProfesion($relationAlias = null) Adds a INNER JOIN clause to the query using the JobAreaTecnicaProfesion relation
  *
- * @method     ChildJobProfesionQuery joinWithJobAreaTecnicaProfesion($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobAreaTecnicaProfesion relation
- *
- * @method     ChildJobProfesionQuery leftJoinWithJobAreaTecnicaProfesion() Adds a LEFT JOIN clause and with to the query using the JobAreaTecnicaProfesion relation
- * @method     ChildJobProfesionQuery rightJoinWithJobAreaTecnicaProfesion() Adds a RIGHT JOIN clause and with to the query using the JobAreaTecnicaProfesion relation
- * @method     ChildJobProfesionQuery innerJoinWithJobAreaTecnicaProfesion() Adds a INNER JOIN clause and with to the query using the JobAreaTecnicaProfesion relation
- *
  * @method     ChildJobProfesionQuery leftJoinJobFormacionAcademica($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobFormacionAcademica relation
  * @method     ChildJobProfesionQuery rightJoinJobFormacionAcademica($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobFormacionAcademica relation
  * @method     ChildJobProfesionQuery innerJoinJobFormacionAcademica($relationAlias = null) Adds a INNER JOIN clause to the query using the JobFormacionAcademica relation
- *
- * @method     ChildJobProfesionQuery joinWithJobFormacionAcademica($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobFormacionAcademica relation
- *
- * @method     ChildJobProfesionQuery leftJoinWithJobFormacionAcademica() Adds a LEFT JOIN clause and with to the query using the JobFormacionAcademica relation
- * @method     ChildJobProfesionQuery rightJoinWithJobFormacionAcademica() Adds a RIGHT JOIN clause and with to the query using the JobFormacionAcademica relation
- * @method     ChildJobProfesionQuery innerJoinWithJobFormacionAcademica() Adds a INNER JOIN clause and with to the query using the JobFormacionAcademica relation
  *
  * @method     \JobTipoFormacionQuery|\JobAreaTecnicaProfesionQuery|\JobFormacionAcademicaQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -178,7 +156,7 @@ abstract class JobProfesionQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = JobProfesionTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
+        if ((null !== ($obj = JobProfesionTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -210,7 +188,7 @@ abstract class JobProfesionQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, ID_TIPO_FORMACION, NOMBRE, OTROS_NOMBRES, DESCRIPCION, STATUS, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM job_profesion WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);
+            $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -222,7 +200,7 @@ abstract class JobProfesionQuery extends ModelCriteria
             /** @var ChildJobProfesion $obj */
             $obj = new ChildJobProfesion();
             $obj->hydrate($row);
-            JobProfesionTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
+            JobProfesionTableMap::addInstanceToPool($obj, (string) $key);
         }
         $stmt->closeCursor();
 
@@ -915,9 +893,9 @@ abstract class JobProfesionQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-
+            
             JobProfesionTableMap::removeInstanceFromPool($criteria);
-
+        
             $affectedRows += ModelCriteria::delete($con);
             JobProfesionTableMap::clearRelatedInstancePool();
 

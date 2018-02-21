@@ -17,7 +17,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'tmp_mailing' table.
  *
- *
+ * 
  *
  * @method     ChildTmpMailingQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildTmpMailingQuery orderByIdProspecto($order = Criteria::ASC) Order by the id_prospecto column
@@ -40,10 +40,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildTmpMailingQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildTmpMailingQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildTmpMailingQuery innerJoin($relation) Adds a INNER JOIN clause to the query
- *
- * @method     ChildTmpMailingQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
- * @method     ChildTmpMailingQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
- * @method     ChildTmpMailingQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
  * @method     ChildTmpMailing findOne(ConnectionInterface $con = null) Return the first ChildTmpMailing matching the query
  * @method     ChildTmpMailing findOneOrCreate(ConnectionInterface $con = null) Return the first ChildTmpMailing matching the query, or a new ChildTmpMailing object populated from the query conditions when no match is found
@@ -140,7 +136,7 @@ abstract class TmpMailingQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = TmpMailingTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
+        if ((null !== ($obj = TmpMailingTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -172,7 +168,7 @@ abstract class TmpMailingQuery extends ModelCriteria
     {
         $sql = 'SELECT id, id_prospecto, email, avisos, fecha_interes, fecha_hora_envio, enviado, abierto FROM tmp_mailing WHERE id = :p0';
         try {
-            $stmt = $con->prepare($sql);
+            $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -184,7 +180,7 @@ abstract class TmpMailingQuery extends ModelCriteria
             /** @var ChildTmpMailing $obj */
             $obj = new ChildTmpMailing();
             $obj->hydrate($row);
-            TmpMailingTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
+            TmpMailingTableMap::addInstanceToPool($obj, (string) $key);
         }
         $stmt->closeCursor();
 
@@ -607,9 +603,9 @@ abstract class TmpMailingQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-
+            
             TmpMailingTableMap::removeInstanceFromPool($criteria);
-
+        
             $affectedRows += ModelCriteria::delete($con);
             TmpMailingTableMap::clearRelatedInstancePool();
 
