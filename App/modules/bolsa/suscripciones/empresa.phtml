@@ -78,7 +78,7 @@
                                         ?>
 
                                         <div class="form-group">
-                                            <label class="control-label col-xs-4 col-md-3">Ciudad</label>
+                                            <label class="control-label col-xs-4 col-md-3">Departamento</label>
                                             <div class="col-xs-8 col-md-9">
                                                 <select id="LocationId" name="LocationId" class="form-control">
                                                     <option value="">- Seleccionar -</option>
@@ -263,17 +263,46 @@
     jQuery(document).ready(function () {
         $("#form").steps({
             bodyTag: "fieldset",
-            onStepChanging: function (event, currentIndex, newIndex) {
-                if (currentIndex > newIndex) {
-                    return true;
-                }
-                return validate("<?=URI::toPage().'step';?>" + newIndex , $("#form-p-" + currentIndex));
-            },
-            onStepChanged: function (event, currentIndex, priorIndex) {
-            }
+            // var settings = {
+            // };
+            //onStepChanging: function (event, currentIndex, newIndex) {
+            //    if (currentIndex > newIndex) {
+            //        return true;
+            //    }
+            //    return validate("<?//=URI::toPage().'step';?>//" + newIndex , $("#form-p-" + currentIndex));
+            //},
+            //onStepChanged: function (event, currentIndex, priorIndex) {
+            //}
+            onStepChanging: changeStep
         });
 
-        function validate(action, fieldset) {
+        function changeStep(event, currentIndex, newIndex) {
+
+            if (is_async_step)
+            {
+                is_async_step = false;
+                //Allow next step
+                return true;
+            }
+
+            var arr = $("#form_tag_id").serializeArray();
+            arr.push({ name: "one_more_field", value: "one_more_value" });
+            $.post("", arr).done(function (data)
+            {
+                if(data != "ok")
+                {
+                    return;
+                }
+
+                is_async_step = true;
+                //trigger navigation event
+                $("#wizard").steps("next");
+            });
+
+
+            var action = "<?//=URI::toPage().'step';?>//" + newIndex;
+            var fieldset = $("#form-p-" + currentIndex);
+
             var success = false;
             fieldset.find('div.help-block').remove();
             fieldset.find('div.has-error').removeClass('has-error');
@@ -300,6 +329,7 @@
                                 .append('<div class="help-block">'+el.message+'</div>');
                         });
                     } else {
+                        // alert("Si ta bueno")
                         success = true;
                     }
                 })
@@ -309,6 +339,54 @@
                 .always(function(){
                     fieldset.parent().unmask();
                 });
+
+
+            //forbid the next step because $.post is an asynchronous function
+            return false;
+        }
+
+
+        function validate(action, fieldset) {
+            var action = "<?//=URI::toPage().'step';?>//" + newIndex;
+            var fieldset = $("#form-p-" + currentIndex);
+
+            var success = false;
+            fieldset.find('div.help-block').remove();
+            fieldset.find('div.has-error').removeClass('has-error');
+            $.ajax({
+                url: action,
+                type: "POST",
+                data: fieldset.serialize(),
+                beforeSend: function( xhr ) {
+                    fieldset.parent().mask("");
+                }
+            })
+                .done(function(data) {
+                    var result = eval(data);
+                    if (!result.success) {
+                        fieldset.find('div.help-block').remove();
+                        fieldset.find('div.has-error').removeClass('has-error');
+                        $(result.errors).each(function(i, el) {
+                            fieldset.find('#' + el.field)
+                                .parents('div.form-group')
+                                .first()
+                                .addClass('has-error');
+                            fieldset.find('#' + el.field)
+                                .parent()
+                                .append('<div class="help-block">'+el.message+'</div>');
+                        });
+                    } else {
+                        // alert("Si ta bueno")
+                        success = true;
+                    }
+                })
+                .fail(function(jqXHR, textStatus){
+                    alert("ERROR: error en envío de datos");
+                })
+                .always(function(){
+                    fieldset.parent().unmask();
+                });
+            // alert(success);
             return success;
         }
         

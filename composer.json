@@ -7,6 +7,13 @@
     "autoload": {
         "classmap": ["App/model/domain/"]
     },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packagist.org"
+        },
+        { "packagist": false }
+    ],
     "config": {
         "vendor-dir": "Vendor"
     }

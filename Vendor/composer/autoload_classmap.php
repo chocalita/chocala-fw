@@ -47,6 +47,8 @@ return array(
     'Base\\ScrapPaginaQuery' => $baseDir . '/App/model/domain/Base/ScrapPaginaQuery.php',
     'Base\\ScrapTipoEmpresa' => $baseDir . '/App/model/domain/Base/ScrapTipoEmpresa.php',
     'Base\\ScrapTipoEmpresaQuery' => $baseDir . '/App/model/domain/Base/ScrapTipoEmpresaQuery.php',
+    'Base\\SysAuth' => $baseDir . '/App/model/domain/Base/SysAuth.php',
+    'Base\\SysAuthQuery' => $baseDir . '/App/model/domain/Base/SysAuthQuery.php',
     'Base\\SysEmail' => $baseDir . '/App/model/domain/Base/SysEmail.php',
     'Base\\SysEmailQuery' => $baseDir . '/App/model/domain/Base/SysEmailQuery.php',
     'Base\\SysEmailSent' => $baseDir . '/App/model/domain/Base/SysEmailSent.php',
