@@ -6,7 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-
     'Base\\JobArea' => $baseDir . '/App/model/domain/Base/JobArea.php',
     'Base\\JobAreaHabilidad' => $baseDir . '/App/model/domain/Base/JobAreaHabilidad.php',
     'Base\\JobAreaHabilidadQuery' => $baseDir . '/App/model/domain/Base/JobAreaHabilidadQuery.php',
@@ -149,6 +148,7 @@ return array(
     'Map\\ScrapEmpresaTableMap' => $baseDir . '/App/model/domain/Map/ScrapEmpresaTableMap.php',
     'Map\\ScrapPaginaTableMap' => $baseDir . '/App/model/domain/Map/ScrapPaginaTableMap.php',
     'Map\\ScrapTipoEmpresaTableMap' => $baseDir . '/App/model/domain/Map/ScrapTipoEmpresaTableMap.php',
+    'Map\\SysAuthTableMap' => $baseDir . '/App/model/domain/Map/SysAuthTableMap.php',
     'Map\\SysEmailSentTableMap' => $baseDir . '/App/model/domain/Map/SysEmailSentTableMap.php',
     'Map\\SysEmailTableMap' => $baseDir . '/App/model/domain/Map/SysEmailTableMap.php',
     'Map\\SysEntityBranchTableMap' => $baseDir . '/App/model/domain/Map/SysEntityBranchTableMap.php',
@@ -181,6 +181,8 @@ return array(
     'ScrapPaginaQuery' => $baseDir . '/App/model/domain/ScrapPaginaQuery.php',
     'ScrapTipoEmpresa' => $baseDir . '/App/model/domain/ScrapTipoEmpresa.php',
     'ScrapTipoEmpresaQuery' => $baseDir . '/App/model/domain/ScrapTipoEmpresaQuery.php',
+    'SysAuth' => $baseDir . '/App/model/domain/SysAuth.php',
+    'SysAuthQuery' => $baseDir . '/App/model/domain/SysAuthQuery.php',
     'SysEmail' => $baseDir . '/App/model/domain/SysEmail.php',
     'SysEmailQuery' => $baseDir . '/App/model/domain/SysEmailQuery.php',
     'SysEmailSent' => $baseDir . '/App/model/domain/SysEmailSent.php',
