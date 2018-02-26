@@ -6,7 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-
     'Base\\JobArea' => $baseDir . '/App/model/domain/Base/JobArea.php',
     'Base\\JobAreaHabilidad' => $baseDir . '/App/model/domain/Base/JobAreaHabilidad.php',
     'Base\\JobAreaHabilidadQuery' => $baseDir . '/App/model/domain/Base/JobAreaHabilidadQuery.php',

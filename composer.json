@@ -2,7 +2,8 @@
     "name": "isaxbo/chocala",
     "require": {
         "monolog/monolog": "1.0.*",
-        "propel/propel": "~2.0@dev"
+        "propel/propel": "~2.0@dev",
+        "facebook/php-sdk-v4" : "~5.0"
     },
     "autoload": {
         "classmap": ["App/model/domain/"]
