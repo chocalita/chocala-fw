@@ -42,13 +42,11 @@ class SuscripcionesController extends AdminWebController
                 $esEmpresaFormal = $empresaSuscrita->getSysEntityType()->getGroupCode() == SysEntityType::GROUP_FORMAL_COMPANY;
                 $tipoSuscripcion = $esEmpresaFormal ? 'Empresa' : 'Negocio';
                 $locaciones = SysLocationQuery::create()->filterByType("DEPARTAMENT")->find();
-
                 $this->set('empresaSuscrita', $empresaSuscrita);
                 $this->set('tipoSuscripcion', $tipoSuscripcion);
                 $this->set('esEmpresaFormal', $esEmpresaFormal);
                 $this->set('locaciones', $locaciones);
             } else {
-
                 $this->redirectTo(URI::toModule() . 'trabajo/empresa');
             }
         } else {
@@ -73,7 +71,19 @@ class SuscripcionesController extends AdminWebController
         $this->set('success', $results['success']);
         $this->set('errors', $results['errors']);
         $this->renderAsJSON();
-        return $results;
+    }
+
+    public function step2()
+    {
+        $results = ['success' => false, 'errors' => []];
+        $empresaSuscrita = $this->empresaSuscritaService->findByHashCode(Req::_('hc'));
+        if (is_object($empresaSuscrita) && $empresaSuscrita->getStatus() == JobEmpresaSuscrita::STATUS_INITIAL) {
+            $data = Req::all();
+            $results = $this->empresaSuscritaService->verifyUserAccount($data);
+        }
+        $this->set('success', $results['success']);
+        $this->set('errors', $results['errors']);
+        $this->renderAsJSON();
     }
 
 

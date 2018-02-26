@@ -93,6 +93,7 @@
     <column name="ID" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="AREA_ID" phpName="AreaId" type="INTEGER"/>
     <column name="AREA_TECNICA_ID" phpName="AreaTecnicaId" type="INTEGER"/>
+    <column name="EMPRESA_SUSCRITA_ID" phpName="EmpresaSuscritaId" type="INTEGER"/>
     <column name="LOCALIZACION" phpName="Localizacion" type="VARCHAR" size="50"/>
     <column name="CARGO" phpName="Cargo" type="VARCHAR" size="200"/>
     <column name="DESCRIPCION" phpName="Descripcion" type="LONGVARCHAR"/>
@@ -123,6 +124,9 @@
     <foreign-key foreignTable="job_area" name="job_aviso_fk2">
       <reference local="AREA_ID" foreign="ID"/>
     </foreign-key>
+    <foreign-key foreignTable="job_empresa_suscrita" name="job_aviso_fk3">
+      <reference local="EMPRESA_SUSCRITA_ID" foreign="ID"/>
+    </foreign-key>
     <index name="FORMACION_ACADEMICA_ID">
       <index-column name="NIVEL_FORMACION"/>
     </index>
@@ -131,6 +135,9 @@
     </index>
     <index name="AREA_TECNICA_ID">
       <index-column name="AREA_TECNICA_ID"/>
+    </index>
+    <index name="EMPRESA_SUSCRITA_ID">
+      <index-column name="EMPRESA_SUSCRITA_ID"/>
     </index>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
@@ -422,6 +429,12 @@
     <column name="STATUS" phpName="Status" type="VARCHAR" size="20" required="true" defaultValue="CREATED"/>
     <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
     <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP"/>
+    <foreign-key foreignTable="sys_auth" name="sys_auth_ibfk_1">
+      <reference local="USER_ID" foreign="ID"/>
+    </foreign-key>
+    <index name="USER_ID">
+      <index-column name="USER_ID"/>
+    </index>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>

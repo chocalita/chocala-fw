@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'sys_entity_branch' table.
  *
- * 
+ *
  *
  * @method     ChildSysEntityBranchQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysEntityBranchQuery orderByEntityId($order = Criteria::ASC) Order by the ENTITY_ID column
@@ -46,13 +46,29 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysEntityBranchQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildSysEntityBranchQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildSysEntityBranchQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildSysEntityBranchQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildSysEntityBranchQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildSysEntityBranchQuery leftJoinSysEntity($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEntity relation
  * @method     ChildSysEntityBranchQuery rightJoinSysEntity($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEntity relation
  * @method     ChildSysEntityBranchQuery innerJoinSysEntity($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEntity relation
  *
+ * @method     ChildSysEntityBranchQuery joinWithSysEntity($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEntity relation
+ *
+ * @method     ChildSysEntityBranchQuery leftJoinWithSysEntity() Adds a LEFT JOIN clause and with to the query using the SysEntity relation
+ * @method     ChildSysEntityBranchQuery rightJoinWithSysEntity() Adds a RIGHT JOIN clause and with to the query using the SysEntity relation
+ * @method     ChildSysEntityBranchQuery innerJoinWithSysEntity() Adds a INNER JOIN clause and with to the query using the SysEntity relation
+ *
  * @method     ChildSysEntityBranchQuery leftJoinSysLocation($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysLocation relation
  * @method     ChildSysEntityBranchQuery rightJoinSysLocation($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysLocation relation
  * @method     ChildSysEntityBranchQuery innerJoinSysLocation($relationAlias = null) Adds a INNER JOIN clause to the query using the SysLocation relation
+ *
+ * @method     ChildSysEntityBranchQuery joinWithSysLocation($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysLocation relation
+ *
+ * @method     ChildSysEntityBranchQuery leftJoinWithSysLocation() Adds a LEFT JOIN clause and with to the query using the SysLocation relation
+ * @method     ChildSysEntityBranchQuery rightJoinWithSysLocation() Adds a RIGHT JOIN clause and with to the query using the SysLocation relation
+ * @method     ChildSysEntityBranchQuery innerJoinWithSysLocation() Adds a INNER JOIN clause and with to the query using the SysLocation relation
  *
  * @method     \SysEntityQuery|\SysLocationQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -157,21 +173,27 @@ abstract class SysEntityBranchQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysEntityBranchTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(SysEntityBranchTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = SysEntityBranchTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -189,7 +211,7 @@ abstract class SysEntityBranchQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, ENTITY_ID, LOCATION_ID, STATUS, NAME, ADDRESS, PHONE, CELLPHONE, FAX, DESCRIPTION FROM sys_entity_branch WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -201,7 +223,7 @@ abstract class SysEntityBranchQuery extends ModelCriteria
             /** @var ChildSysEntityBranch $obj */
             $obj = new ChildSysEntityBranch();
             $obj->hydrate($row);
-            SysEntityBranchTableMap::addInstanceToPool($obj, (string) $key);
+            SysEntityBranchTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -410,11 +432,10 @@ abstract class SysEntityBranchQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByStatus('fooValue');   // WHERE STATUS = 'fooValue'
-     * $query->filterByStatus('%fooValue%'); // WHERE STATUS LIKE '%fooValue%'
+     * $query->filterByStatus('%fooValue%', Criteria::LIKE); // WHERE STATUS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $status The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityBranchQuery The current query, for fluid interface
@@ -424,9 +445,6 @@ abstract class SysEntityBranchQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($status)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $status)) {
-                $status = str_replace('*', '%', $status);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -439,11 +457,10 @@ abstract class SysEntityBranchQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByName('fooValue');   // WHERE NAME = 'fooValue'
-     * $query->filterByName('%fooValue%'); // WHERE NAME LIKE '%fooValue%'
+     * $query->filterByName('%fooValue%', Criteria::LIKE); // WHERE NAME LIKE '%fooValue%'
      * </code>
      *
      * @param     string $name The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityBranchQuery The current query, for fluid interface
@@ -453,9 +470,6 @@ abstract class SysEntityBranchQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($name)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $name)) {
-                $name = str_replace('*', '%', $name);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -468,11 +482,10 @@ abstract class SysEntityBranchQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByAddress('fooValue');   // WHERE ADDRESS = 'fooValue'
-     * $query->filterByAddress('%fooValue%'); // WHERE ADDRESS LIKE '%fooValue%'
+     * $query->filterByAddress('%fooValue%', Criteria::LIKE); // WHERE ADDRESS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $address The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityBranchQuery The current query, for fluid interface
@@ -482,9 +495,6 @@ abstract class SysEntityBranchQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($address)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $address)) {
-                $address = str_replace('*', '%', $address);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -497,11 +507,10 @@ abstract class SysEntityBranchQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByPhone('fooValue');   // WHERE PHONE = 'fooValue'
-     * $query->filterByPhone('%fooValue%'); // WHERE PHONE LIKE '%fooValue%'
+     * $query->filterByPhone('%fooValue%', Criteria::LIKE); // WHERE PHONE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $phone The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityBranchQuery The current query, for fluid interface
@@ -511,9 +520,6 @@ abstract class SysEntityBranchQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($phone)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $phone)) {
-                $phone = str_replace('*', '%', $phone);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -526,11 +532,10 @@ abstract class SysEntityBranchQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByCellphone('fooValue');   // WHERE CELLPHONE = 'fooValue'
-     * $query->filterByCellphone('%fooValue%'); // WHERE CELLPHONE LIKE '%fooValue%'
+     * $query->filterByCellphone('%fooValue%', Criteria::LIKE); // WHERE CELLPHONE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $cellphone The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityBranchQuery The current query, for fluid interface
@@ -540,9 +545,6 @@ abstract class SysEntityBranchQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($cellphone)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $cellphone)) {
-                $cellphone = str_replace('*', '%', $cellphone);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -555,11 +557,10 @@ abstract class SysEntityBranchQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByFax('fooValue');   // WHERE FAX = 'fooValue'
-     * $query->filterByFax('%fooValue%'); // WHERE FAX LIKE '%fooValue%'
+     * $query->filterByFax('%fooValue%', Criteria::LIKE); // WHERE FAX LIKE '%fooValue%'
      * </code>
      *
      * @param     string $fax The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityBranchQuery The current query, for fluid interface
@@ -569,9 +570,6 @@ abstract class SysEntityBranchQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($fax)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $fax)) {
-                $fax = str_replace('*', '%', $fax);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -584,11 +582,10 @@ abstract class SysEntityBranchQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByDescription('fooValue');   // WHERE DESCRIPTION = 'fooValue'
-     * $query->filterByDescription('%fooValue%'); // WHERE DESCRIPTION LIKE '%fooValue%'
+     * $query->filterByDescription('%fooValue%', Criteria::LIKE); // WHERE DESCRIPTION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $description The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityBranchQuery The current query, for fluid interface
@@ -598,9 +595,6 @@ abstract class SysEntityBranchQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($description)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $description)) {
-                $description = str_replace('*', '%', $description);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -828,9 +822,9 @@ abstract class SysEntityBranchQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             SysEntityBranchTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             SysEntityBranchTableMap::clearRelatedInstancePool();
 

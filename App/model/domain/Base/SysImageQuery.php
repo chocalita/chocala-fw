@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'sys_image' table.
  *
- * 
+ *
  *
  * @method     ChildSysImageQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysImageQuery orderByUserId($order = Criteria::ASC) Order by the USER_ID column
@@ -46,9 +46,19 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysImageQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildSysImageQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildSysImageQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildSysImageQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildSysImageQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildSysImageQuery leftJoinSysUser($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysUser relation
  * @method     ChildSysImageQuery rightJoinSysUser($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysUser relation
  * @method     ChildSysImageQuery innerJoinSysUser($relationAlias = null) Adds a INNER JOIN clause to the query using the SysUser relation
+ *
+ * @method     ChildSysImageQuery joinWithSysUser($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysUser relation
+ *
+ * @method     ChildSysImageQuery leftJoinWithSysUser() Adds a LEFT JOIN clause and with to the query using the SysUser relation
+ * @method     ChildSysImageQuery rightJoinWithSysUser() Adds a RIGHT JOIN clause and with to the query using the SysUser relation
+ * @method     ChildSysImageQuery innerJoinWithSysUser() Adds a INNER JOIN clause and with to the query using the SysUser relation
  *
  * @method     \SysUserQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -153,21 +163,27 @@ abstract class SysImageQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysImageTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(SysImageTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = SysImageTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -185,7 +201,7 @@ abstract class SysImageQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, USER_ID, TITLE, DESCRIPTION, IMG_NAME, IMG_TYPE, IMG_SIZE, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM sys_image WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -197,7 +213,7 @@ abstract class SysImageQuery extends ModelCriteria
             /** @var ChildSysImage $obj */
             $obj = new ChildSysImage();
             $obj->hydrate($row);
-            SysImageTableMap::addInstanceToPool($obj, (string) $key);
+            SysImageTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -363,11 +379,10 @@ abstract class SysImageQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByTitle('fooValue');   // WHERE TITLE = 'fooValue'
-     * $query->filterByTitle('%fooValue%'); // WHERE TITLE LIKE '%fooValue%'
+     * $query->filterByTitle('%fooValue%', Criteria::LIKE); // WHERE TITLE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $title The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysImageQuery The current query, for fluid interface
@@ -377,9 +392,6 @@ abstract class SysImageQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($title)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $title)) {
-                $title = str_replace('*', '%', $title);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -392,11 +404,10 @@ abstract class SysImageQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByDescription('fooValue');   // WHERE DESCRIPTION = 'fooValue'
-     * $query->filterByDescription('%fooValue%'); // WHERE DESCRIPTION LIKE '%fooValue%'
+     * $query->filterByDescription('%fooValue%', Criteria::LIKE); // WHERE DESCRIPTION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $description The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysImageQuery The current query, for fluid interface
@@ -406,9 +417,6 @@ abstract class SysImageQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($description)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $description)) {
-                $description = str_replace('*', '%', $description);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -421,11 +429,10 @@ abstract class SysImageQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByImgName('fooValue');   // WHERE IMG_NAME = 'fooValue'
-     * $query->filterByImgName('%fooValue%'); // WHERE IMG_NAME LIKE '%fooValue%'
+     * $query->filterByImgName('%fooValue%', Criteria::LIKE); // WHERE IMG_NAME LIKE '%fooValue%'
      * </code>
      *
      * @param     string $imgName The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysImageQuery The current query, for fluid interface
@@ -435,9 +442,6 @@ abstract class SysImageQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($imgName)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $imgName)) {
-                $imgName = str_replace('*', '%', $imgName);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -450,11 +454,10 @@ abstract class SysImageQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByImgType('fooValue');   // WHERE IMG_TYPE = 'fooValue'
-     * $query->filterByImgType('%fooValue%'); // WHERE IMG_TYPE LIKE '%fooValue%'
+     * $query->filterByImgType('%fooValue%', Criteria::LIKE); // WHERE IMG_TYPE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $imgType The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysImageQuery The current query, for fluid interface
@@ -464,9 +467,6 @@ abstract class SysImageQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($imgType)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $imgType)) {
-                $imgType = str_replace('*', '%', $imgType);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -785,9 +785,9 @@ abstract class SysImageQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             SysImageTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             SysImageTableMap::clearRelatedInstancePool();
 

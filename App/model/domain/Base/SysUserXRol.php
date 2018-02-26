@@ -25,11 +25,11 @@ use Propel\Runtime\Parser\AbstractParser;
 /**
  * Base class that represents a row from the 'sys_user_x_rol' table.
  *
- * 
  *
-* @package    propel.generator..Base
-*/
-abstract class SysUserXRol implements ActiveRecordInterface 
+ *
+ * @package    propel.generator..Base
+ */
+abstract class SysUserXRol implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -65,12 +65,14 @@ abstract class SysUserXRol implements ActiveRecordInterface
 
     /**
      * The value for the user_id field.
+     *
      * @var        int
      */
     protected $user_id;
 
     /**
      * The value for the rol_id field.
+     *
      * @var        int
      */
     protected $rol_id;
@@ -307,12 +309,20 @@ abstract class SysUserXRol implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        return array_keys(get_object_vars($this));
+        $cls = new \ReflectionClass($this);
+        $propertyNames = [];
+        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
+
+        foreach($serializableProperties as $property) {
+            $propertyNames[] = $property->getName();
+        }
+
+        return $propertyNames;
     }
 
     /**
      * Get the [user_id] column value.
-     * 
+     *
      * @return int
      */
     public function getUserId()
@@ -322,7 +332,7 @@ abstract class SysUserXRol implements ActiveRecordInterface
 
     /**
      * Get the [rol_id] column value.
-     * 
+     *
      * @return int
      */
     public function getRolId()
@@ -332,7 +342,7 @@ abstract class SysUserXRol implements ActiveRecordInterface
 
     /**
      * Set the value of [user_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysUserXRol The current object (for fluent API support)
      */
@@ -356,7 +366,7 @@ abstract class SysUserXRol implements ActiveRecordInterface
 
     /**
      * Set the value of [rol_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysUserXRol The current object (for fluent API support)
      */
@@ -549,13 +559,17 @@ abstract class SysUserXRol implements ActiveRecordInterface
             throw new PropelException("You cannot save an object that has been deleted.");
         }
 
+        if ($this->alreadyInSave) {
+            return 0;
+        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysUserXRolTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
-            $isInsert = $this->isNew();
             $ret = $this->preSave($con);
+            $isInsert = $this->isNew();
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
             } else {
@@ -664,10 +678,10 @@ abstract class SysUserXRol implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'USER_ID':                        
+                    case 'USER_ID':
                         $stmt->bindValue($identifier, $this->user_id, PDO::PARAM_INT);
                         break;
-                    case 'ROL_ID':                        
+                    case 'ROL_ID':
                         $stmt->bindValue($identifier, $this->rol_id, PDO::PARAM_INT);
                         break;
                 }
@@ -768,10 +782,10 @@ abstract class SysUserXRol implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->aSysUser) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysUser';
@@ -782,11 +796,11 @@ abstract class SysUserXRol implements ActiveRecordInterface
                     default:
                         $key = 'SysUser';
                 }
-        
+
                 $result[$key] = $this->aSysUser->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aSysRol) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysRol';
@@ -797,7 +811,7 @@ abstract class SysUserXRol implements ActiveRecordInterface
                     default:
                         $key = 'SysRol';
                 }
-        
+
                 $result[$key] = $this->aSysRol->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
@@ -978,7 +992,7 @@ abstract class SysUserXRol implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-        
+
     /**
      * Returns the composite primary key for this object.
      * The array elements will be in same order as specified in XML.
@@ -1093,7 +1107,7 @@ abstract class SysUserXRol implements ActiveRecordInterface
      */
     public function getSysUser(ConnectionInterface $con = null)
     {
-        if ($this->aSysUser === null && ($this->user_id !== null)) {
+        if ($this->aSysUser === null && ($this->user_id != 0)) {
             $this->aSysUser = ChildSysUserQuery::create()->findPk($this->user_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
@@ -1144,7 +1158,7 @@ abstract class SysUserXRol implements ActiveRecordInterface
      */
     public function getSysRol(ConnectionInterface $con = null)
     {
-        if ($this->aSysRol === null && ($this->rol_id !== null)) {
+        if ($this->aSysRol === null && ($this->rol_id != 0)) {
             $this->aSysRol = ChildSysRolQuery::create()->findPk($this->rol_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
@@ -1214,6 +1228,9 @@ abstract class SysUserXRol implements ActiveRecordInterface
      */
     public function preSave(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preSave')) {
+            return parent::preSave($con);
+        }
         return true;
     }
 
@@ -1223,7 +1240,9 @@ abstract class SysUserXRol implements ActiveRecordInterface
      */
     public function postSave(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postSave')) {
+            parent::postSave($con);
+        }
     }
 
     /**
@@ -1233,6 +1252,9 @@ abstract class SysUserXRol implements ActiveRecordInterface
      */
     public function preInsert(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preInsert')) {
+            return parent::preInsert($con);
+        }
         return true;
     }
 
@@ -1242,7 +1264,9 @@ abstract class SysUserXRol implements ActiveRecordInterface
      */
     public function postInsert(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postInsert')) {
+            parent::postInsert($con);
+        }
     }
 
     /**
@@ -1252,6 +1276,9 @@ abstract class SysUserXRol implements ActiveRecordInterface
      */
     public function preUpdate(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preUpdate')) {
+            return parent::preUpdate($con);
+        }
         return true;
     }
 
@@ -1261,7 +1288,9 @@ abstract class SysUserXRol implements ActiveRecordInterface
      */
     public function postUpdate(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postUpdate')) {
+            parent::postUpdate($con);
+        }
     }
 
     /**
@@ -1271,6 +1300,9 @@ abstract class SysUserXRol implements ActiveRecordInterface
      */
     public function preDelete(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preDelete')) {
+            return parent::preDelete($con);
+        }
         return true;
     }
 
@@ -1280,7 +1312,9 @@ abstract class SysUserXRol implements ActiveRecordInterface
      */
     public function postDelete(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postDelete')) {
+            parent::postDelete($con);
+        }
     }
 
 

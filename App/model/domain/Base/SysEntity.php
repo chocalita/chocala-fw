@@ -17,7 +17,10 @@ use \SysLocationQuery as ChildSysLocationQuery;
 use \DateTime;
 use \Exception;
 use \PDO;
+use Map\SysEntityBranchTableMap;
+use Map\SysEntityParamTableMap;
 use Map\SysEntityTableMap;
+use Map\SysEntityUserTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -35,11 +38,11 @@ use Propel\Runtime\Util\PropelDateTime;
 /**
  * Base class that represents a row from the 'sys_entity' table.
  *
- * 
  *
-* @package    propel.generator..Base
-*/
-abstract class SysEntity implements ActiveRecordInterface 
+ *
+ * @package    propel.generator..Base
+ */
+abstract class SysEntity implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -75,105 +78,122 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * The value for the id field.
+     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the entity_type_id field.
+     *
      * @var        int
      */
     protected $entity_type_id;
 
     /**
      * The value for the location_id field.
+     *
      * @var        int
      */
     protected $location_id;
 
     /**
      * The value for the main_branch_id field.
+     *
      * @var        int
      */
     protected $main_branch_id;
 
     /**
      * The value for the code field.
+     *
      * @var        string
      */
     protected $code;
 
     /**
      * The value for the comercial_name field.
+     *
      * @var        string
      */
     protected $comercial_name;
 
     /**
      * The value for the formal_name field.
+     *
      * @var        string
      */
     protected $formal_name;
 
     /**
      * The value for the nit field.
+     *
      * @var        string
      */
     protected $nit;
 
     /**
      * The value for the email field.
+     *
      * @var        string
      */
     protected $email;
 
     /**
      * The value for the address field.
+     *
      * @var        string
      */
     protected $address;
 
     /**
      * The value for the phone field.
+     *
      * @var        string
      */
     protected $phone;
 
     /**
      * The value for the cellphone field.
+     *
      * @var        string
      */
     protected $cellphone;
 
     /**
      * The value for the activities field.
+     *
      * @var        string
      */
     protected $activities;
 
     /**
      * The value for the description field.
+     *
      * @var        string
      */
     protected $description;
 
     /**
      * The value for the last_user_id field.
+     *
      * @var        int
      */
     protected $last_user_id;
 
     /**
      * The value for the creation_date field.
+     *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
-     * @var        \DateTime
+     * @var        DateTime
      */
     protected $creation_date;
 
     /**
      * The value for the modificacion_date field.
+     *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
-     * @var        \DateTime
+     * @var        DateTime
      */
     protected $modificacion_date;
 
@@ -457,12 +477,20 @@ abstract class SysEntity implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        return array_keys(get_object_vars($this));
+        $cls = new \ReflectionClass($this);
+        $propertyNames = [];
+        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
+
+        foreach($serializableProperties as $property) {
+            $propertyNames[] = $property->getName();
+        }
+
+        return $propertyNames;
     }
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return int
      */
     public function getId()
@@ -472,7 +500,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Get the [entity_type_id] column value.
-     * 
+     *
      * @return int
      */
     public function getEntityTypeId()
@@ -482,7 +510,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Get the [location_id] column value.
-     * 
+     *
      * @return int
      */
     public function getLocationId()
@@ -492,7 +520,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Get the [main_branch_id] column value.
-     * 
+     *
      * @return int
      */
     public function getMainBranchId()
@@ -502,7 +530,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Get the [code] column value.
-     * 
+     *
      * @return string
      */
     public function getCode()
@@ -512,7 +540,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Get the [comercial_name] column value.
-     * 
+     *
      * @return string
      */
     public function getComercialName()
@@ -522,7 +550,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Get the [formal_name] column value.
-     * 
+     *
      * @return string
      */
     public function getFormalName()
@@ -532,7 +560,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Get the [nit] column value.
-     * 
+     *
      * @return string
      */
     public function getNit()
@@ -542,7 +570,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Get the [email] column value.
-     * 
+     *
      * @return string
      */
     public function getEmail()
@@ -552,7 +580,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Get the [address] column value.
-     * 
+     *
      * @return string
      */
     public function getAddress()
@@ -562,7 +590,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Get the [phone] column value.
-     * 
+     *
      * @return string
      */
     public function getPhone()
@@ -572,7 +600,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Get the [cellphone] column value.
-     * 
+     *
      * @return string
      */
     public function getCellphone()
@@ -582,7 +610,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Get the [activities] column value.
-     * 
+     *
      * @return string
      */
     public function getActivities()
@@ -592,7 +620,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Get the [description] column value.
-     * 
+     *
      * @return string
      */
     public function getDescription()
@@ -602,7 +630,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Get the [last_user_id] column value.
-     * 
+     *
      * @return int
      */
     public function getLastUserId()
@@ -612,9 +640,9 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [creation_date] column value.
-     * 
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *
+     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -626,15 +654,15 @@ abstract class SysEntity implements ActiveRecordInterface
         if ($format === null) {
             return $this->creation_date;
         } else {
-            return $this->creation_date instanceof \DateTime ? $this->creation_date->format($format) : null;
+            return $this->creation_date instanceof \DateTimeInterface ? $this->creation_date->format($format) : null;
         }
     }
 
     /**
      * Get the [optionally formatted] temporal [modificacion_date] column value.
-     * 
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *
+     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -646,13 +674,13 @@ abstract class SysEntity implements ActiveRecordInterface
         if ($format === null) {
             return $this->modificacion_date;
         } else {
-            return $this->modificacion_date instanceof \DateTime ? $this->modificacion_date->format($format) : null;
+            return $this->modificacion_date instanceof \DateTimeInterface ? $this->modificacion_date->format($format) : null;
         }
     }
 
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysEntity The current object (for fluent API support)
      */
@@ -672,7 +700,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Set the value of [entity_type_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysEntity The current object (for fluent API support)
      */
@@ -696,7 +724,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Set the value of [location_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysEntity The current object (for fluent API support)
      */
@@ -720,7 +748,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Set the value of [main_branch_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysEntity The current object (for fluent API support)
      */
@@ -740,7 +768,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Set the value of [code] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysEntity The current object (for fluent API support)
      */
@@ -760,7 +788,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Set the value of [comercial_name] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysEntity The current object (for fluent API support)
      */
@@ -780,7 +808,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Set the value of [formal_name] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysEntity The current object (for fluent API support)
      */
@@ -800,7 +828,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Set the value of [nit] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysEntity The current object (for fluent API support)
      */
@@ -820,7 +848,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Set the value of [email] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysEntity The current object (for fluent API support)
      */
@@ -840,7 +868,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Set the value of [address] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysEntity The current object (for fluent API support)
      */
@@ -860,7 +888,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Set the value of [phone] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysEntity The current object (for fluent API support)
      */
@@ -880,7 +908,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Set the value of [cellphone] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysEntity The current object (for fluent API support)
      */
@@ -900,7 +928,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Set the value of [activities] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysEntity The current object (for fluent API support)
      */
@@ -920,7 +948,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Set the value of [description] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysEntity The current object (for fluent API support)
      */
@@ -940,7 +968,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Set the value of [last_user_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysEntity The current object (for fluent API support)
      */
@@ -960,8 +988,8 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
-     * 
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysEntity The current object (for fluent API support)
      */
@@ -969,7 +997,7 @@ abstract class SysEntity implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->creation_date !== null || $dt !== null) {
-            if ($this->creation_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->creation_date->format("Y-m-d H:i:s")) {
+            if ($this->creation_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->creation_date->format("Y-m-d H:i:s.u")) {
                 $this->creation_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[SysEntityTableMap::COL_CREATION_DATE] = true;
             }
@@ -980,8 +1008,8 @@ abstract class SysEntity implements ActiveRecordInterface
 
     /**
      * Sets the value of [modificacion_date] column to a normalized version of the date/time value specified.
-     * 
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysEntity The current object (for fluent API support)
      */
@@ -989,7 +1017,7 @@ abstract class SysEntity implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->modificacion_date !== null || $dt !== null) {
-            if ($this->modificacion_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->modificacion_date->format("Y-m-d H:i:s")) {
+            if ($this->modificacion_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->modificacion_date->format("Y-m-d H:i:s.u")) {
                 $this->modificacion_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[SysEntityTableMap::COL_MODIFICACION_DATE] = true;
             }
@@ -1226,13 +1254,17 @@ abstract class SysEntity implements ActiveRecordInterface
             throw new PropelException("You cannot save an object that has been deleted.");
         }
 
+        if ($this->alreadyInSave) {
+            return 0;
+        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysEntityTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
-            $isInsert = $this->isNew();
             $ret = $this->preSave($con);
+            $isInsert = $this->isNew();
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
             } else {
@@ -1441,56 +1473,56 @@ abstract class SysEntity implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'ENTITY_TYPE_ID':                        
+                    case 'ENTITY_TYPE_ID':
                         $stmt->bindValue($identifier, $this->entity_type_id, PDO::PARAM_INT);
                         break;
-                    case 'LOCATION_ID':                        
+                    case 'LOCATION_ID':
                         $stmt->bindValue($identifier, $this->location_id, PDO::PARAM_INT);
                         break;
-                    case 'MAIN_BRANCH_ID':                        
+                    case 'MAIN_BRANCH_ID':
                         $stmt->bindValue($identifier, $this->main_branch_id, PDO::PARAM_INT);
                         break;
-                    case 'CODE':                        
+                    case 'CODE':
                         $stmt->bindValue($identifier, $this->code, PDO::PARAM_STR);
                         break;
-                    case 'COMERCIAL_NAME':                        
+                    case 'COMERCIAL_NAME':
                         $stmt->bindValue($identifier, $this->comercial_name, PDO::PARAM_STR);
                         break;
-                    case 'FORMAL_NAME':                        
+                    case 'FORMAL_NAME':
                         $stmt->bindValue($identifier, $this->formal_name, PDO::PARAM_STR);
                         break;
-                    case 'NIT':                        
+                    case 'NIT':
                         $stmt->bindValue($identifier, $this->nit, PDO::PARAM_STR);
                         break;
-                    case 'EMAIL':                        
+                    case 'EMAIL':
                         $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
                         break;
-                    case 'ADDRESS':                        
+                    case 'ADDRESS':
                         $stmt->bindValue($identifier, $this->address, PDO::PARAM_STR);
                         break;
-                    case 'PHONE':                        
+                    case 'PHONE':
                         $stmt->bindValue($identifier, $this->phone, PDO::PARAM_STR);
                         break;
-                    case 'CELLPHONE':                        
+                    case 'CELLPHONE':
                         $stmt->bindValue($identifier, $this->cellphone, PDO::PARAM_STR);
                         break;
-                    case 'ACTIVITIES':                        
+                    case 'ACTIVITIES':
                         $stmt->bindValue($identifier, $this->activities, PDO::PARAM_STR);
                         break;
-                    case 'DESCRIPTION':                        
+                    case 'DESCRIPTION':
                         $stmt->bindValue($identifier, $this->description, PDO::PARAM_STR);
                         break;
-                    case 'LAST_USER_ID':                        
+                    case 'LAST_USER_ID':
                         $stmt->bindValue($identifier, $this->last_user_id, PDO::PARAM_INT);
                         break;
-                    case 'CREATION_DATE':                        
-                        $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                    case 'CREATION_DATE':
+                        $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
-                    case 'MODIFICACION_DATE':                        
-                        $stmt->bindValue($identifier, $this->modificacion_date ? $this->modificacion_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                    case 'MODIFICACION_DATE':
+                        $stmt->bindValue($identifier, $this->modificacion_date ? $this->modificacion_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1653,28 +1685,22 @@ abstract class SysEntity implements ActiveRecordInterface
             $keys[15] => $this->getCreationDate(),
             $keys[16] => $this->getModificacionDate(),
         );
+        if ($result[$keys[15]] instanceof \DateTimeInterface) {
+            $result[$keys[15]] = $result[$keys[15]]->format('c');
+        }
 
-        $utc = new \DateTimeZone('utc');
-        if ($result[$keys[15]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[15]];
-            $result[$keys[15]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+        if ($result[$keys[16]] instanceof \DateTimeInterface) {
+            $result[$keys[16]] = $result[$keys[16]]->format('c');
         }
-        
-        if ($result[$keys[16]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[16]];
-            $result[$keys[16]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
-        }
-        
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->aSysEntityType) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysEntityType';
@@ -1685,11 +1711,11 @@ abstract class SysEntity implements ActiveRecordInterface
                     default:
                         $key = 'SysEntityType';
                 }
-        
+
                 $result[$key] = $this->aSysEntityType->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aSysLocation) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysLocation';
@@ -1700,11 +1726,11 @@ abstract class SysEntity implements ActiveRecordInterface
                     default:
                         $key = 'SysLocation';
                 }
-        
+
                 $result[$key] = $this->aSysLocation->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->collSysEntityBranches) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysEntityBranches';
@@ -1715,11 +1741,11 @@ abstract class SysEntity implements ActiveRecordInterface
                     default:
                         $key = 'SysEntityBranches';
                 }
-        
+
                 $result[$key] = $this->collSysEntityBranches->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collSysEntityParams) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysEntityParams';
@@ -1730,11 +1756,11 @@ abstract class SysEntity implements ActiveRecordInterface
                     default:
                         $key = 'SysEntityParams';
                 }
-        
+
                 $result[$key] = $this->collSysEntityParams->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collSysEntityUsers) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysEntityUsers';
@@ -1745,7 +1771,7 @@ abstract class SysEntity implements ActiveRecordInterface
                     default:
                         $key = 'SysEntityUsers';
                 }
-        
+
                 $result[$key] = $this->collSysEntityUsers->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
@@ -2045,7 +2071,7 @@ abstract class SysEntity implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-        
+
     /**
      * Returns the primary key for this object (row).
      * @return int
@@ -2195,7 +2221,7 @@ abstract class SysEntity implements ActiveRecordInterface
      */
     public function getSysEntityType(ConnectionInterface $con = null)
     {
-        if ($this->aSysEntityType === null && ($this->entity_type_id !== null)) {
+        if ($this->aSysEntityType === null && ($this->entity_type_id != 0)) {
             $this->aSysEntityType = ChildSysEntityTypeQuery::create()->findPk($this->entity_type_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
@@ -2246,7 +2272,7 @@ abstract class SysEntity implements ActiveRecordInterface
      */
     public function getSysLocation(ConnectionInterface $con = null)
     {
-        if ($this->aSysLocation === null && ($this->location_id !== null)) {
+        if ($this->aSysLocation === null && ($this->location_id != 0)) {
             $this->aSysLocation = ChildSysLocationQuery::create()->findPk($this->location_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
@@ -2272,13 +2298,16 @@ abstract class SysEntity implements ActiveRecordInterface
     public function initRelation($relationName)
     {
         if ('SysEntityBranch' == $relationName) {
-            return $this->initSysEntityBranches();
+            $this->initSysEntityBranches();
+            return;
         }
         if ('SysEntityParam' == $relationName) {
-            return $this->initSysEntityParams();
+            $this->initSysEntityParams();
+            return;
         }
         if ('SysEntityUser' == $relationName) {
-            return $this->initSysEntityUsers();
+            $this->initSysEntityUsers();
+            return;
         }
     }
 
@@ -2321,7 +2350,10 @@ abstract class SysEntity implements ActiveRecordInterface
         if (null !== $this->collSysEntityBranches && !$overrideExisting) {
             return;
         }
-        $this->collSysEntityBranches = new ObjectCollection();
+
+        $collectionClassName = SysEntityBranchTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collSysEntityBranches = new $collectionClassName;
         $this->collSysEntityBranches->setModel('\SysEntityBranch');
     }
 
@@ -2398,7 +2430,7 @@ abstract class SysEntity implements ActiveRecordInterface
         /** @var ChildSysEntityBranch[] $sysEntityBranchesToDelete */
         $sysEntityBranchesToDelete = $this->getSysEntityBranches(new Criteria(), $con)->diff($sysEntityBranches);
 
-        
+
         $this->sysEntityBranchesScheduledForDeletion = $sysEntityBranchesToDelete;
 
         foreach ($sysEntityBranchesToDelete as $sysEntityBranchRemoved) {
@@ -2466,6 +2498,10 @@ abstract class SysEntity implements ActiveRecordInterface
 
         if (!$this->collSysEntityBranches->contains($l)) {
             $this->doAddSysEntityBranch($l);
+
+            if ($this->sysEntityBranchesScheduledForDeletion and $this->sysEntityBranchesScheduledForDeletion->contains($l)) {
+                $this->sysEntityBranchesScheduledForDeletion->remove($this->sysEntityBranchesScheduledForDeletion->search($l));
+            }
         }
 
         return $this;
@@ -2564,7 +2600,10 @@ abstract class SysEntity implements ActiveRecordInterface
         if (null !== $this->collSysEntityParams && !$overrideExisting) {
             return;
         }
-        $this->collSysEntityParams = new ObjectCollection();
+
+        $collectionClassName = SysEntityParamTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collSysEntityParams = new $collectionClassName;
         $this->collSysEntityParams->setModel('\SysEntityParam');
     }
 
@@ -2641,7 +2680,7 @@ abstract class SysEntity implements ActiveRecordInterface
         /** @var ChildSysEntityParam[] $sysEntityParamsToDelete */
         $sysEntityParamsToDelete = $this->getSysEntityParams(new Criteria(), $con)->diff($sysEntityParams);
 
-        
+
         $this->sysEntityParamsScheduledForDeletion = $sysEntityParamsToDelete;
 
         foreach ($sysEntityParamsToDelete as $sysEntityParamRemoved) {
@@ -2709,6 +2748,10 @@ abstract class SysEntity implements ActiveRecordInterface
 
         if (!$this->collSysEntityParams->contains($l)) {
             $this->doAddSysEntityParam($l);
+
+            if ($this->sysEntityParamsScheduledForDeletion and $this->sysEntityParamsScheduledForDeletion->contains($l)) {
+                $this->sysEntityParamsScheduledForDeletion->remove($this->sysEntityParamsScheduledForDeletion->search($l));
+            }
         }
 
         return $this;
@@ -2807,7 +2850,10 @@ abstract class SysEntity implements ActiveRecordInterface
         if (null !== $this->collSysEntityUsers && !$overrideExisting) {
             return;
         }
-        $this->collSysEntityUsers = new ObjectCollection();
+
+        $collectionClassName = SysEntityUserTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collSysEntityUsers = new $collectionClassName;
         $this->collSysEntityUsers->setModel('\SysEntityUser');
     }
 
@@ -2884,7 +2930,7 @@ abstract class SysEntity implements ActiveRecordInterface
         /** @var ChildSysEntityUser[] $sysEntityUsersToDelete */
         $sysEntityUsersToDelete = $this->getSysEntityUsers(new Criteria(), $con)->diff($sysEntityUsers);
 
-        
+
         $this->sysEntityUsersScheduledForDeletion = $sysEntityUsersToDelete;
 
         foreach ($sysEntityUsersToDelete as $sysEntityUserRemoved) {
@@ -2952,6 +2998,10 @@ abstract class SysEntity implements ActiveRecordInterface
 
         if (!$this->collSysEntityUsers->contains($l)) {
             $this->doAddSysEntityUser($l);
+
+            if ($this->sysEntityUsersScheduledForDeletion and $this->sysEntityUsersScheduledForDeletion->contains($l)) {
+                $this->sysEntityUsersScheduledForDeletion->remove($this->sysEntityUsersScheduledForDeletion->search($l));
+            }
         }
 
         return $this;
@@ -3126,6 +3176,9 @@ abstract class SysEntity implements ActiveRecordInterface
      */
     public function preSave(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preSave')) {
+            return parent::preSave($con);
+        }
         return true;
     }
 
@@ -3135,7 +3188,9 @@ abstract class SysEntity implements ActiveRecordInterface
      */
     public function postSave(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postSave')) {
+            parent::postSave($con);
+        }
     }
 
     /**
@@ -3145,6 +3200,9 @@ abstract class SysEntity implements ActiveRecordInterface
      */
     public function preInsert(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preInsert')) {
+            return parent::preInsert($con);
+        }
         return true;
     }
 
@@ -3154,7 +3212,9 @@ abstract class SysEntity implements ActiveRecordInterface
      */
     public function postInsert(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postInsert')) {
+            parent::postInsert($con);
+        }
     }
 
     /**
@@ -3164,6 +3224,9 @@ abstract class SysEntity implements ActiveRecordInterface
      */
     public function preUpdate(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preUpdate')) {
+            return parent::preUpdate($con);
+        }
         return true;
     }
 
@@ -3173,7 +3236,9 @@ abstract class SysEntity implements ActiveRecordInterface
      */
     public function postUpdate(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postUpdate')) {
+            parent::postUpdate($con);
+        }
     }
 
     /**
@@ -3183,6 +3248,9 @@ abstract class SysEntity implements ActiveRecordInterface
      */
     public function preDelete(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preDelete')) {
+            return parent::preDelete($con);
+        }
         return true;
     }
 
@@ -3192,7 +3260,9 @@ abstract class SysEntity implements ActiveRecordInterface
      */
     public function postDelete(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postDelete')) {
+            parent::postDelete($con);
+        }
     }
 
 

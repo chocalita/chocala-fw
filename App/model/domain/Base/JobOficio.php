@@ -9,6 +9,7 @@ use \JobOficioQuery as ChildJobOficioQuery;
 use \DateTime;
 use \Exception;
 use \PDO;
+use Map\JobOficioCurriculumTableMap;
 use Map\JobOficioTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -27,11 +28,11 @@ use Propel\Runtime\Util\PropelDateTime;
 /**
  * Base class that represents a row from the 'job_oficio' table.
  *
- * 
  *
-* @package    propel.generator..Base
-*/
-abstract class JobOficio implements ActiveRecordInterface 
+ *
+ * @package    propel.generator..Base
+ */
+abstract class JobOficio implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -67,24 +68,28 @@ abstract class JobOficio implements ActiveRecordInterface
 
     /**
      * The value for the id field.
+     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the nombre field.
+     *
      * @var        string
      */
     protected $nombre;
 
     /**
      * The value for the descripcion field.
+     *
      * @var        string
      */
     protected $descripcion;
 
     /**
      * The value for the verificado field.
+     *
      * Note: this column has a database default value of: false
      * @var        boolean
      */
@@ -92,6 +97,7 @@ abstract class JobOficio implements ActiveRecordInterface
 
     /**
      * The value for the status field.
+     *
      * Note: this column has a database default value of: 'ACTIVE'
      * @var        string
      */
@@ -99,6 +105,7 @@ abstract class JobOficio implements ActiveRecordInterface
 
     /**
      * The value for the last_user_id field.
+     *
      * Note: this column has a database default value of: 0
      * @var        int
      */
@@ -106,14 +113,16 @@ abstract class JobOficio implements ActiveRecordInterface
 
     /**
      * The value for the creation_date field.
+     *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
-     * @var        \DateTime
+     * @var        DateTime
      */
     protected $creation_date;
 
     /**
      * The value for the modification_date field.
-     * @var        \DateTime
+     *
+     * @var        DateTime
      */
     protected $modification_date;
 
@@ -366,12 +375,20 @@ abstract class JobOficio implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        return array_keys(get_object_vars($this));
+        $cls = new \ReflectionClass($this);
+        $propertyNames = [];
+        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
+
+        foreach($serializableProperties as $property) {
+            $propertyNames[] = $property->getName();
+        }
+
+        return $propertyNames;
     }
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return int
      */
     public function getId()
@@ -381,7 +398,7 @@ abstract class JobOficio implements ActiveRecordInterface
 
     /**
      * Get the [nombre] column value.
-     * 
+     *
      * @return string
      */
     public function getNombre()
@@ -391,7 +408,7 @@ abstract class JobOficio implements ActiveRecordInterface
 
     /**
      * Get the [descripcion] column value.
-     * 
+     *
      * @return string
      */
     public function getDescripcion()
@@ -401,7 +418,7 @@ abstract class JobOficio implements ActiveRecordInterface
 
     /**
      * Get the [verificado] column value.
-     * 
+     *
      * @return boolean
      */
     public function getVerificado()
@@ -411,7 +428,7 @@ abstract class JobOficio implements ActiveRecordInterface
 
     /**
      * Get the [verificado] column value.
-     * 
+     *
      * @return boolean
      */
     public function isVerificado()
@@ -421,7 +438,7 @@ abstract class JobOficio implements ActiveRecordInterface
 
     /**
      * Get the [status] column value.
-     * 
+     *
      * @return string
      */
     public function getStatus()
@@ -431,7 +448,7 @@ abstract class JobOficio implements ActiveRecordInterface
 
     /**
      * Get the [last_user_id] column value.
-     * 
+     *
      * @return int
      */
     public function getLastUserId()
@@ -441,9 +458,9 @@ abstract class JobOficio implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [creation_date] column value.
-     * 
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *
+     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -455,15 +472,15 @@ abstract class JobOficio implements ActiveRecordInterface
         if ($format === null) {
             return $this->creation_date;
         } else {
-            return $this->creation_date instanceof \DateTime ? $this->creation_date->format($format) : null;
+            return $this->creation_date instanceof \DateTimeInterface ? $this->creation_date->format($format) : null;
         }
     }
 
     /**
      * Get the [optionally formatted] temporal [modification_date] column value.
-     * 
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *
+     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -475,13 +492,13 @@ abstract class JobOficio implements ActiveRecordInterface
         if ($format === null) {
             return $this->modification_date;
         } else {
-            return $this->modification_date instanceof \DateTime ? $this->modification_date->format($format) : null;
+            return $this->modification_date instanceof \DateTimeInterface ? $this->modification_date->format($format) : null;
         }
     }
 
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobOficio The current object (for fluent API support)
      */
@@ -501,7 +518,7 @@ abstract class JobOficio implements ActiveRecordInterface
 
     /**
      * Set the value of [nombre] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobOficio The current object (for fluent API support)
      */
@@ -521,7 +538,7 @@ abstract class JobOficio implements ActiveRecordInterface
 
     /**
      * Set the value of [descripcion] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobOficio The current object (for fluent API support)
      */
@@ -545,7 +562,7 @@ abstract class JobOficio implements ActiveRecordInterface
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     * 
+     *
      * @param  boolean|integer|string $v The new value
      * @return $this|\JobOficio The current object (for fluent API support)
      */
@@ -569,7 +586,7 @@ abstract class JobOficio implements ActiveRecordInterface
 
     /**
      * Set the value of [status] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobOficio The current object (for fluent API support)
      */
@@ -589,7 +606,7 @@ abstract class JobOficio implements ActiveRecordInterface
 
     /**
      * Set the value of [last_user_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobOficio The current object (for fluent API support)
      */
@@ -609,8 +626,8 @@ abstract class JobOficio implements ActiveRecordInterface
 
     /**
      * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
-     * 
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobOficio The current object (for fluent API support)
      */
@@ -618,7 +635,7 @@ abstract class JobOficio implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->creation_date !== null || $dt !== null) {
-            if ($this->creation_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->creation_date->format("Y-m-d H:i:s")) {
+            if ($this->creation_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->creation_date->format("Y-m-d H:i:s.u")) {
                 $this->creation_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[JobOficioTableMap::COL_CREATION_DATE] = true;
             }
@@ -629,8 +646,8 @@ abstract class JobOficio implements ActiveRecordInterface
 
     /**
      * Sets the value of [modification_date] column to a normalized version of the date/time value specified.
-     * 
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobOficio The current object (for fluent API support)
      */
@@ -638,7 +655,7 @@ abstract class JobOficio implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->modification_date !== null || $dt !== null) {
-            if ($this->modification_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->modification_date->format("Y-m-d H:i:s")) {
+            if ($this->modification_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->modification_date->format("Y-m-d H:i:s.u")) {
                 $this->modification_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[JobOficioTableMap::COL_MODIFICATION_DATE] = true;
             }
@@ -848,13 +865,17 @@ abstract class JobOficio implements ActiveRecordInterface
             throw new PropelException("You cannot save an object that has been deleted.");
         }
 
+        if ($this->alreadyInSave) {
+            return 0;
+        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getWriteConnection(JobOficioTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
-            $isInsert = $this->isNew();
             $ret = $this->preSave($con);
+            $isInsert = $this->isNew();
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
             } else {
@@ -983,29 +1004,29 @@ abstract class JobOficio implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'NOMBRE':                        
+                    case 'NOMBRE':
                         $stmt->bindValue($identifier, $this->nombre, PDO::PARAM_STR);
                         break;
-                    case 'DESCRIPCION':                        
+                    case 'DESCRIPCION':
                         $stmt->bindValue($identifier, $this->descripcion, PDO::PARAM_STR);
                         break;
                     case 'VERIFICADO':
                         $stmt->bindValue($identifier, (int) $this->verificado, PDO::PARAM_INT);
                         break;
-                    case 'STATUS':                        
+                    case 'STATUS':
                         $stmt->bindValue($identifier, $this->status, PDO::PARAM_STR);
                         break;
-                    case 'LAST_USER_ID':                        
+                    case 'LAST_USER_ID':
                         $stmt->bindValue($identifier, $this->last_user_id, PDO::PARAM_INT);
                         break;
-                    case 'CREATION_DATE':                        
-                        $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                    case 'CREATION_DATE':
+                        $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
-                    case 'MODIFICATION_DATE':                        
-                        $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                    case 'MODIFICATION_DATE':
+                        $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1132,28 +1153,22 @@ abstract class JobOficio implements ActiveRecordInterface
             $keys[6] => $this->getCreationDate(),
             $keys[7] => $this->getModificationDate(),
         );
+        if ($result[$keys[6]] instanceof \DateTimeInterface) {
+            $result[$keys[6]] = $result[$keys[6]]->format('c');
+        }
 
-        $utc = new \DateTimeZone('utc');
-        if ($result[$keys[6]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[6]];
-            $result[$keys[6]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+        if ($result[$keys[7]] instanceof \DateTimeInterface) {
+            $result[$keys[7]] = $result[$keys[7]]->format('c');
         }
-        
-        if ($result[$keys[7]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[7]];
-            $result[$keys[7]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
-        }
-        
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->collJobOficioCurriculums) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'jobOficioCurriculums';
@@ -1164,7 +1179,7 @@ abstract class JobOficio implements ActiveRecordInterface
                     default:
                         $key = 'JobOficioCurriculums';
                 }
-        
+
                 $result[$key] = $this->collJobOficioCurriculums->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
@@ -1383,7 +1398,7 @@ abstract class JobOficio implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-        
+
     /**
      * Returns the primary key for this object (row).
      * @return int
@@ -1487,7 +1502,8 @@ abstract class JobOficio implements ActiveRecordInterface
     public function initRelation($relationName)
     {
         if ('JobOficioCurriculum' == $relationName) {
-            return $this->initJobOficioCurriculums();
+            $this->initJobOficioCurriculums();
+            return;
         }
     }
 
@@ -1530,7 +1546,10 @@ abstract class JobOficio implements ActiveRecordInterface
         if (null !== $this->collJobOficioCurriculums && !$overrideExisting) {
             return;
         }
-        $this->collJobOficioCurriculums = new ObjectCollection();
+
+        $collectionClassName = JobOficioCurriculumTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collJobOficioCurriculums = new $collectionClassName;
         $this->collJobOficioCurriculums->setModel('\JobOficioCurriculum');
     }
 
@@ -1607,7 +1626,7 @@ abstract class JobOficio implements ActiveRecordInterface
         /** @var ChildJobOficioCurriculum[] $jobOficioCurriculumsToDelete */
         $jobOficioCurriculumsToDelete = $this->getJobOficioCurriculums(new Criteria(), $con)->diff($jobOficioCurriculums);
 
-        
+
         //since at least one column in the foreign key is at the same time a PK
         //we can not just set a PK to NULL in the lines below. We have to store
         //a backup of all values, so we are able to manipulate these items based on the onDelete value later.
@@ -1678,6 +1697,10 @@ abstract class JobOficio implements ActiveRecordInterface
 
         if (!$this->collJobOficioCurriculums->contains($l)) {
             $this->doAddJobOficioCurriculum($l);
+
+            if ($this->jobOficioCurriculumsScheduledForDeletion and $this->jobOficioCurriculumsScheduledForDeletion->contains($l)) {
+                $this->jobOficioCurriculumsScheduledForDeletion->remove($this->jobOficioCurriculumsScheduledForDeletion->search($l));
+            }
         }
 
         return $this;
@@ -1798,6 +1821,9 @@ abstract class JobOficio implements ActiveRecordInterface
      */
     public function preSave(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preSave')) {
+            return parent::preSave($con);
+        }
         return true;
     }
 
@@ -1807,7 +1833,9 @@ abstract class JobOficio implements ActiveRecordInterface
      */
     public function postSave(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postSave')) {
+            parent::postSave($con);
+        }
     }
 
     /**
@@ -1817,6 +1845,9 @@ abstract class JobOficio implements ActiveRecordInterface
      */
     public function preInsert(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preInsert')) {
+            return parent::preInsert($con);
+        }
         return true;
     }
 
@@ -1826,7 +1857,9 @@ abstract class JobOficio implements ActiveRecordInterface
      */
     public function postInsert(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postInsert')) {
+            parent::postInsert($con);
+        }
     }
 
     /**
@@ -1836,6 +1869,9 @@ abstract class JobOficio implements ActiveRecordInterface
      */
     public function preUpdate(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preUpdate')) {
+            return parent::preUpdate($con);
+        }
         return true;
     }
 
@@ -1845,7 +1881,9 @@ abstract class JobOficio implements ActiveRecordInterface
      */
     public function postUpdate(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postUpdate')) {
+            parent::postUpdate($con);
+        }
     }
 
     /**
@@ -1855,6 +1893,9 @@ abstract class JobOficio implements ActiveRecordInterface
      */
     public function preDelete(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preDelete')) {
+            return parent::preDelete($con);
+        }
         return true;
     }
 
@@ -1864,7 +1905,9 @@ abstract class JobOficio implements ActiveRecordInterface
      */
     public function postDelete(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postDelete')) {
+            parent::postDelete($con);
+        }
     }
 
 

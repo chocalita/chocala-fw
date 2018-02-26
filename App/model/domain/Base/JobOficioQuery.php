@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'job_oficio' table.
  *
- * 
+ *
  *
  * @method     ChildJobOficioQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildJobOficioQuery orderByNombre($order = Criteria::ASC) Order by the NOMBRE column
@@ -42,9 +42,19 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobOficioQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildJobOficioQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildJobOficioQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildJobOficioQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildJobOficioQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildJobOficioQuery leftJoinJobOficioCurriculum($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobOficioCurriculum relation
  * @method     ChildJobOficioQuery rightJoinJobOficioCurriculum($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobOficioCurriculum relation
  * @method     ChildJobOficioQuery innerJoinJobOficioCurriculum($relationAlias = null) Adds a INNER JOIN clause to the query using the JobOficioCurriculum relation
+ *
+ * @method     ChildJobOficioQuery joinWithJobOficioCurriculum($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobOficioCurriculum relation
+ *
+ * @method     ChildJobOficioQuery leftJoinWithJobOficioCurriculum() Adds a LEFT JOIN clause and with to the query using the JobOficioCurriculum relation
+ * @method     ChildJobOficioQuery rightJoinWithJobOficioCurriculum() Adds a RIGHT JOIN clause and with to the query using the JobOficioCurriculum relation
+ * @method     ChildJobOficioQuery innerJoinWithJobOficioCurriculum() Adds a INNER JOIN clause and with to the query using the JobOficioCurriculum relation
  *
  * @method     \JobOficioCurriculumQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -143,21 +153,27 @@ abstract class JobOficioQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = JobOficioTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(JobOficioTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = JobOficioTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -175,7 +191,7 @@ abstract class JobOficioQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, NOMBRE, DESCRIPCION, VERIFICADO, STATUS, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM job_oficio WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -187,7 +203,7 @@ abstract class JobOficioQuery extends ModelCriteria
             /** @var ChildJobOficio $obj */
             $obj = new ChildJobOficio();
             $obj->hydrate($row);
-            JobOficioTableMap::addInstanceToPool($obj, (string) $key);
+            JobOficioTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -310,11 +326,10 @@ abstract class JobOficioQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByNombre('fooValue');   // WHERE NOMBRE = 'fooValue'
-     * $query->filterByNombre('%fooValue%'); // WHERE NOMBRE LIKE '%fooValue%'
+     * $query->filterByNombre('%fooValue%', Criteria::LIKE); // WHERE NOMBRE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $nombre The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobOficioQuery The current query, for fluid interface
@@ -324,9 +339,6 @@ abstract class JobOficioQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($nombre)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nombre)) {
-                $nombre = str_replace('*', '%', $nombre);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -339,11 +351,10 @@ abstract class JobOficioQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByDescripcion('fooValue');   // WHERE DESCRIPCION = 'fooValue'
-     * $query->filterByDescripcion('%fooValue%'); // WHERE DESCRIPCION LIKE '%fooValue%'
+     * $query->filterByDescripcion('%fooValue%', Criteria::LIKE); // WHERE DESCRIPCION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $descripcion The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobOficioQuery The current query, for fluid interface
@@ -353,9 +364,6 @@ abstract class JobOficioQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($descripcion)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $descripcion)) {
-                $descripcion = str_replace('*', '%', $descripcion);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -395,11 +403,10 @@ abstract class JobOficioQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByStatus('fooValue');   // WHERE STATUS = 'fooValue'
-     * $query->filterByStatus('%fooValue%'); // WHERE STATUS LIKE '%fooValue%'
+     * $query->filterByStatus('%fooValue%', Criteria::LIKE); // WHERE STATUS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $status The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobOficioQuery The current query, for fluid interface
@@ -409,9 +416,6 @@ abstract class JobOficioQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($status)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $status)) {
-                $status = str_replace('*', '%', $status);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -685,9 +689,9 @@ abstract class JobOficioQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             JobOficioTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             JobOficioTableMap::clearRelatedInstancePool();
 

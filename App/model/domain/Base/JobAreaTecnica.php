@@ -13,7 +13,10 @@ use \JobAvisoQuery as ChildJobAvisoQuery;
 use \DateTime;
 use \Exception;
 use \PDO;
+use Map\JobAreaRelacionadaTableMap;
+use Map\JobAreaTecnicaProfesionTableMap;
 use Map\JobAreaTecnicaTableMap;
+use Map\JobAvisoTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -31,11 +34,11 @@ use Propel\Runtime\Util\PropelDateTime;
 /**
  * Base class that represents a row from the 'job_area_tecnica' table.
  *
- * 
  *
-* @package    propel.generator..Base
-*/
-abstract class JobAreaTecnica implements ActiveRecordInterface 
+ *
+ * @package    propel.generator..Base
+ */
+abstract class JobAreaTecnica implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -71,42 +74,49 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
     /**
      * The value for the id field.
+     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the id_area_principal field.
+     *
      * @var        int
      */
     protected $id_area_principal;
 
     /**
      * The value for the nivel field.
+     *
      * @var        int
      */
     protected $nivel;
 
     /**
      * The value for the nombre field.
+     *
      * @var        string
      */
     protected $nombre;
 
     /**
      * The value for the keywords field.
+     *
      * @var        string
      */
     protected $keywords;
 
     /**
      * The value for the descripcion field.
+     *
      * @var        string
      */
     protected $descripcion;
 
     /**
      * The value for the status field.
+     *
      * Note: this column has a database default value of: 'ACTIVE'
      * @var        string
      */
@@ -114,6 +124,7 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
     /**
      * The value for the last_user_id field.
+     *
      * Note: this column has a database default value of: 0
      * @var        int
      */
@@ -121,14 +132,16 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
     /**
      * The value for the creation_date field.
+     *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
-     * @var        \DateTime
+     * @var        DateTime
      */
     protected $creation_date;
 
     /**
      * The value for the modification_date field.
-     * @var        \DateTime
+     *
+     * @var        DateTime
      */
     protected $modification_date;
 
@@ -416,12 +429,20 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        return array_keys(get_object_vars($this));
+        $cls = new \ReflectionClass($this);
+        $propertyNames = [];
+        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
+
+        foreach($serializableProperties as $property) {
+            $propertyNames[] = $property->getName();
+        }
+
+        return $propertyNames;
     }
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return int
      */
     public function getId()
@@ -431,7 +452,7 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
     /**
      * Get the [id_area_principal] column value.
-     * 
+     *
      * @return int
      */
     public function getIdAreaPrincipal()
@@ -441,7 +462,7 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
     /**
      * Get the [nivel] column value.
-     * 
+     *
      * @return int
      */
     public function getNivel()
@@ -451,7 +472,7 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
     /**
      * Get the [nombre] column value.
-     * 
+     *
      * @return string
      */
     public function getNombre()
@@ -461,7 +482,7 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
     /**
      * Get the [keywords] column value.
-     * 
+     *
      * @return string
      */
     public function getKeywords()
@@ -471,7 +492,7 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
     /**
      * Get the [descripcion] column value.
-     * 
+     *
      * @return string
      */
     public function getDescripcion()
@@ -481,7 +502,7 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
     /**
      * Get the [status] column value.
-     * 
+     *
      * @return string
      */
     public function getStatus()
@@ -491,7 +512,7 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
     /**
      * Get the [last_user_id] column value.
-     * 
+     *
      * @return int
      */
     public function getLastUserId()
@@ -501,9 +522,9 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [creation_date] column value.
-     * 
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *
+     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -515,15 +536,15 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
         if ($format === null) {
             return $this->creation_date;
         } else {
-            return $this->creation_date instanceof \DateTime ? $this->creation_date->format($format) : null;
+            return $this->creation_date instanceof \DateTimeInterface ? $this->creation_date->format($format) : null;
         }
     }
 
     /**
      * Get the [optionally formatted] temporal [modification_date] column value.
-     * 
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *
+     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -535,13 +556,13 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
         if ($format === null) {
             return $this->modification_date;
         } else {
-            return $this->modification_date instanceof \DateTime ? $this->modification_date->format($format) : null;
+            return $this->modification_date instanceof \DateTimeInterface ? $this->modification_date->format($format) : null;
         }
     }
 
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobAreaTecnica The current object (for fluent API support)
      */
@@ -561,7 +582,7 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
     /**
      * Set the value of [id_area_principal] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobAreaTecnica The current object (for fluent API support)
      */
@@ -581,7 +602,7 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
     /**
      * Set the value of [nivel] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobAreaTecnica The current object (for fluent API support)
      */
@@ -601,7 +622,7 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
     /**
      * Set the value of [nombre] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobAreaTecnica The current object (for fluent API support)
      */
@@ -621,7 +642,7 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
     /**
      * Set the value of [keywords] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobAreaTecnica The current object (for fluent API support)
      */
@@ -641,7 +662,7 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
     /**
      * Set the value of [descripcion] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobAreaTecnica The current object (for fluent API support)
      */
@@ -661,7 +682,7 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
     /**
      * Set the value of [status] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobAreaTecnica The current object (for fluent API support)
      */
@@ -681,7 +702,7 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
     /**
      * Set the value of [last_user_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobAreaTecnica The current object (for fluent API support)
      */
@@ -701,8 +722,8 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
     /**
      * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
-     * 
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobAreaTecnica The current object (for fluent API support)
      */
@@ -710,7 +731,7 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->creation_date !== null || $dt !== null) {
-            if ($this->creation_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->creation_date->format("Y-m-d H:i:s")) {
+            if ($this->creation_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->creation_date->format("Y-m-d H:i:s.u")) {
                 $this->creation_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[JobAreaTecnicaTableMap::COL_CREATION_DATE] = true;
             }
@@ -721,8 +742,8 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
     /**
      * Sets the value of [modification_date] column to a normalized version of the date/time value specified.
-     * 
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobAreaTecnica The current object (for fluent API support)
      */
@@ -730,7 +751,7 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->modification_date !== null || $dt !== null) {
-            if ($this->modification_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->modification_date->format("Y-m-d H:i:s")) {
+            if ($this->modification_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->modification_date->format("Y-m-d H:i:s.u")) {
                 $this->modification_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[JobAreaTecnicaTableMap::COL_MODIFICATION_DATE] = true;
             }
@@ -948,13 +969,17 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
             throw new PropelException("You cannot save an object that has been deleted.");
         }
 
+        if ($this->alreadyInSave) {
+            return 0;
+        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getWriteConnection(JobAreaTecnicaTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
-            $isInsert = $this->isNew();
             $ret = $this->preSave($con);
+            $isInsert = $this->isNew();
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
             } else {
@@ -1141,35 +1166,35 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'ID_AREA_PRINCIPAL':                        
+                    case 'ID_AREA_PRINCIPAL':
                         $stmt->bindValue($identifier, $this->id_area_principal, PDO::PARAM_INT);
                         break;
-                    case 'NIVEL':                        
+                    case 'NIVEL':
                         $stmt->bindValue($identifier, $this->nivel, PDO::PARAM_INT);
                         break;
-                    case 'NOMBRE':                        
+                    case 'NOMBRE':
                         $stmt->bindValue($identifier, $this->nombre, PDO::PARAM_STR);
                         break;
-                    case 'KEYWORDS':                        
+                    case 'KEYWORDS':
                         $stmt->bindValue($identifier, $this->keywords, PDO::PARAM_STR);
                         break;
-                    case 'DESCRIPCION':                        
+                    case 'DESCRIPCION':
                         $stmt->bindValue($identifier, $this->descripcion, PDO::PARAM_STR);
                         break;
-                    case 'STATUS':                        
+                    case 'STATUS':
                         $stmt->bindValue($identifier, $this->status, PDO::PARAM_STR);
                         break;
-                    case 'LAST_USER_ID':                        
+                    case 'LAST_USER_ID':
                         $stmt->bindValue($identifier, $this->last_user_id, PDO::PARAM_INT);
                         break;
-                    case 'CREATION_DATE':                        
-                        $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                    case 'CREATION_DATE':
+                        $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
-                    case 'MODIFICATION_DATE':                        
-                        $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                    case 'MODIFICATION_DATE':
+                        $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1304,28 +1329,22 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
             $keys[8] => $this->getCreationDate(),
             $keys[9] => $this->getModificationDate(),
         );
+        if ($result[$keys[8]] instanceof \DateTimeInterface) {
+            $result[$keys[8]] = $result[$keys[8]]->format('c');
+        }
 
-        $utc = new \DateTimeZone('utc');
-        if ($result[$keys[8]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[8]];
-            $result[$keys[8]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+        if ($result[$keys[9]] instanceof \DateTimeInterface) {
+            $result[$keys[9]] = $result[$keys[9]]->format('c');
         }
-        
-        if ($result[$keys[9]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[9]];
-            $result[$keys[9]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
-        }
-        
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->collJobAreaRelacionadasRelatedByIdArea1) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'jobAreaRelacionadas';
@@ -1336,11 +1355,11 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
                     default:
                         $key = 'JobAreaRelacionadas';
                 }
-        
+
                 $result[$key] = $this->collJobAreaRelacionadasRelatedByIdArea1->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collJobAreaRelacionadasRelatedByIdArea2) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'jobAreaRelacionadas';
@@ -1351,11 +1370,11 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
                     default:
                         $key = 'JobAreaRelacionadas';
                 }
-        
+
                 $result[$key] = $this->collJobAreaRelacionadasRelatedByIdArea2->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collJobAreaTecnicaProfesions) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'jobAreaTecnicaProfesions';
@@ -1366,11 +1385,11 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
                     default:
                         $key = 'JobAreaTecnicaProfesions';
                 }
-        
+
                 $result[$key] = $this->collJobAreaTecnicaProfesions->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collJobAvisos) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'jobAvisos';
@@ -1381,7 +1400,7 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
                     default:
                         $key = 'JobAvisos';
                 }
-        
+
                 $result[$key] = $this->collJobAvisos->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
@@ -1618,7 +1637,7 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-        
+
     /**
      * Returns the primary key for this object (row).
      * @return int
@@ -1742,16 +1761,20 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
     public function initRelation($relationName)
     {
         if ('JobAreaRelacionadaRelatedByIdArea1' == $relationName) {
-            return $this->initJobAreaRelacionadasRelatedByIdArea1();
+            $this->initJobAreaRelacionadasRelatedByIdArea1();
+            return;
         }
         if ('JobAreaRelacionadaRelatedByIdArea2' == $relationName) {
-            return $this->initJobAreaRelacionadasRelatedByIdArea2();
+            $this->initJobAreaRelacionadasRelatedByIdArea2();
+            return;
         }
         if ('JobAreaTecnicaProfesion' == $relationName) {
-            return $this->initJobAreaTecnicaProfesions();
+            $this->initJobAreaTecnicaProfesions();
+            return;
         }
         if ('JobAviso' == $relationName) {
-            return $this->initJobAvisos();
+            $this->initJobAvisos();
+            return;
         }
     }
 
@@ -1794,7 +1817,10 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
         if (null !== $this->collJobAreaRelacionadasRelatedByIdArea1 && !$overrideExisting) {
             return;
         }
-        $this->collJobAreaRelacionadasRelatedByIdArea1 = new ObjectCollection();
+
+        $collectionClassName = JobAreaRelacionadaTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collJobAreaRelacionadasRelatedByIdArea1 = new $collectionClassName;
         $this->collJobAreaRelacionadasRelatedByIdArea1->setModel('\JobAreaRelacionada');
     }
 
@@ -1871,7 +1897,7 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
         /** @var ChildJobAreaRelacionada[] $jobAreaRelacionadasRelatedByIdArea1ToDelete */
         $jobAreaRelacionadasRelatedByIdArea1ToDelete = $this->getJobAreaRelacionadasRelatedByIdArea1(new Criteria(), $con)->diff($jobAreaRelacionadasRelatedByIdArea1);
 
-        
+
         //since at least one column in the foreign key is at the same time a PK
         //we can not just set a PK to NULL in the lines below. We have to store
         //a backup of all values, so we are able to manipulate these items based on the onDelete value later.
@@ -1942,6 +1968,10 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
         if (!$this->collJobAreaRelacionadasRelatedByIdArea1->contains($l)) {
             $this->doAddJobAreaRelacionadaRelatedByIdArea1($l);
+
+            if ($this->jobAreaRelacionadasRelatedByIdArea1ScheduledForDeletion and $this->jobAreaRelacionadasRelatedByIdArea1ScheduledForDeletion->contains($l)) {
+                $this->jobAreaRelacionadasRelatedByIdArea1ScheduledForDeletion->remove($this->jobAreaRelacionadasRelatedByIdArea1ScheduledForDeletion->search($l));
+            }
         }
 
         return $this;
@@ -2015,7 +2045,10 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
         if (null !== $this->collJobAreaRelacionadasRelatedByIdArea2 && !$overrideExisting) {
             return;
         }
-        $this->collJobAreaRelacionadasRelatedByIdArea2 = new ObjectCollection();
+
+        $collectionClassName = JobAreaRelacionadaTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collJobAreaRelacionadasRelatedByIdArea2 = new $collectionClassName;
         $this->collJobAreaRelacionadasRelatedByIdArea2->setModel('\JobAreaRelacionada');
     }
 
@@ -2092,7 +2125,7 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
         /** @var ChildJobAreaRelacionada[] $jobAreaRelacionadasRelatedByIdArea2ToDelete */
         $jobAreaRelacionadasRelatedByIdArea2ToDelete = $this->getJobAreaRelacionadasRelatedByIdArea2(new Criteria(), $con)->diff($jobAreaRelacionadasRelatedByIdArea2);
 
-        
+
         //since at least one column in the foreign key is at the same time a PK
         //we can not just set a PK to NULL in the lines below. We have to store
         //a backup of all values, so we are able to manipulate these items based on the onDelete value later.
@@ -2163,6 +2196,10 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
         if (!$this->collJobAreaRelacionadasRelatedByIdArea2->contains($l)) {
             $this->doAddJobAreaRelacionadaRelatedByIdArea2($l);
+
+            if ($this->jobAreaRelacionadasRelatedByIdArea2ScheduledForDeletion and $this->jobAreaRelacionadasRelatedByIdArea2ScheduledForDeletion->contains($l)) {
+                $this->jobAreaRelacionadasRelatedByIdArea2ScheduledForDeletion->remove($this->jobAreaRelacionadasRelatedByIdArea2ScheduledForDeletion->search($l));
+            }
         }
 
         return $this;
@@ -2236,7 +2273,10 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
         if (null !== $this->collJobAreaTecnicaProfesions && !$overrideExisting) {
             return;
         }
-        $this->collJobAreaTecnicaProfesions = new ObjectCollection();
+
+        $collectionClassName = JobAreaTecnicaProfesionTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collJobAreaTecnicaProfesions = new $collectionClassName;
         $this->collJobAreaTecnicaProfesions->setModel('\JobAreaTecnicaProfesion');
     }
 
@@ -2313,7 +2353,7 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
         /** @var ChildJobAreaTecnicaProfesion[] $jobAreaTecnicaProfesionsToDelete */
         $jobAreaTecnicaProfesionsToDelete = $this->getJobAreaTecnicaProfesions(new Criteria(), $con)->diff($jobAreaTecnicaProfesions);
 
-        
+
         //since at least one column in the foreign key is at the same time a PK
         //we can not just set a PK to NULL in the lines below. We have to store
         //a backup of all values, so we are able to manipulate these items based on the onDelete value later.
@@ -2384,6 +2424,10 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
         if (!$this->collJobAreaTecnicaProfesions->contains($l)) {
             $this->doAddJobAreaTecnicaProfesion($l);
+
+            if ($this->jobAreaTecnicaProfesionsScheduledForDeletion and $this->jobAreaTecnicaProfesionsScheduledForDeletion->contains($l)) {
+                $this->jobAreaTecnicaProfesionsScheduledForDeletion->remove($this->jobAreaTecnicaProfesionsScheduledForDeletion->search($l));
+            }
         }
 
         return $this;
@@ -2482,7 +2526,10 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
         if (null !== $this->collJobAvisos && !$overrideExisting) {
             return;
         }
-        $this->collJobAvisos = new ObjectCollection();
+
+        $collectionClassName = JobAvisoTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collJobAvisos = new $collectionClassName;
         $this->collJobAvisos->setModel('\JobAviso');
     }
 
@@ -2559,7 +2606,7 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
         /** @var ChildJobAviso[] $jobAvisosToDelete */
         $jobAvisosToDelete = $this->getJobAvisos(new Criteria(), $con)->diff($jobAvisos);
 
-        
+
         $this->jobAvisosScheduledForDeletion = $jobAvisosToDelete;
 
         foreach ($jobAvisosToDelete as $jobAvisoRemoved) {
@@ -2627,6 +2674,10 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
 
         if (!$this->collJobAvisos->contains($l)) {
             $this->doAddJobAviso($l);
+
+            if ($this->jobAvisosScheduledForDeletion and $this->jobAvisosScheduledForDeletion->contains($l)) {
+                $this->jobAvisosScheduledForDeletion->remove($this->jobAvisosScheduledForDeletion->search($l));
+            }
         }
 
         return $this;
@@ -2682,6 +2733,31 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
     {
         $query = ChildJobAvisoQuery::create(null, $criteria);
         $query->joinWith('JobArea', $joinBehavior);
+
+        return $this->getJobAvisos($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this JobAreaTecnica is new, it will return
+     * an empty collection; or if this JobAreaTecnica has previously
+     * been saved, it will retrieve related JobAvisos from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in JobAreaTecnica.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildJobAviso[] List of ChildJobAviso objects
+     */
+    public function getJobAvisosJoinJobEmpresaSuscrita(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildJobAvisoQuery::create(null, $criteria);
+        $query->joinWith('JobEmpresaSuscrita', $joinBehavior);
 
         return $this->getJobAvisos($query, $con);
     }
@@ -2767,6 +2843,9 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
      */
     public function preSave(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preSave')) {
+            return parent::preSave($con);
+        }
         return true;
     }
 
@@ -2776,7 +2855,9 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
      */
     public function postSave(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postSave')) {
+            parent::postSave($con);
+        }
     }
 
     /**
@@ -2786,6 +2867,9 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
      */
     public function preInsert(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preInsert')) {
+            return parent::preInsert($con);
+        }
         return true;
     }
 
@@ -2795,7 +2879,9 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
      */
     public function postInsert(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postInsert')) {
+            parent::postInsert($con);
+        }
     }
 
     /**
@@ -2805,6 +2891,9 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
      */
     public function preUpdate(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preUpdate')) {
+            return parent::preUpdate($con);
+        }
         return true;
     }
 
@@ -2814,7 +2903,9 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
      */
     public function postUpdate(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postUpdate')) {
+            parent::postUpdate($con);
+        }
     }
 
     /**
@@ -2824,6 +2915,9 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
      */
     public function preDelete(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preDelete')) {
+            return parent::preDelete($con);
+        }
         return true;
     }
 
@@ -2833,7 +2927,9 @@ abstract class JobAreaTecnica implements ActiveRecordInterface
      */
     public function postDelete(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postDelete')) {
+            parent::postDelete($con);
+        }
     }
 
 

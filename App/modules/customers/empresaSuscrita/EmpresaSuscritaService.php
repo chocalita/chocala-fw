@@ -109,7 +109,7 @@ class EmpresaSuscritaService extends GenericService
 //            echo "\n Codigo : ";
 //            echo $suscriptor->getIdTmpArea()."\n";
 //            print_r($tmpArea); exit();
-            $linkRegistro = WEB_ROOT.'bolsa/trabajo/completar/'.$hashLink;
+            $linkRegistro = WEB_ROOT . 'bolsa/trabajo/completar/' . $hashLink;
             $emailMap = [
                 'TrackingHash' => $hash,
                 'To' => [
@@ -139,6 +139,56 @@ class EmpresaSuscritaService extends GenericService
         } else {
             return IMG_WEB . "imgEntidad/" . $pkEntidad . ".jpg";
         }
+    }
+
+    public function rolAdministrador()
+    {
+        return SysRolQuery::create()->findOneByCode("ENT_ADM");
+    }
+
+    public function verifyUserAccount($data)
+    {
+        $results["success"] = false;
+        // TODO: validate equals password
+        $data['Password'] = SysUser::crypt($data['Password']);
+
+        $rolAdmin = $this->rolAdministrador();
+        $data['RolId'] = $rolAdmin->getId();
+
+        $user = new SysUser();
+        $usuarioXRol = new SysUserXRol();
+        $usuarioXRol->setRolId($data['RolId']);
+        $person = new SysPerson();
+        $user->addSysPerson($person);
+        $person->setSysUser($user);
+        $user->fromArray($data);
+        $person->fromArray($data);
+        $user->setStatus(SysUser::STATUS_CREATED);
+
+        $results['success'] = $person->validate() && $user->validate();
+        if ($results['success'] && $data['Password'] != $data['Password2']) {
+            $field = 'Password2';
+            $messageKey = get_class($user) . '.' . $field . '.' . 'validate.password2';
+            $message = __($messageKey, []);
+            $results['success'] = false;
+            $results['errors'] = [
+                ['field' => $field, 'message' => $message]
+            ];
+            return $results;
+        }
+        if ($results['success']) {
+            Session::set('personaSuscrita', $person);
+            Session::set('usuarioSuscrito', $user);
+            if (is_object($usuarioXRol)) {
+//                $usuarioXRol->setSysUser($user)->save();
+            }
+        }
+//        $results['errors'] = array_merge($person->getErrorsMap(), $user->getErrorsMap());
+        $results['errors'] = $person->getErrorsMap();
+
+        $results['success'] = true;
+
+        return $results;
     }
 
 }

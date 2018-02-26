@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'job_curriculum' table.
  *
- * 
+ *
  *
  * @method     ChildJobCurriculumQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildJobCurriculumQuery orderByIdPersona($order = Criteria::ASC) Order by the ID_PERSONA column
@@ -38,17 +38,39 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobCurriculumQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildJobCurriculumQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildJobCurriculumQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildJobCurriculumQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildJobCurriculumQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildJobCurriculumQuery leftJoinSysPerson($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysPerson relation
  * @method     ChildJobCurriculumQuery rightJoinSysPerson($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysPerson relation
  * @method     ChildJobCurriculumQuery innerJoinSysPerson($relationAlias = null) Adds a INNER JOIN clause to the query using the SysPerson relation
+ *
+ * @method     ChildJobCurriculumQuery joinWithSysPerson($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysPerson relation
+ *
+ * @method     ChildJobCurriculumQuery leftJoinWithSysPerson() Adds a LEFT JOIN clause and with to the query using the SysPerson relation
+ * @method     ChildJobCurriculumQuery rightJoinWithSysPerson() Adds a RIGHT JOIN clause and with to the query using the SysPerson relation
+ * @method     ChildJobCurriculumQuery innerJoinWithSysPerson() Adds a INNER JOIN clause and with to the query using the SysPerson relation
  *
  * @method     ChildJobCurriculumQuery leftJoinJobFormacionAcademica($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobFormacionAcademica relation
  * @method     ChildJobCurriculumQuery rightJoinJobFormacionAcademica($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobFormacionAcademica relation
  * @method     ChildJobCurriculumQuery innerJoinJobFormacionAcademica($relationAlias = null) Adds a INNER JOIN clause to the query using the JobFormacionAcademica relation
  *
+ * @method     ChildJobCurriculumQuery joinWithJobFormacionAcademica($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobFormacionAcademica relation
+ *
+ * @method     ChildJobCurriculumQuery leftJoinWithJobFormacionAcademica() Adds a LEFT JOIN clause and with to the query using the JobFormacionAcademica relation
+ * @method     ChildJobCurriculumQuery rightJoinWithJobFormacionAcademica() Adds a RIGHT JOIN clause and with to the query using the JobFormacionAcademica relation
+ * @method     ChildJobCurriculumQuery innerJoinWithJobFormacionAcademica() Adds a INNER JOIN clause and with to the query using the JobFormacionAcademica relation
+ *
  * @method     ChildJobCurriculumQuery leftJoinJobOficioCurriculum($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobOficioCurriculum relation
  * @method     ChildJobCurriculumQuery rightJoinJobOficioCurriculum($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobOficioCurriculum relation
  * @method     ChildJobCurriculumQuery innerJoinJobOficioCurriculum($relationAlias = null) Adds a INNER JOIN clause to the query using the JobOficioCurriculum relation
+ *
+ * @method     ChildJobCurriculumQuery joinWithJobOficioCurriculum($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobOficioCurriculum relation
+ *
+ * @method     ChildJobCurriculumQuery leftJoinWithJobOficioCurriculum() Adds a LEFT JOIN clause and with to the query using the JobOficioCurriculum relation
+ * @method     ChildJobCurriculumQuery rightJoinWithJobOficioCurriculum() Adds a RIGHT JOIN clause and with to the query using the JobOficioCurriculum relation
+ * @method     ChildJobCurriculumQuery innerJoinWithJobOficioCurriculum() Adds a INNER JOIN clause and with to the query using the JobOficioCurriculum relation
  *
  * @method     \SysPersonQuery|\JobFormacionAcademicaQuery|\JobOficioCurriculumQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -141,21 +163,27 @@ abstract class JobCurriculumQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = JobCurriculumTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(JobCurriculumTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = JobCurriculumTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -173,7 +201,7 @@ abstract class JobCurriculumQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, ID_PERSONA, STATUS, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM job_curriculum WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -185,7 +213,7 @@ abstract class JobCurriculumQuery extends ModelCriteria
             /** @var ChildJobCurriculum $obj */
             $obj = new ChildJobCurriculum();
             $obj->hydrate($row);
-            JobCurriculumTableMap::addInstanceToPool($obj, (string) $key);
+            JobCurriculumTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -351,11 +379,10 @@ abstract class JobCurriculumQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByStatus('fooValue');   // WHERE STATUS = 'fooValue'
-     * $query->filterByStatus('%fooValue%'); // WHERE STATUS LIKE '%fooValue%'
+     * $query->filterByStatus('%fooValue%', Criteria::LIKE); // WHERE STATUS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $status The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobCurriculumQuery The current query, for fluid interface
@@ -365,9 +392,6 @@ abstract class JobCurriculumQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($status)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $status)) {
-                $status = str_replace('*', '%', $status);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -791,9 +815,9 @@ abstract class JobCurriculumQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             JobCurriculumTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             JobCurriculumTableMap::clearRelatedInstancePool();
 

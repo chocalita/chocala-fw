@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'job_area_relacionada' table.
  *
- * 
+ *
  *
  * @method     ChildJobAreaRelacionadaQuery orderByIdArea1($order = Criteria::ASC) Order by the ID_AREA_1 column
  * @method     ChildJobAreaRelacionadaQuery orderByIdArea2($order = Criteria::ASC) Order by the ID_AREA_2 column
@@ -40,13 +40,29 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAreaRelacionadaQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildJobAreaRelacionadaQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildJobAreaRelacionadaQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildJobAreaRelacionadaQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildJobAreaRelacionadaQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildJobAreaRelacionadaQuery leftJoinJobAreaTecnicaRelatedByIdArea1($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobAreaTecnicaRelatedByIdArea1 relation
  * @method     ChildJobAreaRelacionadaQuery rightJoinJobAreaTecnicaRelatedByIdArea1($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobAreaTecnicaRelatedByIdArea1 relation
  * @method     ChildJobAreaRelacionadaQuery innerJoinJobAreaTecnicaRelatedByIdArea1($relationAlias = null) Adds a INNER JOIN clause to the query using the JobAreaTecnicaRelatedByIdArea1 relation
  *
+ * @method     ChildJobAreaRelacionadaQuery joinWithJobAreaTecnicaRelatedByIdArea1($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobAreaTecnicaRelatedByIdArea1 relation
+ *
+ * @method     ChildJobAreaRelacionadaQuery leftJoinWithJobAreaTecnicaRelatedByIdArea1() Adds a LEFT JOIN clause and with to the query using the JobAreaTecnicaRelatedByIdArea1 relation
+ * @method     ChildJobAreaRelacionadaQuery rightJoinWithJobAreaTecnicaRelatedByIdArea1() Adds a RIGHT JOIN clause and with to the query using the JobAreaTecnicaRelatedByIdArea1 relation
+ * @method     ChildJobAreaRelacionadaQuery innerJoinWithJobAreaTecnicaRelatedByIdArea1() Adds a INNER JOIN clause and with to the query using the JobAreaTecnicaRelatedByIdArea1 relation
+ *
  * @method     ChildJobAreaRelacionadaQuery leftJoinJobAreaTecnicaRelatedByIdArea2($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobAreaTecnicaRelatedByIdArea2 relation
  * @method     ChildJobAreaRelacionadaQuery rightJoinJobAreaTecnicaRelatedByIdArea2($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobAreaTecnicaRelatedByIdArea2 relation
  * @method     ChildJobAreaRelacionadaQuery innerJoinJobAreaTecnicaRelatedByIdArea2($relationAlias = null) Adds a INNER JOIN clause to the query using the JobAreaTecnicaRelatedByIdArea2 relation
+ *
+ * @method     ChildJobAreaRelacionadaQuery joinWithJobAreaTecnicaRelatedByIdArea2($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobAreaTecnicaRelatedByIdArea2 relation
+ *
+ * @method     ChildJobAreaRelacionadaQuery leftJoinWithJobAreaTecnicaRelatedByIdArea2() Adds a LEFT JOIN clause and with to the query using the JobAreaTecnicaRelatedByIdArea2 relation
+ * @method     ChildJobAreaRelacionadaQuery rightJoinWithJobAreaTecnicaRelatedByIdArea2() Adds a RIGHT JOIN clause and with to the query using the JobAreaTecnicaRelatedByIdArea2 relation
+ * @method     ChildJobAreaRelacionadaQuery innerJoinWithJobAreaTecnicaRelatedByIdArea2() Adds a INNER JOIN clause and with to the query using the JobAreaTecnicaRelatedByIdArea2 relation
  *
  * @method     \JobAreaTecnicaQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -142,21 +158,27 @@ abstract class JobAreaRelacionadaQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = JobAreaRelacionadaTableMap::getInstanceFromPool(serialize(array((string) $key[0], (string) $key[1]))))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(JobAreaRelacionadaTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = JobAreaRelacionadaTableMap::getInstanceFromPool(serialize([(null === $key[0] || is_scalar($key[0]) || is_callable([$key[0], '__toString']) ? (string) $key[0] : $key[0]), (null === $key[1] || is_scalar($key[1]) || is_callable([$key[1], '__toString']) ? (string) $key[1] : $key[1])]))))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -174,8 +196,8 @@ abstract class JobAreaRelacionadaQuery extends ModelCriteria
     {
         $sql = 'SELECT ID_AREA_1, ID_AREA_2, NIVEL, STATUS, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM job_area_relacionada WHERE ID_AREA_1 = :p0 AND ID_AREA_2 = :p1';
         try {
-            $stmt = $con->prepare($sql);            
-            $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);            
+            $stmt = $con->prepare($sql);
+            $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
             $stmt->bindValue(':p1', $key[1], PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -187,7 +209,7 @@ abstract class JobAreaRelacionadaQuery extends ModelCriteria
             /** @var ChildJobAreaRelacionada $obj */
             $obj = new ChildJobAreaRelacionada();
             $obj->hydrate($row);
-            JobAreaRelacionadaTableMap::addInstanceToPool($obj, serialize(array((string) $key[0], (string) $key[1])));
+            JobAreaRelacionadaTableMap::addInstanceToPool($obj, serialize([(null === $key[0] || is_scalar($key[0]) || is_callable([$key[0], '__toString']) ? (string) $key[0] : $key[0]), (null === $key[1] || is_scalar($key[1]) || is_callable([$key[1], '__toString']) ? (string) $key[1] : $key[1])]));
         }
         $stmt->closeCursor();
 
@@ -407,11 +429,10 @@ abstract class JobAreaRelacionadaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByStatus('fooValue');   // WHERE STATUS = 'fooValue'
-     * $query->filterByStatus('%fooValue%'); // WHERE STATUS LIKE '%fooValue%'
+     * $query->filterByStatus('%fooValue%', Criteria::LIKE); // WHERE STATUS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $status The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobAreaRelacionadaQuery The current query, for fluid interface
@@ -421,9 +442,6 @@ abstract class JobAreaRelacionadaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($status)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $status)) {
-                $status = str_replace('*', '%', $status);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -780,9 +798,9 @@ abstract class JobAreaRelacionadaQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             JobAreaRelacionadaTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             JobAreaRelacionadaTableMap::clearRelatedInstancePool();
 

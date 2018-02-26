@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'sys_entity' table.
  *
- * 
+ *
  *
  * @method     ChildSysEntityQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysEntityQuery orderByEntityTypeId($order = Criteria::ASC) Order by the ENTITY_TYPE_ID column
@@ -60,25 +60,59 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysEntityQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildSysEntityQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildSysEntityQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildSysEntityQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildSysEntityQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildSysEntityQuery leftJoinSysEntityType($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEntityType relation
  * @method     ChildSysEntityQuery rightJoinSysEntityType($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEntityType relation
  * @method     ChildSysEntityQuery innerJoinSysEntityType($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEntityType relation
+ *
+ * @method     ChildSysEntityQuery joinWithSysEntityType($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEntityType relation
+ *
+ * @method     ChildSysEntityQuery leftJoinWithSysEntityType() Adds a LEFT JOIN clause and with to the query using the SysEntityType relation
+ * @method     ChildSysEntityQuery rightJoinWithSysEntityType() Adds a RIGHT JOIN clause and with to the query using the SysEntityType relation
+ * @method     ChildSysEntityQuery innerJoinWithSysEntityType() Adds a INNER JOIN clause and with to the query using the SysEntityType relation
  *
  * @method     ChildSysEntityQuery leftJoinSysLocation($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysLocation relation
  * @method     ChildSysEntityQuery rightJoinSysLocation($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysLocation relation
  * @method     ChildSysEntityQuery innerJoinSysLocation($relationAlias = null) Adds a INNER JOIN clause to the query using the SysLocation relation
  *
+ * @method     ChildSysEntityQuery joinWithSysLocation($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysLocation relation
+ *
+ * @method     ChildSysEntityQuery leftJoinWithSysLocation() Adds a LEFT JOIN clause and with to the query using the SysLocation relation
+ * @method     ChildSysEntityQuery rightJoinWithSysLocation() Adds a RIGHT JOIN clause and with to the query using the SysLocation relation
+ * @method     ChildSysEntityQuery innerJoinWithSysLocation() Adds a INNER JOIN clause and with to the query using the SysLocation relation
+ *
  * @method     ChildSysEntityQuery leftJoinSysEntityBranch($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEntityBranch relation
  * @method     ChildSysEntityQuery rightJoinSysEntityBranch($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEntityBranch relation
  * @method     ChildSysEntityQuery innerJoinSysEntityBranch($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEntityBranch relation
+ *
+ * @method     ChildSysEntityQuery joinWithSysEntityBranch($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEntityBranch relation
+ *
+ * @method     ChildSysEntityQuery leftJoinWithSysEntityBranch() Adds a LEFT JOIN clause and with to the query using the SysEntityBranch relation
+ * @method     ChildSysEntityQuery rightJoinWithSysEntityBranch() Adds a RIGHT JOIN clause and with to the query using the SysEntityBranch relation
+ * @method     ChildSysEntityQuery innerJoinWithSysEntityBranch() Adds a INNER JOIN clause and with to the query using the SysEntityBranch relation
  *
  * @method     ChildSysEntityQuery leftJoinSysEntityParam($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEntityParam relation
  * @method     ChildSysEntityQuery rightJoinSysEntityParam($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEntityParam relation
  * @method     ChildSysEntityQuery innerJoinSysEntityParam($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEntityParam relation
  *
+ * @method     ChildSysEntityQuery joinWithSysEntityParam($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEntityParam relation
+ *
+ * @method     ChildSysEntityQuery leftJoinWithSysEntityParam() Adds a LEFT JOIN clause and with to the query using the SysEntityParam relation
+ * @method     ChildSysEntityQuery rightJoinWithSysEntityParam() Adds a RIGHT JOIN clause and with to the query using the SysEntityParam relation
+ * @method     ChildSysEntityQuery innerJoinWithSysEntityParam() Adds a INNER JOIN clause and with to the query using the SysEntityParam relation
+ *
  * @method     ChildSysEntityQuery leftJoinSysEntityUser($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEntityUser relation
  * @method     ChildSysEntityQuery rightJoinSysEntityUser($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEntityUser relation
  * @method     ChildSysEntityQuery innerJoinSysEntityUser($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEntityUser relation
+ *
+ * @method     ChildSysEntityQuery joinWithSysEntityUser($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEntityUser relation
+ *
+ * @method     ChildSysEntityQuery leftJoinWithSysEntityUser() Adds a LEFT JOIN clause and with to the query using the SysEntityUser relation
+ * @method     ChildSysEntityQuery rightJoinWithSysEntityUser() Adds a RIGHT JOIN clause and with to the query using the SysEntityUser relation
+ * @method     ChildSysEntityQuery innerJoinWithSysEntityUser() Adds a INNER JOIN clause and with to the query using the SysEntityUser relation
  *
  * @method     \SysEntityTypeQuery|\SysLocationQuery|\SysEntityBranchQuery|\SysEntityParamQuery|\SysEntityUserQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -204,21 +238,27 @@ abstract class SysEntityQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysEntityTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(SysEntityTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = SysEntityTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -236,7 +276,7 @@ abstract class SysEntityQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, ENTITY_TYPE_ID, LOCATION_ID, MAIN_BRANCH_ID, CODE, COMERCIAL_NAME, FORMAL_NAME, NIT, EMAIL, ADDRESS, PHONE, CELLPHONE, ACTIVITIES, DESCRIPTION, LAST_USER_ID, CREATION_DATE, MODIFICACION_DATE FROM sys_entity WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -248,7 +288,7 @@ abstract class SysEntityQuery extends ModelCriteria
             /** @var ChildSysEntity $obj */
             $obj = new ChildSysEntity();
             $obj->hydrate($row);
-            SysEntityTableMap::addInstanceToPool($obj, (string) $key);
+            SysEntityTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -498,11 +538,10 @@ abstract class SysEntityQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByCode('fooValue');   // WHERE CODE = 'fooValue'
-     * $query->filterByCode('%fooValue%'); // WHERE CODE LIKE '%fooValue%'
+     * $query->filterByCode('%fooValue%', Criteria::LIKE); // WHERE CODE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $code The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityQuery The current query, for fluid interface
@@ -512,9 +551,6 @@ abstract class SysEntityQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($code)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $code)) {
-                $code = str_replace('*', '%', $code);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -527,11 +563,10 @@ abstract class SysEntityQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByComercialName('fooValue');   // WHERE COMERCIAL_NAME = 'fooValue'
-     * $query->filterByComercialName('%fooValue%'); // WHERE COMERCIAL_NAME LIKE '%fooValue%'
+     * $query->filterByComercialName('%fooValue%', Criteria::LIKE); // WHERE COMERCIAL_NAME LIKE '%fooValue%'
      * </code>
      *
      * @param     string $comercialName The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityQuery The current query, for fluid interface
@@ -541,9 +576,6 @@ abstract class SysEntityQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($comercialName)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $comercialName)) {
-                $comercialName = str_replace('*', '%', $comercialName);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -556,11 +588,10 @@ abstract class SysEntityQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByFormalName('fooValue');   // WHERE FORMAL_NAME = 'fooValue'
-     * $query->filterByFormalName('%fooValue%'); // WHERE FORMAL_NAME LIKE '%fooValue%'
+     * $query->filterByFormalName('%fooValue%', Criteria::LIKE); // WHERE FORMAL_NAME LIKE '%fooValue%'
      * </code>
      *
      * @param     string $formalName The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityQuery The current query, for fluid interface
@@ -570,9 +601,6 @@ abstract class SysEntityQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($formalName)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $formalName)) {
-                $formalName = str_replace('*', '%', $formalName);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -585,11 +613,10 @@ abstract class SysEntityQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByNit('fooValue');   // WHERE NIT = 'fooValue'
-     * $query->filterByNit('%fooValue%'); // WHERE NIT LIKE '%fooValue%'
+     * $query->filterByNit('%fooValue%', Criteria::LIKE); // WHERE NIT LIKE '%fooValue%'
      * </code>
      *
      * @param     string $nit The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityQuery The current query, for fluid interface
@@ -599,9 +626,6 @@ abstract class SysEntityQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($nit)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nit)) {
-                $nit = str_replace('*', '%', $nit);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -614,11 +638,10 @@ abstract class SysEntityQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByEmail('fooValue');   // WHERE EMAIL = 'fooValue'
-     * $query->filterByEmail('%fooValue%'); // WHERE EMAIL LIKE '%fooValue%'
+     * $query->filterByEmail('%fooValue%', Criteria::LIKE); // WHERE EMAIL LIKE '%fooValue%'
      * </code>
      *
      * @param     string $email The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityQuery The current query, for fluid interface
@@ -628,9 +651,6 @@ abstract class SysEntityQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($email)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $email)) {
-                $email = str_replace('*', '%', $email);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -643,11 +663,10 @@ abstract class SysEntityQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByAddress('fooValue');   // WHERE ADDRESS = 'fooValue'
-     * $query->filterByAddress('%fooValue%'); // WHERE ADDRESS LIKE '%fooValue%'
+     * $query->filterByAddress('%fooValue%', Criteria::LIKE); // WHERE ADDRESS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $address The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityQuery The current query, for fluid interface
@@ -657,9 +676,6 @@ abstract class SysEntityQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($address)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $address)) {
-                $address = str_replace('*', '%', $address);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -672,11 +688,10 @@ abstract class SysEntityQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByPhone('fooValue');   // WHERE PHONE = 'fooValue'
-     * $query->filterByPhone('%fooValue%'); // WHERE PHONE LIKE '%fooValue%'
+     * $query->filterByPhone('%fooValue%', Criteria::LIKE); // WHERE PHONE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $phone The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityQuery The current query, for fluid interface
@@ -686,9 +701,6 @@ abstract class SysEntityQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($phone)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $phone)) {
-                $phone = str_replace('*', '%', $phone);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -701,11 +713,10 @@ abstract class SysEntityQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByCellphone('fooValue');   // WHERE CELLPHONE = 'fooValue'
-     * $query->filterByCellphone('%fooValue%'); // WHERE CELLPHONE LIKE '%fooValue%'
+     * $query->filterByCellphone('%fooValue%', Criteria::LIKE); // WHERE CELLPHONE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $cellphone The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityQuery The current query, for fluid interface
@@ -715,9 +726,6 @@ abstract class SysEntityQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($cellphone)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $cellphone)) {
-                $cellphone = str_replace('*', '%', $cellphone);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -730,11 +738,10 @@ abstract class SysEntityQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByActivities('fooValue');   // WHERE ACTIVITIES = 'fooValue'
-     * $query->filterByActivities('%fooValue%'); // WHERE ACTIVITIES LIKE '%fooValue%'
+     * $query->filterByActivities('%fooValue%', Criteria::LIKE); // WHERE ACTIVITIES LIKE '%fooValue%'
      * </code>
      *
      * @param     string $activities The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityQuery The current query, for fluid interface
@@ -744,9 +751,6 @@ abstract class SysEntityQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($activities)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $activities)) {
-                $activities = str_replace('*', '%', $activities);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -759,11 +763,10 @@ abstract class SysEntityQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByDescription('fooValue');   // WHERE DESCRIPTION = 'fooValue'
-     * $query->filterByDescription('%fooValue%'); // WHERE DESCRIPTION LIKE '%fooValue%'
+     * $query->filterByDescription('%fooValue%', Criteria::LIKE); // WHERE DESCRIPTION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $description The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityQuery The current query, for fluid interface
@@ -773,9 +776,6 @@ abstract class SysEntityQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($description)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $description)) {
-                $description = str_replace('*', '%', $description);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -1349,9 +1349,9 @@ abstract class SysEntityQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             SysEntityTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             SysEntityTableMap::clearRelatedInstancePool();
 

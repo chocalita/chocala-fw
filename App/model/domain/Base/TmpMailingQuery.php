@@ -17,7 +17,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'tmp_mailing' table.
  *
- * 
+ *
  *
  * @method     ChildTmpMailingQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildTmpMailingQuery orderByIdProspecto($order = Criteria::ASC) Order by the id_prospecto column
@@ -40,6 +40,10 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildTmpMailingQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildTmpMailingQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildTmpMailingQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ *
+ * @method     ChildTmpMailingQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildTmpMailingQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildTmpMailingQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
  * @method     ChildTmpMailing findOne(ConnectionInterface $con = null) Return the first ChildTmpMailing matching the query
  * @method     ChildTmpMailing findOneOrCreate(ConnectionInterface $con = null) Return the first ChildTmpMailing matching the query, or a new ChildTmpMailing object populated from the query conditions when no match is found
@@ -136,21 +140,27 @@ abstract class TmpMailingQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = TmpMailingTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(TmpMailingTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = TmpMailingTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -168,7 +178,7 @@ abstract class TmpMailingQuery extends ModelCriteria
     {
         $sql = 'SELECT id, id_prospecto, email, avisos, fecha_interes, fecha_hora_envio, enviado, abierto FROM tmp_mailing WHERE id = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -180,7 +190,7 @@ abstract class TmpMailingQuery extends ModelCriteria
             /** @var ChildTmpMailing $obj */
             $obj = new ChildTmpMailing();
             $obj->hydrate($row);
-            TmpMailingTableMap::addInstanceToPool($obj, (string) $key);
+            TmpMailingTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -344,11 +354,10 @@ abstract class TmpMailingQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByEmail('fooValue');   // WHERE email = 'fooValue'
-     * $query->filterByEmail('%fooValue%'); // WHERE email LIKE '%fooValue%'
+     * $query->filterByEmail('%fooValue%', Criteria::LIKE); // WHERE email LIKE '%fooValue%'
      * </code>
      *
      * @param     string $email The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpMailingQuery The current query, for fluid interface
@@ -358,9 +367,6 @@ abstract class TmpMailingQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($email)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $email)) {
-                $email = str_replace('*', '%', $email);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -373,11 +379,10 @@ abstract class TmpMailingQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByAvisos('fooValue');   // WHERE avisos = 'fooValue'
-     * $query->filterByAvisos('%fooValue%'); // WHERE avisos LIKE '%fooValue%'
+     * $query->filterByAvisos('%fooValue%', Criteria::LIKE); // WHERE avisos LIKE '%fooValue%'
      * </code>
      *
      * @param     string $avisos The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpMailingQuery The current query, for fluid interface
@@ -387,9 +392,6 @@ abstract class TmpMailingQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($avisos)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $avisos)) {
-                $avisos = str_replace('*', '%', $avisos);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -603,9 +605,9 @@ abstract class TmpMailingQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             TmpMailingTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             TmpMailingTableMap::clearRelatedInstancePool();
 

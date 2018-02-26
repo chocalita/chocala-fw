@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'scrap_tipo_empresa' table.
  *
- * 
+ *
  *
  * @method     ChildScrapTipoEmpresaQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildScrapTipoEmpresaQuery orderByNombre($order = Criteria::ASC) Order by the NOMBRE column
@@ -32,9 +32,19 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildScrapTipoEmpresaQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildScrapTipoEmpresaQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildScrapTipoEmpresaQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildScrapTipoEmpresaQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildScrapTipoEmpresaQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildScrapTipoEmpresaQuery leftJoinScrapEmpresa($relationAlias = null) Adds a LEFT JOIN clause to the query using the ScrapEmpresa relation
  * @method     ChildScrapTipoEmpresaQuery rightJoinScrapEmpresa($relationAlias = null) Adds a RIGHT JOIN clause to the query using the ScrapEmpresa relation
  * @method     ChildScrapTipoEmpresaQuery innerJoinScrapEmpresa($relationAlias = null) Adds a INNER JOIN clause to the query using the ScrapEmpresa relation
+ *
+ * @method     ChildScrapTipoEmpresaQuery joinWithScrapEmpresa($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the ScrapEmpresa relation
+ *
+ * @method     ChildScrapTipoEmpresaQuery leftJoinWithScrapEmpresa() Adds a LEFT JOIN clause and with to the query using the ScrapEmpresa relation
+ * @method     ChildScrapTipoEmpresaQuery rightJoinWithScrapEmpresa() Adds a RIGHT JOIN clause and with to the query using the ScrapEmpresa relation
+ * @method     ChildScrapTipoEmpresaQuery innerJoinWithScrapEmpresa() Adds a INNER JOIN clause and with to the query using the ScrapEmpresa relation
  *
  * @method     \ScrapEmpresaQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -118,21 +128,27 @@ abstract class ScrapTipoEmpresaQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = ScrapTipoEmpresaTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(ScrapTipoEmpresaTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = ScrapTipoEmpresaTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -150,7 +166,7 @@ abstract class ScrapTipoEmpresaQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, NOMBRE, DESCRIPCION FROM scrap_tipo_empresa WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -162,7 +178,7 @@ abstract class ScrapTipoEmpresaQuery extends ModelCriteria
             /** @var ChildScrapTipoEmpresa $obj */
             $obj = new ChildScrapTipoEmpresa();
             $obj->hydrate($row);
-            ScrapTipoEmpresaTableMap::addInstanceToPool($obj, (string) $key);
+            ScrapTipoEmpresaTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -285,11 +301,10 @@ abstract class ScrapTipoEmpresaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByNombre('fooValue');   // WHERE NOMBRE = 'fooValue'
-     * $query->filterByNombre('%fooValue%'); // WHERE NOMBRE LIKE '%fooValue%'
+     * $query->filterByNombre('%fooValue%', Criteria::LIKE); // WHERE NOMBRE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $nombre The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildScrapTipoEmpresaQuery The current query, for fluid interface
@@ -299,9 +314,6 @@ abstract class ScrapTipoEmpresaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($nombre)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nombre)) {
-                $nombre = str_replace('*', '%', $nombre);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -314,11 +326,10 @@ abstract class ScrapTipoEmpresaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByDescripcion('fooValue');   // WHERE DESCRIPCION = 'fooValue'
-     * $query->filterByDescripcion('%fooValue%'); // WHERE DESCRIPCION LIKE '%fooValue%'
+     * $query->filterByDescripcion('%fooValue%', Criteria::LIKE); // WHERE DESCRIPCION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $descripcion The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildScrapTipoEmpresaQuery The current query, for fluid interface
@@ -328,9 +339,6 @@ abstract class ScrapTipoEmpresaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($descripcion)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $descripcion)) {
-                $descripcion = str_replace('*', '%', $descripcion);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -477,9 +485,9 @@ abstract class ScrapTipoEmpresaQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             ScrapTipoEmpresaTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             ScrapTipoEmpresaTableMap::clearRelatedInstancePool();
 

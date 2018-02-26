@@ -2,6 +2,9 @@
 
 namespace Base;
 
+use \JobAviso as ChildJobAviso;
+use \JobAvisoQuery as ChildJobAvisoQuery;
+use \JobEmpresaSuscrita as ChildJobEmpresaSuscrita;
 use \JobEmpresaSuscritaQuery as ChildJobEmpresaSuscritaQuery;
 use \SysEntityType as ChildSysEntityType;
 use \SysEntityTypeQuery as ChildSysEntityTypeQuery;
@@ -10,12 +13,14 @@ use \SysLocationQuery as ChildSysLocationQuery;
 use \DateTime;
 use \Exception;
 use \PDO;
+use Map\JobAvisoTableMap;
 use Map\JobEmpresaSuscritaTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Collection\Collection;
+use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\BadMethodCallException;
 use Propel\Runtime\Exception\LogicException;
@@ -27,11 +32,11 @@ use Propel\Runtime\Util\PropelDateTime;
 /**
  * Base class that represents a row from the 'job_empresa_suscrita' table.
  *
- * 
  *
-* @package    propel.generator..Base
-*/
-abstract class JobEmpresaSuscrita implements ActiveRecordInterface 
+ *
+ * @package    propel.generator..Base
+ */
+abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -67,78 +72,91 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * The value for the id field.
+     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the entity_type_id field.
+     *
      * @var        int
      */
     protected $entity_type_id;
 
     /**
      * The value for the location_id field.
+     *
      * @var        int
      */
     protected $location_id;
 
     /**
      * The value for the scrap_empresa_id field.
+     *
      * @var        int
      */
     protected $scrap_empresa_id;
 
     /**
      * The value for the hash_code field.
+     *
      * @var        string
      */
     protected $hash_code;
 
     /**
      * The value for the nombre field.
+     *
      * @var        string
      */
     protected $nombre;
 
     /**
      * The value for the nit field.
+     *
      * @var        string
      */
     protected $nit;
 
     /**
      * The value for the email field.
+     *
      * @var        string
      */
     protected $email;
 
     /**
      * The value for the direccion field.
+     *
      * @var        string
      */
     protected $direccion;
 
     /**
      * The value for the representante field.
+     *
      * @var        string
      */
     protected $representante;
 
     /**
      * The value for the telefono field.
+     *
      * @var        string
      */
     protected $telefono;
 
     /**
      * The value for the celular field.
+     *
      * @var        string
      */
     protected $celular;
 
     /**
      * The value for the status field.
+     *
      * Note: this column has a database default value of: 'INITIAL'
      * @var        string
      */
@@ -146,6 +164,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * The value for the last_user_id field.
+     *
      * Note: this column has a database default value of: 0
      * @var        int
      */
@@ -153,15 +172,17 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * The value for the creation_date field.
+     *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
-     * @var        \DateTime
+     * @var        DateTime
      */
     protected $creation_date;
 
     /**
      * The value for the modificacion_date field.
+     *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
-     * @var        \DateTime
+     * @var        DateTime
      */
     protected $modificacion_date;
 
@@ -176,12 +197,24 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
     protected $aSysLocation;
 
     /**
+     * @var        ObjectCollection|ChildJobAviso[] Collection to store aggregation of ChildJobAviso objects.
+     */
+    protected $collJobAvisos;
+    protected $collJobAvisosPartial;
+
+    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      *
      * @var boolean
      */
     protected $alreadyInSave = false;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection|ChildJobAviso[]
+     */
+    protected $jobAvisosScheduledForDeletion = null;
 
     /**
      * Applies default values to this object.
@@ -411,12 +444,20 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        return array_keys(get_object_vars($this));
+        $cls = new \ReflectionClass($this);
+        $propertyNames = [];
+        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
+
+        foreach($serializableProperties as $property) {
+            $propertyNames[] = $property->getName();
+        }
+
+        return $propertyNames;
     }
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return int
      */
     public function getId()
@@ -426,7 +467,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [entity_type_id] column value.
-     * 
+     *
      * @return int
      */
     public function getEntityTypeId()
@@ -436,7 +477,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [location_id] column value.
-     * 
+     *
      * @return int
      */
     public function getLocationId()
@@ -446,7 +487,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [scrap_empresa_id] column value.
-     * 
+     *
      * @return int
      */
     public function getScrapEmpresaId()
@@ -456,7 +497,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [hash_code] column value.
-     * 
+     *
      * @return string
      */
     public function getHashCode()
@@ -466,7 +507,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [nombre] column value.
-     * 
+     *
      * @return string
      */
     public function getNombre()
@@ -476,7 +517,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [nit] column value.
-     * 
+     *
      * @return string
      */
     public function getNit()
@@ -486,7 +527,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [email] column value.
-     * 
+     *
      * @return string
      */
     public function getEmail()
@@ -496,7 +537,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [direccion] column value.
-     * 
+     *
      * @return string
      */
     public function getDireccion()
@@ -506,7 +547,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [representante] column value.
-     * 
+     *
      * @return string
      */
     public function getRepresentante()
@@ -516,7 +557,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [telefono] column value.
-     * 
+     *
      * @return string
      */
     public function getTelefono()
@@ -526,7 +567,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [celular] column value.
-     * 
+     *
      * @return string
      */
     public function getCelular()
@@ -536,7 +577,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [status] column value.
-     * 
+     *
      * @return string
      */
     public function getStatus()
@@ -546,7 +587,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [last_user_id] column value.
-     * 
+     *
      * @return int
      */
     public function getLastUserId()
@@ -556,9 +597,9 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [creation_date] column value.
-     * 
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *
+     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -570,15 +611,15 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
         if ($format === null) {
             return $this->creation_date;
         } else {
-            return $this->creation_date instanceof \DateTime ? $this->creation_date->format($format) : null;
+            return $this->creation_date instanceof \DateTimeInterface ? $this->creation_date->format($format) : null;
         }
     }
 
     /**
      * Get the [optionally formatted] temporal [modificacion_date] column value.
-     * 
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *
+     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -590,13 +631,13 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
         if ($format === null) {
             return $this->modificacion_date;
         } else {
-            return $this->modificacion_date instanceof \DateTime ? $this->modificacion_date->format($format) : null;
+            return $this->modificacion_date instanceof \DateTimeInterface ? $this->modificacion_date->format($format) : null;
         }
     }
 
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -616,7 +657,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [entity_type_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -640,7 +681,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [location_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -664,7 +705,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [scrap_empresa_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -684,7 +725,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [hash_code] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -704,7 +745,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [nombre] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -724,7 +765,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [nit] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -744,7 +785,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [email] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -764,7 +805,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [direccion] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -784,7 +825,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [representante] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -804,7 +845,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [telefono] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -824,7 +865,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [celular] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -844,7 +885,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [status] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -864,7 +905,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [last_user_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -884,8 +925,8 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
-     * 
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -893,7 +934,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->creation_date !== null || $dt !== null) {
-            if ($this->creation_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->creation_date->format("Y-m-d H:i:s")) {
+            if ($this->creation_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->creation_date->format("Y-m-d H:i:s.u")) {
                 $this->creation_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[JobEmpresaSuscritaTableMap::COL_CREATION_DATE] = true;
             }
@@ -904,8 +945,8 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Sets the value of [modificacion_date] column to a normalized version of the date/time value specified.
-     * 
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -913,7 +954,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->modificacion_date !== null || $dt !== null) {
-            if ($this->modificacion_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->modificacion_date->format("Y-m-d H:i:s")) {
+            if ($this->modificacion_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->modificacion_date->format("Y-m-d H:i:s.u")) {
                 $this->modificacion_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[JobEmpresaSuscritaTableMap::COL_MODIFICACION_DATE] = true;
             }
@@ -1096,6 +1137,8 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
             $this->aSysEntityType = null;
             $this->aSysLocation = null;
+            $this->collJobAvisos = null;
+
         } // if (deep)
     }
 
@@ -1149,13 +1192,17 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
             throw new PropelException("You cannot save an object that has been deleted.");
         }
 
+        if ($this->alreadyInSave) {
+            return 0;
+        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getWriteConnection(JobEmpresaSuscritaTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
-            $isInsert = $this->isNew();
             $ret = $this->preSave($con);
+            $isInsert = $this->isNew();
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
             } else {
@@ -1223,6 +1270,24 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
                     $affectedRows += $this->doUpdate($con);
                 }
                 $this->resetModified();
+            }
+
+            if ($this->jobAvisosScheduledForDeletion !== null) {
+                if (!$this->jobAvisosScheduledForDeletion->isEmpty()) {
+                    foreach ($this->jobAvisosScheduledForDeletion as $jobAviso) {
+                        // need to save related object because we set the relation to null
+                        $jobAviso->save($con);
+                    }
+                    $this->jobAvisosScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collJobAvisos !== null) {
+                foreach ($this->collJobAvisos as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
             }
 
             $this->alreadyInSave = false;
@@ -1310,53 +1375,53 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'ENTITY_TYPE_ID':                        
+                    case 'ENTITY_TYPE_ID':
                         $stmt->bindValue($identifier, $this->entity_type_id, PDO::PARAM_INT);
                         break;
-                    case 'LOCATION_ID':                        
+                    case 'LOCATION_ID':
                         $stmt->bindValue($identifier, $this->location_id, PDO::PARAM_INT);
                         break;
-                    case 'SCRAP_EMPRESA_ID':                        
+                    case 'SCRAP_EMPRESA_ID':
                         $stmt->bindValue($identifier, $this->scrap_empresa_id, PDO::PARAM_INT);
                         break;
-                    case 'HASH_CODE':                        
+                    case 'HASH_CODE':
                         $stmt->bindValue($identifier, $this->hash_code, PDO::PARAM_STR);
                         break;
-                    case 'NOMBRE':                        
+                    case 'NOMBRE':
                         $stmt->bindValue($identifier, $this->nombre, PDO::PARAM_STR);
                         break;
-                    case 'NIT':                        
+                    case 'NIT':
                         $stmt->bindValue($identifier, $this->nit, PDO::PARAM_STR);
                         break;
-                    case 'EMAIL':                        
+                    case 'EMAIL':
                         $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
                         break;
-                    case 'DIRECCION':                        
+                    case 'DIRECCION':
                         $stmt->bindValue($identifier, $this->direccion, PDO::PARAM_STR);
                         break;
-                    case 'REPRESENTANTE':                        
+                    case 'REPRESENTANTE':
                         $stmt->bindValue($identifier, $this->representante, PDO::PARAM_STR);
                         break;
-                    case 'TELEFONO':                        
+                    case 'TELEFONO':
                         $stmt->bindValue($identifier, $this->telefono, PDO::PARAM_STR);
                         break;
-                    case 'CELULAR':                        
+                    case 'CELULAR':
                         $stmt->bindValue($identifier, $this->celular, PDO::PARAM_STR);
                         break;
-                    case 'STATUS':                        
+                    case 'STATUS':
                         $stmt->bindValue($identifier, $this->status, PDO::PARAM_STR);
                         break;
-                    case 'LAST_USER_ID':                        
+                    case 'LAST_USER_ID':
                         $stmt->bindValue($identifier, $this->last_user_id, PDO::PARAM_INT);
                         break;
-                    case 'CREATION_DATE':                        
-                        $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                    case 'CREATION_DATE':
+                        $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
-                    case 'MODIFICACION_DATE':                        
-                        $stmt->bindValue($identifier, $this->modificacion_date ? $this->modificacion_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                    case 'MODIFICACION_DATE':
+                        $stmt->bindValue($identifier, $this->modificacion_date ? $this->modificacion_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1515,28 +1580,22 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
             $keys[14] => $this->getCreationDate(),
             $keys[15] => $this->getModificacionDate(),
         );
+        if ($result[$keys[14]] instanceof \DateTimeInterface) {
+            $result[$keys[14]] = $result[$keys[14]]->format('c');
+        }
 
-        $utc = new \DateTimeZone('utc');
-        if ($result[$keys[14]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[14]];
-            $result[$keys[14]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+        if ($result[$keys[15]] instanceof \DateTimeInterface) {
+            $result[$keys[15]] = $result[$keys[15]]->format('c');
         }
-        
-        if ($result[$keys[15]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[15]];
-            $result[$keys[15]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
-        }
-        
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->aSysEntityType) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysEntityType';
@@ -1547,11 +1606,11 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
                     default:
                         $key = 'SysEntityType';
                 }
-        
+
                 $result[$key] = $this->aSysEntityType->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aSysLocation) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysLocation';
@@ -1562,8 +1621,23 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
                     default:
                         $key = 'SysLocation';
                 }
-        
+
                 $result[$key] = $this->aSysLocation->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->collJobAvisos) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'jobAvisos';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'job_avisos';
+                        break;
+                    default:
+                        $key = 'JobAvisos';
+                }
+
+                $result[$key] = $this->collJobAvisos->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -1853,7 +1927,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-        
+
     /**
      * Returns the primary key for this object (row).
      * @return int
@@ -1911,6 +1985,20 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
         $copyObj->setLastUserId($this->getLastUserId());
         $copyObj->setCreationDate($this->getCreationDate());
         $copyObj->setModificacionDate($this->getModificacionDate());
+
+        if ($deepCopy) {
+            // important: temporarily setNew(false) because this affects the behavior of
+            // the getter/setter methods for fkey referrer objects.
+            $copyObj->setNew(false);
+
+            foreach ($this->getJobAvisos() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addJobAviso($relObj->copy($deepCopy));
+                }
+            }
+
+        } // if ($deepCopy)
+
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1976,7 +2064,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
      */
     public function getSysEntityType(ConnectionInterface $con = null)
     {
-        if ($this->aSysEntityType === null && ($this->entity_type_id !== null)) {
+        if ($this->aSysEntityType === null && ($this->entity_type_id != 0)) {
             $this->aSysEntityType = ChildSysEntityTypeQuery::create()->findPk($this->entity_type_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
@@ -2027,7 +2115,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
      */
     public function getSysLocation(ConnectionInterface $con = null)
     {
-        if ($this->aSysLocation === null && ($this->location_id !== null)) {
+        if ($this->aSysLocation === null && ($this->location_id != 0)) {
             $this->aSysLocation = ChildSysLocationQuery::create()->findPk($this->location_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
@@ -2039,6 +2127,298 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
         }
 
         return $this->aSysLocation;
+    }
+
+
+    /**
+     * Initializes a collection based on the name of a relation.
+     * Avoids crafting an 'init[$relationName]s' method name
+     * that wouldn't work when StandardEnglishPluralizer is used.
+     *
+     * @param      string $relationName The name of the relation to initialize
+     * @return void
+     */
+    public function initRelation($relationName)
+    {
+        if ('JobAviso' == $relationName) {
+            $this->initJobAvisos();
+            return;
+        }
+    }
+
+    /**
+     * Clears out the collJobAvisos collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addJobAvisos()
+     */
+    public function clearJobAvisos()
+    {
+        $this->collJobAvisos = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collJobAvisos collection loaded partially.
+     */
+    public function resetPartialJobAvisos($v = true)
+    {
+        $this->collJobAvisosPartial = $v;
+    }
+
+    /**
+     * Initializes the collJobAvisos collection.
+     *
+     * By default this just sets the collJobAvisos collection to an empty array (like clearcollJobAvisos());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initJobAvisos($overrideExisting = true)
+    {
+        if (null !== $this->collJobAvisos && !$overrideExisting) {
+            return;
+        }
+
+        $collectionClassName = JobAvisoTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collJobAvisos = new $collectionClassName;
+        $this->collJobAvisos->setModel('\JobAviso');
+    }
+
+    /**
+     * Gets an array of ChildJobAviso objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildJobEmpresaSuscrita is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return ObjectCollection|ChildJobAviso[] List of ChildJobAviso objects
+     * @throws PropelException
+     */
+    public function getJobAvisos(Criteria $criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collJobAvisosPartial && !$this->isNew();
+        if (null === $this->collJobAvisos || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collJobAvisos) {
+                // return empty collection
+                $this->initJobAvisos();
+            } else {
+                $collJobAvisos = ChildJobAvisoQuery::create(null, $criteria)
+                    ->filterByJobEmpresaSuscrita($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collJobAvisosPartial && count($collJobAvisos)) {
+                        $this->initJobAvisos(false);
+
+                        foreach ($collJobAvisos as $obj) {
+                            if (false == $this->collJobAvisos->contains($obj)) {
+                                $this->collJobAvisos->append($obj);
+                            }
+                        }
+
+                        $this->collJobAvisosPartial = true;
+                    }
+
+                    return $collJobAvisos;
+                }
+
+                if ($partial && $this->collJobAvisos) {
+                    foreach ($this->collJobAvisos as $obj) {
+                        if ($obj->isNew()) {
+                            $collJobAvisos[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collJobAvisos = $collJobAvisos;
+                $this->collJobAvisosPartial = false;
+            }
+        }
+
+        return $this->collJobAvisos;
+    }
+
+    /**
+     * Sets a collection of ChildJobAviso objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $jobAvisos A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return $this|ChildJobEmpresaSuscrita The current object (for fluent API support)
+     */
+    public function setJobAvisos(Collection $jobAvisos, ConnectionInterface $con = null)
+    {
+        /** @var ChildJobAviso[] $jobAvisosToDelete */
+        $jobAvisosToDelete = $this->getJobAvisos(new Criteria(), $con)->diff($jobAvisos);
+
+
+        $this->jobAvisosScheduledForDeletion = $jobAvisosToDelete;
+
+        foreach ($jobAvisosToDelete as $jobAvisoRemoved) {
+            $jobAvisoRemoved->setJobEmpresaSuscrita(null);
+        }
+
+        $this->collJobAvisos = null;
+        foreach ($jobAvisos as $jobAviso) {
+            $this->addJobAviso($jobAviso);
+        }
+
+        $this->collJobAvisos = $jobAvisos;
+        $this->collJobAvisosPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related JobAviso objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related JobAviso objects.
+     * @throws PropelException
+     */
+    public function countJobAvisos(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collJobAvisosPartial && !$this->isNew();
+        if (null === $this->collJobAvisos || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collJobAvisos) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getJobAvisos());
+            }
+
+            $query = ChildJobAvisoQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByJobEmpresaSuscrita($this)
+                ->count($con);
+        }
+
+        return count($this->collJobAvisos);
+    }
+
+    /**
+     * Method called to associate a ChildJobAviso object to this object
+     * through the ChildJobAviso foreign key attribute.
+     *
+     * @param  ChildJobAviso $l ChildJobAviso
+     * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
+     */
+    public function addJobAviso(ChildJobAviso $l)
+    {
+        if ($this->collJobAvisos === null) {
+            $this->initJobAvisos();
+            $this->collJobAvisosPartial = true;
+        }
+
+        if (!$this->collJobAvisos->contains($l)) {
+            $this->doAddJobAviso($l);
+
+            if ($this->jobAvisosScheduledForDeletion and $this->jobAvisosScheduledForDeletion->contains($l)) {
+                $this->jobAvisosScheduledForDeletion->remove($this->jobAvisosScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ChildJobAviso $jobAviso The ChildJobAviso object to add.
+     */
+    protected function doAddJobAviso(ChildJobAviso $jobAviso)
+    {
+        $this->collJobAvisos[]= $jobAviso;
+        $jobAviso->setJobEmpresaSuscrita($this);
+    }
+
+    /**
+     * @param  ChildJobAviso $jobAviso The ChildJobAviso object to remove.
+     * @return $this|ChildJobEmpresaSuscrita The current object (for fluent API support)
+     */
+    public function removeJobAviso(ChildJobAviso $jobAviso)
+    {
+        if ($this->getJobAvisos()->contains($jobAviso)) {
+            $pos = $this->collJobAvisos->search($jobAviso);
+            $this->collJobAvisos->remove($pos);
+            if (null === $this->jobAvisosScheduledForDeletion) {
+                $this->jobAvisosScheduledForDeletion = clone $this->collJobAvisos;
+                $this->jobAvisosScheduledForDeletion->clear();
+            }
+            $this->jobAvisosScheduledForDeletion[]= $jobAviso;
+            $jobAviso->setJobEmpresaSuscrita(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this JobEmpresaSuscrita is new, it will return
+     * an empty collection; or if this JobEmpresaSuscrita has previously
+     * been saved, it will retrieve related JobAvisos from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in JobEmpresaSuscrita.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildJobAviso[] List of ChildJobAviso objects
+     */
+    public function getJobAvisosJoinJobAreaTecnica(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildJobAvisoQuery::create(null, $criteria);
+        $query->joinWith('JobAreaTecnica', $joinBehavior);
+
+        return $this->getJobAvisos($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this JobEmpresaSuscrita is new, it will return
+     * an empty collection; or if this JobEmpresaSuscrita has previously
+     * been saved, it will retrieve related JobAvisos from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in JobEmpresaSuscrita.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildJobAviso[] List of ChildJobAviso objects
+     */
+    public function getJobAvisosJoinJobArea(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildJobAvisoQuery::create(null, $criteria);
+        $query->joinWith('JobArea', $joinBehavior);
+
+        return $this->getJobAvisos($query, $con);
     }
 
     /**
@@ -2089,8 +2469,14 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
+            if ($this->collJobAvisos) {
+                foreach ($this->collJobAvisos as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
         } // if ($deep)
 
+        $this->collJobAvisos = null;
         $this->aSysEntityType = null;
         $this->aSysLocation = null;
     }
@@ -2112,6 +2498,9 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
      */
     public function preSave(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preSave')) {
+            return parent::preSave($con);
+        }
         return true;
     }
 
@@ -2121,7 +2510,9 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
      */
     public function postSave(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postSave')) {
+            parent::postSave($con);
+        }
     }
 
     /**
@@ -2131,6 +2522,9 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
      */
     public function preInsert(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preInsert')) {
+            return parent::preInsert($con);
+        }
         return true;
     }
 
@@ -2140,7 +2534,9 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
      */
     public function postInsert(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postInsert')) {
+            parent::postInsert($con);
+        }
     }
 
     /**
@@ -2150,6 +2546,9 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
      */
     public function preUpdate(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preUpdate')) {
+            return parent::preUpdate($con);
+        }
         return true;
     }
 
@@ -2159,7 +2558,9 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
      */
     public function postUpdate(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postUpdate')) {
+            parent::postUpdate($con);
+        }
     }
 
     /**
@@ -2169,6 +2570,9 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
      */
     public function preDelete(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preDelete')) {
+            return parent::preDelete($con);
+        }
         return true;
     }
 
@@ -2178,7 +2582,9 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
      */
     public function postDelete(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postDelete')) {
+            parent::postDelete($con);
+        }
     }
 
 

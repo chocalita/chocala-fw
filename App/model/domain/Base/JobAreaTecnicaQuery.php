@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'job_area_tecnica' table.
  *
- * 
+ *
  *
  * @method     ChildJobAreaTecnicaQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildJobAreaTecnicaQuery orderByIdAreaPrincipal($order = Criteria::ASC) Order by the ID_AREA_PRINCIPAL column
@@ -46,21 +46,49 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAreaTecnicaQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildJobAreaTecnicaQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildJobAreaTecnicaQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildJobAreaTecnicaQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildJobAreaTecnicaQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildJobAreaTecnicaQuery leftJoinJobAreaRelacionadaRelatedByIdArea1($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobAreaRelacionadaRelatedByIdArea1 relation
  * @method     ChildJobAreaTecnicaQuery rightJoinJobAreaRelacionadaRelatedByIdArea1($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobAreaRelacionadaRelatedByIdArea1 relation
  * @method     ChildJobAreaTecnicaQuery innerJoinJobAreaRelacionadaRelatedByIdArea1($relationAlias = null) Adds a INNER JOIN clause to the query using the JobAreaRelacionadaRelatedByIdArea1 relation
+ *
+ * @method     ChildJobAreaTecnicaQuery joinWithJobAreaRelacionadaRelatedByIdArea1($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobAreaRelacionadaRelatedByIdArea1 relation
+ *
+ * @method     ChildJobAreaTecnicaQuery leftJoinWithJobAreaRelacionadaRelatedByIdArea1() Adds a LEFT JOIN clause and with to the query using the JobAreaRelacionadaRelatedByIdArea1 relation
+ * @method     ChildJobAreaTecnicaQuery rightJoinWithJobAreaRelacionadaRelatedByIdArea1() Adds a RIGHT JOIN clause and with to the query using the JobAreaRelacionadaRelatedByIdArea1 relation
+ * @method     ChildJobAreaTecnicaQuery innerJoinWithJobAreaRelacionadaRelatedByIdArea1() Adds a INNER JOIN clause and with to the query using the JobAreaRelacionadaRelatedByIdArea1 relation
  *
  * @method     ChildJobAreaTecnicaQuery leftJoinJobAreaRelacionadaRelatedByIdArea2($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobAreaRelacionadaRelatedByIdArea2 relation
  * @method     ChildJobAreaTecnicaQuery rightJoinJobAreaRelacionadaRelatedByIdArea2($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobAreaRelacionadaRelatedByIdArea2 relation
  * @method     ChildJobAreaTecnicaQuery innerJoinJobAreaRelacionadaRelatedByIdArea2($relationAlias = null) Adds a INNER JOIN clause to the query using the JobAreaRelacionadaRelatedByIdArea2 relation
  *
+ * @method     ChildJobAreaTecnicaQuery joinWithJobAreaRelacionadaRelatedByIdArea2($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobAreaRelacionadaRelatedByIdArea2 relation
+ *
+ * @method     ChildJobAreaTecnicaQuery leftJoinWithJobAreaRelacionadaRelatedByIdArea2() Adds a LEFT JOIN clause and with to the query using the JobAreaRelacionadaRelatedByIdArea2 relation
+ * @method     ChildJobAreaTecnicaQuery rightJoinWithJobAreaRelacionadaRelatedByIdArea2() Adds a RIGHT JOIN clause and with to the query using the JobAreaRelacionadaRelatedByIdArea2 relation
+ * @method     ChildJobAreaTecnicaQuery innerJoinWithJobAreaRelacionadaRelatedByIdArea2() Adds a INNER JOIN clause and with to the query using the JobAreaRelacionadaRelatedByIdArea2 relation
+ *
  * @method     ChildJobAreaTecnicaQuery leftJoinJobAreaTecnicaProfesion($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobAreaTecnicaProfesion relation
  * @method     ChildJobAreaTecnicaQuery rightJoinJobAreaTecnicaProfesion($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobAreaTecnicaProfesion relation
  * @method     ChildJobAreaTecnicaQuery innerJoinJobAreaTecnicaProfesion($relationAlias = null) Adds a INNER JOIN clause to the query using the JobAreaTecnicaProfesion relation
  *
+ * @method     ChildJobAreaTecnicaQuery joinWithJobAreaTecnicaProfesion($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobAreaTecnicaProfesion relation
+ *
+ * @method     ChildJobAreaTecnicaQuery leftJoinWithJobAreaTecnicaProfesion() Adds a LEFT JOIN clause and with to the query using the JobAreaTecnicaProfesion relation
+ * @method     ChildJobAreaTecnicaQuery rightJoinWithJobAreaTecnicaProfesion() Adds a RIGHT JOIN clause and with to the query using the JobAreaTecnicaProfesion relation
+ * @method     ChildJobAreaTecnicaQuery innerJoinWithJobAreaTecnicaProfesion() Adds a INNER JOIN clause and with to the query using the JobAreaTecnicaProfesion relation
+ *
  * @method     ChildJobAreaTecnicaQuery leftJoinJobAviso($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobAviso relation
  * @method     ChildJobAreaTecnicaQuery rightJoinJobAviso($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobAviso relation
  * @method     ChildJobAreaTecnicaQuery innerJoinJobAviso($relationAlias = null) Adds a INNER JOIN clause to the query using the JobAviso relation
+ *
+ * @method     ChildJobAreaTecnicaQuery joinWithJobAviso($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobAviso relation
+ *
+ * @method     ChildJobAreaTecnicaQuery leftJoinWithJobAviso() Adds a LEFT JOIN clause and with to the query using the JobAviso relation
+ * @method     ChildJobAreaTecnicaQuery rightJoinWithJobAviso() Adds a RIGHT JOIN clause and with to the query using the JobAviso relation
+ * @method     ChildJobAreaTecnicaQuery innerJoinWithJobAviso() Adds a INNER JOIN clause and with to the query using the JobAviso relation
  *
  * @method     \JobAreaRelacionadaQuery|\JobAreaTecnicaProfesionQuery|\JobAvisoQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -165,21 +193,27 @@ abstract class JobAreaTecnicaQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = JobAreaTecnicaTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(JobAreaTecnicaTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = JobAreaTecnicaTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -197,7 +231,7 @@ abstract class JobAreaTecnicaQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, ID_AREA_PRINCIPAL, NIVEL, NOMBRE, KEYWORDS, DESCRIPCION, STATUS, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM job_area_tecnica WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -209,7 +243,7 @@ abstract class JobAreaTecnicaQuery extends ModelCriteria
             /** @var ChildJobAreaTecnica $obj */
             $obj = new ChildJobAreaTecnica();
             $obj->hydrate($row);
-            JobAreaTecnicaTableMap::addInstanceToPool($obj, (string) $key);
+            JobAreaTecnicaTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -414,11 +448,10 @@ abstract class JobAreaTecnicaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByNombre('fooValue');   // WHERE NOMBRE = 'fooValue'
-     * $query->filterByNombre('%fooValue%'); // WHERE NOMBRE LIKE '%fooValue%'
+     * $query->filterByNombre('%fooValue%', Criteria::LIKE); // WHERE NOMBRE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $nombre The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobAreaTecnicaQuery The current query, for fluid interface
@@ -428,9 +461,6 @@ abstract class JobAreaTecnicaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($nombre)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nombre)) {
-                $nombre = str_replace('*', '%', $nombre);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -443,11 +473,10 @@ abstract class JobAreaTecnicaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByKeywords('fooValue');   // WHERE KEYWORDS = 'fooValue'
-     * $query->filterByKeywords('%fooValue%'); // WHERE KEYWORDS LIKE '%fooValue%'
+     * $query->filterByKeywords('%fooValue%', Criteria::LIKE); // WHERE KEYWORDS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $keywords The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobAreaTecnicaQuery The current query, for fluid interface
@@ -457,9 +486,6 @@ abstract class JobAreaTecnicaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($keywords)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $keywords)) {
-                $keywords = str_replace('*', '%', $keywords);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -472,11 +498,10 @@ abstract class JobAreaTecnicaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByDescripcion('fooValue');   // WHERE DESCRIPCION = 'fooValue'
-     * $query->filterByDescripcion('%fooValue%'); // WHERE DESCRIPCION LIKE '%fooValue%'
+     * $query->filterByDescripcion('%fooValue%', Criteria::LIKE); // WHERE DESCRIPCION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $descripcion The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobAreaTecnicaQuery The current query, for fluid interface
@@ -486,9 +511,6 @@ abstract class JobAreaTecnicaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($descripcion)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $descripcion)) {
-                $descripcion = str_replace('*', '%', $descripcion);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -501,11 +523,10 @@ abstract class JobAreaTecnicaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByStatus('fooValue');   // WHERE STATUS = 'fooValue'
-     * $query->filterByStatus('%fooValue%'); // WHERE STATUS LIKE '%fooValue%'
+     * $query->filterByStatus('%fooValue%', Criteria::LIKE); // WHERE STATUS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $status The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobAreaTecnicaQuery The current query, for fluid interface
@@ -515,9 +536,6 @@ abstract class JobAreaTecnicaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($status)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $status)) {
-                $status = str_replace('*', '%', $status);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -1010,9 +1028,9 @@ abstract class JobAreaTecnicaQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             JobAreaTecnicaTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             JobAreaTecnicaTableMap::clearRelatedInstancePool();
 

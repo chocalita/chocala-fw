@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'sys_module' table.
  *
- * 
+ *
  *
  * @method     ChildSysModuleQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysModuleQuery orderByName($order = Criteria::ASC) Order by the NAME column
@@ -40,9 +40,19 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysModuleQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildSysModuleQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildSysModuleQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildSysModuleQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildSysModuleQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildSysModuleQuery leftJoinSysUri($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysUri relation
  * @method     ChildSysModuleQuery rightJoinSysUri($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysUri relation
  * @method     ChildSysModuleQuery innerJoinSysUri($relationAlias = null) Adds a INNER JOIN clause to the query using the SysUri relation
+ *
+ * @method     ChildSysModuleQuery joinWithSysUri($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysUri relation
+ *
+ * @method     ChildSysModuleQuery leftJoinWithSysUri() Adds a LEFT JOIN clause and with to the query using the SysUri relation
+ * @method     ChildSysModuleQuery rightJoinWithSysUri() Adds a RIGHT JOIN clause and with to the query using the SysUri relation
+ * @method     ChildSysModuleQuery innerJoinWithSysUri() Adds a INNER JOIN clause and with to the query using the SysUri relation
  *
  * @method     \SysUriQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -138,21 +148,27 @@ abstract class SysModuleQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysModuleTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(SysModuleTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = SysModuleTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -170,7 +186,7 @@ abstract class SysModuleQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, NAME, URI, ACCESS, POSITION, DESCRIPTION, ICON_CLASS FROM sys_module WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -182,7 +198,7 @@ abstract class SysModuleQuery extends ModelCriteria
             /** @var ChildSysModule $obj */
             $obj = new ChildSysModule();
             $obj->hydrate($row);
-            SysModuleTableMap::addInstanceToPool($obj, (string) $key);
+            SysModuleTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -305,11 +321,10 @@ abstract class SysModuleQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByName('fooValue');   // WHERE NAME = 'fooValue'
-     * $query->filterByName('%fooValue%'); // WHERE NAME LIKE '%fooValue%'
+     * $query->filterByName('%fooValue%', Criteria::LIKE); // WHERE NAME LIKE '%fooValue%'
      * </code>
      *
      * @param     string $name The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysModuleQuery The current query, for fluid interface
@@ -319,9 +334,6 @@ abstract class SysModuleQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($name)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $name)) {
-                $name = str_replace('*', '%', $name);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -334,11 +346,10 @@ abstract class SysModuleQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByUri('fooValue');   // WHERE URI = 'fooValue'
-     * $query->filterByUri('%fooValue%'); // WHERE URI LIKE '%fooValue%'
+     * $query->filterByUri('%fooValue%', Criteria::LIKE); // WHERE URI LIKE '%fooValue%'
      * </code>
      *
      * @param     string $uri The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysModuleQuery The current query, for fluid interface
@@ -348,9 +359,6 @@ abstract class SysModuleQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($uri)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $uri)) {
-                $uri = str_replace('*', '%', $uri);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -363,11 +371,10 @@ abstract class SysModuleQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByAccess('fooValue');   // WHERE ACCESS = 'fooValue'
-     * $query->filterByAccess('%fooValue%'); // WHERE ACCESS LIKE '%fooValue%'
+     * $query->filterByAccess('%fooValue%', Criteria::LIKE); // WHERE ACCESS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $access The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysModuleQuery The current query, for fluid interface
@@ -377,9 +384,6 @@ abstract class SysModuleQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($access)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $access)) {
-                $access = str_replace('*', '%', $access);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -433,11 +437,10 @@ abstract class SysModuleQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByDescription('fooValue');   // WHERE DESCRIPTION = 'fooValue'
-     * $query->filterByDescription('%fooValue%'); // WHERE DESCRIPTION LIKE '%fooValue%'
+     * $query->filterByDescription('%fooValue%', Criteria::LIKE); // WHERE DESCRIPTION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $description The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysModuleQuery The current query, for fluid interface
@@ -447,9 +450,6 @@ abstract class SysModuleQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($description)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $description)) {
-                $description = str_replace('*', '%', $description);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -462,11 +462,10 @@ abstract class SysModuleQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByIconClass('fooValue');   // WHERE ICON_CLASS = 'fooValue'
-     * $query->filterByIconClass('%fooValue%'); // WHERE ICON_CLASS LIKE '%fooValue%'
+     * $query->filterByIconClass('%fooValue%', Criteria::LIKE); // WHERE ICON_CLASS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $iconClass The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysModuleQuery The current query, for fluid interface
@@ -476,9 +475,6 @@ abstract class SysModuleQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($iconClass)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $iconClass)) {
-                $iconClass = str_replace('*', '%', $iconClass);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -625,9 +621,9 @@ abstract class SysModuleQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             SysModuleTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             SysModuleTableMap::clearRelatedInstancePool();
 

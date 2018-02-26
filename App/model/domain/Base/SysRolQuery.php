@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'sys_rol' table.
  *
- * 
+ *
  *
  * @method     ChildSysRolQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysRolQuery orderByCode($order = Criteria::ASC) Order by the CODE column
@@ -34,17 +34,39 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysRolQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildSysRolQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildSysRolQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildSysRolQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildSysRolQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildSysRolQuery leftJoinSysEntityUser($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEntityUser relation
  * @method     ChildSysRolQuery rightJoinSysEntityUser($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEntityUser relation
  * @method     ChildSysRolQuery innerJoinSysEntityUser($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEntityUser relation
+ *
+ * @method     ChildSysRolQuery joinWithSysEntityUser($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEntityUser relation
+ *
+ * @method     ChildSysRolQuery leftJoinWithSysEntityUser() Adds a LEFT JOIN clause and with to the query using the SysEntityUser relation
+ * @method     ChildSysRolQuery rightJoinWithSysEntityUser() Adds a RIGHT JOIN clause and with to the query using the SysEntityUser relation
+ * @method     ChildSysRolQuery innerJoinWithSysEntityUser() Adds a INNER JOIN clause and with to the query using the SysEntityUser relation
  *
  * @method     ChildSysRolQuery leftJoinSysRolXUri($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysRolXUri relation
  * @method     ChildSysRolQuery rightJoinSysRolXUri($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysRolXUri relation
  * @method     ChildSysRolQuery innerJoinSysRolXUri($relationAlias = null) Adds a INNER JOIN clause to the query using the SysRolXUri relation
  *
+ * @method     ChildSysRolQuery joinWithSysRolXUri($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysRolXUri relation
+ *
+ * @method     ChildSysRolQuery leftJoinWithSysRolXUri() Adds a LEFT JOIN clause and with to the query using the SysRolXUri relation
+ * @method     ChildSysRolQuery rightJoinWithSysRolXUri() Adds a RIGHT JOIN clause and with to the query using the SysRolXUri relation
+ * @method     ChildSysRolQuery innerJoinWithSysRolXUri() Adds a INNER JOIN clause and with to the query using the SysRolXUri relation
+ *
  * @method     ChildSysRolQuery leftJoinSysUserXRol($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysUserXRol relation
  * @method     ChildSysRolQuery rightJoinSysUserXRol($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysUserXRol relation
  * @method     ChildSysRolQuery innerJoinSysUserXRol($relationAlias = null) Adds a INNER JOIN clause to the query using the SysUserXRol relation
+ *
+ * @method     ChildSysRolQuery joinWithSysUserXRol($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysUserXRol relation
+ *
+ * @method     ChildSysRolQuery leftJoinWithSysUserXRol() Adds a LEFT JOIN clause and with to the query using the SysUserXRol relation
+ * @method     ChildSysRolQuery rightJoinWithSysUserXRol() Adds a RIGHT JOIN clause and with to the query using the SysUserXRol relation
+ * @method     ChildSysRolQuery innerJoinWithSysUserXRol() Adds a INNER JOIN clause and with to the query using the SysUserXRol relation
  *
  * @method     \SysEntityUserQuery|\SysRolXUriQuery|\SysUserXRolQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -131,21 +153,27 @@ abstract class SysRolQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysRolTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(SysRolTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = SysRolTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -163,7 +191,7 @@ abstract class SysRolQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, CODE, NAME, DESCRIPTION FROM sys_rol WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -175,7 +203,7 @@ abstract class SysRolQuery extends ModelCriteria
             /** @var ChildSysRol $obj */
             $obj = new ChildSysRol();
             $obj->hydrate($row);
-            SysRolTableMap::addInstanceToPool($obj, (string) $key);
+            SysRolTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -298,11 +326,10 @@ abstract class SysRolQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByCode('fooValue');   // WHERE CODE = 'fooValue'
-     * $query->filterByCode('%fooValue%'); // WHERE CODE LIKE '%fooValue%'
+     * $query->filterByCode('%fooValue%', Criteria::LIKE); // WHERE CODE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $code The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysRolQuery The current query, for fluid interface
@@ -312,9 +339,6 @@ abstract class SysRolQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($code)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $code)) {
-                $code = str_replace('*', '%', $code);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -327,11 +351,10 @@ abstract class SysRolQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByName('fooValue');   // WHERE NAME = 'fooValue'
-     * $query->filterByName('%fooValue%'); // WHERE NAME LIKE '%fooValue%'
+     * $query->filterByName('%fooValue%', Criteria::LIKE); // WHERE NAME LIKE '%fooValue%'
      * </code>
      *
      * @param     string $name The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysRolQuery The current query, for fluid interface
@@ -341,9 +364,6 @@ abstract class SysRolQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($name)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $name)) {
-                $name = str_replace('*', '%', $name);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -356,11 +376,10 @@ abstract class SysRolQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByDescription('fooValue');   // WHERE DESCRIPTION = 'fooValue'
-     * $query->filterByDescription('%fooValue%'); // WHERE DESCRIPTION LIKE '%fooValue%'
+     * $query->filterByDescription('%fooValue%', Criteria::LIKE); // WHERE DESCRIPTION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $description The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysRolQuery The current query, for fluid interface
@@ -370,9 +389,6 @@ abstract class SysRolQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($description)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $description)) {
-                $description = str_replace('*', '%', $description);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -665,9 +681,9 @@ abstract class SysRolQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             SysRolTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             SysRolTableMap::clearRelatedInstancePool();
 

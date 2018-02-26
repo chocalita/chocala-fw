@@ -8,6 +8,7 @@ use \ScrapTipoEmpresa as ChildScrapTipoEmpresa;
 use \ScrapTipoEmpresaQuery as ChildScrapTipoEmpresaQuery;
 use \Exception;
 use \PDO;
+use Map\ScrapEmpresaTableMap;
 use Map\ScrapTipoEmpresaTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -25,11 +26,11 @@ use Propel\Runtime\Parser\AbstractParser;
 /**
  * Base class that represents a row from the 'scrap_tipo_empresa' table.
  *
- * 
  *
-* @package    propel.generator..Base
-*/
-abstract class ScrapTipoEmpresa implements ActiveRecordInterface 
+ *
+ * @package    propel.generator..Base
+ */
+abstract class ScrapTipoEmpresa implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -65,18 +66,21 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
 
     /**
      * The value for the id field.
+     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the nombre field.
+     *
      * @var        string
      */
     protected $nombre;
 
     /**
      * The value for the descripcion field.
+     *
      * @var        string
      */
     protected $descripcion;
@@ -315,12 +319,20 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        return array_keys(get_object_vars($this));
+        $cls = new \ReflectionClass($this);
+        $propertyNames = [];
+        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
+
+        foreach($serializableProperties as $property) {
+            $propertyNames[] = $property->getName();
+        }
+
+        return $propertyNames;
     }
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return int
      */
     public function getId()
@@ -330,7 +342,7 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
 
     /**
      * Get the [nombre] column value.
-     * 
+     *
      * @return string
      */
     public function getNombre()
@@ -340,7 +352,7 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
 
     /**
      * Get the [descripcion] column value.
-     * 
+     *
      * @return string
      */
     public function getDescripcion()
@@ -350,7 +362,7 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\ScrapTipoEmpresa The current object (for fluent API support)
      */
@@ -370,7 +382,7 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
 
     /**
      * Set the value of [nombre] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\ScrapTipoEmpresa The current object (for fluent API support)
      */
@@ -390,7 +402,7 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
 
     /**
      * Set the value of [descripcion] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\ScrapTipoEmpresa The current object (for fluent API support)
      */
@@ -576,13 +588,17 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
             throw new PropelException("You cannot save an object that has been deleted.");
         }
 
+        if ($this->alreadyInSave) {
+            return 0;
+        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getWriteConnection(ScrapTipoEmpresaTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
-            $isInsert = $this->isNew();
             $ret = $this->preSave($con);
+            $isInsert = $this->isNew();
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
             } else {
@@ -697,13 +713,13 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'NOMBRE':                        
+                    case 'NOMBRE':
                         $stmt->bindValue($identifier, $this->nombre, PDO::PARAM_STR);
                         break;
-                    case 'DESCRIPCION':                        
+                    case 'DESCRIPCION':
                         $stmt->bindValue($identifier, $this->descripcion, PDO::PARAM_STR);
                         break;
                 }
@@ -815,10 +831,10 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->collScrapEmpresas) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'scrapEmpresas';
@@ -829,7 +845,7 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
                     default:
                         $key = 'ScrapEmpresas';
                 }
-        
+
                 $result[$key] = $this->collScrapEmpresas->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
@@ -1003,7 +1019,7 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-        
+
     /**
      * Returns the primary key for this object (row).
      * @return int
@@ -1102,7 +1118,8 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
     public function initRelation($relationName)
     {
         if ('ScrapEmpresa' == $relationName) {
-            return $this->initScrapEmpresas();
+            $this->initScrapEmpresas();
+            return;
         }
     }
 
@@ -1145,7 +1162,10 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
         if (null !== $this->collScrapEmpresas && !$overrideExisting) {
             return;
         }
-        $this->collScrapEmpresas = new ObjectCollection();
+
+        $collectionClassName = ScrapEmpresaTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collScrapEmpresas = new $collectionClassName;
         $this->collScrapEmpresas->setModel('\ScrapEmpresa');
     }
 
@@ -1222,7 +1242,7 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
         /** @var ChildScrapEmpresa[] $scrapEmpresasToDelete */
         $scrapEmpresasToDelete = $this->getScrapEmpresas(new Criteria(), $con)->diff($scrapEmpresas);
 
-        
+
         $this->scrapEmpresasScheduledForDeletion = $scrapEmpresasToDelete;
 
         foreach ($scrapEmpresasToDelete as $scrapEmpresaRemoved) {
@@ -1290,6 +1310,10 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
 
         if (!$this->collScrapEmpresas->contains($l)) {
             $this->doAddScrapEmpresa($l);
+
+            if ($this->scrapEmpresasScheduledForDeletion and $this->scrapEmpresasScheduledForDeletion->contains($l)) {
+                $this->scrapEmpresasScheduledForDeletion->remove($this->scrapEmpresasScheduledForDeletion->search($l));
+            }
         }
 
         return $this;
@@ -1429,6 +1453,9 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
      */
     public function preSave(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preSave')) {
+            return parent::preSave($con);
+        }
         return true;
     }
 
@@ -1438,7 +1465,9 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
      */
     public function postSave(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postSave')) {
+            parent::postSave($con);
+        }
     }
 
     /**
@@ -1448,6 +1477,9 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
      */
     public function preInsert(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preInsert')) {
+            return parent::preInsert($con);
+        }
         return true;
     }
 
@@ -1457,7 +1489,9 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
      */
     public function postInsert(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postInsert')) {
+            parent::postInsert($con);
+        }
     }
 
     /**
@@ -1467,6 +1501,9 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
      */
     public function preUpdate(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preUpdate')) {
+            return parent::preUpdate($con);
+        }
         return true;
     }
 
@@ -1476,7 +1513,9 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
      */
     public function postUpdate(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postUpdate')) {
+            parent::postUpdate($con);
+        }
     }
 
     /**
@@ -1486,6 +1525,9 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
      */
     public function preDelete(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preDelete')) {
+            return parent::preDelete($con);
+        }
         return true;
     }
 
@@ -1495,7 +1537,9 @@ abstract class ScrapTipoEmpresa implements ActiveRecordInterface
      */
     public function postDelete(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postDelete')) {
+            parent::postDelete($con);
+        }
     }
 
 

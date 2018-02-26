@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'job_formacion_academica' table.
  *
- * 
+ *
  *
  * @method     ChildJobFormacionAcademicaQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildJobFormacionAcademicaQuery orderByIdCurriculum($order = Criteria::ASC) Order by the ID_CURRICULUM column
@@ -76,17 +76,39 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobFormacionAcademicaQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildJobFormacionAcademicaQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildJobFormacionAcademicaQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildJobFormacionAcademicaQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildJobFormacionAcademicaQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildJobFormacionAcademicaQuery leftJoinJobTipoFormacion($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobTipoFormacion relation
  * @method     ChildJobFormacionAcademicaQuery rightJoinJobTipoFormacion($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobTipoFormacion relation
  * @method     ChildJobFormacionAcademicaQuery innerJoinJobTipoFormacion($relationAlias = null) Adds a INNER JOIN clause to the query using the JobTipoFormacion relation
+ *
+ * @method     ChildJobFormacionAcademicaQuery joinWithJobTipoFormacion($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobTipoFormacion relation
+ *
+ * @method     ChildJobFormacionAcademicaQuery leftJoinWithJobTipoFormacion() Adds a LEFT JOIN clause and with to the query using the JobTipoFormacion relation
+ * @method     ChildJobFormacionAcademicaQuery rightJoinWithJobTipoFormacion() Adds a RIGHT JOIN clause and with to the query using the JobTipoFormacion relation
+ * @method     ChildJobFormacionAcademicaQuery innerJoinWithJobTipoFormacion() Adds a INNER JOIN clause and with to the query using the JobTipoFormacion relation
  *
  * @method     ChildJobFormacionAcademicaQuery leftJoinJobProfesion($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobProfesion relation
  * @method     ChildJobFormacionAcademicaQuery rightJoinJobProfesion($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobProfesion relation
  * @method     ChildJobFormacionAcademicaQuery innerJoinJobProfesion($relationAlias = null) Adds a INNER JOIN clause to the query using the JobProfesion relation
  *
+ * @method     ChildJobFormacionAcademicaQuery joinWithJobProfesion($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobProfesion relation
+ *
+ * @method     ChildJobFormacionAcademicaQuery leftJoinWithJobProfesion() Adds a LEFT JOIN clause and with to the query using the JobProfesion relation
+ * @method     ChildJobFormacionAcademicaQuery rightJoinWithJobProfesion() Adds a RIGHT JOIN clause and with to the query using the JobProfesion relation
+ * @method     ChildJobFormacionAcademicaQuery innerJoinWithJobProfesion() Adds a INNER JOIN clause and with to the query using the JobProfesion relation
+ *
  * @method     ChildJobFormacionAcademicaQuery leftJoinJobCurriculum($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobCurriculum relation
  * @method     ChildJobFormacionAcademicaQuery rightJoinJobCurriculum($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobCurriculum relation
  * @method     ChildJobFormacionAcademicaQuery innerJoinJobCurriculum($relationAlias = null) Adds a INNER JOIN clause to the query using the JobCurriculum relation
+ *
+ * @method     ChildJobFormacionAcademicaQuery joinWithJobCurriculum($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobCurriculum relation
+ *
+ * @method     ChildJobFormacionAcademicaQuery leftJoinWithJobCurriculum() Adds a LEFT JOIN clause and with to the query using the JobCurriculum relation
+ * @method     ChildJobFormacionAcademicaQuery rightJoinWithJobCurriculum() Adds a RIGHT JOIN clause and with to the query using the JobCurriculum relation
+ * @method     ChildJobFormacionAcademicaQuery innerJoinWithJobCurriculum() Adds a INNER JOIN clause and with to the query using the JobCurriculum relation
  *
  * @method     \JobTipoFormacionQuery|\JobProfesionQuery|\JobCurriculumQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -236,21 +258,27 @@ abstract class JobFormacionAcademicaQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = JobFormacionAcademicaTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(JobFormacionAcademicaTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = JobFormacionAcademicaTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -268,7 +296,7 @@ abstract class JobFormacionAcademicaQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, ID_CURRICULUM, ID_TIPO_FORMACION, ID_PROFESION, ID_INSTITUCION, NOMBRE_INSTITUCION, NOMBRE_ESTUDIOS, NOMBRE_TITULO, FECHA_INICIO, FECHA_FIN, ESTUDIANTE, EGRESADO, TITULADO_ACADEMICO, TITULADO_CONVALIDADO, ANIOS_CURSADOS, DOCUMENTO_EGRESO, DOCUMENTO_ACADEMICO, DOCUMENTO_CONVALIDADO, FECHA_EGRESO, FECHA_TITULACION, VERIFICACIONES, STATUS, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM job_formacion_academica WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -280,7 +308,7 @@ abstract class JobFormacionAcademicaQuery extends ModelCriteria
             /** @var ChildJobFormacionAcademica $obj */
             $obj = new ChildJobFormacionAcademica();
             $obj->hydrate($row);
-            JobFormacionAcademicaTableMap::addInstanceToPool($obj, (string) $key);
+            JobFormacionAcademicaTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -573,11 +601,10 @@ abstract class JobFormacionAcademicaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByNombreInstitucion('fooValue');   // WHERE NOMBRE_INSTITUCION = 'fooValue'
-     * $query->filterByNombreInstitucion('%fooValue%'); // WHERE NOMBRE_INSTITUCION LIKE '%fooValue%'
+     * $query->filterByNombreInstitucion('%fooValue%', Criteria::LIKE); // WHERE NOMBRE_INSTITUCION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $nombreInstitucion The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobFormacionAcademicaQuery The current query, for fluid interface
@@ -587,9 +614,6 @@ abstract class JobFormacionAcademicaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($nombreInstitucion)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nombreInstitucion)) {
-                $nombreInstitucion = str_replace('*', '%', $nombreInstitucion);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -602,11 +626,10 @@ abstract class JobFormacionAcademicaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByNombreEstudios('fooValue');   // WHERE NOMBRE_ESTUDIOS = 'fooValue'
-     * $query->filterByNombreEstudios('%fooValue%'); // WHERE NOMBRE_ESTUDIOS LIKE '%fooValue%'
+     * $query->filterByNombreEstudios('%fooValue%', Criteria::LIKE); // WHERE NOMBRE_ESTUDIOS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $nombreEstudios The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobFormacionAcademicaQuery The current query, for fluid interface
@@ -616,9 +639,6 @@ abstract class JobFormacionAcademicaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($nombreEstudios)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nombreEstudios)) {
-                $nombreEstudios = str_replace('*', '%', $nombreEstudios);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -631,11 +651,10 @@ abstract class JobFormacionAcademicaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByNombreTitulo('fooValue');   // WHERE NOMBRE_TITULO = 'fooValue'
-     * $query->filterByNombreTitulo('%fooValue%'); // WHERE NOMBRE_TITULO LIKE '%fooValue%'
+     * $query->filterByNombreTitulo('%fooValue%', Criteria::LIKE); // WHERE NOMBRE_TITULO LIKE '%fooValue%'
      * </code>
      *
      * @param     string $nombreTitulo The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobFormacionAcademicaQuery The current query, for fluid interface
@@ -645,9 +664,6 @@ abstract class JobFormacionAcademicaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($nombreTitulo)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nombreTitulo)) {
-                $nombreTitulo = str_replace('*', '%', $nombreTitulo);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -854,11 +870,10 @@ abstract class JobFormacionAcademicaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByAniosCursados('fooValue');   // WHERE ANIOS_CURSADOS = 'fooValue'
-     * $query->filterByAniosCursados('%fooValue%'); // WHERE ANIOS_CURSADOS LIKE '%fooValue%'
+     * $query->filterByAniosCursados('%fooValue%', Criteria::LIKE); // WHERE ANIOS_CURSADOS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $aniosCursados The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobFormacionAcademicaQuery The current query, for fluid interface
@@ -868,9 +883,6 @@ abstract class JobFormacionAcademicaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($aniosCursados)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $aniosCursados)) {
-                $aniosCursados = str_replace('*', '%', $aniosCursados);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -883,11 +895,10 @@ abstract class JobFormacionAcademicaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByDocumentoEgreso('fooValue');   // WHERE DOCUMENTO_EGRESO = 'fooValue'
-     * $query->filterByDocumentoEgreso('%fooValue%'); // WHERE DOCUMENTO_EGRESO LIKE '%fooValue%'
+     * $query->filterByDocumentoEgreso('%fooValue%', Criteria::LIKE); // WHERE DOCUMENTO_EGRESO LIKE '%fooValue%'
      * </code>
      *
      * @param     string $documentoEgreso The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobFormacionAcademicaQuery The current query, for fluid interface
@@ -897,9 +908,6 @@ abstract class JobFormacionAcademicaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($documentoEgreso)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $documentoEgreso)) {
-                $documentoEgreso = str_replace('*', '%', $documentoEgreso);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -912,11 +920,10 @@ abstract class JobFormacionAcademicaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByDocumentoAcademico('fooValue');   // WHERE DOCUMENTO_ACADEMICO = 'fooValue'
-     * $query->filterByDocumentoAcademico('%fooValue%'); // WHERE DOCUMENTO_ACADEMICO LIKE '%fooValue%'
+     * $query->filterByDocumentoAcademico('%fooValue%', Criteria::LIKE); // WHERE DOCUMENTO_ACADEMICO LIKE '%fooValue%'
      * </code>
      *
      * @param     string $documentoAcademico The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobFormacionAcademicaQuery The current query, for fluid interface
@@ -926,9 +933,6 @@ abstract class JobFormacionAcademicaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($documentoAcademico)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $documentoAcademico)) {
-                $documentoAcademico = str_replace('*', '%', $documentoAcademico);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -941,11 +945,10 @@ abstract class JobFormacionAcademicaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByDocumentoConvalidado('fooValue');   // WHERE DOCUMENTO_CONVALIDADO = 'fooValue'
-     * $query->filterByDocumentoConvalidado('%fooValue%'); // WHERE DOCUMENTO_CONVALIDADO LIKE '%fooValue%'
+     * $query->filterByDocumentoConvalidado('%fooValue%', Criteria::LIKE); // WHERE DOCUMENTO_CONVALIDADO LIKE '%fooValue%'
      * </code>
      *
      * @param     string $documentoConvalidado The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobFormacionAcademicaQuery The current query, for fluid interface
@@ -955,9 +958,6 @@ abstract class JobFormacionAcademicaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($documentoConvalidado)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $documentoConvalidado)) {
-                $documentoConvalidado = str_replace('*', '%', $documentoConvalidado);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -1097,11 +1097,10 @@ abstract class JobFormacionAcademicaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByStatus('fooValue');   // WHERE STATUS = 'fooValue'
-     * $query->filterByStatus('%fooValue%'); // WHERE STATUS LIKE '%fooValue%'
+     * $query->filterByStatus('%fooValue%', Criteria::LIKE); // WHERE STATUS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $status The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobFormacionAcademicaQuery The current query, for fluid interface
@@ -1111,9 +1110,6 @@ abstract class JobFormacionAcademicaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($status)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $status)) {
-                $status = str_replace('*', '%', $status);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -1545,9 +1541,9 @@ abstract class JobFormacionAcademicaQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             JobFormacionAcademicaTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             JobFormacionAcademicaTableMap::clearRelatedInstancePool();
 

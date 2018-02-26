@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'sys_param' table.
  *
- * 
+ *
  *
  * @method     ChildSysParamQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysParamQuery orderByVisibility($order = Criteria::ASC) Order by the VISIBILITY column
@@ -50,13 +50,29 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysParamQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildSysParamQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildSysParamQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildSysParamQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildSysParamQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildSysParamQuery leftJoinSysEntityParam($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEntityParam relation
  * @method     ChildSysParamQuery rightJoinSysEntityParam($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEntityParam relation
  * @method     ChildSysParamQuery innerJoinSysEntityParam($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEntityParam relation
  *
+ * @method     ChildSysParamQuery joinWithSysEntityParam($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEntityParam relation
+ *
+ * @method     ChildSysParamQuery leftJoinWithSysEntityParam() Adds a LEFT JOIN clause and with to the query using the SysEntityParam relation
+ * @method     ChildSysParamQuery rightJoinWithSysEntityParam() Adds a RIGHT JOIN clause and with to the query using the SysEntityParam relation
+ * @method     ChildSysParamQuery innerJoinWithSysEntityParam() Adds a INNER JOIN clause and with to the query using the SysEntityParam relation
+ *
  * @method     ChildSysParamQuery leftJoinSysUserParam($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysUserParam relation
  * @method     ChildSysParamQuery rightJoinSysUserParam($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysUserParam relation
  * @method     ChildSysParamQuery innerJoinSysUserParam($relationAlias = null) Adds a INNER JOIN clause to the query using the SysUserParam relation
+ *
+ * @method     ChildSysParamQuery joinWithSysUserParam($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysUserParam relation
+ *
+ * @method     ChildSysParamQuery leftJoinWithSysUserParam() Adds a LEFT JOIN clause and with to the query using the SysUserParam relation
+ * @method     ChildSysParamQuery rightJoinWithSysUserParam() Adds a RIGHT JOIN clause and with to the query using the SysUserParam relation
+ * @method     ChildSysParamQuery innerJoinWithSysUserParam() Adds a INNER JOIN clause and with to the query using the SysUserParam relation
  *
  * @method     \SysEntityParamQuery|\SysUserParamQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -167,21 +183,27 @@ abstract class SysParamQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysParamTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(SysParamTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = SysParamTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -199,7 +221,7 @@ abstract class SysParamQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, VISIBILITY, CODE, NAME, TYPE, VALUE, OPTIONS, DESCRIPTION, CUSTOMIZABLE, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM sys_param WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -211,7 +233,7 @@ abstract class SysParamQuery extends ModelCriteria
             /** @var ChildSysParam $obj */
             $obj = new ChildSysParam();
             $obj->hydrate($row);
-            SysParamTableMap::addInstanceToPool($obj, (string) $key);
+            SysParamTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -334,11 +356,10 @@ abstract class SysParamQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByVisibility('fooValue');   // WHERE VISIBILITY = 'fooValue'
-     * $query->filterByVisibility('%fooValue%'); // WHERE VISIBILITY LIKE '%fooValue%'
+     * $query->filterByVisibility('%fooValue%', Criteria::LIKE); // WHERE VISIBILITY LIKE '%fooValue%'
      * </code>
      *
      * @param     string $visibility The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysParamQuery The current query, for fluid interface
@@ -348,9 +369,6 @@ abstract class SysParamQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($visibility)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $visibility)) {
-                $visibility = str_replace('*', '%', $visibility);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -363,11 +381,10 @@ abstract class SysParamQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByCode('fooValue');   // WHERE CODE = 'fooValue'
-     * $query->filterByCode('%fooValue%'); // WHERE CODE LIKE '%fooValue%'
+     * $query->filterByCode('%fooValue%', Criteria::LIKE); // WHERE CODE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $code The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysParamQuery The current query, for fluid interface
@@ -377,9 +394,6 @@ abstract class SysParamQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($code)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $code)) {
-                $code = str_replace('*', '%', $code);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -392,11 +406,10 @@ abstract class SysParamQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByName('fooValue');   // WHERE NAME = 'fooValue'
-     * $query->filterByName('%fooValue%'); // WHERE NAME LIKE '%fooValue%'
+     * $query->filterByName('%fooValue%', Criteria::LIKE); // WHERE NAME LIKE '%fooValue%'
      * </code>
      *
      * @param     string $name The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysParamQuery The current query, for fluid interface
@@ -406,9 +419,6 @@ abstract class SysParamQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($name)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $name)) {
-                $name = str_replace('*', '%', $name);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -421,11 +431,10 @@ abstract class SysParamQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByType('fooValue');   // WHERE TYPE = 'fooValue'
-     * $query->filterByType('%fooValue%'); // WHERE TYPE LIKE '%fooValue%'
+     * $query->filterByType('%fooValue%', Criteria::LIKE); // WHERE TYPE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $type The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysParamQuery The current query, for fluid interface
@@ -435,9 +444,6 @@ abstract class SysParamQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($type)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $type)) {
-                $type = str_replace('*', '%', $type);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -450,11 +456,10 @@ abstract class SysParamQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByValue('fooValue');   // WHERE VALUE = 'fooValue'
-     * $query->filterByValue('%fooValue%'); // WHERE VALUE LIKE '%fooValue%'
+     * $query->filterByValue('%fooValue%', Criteria::LIKE); // WHERE VALUE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $value The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysParamQuery The current query, for fluid interface
@@ -464,9 +469,6 @@ abstract class SysParamQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($value)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $value)) {
-                $value = str_replace('*', '%', $value);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -479,11 +481,10 @@ abstract class SysParamQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByOptions('fooValue');   // WHERE OPTIONS = 'fooValue'
-     * $query->filterByOptions('%fooValue%'); // WHERE OPTIONS LIKE '%fooValue%'
+     * $query->filterByOptions('%fooValue%', Criteria::LIKE); // WHERE OPTIONS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $options The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysParamQuery The current query, for fluid interface
@@ -493,9 +494,6 @@ abstract class SysParamQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($options)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $options)) {
-                $options = str_replace('*', '%', $options);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -508,11 +506,10 @@ abstract class SysParamQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByDescription('fooValue');   // WHERE DESCRIPTION = 'fooValue'
-     * $query->filterByDescription('%fooValue%'); // WHERE DESCRIPTION LIKE '%fooValue%'
+     * $query->filterByDescription('%fooValue%', Criteria::LIKE); // WHERE DESCRIPTION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $description The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysParamQuery The current query, for fluid interface
@@ -522,9 +519,6 @@ abstract class SysParamQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($description)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $description)) {
-                $description = str_replace('*', '%', $description);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -898,9 +892,9 @@ abstract class SysParamQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             SysParamTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             SysParamTableMap::clearRelatedInstancePool();
 

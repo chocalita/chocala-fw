@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'tmp_formacion' table.
  *
- * 
+ *
  *
  * @method     ChildTmpFormacionQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildTmpFormacionQuery orderByNombre($order = Criteria::ASC) Order by the nombre column
@@ -36,9 +36,19 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildTmpFormacionQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildTmpFormacionQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildTmpFormacionQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildTmpFormacionQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildTmpFormacionQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildTmpFormacionQuery leftJoinJobSuscriptor($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobSuscriptor relation
  * @method     ChildTmpFormacionQuery rightJoinJobSuscriptor($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobSuscriptor relation
  * @method     ChildTmpFormacionQuery innerJoinJobSuscriptor($relationAlias = null) Adds a INNER JOIN clause to the query using the JobSuscriptor relation
+ *
+ * @method     ChildTmpFormacionQuery joinWithJobSuscriptor($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobSuscriptor relation
+ *
+ * @method     ChildTmpFormacionQuery leftJoinWithJobSuscriptor() Adds a LEFT JOIN clause and with to the query using the JobSuscriptor relation
+ * @method     ChildTmpFormacionQuery rightJoinWithJobSuscriptor() Adds a RIGHT JOIN clause and with to the query using the JobSuscriptor relation
+ * @method     ChildTmpFormacionQuery innerJoinWithJobSuscriptor() Adds a INNER JOIN clause and with to the query using the JobSuscriptor relation
  *
  * @method     \JobSuscriptorQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -128,21 +138,27 @@ abstract class TmpFormacionQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = TmpFormacionTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(TmpFormacionTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = TmpFormacionTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -160,7 +176,7 @@ abstract class TmpFormacionQuery extends ModelCriteria
     {
         $sql = 'SELECT id, nombre, keywords, areas_referencia, formaciones_referencia FROM tmp_formacion WHERE id = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -172,7 +188,7 @@ abstract class TmpFormacionQuery extends ModelCriteria
             /** @var ChildTmpFormacion $obj */
             $obj = new ChildTmpFormacion();
             $obj->hydrate($row);
-            TmpFormacionTableMap::addInstanceToPool($obj, (string) $key);
+            TmpFormacionTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -295,11 +311,10 @@ abstract class TmpFormacionQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByNombre('fooValue');   // WHERE nombre = 'fooValue'
-     * $query->filterByNombre('%fooValue%'); // WHERE nombre LIKE '%fooValue%'
+     * $query->filterByNombre('%fooValue%', Criteria::LIKE); // WHERE nombre LIKE '%fooValue%'
      * </code>
      *
      * @param     string $nombre The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpFormacionQuery The current query, for fluid interface
@@ -309,9 +324,6 @@ abstract class TmpFormacionQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($nombre)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nombre)) {
-                $nombre = str_replace('*', '%', $nombre);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -324,11 +336,10 @@ abstract class TmpFormacionQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByKeywords('fooValue');   // WHERE keywords = 'fooValue'
-     * $query->filterByKeywords('%fooValue%'); // WHERE keywords LIKE '%fooValue%'
+     * $query->filterByKeywords('%fooValue%', Criteria::LIKE); // WHERE keywords LIKE '%fooValue%'
      * </code>
      *
      * @param     string $keywords The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpFormacionQuery The current query, for fluid interface
@@ -338,9 +349,6 @@ abstract class TmpFormacionQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($keywords)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $keywords)) {
-                $keywords = str_replace('*', '%', $keywords);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -353,11 +361,10 @@ abstract class TmpFormacionQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByAreasReferencia('fooValue');   // WHERE areas_referencia = 'fooValue'
-     * $query->filterByAreasReferencia('%fooValue%'); // WHERE areas_referencia LIKE '%fooValue%'
+     * $query->filterByAreasReferencia('%fooValue%', Criteria::LIKE); // WHERE areas_referencia LIKE '%fooValue%'
      * </code>
      *
      * @param     string $areasReferencia The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpFormacionQuery The current query, for fluid interface
@@ -367,9 +374,6 @@ abstract class TmpFormacionQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($areasReferencia)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $areasReferencia)) {
-                $areasReferencia = str_replace('*', '%', $areasReferencia);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -382,11 +386,10 @@ abstract class TmpFormacionQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByFormacionesReferencia('fooValue');   // WHERE formaciones_referencia = 'fooValue'
-     * $query->filterByFormacionesReferencia('%fooValue%'); // WHERE formaciones_referencia LIKE '%fooValue%'
+     * $query->filterByFormacionesReferencia('%fooValue%', Criteria::LIKE); // WHERE formaciones_referencia LIKE '%fooValue%'
      * </code>
      *
      * @param     string $formacionesReferencia The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpFormacionQuery The current query, for fluid interface
@@ -396,9 +399,6 @@ abstract class TmpFormacionQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($formacionesReferencia)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $formacionesReferencia)) {
-                $formacionesReferencia = str_replace('*', '%', $formacionesReferencia);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -545,9 +545,9 @@ abstract class TmpFormacionQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             TmpFormacionTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             TmpFormacionTableMap::clearRelatedInstancePool();
 

@@ -27,11 +27,11 @@ use Propel\Runtime\Util\PropelDateTime;
 /**
  * Base class that represents a row from the 'sys_password' table.
  *
- * 
  *
-* @package    propel.generator..Base
-*/
-abstract class SysPassword implements ActiveRecordInterface 
+ *
+ * @package    propel.generator..Base
+ */
+abstract class SysPassword implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -67,38 +67,44 @@ abstract class SysPassword implements ActiveRecordInterface
 
     /**
      * The value for the id field.
+     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the user_id field.
+     *
      * @var        int
      */
     protected $user_id;
 
     /**
      * The value for the password_request_id field.
+     *
      * @var        int
      */
     protected $password_request_id;
 
     /**
      * The value for the value field.
+     *
      * @var        string
      */
     protected $value;
 
     /**
      * The value for the type field.
+     *
      * @var        string
      */
     protected $type;
 
     /**
      * The value for the start_date field.
+     *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
-     * @var        \DateTime
+     * @var        DateTime
      */
     protected $start_date;
 
@@ -346,12 +352,20 @@ abstract class SysPassword implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        return array_keys(get_object_vars($this));
+        $cls = new \ReflectionClass($this);
+        $propertyNames = [];
+        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
+
+        foreach($serializableProperties as $property) {
+            $propertyNames[] = $property->getName();
+        }
+
+        return $propertyNames;
     }
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return int
      */
     public function getId()
@@ -361,7 +375,7 @@ abstract class SysPassword implements ActiveRecordInterface
 
     /**
      * Get the [user_id] column value.
-     * 
+     *
      * @return int
      */
     public function getUserId()
@@ -371,7 +385,7 @@ abstract class SysPassword implements ActiveRecordInterface
 
     /**
      * Get the [password_request_id] column value.
-     * 
+     *
      * @return int
      */
     public function getPasswordRequestId()
@@ -381,7 +395,7 @@ abstract class SysPassword implements ActiveRecordInterface
 
     /**
      * Get the [value] column value.
-     * 
+     *
      * @return string
      */
     public function getValue()
@@ -391,7 +405,7 @@ abstract class SysPassword implements ActiveRecordInterface
 
     /**
      * Get the [type] column value.
-     * 
+     *
      * @return string
      */
     public function getType()
@@ -401,9 +415,9 @@ abstract class SysPassword implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [start_date] column value.
-     * 
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *
+     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -415,13 +429,13 @@ abstract class SysPassword implements ActiveRecordInterface
         if ($format === null) {
             return $this->start_date;
         } else {
-            return $this->start_date instanceof \DateTime ? $this->start_date->format($format) : null;
+            return $this->start_date instanceof \DateTimeInterface ? $this->start_date->format($format) : null;
         }
     }
 
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysPassword The current object (for fluent API support)
      */
@@ -441,7 +455,7 @@ abstract class SysPassword implements ActiveRecordInterface
 
     /**
      * Set the value of [user_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysPassword The current object (for fluent API support)
      */
@@ -465,7 +479,7 @@ abstract class SysPassword implements ActiveRecordInterface
 
     /**
      * Set the value of [password_request_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysPassword The current object (for fluent API support)
      */
@@ -489,7 +503,7 @@ abstract class SysPassword implements ActiveRecordInterface
 
     /**
      * Set the value of [value] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysPassword The current object (for fluent API support)
      */
@@ -509,7 +523,7 @@ abstract class SysPassword implements ActiveRecordInterface
 
     /**
      * Set the value of [type] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysPassword The current object (for fluent API support)
      */
@@ -529,8 +543,8 @@ abstract class SysPassword implements ActiveRecordInterface
 
     /**
      * Sets the value of [start_date] column to a normalized version of the date/time value specified.
-     * 
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysPassword The current object (for fluent API support)
      */
@@ -538,7 +552,7 @@ abstract class SysPassword implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->start_date !== null || $dt !== null) {
-            if ($this->start_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->start_date->format("Y-m-d H:i:s")) {
+            if ($this->start_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->start_date->format("Y-m-d H:i:s.u")) {
                 $this->start_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[SysPasswordTableMap::COL_START_DATE] = true;
             }
@@ -733,13 +747,17 @@ abstract class SysPassword implements ActiveRecordInterface
             throw new PropelException("You cannot save an object that has been deleted.");
         }
 
+        if ($this->alreadyInSave) {
+            return 0;
+        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysPasswordTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
-            $isInsert = $this->isNew();
             $ret = $this->preSave($con);
+            $isInsert = $this->isNew();
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
             } else {
@@ -864,23 +882,23 @@ abstract class SysPassword implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'USER_ID':                        
+                    case 'USER_ID':
                         $stmt->bindValue($identifier, $this->user_id, PDO::PARAM_INT);
                         break;
-                    case 'PASSWORD_REQUEST_ID':                        
+                    case 'PASSWORD_REQUEST_ID':
                         $stmt->bindValue($identifier, $this->password_request_id, PDO::PARAM_INT);
                         break;
-                    case 'VALUE':                        
+                    case 'VALUE':
                         $stmt->bindValue($identifier, $this->value, PDO::PARAM_STR);
                         break;
-                    case 'TYPE':                        
+                    case 'TYPE':
                         $stmt->bindValue($identifier, $this->type, PDO::PARAM_STR);
                         break;
-                    case 'START_DATE':                        
-                        $stmt->bindValue($identifier, $this->start_date ? $this->start_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                    case 'START_DATE':
+                        $stmt->bindValue($identifier, $this->start_date ? $this->start_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -999,22 +1017,18 @@ abstract class SysPassword implements ActiveRecordInterface
             $keys[4] => $this->getType(),
             $keys[5] => $this->getStartDate(),
         );
-
-        $utc = new \DateTimeZone('utc');
-        if ($result[$keys[5]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[5]];
-            $result[$keys[5]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+        if ($result[$keys[5]] instanceof \DateTimeInterface) {
+            $result[$keys[5]] = $result[$keys[5]]->format('c');
         }
-        
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->aSysUser) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysUser';
@@ -1025,11 +1039,11 @@ abstract class SysPassword implements ActiveRecordInterface
                     default:
                         $key = 'SysUser';
                 }
-        
+
                 $result[$key] = $this->aSysUser->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aSysPasswordRequest) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysPasswordRequest';
@@ -1040,7 +1054,7 @@ abstract class SysPassword implements ActiveRecordInterface
                     default:
                         $key = 'SysPasswordRequest';
                 }
-        
+
                 $result[$key] = $this->aSysPasswordRequest->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
@@ -1241,7 +1255,7 @@ abstract class SysPassword implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-        
+
     /**
      * Returns the primary key for this object (row).
      * @return int
@@ -1354,7 +1368,7 @@ abstract class SysPassword implements ActiveRecordInterface
      */
     public function getSysUser(ConnectionInterface $con = null)
     {
-        if ($this->aSysUser === null && ($this->user_id !== null)) {
+        if ($this->aSysUser === null && ($this->user_id != 0)) {
             $this->aSysUser = ChildSysUserQuery::create()->findPk($this->user_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
@@ -1405,7 +1419,7 @@ abstract class SysPassword implements ActiveRecordInterface
      */
     public function getSysPasswordRequest(ConnectionInterface $con = null)
     {
-        if ($this->aSysPasswordRequest === null && ($this->password_request_id !== null)) {
+        if ($this->aSysPasswordRequest === null && ($this->password_request_id != 0)) {
             $this->aSysPasswordRequest = ChildSysPasswordRequestQuery::create()->findPk($this->password_request_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
@@ -1480,6 +1494,9 @@ abstract class SysPassword implements ActiveRecordInterface
      */
     public function preSave(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preSave')) {
+            return parent::preSave($con);
+        }
         return true;
     }
 
@@ -1489,7 +1506,9 @@ abstract class SysPassword implements ActiveRecordInterface
      */
     public function postSave(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postSave')) {
+            parent::postSave($con);
+        }
     }
 
     /**
@@ -1499,6 +1518,9 @@ abstract class SysPassword implements ActiveRecordInterface
      */
     public function preInsert(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preInsert')) {
+            return parent::preInsert($con);
+        }
         return true;
     }
 
@@ -1508,7 +1530,9 @@ abstract class SysPassword implements ActiveRecordInterface
      */
     public function postInsert(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postInsert')) {
+            parent::postInsert($con);
+        }
     }
 
     /**
@@ -1518,6 +1542,9 @@ abstract class SysPassword implements ActiveRecordInterface
      */
     public function preUpdate(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preUpdate')) {
+            return parent::preUpdate($con);
+        }
         return true;
     }
 
@@ -1527,7 +1554,9 @@ abstract class SysPassword implements ActiveRecordInterface
      */
     public function postUpdate(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postUpdate')) {
+            parent::postUpdate($con);
+        }
     }
 
     /**
@@ -1537,6 +1566,9 @@ abstract class SysPassword implements ActiveRecordInterface
      */
     public function preDelete(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preDelete')) {
+            return parent::preDelete($con);
+        }
         return true;
     }
 
@@ -1546,7 +1578,9 @@ abstract class SysPassword implements ActiveRecordInterface
      */
     public function postDelete(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postDelete')) {
+            parent::postDelete($con);
+        }
     }
 
 

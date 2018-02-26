@@ -18,6 +18,9 @@ return array(
     'validate.notInList' => 'El valor se encuentra entre los valores no permitidos',
     'validate.unique' => 'Este valor ya se encuentra registrado',
 
+
+    'SysUser.Password2.validate.password2' => 'Debe repetir la contraseña ingresada',
+
     /* JobSuscriptor */
     'JobSuscriptor.NombreSimple.validate.size' => 'El nombre debe tener entre [{min}] y [{max}] caracteres',
     'JobSuscriptor.Email.validate.size' => 'El correo debe tener entre [{min}] y [{max}] caracteres',

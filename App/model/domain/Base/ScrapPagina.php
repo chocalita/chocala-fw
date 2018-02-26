@@ -8,6 +8,7 @@ use \ScrapPagina as ChildScrapPagina;
 use \ScrapPaginaQuery as ChildScrapPaginaQuery;
 use \Exception;
 use \PDO;
+use Map\ScrapEmpresaTableMap;
 use Map\ScrapPaginaTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -25,11 +26,11 @@ use Propel\Runtime\Parser\AbstractParser;
 /**
  * Base class that represents a row from the 'scrap_pagina' table.
  *
- * 
  *
-* @package    propel.generator..Base
-*/
-abstract class ScrapPagina implements ActiveRecordInterface 
+ *
+ * @package    propel.generator..Base
+ */
+abstract class ScrapPagina implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -65,24 +66,28 @@ abstract class ScrapPagina implements ActiveRecordInterface
 
     /**
      * The value for the id field.
+     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the departamento field.
+     *
      * @var        string
      */
     protected $departamento;
 
     /**
      * The value for the numero field.
+     *
      * @var        int
      */
     protected $numero;
 
     /**
      * The value for the leido field.
+     *
      * Note: this column has a database default value of: false
      * @var        boolean
      */
@@ -335,12 +340,20 @@ abstract class ScrapPagina implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        return array_keys(get_object_vars($this));
+        $cls = new \ReflectionClass($this);
+        $propertyNames = [];
+        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
+
+        foreach($serializableProperties as $property) {
+            $propertyNames[] = $property->getName();
+        }
+
+        return $propertyNames;
     }
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return int
      */
     public function getId()
@@ -350,7 +363,7 @@ abstract class ScrapPagina implements ActiveRecordInterface
 
     /**
      * Get the [departamento] column value.
-     * 
+     *
      * @return string
      */
     public function getDepartamento()
@@ -360,7 +373,7 @@ abstract class ScrapPagina implements ActiveRecordInterface
 
     /**
      * Get the [numero] column value.
-     * 
+     *
      * @return int
      */
     public function getNumero()
@@ -370,7 +383,7 @@ abstract class ScrapPagina implements ActiveRecordInterface
 
     /**
      * Get the [leido] column value.
-     * 
+     *
      * @return boolean
      */
     public function getLeido()
@@ -380,7 +393,7 @@ abstract class ScrapPagina implements ActiveRecordInterface
 
     /**
      * Get the [leido] column value.
-     * 
+     *
      * @return boolean
      */
     public function isLeido()
@@ -390,7 +403,7 @@ abstract class ScrapPagina implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\ScrapPagina The current object (for fluent API support)
      */
@@ -410,7 +423,7 @@ abstract class ScrapPagina implements ActiveRecordInterface
 
     /**
      * Set the value of [departamento] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\ScrapPagina The current object (for fluent API support)
      */
@@ -430,7 +443,7 @@ abstract class ScrapPagina implements ActiveRecordInterface
 
     /**
      * Set the value of [numero] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\ScrapPagina The current object (for fluent API support)
      */
@@ -454,7 +467,7 @@ abstract class ScrapPagina implements ActiveRecordInterface
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     * 
+     *
      * @param  boolean|integer|string $v The new value
      * @return $this|\ScrapPagina The current object (for fluent API support)
      */
@@ -651,13 +664,17 @@ abstract class ScrapPagina implements ActiveRecordInterface
             throw new PropelException("You cannot save an object that has been deleted.");
         }
 
+        if ($this->alreadyInSave) {
+            return 0;
+        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getWriteConnection(ScrapPaginaTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
-            $isInsert = $this->isNew();
             $ret = $this->preSave($con);
+            $isInsert = $this->isNew();
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
             } else {
@@ -774,13 +791,13 @@ abstract class ScrapPagina implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'DEPARTAMENTO':                        
+                    case 'DEPARTAMENTO':
                         $stmt->bindValue($identifier, $this->departamento, PDO::PARAM_STR);
                         break;
-                    case 'NUMERO':                        
+                    case 'NUMERO':
                         $stmt->bindValue($identifier, $this->numero, PDO::PARAM_INT);
                         break;
                     case 'LEIDO':
@@ -899,10 +916,10 @@ abstract class ScrapPagina implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->collScrapEmpresas) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'scrapEmpresas';
@@ -913,7 +930,7 @@ abstract class ScrapPagina implements ActiveRecordInterface
                     default:
                         $key = 'ScrapEmpresas';
                 }
-        
+
                 $result[$key] = $this->collScrapEmpresas->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
@@ -1096,7 +1113,7 @@ abstract class ScrapPagina implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-        
+
     /**
      * Returns the primary key for this object (row).
      * @return int
@@ -1196,7 +1213,8 @@ abstract class ScrapPagina implements ActiveRecordInterface
     public function initRelation($relationName)
     {
         if ('ScrapEmpresa' == $relationName) {
-            return $this->initScrapEmpresas();
+            $this->initScrapEmpresas();
+            return;
         }
     }
 
@@ -1239,7 +1257,10 @@ abstract class ScrapPagina implements ActiveRecordInterface
         if (null !== $this->collScrapEmpresas && !$overrideExisting) {
             return;
         }
-        $this->collScrapEmpresas = new ObjectCollection();
+
+        $collectionClassName = ScrapEmpresaTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collScrapEmpresas = new $collectionClassName;
         $this->collScrapEmpresas->setModel('\ScrapEmpresa');
     }
 
@@ -1316,7 +1337,7 @@ abstract class ScrapPagina implements ActiveRecordInterface
         /** @var ChildScrapEmpresa[] $scrapEmpresasToDelete */
         $scrapEmpresasToDelete = $this->getScrapEmpresas(new Criteria(), $con)->diff($scrapEmpresas);
 
-        
+
         $this->scrapEmpresasScheduledForDeletion = $scrapEmpresasToDelete;
 
         foreach ($scrapEmpresasToDelete as $scrapEmpresaRemoved) {
@@ -1384,6 +1405,10 @@ abstract class ScrapPagina implements ActiveRecordInterface
 
         if (!$this->collScrapEmpresas->contains($l)) {
             $this->doAddScrapEmpresa($l);
+
+            if ($this->scrapEmpresasScheduledForDeletion and $this->scrapEmpresasScheduledForDeletion->contains($l)) {
+                $this->scrapEmpresasScheduledForDeletion->remove($this->scrapEmpresasScheduledForDeletion->search($l));
+            }
         }
 
         return $this;
@@ -1525,6 +1550,9 @@ abstract class ScrapPagina implements ActiveRecordInterface
      */
     public function preSave(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preSave')) {
+            return parent::preSave($con);
+        }
         return true;
     }
 
@@ -1534,7 +1562,9 @@ abstract class ScrapPagina implements ActiveRecordInterface
      */
     public function postSave(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postSave')) {
+            parent::postSave($con);
+        }
     }
 
     /**
@@ -1544,6 +1574,9 @@ abstract class ScrapPagina implements ActiveRecordInterface
      */
     public function preInsert(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preInsert')) {
+            return parent::preInsert($con);
+        }
         return true;
     }
 
@@ -1553,7 +1586,9 @@ abstract class ScrapPagina implements ActiveRecordInterface
      */
     public function postInsert(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postInsert')) {
+            parent::postInsert($con);
+        }
     }
 
     /**
@@ -1563,6 +1598,9 @@ abstract class ScrapPagina implements ActiveRecordInterface
      */
     public function preUpdate(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preUpdate')) {
+            return parent::preUpdate($con);
+        }
         return true;
     }
 
@@ -1572,7 +1610,9 @@ abstract class ScrapPagina implements ActiveRecordInterface
      */
     public function postUpdate(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postUpdate')) {
+            parent::postUpdate($con);
+        }
     }
 
     /**
@@ -1582,6 +1622,9 @@ abstract class ScrapPagina implements ActiveRecordInterface
      */
     public function preDelete(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preDelete')) {
+            return parent::preDelete($con);
+        }
         return true;
     }
 
@@ -1591,7 +1634,9 @@ abstract class ScrapPagina implements ActiveRecordInterface
      */
     public function postDelete(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postDelete')) {
+            parent::postDelete($con);
+        }
     }
 
 

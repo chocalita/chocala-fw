@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'sys_location' table.
  *
- * 
+ *
  *
  * @method     ChildSysLocationQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysLocationQuery orderByMainId($order = Criteria::ASC) Order by the MAIN_ID column
@@ -50,17 +50,39 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysLocationQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildSysLocationQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildSysLocationQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildSysLocationQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildSysLocationQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildSysLocationQuery leftJoinJobEmpresaSuscrita($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobEmpresaSuscrita relation
  * @method     ChildSysLocationQuery rightJoinJobEmpresaSuscrita($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobEmpresaSuscrita relation
  * @method     ChildSysLocationQuery innerJoinJobEmpresaSuscrita($relationAlias = null) Adds a INNER JOIN clause to the query using the JobEmpresaSuscrita relation
+ *
+ * @method     ChildSysLocationQuery joinWithJobEmpresaSuscrita($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobEmpresaSuscrita relation
+ *
+ * @method     ChildSysLocationQuery leftJoinWithJobEmpresaSuscrita() Adds a LEFT JOIN clause and with to the query using the JobEmpresaSuscrita relation
+ * @method     ChildSysLocationQuery rightJoinWithJobEmpresaSuscrita() Adds a RIGHT JOIN clause and with to the query using the JobEmpresaSuscrita relation
+ * @method     ChildSysLocationQuery innerJoinWithJobEmpresaSuscrita() Adds a INNER JOIN clause and with to the query using the JobEmpresaSuscrita relation
  *
  * @method     ChildSysLocationQuery leftJoinSysEntity($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEntity relation
  * @method     ChildSysLocationQuery rightJoinSysEntity($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEntity relation
  * @method     ChildSysLocationQuery innerJoinSysEntity($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEntity relation
  *
+ * @method     ChildSysLocationQuery joinWithSysEntity($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEntity relation
+ *
+ * @method     ChildSysLocationQuery leftJoinWithSysEntity() Adds a LEFT JOIN clause and with to the query using the SysEntity relation
+ * @method     ChildSysLocationQuery rightJoinWithSysEntity() Adds a RIGHT JOIN clause and with to the query using the SysEntity relation
+ * @method     ChildSysLocationQuery innerJoinWithSysEntity() Adds a INNER JOIN clause and with to the query using the SysEntity relation
+ *
  * @method     ChildSysLocationQuery leftJoinSysEntityBranch($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEntityBranch relation
  * @method     ChildSysLocationQuery rightJoinSysEntityBranch($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEntityBranch relation
  * @method     ChildSysLocationQuery innerJoinSysEntityBranch($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEntityBranch relation
+ *
+ * @method     ChildSysLocationQuery joinWithSysEntityBranch($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEntityBranch relation
+ *
+ * @method     ChildSysLocationQuery leftJoinWithSysEntityBranch() Adds a LEFT JOIN clause and with to the query using the SysEntityBranch relation
+ * @method     ChildSysLocationQuery rightJoinWithSysEntityBranch() Adds a RIGHT JOIN clause and with to the query using the SysEntityBranch relation
+ * @method     ChildSysLocationQuery innerJoinWithSysEntityBranch() Adds a INNER JOIN clause and with to the query using the SysEntityBranch relation
  *
  * @method     \JobEmpresaSuscritaQuery|\SysEntityQuery|\SysEntityBranchQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -171,21 +193,27 @@ abstract class SysLocationQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysLocationTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(SysLocationTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = SysLocationTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -203,7 +231,7 @@ abstract class SysLocationQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, MAIN_ID, CODE, STATUS, NAME, TYPE, LEVEL, LFT, RGT, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM sys_location WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -215,7 +243,7 @@ abstract class SysLocationQuery extends ModelCriteria
             /** @var ChildSysLocation $obj */
             $obj = new ChildSysLocation();
             $obj->hydrate($row);
-            SysLocationTableMap::addInstanceToPool($obj, (string) $key);
+            SysLocationTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -379,11 +407,10 @@ abstract class SysLocationQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByCode('fooValue');   // WHERE CODE = 'fooValue'
-     * $query->filterByCode('%fooValue%'); // WHERE CODE LIKE '%fooValue%'
+     * $query->filterByCode('%fooValue%', Criteria::LIKE); // WHERE CODE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $code The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysLocationQuery The current query, for fluid interface
@@ -393,9 +420,6 @@ abstract class SysLocationQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($code)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $code)) {
-                $code = str_replace('*', '%', $code);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -408,11 +432,10 @@ abstract class SysLocationQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByStatus('fooValue');   // WHERE STATUS = 'fooValue'
-     * $query->filterByStatus('%fooValue%'); // WHERE STATUS LIKE '%fooValue%'
+     * $query->filterByStatus('%fooValue%', Criteria::LIKE); // WHERE STATUS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $status The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysLocationQuery The current query, for fluid interface
@@ -422,9 +445,6 @@ abstract class SysLocationQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($status)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $status)) {
-                $status = str_replace('*', '%', $status);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -437,11 +457,10 @@ abstract class SysLocationQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByName('fooValue');   // WHERE NAME = 'fooValue'
-     * $query->filterByName('%fooValue%'); // WHERE NAME LIKE '%fooValue%'
+     * $query->filterByName('%fooValue%', Criteria::LIKE); // WHERE NAME LIKE '%fooValue%'
      * </code>
      *
      * @param     string $name The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysLocationQuery The current query, for fluid interface
@@ -451,9 +470,6 @@ abstract class SysLocationQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($name)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $name)) {
-                $name = str_replace('*', '%', $name);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -466,11 +482,10 @@ abstract class SysLocationQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByType('fooValue');   // WHERE TYPE = 'fooValue'
-     * $query->filterByType('%fooValue%'); // WHERE TYPE LIKE '%fooValue%'
+     * $query->filterByType('%fooValue%', Criteria::LIKE); // WHERE TYPE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $type The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysLocationQuery The current query, for fluid interface
@@ -480,9 +495,6 @@ abstract class SysLocationQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($type)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $type)) {
-                $type = str_replace('*', '%', $type);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -1025,9 +1037,9 @@ abstract class SysLocationQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             SysLocationTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             SysLocationTableMap::clearRelatedInstancePool();
 
