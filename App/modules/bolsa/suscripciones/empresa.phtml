@@ -32,7 +32,7 @@
                     <div class="ibox-content">
                         <h2>Registro de <?= $tipoSuscripcion; ?></h2>
                         <p>
-                            <span class="text-blue">¡En 3 simples pasos podrá publicar sus anuncios gratis!</span>
+                            <span class="text-blue">¡En unos simples pasos podrás completar la suscripción y publicar anuncios gratis!</span>
                         </p>
 
                         <form id="form" action="#" class="form-horizontal wizard-big">
@@ -333,31 +333,18 @@
 
                             </fieldset>
 
-                            <h1>Warning</h1>
+                            <h1>Anuncio</h1>
                             <fieldset>
 
-
+                                <h2>Su Requerimiento de Personal</h2>
 
                                 <div class="col-xs-12">
-
-                                    <div class="alert alert-info">
-                                        Esta Cuenta de Usuario servirá para administrar los anuncios de su <?= $tipoSuscripcion; ?>.
-                                    </div>
 
                                     <div class="form-group">
                                         <label class="control-label col-sm-3" for="Cargo">Cargo</label>
                                         <div class="col-sm-9">
                                             <input type="text" id="Cargo" name="Cargo" value="<?=$aviso? $aviso->getCargo(): '';?>"
                                                    class="form-control" maxlength="100" placeholder="Cargo..." />
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3" for="Code">Empresa</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" id="NombreEmpresa" name="NombreEmpresa" value="<?=$aviso? $aviso->getNombreEmpresa(): '';?>"
-                                                   size="40" maxlength="500" class="form-control" placeholder="Nombre de la Empresa..."
-                                                   autocomplete="off" class="validate[required]" />
                                         </div>
                                     </div>
 
@@ -381,16 +368,6 @@
                                     <div class="form-group">
                                         <div class="col-sm-6">
 
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-6" for="FechaPublicacion">Fecha Publicación</label>
-                                                <div class="col-sm-6">
-                                                    <div class="input-group date">
-                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                        <input type="text" id="FechaPublicacion" name="FechaPublicacion" value="<?=$aviso && $aviso->getFechaPublicacion("d/m/Y")? $aviso->getFechaPublicacion("d/m/Y"): date("d/m/Y");?>"
-                                                               class="form-control datepicker" />
-                                                    </div>
-                                                </div>
-                                            </div>
                                             <div class="form-group">
                                                 <label class="control-label col-sm-6" for="FechaVencimiento">Fecha Vencimiento</label>
                                                 <div class="col-sm-6">
@@ -432,47 +409,92 @@
                                         </div>
                                     </div>
 
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3" for="Descripcion">Descripción del Puesto</label>
+                                        <div class="col-sm-9">
+                                            <textarea id="Descripcion"  name="Descripcion"
+                                                      class="form-control" rows="2" cols="20" placeholder="Descripción del puesto..."><?=$aviso? $aviso->getDescripcion(): '';?></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3" for="Requisito">Requisitos</label>
+                                        <div class="col-sm-9">
+                                            <textarea id="Requisito" name="Requisito"
+                                                      class="form-control" rows="2" cols="20" placeholder="Requisitos del puesto..."><?=$aviso? $aviso->getRequisito(): '';?></textarea>
+                                        </div>
+                                    </div>
 
 
 
-
-                                    <div class="row">
+                                    <div class="form-group">
                                         <div class="col-sm-6">
+
                                             <div class="form-group">
-                                                <label class="control-label col-sm-3" for="Cargo">Cargo</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" id="Cargo" name="Cargo" value="<?=$aviso? $aviso->getCargo(): '';?>"
-                                                           class="form-control" maxlength="100" placeholder="Cargo..." />
+                                                <label class="control-label col-sm-6" for="NivelFormacion">Nivel Formación</label>
+                                                <div class="col-sm-6">
+                                                    <select id="NivelFormacion" name="NivelFormacion"
+                                                            class="form-control">
+                                                        <option value="">-Seleccionar-</option>
+                                                        <?php
+                                                        foreach($nivelesFormacion as $nivelFormacion):
+                                                            $sel = $aviso && $aviso->getNivelFormacion() == $nivelFormacion? 'selected="yes"': '';
+                                                            ?>
+                                                            <option value="<?=$nivelFormacion;?>" <?=$sel;?> ><?=$nivelFormacion;?></option>
+                                                        <?php
+                                                        endforeach;
+                                                        ?>
+                                                    </select>
                                                 </div>
                                             </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-6" for="AniosExperiencia">Años de Experiencia</label>
+                                                <div class="col-sm-6">
+                                                    <input type="number" id="AniosExperiencia" name="AniosExperiencia" value="<?=$aviso? $aviso->getAniosExperiencia(): '';?>"
+                                                           class="form-control" maxlength="50" placeholder="Años experiencia..." />
+                                                </div>
+                                            </div>
+
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <label class="control-label col-sm-3" for="Code">Empresa</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" id="NombreEmpresa" name="NombreEmpresa" value="<?=$aviso? $aviso->getNombreEmpresa(): '';?>"
-                                                           size="40" maxlength="500" class="form-control" placeholder="Nombre de la Empresa..."
-                                                           autocomplete="off" class="validate[required]" />
+                                                <label class="control-label col-sm-6" for="Localizacion">Localización</label>
+                                                <div class="col-sm-6">
+                                                    <?php
+                                                    foreach($localizaciones as $localizacion):
+                                                        $check = $aviso && $aviso->getLocalizacion()==$localizacion? 'checked="yes"': '';
+                                                        ?>
+                                                        <label class="block">
+                                                            <input type="radio" name="Localizacion" value="<?=$localizacion;?>"
+                                                                <?=$check;?> style="display: inline;" /> <?=$localizacion;?>
+                                                        </label>
+                                                    <?php
+                                                    endforeach;
+                                                    ?>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
+
                                 </div>
 
+                                <input type="hidden" name="hc" value="<?= $empresaSuscrita->getHashCode(); ?>" />
 
-
-
-
-                                <div class="text-center" style="margin-top: 120px">
-                                    <h2>You did it Man :-)</h2>
-                                </div>
                             </fieldset>
 
-                            <h1>Finish</h1>
+                            <h1>Finalizar</h1>
                             <fieldset>
-                                <h2>Terms and Conditions</h2>
-                                <input id="acceptTerms" name="acceptTerms" type="checkbox" class="required"> <label for="acceptTerms">I agree with the Terms and Conditions.</label>
+                                <h2>Términos y Condiciones</h2>
+                                <div>
+
+                                </div>
+                                <input id="acceptTerms" name="acceptTerms" type="checkbox" class="required">
+                                <label for="acceptTerms">Acepto los Términos y Condiciones.</label>
+
+                                <input type="hidden" name="hc" value="<?= $empresaSuscrita->getHashCode(); ?>" />
+
                             </fieldset>
                         </form>
                     </div>

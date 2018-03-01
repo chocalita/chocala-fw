@@ -183,12 +183,25 @@ class EmpresaSuscritaService extends GenericService
 //                $usuarioXRol->setSysUser($user)->save();
             }
         }
-//        $results['errors'] = array_merge($person->getErrorsMap(), $user->getErrorsMap());
         $results['errors'] = $person->getErrorsMap();
-
         $results['success'] = true;
-
         return $results;
+    }
+
+    public function verifyAviso($data)
+    {
+        $data['Destacado'] = true;
+        $data['FechaPublicacion'] = date('Y-m-d');
+        $aviso = new JobAviso();
+        $this->prepareInsert($aviso);
+        $aviso->fromArray($data);
+        $results['success'] = $aviso->validate();
+        if ($results['success']) {
+            Session::set('avisoSuscripcion', $aviso);
+        }
+        $results['errors'] = $aviso->getErrorsMap();
+        return $results;
+
     }
 
 }

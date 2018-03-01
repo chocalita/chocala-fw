@@ -21,6 +21,10 @@ return array(
 
     'SysUser.Password2.validate.password2' => 'Debe repetir la contraseña ingresada',
 
+    /* JobAviso */
+    'JobAviso.validate.telefonoCorreo' => 'Debe ingresar un teléfono o correo de contacto',
+    'JobAviso.validate.telefonoCorreo' => 'Debe ingresar un teléfono o correo de contacto',
+
     /* JobSuscriptor */
     'JobSuscriptor.NombreSimple.validate.size' => 'El nombre debe tener entre [{min}] y [{max}] caracteres',
     'JobSuscriptor.Email.validate.size' => 'El correo debe tener entre [{min}] y [{max}] caracteres',

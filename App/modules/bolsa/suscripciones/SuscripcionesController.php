@@ -42,10 +42,12 @@ class SuscripcionesController extends AdminWebController
                 $esEmpresaFormal = $empresaSuscrita->getSysEntityType()->getGroupCode() == SysEntityType::GROUP_FORMAL_COMPANY;
                 $tipoSuscripcion = $esEmpresaFormal ? 'Empresa' : 'Negocio';
                 $locaciones = SysLocationQuery::create()->filterByType("DEPARTAMENT")->find();
+                $this->set('localizaciones', AppParam::param('P_LOCALIZACIONES_AVISO')->options());
                 $this->set('empresaSuscrita', $empresaSuscrita);
                 $this->set('tipoSuscripcion', $tipoSuscripcion);
                 $this->set('esEmpresaFormal', $esEmpresaFormal);
                 $this->set('locaciones', $locaciones);
+                $this->set('nivelesFormacion', JobAviso::$nivelesFormacion);
             } else {
                 $this->redirectTo(URI::toModule() . 'trabajo/empresa');
             }
@@ -80,6 +82,25 @@ class SuscripcionesController extends AdminWebController
         if (is_object($empresaSuscrita) && $empresaSuscrita->getStatus() == JobEmpresaSuscrita::STATUS_INITIAL) {
             $data = Req::all();
             $results = $this->empresaSuscritaService->verifyUserAccount($data);
+        }
+        $this->set('success', $results['success']);
+        $this->set('errors', $results['errors']);
+        $this->renderAsJSON();
+    }
+
+    public function step3()
+    {
+        $results = ['success' => false, 'errors' => []];
+        $empresaSuscrita = $this->empresaSuscritaService->findByHashCode(Req::_('hc'));
+        if (is_object($empresaSuscrita) && $empresaSuscrita->getStatus() == JobEmpresaSuscrita::STATUS_INITIAL) {
+            $data = Req::all();
+            $data['NombreEmpresa'] = $empresaSuscrita->getNombre();
+            $data['FechaVencimiento'] = Req::_asDate('FechaVencimiento');
+//        $data['AreasReferencia'] = Req::has('AreaReferencia') ?
+//            implode(";", Req::_('AreaReferencia')) : '';
+//        $data['FormacionesReferencia'] = Req::has('FormacionReferencia') ?
+//            implode(";", Req::_('FormacionReferencia')) : '';
+            $results = $this->empresaSuscritaService->verifyAviso($data);
         }
         $this->set('success', $results['success']);
         $this->set('errors', $results['errors']);
