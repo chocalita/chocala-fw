@@ -47,7 +47,7 @@ class SuscripcionesController extends AdminWebController
             if ($empresaSuscrita->getStatus() == JobEmpresaSuscrita::STATUS_INITIAL) {
                 $esEmpresaFormal = $empresaSuscrita->getSysEntityType()->getGroupCode() == SysEntityType::GROUP_FORMAL_COMPANY;
                 $tipoSuscripcion = $esEmpresaFormal ? 'Empresa' : 'Negocio';
-                $locaciones = SysLocationQuery::create()->filterByType("DEPARTAMENT")->find();
+                $locaciones = SysLocationQuery::create()->filterByType("DEPARTMENT")->find();
                 $formacionReferenciaList = $this->formacionReferenciaService->dataList(['activo' => true]);
                 $this->set('localizaciones', AppParam::param('P_LOCALIZACIONES_AVISO')->options());
                 $this->set('empresaSuscrita', $empresaSuscrita);
@@ -106,7 +106,7 @@ class SuscripcionesController extends AdminWebController
 //        $data['AreasReferencia'] = Req::has('AreaReferencia') ?
 //            implode(";", Req::_('AreaReferencia')) : '';
             $data['FormacionesReferencia'] = Req::has('FormacionReferencia') ?
-                implode(";", Req::_('FormacionReferencia')) : '';
+                implode(";", array_unique(Req::_('FormacionReferencia'))) : '';
             $results = $this->empresaSuscritaService->verifyAviso($data);
         }
         $this->set('success', $results['success']);

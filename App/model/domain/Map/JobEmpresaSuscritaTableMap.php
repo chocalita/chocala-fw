@@ -231,7 +231,7 @@ class JobEmpresaSuscritaTableMap extends TableMap
         $this->addColumn('STATUS', 'Status', 'VARCHAR', true, 30, 'INITIAL');
         $this->addColumn('MIMETYPE', 'Mimetype', 'VARCHAR', false, 20, null);
         $this->addColumn('TIENE_LOGO', 'TieneLogo', 'BOOLEAN', true, 1, false);
-        $this->addColumn('IP_CREACION', 'IpCreacion', 'VARCHAR', true, 30, null);
+        $this->addColumn('IP_CREACION', 'IpCreacion', 'VARCHAR', true, 20, null);
         $this->addColumn('LAST_USER_ID', 'LastUserId', 'INTEGER', true, null, 0);
         $this->addColumn('CREATION_DATE', 'CreationDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');
         $this->addColumn('MODIFICACION_DATE', 'ModificacionDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');

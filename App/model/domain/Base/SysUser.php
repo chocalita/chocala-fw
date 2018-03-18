@@ -4,6 +4,8 @@ namespace Base;
 
 use \JobUserEmpresaSuscrita as ChildJobUserEmpresaSuscrita;
 use \JobUserEmpresaSuscritaQuery as ChildJobUserEmpresaSuscritaQuery;
+use \SysAuth as ChildSysAuth;
+use \SysAuthQuery as ChildSysAuthQuery;
 use \SysEmailSent as ChildSysEmailSent;
 use \SysEmailSentQuery as ChildSysEmailSentQuery;
 use \SysEntityUser as ChildSysEntityUser;
@@ -26,6 +28,7 @@ use \DateTime;
 use \Exception;
 use \PDO;
 use Map\JobUserEmpresaSuscritaTableMap;
+use Map\SysAuthTableMap;
 use Map\SysEmailSentTableMap;
 use Map\SysEntityUserTableMap;
 use Map\SysImageTableMap;
@@ -200,6 +203,12 @@ abstract class SysUser implements ActiveRecordInterface
     protected $collJobUserEmpresaSuscritasPartial;
 
     /**
+     * @var        ObjectCollection|ChildSysAuth[] Collection to store aggregation of ChildSysAuth objects.
+     */
+    protected $collSysAuths;
+    protected $collSysAuthsPartial;
+
+    /**
      * @var        ObjectCollection|ChildSysEmailSent[] Collection to store aggregation of ChildSysEmailSent objects.
      */
     protected $collSysEmailSents;
@@ -260,6 +269,12 @@ abstract class SysUser implements ActiveRecordInterface
      * @var ObjectCollection|ChildJobUserEmpresaSuscrita[]
      */
     protected $jobUserEmpresaSuscritasScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection|ChildSysAuth[]
+     */
+    protected $sysAuthsScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
@@ -1181,6 +1196,8 @@ abstract class SysUser implements ActiveRecordInterface
 
             $this->collJobUserEmpresaSuscritas = null;
 
+            $this->collSysAuths = null;
+
             $this->collSysEmailSents = null;
 
             $this->collSysEntityUsers = null;
@@ -1322,6 +1339,23 @@ abstract class SysUser implements ActiveRecordInterface
 
             if ($this->collJobUserEmpresaSuscritas !== null) {
                 foreach ($this->collJobUserEmpresaSuscritas as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
+            if ($this->sysAuthsScheduledForDeletion !== null) {
+                if (!$this->sysAuthsScheduledForDeletion->isEmpty()) {
+                    \SysAuthQuery::create()
+                        ->filterByPrimaryKeys($this->sysAuthsScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->sysAuthsScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collSysAuths !== null) {
+                foreach ($this->collSysAuths as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
@@ -1771,6 +1805,21 @@ abstract class SysUser implements ActiveRecordInterface
                 }
 
                 $result[$key] = $this->collJobUserEmpresaSuscritas->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+            if (null !== $this->collSysAuths) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'sysAuths';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'sys_auths';
+                        break;
+                    default:
+                        $key = 'SysAuths';
+                }
+
+                $result[$key] = $this->collSysAuths->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collSysEmailSents) {
 
@@ -2230,6 +2279,12 @@ abstract class SysUser implements ActiveRecordInterface
                 }
             }
 
+            foreach ($this->getSysAuths() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addSysAuth($relObj->copy($deepCopy));
+                }
+            }
+
             foreach ($this->getSysEmailSents() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
                     $copyObj->addSysEmailSent($relObj->copy($deepCopy));
@@ -2321,6 +2376,10 @@ abstract class SysUser implements ActiveRecordInterface
     {
         if ('JobUserEmpresaSuscrita' == $relationName) {
             $this->initJobUserEmpresaSuscritas();
+            return;
+        }
+        if ('SysAuth' == $relationName) {
+            $this->initSysAuths();
             return;
         }
         if ('SysEmailSent' == $relationName) {
@@ -2630,6 +2689,231 @@ abstract class SysUser implements ActiveRecordInterface
         $query->joinWith('SysRol', $joinBehavior);
 
         return $this->getJobUserEmpresaSuscritas($query, $con);
+    }
+
+    /**
+     * Clears out the collSysAuths collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addSysAuths()
+     */
+    public function clearSysAuths()
+    {
+        $this->collSysAuths = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collSysAuths collection loaded partially.
+     */
+    public function resetPartialSysAuths($v = true)
+    {
+        $this->collSysAuthsPartial = $v;
+    }
+
+    /**
+     * Initializes the collSysAuths collection.
+     *
+     * By default this just sets the collSysAuths collection to an empty array (like clearcollSysAuths());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initSysAuths($overrideExisting = true)
+    {
+        if (null !== $this->collSysAuths && !$overrideExisting) {
+            return;
+        }
+
+        $collectionClassName = SysAuthTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collSysAuths = new $collectionClassName;
+        $this->collSysAuths->setModel('\SysAuth');
+    }
+
+    /**
+     * Gets an array of ChildSysAuth objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildSysUser is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return ObjectCollection|ChildSysAuth[] List of ChildSysAuth objects
+     * @throws PropelException
+     */
+    public function getSysAuths(Criteria $criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collSysAuthsPartial && !$this->isNew();
+        if (null === $this->collSysAuths || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collSysAuths) {
+                // return empty collection
+                $this->initSysAuths();
+            } else {
+                $collSysAuths = ChildSysAuthQuery::create(null, $criteria)
+                    ->filterBySysUser($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collSysAuthsPartial && count($collSysAuths)) {
+                        $this->initSysAuths(false);
+
+                        foreach ($collSysAuths as $obj) {
+                            if (false == $this->collSysAuths->contains($obj)) {
+                                $this->collSysAuths->append($obj);
+                            }
+                        }
+
+                        $this->collSysAuthsPartial = true;
+                    }
+
+                    return $collSysAuths;
+                }
+
+                if ($partial && $this->collSysAuths) {
+                    foreach ($this->collSysAuths as $obj) {
+                        if ($obj->isNew()) {
+                            $collSysAuths[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collSysAuths = $collSysAuths;
+                $this->collSysAuthsPartial = false;
+            }
+        }
+
+        return $this->collSysAuths;
+    }
+
+    /**
+     * Sets a collection of ChildSysAuth objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $sysAuths A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return $this|ChildSysUser The current object (for fluent API support)
+     */
+    public function setSysAuths(Collection $sysAuths, ConnectionInterface $con = null)
+    {
+        /** @var ChildSysAuth[] $sysAuthsToDelete */
+        $sysAuthsToDelete = $this->getSysAuths(new Criteria(), $con)->diff($sysAuths);
+
+
+        $this->sysAuthsScheduledForDeletion = $sysAuthsToDelete;
+
+        foreach ($sysAuthsToDelete as $sysAuthRemoved) {
+            $sysAuthRemoved->setSysUser(null);
+        }
+
+        $this->collSysAuths = null;
+        foreach ($sysAuths as $sysAuth) {
+            $this->addSysAuth($sysAuth);
+        }
+
+        $this->collSysAuths = $sysAuths;
+        $this->collSysAuthsPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related SysAuth objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related SysAuth objects.
+     * @throws PropelException
+     */
+    public function countSysAuths(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collSysAuthsPartial && !$this->isNew();
+        if (null === $this->collSysAuths || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collSysAuths) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getSysAuths());
+            }
+
+            $query = ChildSysAuthQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterBySysUser($this)
+                ->count($con);
+        }
+
+        return count($this->collSysAuths);
+    }
+
+    /**
+     * Method called to associate a ChildSysAuth object to this object
+     * through the ChildSysAuth foreign key attribute.
+     *
+     * @param  ChildSysAuth $l ChildSysAuth
+     * @return $this|\SysUser The current object (for fluent API support)
+     */
+    public function addSysAuth(ChildSysAuth $l)
+    {
+        if ($this->collSysAuths === null) {
+            $this->initSysAuths();
+            $this->collSysAuthsPartial = true;
+        }
+
+        if (!$this->collSysAuths->contains($l)) {
+            $this->doAddSysAuth($l);
+
+            if ($this->sysAuthsScheduledForDeletion and $this->sysAuthsScheduledForDeletion->contains($l)) {
+                $this->sysAuthsScheduledForDeletion->remove($this->sysAuthsScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ChildSysAuth $sysAuth The ChildSysAuth object to add.
+     */
+    protected function doAddSysAuth(ChildSysAuth $sysAuth)
+    {
+        $this->collSysAuths[]= $sysAuth;
+        $sysAuth->setSysUser($this);
+    }
+
+    /**
+     * @param  ChildSysAuth $sysAuth The ChildSysAuth object to remove.
+     * @return $this|ChildSysUser The current object (for fluent API support)
+     */
+    public function removeSysAuth(ChildSysAuth $sysAuth)
+    {
+        if ($this->getSysAuths()->contains($sysAuth)) {
+            $pos = $this->collSysAuths->search($sysAuth);
+            $this->collSysAuths->remove($pos);
+            if (null === $this->sysAuthsScheduledForDeletion) {
+                $this->sysAuthsScheduledForDeletion = clone $this->collSysAuths;
+                $this->sysAuthsScheduledForDeletion->clear();
+            }
+            $this->sysAuthsScheduledForDeletion[]= clone $sysAuth;
+            $sysAuth->setSysUser(null);
+        }
+
+        return $this;
     }
 
     /**
@@ -4630,6 +4914,11 @@ abstract class SysUser implements ActiveRecordInterface
                     $o->clearAllReferences($deep);
                 }
             }
+            if ($this->collSysAuths) {
+                foreach ($this->collSysAuths as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
             if ($this->collSysEmailSents) {
                 foreach ($this->collSysEmailSents as $o) {
                     $o->clearAllReferences($deep);
@@ -4673,6 +4962,7 @@ abstract class SysUser implements ActiveRecordInterface
         } // if ($deep)
 
         $this->collJobUserEmpresaSuscritas = null;
+        $this->collSysAuths = null;
         $this->collSysEmailSents = null;
         $this->collSysEntityUsers = null;
         $this->collSysImages = null;

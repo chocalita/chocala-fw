@@ -68,6 +68,16 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysUserQuery rightJoinWithJobUserEmpresaSuscrita() Adds a RIGHT JOIN clause and with to the query using the JobUserEmpresaSuscrita relation
  * @method     ChildSysUserQuery innerJoinWithJobUserEmpresaSuscrita() Adds a INNER JOIN clause and with to the query using the JobUserEmpresaSuscrita relation
  *
+ * @method     ChildSysUserQuery leftJoinSysAuth($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysAuth relation
+ * @method     ChildSysUserQuery rightJoinSysAuth($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysAuth relation
+ * @method     ChildSysUserQuery innerJoinSysAuth($relationAlias = null) Adds a INNER JOIN clause to the query using the SysAuth relation
+ *
+ * @method     ChildSysUserQuery joinWithSysAuth($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysAuth relation
+ *
+ * @method     ChildSysUserQuery leftJoinWithSysAuth() Adds a LEFT JOIN clause and with to the query using the SysAuth relation
+ * @method     ChildSysUserQuery rightJoinWithSysAuth() Adds a RIGHT JOIN clause and with to the query using the SysAuth relation
+ * @method     ChildSysUserQuery innerJoinWithSysAuth() Adds a INNER JOIN clause and with to the query using the SysAuth relation
+ *
  * @method     ChildSysUserQuery leftJoinSysEmailSent($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEmailSent relation
  * @method     ChildSysUserQuery rightJoinSysEmailSent($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEmailSent relation
  * @method     ChildSysUserQuery innerJoinSysEmailSent($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEmailSent relation
@@ -148,7 +158,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysUserQuery rightJoinWithSysUserXRol() Adds a RIGHT JOIN clause and with to the query using the SysUserXRol relation
  * @method     ChildSysUserQuery innerJoinWithSysUserXRol() Adds a INNER JOIN clause and with to the query using the SysUserXRol relation
  *
- * @method     \JobUserEmpresaSuscritaQuery|\SysEmailSentQuery|\SysEntityUserQuery|\SysImageQuery|\SysPasswordQuery|\SysPasswordRequestQuery|\SysPersonQuery|\SysUserParamQuery|\SysUserXRolQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \JobUserEmpresaSuscritaQuery|\SysAuthQuery|\SysEmailSentQuery|\SysEntityUserQuery|\SysImageQuery|\SysPasswordQuery|\SysPasswordRequestQuery|\SysPersonQuery|\SysUserParamQuery|\SysUserXRolQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildSysUser findOne(ConnectionInterface $con = null) Return the first ChildSysUser matching the query
  * @method     ChildSysUser findOneOrCreate(ConnectionInterface $con = null) Return the first ChildSysUser matching the query, or a new ChildSysUser object populated from the query conditions when no match is found
@@ -930,6 +940,79 @@ abstract class SysUserQuery extends ModelCriteria
         return $this
             ->joinJobUserEmpresaSuscrita($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'JobUserEmpresaSuscrita', '\JobUserEmpresaSuscritaQuery');
+    }
+
+    /**
+     * Filter the query by a related \SysAuth object
+     *
+     * @param \SysAuth|ObjectCollection $sysAuth the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildSysUserQuery The current query, for fluid interface
+     */
+    public function filterBySysAuth($sysAuth, $comparison = null)
+    {
+        if ($sysAuth instanceof \SysAuth) {
+            return $this
+                ->addUsingAlias(SysUserTableMap::COL_ID, $sysAuth->getUserId(), $comparison);
+        } elseif ($sysAuth instanceof ObjectCollection) {
+            return $this
+                ->useSysAuthQuery()
+                ->filterByPrimaryKeys($sysAuth->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterBySysAuth() only accepts arguments of type \SysAuth or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the SysAuth relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildSysUserQuery The current query, for fluid interface
+     */
+    public function joinSysAuth($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('SysAuth');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'SysAuth');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the SysAuth relation SysAuth object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \SysAuthQuery A secondary query class using the current class as primary query
+     */
+    public function useSysAuthQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinSysAuth($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'SysAuth', '\SysAuthQuery');
     }
 
     /**

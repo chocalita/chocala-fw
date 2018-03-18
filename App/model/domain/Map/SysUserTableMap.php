@@ -219,6 +219,13 @@ class SysUserTableMap extends TableMap
     1 => ':ID',
   ),
 ), null, null, 'JobUserEmpresaSuscritas', false);
+        $this->addRelation('SysAuth', '\\SysAuth', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':USER_ID',
+    1 => ':ID',
+  ),
+), null, null, 'SysAuths', false);
         $this->addRelation('SysEmailSent', '\\SysEmailSent', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (

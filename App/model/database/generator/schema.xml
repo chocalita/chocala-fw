@@ -97,7 +97,7 @@
     <column name="LOCALIZACION" phpName="Localizacion" type="VARCHAR" size="50"/>
     <column name="CARGO" phpName="Cargo" type="VARCHAR" size="200" required="true"/>
     <column name="DESCRIPCION" phpName="Descripcion" type="LONGVARCHAR"/>
-    <column name="NOMBRE_EMPRESA" phpName="NombreEmpresa" type="VARCHAR" size="200" required="true"/>
+    <column name="NOMBRE_EMPRESA" phpName="NombreEmpresa" type="VARCHAR" size="500" required="true"/>
     <column name="DIRECCION" phpName="Direccion" type="VARCHAR" size="200"/>
     <column name="TELEFONO_CONTACTO" phpName="TelefonoContacto" type="INTEGER"/>
     <column name="CORREO_CONTACTO" phpName="CorreoContacto" type="VARCHAR" size="100"/>
@@ -176,7 +176,7 @@
     <column name="STATUS" phpName="Status" type="VARCHAR" size="30" required="true" defaultValue="INITIAL"/>
     <column name="MIMETYPE" phpName="Mimetype" type="VARCHAR" size="20"/>
     <column name="TIENE_LOGO" phpName="TieneLogo" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
-    <column name="IP_CREACION" phpName="IpCreacion" type="VARCHAR" size="30" required="true"/>
+    <column name="IP_CREACION" phpName="IpCreacion" type="VARCHAR" size="20" required="true"/>
     <column name="LAST_USER_ID" phpName="LastUserId" type="INTEGER" required="true" defaultValue="0"/>
     <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
     <column name="MODIFICACION_DATE" phpName="ModificacionDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
@@ -468,7 +468,7 @@
     <column name="STATUS" phpName="Status" type="VARCHAR" size="20" required="true" defaultValue="CREATED"/>
     <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
     <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP"/>
-    <foreign-key foreignTable="sys_auth" name="sys_auth_ibfk_1">
+    <foreign-key foreignTable="sys_user" name="sys_auth_ibfk_1">
       <reference local="USER_ID" foreign="ID"/>
     </foreign-key>
     <index name="USER_ID">
