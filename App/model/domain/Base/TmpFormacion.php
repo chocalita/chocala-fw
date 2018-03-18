@@ -100,6 +100,14 @@ abstract class TmpFormacion implements ActiveRecordInterface
     protected $formaciones_referencia;
 
     /**
+     * The value for the activo field.
+     *
+     * Note: this column has a database default value of: true
+     * @var        boolean
+     */
+    protected $activo;
+
+    /**
      * @var        ObjectCollection|ChildJobSuscriptor[] Collection to store aggregation of ChildJobSuscriptor objects.
      */
     protected $collJobSuscriptors;
@@ -120,10 +128,23 @@ abstract class TmpFormacion implements ActiveRecordInterface
     protected $jobSuscriptorsScheduledForDeletion = null;
 
     /**
+     * Applies default values to this object.
+     * This method should be called from the object's constructor (or
+     * equivalent initialization method).
+     * @see __construct()
+     */
+    public function applyDefaultValues()
+    {
+        $this->activo = true;
+    }
+
+    /**
      * Initializes internal state of Base\TmpFormacion object.
+     * @see applyDefaults()
      */
     public function __construct()
     {
+        $this->applyDefaultValues();
     }
 
     /**
@@ -395,6 +416,26 @@ abstract class TmpFormacion implements ActiveRecordInterface
     }
 
     /**
+     * Get the [activo] column value.
+     *
+     * @return boolean
+     */
+    public function getActivo()
+    {
+        return $this->activo;
+    }
+
+    /**
+     * Get the [activo] column value.
+     *
+     * @return boolean
+     */
+    public function isActivo()
+    {
+        return $this->getActivo();
+    }
+
+    /**
      * Set the value of [id] column.
      *
      * @param int $v new value
@@ -495,6 +536,34 @@ abstract class TmpFormacion implements ActiveRecordInterface
     } // setFormacionesReferencia()
 
     /**
+     * Sets the value of the [activo] column.
+     * Non-boolean arguments are converted using the following rules:
+     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     *
+     * @param  boolean|integer|string $v The new value
+     * @return $this|\TmpFormacion The current object (for fluent API support)
+     */
+    public function setActivo($v)
+    {
+        if ($v !== null) {
+            if (is_string($v)) {
+                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+            } else {
+                $v = (boolean) $v;
+            }
+        }
+
+        if ($this->activo !== $v) {
+            $this->activo = $v;
+            $this->modifiedColumns[TmpFormacionTableMap::COL_ACTIVO] = true;
+        }
+
+        return $this;
+    } // setActivo()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -504,6 +573,10 @@ abstract class TmpFormacion implements ActiveRecordInterface
      */
     public function hasOnlyDefaultValues()
     {
+            if ($this->activo !== true) {
+                return false;
+            }
+
         // otherwise, everything was equal, so return TRUE
         return true;
     } // hasOnlyDefaultValues()
@@ -544,6 +617,9 @@ abstract class TmpFormacion implements ActiveRecordInterface
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : TmpFormacionTableMap::translateFieldName('FormacionesReferencia', TableMap::TYPE_PHPNAME, $indexType)];
             $this->formaciones_referencia = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : TmpFormacionTableMap::translateFieldName('Activo', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->activo = (null !== $col) ? (boolean) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -552,7 +628,7 @@ abstract class TmpFormacion implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 5; // 5 = TmpFormacionTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 6; // 6 = TmpFormacionTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\TmpFormacion'), 0, $e);
@@ -783,6 +859,9 @@ abstract class TmpFormacion implements ActiveRecordInterface
         if ($this->isColumnModified(TmpFormacionTableMap::COL_FORMACIONES_REFERENCIA)) {
             $modifiedColumns[':p' . $index++]  = 'formaciones_referencia';
         }
+        if ($this->isColumnModified(TmpFormacionTableMap::COL_ACTIVO)) {
+            $modifiedColumns[':p' . $index++]  = 'activo';
+        }
 
         $sql = sprintf(
             'INSERT INTO tmp_formacion (%s) VALUES (%s)',
@@ -808,6 +887,9 @@ abstract class TmpFormacion implements ActiveRecordInterface
                         break;
                     case 'formaciones_referencia':
                         $stmt->bindValue($identifier, $this->formaciones_referencia, PDO::PARAM_STR);
+                        break;
+                    case 'activo':
+                        $stmt->bindValue($identifier, (int) $this->activo, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -879,6 +961,9 @@ abstract class TmpFormacion implements ActiveRecordInterface
             case 4:
                 return $this->getFormacionesReferencia();
                 break;
+            case 5:
+                return $this->getActivo();
+                break;
             default:
                 return null;
                 break;
@@ -914,6 +999,7 @@ abstract class TmpFormacion implements ActiveRecordInterface
             $keys[2] => $this->getKeywords(),
             $keys[3] => $this->getAreasReferencia(),
             $keys[4] => $this->getFormacionesReferencia(),
+            $keys[5] => $this->getActivo(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -985,6 +1071,9 @@ abstract class TmpFormacion implements ActiveRecordInterface
             case 4:
                 $this->setFormacionesReferencia($value);
                 break;
+            case 5:
+                $this->setActivo($value);
+                break;
         } // switch()
 
         return $this;
@@ -1025,6 +1114,9 @@ abstract class TmpFormacion implements ActiveRecordInterface
         }
         if (array_key_exists($keys[4], $arr)) {
             $this->setFormacionesReferencia($arr[$keys[4]]);
+        }
+        if (array_key_exists($keys[5], $arr)) {
+            $this->setActivo($arr[$keys[5]]);
         }
     }
 
@@ -1081,6 +1173,9 @@ abstract class TmpFormacion implements ActiveRecordInterface
         }
         if ($this->isColumnModified(TmpFormacionTableMap::COL_FORMACIONES_REFERENCIA)) {
             $criteria->add(TmpFormacionTableMap::COL_FORMACIONES_REFERENCIA, $this->formaciones_referencia);
+        }
+        if ($this->isColumnModified(TmpFormacionTableMap::COL_ACTIVO)) {
+            $criteria->add(TmpFormacionTableMap::COL_ACTIVO, $this->activo);
         }
 
         return $criteria;
@@ -1173,6 +1268,7 @@ abstract class TmpFormacion implements ActiveRecordInterface
         $copyObj->setKeywords($this->getKeywords());
         $copyObj->setAreasReferencia($this->getAreasReferencia());
         $copyObj->setFormacionesReferencia($this->getFormacionesReferencia());
+        $copyObj->setActivo($this->getActivo());
 
         if ($deepCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1493,8 +1589,10 @@ abstract class TmpFormacion implements ActiveRecordInterface
         $this->keywords = null;
         $this->areas_referencia = null;
         $this->formaciones_referencia = null;
+        $this->activo = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
+        $this->applyDefaultValues();
         $this->resetModified();
         $this->setNew(true);
         $this->setDeleted(false);

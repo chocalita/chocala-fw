@@ -45,6 +45,9 @@ class FormacionReferenciaService extends GenericService
             ->_if(isset($filters['nombre']))
                 ->filterByNombre('%' . $filters['nombre'] . '%', Criteria::ILIKE)
             ->_endif()
+            ->_if(isset($filters['activo']))
+                ->filterByActivo($filters['activo'])
+            ->_endif()
             ->orderByNombre();
         $_page = $filters['_page'] ?: 1;
         $_max = $filters['_max'] ?: $query->count();

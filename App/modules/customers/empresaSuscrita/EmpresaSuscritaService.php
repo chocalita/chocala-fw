@@ -9,6 +9,8 @@
 class EmpresaSuscritaService extends GenericService
 {
 
+    const SESSION_VAR = 'userEmpresaSuscrita';
+
     /**
      * @var EmpresaSuscritaService
      */
@@ -146,6 +148,32 @@ class EmpresaSuscritaService extends GenericService
         return SysRolQuery::create()->findOneByCode("ENT_ADM");
     }
 
+    /**
+     * @param JobEmpresaSuscrita $empresaSuscrita
+     * @param array $data
+     * @return mixed
+     */
+    public function verifyEmpresaSuscrita($empresaSuscrita, $data)
+    {
+        $results["success"] = false;
+        $data['Status'] = JobEmpresaSuscrita::STATUS_CONFIRMED;
+        $empresaSuscrita->fromArray($data);
+        if ($data['logo']) {
+            $empresaSuscrita->setMimetype($data['logo']['type']);
+            $empresaSuscrita->setTieneLogo(true);
+        }
+        $results['success'] = $empresaSuscrita->validate();
+        if ($results['success']) {
+            $filedata = $data['logo'];
+            $imageObj = new Image($filedata);
+            $imageObj->saveResizeMax($empresaSuscrita->imageDir(), AppParam::value(JobAviso::P_MAX_TAMANO_AVISO));
+            Session::set('empresaSuscrita', $empresaSuscrita);
+        }
+        $results['errors'] = $empresaSuscrita->getErrorsMap();
+//        $results['success'] = true;
+        return $results;
+    }
+
     public function verifyUserAccount($data)
     {
         $results["success"] = false;
@@ -179,12 +207,9 @@ class EmpresaSuscritaService extends GenericService
         if ($results['success']) {
             Session::set('personaSuscrita', $person);
             Session::set('usuarioSuscrito', $user);
-            if (is_object($usuarioXRol)) {
-//                $usuarioXRol->setSysUser($user)->save();
-            }
         }
         $results['errors'] = $person->getErrorsMap();
-        $results['success'] = true;
+//        $results['success'] = true;
         return $results;
     }
 
@@ -201,7 +226,65 @@ class EmpresaSuscritaService extends GenericService
         }
         $results['errors'] = $aviso->getErrorsMap();
         return $results;
+    }
 
+    /**
+     * @param array $data
+     * @return array
+     * @throws \Propel\Runtime\Exception\PropelException
+     */
+    public function finalizarSuscripcion($data)
+    {
+        $results["success"] = false;
+        $empresaSuscrita = Session::_('empresaSuscrita');
+        $person = Session::_('personaSuscrita');
+        $user = Session::_('usuarioSuscrito');
+        $aviso = Session::_('avisoSuscripcion');
+        if ($data['Agree'] == '') {
+            $field = 'Agree';
+            $messageKey = get_class(new JobAviso()) . '.' . 'validate.agree';
+            $message = __($messageKey, []);
+            $results['errors'] = [
+                ['field' => $field, 'message' => $message]
+            ];
+        } else {
+            if ($empresaSuscrita->validate()) {
+                $empresaSuscrita->save();
+            } else {
+                $results['errors'] = $empresaSuscrita->getErrorsMap();
+            }
+            if ($user->validate()) {
+                $user->save();
+            } else {
+                $results['errors'] = $person->getErrorsMap();
+            }
+            if ($person->validate()) {
+                $person->setSysUser($user);
+                $person->save();
+                $rol = $this->rolAdministrador();
+                $userXRol = new SysUserXRol();
+                $userXRol->setSysUser($user);
+                $userXRol->setSysRol($rol);
+                $userXRol->save();
+                $userEmpresa = new JobUserEmpresaSuscrita();
+                $userEmpresa->setSysUser($user);
+                $userEmpresa->setJobEmpresaSuscrita($empresaSuscrita);
+                $userEmpresa->setSysRol($rol);
+                $userEmpresa->save();
+                Session::set(self::SESSION_VAR, $userEmpresa);
+                $results['success'] = true;
+            } else {
+                $results['errors'] = $user->getErrorsMap();
+            }
+            if ($aviso->validate()) {
+                $aviso->setJobEmpresaSuscrita($empresaSuscrita);
+                $aviso->setLastUserId($user->getId());
+                $aviso->save();
+            } else {
+                $results['errors'] = $aviso->getErrorsMap();
+            }
+        }
+        return $results;
     }
 
 }

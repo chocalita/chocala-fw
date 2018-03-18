@@ -152,6 +152,13 @@ class SysRolTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('JobUserEmpresaSuscrita', '\\JobUserEmpresaSuscrita', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':ROL_ID',
+    1 => ':ID',
+  ),
+), null, null, 'JobUserEmpresaSuscritas', false);
         $this->addRelation('SysEntityUser', '\\SysEntityUser', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (

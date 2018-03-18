@@ -204,7 +204,7 @@ class SysUserTableMap extends TableMap
         $this->addColumn('ACCESS_FAILURES', 'AccessFailures', 'INTEGER', true, null, 0);
         $this->addColumn('LAST_USER_ID', 'LastUserId', 'INTEGER', true, null, 0);
         $this->addColumn('CREATION_DATE', 'CreationDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');
-        $this->addColumn('MODIFICATION_DATE', 'ModificationDate', 'TIMESTAMP', false, null, null);
+        $this->addColumn('MODIFICATION_DATE', 'ModificationDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');
     } // initialize()
 
     /**
@@ -212,6 +212,13 @@ class SysUserTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('JobUserEmpresaSuscrita', '\\JobUserEmpresaSuscrita', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':USER_ID',
+    1 => ':ID',
+  ),
+), null, null, 'JobUserEmpresaSuscritas', false);
         $this->addRelation('SysEmailSent', '\\SysEmailSent', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (

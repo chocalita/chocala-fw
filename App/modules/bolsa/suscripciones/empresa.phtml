@@ -15,6 +15,12 @@
     padding-bottom: 10px;
     /*border-top: 10px solid #0d70b7;*/
 }
+
+.landing-page section .tyc p {
+    color: #666666;
+    font-size: 11px;
+    text-align: justify;
+}
 </style>
 
 <section class="timeline gray-section">
@@ -125,20 +131,14 @@
                                             </div>
                                         </div>
 
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-4 col-md-3" for="logo">Logotipo (opcional)</label>
+                                            <div class="col-xs-8 col-md-9">
+                                                <input type="file" id="logo" name="logo" class="" />
+                                            </div>
+                                        </div>
 
-<!--                                        <div class="form-group">
-                                            <label>Username *</label>
-                                            <input id="userName" name="userName" type="text" class="form-control required">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Password *</label>
-                                            <input id="password" name="password" type="text" class="form-control required">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Confirm Password *</label>
-                                            <input id="confirm" name="confirm" type="text" class="form-control required">
-                                        </div>
--->                                    </div>
+                                    </div>
                                     <div class="col-lg-4">
                                         <div class="text-center">
                                             <div style="margin-top: 20px">
@@ -156,7 +156,6 @@
 
                                 <h2>Datos de Cuenta de Usuario</h2>
 
-<!--                                <div class="row">-->
                                     <div class="col-xs-12">
 
                                     <div class="alert alert-info">
@@ -326,7 +325,6 @@
                                         </div>
                                     </div>
 
-<!--                                </div>-->
                                 </div>
 
                                 <input type="hidden" name="hc" value="<?= $empresaSuscrita->getHashCode(); ?>" />
@@ -373,39 +371,36 @@
                                                 <div class="col-sm-6">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                        <input type="text" id="FechaVencimiento" name="FechaVencimiento" value="<?=$aviso? $aviso->getFechaVencimiento("d/m/Y"): '';?>"
+                                                        <input type="text" id="FechaVencimiento" name="FechaVencimiento" value="<?=$aviso? $aviso->getFechaVencimiento("d/m/Y"): date('d/m/Y');?>"
                                                                class="form-control datepicker" />
                                                     </div>
                                                 </div>
                                             </div>
 
                                         </div>
-                                        <div class="col-sm-6">
-                                            <label class="control-label col-sm-4" for="CorreoContacto">Imagen</label>
-                                            <div class="col-sm-8">
-                                                <input type="file" id="picture" name="picture" /> <!-- -->
-                                                <?php
-                                                if($aviso && $aviso->getId()){
-                                                    ?>
-                                                    <img src="<?=WEB_ROOT.'files/avisos/'.$aviso->getId().'.jpg';?>" alt="" class="col-sm-12" style="max-width: 100%;">
-                                                    <!--                <div id="myDropzone" class="dropzone">-->
-                                                    <!--                    <small>Arrastre la imagen aqui...</small>-->
-                                                    <!--            <input type="file" name="profilePicture" />-->
-                                                    <!--                    <img src="--><?//=WEB_ROOT.'files/avisos/'.$aviso->getId().'.jpg';?><!--" alt="" class="col-sm-12" style="max-width: 100%;">-->
-                                                    <!--                </div>-->
+                                    </div>
 
-
-                                                    <!--                <img src="--><?//=WEB_ROOT.'files/avisos/'.$aviso->getId().'.jpg';?><!--" alt="" class="col-sm-12" style="max-width: 100%;">-->
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3" for="Descripcion">Formaciones</label>
+                                        <div class="col-sm-9">
+                                            <div id="FormacionesReferencia">
+                                                <select name="FormacionReferencia[]" class="form-control formaciones">
+                                                    <option value="">-Seleccionar-</option>
                                                     <?php
-                                                }
-                                                ?>
+                                                    foreach($formacionReferenciaList as $formacionReferencia):
+                                                        $check = $aviso && $aviso->tieneFormacion($formacionReferencia)? 'checked="yes"': '';
+                                                        ?>
+                                                        <option value="<?=$formacionReferencia->getNombre();?>"><?=$formacionReferencia->getNombre();?></option>
+                                                    <?php
+                                                    endforeach;
+                                                    ?>
+                                                </select>
                                             </div>
-                                            <!--
-                                                <div id="myDropzone" class="dropzone">
-                                                    <small>Arrastre la imagen aqui...</small>
-                                                </div>
-                                                <!-- -->
-
+                                            <a href="#" class="addFormacion"><i class="fa fa-plus-square"></i> Agregar formación</a>
+                                            <span>
+                                                &nbsp;
+                                                <a href="#" class="removeFormacion text-danger hide"><i class="fa fa-minus-square"></i> Quitar formación</a>
+                                            </span>
                                         </div>
                                     </div>
 
@@ -461,6 +456,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-sm-6" for="Localizacion">Localización</label>
                                                 <div class="col-sm-6">
+                                                    <div id="Localizacion" >
                                                     <?php
                                                     foreach($localizaciones as $localizacion):
                                                         $check = $aviso && $aviso->getLocalizacion()==$localizacion? 'checked="yes"': '';
@@ -472,6 +468,7 @@
                                                     <?php
                                                     endforeach;
                                                     ?>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -486,15 +483,19 @@
 
                             <h1>Finalizar</h1>
                             <fieldset>
+
                                 <h2>Términos y Condiciones</h2>
-                                <div>
+                                <div class="tyc">
+                                    <?php
+                                    include_once("tyc.phtml");
+                                    ?>
+                                    <div class="form-group">
+                                        <input id="Agree" name="Agree" type="checkbox" value="YES" class="required" />
+                                        <label for="Agree">Acepto los Términos y Condiciones.</label>
 
+                                        <input type="hidden" name="hc" value="<?= $empresaSuscrita->getHashCode(); ?>" />
+                                    </div>
                                 </div>
-                                <input id="acceptTerms" name="acceptTerms" type="checkbox" class="required">
-                                <label for="acceptTerms">Acepto los Términos y Condiciones.</label>
-
-                                <input type="hidden" name="hc" value="<?= $empresaSuscrita->getHashCode(); ?>" />
-
                             </fieldset>
                         </form>
                     </div>
@@ -503,41 +504,8 @@
 
         </div>
 
-
         <div style="clear: both;"></div>
 
-        <section class="features">
-            <div class="container">
-                <!--                <div class="row">-->
-                <div class="col-lg-12 text-center">
-                    <div class="navy-line"></div>
-                    <h1>El mejor canal gratuito para tus anuncios</h1>
-                    <p>Ponemos tus anuncios al alcance de más de 5000 personas que estan en busca de empleo</p>
-                </div>
-                <!--                </div>-->
-                <!--                <div class="row">-->
-                <div class="col-lg-5 col-lg-offset-1 features-text">
-                    <small>Empleos.Click</small>
-                    <h2>Logra amplia difusión</h2>
-                    <i class="fa fa-bullhorn big-icon pull-left"></i>
-                    <p>Registra tus ofertas de empleo con tu cuenta de empresa completamente gratis,
-                        asi logras amplio alcance a través de nuestros canales de difusión,
-                        todo completamente en línea desde la comodidad de tu hogar u oficina.
-                    </p>
-                </div>
-                <div class="col-lg-5 features-text">
-                    <small>Empleos.Click</small>
-                    <h2>Encuentra los mejores candidatos</h2>
-                    <i class="fa fa-users big-icon pull-right"></i>
-                    <p>Sabemos que el principal factor de desarrollo de cada empresa es el talento humano,
-                        por eso, innovamos en brindar un medio efectivo para la obtención de prospectos y candidatos
-                        que puedan cubrir de mejor manera los espacios de empleo requeridos.
-                    </p>
-                </div>
-                <!--                </div>-->
-            </div>
-
-        </section>
     </div>
 
 </section>
@@ -565,148 +533,166 @@
 <script src="<?= JS_WEB; ?>plugins/staps/jquery.steps.min.js"></script>
 
 <script type="text/javascript">
-    var is_async_step = false;
-    jQuery(document).ready(function () {
-        $("#form").steps({
-            bodyTag: "fieldset",
-            // var settings = {
-            // };
-            //onStepChanging: function (event, currentIndex, newIndex) {
-            //    if (currentIndex > newIndex) {
-            //        return true;
-            //    }
-            //    return validate("<?//=URI::toPage().'step';?>//" + newIndex , $("#form-p-" + currentIndex));
-            //},
-            //onStepChanged: function (event, currentIndex, priorIndex) {
-            //}
-            onStepChanging: changeStep
-        });
+var is_async_step = false;
+jQuery(document).ready(function () {
 
-        function changeStep(event, currentIndex, newIndex) {
-            if (currentIndex > newIndex) {
-                return true;
-            }
-            if (is_async_step) {
-                is_async_step = false;
-                //Allow next step
-                return true;
-            }
-            var arr = $("#form_tag_id").serializeArray();
-            arr.push({ name: "one_more_field", value: "one_more_value" });
+    $("#form").steps({
+        labels: {
+            // current: "current step:",
+            // pagination: "Pagination",
+            finish: "Finalizar",
+            next: "Siguiente",
+            previous: "Anterior",
+            loading: "Cargando..."
+        },
+        bodyTag: "fieldset",
+        onStepChanging: changeStep,
+        onFinished: changeStep
+    });
+
+    function changeStep(event, currentIndex, newIndex) {
+        $(".datepicker").datepicker({format: 'dd/mm/yyyy', language: 'es'});
+        if (currentIndex > newIndex) {
+            return true;
+        }
+        if (is_async_step) {
+            is_async_step = false;
+            //Allow next step
+            return true;
+        }
+        var arr = $("#form_tag_id").serializeArray();
+        arr.push({ name: "one_more_field", value: "one_more_value" });
 /*
-            $.post("", arr).done(function (data)
+        $.post("", arr).done(function (data)
+        {
+            if(data != "ok")
             {
-                if(data != "ok")
-                {
-                    return;
-                }
+                return;
+            }
 
-                is_async_step = true;
-                //trigger navigation event
-                $("#wizard").steps("next");
-            });
+            is_async_step = true;
+            //trigger navigation event
+            $("#wizard").steps("next");
+        });
 */
 
 
-            var action = "<?=URI::toPage().'step';?>" + newIndex;
-            var fieldset = $("#form-p-" + currentIndex);
-
-            // var success = false;
-            fieldset.find('div.help-block').remove();
-            fieldset.find('div.has-error').removeClass('has-error');
-            $.ajax({
-                url: action,
-                type: "POST",
-                data: fieldset.serialize(),
-                beforeSend: function( xhr ) {
-                    fieldset.parent().mask("");
-                }
-            })
-                .done(function(data) {
-                    var result = eval(data);
-                    if (!result.success) {
-                        fieldset.find('div.help-block').remove();
-                        fieldset.find('div.has-error').removeClass('has-error');
-                        $(result.errors).each(function(i, el) {
-                            fieldset.find('#' + el.field)
-                                .parents('div.form-group')
-                                .first()
-                                .addClass('has-error');
-                            fieldset.find('#' + el.field)
-                                .parent()
-                                .find("div.help-block")
-                                .remove();
-                            fieldset.find('#' + el.field)
-                                .parent()
-                                .append('<div class="help-block">'+el.message+'</div>');
-                        });
-                    } else {
-                        // alert("Si ta bueno")
-                        // success = true;
-                        is_async_step = true;
+        var $form = $("#form-p-" + currentIndex);
+        var $formData = new FormData();
+        $form.find('input, textarea, select').each(function(){
+            var input = $(this);
+            var type = input.attr('type');
+            switch (type){
+                case "checkbox":
+                    if (input.is(":checked")) {
+                        $formData.append(input.attr('name'), input.val());
                     }
-                })
-                .fail(function(jqXHR, textStatus){
-                    alert("ERROR: error en envío de datos");
-                    fieldset.parent().unmask();
-                })
-                .always(function(){
-                    // alert("ya no se ve")
-                    fieldset.parent().unmask();
-                    if(is_async_step) {
-                        //trigger navigation event
-                        $("#form").steps("next");
+                    break;
+                case "radio":
+                    if(input.is(":checked")) {
+                        $formData.append(input.attr('name'), input.val());
                     }
-                });
+                    break;
+                case "file":
+                    $.each(input.prop("files"),function(i,file){
+                        $formData.append(input.attr("name"), file);
+                    });
+                    break;
+                default:
+                    if(!input.is(":disabled") && type != "submit" && type != "button"){
+                        $formData.append(input.attr('name'), input.val());
+                    }
+            }
+        });
 
-            //forbid the next step because $.post is an asynchronous function
+
+        if(newIndex == null && currentIndex<3){
             return false;
         }
-
-
-        function validate(action, fieldset) {
-            var action = "<?//=URI::toPage().'step';?>//" + newIndex;
-            var fieldset = $("#form-p-" + currentIndex);
-
-            var success = false;
-            fieldset.find('div.help-block').remove();
-            fieldset.find('div.has-error').removeClass('has-error');
-            $.ajax({
-                url: action,
-                type: "POST",
-                data: fieldset.serialize(),
-                beforeSend: function( xhr ) {
-                    fieldset.parent().mask("");
-                }
-            })
-                .done(function(data) {
-                    var result = eval(data);
-                    if (!result.success) {
-                        fieldset.find('div.help-block').remove();
-                        fieldset.find('div.has-error').removeClass('has-error');
-                        $(result.errors).each(function(i, el) {
-                            fieldset.find('#' + el.field)
-                                .parents('div.form-group')
-                                .first()
-                                .addClass('has-error');
-                            fieldset.find('#' + el.field)
-                                .parent()
-                                .append('<div class="help-block">'+el.message+'</div>');
-                        });
-                    } else {
-                        // alert("Si ta bueno")
-                        success = true;
-                    }
-                })
-                .fail(function(jqXHR, textStatus){
-                    alert("ERROR: error en envío de datos");
-                })
-                .always(function(){
-                    fieldset.parent().unmask();
-                });
-            // alert(success);
-            return success;
+        var action = "<?=URI::toPage().'step';?>" + newIndex;
+        if(currentIndex == 3) {
+            action = "<?=URI::toPage().'finish';?>";
         }
-        
+        var fieldset = $("#form-p-" + currentIndex);
+
+        // var success = false;
+        fieldset.find('div.help-block').remove();
+        fieldset.find('div.has-error').removeClass('has-error');
+        $.ajax({
+            url: action,
+            type: "POST",
+            // data: fieldset.serialize(),
+            data: $formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            beforeSend: function( xhr ) {
+                fieldset.parent().mask("");
+            }
+        }).done(function(data) {
+            var result = eval(data);
+            if (!result.success) {
+                fieldset.find('div.help-block').remove();
+                fieldset.find('div.has-error').removeClass('has-error');
+                $(result.errors).each(function(i, el) {
+                    fieldset.find('#' + el.field)
+                        .parents('div.form-group')
+                        .first()
+                        .addClass('has-error');
+                    fieldset.find('#' + el.field)
+                        .parent()
+                        .find("div.help-block")
+                        .remove();
+                    fieldset.find('#' + el.field)
+                        .parent()
+                        .append('<div class="help-block">'+el.message+'</div>');
+                });
+            } else {
+                // alert("Si ta bueno")
+                is_async_step = true;
+                if(currentIndex == 3) {
+                    window.location = "<?=URI::toPage().'publicada';?>"
+                }
+            }
+        }).fail(function(jqXHR, textStatus){
+            alert("ERROR: error en envío de datos");
+            fieldset.parent().unmask();
+        }).always(function(){
+            // alert("ya no se ve")
+            fieldset.parent().unmask();
+            if(is_async_step) {
+                //trigger navigation event
+                $("#form").steps("next");
+            }
+        });
+
+        //forbid the next step because $.post is an asynchronous function
+        return false;
+    }
+
+    $(".addFormacion").click(function(){
+        $(".formaciones").first().clone().appendTo("#FormacionesReferencia");
+        verifyAddRemove();
+        return false;
     });
+    $(".removeFormacion").click(function(){
+        $(".formaciones").last().remove();
+        verifyAddRemove();
+        return false;
+    });
+    function verifyAddRemove(){
+        var selects = $(".formaciones");
+        if(selects.size() > 1){
+            $(".removeFormacion").removeClass("hide");
+        } else {
+            $(".removeFormacion").addClass("hide");
+        }
+        if(selects.size() < 10){
+            $(".addFormacion").removeClass("hide");
+        } else {
+            $(".addFormacion").addClass("hide");
+        }
+    }
+
+});
 </script>

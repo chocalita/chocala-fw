@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Description of WebController
  * @author ypra
@@ -7,7 +8,7 @@ abstract class WebController implements IController
 {
 
     protected $allowedMethods = array();
-    
+
     /**
      *
      * @var boolean
@@ -61,7 +62,7 @@ abstract class WebController implements IController
     }
 
     /**
-     * 
+     *
      */
     final public function __construct()
     {
@@ -71,7 +72,7 @@ abstract class WebController implements IController
     }
 
     /**
-     * Initialization of generic operations, configurations or steps for all 
+     * Initialization of generic operations, configurations or steps for all
      * methods of the controller class
      * @return void
      */
@@ -98,14 +99,17 @@ abstract class WebController implements IController
 
     /**
      * Send directly the content as response from the request page
-     * 
+     *
      * @param string $content
      * @return void
      */
     final public function render($content)
     {
-        $this->view->render($content);
-        $this->rendered = true;
+        if (!$this->rendered) {
+            echo "ABC";
+            $this->view->render($content);
+            $this->rendered = true;
+        }
     }
 
     /**
@@ -113,29 +117,33 @@ abstract class WebController implements IController
      * controller and module properties using the layout and template on the
      * view engine
      * @param string $view
-     * @param string $module 
+     * @param string $module
      * @return void
      */
-    final public function renderView($view, $module=null)
+    final public function renderView($view, $module = null)
     {
-        $this->view->renderView(lcfirst($view), $module);
-        $this->rendered = true;
+        if (!$this->rendered) {
+            $this->view->renderView(lcfirst($view), $module);
+            $this->rendered = true;
+        }
     }
 
     /**
-     * Generate and send a json response encoding the controller's vars from 
+     * Generate and send a json response encoding the controller's vars from
      * request page with action, controller and module
-     * 
+     *
      * @return void
      */
     final public function renderAsJSON()
     {
-        $this->view->renderJSON();
-        $this->rendered = true;
+        if (!$this->rendered) {
+            $this->view->renderJSON();
+            $this->rendered = true;
+        }
     }
 
     /**
-     * 
+     *
      * @param array $arrayMap
      * @param boolean $permanently
      * @return void
@@ -148,7 +156,7 @@ abstract class WebController implements IController
 
     /**
      * Routing to default page for request to unexisting pages
-     * 
+     *
      * @return void
      */
     final public function noRoute()
@@ -158,7 +166,7 @@ abstract class WebController implements IController
 
     /**
      * Verify if the action is requested as a allowed method
-     * 
+     *
      * @param string $action
      * @param string $method
      * @return boolean
@@ -166,7 +174,7 @@ abstract class WebController implements IController
     final public function isAllowedMethod($action)
     {
         $method = HttpManager::requestMethod();
-        if(isset($this->allowedMethods[$action])){
+        if (isset($this->allowedMethods[$action])) {
             return strtoupper(trim($this->allowedMethods[$action])) == $method;
         }
         return true;

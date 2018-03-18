@@ -77,12 +77,15 @@ class JobAviso extends BaseJobAviso implements JsonSerializable
         'FechaVencimiento' => [
             'null' => false, 'blank' => false,
         ],
+        'Localizacion' => [
+            'null' => false, 'blank' => false,
+        ],
         'AreasReferencia' => [
             'null' => true, 'blank' => true,
             'size' => ['min' => 2, 'max' => 500],
         ],
         'FormacionesReferencia' => [
-            'null' => true, 'blank' => false,
+            'null' => false, 'blank' => false,
             'size' => ['min' => 2, 'max' => 2000],
         ],
     ];

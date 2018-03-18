@@ -17,6 +17,8 @@ class JobEmpresaSuscrita extends BaseJobEmpresaSuscrita implements JsonSerializa
     const STATUS_CONFIRMED = 'CONFIRMED';
     const STATUS_SUSCRIBED = 'SUSCRIBED';
 
+    const EMPRESA_DIR = 'empresas/logo';
+
     static $validationRules = [
         'EntityTypeId' => [
             'null' => false, 'blank' => false,
@@ -138,6 +140,30 @@ class JobEmpresaSuscrita extends BaseJobEmpresaSuscrita implements JsonSerializa
     public function isInitial()
     {
         return $this->status == self::STATUS_INITIAL;
+    }
+
+    /**
+     * @return string
+     */
+    public function imageName()
+    {
+        return $this->hash_code . '.' . ImageMimeTypes::mimeExtensionFrom($this->getMimetype());
+    }
+
+    /**
+     * @return string
+     */
+    public function imageDir()
+    {
+        return FilesHelper::dirPath(self::EMPRESA_DIR) . $this->imageName();
+    }
+
+    /**
+     * @return string
+     */
+    public function imageWeb()
+    {
+        return FilesHelper::webPath(self::EMPRESA_DIR) . $this->imageName();
     }
 
 }

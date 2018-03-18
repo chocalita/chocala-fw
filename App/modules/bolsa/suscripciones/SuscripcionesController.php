@@ -28,6 +28,12 @@ class SuscripcionesController extends AdminWebController
      */
     protected $locationService;
 
+    /**
+     * @var FormacionReferenciaService Injected service
+     * @service recursos.formacionReferencia.FormacionReferenciaService
+     */
+    protected $formacionReferenciaService;
+
     public function index()
     {
         $this->redirectTo(['action' => 'dataList']);
@@ -36,18 +42,20 @@ class SuscripcionesController extends AdminWebController
     public function empresa()
     {
         $this->view->changeLayout('public');
-        $empresaSuscrita = JobEmpresaSuscritaQuery::create()->findOneById(1);
+        $empresaSuscrita = JobEmpresaSuscritaQuery::create()->findOneByHashCode(Req::_('hc'));
         if (is_object($empresaSuscrita)) {
             if ($empresaSuscrita->getStatus() == JobEmpresaSuscrita::STATUS_INITIAL) {
                 $esEmpresaFormal = $empresaSuscrita->getSysEntityType()->getGroupCode() == SysEntityType::GROUP_FORMAL_COMPANY;
                 $tipoSuscripcion = $esEmpresaFormal ? 'Empresa' : 'Negocio';
                 $locaciones = SysLocationQuery::create()->filterByType("DEPARTAMENT")->find();
+                $formacionReferenciaList = $this->formacionReferenciaService->dataList(['activo' => true]);
                 $this->set('localizaciones', AppParam::param('P_LOCALIZACIONES_AVISO')->options());
                 $this->set('empresaSuscrita', $empresaSuscrita);
                 $this->set('tipoSuscripcion', $tipoSuscripcion);
                 $this->set('esEmpresaFormal', $esEmpresaFormal);
                 $this->set('locaciones', $locaciones);
                 $this->set('nivelesFormacion', JobAviso::$nivelesFormacion);
+                $this->set('formacionReferenciaList', $formacionReferenciaList);
             } else {
                 $this->redirectTo(URI::toModule() . 'trabajo/empresa');
             }
@@ -62,15 +70,13 @@ class SuscripcionesController extends AdminWebController
         $empresaSuscrita = $this->empresaSuscritaService->findByHashCode(Req::_('hc'));
         if (is_object($empresaSuscrita) && $empresaSuscrita->getStatus() == JobEmpresaSuscrita::STATUS_INITIAL) {
             $data = Req::all();
-            $data['Status'] = JobEmpresaSuscrita::STATUS_CONFIRMED;
-            $empresaSuscrita->fromArray($data);
-            $results['success'] = $empresaSuscrita->validate();
-            $results['errors'] = $empresaSuscrita->getErrorsMap();
-            if ($results['success']) {
-                Session::set('empresaSuscrita', $empresaSuscrita);
+            if (isset($_FILES['logo'])) {
+                $data['logo'] = $_FILES['logo'];
             }
+            $results = $this->empresaSuscritaService->verifyEmpresaSuscrita($empresaSuscrita, $data);
         }
         $this->set('success', $results['success']);
+//        $this->set('success', true);
         $this->set('errors', $results['errors']);
         $this->renderAsJSON();
     }
@@ -84,6 +90,7 @@ class SuscripcionesController extends AdminWebController
             $results = $this->empresaSuscritaService->verifyUserAccount($data);
         }
         $this->set('success', $results['success']);
+//        $this->set('success', true);
         $this->set('errors', $results['errors']);
         $this->renderAsJSON();
     }
@@ -98,15 +105,34 @@ class SuscripcionesController extends AdminWebController
             $data['FechaVencimiento'] = Req::_asDate('FechaVencimiento');
 //        $data['AreasReferencia'] = Req::has('AreaReferencia') ?
 //            implode(";", Req::_('AreaReferencia')) : '';
-//        $data['FormacionesReferencia'] = Req::has('FormacionReferencia') ?
-//            implode(";", Req::_('FormacionReferencia')) : '';
+            $data['FormacionesReferencia'] = Req::has('FormacionReferencia') ?
+                implode(";", Req::_('FormacionReferencia')) : '';
             $results = $this->empresaSuscritaService->verifyAviso($data);
+        }
+        $this->set('success', $results['success']);
+//        $this->set('success', true);
+        $this->set('errors', $results['errors']);
+        $this->renderAsJSON();
+    }
+
+    public function finish($data)
+    {
+        $results = ['success' => false, 'errors' => []];
+        $empresaSuscrita = $this->empresaSuscritaService->findByHashCode(Req::_('hc'));
+        if (is_object($empresaSuscrita) && $empresaSuscrita->getStatus() == JobEmpresaSuscrita::STATUS_INITIAL) {
+            $data = Req::all();
+            $results = $this->empresaSuscritaService->finalizarSuscripcion($data);
         }
         $this->set('success', $results['success']);
         $this->set('errors', $results['errors']);
         $this->renderAsJSON();
     }
 
+    public function publicada()
+    {
+        print_r(Session::_(EmpresaSuscritaService::SESSION_VAR));
+        $this->render("Se completo el registro");
+    }
 
     public function objectIfExist()
     {
