@@ -144,14 +144,14 @@ abstract class WebController implements IController
 
     /**
      *
-     * @param array $arrayMap
+     * @param array|string $target
      * @param boolean $permanently
      * @return void
      */
-    final public function redirectTo($arrayMap, $permanently = false)
+    final public function redirectTo($target, $permanently = false)
     {
-        $URI = URI::createURLTo($arrayMap);
-        Headers::instance()->redirectTo($URI, $permanently);
+        $urlTarget = is_string($target) ? $target : URI::createURLTo($target);
+        Headers::instance()->redirectTo($urlTarget, $permanently);
     }
 
     /**

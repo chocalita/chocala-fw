@@ -176,6 +176,7 @@
     <column name="STATUS" phpName="Status" type="VARCHAR" size="30" required="true" defaultValue="INITIAL"/>
     <column name="MIMETYPE" phpName="Mimetype" type="VARCHAR" size="20"/>
     <column name="TIENE_LOGO" phpName="TieneLogo" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
+    <column name="IP_CREACION" phpName="IpCreacion" type="VARCHAR" size="30" required="true"/>
     <column name="LAST_USER_ID" phpName="LastUserId" type="INTEGER" required="true" defaultValue="0"/>
     <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
     <column name="MODIFICACION_DATE" phpName="ModificacionDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>

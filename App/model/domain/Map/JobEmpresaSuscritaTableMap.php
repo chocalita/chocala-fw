@@ -59,7 +59,7 @@ class JobEmpresaSuscritaTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 18;
+    const NUM_COLUMNS = 19;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,7 @@ class JobEmpresaSuscritaTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 18;
+    const NUM_HYDRATE_COLUMNS = 19;
 
     /**
      * the column name for the ID field
@@ -147,6 +147,11 @@ class JobEmpresaSuscritaTableMap extends TableMap
     const COL_TIENE_LOGO = 'job_empresa_suscrita.TIENE_LOGO';
 
     /**
+     * the column name for the IP_CREACION field
+     */
+    const COL_IP_CREACION = 'job_empresa_suscrita.IP_CREACION';
+
+    /**
      * the column name for the LAST_USER_ID field
      */
     const COL_LAST_USER_ID = 'job_empresa_suscrita.LAST_USER_ID';
@@ -173,11 +178,11 @@ class JobEmpresaSuscritaTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'EntityTypeId', 'LocationId', 'ScrapEmpresaId', 'HashCode', 'Nombre', 'Nit', 'Email', 'Direccion', 'Representante', 'Telefono', 'Celular', 'Status', 'Mimetype', 'TieneLogo', 'LastUserId', 'CreationDate', 'ModificacionDate', ),
-        self::TYPE_CAMELNAME     => array('id', 'entityTypeId', 'locationId', 'scrapEmpresaId', 'hashCode', 'nombre', 'nit', 'email', 'direccion', 'representante', 'telefono', 'celular', 'status', 'mimetype', 'tieneLogo', 'lastUserId', 'creationDate', 'modificacionDate', ),
-        self::TYPE_COLNAME       => array(JobEmpresaSuscritaTableMap::COL_ID, JobEmpresaSuscritaTableMap::COL_ENTITY_TYPE_ID, JobEmpresaSuscritaTableMap::COL_LOCATION_ID, JobEmpresaSuscritaTableMap::COL_SCRAP_EMPRESA_ID, JobEmpresaSuscritaTableMap::COL_HASH_CODE, JobEmpresaSuscritaTableMap::COL_NOMBRE, JobEmpresaSuscritaTableMap::COL_NIT, JobEmpresaSuscritaTableMap::COL_EMAIL, JobEmpresaSuscritaTableMap::COL_DIRECCION, JobEmpresaSuscritaTableMap::COL_REPRESENTANTE, JobEmpresaSuscritaTableMap::COL_TELEFONO, JobEmpresaSuscritaTableMap::COL_CELULAR, JobEmpresaSuscritaTableMap::COL_STATUS, JobEmpresaSuscritaTableMap::COL_MIMETYPE, JobEmpresaSuscritaTableMap::COL_TIENE_LOGO, JobEmpresaSuscritaTableMap::COL_LAST_USER_ID, JobEmpresaSuscritaTableMap::COL_CREATION_DATE, JobEmpresaSuscritaTableMap::COL_MODIFICACION_DATE, ),
-        self::TYPE_FIELDNAME     => array('ID', 'ENTITY_TYPE_ID', 'LOCATION_ID', 'SCRAP_EMPRESA_ID', 'HASH_CODE', 'NOMBRE', 'NIT', 'EMAIL', 'DIRECCION', 'REPRESENTANTE', 'TELEFONO', 'CELULAR', 'STATUS', 'MIMETYPE', 'TIENE_LOGO', 'LAST_USER_ID', 'CREATION_DATE', 'MODIFICACION_DATE', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, )
+        self::TYPE_PHPNAME       => array('Id', 'EntityTypeId', 'LocationId', 'ScrapEmpresaId', 'HashCode', 'Nombre', 'Nit', 'Email', 'Direccion', 'Representante', 'Telefono', 'Celular', 'Status', 'Mimetype', 'TieneLogo', 'IpCreacion', 'LastUserId', 'CreationDate', 'ModificacionDate', ),
+        self::TYPE_CAMELNAME     => array('id', 'entityTypeId', 'locationId', 'scrapEmpresaId', 'hashCode', 'nombre', 'nit', 'email', 'direccion', 'representante', 'telefono', 'celular', 'status', 'mimetype', 'tieneLogo', 'ipCreacion', 'lastUserId', 'creationDate', 'modificacionDate', ),
+        self::TYPE_COLNAME       => array(JobEmpresaSuscritaTableMap::COL_ID, JobEmpresaSuscritaTableMap::COL_ENTITY_TYPE_ID, JobEmpresaSuscritaTableMap::COL_LOCATION_ID, JobEmpresaSuscritaTableMap::COL_SCRAP_EMPRESA_ID, JobEmpresaSuscritaTableMap::COL_HASH_CODE, JobEmpresaSuscritaTableMap::COL_NOMBRE, JobEmpresaSuscritaTableMap::COL_NIT, JobEmpresaSuscritaTableMap::COL_EMAIL, JobEmpresaSuscritaTableMap::COL_DIRECCION, JobEmpresaSuscritaTableMap::COL_REPRESENTANTE, JobEmpresaSuscritaTableMap::COL_TELEFONO, JobEmpresaSuscritaTableMap::COL_CELULAR, JobEmpresaSuscritaTableMap::COL_STATUS, JobEmpresaSuscritaTableMap::COL_MIMETYPE, JobEmpresaSuscritaTableMap::COL_TIENE_LOGO, JobEmpresaSuscritaTableMap::COL_IP_CREACION, JobEmpresaSuscritaTableMap::COL_LAST_USER_ID, JobEmpresaSuscritaTableMap::COL_CREATION_DATE, JobEmpresaSuscritaTableMap::COL_MODIFICACION_DATE, ),
+        self::TYPE_FIELDNAME     => array('ID', 'ENTITY_TYPE_ID', 'LOCATION_ID', 'SCRAP_EMPRESA_ID', 'HASH_CODE', 'NOMBRE', 'NIT', 'EMAIL', 'DIRECCION', 'REPRESENTANTE', 'TELEFONO', 'CELULAR', 'STATUS', 'MIMETYPE', 'TIENE_LOGO', 'IP_CREACION', 'LAST_USER_ID', 'CREATION_DATE', 'MODIFICACION_DATE', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, )
     );
 
     /**
@@ -187,11 +192,11 @@ class JobEmpresaSuscritaTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'EntityTypeId' => 1, 'LocationId' => 2, 'ScrapEmpresaId' => 3, 'HashCode' => 4, 'Nombre' => 5, 'Nit' => 6, 'Email' => 7, 'Direccion' => 8, 'Representante' => 9, 'Telefono' => 10, 'Celular' => 11, 'Status' => 12, 'Mimetype' => 13, 'TieneLogo' => 14, 'LastUserId' => 15, 'CreationDate' => 16, 'ModificacionDate' => 17, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'entityTypeId' => 1, 'locationId' => 2, 'scrapEmpresaId' => 3, 'hashCode' => 4, 'nombre' => 5, 'nit' => 6, 'email' => 7, 'direccion' => 8, 'representante' => 9, 'telefono' => 10, 'celular' => 11, 'status' => 12, 'mimetype' => 13, 'tieneLogo' => 14, 'lastUserId' => 15, 'creationDate' => 16, 'modificacionDate' => 17, ),
-        self::TYPE_COLNAME       => array(JobEmpresaSuscritaTableMap::COL_ID => 0, JobEmpresaSuscritaTableMap::COL_ENTITY_TYPE_ID => 1, JobEmpresaSuscritaTableMap::COL_LOCATION_ID => 2, JobEmpresaSuscritaTableMap::COL_SCRAP_EMPRESA_ID => 3, JobEmpresaSuscritaTableMap::COL_HASH_CODE => 4, JobEmpresaSuscritaTableMap::COL_NOMBRE => 5, JobEmpresaSuscritaTableMap::COL_NIT => 6, JobEmpresaSuscritaTableMap::COL_EMAIL => 7, JobEmpresaSuscritaTableMap::COL_DIRECCION => 8, JobEmpresaSuscritaTableMap::COL_REPRESENTANTE => 9, JobEmpresaSuscritaTableMap::COL_TELEFONO => 10, JobEmpresaSuscritaTableMap::COL_CELULAR => 11, JobEmpresaSuscritaTableMap::COL_STATUS => 12, JobEmpresaSuscritaTableMap::COL_MIMETYPE => 13, JobEmpresaSuscritaTableMap::COL_TIENE_LOGO => 14, JobEmpresaSuscritaTableMap::COL_LAST_USER_ID => 15, JobEmpresaSuscritaTableMap::COL_CREATION_DATE => 16, JobEmpresaSuscritaTableMap::COL_MODIFICACION_DATE => 17, ),
-        self::TYPE_FIELDNAME     => array('ID' => 0, 'ENTITY_TYPE_ID' => 1, 'LOCATION_ID' => 2, 'SCRAP_EMPRESA_ID' => 3, 'HASH_CODE' => 4, 'NOMBRE' => 5, 'NIT' => 6, 'EMAIL' => 7, 'DIRECCION' => 8, 'REPRESENTANTE' => 9, 'TELEFONO' => 10, 'CELULAR' => 11, 'STATUS' => 12, 'MIMETYPE' => 13, 'TIENE_LOGO' => 14, 'LAST_USER_ID' => 15, 'CREATION_DATE' => 16, 'MODIFICACION_DATE' => 17, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'EntityTypeId' => 1, 'LocationId' => 2, 'ScrapEmpresaId' => 3, 'HashCode' => 4, 'Nombre' => 5, 'Nit' => 6, 'Email' => 7, 'Direccion' => 8, 'Representante' => 9, 'Telefono' => 10, 'Celular' => 11, 'Status' => 12, 'Mimetype' => 13, 'TieneLogo' => 14, 'IpCreacion' => 15, 'LastUserId' => 16, 'CreationDate' => 17, 'ModificacionDate' => 18, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'entityTypeId' => 1, 'locationId' => 2, 'scrapEmpresaId' => 3, 'hashCode' => 4, 'nombre' => 5, 'nit' => 6, 'email' => 7, 'direccion' => 8, 'representante' => 9, 'telefono' => 10, 'celular' => 11, 'status' => 12, 'mimetype' => 13, 'tieneLogo' => 14, 'ipCreacion' => 15, 'lastUserId' => 16, 'creationDate' => 17, 'modificacionDate' => 18, ),
+        self::TYPE_COLNAME       => array(JobEmpresaSuscritaTableMap::COL_ID => 0, JobEmpresaSuscritaTableMap::COL_ENTITY_TYPE_ID => 1, JobEmpresaSuscritaTableMap::COL_LOCATION_ID => 2, JobEmpresaSuscritaTableMap::COL_SCRAP_EMPRESA_ID => 3, JobEmpresaSuscritaTableMap::COL_HASH_CODE => 4, JobEmpresaSuscritaTableMap::COL_NOMBRE => 5, JobEmpresaSuscritaTableMap::COL_NIT => 6, JobEmpresaSuscritaTableMap::COL_EMAIL => 7, JobEmpresaSuscritaTableMap::COL_DIRECCION => 8, JobEmpresaSuscritaTableMap::COL_REPRESENTANTE => 9, JobEmpresaSuscritaTableMap::COL_TELEFONO => 10, JobEmpresaSuscritaTableMap::COL_CELULAR => 11, JobEmpresaSuscritaTableMap::COL_STATUS => 12, JobEmpresaSuscritaTableMap::COL_MIMETYPE => 13, JobEmpresaSuscritaTableMap::COL_TIENE_LOGO => 14, JobEmpresaSuscritaTableMap::COL_IP_CREACION => 15, JobEmpresaSuscritaTableMap::COL_LAST_USER_ID => 16, JobEmpresaSuscritaTableMap::COL_CREATION_DATE => 17, JobEmpresaSuscritaTableMap::COL_MODIFICACION_DATE => 18, ),
+        self::TYPE_FIELDNAME     => array('ID' => 0, 'ENTITY_TYPE_ID' => 1, 'LOCATION_ID' => 2, 'SCRAP_EMPRESA_ID' => 3, 'HASH_CODE' => 4, 'NOMBRE' => 5, 'NIT' => 6, 'EMAIL' => 7, 'DIRECCION' => 8, 'REPRESENTANTE' => 9, 'TELEFONO' => 10, 'CELULAR' => 11, 'STATUS' => 12, 'MIMETYPE' => 13, 'TIENE_LOGO' => 14, 'IP_CREACION' => 15, 'LAST_USER_ID' => 16, 'CREATION_DATE' => 17, 'MODIFICACION_DATE' => 18, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, )
     );
 
     /**
@@ -226,6 +231,7 @@ class JobEmpresaSuscritaTableMap extends TableMap
         $this->addColumn('STATUS', 'Status', 'VARCHAR', true, 30, 'INITIAL');
         $this->addColumn('MIMETYPE', 'Mimetype', 'VARCHAR', false, 20, null);
         $this->addColumn('TIENE_LOGO', 'TieneLogo', 'BOOLEAN', true, 1, false);
+        $this->addColumn('IP_CREACION', 'IpCreacion', 'VARCHAR', true, 30, null);
         $this->addColumn('LAST_USER_ID', 'LastUserId', 'INTEGER', true, null, 0);
         $this->addColumn('CREATION_DATE', 'CreationDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');
         $this->addColumn('MODIFICACION_DATE', 'ModificacionDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');
@@ -422,6 +428,7 @@ class JobEmpresaSuscritaTableMap extends TableMap
             $criteria->addSelectColumn(JobEmpresaSuscritaTableMap::COL_STATUS);
             $criteria->addSelectColumn(JobEmpresaSuscritaTableMap::COL_MIMETYPE);
             $criteria->addSelectColumn(JobEmpresaSuscritaTableMap::COL_TIENE_LOGO);
+            $criteria->addSelectColumn(JobEmpresaSuscritaTableMap::COL_IP_CREACION);
             $criteria->addSelectColumn(JobEmpresaSuscritaTableMap::COL_LAST_USER_ID);
             $criteria->addSelectColumn(JobEmpresaSuscritaTableMap::COL_CREATION_DATE);
             $criteria->addSelectColumn(JobEmpresaSuscritaTableMap::COL_MODIFICACION_DATE);
@@ -441,6 +448,7 @@ class JobEmpresaSuscritaTableMap extends TableMap
             $criteria->addSelectColumn($alias . '.STATUS');
             $criteria->addSelectColumn($alias . '.MIMETYPE');
             $criteria->addSelectColumn($alias . '.TIENE_LOGO');
+            $criteria->addSelectColumn($alias . '.IP_CREACION');
             $criteria->addSelectColumn($alias . '.LAST_USER_ID');
             $criteria->addSelectColumn($alias . '.CREATION_DATE');
             $criteria->addSelectColumn($alias . '.MODIFICACION_DATE');

@@ -14,8 +14,10 @@
 
 <section class="timeline gray-section">
 
-    <div class="container text-left" style="background: url(http://localhost/empleos.click/App/public/img/banner-empresa.jpg) no-repeat !important;">
-        <div class="row">
+<!--    <div class="container text-left" style="background: url(http://localhost/empleos.click/App/public/img/banner-empresa.jpg) no-repeat !important;">-->
+<!--            <div class="row">-->
+    <div class="container text-left">
+        <div class="row" style="background: url(http://localhost/empleos.click/App/public/img/banner-empresa.jpg) no-repeat !important;">
             <div id="divSuscripcion" class="col-lg-4 col-md-6 col-sm-12 col-xs-12 pull-right">
 
                 <fieldset id="form-p-0" role="tabpanel" aria-labelledby="form-h-0" class="body current formFieldset" aria-hidden="false" style="padding: 2.5%;">
@@ -43,7 +45,7 @@
                         <div class="form-group">
                             <label>Tipo de empresa</label>
                             <select id="EntityTypeId" name="EntityTypeId" class="form-control required">
-                                <option value="">- Selecciomar -</option>
+                                <option value="">- Seleccionar -</option>
                                 <?php
                                 foreach ($entityTypeList as $entityType) {
                                 ?>
@@ -65,30 +67,29 @@
 
         <div style="clear: both;"></div>
 
-
         <div class="row">
             <div class="col-sm-3 text-justify">
-                <h2><span class="text-blue">5000+</span> visitas al mes</h2>
-                <p><strong>Empleos.Click</strong> ya tiene garantizado un tráfico mensual de más de 5000 personas. Técnicos y profesionales,
+                <h2><span class="text-blue">8000+</span> visitas al mes</h2>
+                <p><strong>Empleos.Click</strong> ya tiene garantizado un tráfico mensual de más de 8000 personas. Técnicos y profesionales,
                     que visitan nuestro portal y se constituyen en potenciales prospectos en busca de nuevas oportunidades laborales.
                 </p>
 <!--                <p><a class="navy-link" href="#" role="button">Details »</a></p>-->
             </div>
             <div class="col-sm-3 text-justify">
-                <h2><span class="text-blue">3000+</span> fans en Facebook</h2>
-                <p>Sorpresivamente hemos conseguido como portal oficial de empleos, más de 2500 fans en nuestra página de facebook,
-                    y tenemos semanalmente mas de 800 interacciones desde nuestra página.</p>
+                <h2><span class="text-blue">5000+</span> fans en Facebook</h2>
+                <p>Sorpresivamente hemos conseguido como portal oficial de empleos, más de 5000 fans en nuestra página de facebook,
+                    y tenemos semanalmente miles de interacciones desde nuestra página.</p>
 <!--                <p><a class="navy-link" href="#" role="button">Details »</a></p>-->
             </div>
             <div class="col-sm-3 text-justify">
-                <h2><span class="text-blue">600+</span> suscriptores</h2>
-                <p>Gracias a la confianza depositada por los visitantes, nuestro sistema ya cuenta con más de 600 suscriptores,
-                    a quienes notificamos periódicamente sobre convocatorias que detectamos pueden ser de su interés.</p>
+                <h2><span class="text-blue">1300+</span> suscriptores</h2>
+                <p>Gracias a la confianza depositada por los visitantes, nuestro sistema ya cuenta con más de 1300 suscriptores,
+                    a quienes notificamos periódicamente sobre convocatorias que pueden ser de su interés laboral.</p>
 <!--                <p><a class="navy-link" href="#" role="button">Details »</a></p>-->
             </div>
             <div class="col-sm-3 text-justify">
                 <h2><span class="text-blue">Máximo</span> rendimiento</h2>
-                <p>Desde el mes de septiembre de 2017, <strong>Empleos.Click</strong> se constituye en el portal de referencia para la
+                <p>Desde el mes de octubre de 2017, <strong>Empleos.Click</strong> se constituye en el portal boliviano de referencia para la
                     conexión de empleos, en los pocos meses nuestor alto rendimiento nos consolidadó en un importante mecanismo de contacto
                     entre especialistas y empresas.
                 </p>
@@ -102,7 +103,7 @@
                     <div class="col-lg-12 text-center">
                         <div class="navy-line"></div>
                         <h1>El mejor canal gratuito para tus anuncios</h1>
-                        <p>Ponemos tus anuncios al alcance de más de 5000 personas que estan en busca de empleo</p>
+                        <p>Ponemos tus anuncios al alcance de más de 8000 personas que estan en busca de empleo</p>
                     </div>
 <!--                </div>-->
 <!--                <div class="row">-->
@@ -151,12 +152,32 @@
     </div>
 </div>
 
+<div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content panel panel-success">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h1 class="text-center">¡Empleos.Click te ayuda!</h1>
+            </div>
+            <div class="panel-body">
+                <div class="text-success">
+                    Empleos.Click ahora te ayuda ahora más.
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
 jQuery(document).ready(function() {
 
     $("#formSuscripcion").formAjaxPost({
         'beforeSend': function(xhr){
             $("#divSuscripcion").parent().mask("");
+            $("#formSuscripcion").find('div.help-block').remove();
+            $("#formSuscripcion").find('div.has-error').removeClass('has-error');
         },
         'onErrors': function ($form, errors) {
             $form.find('div.help-block').remove();
@@ -176,15 +197,16 @@ jQuery(document).ready(function() {
         'onSuccess': function (data) {
             // $("#formSuscripcion").reset();
             $("#divSuscripcion").parent().unmask();
-            alert("Registro completado!");
             $("#myModal .panel-body").html(
-            "<br /><div class=\"alert alert-success\">" +
-            "En breve recibirás un correo de confirmación en: <strong>" + $("#Email").val()+ "</strong>" +
-            " , si no lo encuentras en tu Bandeja de Entrada por favor verifica en Spam y márcanos como correo confiable." +
-            " <br /> ¡Empleos.Click siempre a tu servicio!." +
-            "</div>" +
-            "<button type=\"button\" class=\"btn btn-sm btn-success block full-width m-b\" data-dismiss=\"modal\">Ok, revisare mi correo</button>"
-        );
+                "<br /><div class=\"alert alert-success\">" +
+                "En breve recibirás un correo de confirmación en <strong>" + $("#Email").val() + "</strong>" +
+                " y podrás publicar los anuncios de  <strong>" + $("#Nombre").val() + "</strong>" +
+                " .</br /> Sí no lo encuentras en tu Bandeja de Entrada por favor verifica en Spam y márcanos como correo confiable." +
+                " <br /> ¡Empleos.Click te ayuda a conseguir los talentos que necesitas!." +
+                "</div>" +
+                "<button type=\"button\" class=\"btn btn-sm btn-success block full-width m-b\" data-dismiss=\"modal\">Ok, revisaré mi correo</button>"
+            );
+            $("#myModal").modal('show');
         }
     });
 

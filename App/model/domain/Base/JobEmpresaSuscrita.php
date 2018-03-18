@@ -181,6 +181,13 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
     protected $tiene_logo;
 
     /**
+     * The value for the ip_creacion field.
+     *
+     * @var        string
+     */
+    protected $ip_creacion;
+
+    /**
      * The value for the last_user_id field.
      *
      * Note: this column has a database default value of: 0
@@ -647,6 +654,16 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
     }
 
     /**
+     * Get the [ip_creacion] column value.
+     *
+     * @return string
+     */
+    public function getIpCreacion()
+    {
+        return $this->ip_creacion;
+    }
+
+    /**
      * Get the [last_user_id] column value.
      *
      * @return int
@@ -1013,6 +1030,26 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
     } // setTieneLogo()
 
     /**
+     * Set the value of [ip_creacion] column.
+     *
+     * @param string $v new value
+     * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
+     */
+    public function setIpCreacion($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->ip_creacion !== $v) {
+            $this->ip_creacion = $v;
+            $this->modifiedColumns[JobEmpresaSuscritaTableMap::COL_IP_CREACION] = true;
+        }
+
+        return $this;
+    } // setIpCreacion()
+
+    /**
      * Set the value of [last_user_id] column.
      *
      * @param int $v new value
@@ -1165,16 +1202,19 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 14 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('TieneLogo', TableMap::TYPE_PHPNAME, $indexType)];
             $this->tiene_logo = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 15 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('LastUserId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 15 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('IpCreacion', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->ip_creacion = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 16 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('LastUserId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->last_user_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 16 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('CreationDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 17 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('CreationDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->creation_date = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 17 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('ModificacionDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 18 + $startcol : JobEmpresaSuscritaTableMap::translateFieldName('ModificacionDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
@@ -1187,7 +1227,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 18; // 18 = JobEmpresaSuscritaTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 19; // 19 = JobEmpresaSuscritaTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\JobEmpresaSuscrita'), 0, $e);
@@ -1499,6 +1539,9 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
         if ($this->isColumnModified(JobEmpresaSuscritaTableMap::COL_TIENE_LOGO)) {
             $modifiedColumns[':p' . $index++]  = 'TIENE_LOGO';
         }
+        if ($this->isColumnModified(JobEmpresaSuscritaTableMap::COL_IP_CREACION)) {
+            $modifiedColumns[':p' . $index++]  = 'IP_CREACION';
+        }
         if ($this->isColumnModified(JobEmpresaSuscritaTableMap::COL_LAST_USER_ID)) {
             $modifiedColumns[':p' . $index++]  = 'LAST_USER_ID';
         }
@@ -1563,6 +1606,9 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
                         break;
                     case 'TIENE_LOGO':
                         $stmt->bindValue($identifier, (int) $this->tiene_logo, PDO::PARAM_INT);
+                        break;
+                    case 'IP_CREACION':
+                        $stmt->bindValue($identifier, $this->ip_creacion, PDO::PARAM_STR);
                         break;
                     case 'LAST_USER_ID':
                         $stmt->bindValue($identifier, $this->last_user_id, PDO::PARAM_INT);
@@ -1681,12 +1727,15 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
                 return $this->getTieneLogo();
                 break;
             case 15:
-                return $this->getLastUserId();
+                return $this->getIpCreacion();
                 break;
             case 16:
-                return $this->getCreationDate();
+                return $this->getLastUserId();
                 break;
             case 17:
+                return $this->getCreationDate();
+                break;
+            case 18:
                 return $this->getModificacionDate();
                 break;
             default:
@@ -1734,16 +1783,17 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
             $keys[12] => $this->getStatus(),
             $keys[13] => $this->getMimetype(),
             $keys[14] => $this->getTieneLogo(),
-            $keys[15] => $this->getLastUserId(),
-            $keys[16] => $this->getCreationDate(),
-            $keys[17] => $this->getModificacionDate(),
+            $keys[15] => $this->getIpCreacion(),
+            $keys[16] => $this->getLastUserId(),
+            $keys[17] => $this->getCreationDate(),
+            $keys[18] => $this->getModificacionDate(),
         );
-        if ($result[$keys[16]] instanceof \DateTimeInterface) {
-            $result[$keys[16]] = $result[$keys[16]]->format('c');
-        }
-
         if ($result[$keys[17]] instanceof \DateTimeInterface) {
             $result[$keys[17]] = $result[$keys[17]]->format('c');
+        }
+
+        if ($result[$keys[18]] instanceof \DateTimeInterface) {
+            $result[$keys[18]] = $result[$keys[18]]->format('c');
         }
 
         $virtualColumns = $this->virtualColumns;
@@ -1892,12 +1942,15 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
                 $this->setTieneLogo($value);
                 break;
             case 15:
-                $this->setLastUserId($value);
+                $this->setIpCreacion($value);
                 break;
             case 16:
-                $this->setCreationDate($value);
+                $this->setLastUserId($value);
                 break;
             case 17:
+                $this->setCreationDate($value);
+                break;
+            case 18:
                 $this->setModificacionDate($value);
                 break;
         } // switch()
@@ -1972,13 +2025,16 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
             $this->setTieneLogo($arr[$keys[14]]);
         }
         if (array_key_exists($keys[15], $arr)) {
-            $this->setLastUserId($arr[$keys[15]]);
+            $this->setIpCreacion($arr[$keys[15]]);
         }
         if (array_key_exists($keys[16], $arr)) {
-            $this->setCreationDate($arr[$keys[16]]);
+            $this->setLastUserId($arr[$keys[16]]);
         }
         if (array_key_exists($keys[17], $arr)) {
-            $this->setModificacionDate($arr[$keys[17]]);
+            $this->setCreationDate($arr[$keys[17]]);
+        }
+        if (array_key_exists($keys[18], $arr)) {
+            $this->setModificacionDate($arr[$keys[18]]);
         }
     }
 
@@ -2065,6 +2121,9 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
         }
         if ($this->isColumnModified(JobEmpresaSuscritaTableMap::COL_TIENE_LOGO)) {
             $criteria->add(JobEmpresaSuscritaTableMap::COL_TIENE_LOGO, $this->tiene_logo);
+        }
+        if ($this->isColumnModified(JobEmpresaSuscritaTableMap::COL_IP_CREACION)) {
+            $criteria->add(JobEmpresaSuscritaTableMap::COL_IP_CREACION, $this->ip_creacion);
         }
         if ($this->isColumnModified(JobEmpresaSuscritaTableMap::COL_LAST_USER_ID)) {
             $criteria->add(JobEmpresaSuscritaTableMap::COL_LAST_USER_ID, $this->last_user_id);
@@ -2175,6 +2234,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
         $copyObj->setStatus($this->getStatus());
         $copyObj->setMimetype($this->getMimetype());
         $copyObj->setTieneLogo($this->getTieneLogo());
+        $copyObj->setIpCreacion($this->getIpCreacion());
         $copyObj->setLastUserId($this->getLastUserId());
         $copyObj->setCreationDate($this->getCreationDate());
         $copyObj->setModificacionDate($this->getModificacionDate());
@@ -2927,6 +2987,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
         $this->status = null;
         $this->mimetype = null;
         $this->tiene_logo = null;
+        $this->ip_creacion = null;
         $this->last_user_id = null;
         $this->creation_date = null;
         $this->modificacion_date = null;

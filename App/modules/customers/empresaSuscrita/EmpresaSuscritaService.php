@@ -104,14 +104,9 @@ class EmpresaSuscritaService extends GenericService
             $empresaSuscrita = $results['object'];
             $empresaSuscrita->save();
             // TODO: hash encrypt to base64 * 2
-            $hashLink = $empresaSuscrita->getHashCode();
+            $hash = SpecialStrings::generateHash(20);
             $email = EmailService::instance()->findByCode(JobEmpresaSuscrita::EMAIL_SUBSCRIPTION);
-//            $tmpArea = TmpAreaQuery::create()->findPk($suscriptor->getIdTmpArea());
-//            print_r($suscriptor);
-//            echo "\n Codigo : ";
-//            echo $suscriptor->getIdTmpArea()."\n";
-//            print_r($tmpArea); exit();
-            $linkRegistro = WEB_ROOT . 'bolsa/trabajo/completar/' . $hashLink;
+            $linkRegistro = WEB_ROOT . 'bolsa/suscripciones/empresa/' . $empresaSuscrita->getHashCode();
             $emailMap = [
                 'TrackingHash' => $hash,
                 'To' => [
@@ -272,7 +267,6 @@ class EmpresaSuscritaService extends GenericService
                 $userEmpresa->setSysRol($rol);
                 $userEmpresa->save();
                 Session::set(self::SESSION_VAR, $userEmpresa);
-                $results['success'] = true;
             } else {
                 $results['errors'] = $user->getErrorsMap();
             }
@@ -280,6 +274,11 @@ class EmpresaSuscritaService extends GenericService
                 $aviso->setJobEmpresaSuscrita($empresaSuscrita);
                 $aviso->setLastUserId($user->getId());
                 $aviso->save();
+                $results['success'] = true;
+                $results['nombreSuscriptor'] = $person->getFirstName();
+                $results['empresaSuscrita'] = $empresaSuscrita->getNombre();
+                $results['requerimientoPublicado'] = $aviso->getCargo();
+                $results['idAviso'] = $aviso->getId();
             } else {
                 $results['errors'] = $aviso->getErrorsMap();
             }

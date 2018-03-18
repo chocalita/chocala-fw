@@ -42,7 +42,7 @@ class SuscripcionesController extends AdminWebController
     public function empresa()
     {
         $this->view->changeLayout('public');
-        $empresaSuscrita = JobEmpresaSuscritaQuery::create()->findOneByHashCode(Req::_('hc'));
+        $empresaSuscrita = JobEmpresaSuscritaQuery::create()->findOneByHashCode($this->id);
         if (is_object($empresaSuscrita)) {
             if ($empresaSuscrita->getStatus() == JobEmpresaSuscrita::STATUS_INITIAL) {
                 $esEmpresaFormal = $empresaSuscrita->getSysEntityType()->getGroupCode() == SysEntityType::GROUP_FORMAL_COMPANY;
@@ -57,10 +57,10 @@ class SuscripcionesController extends AdminWebController
                 $this->set('nivelesFormacion', JobAviso::$nivelesFormacion);
                 $this->set('formacionReferenciaList', $formacionReferenciaList);
             } else {
-                $this->redirectTo(URI::toModule() . 'trabajo/empresa');
+                $this->redirectTo(WEB_ROOT);
             }
         } else {
-            $this->redirectTo(URI::toModule() . 'trabajo/empresa');
+            $this->redirectTo(['url' => URI::toModule() . 'trabajo/empresa']);
         }
     }
 
@@ -123,8 +123,15 @@ class SuscripcionesController extends AdminWebController
             $data = Req::all();
             $results = $this->empresaSuscritaService->finalizarSuscripcion($data);
         }
+
         $this->set('success', $results['success']);
         $this->set('errors', $results['errors']);
+        if ($results['success']) {
+            $this->set('nombreSuscriptor', $results['nombreSuscriptor']);
+            $this->set('empresaSuscrita', $results['empresaSuscrita']);
+            $this->set('requerimientoPublicado', $results['requerimientoPublicado']);
+            $this->set('idAviso', $results['idAviso']);
+        }
         $this->renderAsJSON();
     }
 

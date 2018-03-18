@@ -29,8 +29,8 @@
                     /** @var $aviso JobAviso */
                 $i++;
                 ?>
-                    <div class="col-md-4">
-                        <div class="agile-box info-element ">
+                    <div id="aviso-<?=$aviso->getId();?>" class="col-md-4">
+                        <div class="agile-box info-element">
                             <?php
                             if($aviso->getDestacado()) {
                             ?>
@@ -147,9 +147,6 @@
     </div>
 </div>
 
-<?php
-if(isset($SUSCRIPCION_MSG_COOKIE)) {
-?>
     <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content panel panel-success">
@@ -198,9 +195,6 @@ if(isset($SUSCRIPCION_MSG_COOKIE)) {
             </div>
         </div>
     </div>
-    <?php
-}
-?>
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
@@ -246,7 +240,7 @@ jQuery(document).ready(function() {
                     " , si no lo encuentras en tu Bandeja de Entrada por favor verifica en Spam y márcanos como correo confiable." +
                     " <br /> ¡Empleos.Click siempre a tu servicio!." +
                 "</div>" +
-                "<button type=\"button\" class=\"btn btn-sm btn-success block full-width m-b\" data-dismiss=\"modal\">Ok, revisare mi correo</button>"
+                "<button type=\"button\" class=\"btn btn-sm btn-success block full-width m-b\" data-dismiss=\"modal\">Ok, revisaré mi correo</button>"
             );
             $(".modal-dialog").unmask();
         }

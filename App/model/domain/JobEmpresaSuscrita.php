@@ -45,6 +45,7 @@ class JobEmpresaSuscrita extends BaseJobEmpresaSuscrita implements JsonSerializa
         'Representante' => [
             'null' => false, 'blank' => false,
             'size' => ['min' => 2, 'max' => 100],
+            'validator' => true
         ],
         'Nit' => [
             'null' => true, 'blank' => false,
@@ -73,6 +74,14 @@ class JobEmpresaSuscrita extends BaseJobEmpresaSuscrita implements JsonSerializa
     {
         if (!$this->isInitial() && !is_object($this->getSysLocation())) {
             return 'validate.required';
+        }
+        return true;
+    }
+
+    public function __validateRepresentante($value)
+    {
+        if (trim($value) != '' && (strpos($value, ' ') === false || strlen($value)< 7)) {
+            return 'validate.nombreCompleto';
         }
         return true;
     }

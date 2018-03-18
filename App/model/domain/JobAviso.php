@@ -53,12 +53,12 @@ class JobAviso extends BaseJobAviso implements JsonSerializable
         ],
         'Descripcion' => [
             'null' => true, 'blank' => false,
-            'size' => ['min' => 5, 'max' => 2000],
+            'size' => ['min' => 10, 'max' => 5000],
             'validator' => true
         ],
         'Requisito' => [
             'null' => false, 'blank' => false,
-            'size' => ['min' => 2, 'max' => 2000],
+            'size' => ['min' => 10, 'max' => 5000],
         ],
         'NombreEmpresa' => [
             'null' => false, 'blank' => false,

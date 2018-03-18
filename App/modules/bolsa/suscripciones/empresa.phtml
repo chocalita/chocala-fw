@@ -29,7 +29,7 @@
 
         <br />
 
-        <div class="row">
+        <div id="rowSuscripcion" class="row">
             <div class="col-lg-12">
                 <div class="ibox">
                     <div class="ibox-title">
@@ -338,6 +338,10 @@
 
                                 <div class="col-xs-12">
 
+                                    <div class="alert alert-info">
+                                        Debe ingresar datos del requerimiento a publicar y las direcciones donde se recepcionaran postulaciones.
+                                    </div>
+
                                     <div class="form-group">
                                         <label class="control-label col-sm-3" for="Cargo">Cargo</label>
                                         <div class="col-sm-9">
@@ -421,7 +425,6 @@
                                     </div>
 
 
-
                                     <div class="form-group">
                                         <div class="col-sm-6">
 
@@ -503,6 +506,54 @@
             </div>
 
         </div>
+
+        <div id="rowSuscrito" class="row" style="display: none;">
+            <section class="features">
+                <div class="container">
+                    <!--                <div class="row">-->
+                    <div class="col-lg-12 text-center">
+                        <div class="navy-line"></div>
+                        <h1>Se inició la difusión de tu anuncio</h1>
+                        <p>Tu anuncio ya está al alcance de más de 8000 personas que estan en busca de empleo</p>
+
+                        <div class="alert alert-success">¡Felicidades <strong id="nombreSuscriptor"></strong>! Has completado el registro de la empresa <strong id="empresaSuscrita"></strong>
+                            y publicaste su primer requerimiento de personal para <strong id="requerimientoPublicado"></strong>.
+                            <br />
+                            Tu anuncio ya se encuentra disponible para los visitantes de Empleos.Click,
+                            sí desear ver el anuncio que publicaste puedes hacer <a href="" class="redirect">click aquí</a>.
+                            <br />
+                            ¡Empleos.Click te ayuda a conseguir los talentos que necesitas!
+                        </div>
+                        <a href="" class="btn btn-sm btn-success block full-width m-b redirect">Ver el anuncio</a>
+
+                    </div>
+                    <!--                </div>-->
+                    <!--                <div class="row">-->
+                    <div class="col-lg-5 col-lg-offset-1 features-text">
+                        <small>Empleos.Click</small>
+                        <h2>Logra amplia difusión</h2>
+                        <i class="fa fa-bullhorn big-icon pull-left"></i>
+                        <p>Registra tus ofertas de empleo con tu cuenta de empresa completamente gratis,
+                            asi logras amplio alcance a través de nuestros canales de difusión,
+                            todo completamente en línea desde la comodidad de tu hogar u oficina.
+                        </p>
+                    </div>
+                    <div class="col-lg-5 features-text">
+                        <small>Empleos.Click</small>
+                        <h2>Encuentra los mejores candidatos</h2>
+                        <i class="fa fa-users big-icon pull-right"></i>
+                        <p>Sabemos que el principal factor de desarrollo de cada empresa es el talento humano,
+                            por eso, innovamos en brindar un medio efectivo para la obtención de prospectos y candidatos
+                            que puedan cubrir de mejor manera los espacios de empleo requeridos.
+                        </p>
+                    </div>
+                    <!--                </div>-->
+                </div>
+
+            </section>
+
+        </div>
+
 
         <div style="clear: both;"></div>
 
@@ -651,7 +702,13 @@ jQuery(document).ready(function () {
                 // alert("Si ta bueno")
                 is_async_step = true;
                 if(currentIndex == 3) {
-                    window.location = "<?=URI::toPage().'publicada';?>"
+                    //window.location = "<?//=URI::toPage().'publicada';?>//"
+                    $("#rowSuscripcion").hide();
+                    $("#nombreSuscriptor").html(result.nombreSuscriptor);
+                    $("#empresaSuscrita").html(result.empresaSuscrita);
+                    $("#requerimientoPublicado").html(result.requerimientoPublicado);
+                    $("#rowSuscrito .redirect").attr("href", "<?=WEB_ROOT;?>/index.htm#aviso-" + result.idAviso);
+                    $("#rowSuscrito").fadeIn();
                 }
             }
         }).fail(function(jqXHR, textStatus){

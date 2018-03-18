@@ -46,6 +46,7 @@ return array(
     'JobEmpresaSuscrita.Representante.validate.null' => 'Debe ingresar el nombre del representante',
     'JobEmpresaSuscrita.Representante.validate.blank' => 'Debe ingresar el nombre del representante',
     'JobEmpresaSuscrita.Representante.validate.size' => 'La longitud debe ser de [{min}] a [{max}] caracteres',
+    'JobEmpresaSuscrita.Representante.validate.nombreCompleto' => 'Debe ingresar el nombre y apellido del representante',
     'JobEmpresaSuscrita.EntityTypeId.validate.null' => 'Debe especificar el tipo de empresa o negocio',
     'JobEmpresaSuscrita.EntityTypeId.validate.blank' => 'Debe especificar el tipo de empresa o negocio',
 

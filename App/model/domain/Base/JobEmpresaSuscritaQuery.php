@@ -35,6 +35,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobEmpresaSuscritaQuery orderByStatus($order = Criteria::ASC) Order by the STATUS column
  * @method     ChildJobEmpresaSuscritaQuery orderByMimetype($order = Criteria::ASC) Order by the MIMETYPE column
  * @method     ChildJobEmpresaSuscritaQuery orderByTieneLogo($order = Criteria::ASC) Order by the TIENE_LOGO column
+ * @method     ChildJobEmpresaSuscritaQuery orderByIpCreacion($order = Criteria::ASC) Order by the IP_CREACION column
  * @method     ChildJobEmpresaSuscritaQuery orderByLastUserId($order = Criteria::ASC) Order by the LAST_USER_ID column
  * @method     ChildJobEmpresaSuscritaQuery orderByCreationDate($order = Criteria::ASC) Order by the CREATION_DATE column
  * @method     ChildJobEmpresaSuscritaQuery orderByModificacionDate($order = Criteria::ASC) Order by the MODIFICACION_DATE column
@@ -54,6 +55,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobEmpresaSuscritaQuery groupByStatus() Group by the STATUS column
  * @method     ChildJobEmpresaSuscritaQuery groupByMimetype() Group by the MIMETYPE column
  * @method     ChildJobEmpresaSuscritaQuery groupByTieneLogo() Group by the TIENE_LOGO column
+ * @method     ChildJobEmpresaSuscritaQuery groupByIpCreacion() Group by the IP_CREACION column
  * @method     ChildJobEmpresaSuscritaQuery groupByLastUserId() Group by the LAST_USER_ID column
  * @method     ChildJobEmpresaSuscritaQuery groupByCreationDate() Group by the CREATION_DATE column
  * @method     ChildJobEmpresaSuscritaQuery groupByModificacionDate() Group by the MODIFICACION_DATE column
@@ -126,6 +128,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobEmpresaSuscrita findOneByStatus(string $STATUS) Return the first ChildJobEmpresaSuscrita filtered by the STATUS column
  * @method     ChildJobEmpresaSuscrita findOneByMimetype(string $MIMETYPE) Return the first ChildJobEmpresaSuscrita filtered by the MIMETYPE column
  * @method     ChildJobEmpresaSuscrita findOneByTieneLogo(boolean $TIENE_LOGO) Return the first ChildJobEmpresaSuscrita filtered by the TIENE_LOGO column
+ * @method     ChildJobEmpresaSuscrita findOneByIpCreacion(string $IP_CREACION) Return the first ChildJobEmpresaSuscrita filtered by the IP_CREACION column
  * @method     ChildJobEmpresaSuscrita findOneByLastUserId(int $LAST_USER_ID) Return the first ChildJobEmpresaSuscrita filtered by the LAST_USER_ID column
  * @method     ChildJobEmpresaSuscrita findOneByCreationDate(string $CREATION_DATE) Return the first ChildJobEmpresaSuscrita filtered by the CREATION_DATE column
  * @method     ChildJobEmpresaSuscrita findOneByModificacionDate(string $MODIFICACION_DATE) Return the first ChildJobEmpresaSuscrita filtered by the MODIFICACION_DATE column *
@@ -148,6 +151,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobEmpresaSuscrita requireOneByStatus(string $STATUS) Return the first ChildJobEmpresaSuscrita filtered by the STATUS column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobEmpresaSuscrita requireOneByMimetype(string $MIMETYPE) Return the first ChildJobEmpresaSuscrita filtered by the MIMETYPE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobEmpresaSuscrita requireOneByTieneLogo(boolean $TIENE_LOGO) Return the first ChildJobEmpresaSuscrita filtered by the TIENE_LOGO column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobEmpresaSuscrita requireOneByIpCreacion(string $IP_CREACION) Return the first ChildJobEmpresaSuscrita filtered by the IP_CREACION column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobEmpresaSuscrita requireOneByLastUserId(int $LAST_USER_ID) Return the first ChildJobEmpresaSuscrita filtered by the LAST_USER_ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobEmpresaSuscrita requireOneByCreationDate(string $CREATION_DATE) Return the first ChildJobEmpresaSuscrita filtered by the CREATION_DATE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobEmpresaSuscrita requireOneByModificacionDate(string $MODIFICACION_DATE) Return the first ChildJobEmpresaSuscrita filtered by the MODIFICACION_DATE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -168,6 +172,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobEmpresaSuscrita[]|ObjectCollection findByStatus(string $STATUS) Return ChildJobEmpresaSuscrita objects filtered by the STATUS column
  * @method     ChildJobEmpresaSuscrita[]|ObjectCollection findByMimetype(string $MIMETYPE) Return ChildJobEmpresaSuscrita objects filtered by the MIMETYPE column
  * @method     ChildJobEmpresaSuscrita[]|ObjectCollection findByTieneLogo(boolean $TIENE_LOGO) Return ChildJobEmpresaSuscrita objects filtered by the TIENE_LOGO column
+ * @method     ChildJobEmpresaSuscrita[]|ObjectCollection findByIpCreacion(string $IP_CREACION) Return ChildJobEmpresaSuscrita objects filtered by the IP_CREACION column
  * @method     ChildJobEmpresaSuscrita[]|ObjectCollection findByLastUserId(int $LAST_USER_ID) Return ChildJobEmpresaSuscrita objects filtered by the LAST_USER_ID column
  * @method     ChildJobEmpresaSuscrita[]|ObjectCollection findByCreationDate(string $CREATION_DATE) Return ChildJobEmpresaSuscrita objects filtered by the CREATION_DATE column
  * @method     ChildJobEmpresaSuscrita[]|ObjectCollection findByModificacionDate(string $MODIFICACION_DATE) Return ChildJobEmpresaSuscrita objects filtered by the MODIFICACION_DATE column
@@ -269,7 +274,7 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT ID, ENTITY_TYPE_ID, LOCATION_ID, SCRAP_EMPRESA_ID, HASH_CODE, NOMBRE, NIT, EMAIL, DIRECCION, REPRESENTANTE, TELEFONO, CELULAR, STATUS, MIMETYPE, TIENE_LOGO, LAST_USER_ID, CREATION_DATE, MODIFICACION_DATE FROM job_empresa_suscrita WHERE ID = :p0';
+        $sql = 'SELECT ID, ENTITY_TYPE_ID, LOCATION_ID, SCRAP_EMPRESA_ID, HASH_CODE, NOMBRE, NIT, EMAIL, DIRECCION, REPRESENTANTE, TELEFONO, CELULAR, STATUS, MIMETYPE, TIENE_LOGO, IP_CREACION, LAST_USER_ID, CREATION_DATE, MODIFICACION_DATE FROM job_empresa_suscrita WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -802,6 +807,31 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(JobEmpresaSuscritaTableMap::COL_TIENE_LOGO, $tieneLogo, $comparison);
+    }
+
+    /**
+     * Filter the query on the IP_CREACION column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByIpCreacion('fooValue');   // WHERE IP_CREACION = 'fooValue'
+     * $query->filterByIpCreacion('%fooValue%', Criteria::LIKE); // WHERE IP_CREACION LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $ipCreacion The value to use as filter.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobEmpresaSuscritaQuery The current query, for fluid interface
+     */
+    public function filterByIpCreacion($ipCreacion = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($ipCreacion)) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(JobEmpresaSuscritaTableMap::COL_IP_CREACION, $ipCreacion, $comparison);
     }
 
     /**

@@ -63,7 +63,7 @@ class TrabajoController extends PublicWebController
         $this->set('avisosEven', $avisosEven);
         // TODO: send an email on suscription
         if (!Cookie::has(self::SUSCRIPCION_MSG_COOKIE)) {
-            $formacionReferenciaList = $this->formacionReferenciaService->dataList();
+            $formacionReferenciaList = $this->formacionReferenciaService->dataList(['activo' => true]);
             $this->set('formacionReferenciaList', $formacionReferenciaList);
             $this->set('SUSCRIPCION_MSG_COOKIE', self::SUSCRIPCION_MSG_COOKIE);
         }
@@ -119,7 +119,7 @@ class TrabajoController extends PublicWebController
     public function suscribirEmpresa()
     {
         $data = Req::all();
-        $data['Ip'] = $_SERVER['REMOTE_ADDR'];
+        $data['IpCreacion'] = $_SERVER['REMOTE_ADDR'];
         $results = $this->empresaSuscritaService->insertAndNotify($data);
         $this->set('empresaSuscriptora', $results['object']);
         $this->set('success', $results['success']);
