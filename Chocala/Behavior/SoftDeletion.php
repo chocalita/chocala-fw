@@ -9,7 +9,8 @@
 interface SoftDeletion
 {
 
-    public static function create($modelAlias = null, Criteria $criteria = null);
+//    public static function create($modelAlias = null, Criteria $criteria = null);
+    public static function create($modelAlias = null, \Propel\Runtime\ActiveQuery\Criteria $criteria = null);
 
     public function filterByStatus($status = null, $comparison = null);
 

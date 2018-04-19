@@ -61,7 +61,7 @@ class AvisoController extends AdminWebController
         $aviso = new JobAviso();
         $areaList = $this->areaService->dataList();
         $areaReferenciaList = $this->areaReferenciaService->dataList();
-        $formacionReferenciaList = $this->formacionReferenciaService->dataList();
+        $formacionReferenciaList = $this->formacionReferenciaService->dataList(['activo' => true]);
         $this->set('aviso', $aviso);
         $this->set('fuentes', AppParam::param('JOB_FUENTES')->options());
         $this->set('localizaciones', AppParam::param('P_LOCALIZACIONES_AVISO')->options());
@@ -99,7 +99,7 @@ class AvisoController extends AdminWebController
             $aviso = $this->objectIfExist();
             $areaList = $this->areaService->dataList();
             $areaReferenciaList = $this->areaReferenciaService->dataList();
-            $formacionReferenciaList = $this->formacionReferenciaService->dataList();
+            $formacionReferenciaList = $this->formacionReferenciaService->dataList(['activo' => true]);
             $this->set('aviso', $aviso);
             $this->set('fuentes', AppParam::param('JOB_FUENTES')->options());
             $this->set('localizaciones', AppParam::param('P_LOCALIZACIONES_AVISO')->options());

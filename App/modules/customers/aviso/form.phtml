@@ -93,13 +93,13 @@
     </div>
 </div>
 
-<!--<div class="form-group">-->
-<!--    <label class="control-label col-sm-3" for="Descripcion">Descripcion del Puesto</label>-->
-<!--    <div class="col-sm-9">-->
-<!--        <textarea id="Descripcion"  name="Descripcion"-->
-<!--                  class="form-control" rows="2" cols="20" placeholder="Descripción del puesto...">--><?//=$aviso? $aviso->getDescripcion(): '';?><!--</textarea>-->
-<!--    </div>-->
-<!--</div>-->
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Descripcion">Descripción del Puesto</label>
+    <div class="col-sm-9">
+        <textarea id="Descripcion"  name="Descripcion"
+                  class="form-control" rows="2" cols="20" placeholder="Descripción del puesto..."><?=$aviso? $aviso->getDescripcion(): '';?></textarea>
+    </div>
+</div>
 
 <div class="form-group">
     <label class="control-label col-sm-3" for="Requisito">Requisitos</label>
@@ -193,6 +193,7 @@
     <h3>Areas Laborales</h3>
     <div class="col-sm-12">
         <?php
+        $areaReferenciaList = [];
         foreach($areaReferenciaList as $areaReferencia):
             $check = $aviso && $aviso->tieneArea($areaReferencia)? 'checked="yes"': '';
             ?>
