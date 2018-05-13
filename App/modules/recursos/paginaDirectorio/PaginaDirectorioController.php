@@ -41,4 +41,9 @@ class PaginaDirectorioController extends AdminWebController
         $this->render("FINALIZADO");
     }
 
+    public function prueba()
+    {
+        $this->paginaDirectorioService->scraping();
+    }
+
 }

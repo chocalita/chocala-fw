@@ -46,7 +46,7 @@
                             </div>
 -->
                             <div class="agile-detail">
-                                <a href="<?= URI::toPage().'empleo/'.$aviso->getId().'/'.SpecialStrings::text2Url(trim($aviso->getCargo()))."/".SpecialStrings::text2Url(ucwords(strtolower(trim($aviso->getNombreEmpresa())))); ?>"class="pull-right btn btn-xs btn-primary" data-toggle="modal" data-target="#modalDetalle<?=$aviso->getTieneImagen()? 'Big': '';?>">Ver Detalles</a>
+                                <a href="<?= WEB_ROOT.'bolsa/trabajo/empleo/'.$aviso->getId().'/'.SpecialStrings::text2Url(trim($aviso->getCargo()))."/".SpecialStrings::text2Url(ucwords(strtolower(trim($aviso->getNombreEmpresa())))); ?>"class="pull-right btn btn-xs btn-primary" data-toggle="modal" data-target="#modalDetalle<?=$aviso->getTieneImagen()? 'Big': '';?>">Ver Detalles</a>
                                 <i class="fa fa-clock-o"></i> Vence el <?=$aviso->getFechaVencimiento('d/m/Y');?>
                             </div>
                         </div>

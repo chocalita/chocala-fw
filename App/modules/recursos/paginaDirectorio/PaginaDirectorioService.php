@@ -450,17 +450,79 @@ class PaginaDirectorioService extends GenericService
         return $empresa;
     }
 
-    public function requestInfo($id)
+    public function requestInfo($i)
     {
-        $urlPaginaDpto = "Inicio/MostrarEmpresa";
-//            $htmlPage = file_get_contents(self::URL_BASE.$urlPaginaDpto);
-        $params = "CodigoMatricula=".$id;
-        $handler = curl_init(self::URL_BASE.$urlPaginaDpto);
+        $emp = JobEmpresaDirectorioQuery::create()->findPk($i);
+        if(!is_object($emp)) {
+            $id = SpecialStrings::normalizeNumber($i, 8);
+            $urlPaginaDpto = "Inicio/MostrarEmpresa";
+            $url = 'http://www.fundempresa.org.bo/directorio/Inicio/MostrarEmpresa';
+            $params = "CodigoMatricula=".$id;
+
+    //        $handler = curl_init(self::URL_BASE.$urlPaginaDpto);
+            $handler = curl_init($url);
             curl_setopt($handler, CURLOPT_POST, 1);
-            curl_setopt($handler, CURLOPT_POSTFIELDS, implode("&",$params));
-        curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
-        $htmlPage = curl_exec ($handler);
-        curl_close($handler);
+            curl_setopt($handler, CURLOPT_POSTFIELDS, $params);
+            curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($handler);
+            curl_close($handler);
+    //        $data = preg_replace('\/\t+/',' ', $response);
+    //        $data = $this->reducir_blancos($response);
+    /*        file_put_contents(PUBLIC_DIR.'fundempresa-'.$id.'.json', $response);
+            echo $response;
+            $decode = json_decode($response, true);
+            echo "<pre>";
+            print_r($decode);
+            exit();*/
+            $obj = new JobEmpresaDirectorio();
+            $obj->setId($i);
+            $obj->setInfo($response);
+            $obj->setIdMatricula($i);
+            $obj->setMatricula($id);
+            $obj->setRazon($id);
+            $obj->setSeccion($id);
+            $obj->save();
+        }
+        if($i%500 == 0) {
+            sleep(5);
+        }
+    }
+
+    public function scraping()
+    {
+        $con = \Propel\Runtime\Propel::getConnection();
+        $con->beginTransaction();
+        for ($i = 14001 ; $i<=20000; $i++){
+//            $this->requestInfo($i);
+
+//            $emp = JobEmpresaDirectorioQuery::create()->findPk($i);
+//            if(!is_object($emp)) {
+                $id = SpecialStrings::normalizeNumber($i, 8);
+                $url = 'http://www.fundempresa.org.bo/directorio/Inicio/MostrarEmpresa';
+                $params = "CodigoMatricula=".$id;
+                $handler = curl_init($url);
+                curl_setopt($handler, CURLOPT_POST, 1);
+                curl_setopt($handler, CURLOPT_POSTFIELDS, $params);
+                curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
+                $response = curl_exec($handler);
+                curl_close($handler);
+                $obj = new JobEmpresaDirectorio();
+                $obj->setId($i);
+                $obj->setInfo($response);
+                $obj->setIdMatricula($i);
+                $obj->setMatricula($id);
+                $obj->setRazon($id);
+                $obj->setSeccion($id);
+                $obj->save($con);
+//            }
+            if($i%200 == 0) {
+                $con->commit();
+                $con->beginTransaction();
+                sleep(1);
+            }
+        }
+        $con->commit();
+        echo "FINISHED!"; exit();
     }
 
     public function spider()
