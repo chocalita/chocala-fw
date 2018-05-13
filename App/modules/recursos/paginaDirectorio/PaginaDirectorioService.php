@@ -10,6 +10,7 @@ class PaginaDirectorioService extends GenericService
 {
 
     const URL_BASE = "http://www.fundempresa.org.bo/directorio/";
+//    const URL_BASE = "http://www.fundempresa.org.bo/directorio/Inicio/MostrarEmpresa";
 
     const DIR_PAGINAS = "paginasDepartamentos";
 
@@ -303,7 +304,10 @@ class PaginaDirectorioService extends GenericService
         if($htmlPage == ''){
             $urlPaginaDpto = "listado-de-empresas.php?page=$numPage&depto=$depto";
 //            $htmlPage = file_get_contents(self::URL_BASE.$urlPaginaDpto);
+            $params = "CodigoMatricula=";
             $handler = curl_init(self::URL_BASE.$urlPaginaDpto);
+//            curl_setopt($handler, CURLOPT_POST, 1);
+//            curl_setopt($handler, CURLOPT_POSTFIELDS, implode("&",$params));
             curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
             $htmlPage = curl_exec ($handler);
             curl_close($handler);
@@ -444,6 +448,19 @@ class PaginaDirectorioService extends GenericService
             $empresa->save();
         }
         return $empresa;
+    }
+
+    public function requestInfo($id)
+    {
+        $urlPaginaDpto = "Inicio/MostrarEmpresa";
+//            $htmlPage = file_get_contents(self::URL_BASE.$urlPaginaDpto);
+        $params = "CodigoMatricula=".$id;
+        $handler = curl_init(self::URL_BASE.$urlPaginaDpto);
+            curl_setopt($handler, CURLOPT_POST, 1);
+            curl_setopt($handler, CURLOPT_POSTFIELDS, implode("&",$params));
+        curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
+        $htmlPage = curl_exec ($handler);
+        curl_close($handler);
     }
 
     public function spider()

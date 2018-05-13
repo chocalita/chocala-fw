@@ -64,11 +64,11 @@ if(!defined('VENDOR_DIR_NAME')){
 unset($rootDir, $applicationDir, $frameworkDir, $vendorDir, $parts);
 
 //TODO: Verify if this redirect is correct
-if($_REQUEST['url'] == ''){
+/*if($_REQUEST['url'] == ''){
     header('HTTP/1.1 301 Moved Permanently');
-    header('Location: index.htm');
+    header('Location: lamas.htm');
     exit();
-}
+}*/
 
 require_once(CHOCALA_DIR.'ChocalaRunner.php');
 ChocalaRunner::run();

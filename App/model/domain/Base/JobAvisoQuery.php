@@ -28,6 +28,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAvisoQuery orderByCargo($order = Criteria::ASC) Order by the CARGO column
  * @method     ChildJobAvisoQuery orderByDescripcion($order = Criteria::ASC) Order by the DESCRIPCION column
  * @method     ChildJobAvisoQuery orderByNombreEmpresa($order = Criteria::ASC) Order by the NOMBRE_EMPRESA column
+ * @method     ChildJobAvisoQuery orderByAliasEmpresa($order = Criteria::ASC) Order by the ALIAS_EMPRESA column
  * @method     ChildJobAvisoQuery orderByDireccion($order = Criteria::ASC) Order by the DIRECCION column
  * @method     ChildJobAvisoQuery orderByTelefonoContacto($order = Criteria::ASC) Order by the TELEFONO_CONTACTO column
  * @method     ChildJobAvisoQuery orderByCorreoContacto($order = Criteria::ASC) Order by the CORREO_CONTACTO column
@@ -57,6 +58,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAvisoQuery groupByCargo() Group by the CARGO column
  * @method     ChildJobAvisoQuery groupByDescripcion() Group by the DESCRIPCION column
  * @method     ChildJobAvisoQuery groupByNombreEmpresa() Group by the NOMBRE_EMPRESA column
+ * @method     ChildJobAvisoQuery groupByAliasEmpresa() Group by the ALIAS_EMPRESA column
  * @method     ChildJobAvisoQuery groupByDireccion() Group by the DIRECCION column
  * @method     ChildJobAvisoQuery groupByTelefonoContacto() Group by the TELEFONO_CONTACTO column
  * @method     ChildJobAvisoQuery groupByCorreoContacto() Group by the CORREO_CONTACTO column
@@ -116,7 +118,17 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAvisoQuery rightJoinWithJobEmpresaSuscrita() Adds a RIGHT JOIN clause and with to the query using the JobEmpresaSuscrita relation
  * @method     ChildJobAvisoQuery innerJoinWithJobEmpresaSuscrita() Adds a INNER JOIN clause and with to the query using the JobEmpresaSuscrita relation
  *
- * @method     \JobAreaTecnicaQuery|\JobAreaQuery|\JobEmpresaSuscritaQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     ChildJobAvisoQuery leftJoinJobPostulanteAviso($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobPostulanteAviso relation
+ * @method     ChildJobAvisoQuery rightJoinJobPostulanteAviso($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobPostulanteAviso relation
+ * @method     ChildJobAvisoQuery innerJoinJobPostulanteAviso($relationAlias = null) Adds a INNER JOIN clause to the query using the JobPostulanteAviso relation
+ *
+ * @method     ChildJobAvisoQuery joinWithJobPostulanteAviso($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobPostulanteAviso relation
+ *
+ * @method     ChildJobAvisoQuery leftJoinWithJobPostulanteAviso() Adds a LEFT JOIN clause and with to the query using the JobPostulanteAviso relation
+ * @method     ChildJobAvisoQuery rightJoinWithJobPostulanteAviso() Adds a RIGHT JOIN clause and with to the query using the JobPostulanteAviso relation
+ * @method     ChildJobAvisoQuery innerJoinWithJobPostulanteAviso() Adds a INNER JOIN clause and with to the query using the JobPostulanteAviso relation
+ *
+ * @method     \JobAreaTecnicaQuery|\JobAreaQuery|\JobEmpresaSuscritaQuery|\JobPostulanteAvisoQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildJobAviso findOne(ConnectionInterface $con = null) Return the first ChildJobAviso matching the query
  * @method     ChildJobAviso findOneOrCreate(ConnectionInterface $con = null) Return the first ChildJobAviso matching the query, or a new ChildJobAviso object populated from the query conditions when no match is found
@@ -129,6 +141,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAviso findOneByCargo(string $CARGO) Return the first ChildJobAviso filtered by the CARGO column
  * @method     ChildJobAviso findOneByDescripcion(string $DESCRIPCION) Return the first ChildJobAviso filtered by the DESCRIPCION column
  * @method     ChildJobAviso findOneByNombreEmpresa(string $NOMBRE_EMPRESA) Return the first ChildJobAviso filtered by the NOMBRE_EMPRESA column
+ * @method     ChildJobAviso findOneByAliasEmpresa(string $ALIAS_EMPRESA) Return the first ChildJobAviso filtered by the ALIAS_EMPRESA column
  * @method     ChildJobAviso findOneByDireccion(string $DIRECCION) Return the first ChildJobAviso filtered by the DIRECCION column
  * @method     ChildJobAviso findOneByTelefonoContacto(int $TELEFONO_CONTACTO) Return the first ChildJobAviso filtered by the TELEFONO_CONTACTO column
  * @method     ChildJobAviso findOneByCorreoContacto(string $CORREO_CONTACTO) Return the first ChildJobAviso filtered by the CORREO_CONTACTO column
@@ -161,6 +174,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAviso requireOneByCargo(string $CARGO) Return the first ChildJobAviso filtered by the CARGO column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobAviso requireOneByDescripcion(string $DESCRIPCION) Return the first ChildJobAviso filtered by the DESCRIPCION column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobAviso requireOneByNombreEmpresa(string $NOMBRE_EMPRESA) Return the first ChildJobAviso filtered by the NOMBRE_EMPRESA column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobAviso requireOneByAliasEmpresa(string $ALIAS_EMPRESA) Return the first ChildJobAviso filtered by the ALIAS_EMPRESA column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobAviso requireOneByDireccion(string $DIRECCION) Return the first ChildJobAviso filtered by the DIRECCION column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobAviso requireOneByTelefonoContacto(int $TELEFONO_CONTACTO) Return the first ChildJobAviso filtered by the TELEFONO_CONTACTO column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobAviso requireOneByCorreoContacto(string $CORREO_CONTACTO) Return the first ChildJobAviso filtered by the CORREO_CONTACTO column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -191,6 +205,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAviso[]|ObjectCollection findByCargo(string $CARGO) Return ChildJobAviso objects filtered by the CARGO column
  * @method     ChildJobAviso[]|ObjectCollection findByDescripcion(string $DESCRIPCION) Return ChildJobAviso objects filtered by the DESCRIPCION column
  * @method     ChildJobAviso[]|ObjectCollection findByNombreEmpresa(string $NOMBRE_EMPRESA) Return ChildJobAviso objects filtered by the NOMBRE_EMPRESA column
+ * @method     ChildJobAviso[]|ObjectCollection findByAliasEmpresa(string $ALIAS_EMPRESA) Return ChildJobAviso objects filtered by the ALIAS_EMPRESA column
  * @method     ChildJobAviso[]|ObjectCollection findByDireccion(string $DIRECCION) Return ChildJobAviso objects filtered by the DIRECCION column
  * @method     ChildJobAviso[]|ObjectCollection findByTelefonoContacto(int $TELEFONO_CONTACTO) Return ChildJobAviso objects filtered by the TELEFONO_CONTACTO column
  * @method     ChildJobAviso[]|ObjectCollection findByCorreoContacto(string $CORREO_CONTACTO) Return ChildJobAviso objects filtered by the CORREO_CONTACTO column
@@ -309,7 +324,7 @@ abstract class JobAvisoQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT ID, AREA_ID, AREA_TECNICA_ID, EMPRESA_SUSCRITA_ID, LOCALIZACION, CARGO, DESCRIPCION, NOMBRE_EMPRESA, DIRECCION, TELEFONO_CONTACTO, CORREO_CONTACTO, FECHA_PUBLICACION, FECHA_VENCIMIENTO, REQUISITO, ANIOS_EXPERIENCIA, NIVEL_FORMACION, SALARIO, PROFESION, FUENTE, TIENE_IMAGEN, MIMETYPE, AREAS_REFERENCIA, FORMACIONES_REFERENCIA, DESTACADO, STATUS, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM job_aviso WHERE ID = :p0';
+        $sql = 'SELECT ID, AREA_ID, AREA_TECNICA_ID, EMPRESA_SUSCRITA_ID, LOCALIZACION, CARGO, DESCRIPCION, NOMBRE_EMPRESA, ALIAS_EMPRESA, DIRECCION, TELEFONO_CONTACTO, CORREO_CONTACTO, FECHA_PUBLICACION, FECHA_VENCIMIENTO, REQUISITO, ANIOS_EXPERIENCIA, NIVEL_FORMACION, SALARIO, PROFESION, FUENTE, TIENE_IMAGEN, MIMETYPE, AREAS_REFERENCIA, FORMACIONES_REFERENCIA, DESTACADO, STATUS, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM job_aviso WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -667,6 +682,31 @@ abstract class JobAvisoQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(JobAvisoTableMap::COL_NOMBRE_EMPRESA, $nombreEmpresa, $comparison);
+    }
+
+    /**
+     * Filter the query on the ALIAS_EMPRESA column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByAliasEmpresa('fooValue');   // WHERE ALIAS_EMPRESA = 'fooValue'
+     * $query->filterByAliasEmpresa('%fooValue%', Criteria::LIKE); // WHERE ALIAS_EMPRESA LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $aliasEmpresa The value to use as filter.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobAvisoQuery The current query, for fluid interface
+     */
+    public function filterByAliasEmpresa($aliasEmpresa = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($aliasEmpresa)) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(JobAvisoTableMap::COL_ALIAS_EMPRESA, $aliasEmpresa, $comparison);
     }
 
     /**
@@ -1522,6 +1562,79 @@ abstract class JobAvisoQuery extends ModelCriteria
         return $this
             ->joinJobEmpresaSuscrita($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'JobEmpresaSuscrita', '\JobEmpresaSuscritaQuery');
+    }
+
+    /**
+     * Filter the query by a related \JobPostulanteAviso object
+     *
+     * @param \JobPostulanteAviso|ObjectCollection $jobPostulanteAviso the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildJobAvisoQuery The current query, for fluid interface
+     */
+    public function filterByJobPostulanteAviso($jobPostulanteAviso, $comparison = null)
+    {
+        if ($jobPostulanteAviso instanceof \JobPostulanteAviso) {
+            return $this
+                ->addUsingAlias(JobAvisoTableMap::COL_ID, $jobPostulanteAviso->getIdAviso(), $comparison);
+        } elseif ($jobPostulanteAviso instanceof ObjectCollection) {
+            return $this
+                ->useJobPostulanteAvisoQuery()
+                ->filterByPrimaryKeys($jobPostulanteAviso->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByJobPostulanteAviso() only accepts arguments of type \JobPostulanteAviso or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the JobPostulanteAviso relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildJobAvisoQuery The current query, for fluid interface
+     */
+    public function joinJobPostulanteAviso($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('JobPostulanteAviso');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'JobPostulanteAviso');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the JobPostulanteAviso relation JobPostulanteAviso object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \JobPostulanteAvisoQuery A secondary query class using the current class as primary query
+     */
+    public function useJobPostulanteAvisoQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinJobPostulanteAviso($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'JobPostulanteAviso', '\JobPostulanteAvisoQuery');
     }
 
     /**

@@ -59,7 +59,7 @@ class JobAvisoTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 28;
+    const NUM_COLUMNS = 29;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,7 @@ class JobAvisoTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 28;
+    const NUM_HYDRATE_COLUMNS = 29;
 
     /**
      * the column name for the ID field
@@ -110,6 +110,11 @@ class JobAvisoTableMap extends TableMap
      * the column name for the NOMBRE_EMPRESA field
      */
     const COL_NOMBRE_EMPRESA = 'job_aviso.NOMBRE_EMPRESA';
+
+    /**
+     * the column name for the ALIAS_EMPRESA field
+     */
+    const COL_ALIAS_EMPRESA = 'job_aviso.ALIAS_EMPRESA';
 
     /**
      * the column name for the DIRECCION field
@@ -223,11 +228,11 @@ class JobAvisoTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'AreaId', 'AreaTecnicaId', 'EmpresaSuscritaId', 'Localizacion', 'Cargo', 'Descripcion', 'NombreEmpresa', 'Direccion', 'TelefonoContacto', 'CorreoContacto', 'FechaPublicacion', 'FechaVencimiento', 'Requisito', 'AniosExperiencia', 'NivelFormacion', 'Salario', 'Profesion', 'Fuente', 'TieneImagen', 'Mimetype', 'AreasReferencia', 'FormacionesReferencia', 'Destacado', 'Status', 'LastUserId', 'CreationDate', 'ModificationDate', ),
-        self::TYPE_CAMELNAME     => array('id', 'areaId', 'areaTecnicaId', 'empresaSuscritaId', 'localizacion', 'cargo', 'descripcion', 'nombreEmpresa', 'direccion', 'telefonoContacto', 'correoContacto', 'fechaPublicacion', 'fechaVencimiento', 'requisito', 'aniosExperiencia', 'nivelFormacion', 'salario', 'profesion', 'fuente', 'tieneImagen', 'mimetype', 'areasReferencia', 'formacionesReferencia', 'destacado', 'status', 'lastUserId', 'creationDate', 'modificationDate', ),
-        self::TYPE_COLNAME       => array(JobAvisoTableMap::COL_ID, JobAvisoTableMap::COL_AREA_ID, JobAvisoTableMap::COL_AREA_TECNICA_ID, JobAvisoTableMap::COL_EMPRESA_SUSCRITA_ID, JobAvisoTableMap::COL_LOCALIZACION, JobAvisoTableMap::COL_CARGO, JobAvisoTableMap::COL_DESCRIPCION, JobAvisoTableMap::COL_NOMBRE_EMPRESA, JobAvisoTableMap::COL_DIRECCION, JobAvisoTableMap::COL_TELEFONO_CONTACTO, JobAvisoTableMap::COL_CORREO_CONTACTO, JobAvisoTableMap::COL_FECHA_PUBLICACION, JobAvisoTableMap::COL_FECHA_VENCIMIENTO, JobAvisoTableMap::COL_REQUISITO, JobAvisoTableMap::COL_ANIOS_EXPERIENCIA, JobAvisoTableMap::COL_NIVEL_FORMACION, JobAvisoTableMap::COL_SALARIO, JobAvisoTableMap::COL_PROFESION, JobAvisoTableMap::COL_FUENTE, JobAvisoTableMap::COL_TIENE_IMAGEN, JobAvisoTableMap::COL_MIMETYPE, JobAvisoTableMap::COL_AREAS_REFERENCIA, JobAvisoTableMap::COL_FORMACIONES_REFERENCIA, JobAvisoTableMap::COL_DESTACADO, JobAvisoTableMap::COL_STATUS, JobAvisoTableMap::COL_LAST_USER_ID, JobAvisoTableMap::COL_CREATION_DATE, JobAvisoTableMap::COL_MODIFICATION_DATE, ),
-        self::TYPE_FIELDNAME     => array('ID', 'AREA_ID', 'AREA_TECNICA_ID', 'EMPRESA_SUSCRITA_ID', 'LOCALIZACION', 'CARGO', 'DESCRIPCION', 'NOMBRE_EMPRESA', 'DIRECCION', 'TELEFONO_CONTACTO', 'CORREO_CONTACTO', 'FECHA_PUBLICACION', 'FECHA_VENCIMIENTO', 'REQUISITO', 'ANIOS_EXPERIENCIA', 'NIVEL_FORMACION', 'SALARIO', 'PROFESION', 'FUENTE', 'TIENE_IMAGEN', 'MIMETYPE', 'AREAS_REFERENCIA', 'FORMACIONES_REFERENCIA', 'DESTACADO', 'STATUS', 'LAST_USER_ID', 'CREATION_DATE', 'MODIFICATION_DATE', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, )
+        self::TYPE_PHPNAME       => array('Id', 'AreaId', 'AreaTecnicaId', 'EmpresaSuscritaId', 'Localizacion', 'Cargo', 'Descripcion', 'NombreEmpresa', 'AliasEmpresa', 'Direccion', 'TelefonoContacto', 'CorreoContacto', 'FechaPublicacion', 'FechaVencimiento', 'Requisito', 'AniosExperiencia', 'NivelFormacion', 'Salario', 'Profesion', 'Fuente', 'TieneImagen', 'Mimetype', 'AreasReferencia', 'FormacionesReferencia', 'Destacado', 'Status', 'LastUserId', 'CreationDate', 'ModificationDate', ),
+        self::TYPE_CAMELNAME     => array('id', 'areaId', 'areaTecnicaId', 'empresaSuscritaId', 'localizacion', 'cargo', 'descripcion', 'nombreEmpresa', 'aliasEmpresa', 'direccion', 'telefonoContacto', 'correoContacto', 'fechaPublicacion', 'fechaVencimiento', 'requisito', 'aniosExperiencia', 'nivelFormacion', 'salario', 'profesion', 'fuente', 'tieneImagen', 'mimetype', 'areasReferencia', 'formacionesReferencia', 'destacado', 'status', 'lastUserId', 'creationDate', 'modificationDate', ),
+        self::TYPE_COLNAME       => array(JobAvisoTableMap::COL_ID, JobAvisoTableMap::COL_AREA_ID, JobAvisoTableMap::COL_AREA_TECNICA_ID, JobAvisoTableMap::COL_EMPRESA_SUSCRITA_ID, JobAvisoTableMap::COL_LOCALIZACION, JobAvisoTableMap::COL_CARGO, JobAvisoTableMap::COL_DESCRIPCION, JobAvisoTableMap::COL_NOMBRE_EMPRESA, JobAvisoTableMap::COL_ALIAS_EMPRESA, JobAvisoTableMap::COL_DIRECCION, JobAvisoTableMap::COL_TELEFONO_CONTACTO, JobAvisoTableMap::COL_CORREO_CONTACTO, JobAvisoTableMap::COL_FECHA_PUBLICACION, JobAvisoTableMap::COL_FECHA_VENCIMIENTO, JobAvisoTableMap::COL_REQUISITO, JobAvisoTableMap::COL_ANIOS_EXPERIENCIA, JobAvisoTableMap::COL_NIVEL_FORMACION, JobAvisoTableMap::COL_SALARIO, JobAvisoTableMap::COL_PROFESION, JobAvisoTableMap::COL_FUENTE, JobAvisoTableMap::COL_TIENE_IMAGEN, JobAvisoTableMap::COL_MIMETYPE, JobAvisoTableMap::COL_AREAS_REFERENCIA, JobAvisoTableMap::COL_FORMACIONES_REFERENCIA, JobAvisoTableMap::COL_DESTACADO, JobAvisoTableMap::COL_STATUS, JobAvisoTableMap::COL_LAST_USER_ID, JobAvisoTableMap::COL_CREATION_DATE, JobAvisoTableMap::COL_MODIFICATION_DATE, ),
+        self::TYPE_FIELDNAME     => array('ID', 'AREA_ID', 'AREA_TECNICA_ID', 'EMPRESA_SUSCRITA_ID', 'LOCALIZACION', 'CARGO', 'DESCRIPCION', 'NOMBRE_EMPRESA', 'ALIAS_EMPRESA', 'DIRECCION', 'TELEFONO_CONTACTO', 'CORREO_CONTACTO', 'FECHA_PUBLICACION', 'FECHA_VENCIMIENTO', 'REQUISITO', 'ANIOS_EXPERIENCIA', 'NIVEL_FORMACION', 'SALARIO', 'PROFESION', 'FUENTE', 'TIENE_IMAGEN', 'MIMETYPE', 'AREAS_REFERENCIA', 'FORMACIONES_REFERENCIA', 'DESTACADO', 'STATUS', 'LAST_USER_ID', 'CREATION_DATE', 'MODIFICATION_DATE', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, )
     );
 
     /**
@@ -237,11 +242,11 @@ class JobAvisoTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'AreaId' => 1, 'AreaTecnicaId' => 2, 'EmpresaSuscritaId' => 3, 'Localizacion' => 4, 'Cargo' => 5, 'Descripcion' => 6, 'NombreEmpresa' => 7, 'Direccion' => 8, 'TelefonoContacto' => 9, 'CorreoContacto' => 10, 'FechaPublicacion' => 11, 'FechaVencimiento' => 12, 'Requisito' => 13, 'AniosExperiencia' => 14, 'NivelFormacion' => 15, 'Salario' => 16, 'Profesion' => 17, 'Fuente' => 18, 'TieneImagen' => 19, 'Mimetype' => 20, 'AreasReferencia' => 21, 'FormacionesReferencia' => 22, 'Destacado' => 23, 'Status' => 24, 'LastUserId' => 25, 'CreationDate' => 26, 'ModificationDate' => 27, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'areaId' => 1, 'areaTecnicaId' => 2, 'empresaSuscritaId' => 3, 'localizacion' => 4, 'cargo' => 5, 'descripcion' => 6, 'nombreEmpresa' => 7, 'direccion' => 8, 'telefonoContacto' => 9, 'correoContacto' => 10, 'fechaPublicacion' => 11, 'fechaVencimiento' => 12, 'requisito' => 13, 'aniosExperiencia' => 14, 'nivelFormacion' => 15, 'salario' => 16, 'profesion' => 17, 'fuente' => 18, 'tieneImagen' => 19, 'mimetype' => 20, 'areasReferencia' => 21, 'formacionesReferencia' => 22, 'destacado' => 23, 'status' => 24, 'lastUserId' => 25, 'creationDate' => 26, 'modificationDate' => 27, ),
-        self::TYPE_COLNAME       => array(JobAvisoTableMap::COL_ID => 0, JobAvisoTableMap::COL_AREA_ID => 1, JobAvisoTableMap::COL_AREA_TECNICA_ID => 2, JobAvisoTableMap::COL_EMPRESA_SUSCRITA_ID => 3, JobAvisoTableMap::COL_LOCALIZACION => 4, JobAvisoTableMap::COL_CARGO => 5, JobAvisoTableMap::COL_DESCRIPCION => 6, JobAvisoTableMap::COL_NOMBRE_EMPRESA => 7, JobAvisoTableMap::COL_DIRECCION => 8, JobAvisoTableMap::COL_TELEFONO_CONTACTO => 9, JobAvisoTableMap::COL_CORREO_CONTACTO => 10, JobAvisoTableMap::COL_FECHA_PUBLICACION => 11, JobAvisoTableMap::COL_FECHA_VENCIMIENTO => 12, JobAvisoTableMap::COL_REQUISITO => 13, JobAvisoTableMap::COL_ANIOS_EXPERIENCIA => 14, JobAvisoTableMap::COL_NIVEL_FORMACION => 15, JobAvisoTableMap::COL_SALARIO => 16, JobAvisoTableMap::COL_PROFESION => 17, JobAvisoTableMap::COL_FUENTE => 18, JobAvisoTableMap::COL_TIENE_IMAGEN => 19, JobAvisoTableMap::COL_MIMETYPE => 20, JobAvisoTableMap::COL_AREAS_REFERENCIA => 21, JobAvisoTableMap::COL_FORMACIONES_REFERENCIA => 22, JobAvisoTableMap::COL_DESTACADO => 23, JobAvisoTableMap::COL_STATUS => 24, JobAvisoTableMap::COL_LAST_USER_ID => 25, JobAvisoTableMap::COL_CREATION_DATE => 26, JobAvisoTableMap::COL_MODIFICATION_DATE => 27, ),
-        self::TYPE_FIELDNAME     => array('ID' => 0, 'AREA_ID' => 1, 'AREA_TECNICA_ID' => 2, 'EMPRESA_SUSCRITA_ID' => 3, 'LOCALIZACION' => 4, 'CARGO' => 5, 'DESCRIPCION' => 6, 'NOMBRE_EMPRESA' => 7, 'DIRECCION' => 8, 'TELEFONO_CONTACTO' => 9, 'CORREO_CONTACTO' => 10, 'FECHA_PUBLICACION' => 11, 'FECHA_VENCIMIENTO' => 12, 'REQUISITO' => 13, 'ANIOS_EXPERIENCIA' => 14, 'NIVEL_FORMACION' => 15, 'SALARIO' => 16, 'PROFESION' => 17, 'FUENTE' => 18, 'TIENE_IMAGEN' => 19, 'MIMETYPE' => 20, 'AREAS_REFERENCIA' => 21, 'FORMACIONES_REFERENCIA' => 22, 'DESTACADO' => 23, 'STATUS' => 24, 'LAST_USER_ID' => 25, 'CREATION_DATE' => 26, 'MODIFICATION_DATE' => 27, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'AreaId' => 1, 'AreaTecnicaId' => 2, 'EmpresaSuscritaId' => 3, 'Localizacion' => 4, 'Cargo' => 5, 'Descripcion' => 6, 'NombreEmpresa' => 7, 'AliasEmpresa' => 8, 'Direccion' => 9, 'TelefonoContacto' => 10, 'CorreoContacto' => 11, 'FechaPublicacion' => 12, 'FechaVencimiento' => 13, 'Requisito' => 14, 'AniosExperiencia' => 15, 'NivelFormacion' => 16, 'Salario' => 17, 'Profesion' => 18, 'Fuente' => 19, 'TieneImagen' => 20, 'Mimetype' => 21, 'AreasReferencia' => 22, 'FormacionesReferencia' => 23, 'Destacado' => 24, 'Status' => 25, 'LastUserId' => 26, 'CreationDate' => 27, 'ModificationDate' => 28, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'areaId' => 1, 'areaTecnicaId' => 2, 'empresaSuscritaId' => 3, 'localizacion' => 4, 'cargo' => 5, 'descripcion' => 6, 'nombreEmpresa' => 7, 'aliasEmpresa' => 8, 'direccion' => 9, 'telefonoContacto' => 10, 'correoContacto' => 11, 'fechaPublicacion' => 12, 'fechaVencimiento' => 13, 'requisito' => 14, 'aniosExperiencia' => 15, 'nivelFormacion' => 16, 'salario' => 17, 'profesion' => 18, 'fuente' => 19, 'tieneImagen' => 20, 'mimetype' => 21, 'areasReferencia' => 22, 'formacionesReferencia' => 23, 'destacado' => 24, 'status' => 25, 'lastUserId' => 26, 'creationDate' => 27, 'modificationDate' => 28, ),
+        self::TYPE_COLNAME       => array(JobAvisoTableMap::COL_ID => 0, JobAvisoTableMap::COL_AREA_ID => 1, JobAvisoTableMap::COL_AREA_TECNICA_ID => 2, JobAvisoTableMap::COL_EMPRESA_SUSCRITA_ID => 3, JobAvisoTableMap::COL_LOCALIZACION => 4, JobAvisoTableMap::COL_CARGO => 5, JobAvisoTableMap::COL_DESCRIPCION => 6, JobAvisoTableMap::COL_NOMBRE_EMPRESA => 7, JobAvisoTableMap::COL_ALIAS_EMPRESA => 8, JobAvisoTableMap::COL_DIRECCION => 9, JobAvisoTableMap::COL_TELEFONO_CONTACTO => 10, JobAvisoTableMap::COL_CORREO_CONTACTO => 11, JobAvisoTableMap::COL_FECHA_PUBLICACION => 12, JobAvisoTableMap::COL_FECHA_VENCIMIENTO => 13, JobAvisoTableMap::COL_REQUISITO => 14, JobAvisoTableMap::COL_ANIOS_EXPERIENCIA => 15, JobAvisoTableMap::COL_NIVEL_FORMACION => 16, JobAvisoTableMap::COL_SALARIO => 17, JobAvisoTableMap::COL_PROFESION => 18, JobAvisoTableMap::COL_FUENTE => 19, JobAvisoTableMap::COL_TIENE_IMAGEN => 20, JobAvisoTableMap::COL_MIMETYPE => 21, JobAvisoTableMap::COL_AREAS_REFERENCIA => 22, JobAvisoTableMap::COL_FORMACIONES_REFERENCIA => 23, JobAvisoTableMap::COL_DESTACADO => 24, JobAvisoTableMap::COL_STATUS => 25, JobAvisoTableMap::COL_LAST_USER_ID => 26, JobAvisoTableMap::COL_CREATION_DATE => 27, JobAvisoTableMap::COL_MODIFICATION_DATE => 28, ),
+        self::TYPE_FIELDNAME     => array('ID' => 0, 'AREA_ID' => 1, 'AREA_TECNICA_ID' => 2, 'EMPRESA_SUSCRITA_ID' => 3, 'LOCALIZACION' => 4, 'CARGO' => 5, 'DESCRIPCION' => 6, 'NOMBRE_EMPRESA' => 7, 'ALIAS_EMPRESA' => 8, 'DIRECCION' => 9, 'TELEFONO_CONTACTO' => 10, 'CORREO_CONTACTO' => 11, 'FECHA_PUBLICACION' => 12, 'FECHA_VENCIMIENTO' => 13, 'REQUISITO' => 14, 'ANIOS_EXPERIENCIA' => 15, 'NIVEL_FORMACION' => 16, 'SALARIO' => 17, 'PROFESION' => 18, 'FUENTE' => 19, 'TIENE_IMAGEN' => 20, 'MIMETYPE' => 21, 'AREAS_REFERENCIA' => 22, 'FORMACIONES_REFERENCIA' => 23, 'DESTACADO' => 24, 'STATUS' => 25, 'LAST_USER_ID' => 26, 'CREATION_DATE' => 27, 'MODIFICATION_DATE' => 28, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, )
     );
 
     /**
@@ -269,6 +274,7 @@ class JobAvisoTableMap extends TableMap
         $this->addColumn('CARGO', 'Cargo', 'VARCHAR', true, 200, null);
         $this->addColumn('DESCRIPCION', 'Descripcion', 'LONGVARCHAR', false, null, null);
         $this->addColumn('NOMBRE_EMPRESA', 'NombreEmpresa', 'VARCHAR', true, 500, null);
+        $this->addColumn('ALIAS_EMPRESA', 'AliasEmpresa', 'VARCHAR', false, 100, null);
         $this->addColumn('DIRECCION', 'Direccion', 'VARCHAR', false, 200, null);
         $this->addColumn('TELEFONO_CONTACTO', 'TelefonoContacto', 'INTEGER', false, null, null);
         $this->addColumn('CORREO_CONTACTO', 'CorreoContacto', 'VARCHAR', false, 100, null);
@@ -317,6 +323,13 @@ class JobAvisoTableMap extends TableMap
     1 => ':ID',
   ),
 ), null, null, null, false);
+        $this->addRelation('JobPostulanteAviso', '\\JobPostulanteAviso', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':ID_AVISO',
+    1 => ':ID',
+  ),
+), null, null, 'JobPostulanteAvisos', false);
     } // buildRelations()
 
     /**
@@ -468,6 +481,7 @@ class JobAvisoTableMap extends TableMap
             $criteria->addSelectColumn(JobAvisoTableMap::COL_CARGO);
             $criteria->addSelectColumn(JobAvisoTableMap::COL_DESCRIPCION);
             $criteria->addSelectColumn(JobAvisoTableMap::COL_NOMBRE_EMPRESA);
+            $criteria->addSelectColumn(JobAvisoTableMap::COL_ALIAS_EMPRESA);
             $criteria->addSelectColumn(JobAvisoTableMap::COL_DIRECCION);
             $criteria->addSelectColumn(JobAvisoTableMap::COL_TELEFONO_CONTACTO);
             $criteria->addSelectColumn(JobAvisoTableMap::COL_CORREO_CONTACTO);
@@ -497,6 +511,7 @@ class JobAvisoTableMap extends TableMap
             $criteria->addSelectColumn($alias . '.CARGO');
             $criteria->addSelectColumn($alias . '.DESCRIPCION');
             $criteria->addSelectColumn($alias . '.NOMBRE_EMPRESA');
+            $criteria->addSelectColumn($alias . '.ALIAS_EMPRESA');
             $criteria->addSelectColumn($alias . '.DIRECCION');
             $criteria->addSelectColumn($alias . '.TELEFONO_CONTACTO');
             $criteria->addSelectColumn($alias . '.CORREO_CONTACTO');

@@ -6,18 +6,23 @@ use \JobArea as ChildJobArea;
 use \JobAreaQuery as ChildJobAreaQuery;
 use \JobAreaTecnica as ChildJobAreaTecnica;
 use \JobAreaTecnicaQuery as ChildJobAreaTecnicaQuery;
+use \JobAviso as ChildJobAviso;
 use \JobAvisoQuery as ChildJobAvisoQuery;
 use \JobEmpresaSuscrita as ChildJobEmpresaSuscrita;
 use \JobEmpresaSuscritaQuery as ChildJobEmpresaSuscritaQuery;
+use \JobPostulanteAviso as ChildJobPostulanteAviso;
+use \JobPostulanteAvisoQuery as ChildJobPostulanteAvisoQuery;
 use \DateTime;
 use \Exception;
 use \PDO;
 use Map\JobAvisoTableMap;
+use Map\JobPostulanteAvisoTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Collection\Collection;
+use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\BadMethodCallException;
 use Propel\Runtime\Exception\LogicException;
@@ -122,6 +127,13 @@ abstract class JobAviso implements ActiveRecordInterface
      * @var        string
      */
     protected $nombre_empresa;
+
+    /**
+     * The value for the alias_empresa field.
+     *
+     * @var        string
+     */
+    protected $alias_empresa;
 
     /**
      * The value for the direccion field.
@@ -285,12 +297,24 @@ abstract class JobAviso implements ActiveRecordInterface
     protected $aJobEmpresaSuscrita;
 
     /**
+     * @var        ObjectCollection|ChildJobPostulanteAviso[] Collection to store aggregation of ChildJobPostulanteAviso objects.
+     */
+    protected $collJobPostulanteAvisos;
+    protected $collJobPostulanteAvisosPartial;
+
+    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      *
      * @var boolean
      */
     protected $alreadyInSave = false;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection|ChildJobPostulanteAviso[]
+     */
+    protected $jobPostulanteAvisosScheduledForDeletion = null;
 
     /**
      * Applies default values to this object.
@@ -611,6 +635,16 @@ abstract class JobAviso implements ActiveRecordInterface
     public function getNombreEmpresa()
     {
         return $this->nombre_empresa;
+    }
+
+    /**
+     * Get the [alias_empresa] column value.
+     *
+     * @return string
+     */
+    public function getAliasEmpresa()
+    {
+        return $this->alias_empresa;
     }
 
     /**
@@ -1044,6 +1078,26 @@ abstract class JobAviso implements ActiveRecordInterface
 
         return $this;
     } // setNombreEmpresa()
+
+    /**
+     * Set the value of [alias_empresa] column.
+     *
+     * @param string $v new value
+     * @return $this|\JobAviso The current object (for fluent API support)
+     */
+    public function setAliasEmpresa($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->alias_empresa !== $v) {
+            $this->alias_empresa = $v;
+            $this->modifiedColumns[JobAvisoTableMap::COL_ALIAS_EMPRESA] = true;
+        }
+
+        return $this;
+    } // setAliasEmpresa()
 
     /**
      * Set the value of [direccion] column.
@@ -1537,73 +1591,76 @@ abstract class JobAviso implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : JobAvisoTableMap::translateFieldName('NombreEmpresa', TableMap::TYPE_PHPNAME, $indexType)];
             $this->nombre_empresa = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : JobAvisoTableMap::translateFieldName('Direccion', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : JobAvisoTableMap::translateFieldName('AliasEmpresa', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->alias_empresa = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : JobAvisoTableMap::translateFieldName('Direccion', TableMap::TYPE_PHPNAME, $indexType)];
             $this->direccion = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : JobAvisoTableMap::translateFieldName('TelefonoContacto', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : JobAvisoTableMap::translateFieldName('TelefonoContacto', TableMap::TYPE_PHPNAME, $indexType)];
             $this->telefono_contacto = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : JobAvisoTableMap::translateFieldName('CorreoContacto', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : JobAvisoTableMap::translateFieldName('CorreoContacto', TableMap::TYPE_PHPNAME, $indexType)];
             $this->correo_contacto = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : JobAvisoTableMap::translateFieldName('FechaPublicacion', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : JobAvisoTableMap::translateFieldName('FechaPublicacion', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00') {
                 $col = null;
             }
             $this->fecha_publicacion = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : JobAvisoTableMap::translateFieldName('FechaVencimiento', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 13 + $startcol : JobAvisoTableMap::translateFieldName('FechaVencimiento', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00') {
                 $col = null;
             }
             $this->fecha_vencimiento = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 13 + $startcol : JobAvisoTableMap::translateFieldName('Requisito', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 14 + $startcol : JobAvisoTableMap::translateFieldName('Requisito', TableMap::TYPE_PHPNAME, $indexType)];
             $this->requisito = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 14 + $startcol : JobAvisoTableMap::translateFieldName('AniosExperiencia', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 15 + $startcol : JobAvisoTableMap::translateFieldName('AniosExperiencia', TableMap::TYPE_PHPNAME, $indexType)];
             $this->anios_experiencia = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 15 + $startcol : JobAvisoTableMap::translateFieldName('NivelFormacion', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 16 + $startcol : JobAvisoTableMap::translateFieldName('NivelFormacion', TableMap::TYPE_PHPNAME, $indexType)];
             $this->nivel_formacion = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 16 + $startcol : JobAvisoTableMap::translateFieldName('Salario', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 17 + $startcol : JobAvisoTableMap::translateFieldName('Salario', TableMap::TYPE_PHPNAME, $indexType)];
             $this->salario = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 17 + $startcol : JobAvisoTableMap::translateFieldName('Profesion', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 18 + $startcol : JobAvisoTableMap::translateFieldName('Profesion', TableMap::TYPE_PHPNAME, $indexType)];
             $this->profesion = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 18 + $startcol : JobAvisoTableMap::translateFieldName('Fuente', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 19 + $startcol : JobAvisoTableMap::translateFieldName('Fuente', TableMap::TYPE_PHPNAME, $indexType)];
             $this->fuente = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 19 + $startcol : JobAvisoTableMap::translateFieldName('TieneImagen', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 20 + $startcol : JobAvisoTableMap::translateFieldName('TieneImagen', TableMap::TYPE_PHPNAME, $indexType)];
             $this->tiene_imagen = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 20 + $startcol : JobAvisoTableMap::translateFieldName('Mimetype', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 21 + $startcol : JobAvisoTableMap::translateFieldName('Mimetype', TableMap::TYPE_PHPNAME, $indexType)];
             $this->mimetype = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 21 + $startcol : JobAvisoTableMap::translateFieldName('AreasReferencia', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 22 + $startcol : JobAvisoTableMap::translateFieldName('AreasReferencia', TableMap::TYPE_PHPNAME, $indexType)];
             $this->areas_referencia = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 22 + $startcol : JobAvisoTableMap::translateFieldName('FormacionesReferencia', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 23 + $startcol : JobAvisoTableMap::translateFieldName('FormacionesReferencia', TableMap::TYPE_PHPNAME, $indexType)];
             $this->formaciones_referencia = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 23 + $startcol : JobAvisoTableMap::translateFieldName('Destacado', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 24 + $startcol : JobAvisoTableMap::translateFieldName('Destacado', TableMap::TYPE_PHPNAME, $indexType)];
             $this->destacado = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 24 + $startcol : JobAvisoTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 25 + $startcol : JobAvisoTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
             $this->status = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 25 + $startcol : JobAvisoTableMap::translateFieldName('LastUserId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 26 + $startcol : JobAvisoTableMap::translateFieldName('LastUserId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->last_user_id = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 26 + $startcol : JobAvisoTableMap::translateFieldName('CreationDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 27 + $startcol : JobAvisoTableMap::translateFieldName('CreationDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->creation_date = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 27 + $startcol : JobAvisoTableMap::translateFieldName('ModificationDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 28 + $startcol : JobAvisoTableMap::translateFieldName('ModificationDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
@@ -1616,7 +1673,7 @@ abstract class JobAviso implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 28; // 28 = JobAvisoTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 29; // 29 = JobAvisoTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\JobAviso'), 0, $e);
@@ -1689,6 +1746,8 @@ abstract class JobAviso implements ActiveRecordInterface
             $this->aJobAreaTecnica = null;
             $this->aJobArea = null;
             $this->aJobEmpresaSuscrita = null;
+            $this->collJobPostulanteAvisos = null;
+
         } // if (deep)
     }
 
@@ -1829,6 +1888,23 @@ abstract class JobAviso implements ActiveRecordInterface
                 $this->resetModified();
             }
 
+            if ($this->jobPostulanteAvisosScheduledForDeletion !== null) {
+                if (!$this->jobPostulanteAvisosScheduledForDeletion->isEmpty()) {
+                    \JobPostulanteAvisoQuery::create()
+                        ->filterByPrimaryKeys($this->jobPostulanteAvisosScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->jobPostulanteAvisosScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collJobPostulanteAvisos !== null) {
+                foreach ($this->collJobPostulanteAvisos as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
             $this->alreadyInSave = false;
 
         }
@@ -1878,6 +1954,9 @@ abstract class JobAviso implements ActiveRecordInterface
         }
         if ($this->isColumnModified(JobAvisoTableMap::COL_NOMBRE_EMPRESA)) {
             $modifiedColumns[':p' . $index++]  = 'NOMBRE_EMPRESA';
+        }
+        if ($this->isColumnModified(JobAvisoTableMap::COL_ALIAS_EMPRESA)) {
+            $modifiedColumns[':p' . $index++]  = 'ALIAS_EMPRESA';
         }
         if ($this->isColumnModified(JobAvisoTableMap::COL_DIRECCION)) {
             $modifiedColumns[':p' . $index++]  = 'DIRECCION';
@@ -1973,6 +2052,9 @@ abstract class JobAviso implements ActiveRecordInterface
                         break;
                     case 'NOMBRE_EMPRESA':
                         $stmt->bindValue($identifier, $this->nombre_empresa, PDO::PARAM_STR);
+                        break;
+                    case 'ALIAS_EMPRESA':
+                        $stmt->bindValue($identifier, $this->alias_empresa, PDO::PARAM_STR);
                         break;
                     case 'DIRECCION':
                         $stmt->bindValue($identifier, $this->direccion, PDO::PARAM_STR);
@@ -2121,63 +2203,66 @@ abstract class JobAviso implements ActiveRecordInterface
                 return $this->getNombreEmpresa();
                 break;
             case 8:
-                return $this->getDireccion();
+                return $this->getAliasEmpresa();
                 break;
             case 9:
-                return $this->getTelefonoContacto();
+                return $this->getDireccion();
                 break;
             case 10:
-                return $this->getCorreoContacto();
+                return $this->getTelefonoContacto();
                 break;
             case 11:
-                return $this->getFechaPublicacion();
+                return $this->getCorreoContacto();
                 break;
             case 12:
-                return $this->getFechaVencimiento();
+                return $this->getFechaPublicacion();
                 break;
             case 13:
-                return $this->getRequisito();
+                return $this->getFechaVencimiento();
                 break;
             case 14:
-                return $this->getAniosExperiencia();
+                return $this->getRequisito();
                 break;
             case 15:
-                return $this->getNivelFormacion();
+                return $this->getAniosExperiencia();
                 break;
             case 16:
-                return $this->getSalario();
+                return $this->getNivelFormacion();
                 break;
             case 17:
-                return $this->getProfesion();
+                return $this->getSalario();
                 break;
             case 18:
-                return $this->getFuente();
+                return $this->getProfesion();
                 break;
             case 19:
-                return $this->getTieneImagen();
+                return $this->getFuente();
                 break;
             case 20:
-                return $this->getMimetype();
+                return $this->getTieneImagen();
                 break;
             case 21:
-                return $this->getAreasReferencia();
+                return $this->getMimetype();
                 break;
             case 22:
-                return $this->getFormacionesReferencia();
+                return $this->getAreasReferencia();
                 break;
             case 23:
-                return $this->getDestacado();
+                return $this->getFormacionesReferencia();
                 break;
             case 24:
-                return $this->getStatus();
+                return $this->getDestacado();
                 break;
             case 25:
-                return $this->getLastUserId();
+                return $this->getStatus();
                 break;
             case 26:
-                return $this->getCreationDate();
+                return $this->getLastUserId();
                 break;
             case 27:
+                return $this->getCreationDate();
+                break;
+            case 28:
                 return $this->getModificationDate();
                 break;
             default:
@@ -2218,41 +2303,42 @@ abstract class JobAviso implements ActiveRecordInterface
             $keys[5] => $this->getCargo(),
             $keys[6] => $this->getDescripcion(),
             $keys[7] => $this->getNombreEmpresa(),
-            $keys[8] => $this->getDireccion(),
-            $keys[9] => $this->getTelefonoContacto(),
-            $keys[10] => $this->getCorreoContacto(),
-            $keys[11] => $this->getFechaPublicacion(),
-            $keys[12] => $this->getFechaVencimiento(),
-            $keys[13] => $this->getRequisito(),
-            $keys[14] => $this->getAniosExperiencia(),
-            $keys[15] => $this->getNivelFormacion(),
-            $keys[16] => $this->getSalario(),
-            $keys[17] => $this->getProfesion(),
-            $keys[18] => $this->getFuente(),
-            $keys[19] => $this->getTieneImagen(),
-            $keys[20] => $this->getMimetype(),
-            $keys[21] => $this->getAreasReferencia(),
-            $keys[22] => $this->getFormacionesReferencia(),
-            $keys[23] => $this->getDestacado(),
-            $keys[24] => $this->getStatus(),
-            $keys[25] => $this->getLastUserId(),
-            $keys[26] => $this->getCreationDate(),
-            $keys[27] => $this->getModificationDate(),
+            $keys[8] => $this->getAliasEmpresa(),
+            $keys[9] => $this->getDireccion(),
+            $keys[10] => $this->getTelefonoContacto(),
+            $keys[11] => $this->getCorreoContacto(),
+            $keys[12] => $this->getFechaPublicacion(),
+            $keys[13] => $this->getFechaVencimiento(),
+            $keys[14] => $this->getRequisito(),
+            $keys[15] => $this->getAniosExperiencia(),
+            $keys[16] => $this->getNivelFormacion(),
+            $keys[17] => $this->getSalario(),
+            $keys[18] => $this->getProfesion(),
+            $keys[19] => $this->getFuente(),
+            $keys[20] => $this->getTieneImagen(),
+            $keys[21] => $this->getMimetype(),
+            $keys[22] => $this->getAreasReferencia(),
+            $keys[23] => $this->getFormacionesReferencia(),
+            $keys[24] => $this->getDestacado(),
+            $keys[25] => $this->getStatus(),
+            $keys[26] => $this->getLastUserId(),
+            $keys[27] => $this->getCreationDate(),
+            $keys[28] => $this->getModificationDate(),
         );
-        if ($result[$keys[11]] instanceof \DateTimeInterface) {
-            $result[$keys[11]] = $result[$keys[11]]->format('c');
-        }
-
         if ($result[$keys[12]] instanceof \DateTimeInterface) {
             $result[$keys[12]] = $result[$keys[12]]->format('c');
         }
 
-        if ($result[$keys[26]] instanceof \DateTimeInterface) {
-            $result[$keys[26]] = $result[$keys[26]]->format('c');
+        if ($result[$keys[13]] instanceof \DateTimeInterface) {
+            $result[$keys[13]] = $result[$keys[13]]->format('c');
         }
 
         if ($result[$keys[27]] instanceof \DateTimeInterface) {
             $result[$keys[27]] = $result[$keys[27]]->format('c');
+        }
+
+        if ($result[$keys[28]] instanceof \DateTimeInterface) {
+            $result[$keys[28]] = $result[$keys[28]]->format('c');
         }
 
         $virtualColumns = $this->virtualColumns;
@@ -2305,6 +2391,21 @@ abstract class JobAviso implements ActiveRecordInterface
                 }
 
                 $result[$key] = $this->aJobEmpresaSuscrita->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->collJobPostulanteAvisos) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'jobPostulanteAvisos';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'job_postulante_avisos';
+                        break;
+                    default:
+                        $key = 'JobPostulanteAvisos';
+                }
+
+                $result[$key] = $this->collJobPostulanteAvisos->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -2365,63 +2466,66 @@ abstract class JobAviso implements ActiveRecordInterface
                 $this->setNombreEmpresa($value);
                 break;
             case 8:
-                $this->setDireccion($value);
+                $this->setAliasEmpresa($value);
                 break;
             case 9:
-                $this->setTelefonoContacto($value);
+                $this->setDireccion($value);
                 break;
             case 10:
-                $this->setCorreoContacto($value);
+                $this->setTelefonoContacto($value);
                 break;
             case 11:
-                $this->setFechaPublicacion($value);
+                $this->setCorreoContacto($value);
                 break;
             case 12:
-                $this->setFechaVencimiento($value);
+                $this->setFechaPublicacion($value);
                 break;
             case 13:
-                $this->setRequisito($value);
+                $this->setFechaVencimiento($value);
                 break;
             case 14:
-                $this->setAniosExperiencia($value);
+                $this->setRequisito($value);
                 break;
             case 15:
-                $this->setNivelFormacion($value);
+                $this->setAniosExperiencia($value);
                 break;
             case 16:
-                $this->setSalario($value);
+                $this->setNivelFormacion($value);
                 break;
             case 17:
-                $this->setProfesion($value);
+                $this->setSalario($value);
                 break;
             case 18:
-                $this->setFuente($value);
+                $this->setProfesion($value);
                 break;
             case 19:
-                $this->setTieneImagen($value);
+                $this->setFuente($value);
                 break;
             case 20:
-                $this->setMimetype($value);
+                $this->setTieneImagen($value);
                 break;
             case 21:
-                $this->setAreasReferencia($value);
+                $this->setMimetype($value);
                 break;
             case 22:
-                $this->setFormacionesReferencia($value);
+                $this->setAreasReferencia($value);
                 break;
             case 23:
-                $this->setDestacado($value);
+                $this->setFormacionesReferencia($value);
                 break;
             case 24:
-                $this->setStatus($value);
+                $this->setDestacado($value);
                 break;
             case 25:
-                $this->setLastUserId($value);
+                $this->setStatus($value);
                 break;
             case 26:
-                $this->setCreationDate($value);
+                $this->setLastUserId($value);
                 break;
             case 27:
+                $this->setCreationDate($value);
+                break;
+            case 28:
                 $this->setModificationDate($value);
                 break;
         } // switch()
@@ -2475,64 +2579,67 @@ abstract class JobAviso implements ActiveRecordInterface
             $this->setNombreEmpresa($arr[$keys[7]]);
         }
         if (array_key_exists($keys[8], $arr)) {
-            $this->setDireccion($arr[$keys[8]]);
+            $this->setAliasEmpresa($arr[$keys[8]]);
         }
         if (array_key_exists($keys[9], $arr)) {
-            $this->setTelefonoContacto($arr[$keys[9]]);
+            $this->setDireccion($arr[$keys[9]]);
         }
         if (array_key_exists($keys[10], $arr)) {
-            $this->setCorreoContacto($arr[$keys[10]]);
+            $this->setTelefonoContacto($arr[$keys[10]]);
         }
         if (array_key_exists($keys[11], $arr)) {
-            $this->setFechaPublicacion($arr[$keys[11]]);
+            $this->setCorreoContacto($arr[$keys[11]]);
         }
         if (array_key_exists($keys[12], $arr)) {
-            $this->setFechaVencimiento($arr[$keys[12]]);
+            $this->setFechaPublicacion($arr[$keys[12]]);
         }
         if (array_key_exists($keys[13], $arr)) {
-            $this->setRequisito($arr[$keys[13]]);
+            $this->setFechaVencimiento($arr[$keys[13]]);
         }
         if (array_key_exists($keys[14], $arr)) {
-            $this->setAniosExperiencia($arr[$keys[14]]);
+            $this->setRequisito($arr[$keys[14]]);
         }
         if (array_key_exists($keys[15], $arr)) {
-            $this->setNivelFormacion($arr[$keys[15]]);
+            $this->setAniosExperiencia($arr[$keys[15]]);
         }
         if (array_key_exists($keys[16], $arr)) {
-            $this->setSalario($arr[$keys[16]]);
+            $this->setNivelFormacion($arr[$keys[16]]);
         }
         if (array_key_exists($keys[17], $arr)) {
-            $this->setProfesion($arr[$keys[17]]);
+            $this->setSalario($arr[$keys[17]]);
         }
         if (array_key_exists($keys[18], $arr)) {
-            $this->setFuente($arr[$keys[18]]);
+            $this->setProfesion($arr[$keys[18]]);
         }
         if (array_key_exists($keys[19], $arr)) {
-            $this->setTieneImagen($arr[$keys[19]]);
+            $this->setFuente($arr[$keys[19]]);
         }
         if (array_key_exists($keys[20], $arr)) {
-            $this->setMimetype($arr[$keys[20]]);
+            $this->setTieneImagen($arr[$keys[20]]);
         }
         if (array_key_exists($keys[21], $arr)) {
-            $this->setAreasReferencia($arr[$keys[21]]);
+            $this->setMimetype($arr[$keys[21]]);
         }
         if (array_key_exists($keys[22], $arr)) {
-            $this->setFormacionesReferencia($arr[$keys[22]]);
+            $this->setAreasReferencia($arr[$keys[22]]);
         }
         if (array_key_exists($keys[23], $arr)) {
-            $this->setDestacado($arr[$keys[23]]);
+            $this->setFormacionesReferencia($arr[$keys[23]]);
         }
         if (array_key_exists($keys[24], $arr)) {
-            $this->setStatus($arr[$keys[24]]);
+            $this->setDestacado($arr[$keys[24]]);
         }
         if (array_key_exists($keys[25], $arr)) {
-            $this->setLastUserId($arr[$keys[25]]);
+            $this->setStatus($arr[$keys[25]]);
         }
         if (array_key_exists($keys[26], $arr)) {
-            $this->setCreationDate($arr[$keys[26]]);
+            $this->setLastUserId($arr[$keys[26]]);
         }
         if (array_key_exists($keys[27], $arr)) {
-            $this->setModificationDate($arr[$keys[27]]);
+            $this->setCreationDate($arr[$keys[27]]);
+        }
+        if (array_key_exists($keys[28], $arr)) {
+            $this->setModificationDate($arr[$keys[28]]);
         }
     }
 
@@ -2598,6 +2705,9 @@ abstract class JobAviso implements ActiveRecordInterface
         }
         if ($this->isColumnModified(JobAvisoTableMap::COL_NOMBRE_EMPRESA)) {
             $criteria->add(JobAvisoTableMap::COL_NOMBRE_EMPRESA, $this->nombre_empresa);
+        }
+        if ($this->isColumnModified(JobAvisoTableMap::COL_ALIAS_EMPRESA)) {
+            $criteria->add(JobAvisoTableMap::COL_ALIAS_EMPRESA, $this->alias_empresa);
         }
         if ($this->isColumnModified(JobAvisoTableMap::COL_DIRECCION)) {
             $criteria->add(JobAvisoTableMap::COL_DIRECCION, $this->direccion);
@@ -2752,6 +2862,7 @@ abstract class JobAviso implements ActiveRecordInterface
         $copyObj->setCargo($this->getCargo());
         $copyObj->setDescripcion($this->getDescripcion());
         $copyObj->setNombreEmpresa($this->getNombreEmpresa());
+        $copyObj->setAliasEmpresa($this->getAliasEmpresa());
         $copyObj->setDireccion($this->getDireccion());
         $copyObj->setTelefonoContacto($this->getTelefonoContacto());
         $copyObj->setCorreoContacto($this->getCorreoContacto());
@@ -2772,6 +2883,20 @@ abstract class JobAviso implements ActiveRecordInterface
         $copyObj->setLastUserId($this->getLastUserId());
         $copyObj->setCreationDate($this->getCreationDate());
         $copyObj->setModificationDate($this->getModificationDate());
+
+        if ($deepCopy) {
+            // important: temporarily setNew(false) because this affects the behavior of
+            // the getter/setter methods for fkey referrer objects.
+            $copyObj->setNew(false);
+
+            foreach ($this->getJobPostulanteAvisos() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addJobPostulanteAviso($relObj->copy($deepCopy));
+                }
+            }
+
+        } // if ($deepCopy)
+
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -2953,6 +3078,273 @@ abstract class JobAviso implements ActiveRecordInterface
         return $this->aJobEmpresaSuscrita;
     }
 
+
+    /**
+     * Initializes a collection based on the name of a relation.
+     * Avoids crafting an 'init[$relationName]s' method name
+     * that wouldn't work when StandardEnglishPluralizer is used.
+     *
+     * @param      string $relationName The name of the relation to initialize
+     * @return void
+     */
+    public function initRelation($relationName)
+    {
+        if ('JobPostulanteAviso' == $relationName) {
+            $this->initJobPostulanteAvisos();
+            return;
+        }
+    }
+
+    /**
+     * Clears out the collJobPostulanteAvisos collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addJobPostulanteAvisos()
+     */
+    public function clearJobPostulanteAvisos()
+    {
+        $this->collJobPostulanteAvisos = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collJobPostulanteAvisos collection loaded partially.
+     */
+    public function resetPartialJobPostulanteAvisos($v = true)
+    {
+        $this->collJobPostulanteAvisosPartial = $v;
+    }
+
+    /**
+     * Initializes the collJobPostulanteAvisos collection.
+     *
+     * By default this just sets the collJobPostulanteAvisos collection to an empty array (like clearcollJobPostulanteAvisos());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initJobPostulanteAvisos($overrideExisting = true)
+    {
+        if (null !== $this->collJobPostulanteAvisos && !$overrideExisting) {
+            return;
+        }
+
+        $collectionClassName = JobPostulanteAvisoTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collJobPostulanteAvisos = new $collectionClassName;
+        $this->collJobPostulanteAvisos->setModel('\JobPostulanteAviso');
+    }
+
+    /**
+     * Gets an array of ChildJobPostulanteAviso objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildJobAviso is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return ObjectCollection|ChildJobPostulanteAviso[] List of ChildJobPostulanteAviso objects
+     * @throws PropelException
+     */
+    public function getJobPostulanteAvisos(Criteria $criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collJobPostulanteAvisosPartial && !$this->isNew();
+        if (null === $this->collJobPostulanteAvisos || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collJobPostulanteAvisos) {
+                // return empty collection
+                $this->initJobPostulanteAvisos();
+            } else {
+                $collJobPostulanteAvisos = ChildJobPostulanteAvisoQuery::create(null, $criteria)
+                    ->filterByJobAviso($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collJobPostulanteAvisosPartial && count($collJobPostulanteAvisos)) {
+                        $this->initJobPostulanteAvisos(false);
+
+                        foreach ($collJobPostulanteAvisos as $obj) {
+                            if (false == $this->collJobPostulanteAvisos->contains($obj)) {
+                                $this->collJobPostulanteAvisos->append($obj);
+                            }
+                        }
+
+                        $this->collJobPostulanteAvisosPartial = true;
+                    }
+
+                    return $collJobPostulanteAvisos;
+                }
+
+                if ($partial && $this->collJobPostulanteAvisos) {
+                    foreach ($this->collJobPostulanteAvisos as $obj) {
+                        if ($obj->isNew()) {
+                            $collJobPostulanteAvisos[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collJobPostulanteAvisos = $collJobPostulanteAvisos;
+                $this->collJobPostulanteAvisosPartial = false;
+            }
+        }
+
+        return $this->collJobPostulanteAvisos;
+    }
+
+    /**
+     * Sets a collection of ChildJobPostulanteAviso objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $jobPostulanteAvisos A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return $this|ChildJobAviso The current object (for fluent API support)
+     */
+    public function setJobPostulanteAvisos(Collection $jobPostulanteAvisos, ConnectionInterface $con = null)
+    {
+        /** @var ChildJobPostulanteAviso[] $jobPostulanteAvisosToDelete */
+        $jobPostulanteAvisosToDelete = $this->getJobPostulanteAvisos(new Criteria(), $con)->diff($jobPostulanteAvisos);
+
+
+        $this->jobPostulanteAvisosScheduledForDeletion = $jobPostulanteAvisosToDelete;
+
+        foreach ($jobPostulanteAvisosToDelete as $jobPostulanteAvisoRemoved) {
+            $jobPostulanteAvisoRemoved->setJobAviso(null);
+        }
+
+        $this->collJobPostulanteAvisos = null;
+        foreach ($jobPostulanteAvisos as $jobPostulanteAviso) {
+            $this->addJobPostulanteAviso($jobPostulanteAviso);
+        }
+
+        $this->collJobPostulanteAvisos = $jobPostulanteAvisos;
+        $this->collJobPostulanteAvisosPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related JobPostulanteAviso objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related JobPostulanteAviso objects.
+     * @throws PropelException
+     */
+    public function countJobPostulanteAvisos(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collJobPostulanteAvisosPartial && !$this->isNew();
+        if (null === $this->collJobPostulanteAvisos || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collJobPostulanteAvisos) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getJobPostulanteAvisos());
+            }
+
+            $query = ChildJobPostulanteAvisoQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByJobAviso($this)
+                ->count($con);
+        }
+
+        return count($this->collJobPostulanteAvisos);
+    }
+
+    /**
+     * Method called to associate a ChildJobPostulanteAviso object to this object
+     * through the ChildJobPostulanteAviso foreign key attribute.
+     *
+     * @param  ChildJobPostulanteAviso $l ChildJobPostulanteAviso
+     * @return $this|\JobAviso The current object (for fluent API support)
+     */
+    public function addJobPostulanteAviso(ChildJobPostulanteAviso $l)
+    {
+        if ($this->collJobPostulanteAvisos === null) {
+            $this->initJobPostulanteAvisos();
+            $this->collJobPostulanteAvisosPartial = true;
+        }
+
+        if (!$this->collJobPostulanteAvisos->contains($l)) {
+            $this->doAddJobPostulanteAviso($l);
+
+            if ($this->jobPostulanteAvisosScheduledForDeletion and $this->jobPostulanteAvisosScheduledForDeletion->contains($l)) {
+                $this->jobPostulanteAvisosScheduledForDeletion->remove($this->jobPostulanteAvisosScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ChildJobPostulanteAviso $jobPostulanteAviso The ChildJobPostulanteAviso object to add.
+     */
+    protected function doAddJobPostulanteAviso(ChildJobPostulanteAviso $jobPostulanteAviso)
+    {
+        $this->collJobPostulanteAvisos[]= $jobPostulanteAviso;
+        $jobPostulanteAviso->setJobAviso($this);
+    }
+
+    /**
+     * @param  ChildJobPostulanteAviso $jobPostulanteAviso The ChildJobPostulanteAviso object to remove.
+     * @return $this|ChildJobAviso The current object (for fluent API support)
+     */
+    public function removeJobPostulanteAviso(ChildJobPostulanteAviso $jobPostulanteAviso)
+    {
+        if ($this->getJobPostulanteAvisos()->contains($jobPostulanteAviso)) {
+            $pos = $this->collJobPostulanteAvisos->search($jobPostulanteAviso);
+            $this->collJobPostulanteAvisos->remove($pos);
+            if (null === $this->jobPostulanteAvisosScheduledForDeletion) {
+                $this->jobPostulanteAvisosScheduledForDeletion = clone $this->collJobPostulanteAvisos;
+                $this->jobPostulanteAvisosScheduledForDeletion->clear();
+            }
+            $this->jobPostulanteAvisosScheduledForDeletion[]= clone $jobPostulanteAviso;
+            $jobPostulanteAviso->setJobAviso(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this JobAviso is new, it will return
+     * an empty collection; or if this JobAviso has previously
+     * been saved, it will retrieve related JobPostulanteAvisos from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in JobAviso.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildJobPostulanteAviso[] List of ChildJobPostulanteAviso objects
+     */
+    public function getJobPostulanteAvisosJoinJobPostulante(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildJobPostulanteAvisoQuery::create(null, $criteria);
+        $query->joinWith('JobPostulante', $joinBehavior);
+
+        return $this->getJobPostulanteAvisos($query, $con);
+    }
+
     /**
      * Clears the current object, sets all attributes to their default values and removes
      * outgoing references as well as back-references (from other objects to this one. Results probably in a database
@@ -2977,6 +3369,7 @@ abstract class JobAviso implements ActiveRecordInterface
         $this->cargo = null;
         $this->descripcion = null;
         $this->nombre_empresa = null;
+        $this->alias_empresa = null;
         $this->direccion = null;
         $this->telefono_contacto = null;
         $this->correo_contacto = null;
@@ -3016,8 +3409,14 @@ abstract class JobAviso implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
+            if ($this->collJobPostulanteAvisos) {
+                foreach ($this->collJobPostulanteAvisos as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
         } // if ($deep)
 
+        $this->collJobPostulanteAvisos = null;
         $this->aJobAreaTecnica = null;
         $this->aJobArea = null;
         $this->aJobEmpresaSuscrita = null;
