@@ -20,4 +20,6 @@ interface SoftDeletion
 
     public static function createValids($noDeletes = true, $modelAlias = null, Criteria $criteria = null);
 
+    public function orders($orderByArray);
+
 }

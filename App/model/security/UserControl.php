@@ -181,9 +181,10 @@ class UserControl implements ISingleton
      */
     public static function hasRol($rolCode)
     {
-        return sizeof(array_filter(self::$sysRols->getArrayCopy(), function($obj) use($rolCode){
-            return $obj->getCode() == $rolCode;
-        }))>0;
+        return self::$sysRols != null ?
+            sizeof(array_filter(self::$sysRols->getArrayCopy(), function ($obj) use ($rolCode) {
+                return $obj->getCode() == $rolCode;
+            })) > 0 : false;
     }
 
 }

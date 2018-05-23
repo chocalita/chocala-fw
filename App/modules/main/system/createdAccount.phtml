@@ -14,15 +14,9 @@
 
                     <div class="ibox-content">
 
-                        <?php
-                        if (false) {
-                        ?>
-                        <div id="errorMessages" class="alert alert-danger">
-                            MENSAJE ERROR
-                        </div>
-                        <?php
-                        }
-                        ?>
+                        <small class="text-blue">Es recomedable usar caracteres mayúsculas, minúsculas, numerales y otros.</small>
+                        <br />
+                        <br />
 
                         <div class="form-group">
                             <label class="control-label col-sm-4" for="Password"> Nueva Contraseña</label>
@@ -40,8 +34,6 @@
                             </div>
                         </div>
 
-                        <small class="text-blue">Es recomedable usar caracteres mayúsculas, minúsculas, numerales y otros.</small>
-
                     </div>
                     <div class="ibox-footer">
                         <div class="text-right">
@@ -58,14 +50,9 @@
 
 <script type="text/javascript">
 $().ready(function() {
-    $("#errorMessages").hide();
     $(".ajaxPost").formAjaxPost({
-        'onErrors': function ($form, message) {
-            $("#errorMessages").show().html(message);
-        },
         'onSuccess': function (data) {
-            $("#errorMessages").hide();
-            alert("Se activó correctamente su cuenta de usuario."):
+            alert("OPERACION EXITOSA: Se activó correctamente su cuenta de usuario y su nueva contraseña.");
             window.location.replace("<?=URI::toPage().'main';?>");
         },
     });

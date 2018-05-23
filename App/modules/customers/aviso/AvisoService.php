@@ -37,16 +37,14 @@ class AvisoService extends GenericService
 
     /**
      * @param array $filters
-     * @return \Propel\Runtime\Util\PropelModelPager|JobAviso[]
+     * @return JobAviso[]|\Propel\Runtime\Util\PropelModelPager
      */
     public function dataList($filters = [])
     {
         $query = $this->validsQuery()
             ->_if(isset($filters['code']))
-                ->filterByDescripcion('%' . $filters['descripcion'] . '%', Criteria::ILIKE)
+            ->filterByDescripcion('%' . $filters['descripcion'] . '%', Criteria::ILIKE)
             ->_endif();
-
-        //$query = nul;
         $_page = $filters['_page'] ?: 1;
         $_max = $filters['_max'] ?: $query->count();
         return $query->paginate($_page, $_max);
@@ -60,7 +58,7 @@ class AvisoService extends GenericService
     public function listVigencia($vigentes = true, $order = Criteria::ASC)
     {
         $query = $this->validsQuery()
-                ->filterVigentes(new DateTime(), $vigentes)
+            ->filterVigentes(new DateTime(), $vigentes)
             ->orderByDestacado(Criteria::DESC)
             ->orderByFechaVencimiento($order);
         return $query->find();
@@ -122,6 +120,25 @@ class AvisoService extends GenericService
         $results['object'] = $aviso;
         $results['errors'] = $aviso->getErrorsMap();
         return $results;
+    }
+
+    /**
+     * @param JobEmpresaSuscrita $empresaSuscrita
+     * @param DateTime $fecha
+     * @param array $filters
+     * @return JobAviso[]|\Propel\Runtime\Util\PropelModelPager
+     * @throws \Propel\Runtime\Exception\PropelException
+     */
+    public function vigentesEmpresa(JobEmpresaSuscrita $empresaSuscrita, $fecha, $filters = [])
+    {
+        $orders = $filters['_order'] ?: ['FechaVencimiento' => Criteria::DESC];
+        $query = $this->validsQuery()
+            ->filterByJobEmpresaSuscrita($empresaSuscrita)
+            ->filterVigentes($fecha)
+            ->orders($orders);
+        $_page = $filters['_page'] ?: 1;
+        $_max = $filters['_max'] ?: $query->count();
+        return $query->paginate($_page, $_max);
     }
 
 }

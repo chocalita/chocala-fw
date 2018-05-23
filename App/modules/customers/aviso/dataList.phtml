@@ -188,7 +188,9 @@
 $(document).ready(function(){
     $('.dataTables').DataTable({
         "language": {
-            "emptyTable": "No se encontraron registros"
+            "url" : "<?=JQUERY_WEB;?>jquery.dataTables-Spanish.json"
+            // "url" : "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+            // "emptyTable": "No se encontraron registros"
         },
         dom: '<"html5buttons"B>lTfgitp',
         buttons: [

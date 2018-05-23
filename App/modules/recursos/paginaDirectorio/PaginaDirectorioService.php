@@ -492,7 +492,7 @@ class PaginaDirectorioService extends GenericService
     {
         $con = \Propel\Runtime\Propel::getConnection();
         $con->beginTransaction();
-        for ($i = 14001 ; $i<=20000; $i++){
+        for ($i = 141301 ; $i<=145000; $i++){
 //            $this->requestInfo($i);
 
 //            $emp = JobEmpresaDirectorioQuery::create()->findPk($i);
@@ -515,7 +515,7 @@ class PaginaDirectorioService extends GenericService
                 $obj->setSeccion($id);
                 $obj->save($con);
 //            }
-            if($i%200 == 0) {
+            if($i%100 == 0) {
                 $con->commit();
                 $con->beginTransaction();
                 sleep(1);

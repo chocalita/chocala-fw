@@ -106,7 +106,6 @@ abstract class WebController implements IController
     final public function render($content)
     {
         if (!$this->rendered) {
-            echo "ABC";
             $this->view->render($content);
             $this->rendered = true;
         }

@@ -17,7 +17,7 @@
 <!--    <div class="container text-left" style="background: url(http://localhost/empleos.click/App/public/img/banner-empresa.jpg) no-repeat !important;">-->
 <!--            <div class="row">-->
     <div class="container text-left">
-        <div class="row" style="background: url(http://localhost/empleos.click/App/public/img/banner-empresa.jpg) no-repeat !important;">
+        <div class="row" style="background: url(http://localhost/empleos.click/App/public/img/banner-empleos-click-05-2018.jpg) no-repeat !important;">
             <div id="divSuscripcion" class="col-lg-4 col-md-6 col-sm-12 col-xs-12 pull-right">
 
                 <fieldset id="form-p-0" role="tabpanel" aria-labelledby="form-h-0" class="body current formFieldset" aria-hidden="false" style="padding: 2.5%;">
@@ -196,17 +196,21 @@ jQuery(document).ready(function() {
         },
         'onSuccess': function (data) {
             // $("#formSuscripcion").reset();
-            $("#divSuscripcion").parent().unmask();
-            $("#myModal .panel-body").html(
-                "<br /><div class=\"alert alert-success\">" +
+            var message = "<br />" +
+                "<div class=\"alert alert-success\">" +
                 "En breve recibirás un correo de confirmación en <strong>" + $("#Email").val() + "</strong>" +
                 " y podrás publicar los anuncios de  <strong>" + $("#Nombre").val() + "</strong>" +
                 " .</br /> Sí no lo encuentras en tu Bandeja de Entrada por favor verifica en Spam y márcanos como correo confiable." +
                 " <br /> ¡Empleos.Click te ayuda a conseguir los talentos que necesitas!." +
-                "</div>" +
+                "</div>"
+            ;
+            $("#divSuscripcion").parent().unmask();
+            $("#myModal .panel-body").html(
+                message  +
                 "<button type=\"button\" class=\"btn btn-sm btn-success block full-width m-b\" data-dismiss=\"modal\">Ok, revisaré mi correo</button>"
             );
             $("#myModal").modal('show');
+            $("#formSuscripcion").html(message);
         }
     });
 
