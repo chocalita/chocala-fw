@@ -151,7 +151,7 @@ class EmailSender
     public function logEmail($hash, $success)
     {
         $emailSent = new SysEmailSent();
-        $emailSent->setSysEmail($this->email);
+        $emailSent->setEmailId($this->email->getId());
         if (is_object($this->user)) {
             $emailSent->setSysUser($this->user);
         }
