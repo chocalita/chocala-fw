@@ -25,7 +25,7 @@ return array(
     'JobAviso.validate.telefonoCorreo' => 'Debe ingresar un teléfono o correo de contacto',
     'JobAviso.validate.telefonoCorreo' => 'Debe ingresar un teléfono o correo de contacto',
     'JobAviso.validate.agree' => 'Debe aceptar los términos y condiciones para completar su publicación',
-    'JobAviso.FormacionesReferencia.validate.null' => 'Debe indicar la formación requerida',
+    'JobAviso.FormacionesReferencia.validate.null' => 'Debe indicar al menos una formación requerida',
     'JobAviso.Localizacion.validate.null' => 'Debe indicar una localización',
 
     /* JobSuscriptor */

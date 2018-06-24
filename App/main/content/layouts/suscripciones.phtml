@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>JOBS | Main view</title>
+    <title><?=Configs::value('app.name');?></title>
 
     <link href="<?=CSS_WEB;?>bootstrap.min.css" rel="stylesheet" />
 
@@ -51,13 +51,13 @@
 
 </head>
 
-<body>
+<body class="top-navigation">
 
     <div id="wrapper">
 
-        <nav class="navbar-default navbar-static-side" role="navigation">
-            <?= BarView::renderBar('sidebar'); ?>
-        </nav>
+<!--        <nav class="navbar-default navbar-static-side" role="navigation">-->
+<!--            --><?//= BarView::renderBar('sidebar'); ?>
+<!--        </nav>-->
 
         <div id="page-wrapper" class="gray-bg">
             <div class="row border-bottom">
@@ -84,8 +84,11 @@
                                 <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> Menu item <span class="caret"></span></a>
                                 <ul role="menu" class="dropdown-menu">
                                     <li><a href="">Menu item</a></li>
-                                    <li><a href="">Menu item</a></li>
-                                    <li><a href="">Menu item</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> Menu item <span class="caret"></span></a>
+                                <ul role="menu" class="dropdown-menu">
                                     <li><a href="">Menu item</a></li>
                                 </ul>
                             </li>
@@ -93,25 +96,11 @@
                                 <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> Menu item <span class="caret"></span></a>
                                 <ul role="menu" class="dropdown-menu">
                                     <li><a href="">Menu item</a></li>
-                                    <li><a href="">Menu item</a></li>
-                                    <li><a href="">Menu item</a></li>
-                                    <li><a href="">Menu item</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">
                                 <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> Menu item <span class="caret"></span></a>
                                 <ul role="menu" class="dropdown-menu">
-                                    <li><a href="">Menu item</a></li>
-                                    <li><a href="">Menu item</a></li>
-                                    <li><a href="">Menu item</a></li>
-                                    <li><a href="">Menu item</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> Menu item <span class="caret"></span></a>
-                                <ul role="menu" class="dropdown-menu">
-                                    <li><a href="">Menu item</a></li>
-                                    <li><a href="">Menu item</a></li>
                                     <li><a href="">Menu item</a></li>
                                     <li><a href="">Menu item</a></li>
                                 </ul>

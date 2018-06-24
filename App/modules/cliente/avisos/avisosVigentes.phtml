@@ -186,37 +186,36 @@
     </div>
 </div>
 
-<script>
-    $(document).ready(function(){
-        var exports = { columns: "thead th:not(.noExport)"};
-        $('.dataTables').DataTable({
-            "language": {
-                "url" : "<?=JQUERY_WEB;?>jquery.dataTables-Spanish.json"
-                // "url" : "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
-                // "emptyTable": "No se encontraron registros"
-            },
-            dom: '<"html5buttons"B>lTfgitp',
-            buttons: [
-                {extend: 'copy', title: 'Copiar', text: 'Copiar', exportOptions: exports},
-                {extend: 'csv', title: 'Reporte CSV', text: 'CSV', exportOptions: exports},
-                {extend: 'excel', title: 'Reporte Excel', text: 'Excel', exportOptions: exports},
-                {extend: 'pdf', title: 'Reporte PDF', text: 'PDF', exportOptions: exports},
-                {extend: 'print', title: 'Imprimir', text: 'Imprimir', exportOptions: exports,
-                    // exportOptions: {
-                    //     columns: "thead th:not(.noExport)"
-                    // },
-                    customize: function (win){
-                        $(win.document.body).addClass('white-bg');
-                        $(win.document.body).css('font-size', '10px');
-                        $(win.document.body).find('table')
-                            .addClass('compact')
-                            .css('font-size', 'inherit');
-                    }
+<h2><?=$avisoPager->count();?> Avisos</h2>
+
+<script type="application/javascript">
+$(document).ready(function(){
+    var exports = { columns: "thead th:not(.noExport)"};
+    $('.dataTables').DataTable({
+        "language": {
+            "url" : "<?=JQUERY_WEB;?>jquery.dataTables-Spanish.json"
+            // "url" : "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+            // "emptyTable": "No se encontraron registros"
+        },
+        dom: '<"html5buttons"B>lTfgitp',
+        buttons: [
+            {extend: 'copy', title: 'Copiar', text: 'Copiar', exportOptions: exports},
+            {extend: 'csv', title: 'Reporte CSV', text: 'CSV', exportOptions: exports},
+            {extend: 'excel', title: 'Reporte Excel', text: 'Excel', exportOptions: exports},
+            {extend: 'pdf', title: 'Reporte PDF', text: 'PDF', exportOptions: exports},
+            {extend: 'print', title: 'Imprimir', text: 'Imprimir', exportOptions: exports,
+                // exportOptions: {
+                //     columns: "thead th:not(.noExport)"
+                // },
+                customize: function (win){
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
                 }
-            ]
-        });
+            }
+        ]
     });
+});
 </script>
-
-
-<h2><?=$avisoPager->count();?></h2>
