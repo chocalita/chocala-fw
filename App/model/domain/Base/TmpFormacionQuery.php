@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'tmp_formacion' table.
  *
- * 
+ *
  *
  * @method     ChildTmpFormacionQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildTmpFormacionQuery orderByNombre($order = Criteria::ASC) Order by the nombre column
@@ -36,9 +36,19 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildTmpFormacionQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildTmpFormacionQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildTmpFormacionQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildTmpFormacionQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildTmpFormacionQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildTmpFormacionQuery leftJoinJobSuscriptor($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobSuscriptor relation
  * @method     ChildTmpFormacionQuery rightJoinJobSuscriptor($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobSuscriptor relation
  * @method     ChildTmpFormacionQuery innerJoinJobSuscriptor($relationAlias = null) Adds a INNER JOIN clause to the query using the JobSuscriptor relation
+ *
+ * @method     ChildTmpFormacionQuery joinWithJobSuscriptor($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobSuscriptor relation
+ *
+ * @method     ChildTmpFormacionQuery leftJoinWithJobSuscriptor() Adds a LEFT JOIN clause and with to the query using the JobSuscriptor relation
+ * @method     ChildTmpFormacionQuery rightJoinWithJobSuscriptor() Adds a RIGHT JOIN clause and with to the query using the JobSuscriptor relation
+ * @method     ChildTmpFormacionQuery innerJoinWithJobSuscriptor() Adds a INNER JOIN clause and with to the query using the JobSuscriptor relation
  *
  * @method     \JobSuscriptorQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -128,7 +138,7 @@ abstract class TmpFormacionQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = TmpFormacionTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = TmpFormacionTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -160,7 +170,7 @@ abstract class TmpFormacionQuery extends ModelCriteria
     {
         $sql = 'SELECT id, nombre, keywords, areas_referencia, formaciones_referencia FROM tmp_formacion WHERE id = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -172,7 +182,7 @@ abstract class TmpFormacionQuery extends ModelCriteria
             /** @var ChildTmpFormacion $obj */
             $obj = new ChildTmpFormacion();
             $obj->hydrate($row);
-            TmpFormacionTableMap::addInstanceToPool($obj, (string) $key);
+            TmpFormacionTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -545,9 +555,9 @@ abstract class TmpFormacionQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             TmpFormacionTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             TmpFormacionTableMap::clearRelatedInstancePool();
 

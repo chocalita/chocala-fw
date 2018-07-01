@@ -11,6 +11,7 @@ use \SysUserQuery as ChildSysUserQuery;
 use \DateTime;
 use \Exception;
 use \PDO;
+use Map\JobCurriculumTableMap;
 use Map\SysPersonTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -29,11 +30,11 @@ use Propel\Runtime\Util\PropelDateTime;
 /**
  * Base class that represents a row from the 'sys_person' table.
  *
- * 
+ *
  *
 * @package    propel.generator..Base
 */
-abstract class SysPerson implements ActiveRecordInterface 
+abstract class SysPerson implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -69,132 +70,154 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * The value for the id field.
+     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the user_id field.
+     *
      * @var        int
      */
     protected $user_id;
 
     /**
      * The value for the location_id field.
+     *
      * @var        int
      */
     protected $location_id;
 
     /**
      * The value for the first_name field.
+     *
      * @var        string
      */
     protected $first_name;
 
     /**
      * The value for the middle_name field.
+     *
      * @var        string
      */
     protected $middle_name;
 
     /**
      * The value for the last_name field.
+     *
      * @var        string
      */
     protected $last_name;
 
     /**
      * The value for the second_last_name field.
+     *
      * @var        string
      */
     protected $second_last_name;
 
     /**
      * The value for the email field.
+     *
      * @var        string
      */
     protected $email;
 
     /**
      * The value for the id_number field.
+     *
      * @var        string
      */
     protected $id_number;
 
     /**
      * The value for the id_extension field.
+     *
      * @var        string
      */
     protected $id_extension;
 
     /**
      * The value for the gender field.
+     *
      * @var        string
      */
     protected $gender;
 
     /**
      * The value for the date_of_birth field.
+     *
      * @var        \DateTime
      */
     protected $date_of_birth;
 
     /**
      * The value for the place_of_birth field.
+     *
      * @var        string
      */
     protected $place_of_birth;
 
     /**
      * The value for the address field.
+     *
      * @var        string
      */
     protected $address;
 
     /**
      * The value for the city field.
+     *
      * @var        string
      */
     protected $city;
 
     /**
      * The value for the pob field.
+     *
      * @var        string
      */
     protected $pob;
 
     /**
      * The value for the phone_home field.
+     *
      * @var        string
      */
     protected $phone_home;
 
     /**
      * The value for the phone_work field.
+     *
      * @var        string
      */
     protected $phone_work;
 
     /**
      * The value for the cellphone_1 field.
+     *
      * @var        string
      */
     protected $cellphone_1;
 
     /**
      * The value for the cellphone_2 field.
+     *
      * @var        string
      */
     protected $cellphone_2;
 
     /**
      * The value for the photo_mime field.
+     *
      * @var        string
      */
     protected $photo_mime;
 
     /**
      * The value for the last_user_id field.
+     *
      * Note: this column has a database default value of: 0
      * @var        int
      */
@@ -202,6 +225,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * The value for the creation_date field.
+     *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
      * @var        \DateTime
      */
@@ -209,6 +233,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * The value for the modification_date field.
+     *
      * Note: this column has a database default value of: NULL
      * @var        \DateTime
      */
@@ -467,12 +492,20 @@ abstract class SysPerson implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        return array_keys(get_object_vars($this));
+        $cls = new \ReflectionClass($this);
+        $propertyNames = [];
+        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
+
+        foreach($serializableProperties as $property) {
+            $propertyNames[] = $property->getName();
+        }
+
+        return $propertyNames;
     }
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return int
      */
     public function getId()
@@ -482,7 +515,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Get the [user_id] column value.
-     * 
+     *
      * @return int
      */
     public function getUserId()
@@ -492,7 +525,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Get the [location_id] column value.
-     * 
+     *
      * @return int
      */
     public function getLocationId()
@@ -502,7 +535,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Get the [first_name] column value.
-     * 
+     *
      * @return string
      */
     public function getFirstName()
@@ -512,7 +545,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Get the [middle_name] column value.
-     * 
+     *
      * @return string
      */
     public function getMiddleName()
@@ -522,7 +555,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Get the [last_name] column value.
-     * 
+     *
      * @return string
      */
     public function getLastName()
@@ -532,7 +565,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Get the [second_last_name] column value.
-     * 
+     *
      * @return string
      */
     public function getSecondLastName()
@@ -542,7 +575,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Get the [email] column value.
-     * 
+     *
      * @return string
      */
     public function getEmail()
@@ -552,7 +585,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Get the [id_number] column value.
-     * 
+     *
      * @return string
      */
     public function getIdNumber()
@@ -562,7 +595,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Get the [id_extension] column value.
-     * 
+     *
      * @return string
      */
     public function getIdExtension()
@@ -572,7 +605,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Get the [gender] column value.
-     * 
+     *
      * @return string
      */
     public function getGender()
@@ -582,7 +615,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [date_of_birth] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -602,7 +635,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Get the [place_of_birth] column value.
-     * 
+     *
      * @return string
      */
     public function getPlaceOfBirth()
@@ -612,7 +645,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Get the [address] column value.
-     * 
+     *
      * @return string
      */
     public function getAddress()
@@ -622,7 +655,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Get the [city] column value.
-     * 
+     *
      * @return string
      */
     public function getCity()
@@ -632,7 +665,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Get the [pob] column value.
-     * 
+     *
      * @return string
      */
     public function getPob()
@@ -642,7 +675,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Get the [phone_home] column value.
-     * 
+     *
      * @return string
      */
     public function getPhoneHome()
@@ -652,7 +685,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Get the [phone_work] column value.
-     * 
+     *
      * @return string
      */
     public function getPhoneWork()
@@ -662,7 +695,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Get the [cellphone_1] column value.
-     * 
+     *
      * @return string
      */
     public function getCellphone1()
@@ -672,7 +705,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Get the [cellphone_2] column value.
-     * 
+     *
      * @return string
      */
     public function getCellphone2()
@@ -682,7 +715,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Get the [photo_mime] column value.
-     * 
+     *
      * @return string
      */
     public function getPhotoMime()
@@ -692,7 +725,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Get the [last_user_id] column value.
-     * 
+     *
      * @return int
      */
     public function getLastUserId()
@@ -702,7 +735,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [creation_date] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -722,7 +755,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [modification_date] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -742,7 +775,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysPerson The current object (for fluent API support)
      */
@@ -762,7 +795,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Set the value of [user_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysPerson The current object (for fluent API support)
      */
@@ -786,7 +819,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Set the value of [location_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysPerson The current object (for fluent API support)
      */
@@ -806,7 +839,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Set the value of [first_name] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysPerson The current object (for fluent API support)
      */
@@ -826,7 +859,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Set the value of [middle_name] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysPerson The current object (for fluent API support)
      */
@@ -846,7 +879,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Set the value of [last_name] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysPerson The current object (for fluent API support)
      */
@@ -866,7 +899,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Set the value of [second_last_name] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysPerson The current object (for fluent API support)
      */
@@ -886,7 +919,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Set the value of [email] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysPerson The current object (for fluent API support)
      */
@@ -906,7 +939,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Set the value of [id_number] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysPerson The current object (for fluent API support)
      */
@@ -926,7 +959,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Set the value of [id_extension] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysPerson The current object (for fluent API support)
      */
@@ -946,7 +979,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Set the value of [gender] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysPerson The current object (for fluent API support)
      */
@@ -966,7 +999,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Sets the value of [date_of_birth] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysPerson The current object (for fluent API support)
@@ -986,7 +1019,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Set the value of [place_of_birth] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysPerson The current object (for fluent API support)
      */
@@ -1006,7 +1039,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Set the value of [address] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysPerson The current object (for fluent API support)
      */
@@ -1026,7 +1059,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Set the value of [city] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysPerson The current object (for fluent API support)
      */
@@ -1046,7 +1079,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Set the value of [pob] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysPerson The current object (for fluent API support)
      */
@@ -1066,7 +1099,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Set the value of [phone_home] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysPerson The current object (for fluent API support)
      */
@@ -1086,7 +1119,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Set the value of [phone_work] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysPerson The current object (for fluent API support)
      */
@@ -1106,7 +1139,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Set the value of [cellphone_1] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysPerson The current object (for fluent API support)
      */
@@ -1126,7 +1159,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Set the value of [cellphone_2] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysPerson The current object (for fluent API support)
      */
@@ -1146,7 +1179,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Set the value of [photo_mime] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysPerson The current object (for fluent API support)
      */
@@ -1166,7 +1199,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Set the value of [last_user_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysPerson The current object (for fluent API support)
      */
@@ -1186,7 +1219,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysPerson The current object (for fluent API support)
@@ -1206,7 +1239,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
     /**
      * Sets the value of [modification_date] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysPerson The current object (for fluent API support)
@@ -1673,76 +1706,76 @@ abstract class SysPerson implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'USER_ID':                        
+                    case 'USER_ID':
                         $stmt->bindValue($identifier, $this->user_id, PDO::PARAM_INT);
                         break;
-                    case 'LOCATION_ID':                        
+                    case 'LOCATION_ID':
                         $stmt->bindValue($identifier, $this->location_id, PDO::PARAM_INT);
                         break;
-                    case 'FIRST_NAME':                        
+                    case 'FIRST_NAME':
                         $stmt->bindValue($identifier, $this->first_name, PDO::PARAM_STR);
                         break;
-                    case 'MIDDLE_NAME':                        
+                    case 'MIDDLE_NAME':
                         $stmt->bindValue($identifier, $this->middle_name, PDO::PARAM_STR);
                         break;
-                    case 'LAST_NAME':                        
+                    case 'LAST_NAME':
                         $stmt->bindValue($identifier, $this->last_name, PDO::PARAM_STR);
                         break;
-                    case 'SECOND_LAST_NAME':                        
+                    case 'SECOND_LAST_NAME':
                         $stmt->bindValue($identifier, $this->second_last_name, PDO::PARAM_STR);
                         break;
-                    case 'EMAIL':                        
+                    case 'EMAIL':
                         $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
                         break;
-                    case 'ID_NUMBER':                        
+                    case 'ID_NUMBER':
                         $stmt->bindValue($identifier, $this->id_number, PDO::PARAM_STR);
                         break;
-                    case 'ID_EXTENSION':                        
+                    case 'ID_EXTENSION':
                         $stmt->bindValue($identifier, $this->id_extension, PDO::PARAM_STR);
                         break;
-                    case 'GENDER':                        
+                    case 'GENDER':
                         $stmt->bindValue($identifier, $this->gender, PDO::PARAM_STR);
                         break;
-                    case 'DATE_OF_BIRTH':                        
+                    case 'DATE_OF_BIRTH':
                         $stmt->bindValue($identifier, $this->date_of_birth ? $this->date_of_birth->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'PLACE_OF_BIRTH':                        
+                    case 'PLACE_OF_BIRTH':
                         $stmt->bindValue($identifier, $this->place_of_birth, PDO::PARAM_STR);
                         break;
-                    case 'ADDRESS':                        
+                    case 'ADDRESS':
                         $stmt->bindValue($identifier, $this->address, PDO::PARAM_STR);
                         break;
-                    case 'CITY':                        
+                    case 'CITY':
                         $stmt->bindValue($identifier, $this->city, PDO::PARAM_STR);
                         break;
-                    case 'POB':                        
+                    case 'POB':
                         $stmt->bindValue($identifier, $this->pob, PDO::PARAM_STR);
                         break;
-                    case 'PHONE_HOME':                        
+                    case 'PHONE_HOME':
                         $stmt->bindValue($identifier, $this->phone_home, PDO::PARAM_STR);
                         break;
-                    case 'PHONE_WORK':                        
+                    case 'PHONE_WORK':
                         $stmt->bindValue($identifier, $this->phone_work, PDO::PARAM_STR);
                         break;
-                    case 'CELLPHONE_1':                        
+                    case 'CELLPHONE_1':
                         $stmt->bindValue($identifier, $this->cellphone_1, PDO::PARAM_STR);
                         break;
-                    case 'CELLPHONE_2':                        
+                    case 'CELLPHONE_2':
                         $stmt->bindValue($identifier, $this->cellphone_2, PDO::PARAM_STR);
                         break;
-                    case 'PHOTO_MIME':                        
+                    case 'PHOTO_MIME':
                         $stmt->bindValue($identifier, $this->photo_mime, PDO::PARAM_STR);
                         break;
-                    case 'LAST_USER_ID':                        
+                    case 'LAST_USER_ID':
                         $stmt->bindValue($identifier, $this->last_user_id, PDO::PARAM_INT);
                         break;
-                    case 'CREATION_DATE':                        
+                    case 'CREATION_DATE':
                         $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'MODIFICATION_DATE':                        
+                    case 'MODIFICATION_DATE':
                         $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                 }
@@ -1934,34 +1967,26 @@ abstract class SysPerson implements ActiveRecordInterface
             $keys[22] => $this->getCreationDate(),
             $keys[23] => $this->getModificationDate(),
         );
-
-        $utc = new \DateTimeZone('utc');
         if ($result[$keys[11]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[11]];
-            $result[$keys[11]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[11]] = $result[$keys[11]]->format('c');
         }
-        
+
         if ($result[$keys[22]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[22]];
-            $result[$keys[22]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[22]] = $result[$keys[22]]->format('c');
         }
-        
+
         if ($result[$keys[23]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[23]];
-            $result[$keys[23]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[23]] = $result[$keys[23]]->format('c');
         }
-        
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->aSysUser) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysUser';
@@ -1972,11 +1997,11 @@ abstract class SysPerson implements ActiveRecordInterface
                     default:
                         $key = 'SysUser';
                 }
-        
+
                 $result[$key] = $this->aSysUser->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->collJobCurriculums) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'jobCurriculums';
@@ -1987,7 +2012,7 @@ abstract class SysPerson implements ActiveRecordInterface
                     default:
                         $key = 'JobCurriculums';
                 }
-        
+
                 $result[$key] = $this->collJobCurriculums->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
@@ -2350,7 +2375,7 @@ abstract class SysPerson implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-        
+
     /**
      * Returns the primary key for this object (row).
      * @return int
@@ -2564,7 +2589,10 @@ abstract class SysPerson implements ActiveRecordInterface
         if (null !== $this->collJobCurriculums && !$overrideExisting) {
             return;
         }
-        $this->collJobCurriculums = new ObjectCollection();
+
+        $collectionClassName = JobCurriculumTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collJobCurriculums = new $collectionClassName;
         $this->collJobCurriculums->setModel('\JobCurriculum');
     }
 
@@ -2641,7 +2669,7 @@ abstract class SysPerson implements ActiveRecordInterface
         /** @var ChildJobCurriculum[] $jobCurriculumsToDelete */
         $jobCurriculumsToDelete = $this->getJobCurriculums(new Criteria(), $con)->diff($jobCurriculums);
 
-        
+
         $this->jobCurriculumsScheduledForDeletion = $jobCurriculumsToDelete;
 
         foreach ($jobCurriculumsToDelete as $jobCurriculumRemoved) {
@@ -2709,6 +2737,10 @@ abstract class SysPerson implements ActiveRecordInterface
 
         if (!$this->collJobCurriculums->contains($l)) {
             $this->doAddJobCurriculum($l);
+
+            if ($this->jobCurriculumsScheduledForDeletion and $this->jobCurriculumsScheduledForDeletion->contains($l)) {
+                $this->jobCurriculumsScheduledForDeletion->remove($this->jobCurriculumsScheduledForDeletion->search($l));
+            }
         }
 
         return $this;

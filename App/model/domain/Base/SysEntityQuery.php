@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'sys_entity' table.
  *
- * 
+ *
  *
  * @method     ChildSysEntityQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysEntityQuery orderByEntityTypeId($order = Criteria::ASC) Order by the ENTITY_TYPE_ID column
@@ -60,25 +60,59 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysEntityQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildSysEntityQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildSysEntityQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildSysEntityQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildSysEntityQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildSysEntityQuery leftJoinSysEntityType($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEntityType relation
  * @method     ChildSysEntityQuery rightJoinSysEntityType($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEntityType relation
  * @method     ChildSysEntityQuery innerJoinSysEntityType($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEntityType relation
+ *
+ * @method     ChildSysEntityQuery joinWithSysEntityType($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEntityType relation
+ *
+ * @method     ChildSysEntityQuery leftJoinWithSysEntityType() Adds a LEFT JOIN clause and with to the query using the SysEntityType relation
+ * @method     ChildSysEntityQuery rightJoinWithSysEntityType() Adds a RIGHT JOIN clause and with to the query using the SysEntityType relation
+ * @method     ChildSysEntityQuery innerJoinWithSysEntityType() Adds a INNER JOIN clause and with to the query using the SysEntityType relation
  *
  * @method     ChildSysEntityQuery leftJoinSysLocation($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysLocation relation
  * @method     ChildSysEntityQuery rightJoinSysLocation($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysLocation relation
  * @method     ChildSysEntityQuery innerJoinSysLocation($relationAlias = null) Adds a INNER JOIN clause to the query using the SysLocation relation
  *
+ * @method     ChildSysEntityQuery joinWithSysLocation($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysLocation relation
+ *
+ * @method     ChildSysEntityQuery leftJoinWithSysLocation() Adds a LEFT JOIN clause and with to the query using the SysLocation relation
+ * @method     ChildSysEntityQuery rightJoinWithSysLocation() Adds a RIGHT JOIN clause and with to the query using the SysLocation relation
+ * @method     ChildSysEntityQuery innerJoinWithSysLocation() Adds a INNER JOIN clause and with to the query using the SysLocation relation
+ *
  * @method     ChildSysEntityQuery leftJoinSysEntityBranch($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEntityBranch relation
  * @method     ChildSysEntityQuery rightJoinSysEntityBranch($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEntityBranch relation
  * @method     ChildSysEntityQuery innerJoinSysEntityBranch($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEntityBranch relation
+ *
+ * @method     ChildSysEntityQuery joinWithSysEntityBranch($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEntityBranch relation
+ *
+ * @method     ChildSysEntityQuery leftJoinWithSysEntityBranch() Adds a LEFT JOIN clause and with to the query using the SysEntityBranch relation
+ * @method     ChildSysEntityQuery rightJoinWithSysEntityBranch() Adds a RIGHT JOIN clause and with to the query using the SysEntityBranch relation
+ * @method     ChildSysEntityQuery innerJoinWithSysEntityBranch() Adds a INNER JOIN clause and with to the query using the SysEntityBranch relation
  *
  * @method     ChildSysEntityQuery leftJoinSysEntityParam($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEntityParam relation
  * @method     ChildSysEntityQuery rightJoinSysEntityParam($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEntityParam relation
  * @method     ChildSysEntityQuery innerJoinSysEntityParam($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEntityParam relation
  *
+ * @method     ChildSysEntityQuery joinWithSysEntityParam($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEntityParam relation
+ *
+ * @method     ChildSysEntityQuery leftJoinWithSysEntityParam() Adds a LEFT JOIN clause and with to the query using the SysEntityParam relation
+ * @method     ChildSysEntityQuery rightJoinWithSysEntityParam() Adds a RIGHT JOIN clause and with to the query using the SysEntityParam relation
+ * @method     ChildSysEntityQuery innerJoinWithSysEntityParam() Adds a INNER JOIN clause and with to the query using the SysEntityParam relation
+ *
  * @method     ChildSysEntityQuery leftJoinSysEntityUser($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEntityUser relation
  * @method     ChildSysEntityQuery rightJoinSysEntityUser($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEntityUser relation
  * @method     ChildSysEntityQuery innerJoinSysEntityUser($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEntityUser relation
+ *
+ * @method     ChildSysEntityQuery joinWithSysEntityUser($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEntityUser relation
+ *
+ * @method     ChildSysEntityQuery leftJoinWithSysEntityUser() Adds a LEFT JOIN clause and with to the query using the SysEntityUser relation
+ * @method     ChildSysEntityQuery rightJoinWithSysEntityUser() Adds a RIGHT JOIN clause and with to the query using the SysEntityUser relation
+ * @method     ChildSysEntityQuery innerJoinWithSysEntityUser() Adds a INNER JOIN clause and with to the query using the SysEntityUser relation
  *
  * @method     \SysEntityTypeQuery|\SysLocationQuery|\SysEntityBranchQuery|\SysEntityParamQuery|\SysEntityUserQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -204,7 +238,7 @@ abstract class SysEntityQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysEntityTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = SysEntityTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -236,7 +270,7 @@ abstract class SysEntityQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, ENTITY_TYPE_ID, LOCATION_ID, MAIN_BRANCH_ID, CODE, COMERCIAL_NAME, FORMAL_NAME, NIT, EMAIL, ADDRESS, PHONE, CELLPHONE, ACTIVITIES, DESCRIPTION, LAST_USER_ID, CREATION_DATE, MODIFICACION_DATE FROM sys_entity WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -248,7 +282,7 @@ abstract class SysEntityQuery extends ModelCriteria
             /** @var ChildSysEntity $obj */
             $obj = new ChildSysEntity();
             $obj->hydrate($row);
-            SysEntityTableMap::addInstanceToPool($obj, (string) $key);
+            SysEntityTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -1349,9 +1383,9 @@ abstract class SysEntityQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             SysEntityTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             SysEntityTableMap::clearRelatedInstancePool();
 

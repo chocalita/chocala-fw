@@ -25,11 +25,11 @@ use Propel\Runtime\Parser\AbstractParser;
 /**
  * Base class that represents a row from the 'sys_rol_x_uri' table.
  *
- * 
+ *
  *
 * @package    propel.generator..Base
 */
-abstract class SysRolXUri implements ActiveRecordInterface 
+abstract class SysRolXUri implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -65,18 +65,21 @@ abstract class SysRolXUri implements ActiveRecordInterface
 
     /**
      * The value for the rol_id field.
+     *
      * @var        int
      */
     protected $rol_id;
 
     /**
      * The value for the uri_id field.
+     *
      * @var        int
      */
     protected $uri_id;
 
     /**
      * The value for the aut_read field.
+     *
      * Note: this column has a database default value of: true
      * @var        boolean
      */
@@ -84,6 +87,7 @@ abstract class SysRolXUri implements ActiveRecordInterface
 
     /**
      * The value for the aut_create field.
+     *
      * Note: this column has a database default value of: false
      * @var        boolean
      */
@@ -91,6 +95,7 @@ abstract class SysRolXUri implements ActiveRecordInterface
 
     /**
      * The value for the aut_update field.
+     *
      * Note: this column has a database default value of: false
      * @var        boolean
      */
@@ -98,6 +103,7 @@ abstract class SysRolXUri implements ActiveRecordInterface
 
     /**
      * The value for the aut_delete field.
+     *
      * Note: this column has a database default value of: false
      * @var        boolean
      */
@@ -351,12 +357,20 @@ abstract class SysRolXUri implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        return array_keys(get_object_vars($this));
+        $cls = new \ReflectionClass($this);
+        $propertyNames = [];
+        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
+
+        foreach($serializableProperties as $property) {
+            $propertyNames[] = $property->getName();
+        }
+
+        return $propertyNames;
     }
 
     /**
      * Get the [rol_id] column value.
-     * 
+     *
      * @return int
      */
     public function getRolId()
@@ -366,7 +380,7 @@ abstract class SysRolXUri implements ActiveRecordInterface
 
     /**
      * Get the [uri_id] column value.
-     * 
+     *
      * @return int
      */
     public function getUriId()
@@ -376,7 +390,7 @@ abstract class SysRolXUri implements ActiveRecordInterface
 
     /**
      * Get the [aut_read] column value.
-     * 
+     *
      * @return boolean
      */
     public function getAutRead()
@@ -386,7 +400,7 @@ abstract class SysRolXUri implements ActiveRecordInterface
 
     /**
      * Get the [aut_read] column value.
-     * 
+     *
      * @return boolean
      */
     public function isAutRead()
@@ -396,7 +410,7 @@ abstract class SysRolXUri implements ActiveRecordInterface
 
     /**
      * Get the [aut_create] column value.
-     * 
+     *
      * @return boolean
      */
     public function getAutCreate()
@@ -406,7 +420,7 @@ abstract class SysRolXUri implements ActiveRecordInterface
 
     /**
      * Get the [aut_create] column value.
-     * 
+     *
      * @return boolean
      */
     public function isAutCreate()
@@ -416,7 +430,7 @@ abstract class SysRolXUri implements ActiveRecordInterface
 
     /**
      * Get the [aut_update] column value.
-     * 
+     *
      * @return boolean
      */
     public function getAutUpdate()
@@ -426,7 +440,7 @@ abstract class SysRolXUri implements ActiveRecordInterface
 
     /**
      * Get the [aut_update] column value.
-     * 
+     *
      * @return boolean
      */
     public function isAutUpdate()
@@ -436,7 +450,7 @@ abstract class SysRolXUri implements ActiveRecordInterface
 
     /**
      * Get the [aut_delete] column value.
-     * 
+     *
      * @return boolean
      */
     public function getAutDelete()
@@ -446,7 +460,7 @@ abstract class SysRolXUri implements ActiveRecordInterface
 
     /**
      * Get the [aut_delete] column value.
-     * 
+     *
      * @return boolean
      */
     public function isAutDelete()
@@ -456,7 +470,7 @@ abstract class SysRolXUri implements ActiveRecordInterface
 
     /**
      * Set the value of [rol_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysRolXUri The current object (for fluent API support)
      */
@@ -480,7 +494,7 @@ abstract class SysRolXUri implements ActiveRecordInterface
 
     /**
      * Set the value of [uri_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysRolXUri The current object (for fluent API support)
      */
@@ -508,7 +522,7 @@ abstract class SysRolXUri implements ActiveRecordInterface
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     * 
+     *
      * @param  boolean|integer|string $v The new value
      * @return $this|\SysRolXUri The current object (for fluent API support)
      */
@@ -536,7 +550,7 @@ abstract class SysRolXUri implements ActiveRecordInterface
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     * 
+     *
      * @param  boolean|integer|string $v The new value
      * @return $this|\SysRolXUri The current object (for fluent API support)
      */
@@ -564,7 +578,7 @@ abstract class SysRolXUri implements ActiveRecordInterface
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     * 
+     *
      * @param  boolean|integer|string $v The new value
      * @return $this|\SysRolXUri The current object (for fluent API support)
      */
@@ -592,7 +606,7 @@ abstract class SysRolXUri implements ActiveRecordInterface
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     * 
+     *
      * @param  boolean|integer|string $v The new value
      * @return $this|\SysRolXUri The current object (for fluent API support)
      */
@@ -940,10 +954,10 @@ abstract class SysRolXUri implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ROL_ID':                        
+                    case 'ROL_ID':
                         $stmt->bindValue($identifier, $this->rol_id, PDO::PARAM_INT);
                         break;
-                    case 'URI_ID':                        
+                    case 'URI_ID':
                         $stmt->bindValue($identifier, $this->uri_id, PDO::PARAM_INT);
                         break;
                     case 'AUT_READ':
@@ -1072,10 +1086,10 @@ abstract class SysRolXUri implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->aSysRol) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysRol';
@@ -1086,11 +1100,11 @@ abstract class SysRolXUri implements ActiveRecordInterface
                     default:
                         $key = 'SysRol';
                 }
-        
+
                 $result[$key] = $this->aSysRol->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aSysUri) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysUri';
@@ -1101,7 +1115,7 @@ abstract class SysRolXUri implements ActiveRecordInterface
                     default:
                         $key = 'SysUri';
                 }
-        
+
                 $result[$key] = $this->aSysUri->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
@@ -1318,7 +1332,7 @@ abstract class SysRolXUri implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-        
+
     /**
      * Returns the composite primary key for this object.
      * The array elements will be in same order as specified in XML.

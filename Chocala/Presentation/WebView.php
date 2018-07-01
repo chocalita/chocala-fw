@@ -160,6 +160,15 @@ class WebView implements IView
         $this->renderLayout($this->renderTemplate());
     }
 
+    public function renderViewWithoutLayout($template, $module=null)
+    {
+        $this->module = $module;
+        $this->template = $this->templatePath().lcfirst($template);
+        Headers::instance()->sendHeaders();
+        echo $this->renderTemplate();
+        exit;
+    }
+
     public function renderJSON()
     {
         Headers::instance()->changeContentTypeTo(ContentType::TYPE_JSON);

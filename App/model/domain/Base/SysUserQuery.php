@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'sys_user' table.
  *
- * 
+ *
  *
  * @method     ChildSysUserQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysUserQuery orderByEmail($order = Criteria::ASC) Order by the EMAIL column
@@ -54,37 +54,89 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysUserQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildSysUserQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildSysUserQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildSysUserQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildSysUserQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildSysUserQuery leftJoinSysEmailSent($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEmailSent relation
  * @method     ChildSysUserQuery rightJoinSysEmailSent($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEmailSent relation
  * @method     ChildSysUserQuery innerJoinSysEmailSent($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEmailSent relation
+ *
+ * @method     ChildSysUserQuery joinWithSysEmailSent($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEmailSent relation
+ *
+ * @method     ChildSysUserQuery leftJoinWithSysEmailSent() Adds a LEFT JOIN clause and with to the query using the SysEmailSent relation
+ * @method     ChildSysUserQuery rightJoinWithSysEmailSent() Adds a RIGHT JOIN clause and with to the query using the SysEmailSent relation
+ * @method     ChildSysUserQuery innerJoinWithSysEmailSent() Adds a INNER JOIN clause and with to the query using the SysEmailSent relation
  *
  * @method     ChildSysUserQuery leftJoinSysEntityUser($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEntityUser relation
  * @method     ChildSysUserQuery rightJoinSysEntityUser($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEntityUser relation
  * @method     ChildSysUserQuery innerJoinSysEntityUser($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEntityUser relation
  *
+ * @method     ChildSysUserQuery joinWithSysEntityUser($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEntityUser relation
+ *
+ * @method     ChildSysUserQuery leftJoinWithSysEntityUser() Adds a LEFT JOIN clause and with to the query using the SysEntityUser relation
+ * @method     ChildSysUserQuery rightJoinWithSysEntityUser() Adds a RIGHT JOIN clause and with to the query using the SysEntityUser relation
+ * @method     ChildSysUserQuery innerJoinWithSysEntityUser() Adds a INNER JOIN clause and with to the query using the SysEntityUser relation
+ *
  * @method     ChildSysUserQuery leftJoinSysImage($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysImage relation
  * @method     ChildSysUserQuery rightJoinSysImage($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysImage relation
  * @method     ChildSysUserQuery innerJoinSysImage($relationAlias = null) Adds a INNER JOIN clause to the query using the SysImage relation
+ *
+ * @method     ChildSysUserQuery joinWithSysImage($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysImage relation
+ *
+ * @method     ChildSysUserQuery leftJoinWithSysImage() Adds a LEFT JOIN clause and with to the query using the SysImage relation
+ * @method     ChildSysUserQuery rightJoinWithSysImage() Adds a RIGHT JOIN clause and with to the query using the SysImage relation
+ * @method     ChildSysUserQuery innerJoinWithSysImage() Adds a INNER JOIN clause and with to the query using the SysImage relation
  *
  * @method     ChildSysUserQuery leftJoinSysPassword($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysPassword relation
  * @method     ChildSysUserQuery rightJoinSysPassword($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysPassword relation
  * @method     ChildSysUserQuery innerJoinSysPassword($relationAlias = null) Adds a INNER JOIN clause to the query using the SysPassword relation
  *
+ * @method     ChildSysUserQuery joinWithSysPassword($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysPassword relation
+ *
+ * @method     ChildSysUserQuery leftJoinWithSysPassword() Adds a LEFT JOIN clause and with to the query using the SysPassword relation
+ * @method     ChildSysUserQuery rightJoinWithSysPassword() Adds a RIGHT JOIN clause and with to the query using the SysPassword relation
+ * @method     ChildSysUserQuery innerJoinWithSysPassword() Adds a INNER JOIN clause and with to the query using the SysPassword relation
+ *
  * @method     ChildSysUserQuery leftJoinSysPasswordRequest($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysPasswordRequest relation
  * @method     ChildSysUserQuery rightJoinSysPasswordRequest($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysPasswordRequest relation
  * @method     ChildSysUserQuery innerJoinSysPasswordRequest($relationAlias = null) Adds a INNER JOIN clause to the query using the SysPasswordRequest relation
+ *
+ * @method     ChildSysUserQuery joinWithSysPasswordRequest($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysPasswordRequest relation
+ *
+ * @method     ChildSysUserQuery leftJoinWithSysPasswordRequest() Adds a LEFT JOIN clause and with to the query using the SysPasswordRequest relation
+ * @method     ChildSysUserQuery rightJoinWithSysPasswordRequest() Adds a RIGHT JOIN clause and with to the query using the SysPasswordRequest relation
+ * @method     ChildSysUserQuery innerJoinWithSysPasswordRequest() Adds a INNER JOIN clause and with to the query using the SysPasswordRequest relation
  *
  * @method     ChildSysUserQuery leftJoinSysPerson($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysPerson relation
  * @method     ChildSysUserQuery rightJoinSysPerson($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysPerson relation
  * @method     ChildSysUserQuery innerJoinSysPerson($relationAlias = null) Adds a INNER JOIN clause to the query using the SysPerson relation
  *
+ * @method     ChildSysUserQuery joinWithSysPerson($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysPerson relation
+ *
+ * @method     ChildSysUserQuery leftJoinWithSysPerson() Adds a LEFT JOIN clause and with to the query using the SysPerson relation
+ * @method     ChildSysUserQuery rightJoinWithSysPerson() Adds a RIGHT JOIN clause and with to the query using the SysPerson relation
+ * @method     ChildSysUserQuery innerJoinWithSysPerson() Adds a INNER JOIN clause and with to the query using the SysPerson relation
+ *
  * @method     ChildSysUserQuery leftJoinSysUserParam($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysUserParam relation
  * @method     ChildSysUserQuery rightJoinSysUserParam($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysUserParam relation
  * @method     ChildSysUserQuery innerJoinSysUserParam($relationAlias = null) Adds a INNER JOIN clause to the query using the SysUserParam relation
  *
+ * @method     ChildSysUserQuery joinWithSysUserParam($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysUserParam relation
+ *
+ * @method     ChildSysUserQuery leftJoinWithSysUserParam() Adds a LEFT JOIN clause and with to the query using the SysUserParam relation
+ * @method     ChildSysUserQuery rightJoinWithSysUserParam() Adds a RIGHT JOIN clause and with to the query using the SysUserParam relation
+ * @method     ChildSysUserQuery innerJoinWithSysUserParam() Adds a INNER JOIN clause and with to the query using the SysUserParam relation
+ *
  * @method     ChildSysUserQuery leftJoinSysUserXRol($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysUserXRol relation
  * @method     ChildSysUserQuery rightJoinSysUserXRol($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysUserXRol relation
  * @method     ChildSysUserQuery innerJoinSysUserXRol($relationAlias = null) Adds a INNER JOIN clause to the query using the SysUserXRol relation
+ *
+ * @method     ChildSysUserQuery joinWithSysUserXRol($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysUserXRol relation
+ *
+ * @method     ChildSysUserQuery leftJoinWithSysUserXRol() Adds a LEFT JOIN clause and with to the query using the SysUserXRol relation
+ * @method     ChildSysUserQuery rightJoinWithSysUserXRol() Adds a RIGHT JOIN clause and with to the query using the SysUserXRol relation
+ * @method     ChildSysUserQuery innerJoinWithSysUserXRol() Adds a INNER JOIN clause and with to the query using the SysUserXRol relation
  *
  * @method     \SysEmailSentQuery|\SysEntityUserQuery|\SysImageQuery|\SysPasswordQuery|\SysPasswordRequestQuery|\SysPersonQuery|\SysUserParamQuery|\SysUserXRolQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -201,7 +253,7 @@ abstract class SysUserQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysUserTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = SysUserTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -233,7 +285,7 @@ abstract class SysUserQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, EMAIL, USERNAME, PASSWORD, STATUS, LOCATION, ADDRESS, IMAGE_MIME, ACTUAL_ACCESS, LAST_ACCESS, ACCESS_FAILURES, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM sys_user WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -245,7 +297,7 @@ abstract class SysUserQuery extends ModelCriteria
             /** @var ChildSysUser $obj */
             $obj = new ChildSysUser();
             $obj->hydrate($row);
-            SysUserTableMap::addInstanceToPool($obj, (string) $key);
+            SysUserTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -1470,9 +1522,9 @@ abstract class SysUserQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             SysUserTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             SysUserTableMap::clearRelatedInstancePool();
 

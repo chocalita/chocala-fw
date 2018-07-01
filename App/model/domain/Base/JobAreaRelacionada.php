@@ -25,11 +25,11 @@ use Propel\Runtime\Util\PropelDateTime;
 /**
  * Base class that represents a row from the 'job_area_relacionada' table.
  *
- * 
+ *
  *
 * @package    propel.generator..Base
 */
-abstract class JobAreaRelacionada implements ActiveRecordInterface 
+abstract class JobAreaRelacionada implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -65,30 +65,35 @@ abstract class JobAreaRelacionada implements ActiveRecordInterface
 
     /**
      * The value for the id_area_1 field.
+     *
      * @var        int
      */
     protected $id_area_1;
 
     /**
      * The value for the id_area_2 field.
+     *
      * @var        int
      */
     protected $id_area_2;
 
     /**
      * The value for the nivel field.
+     *
      * @var        int
      */
     protected $nivel;
 
     /**
      * The value for the status field.
+     *
      * @var        string
      */
     protected $status;
 
     /**
      * The value for the last_user_id field.
+     *
      * Note: this column has a database default value of: 0
      * @var        int
      */
@@ -96,6 +101,7 @@ abstract class JobAreaRelacionada implements ActiveRecordInterface
 
     /**
      * The value for the creation_date field.
+     *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
      * @var        \DateTime
      */
@@ -103,6 +109,7 @@ abstract class JobAreaRelacionada implements ActiveRecordInterface
 
     /**
      * The value for the modification_date field.
+     *
      * @var        \DateTime
      */
     protected $modification_date;
@@ -352,12 +359,20 @@ abstract class JobAreaRelacionada implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        return array_keys(get_object_vars($this));
+        $cls = new \ReflectionClass($this);
+        $propertyNames = [];
+        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
+
+        foreach($serializableProperties as $property) {
+            $propertyNames[] = $property->getName();
+        }
+
+        return $propertyNames;
     }
 
     /**
      * Get the [id_area_1] column value.
-     * 
+     *
      * @return int
      */
     public function getIdArea1()
@@ -367,7 +382,7 @@ abstract class JobAreaRelacionada implements ActiveRecordInterface
 
     /**
      * Get the [id_area_2] column value.
-     * 
+     *
      * @return int
      */
     public function getIdArea2()
@@ -377,7 +392,7 @@ abstract class JobAreaRelacionada implements ActiveRecordInterface
 
     /**
      * Get the [nivel] column value.
-     * 
+     *
      * @return int
      */
     public function getNivel()
@@ -387,7 +402,7 @@ abstract class JobAreaRelacionada implements ActiveRecordInterface
 
     /**
      * Get the [status] column value.
-     * 
+     *
      * @return string
      */
     public function getStatus()
@@ -397,7 +412,7 @@ abstract class JobAreaRelacionada implements ActiveRecordInterface
 
     /**
      * Get the [last_user_id] column value.
-     * 
+     *
      * @return int
      */
     public function getLastUserId()
@@ -407,7 +422,7 @@ abstract class JobAreaRelacionada implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [creation_date] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -427,7 +442,7 @@ abstract class JobAreaRelacionada implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [modification_date] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -447,7 +462,7 @@ abstract class JobAreaRelacionada implements ActiveRecordInterface
 
     /**
      * Set the value of [id_area_1] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobAreaRelacionada The current object (for fluent API support)
      */
@@ -471,7 +486,7 @@ abstract class JobAreaRelacionada implements ActiveRecordInterface
 
     /**
      * Set the value of [id_area_2] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobAreaRelacionada The current object (for fluent API support)
      */
@@ -495,7 +510,7 @@ abstract class JobAreaRelacionada implements ActiveRecordInterface
 
     /**
      * Set the value of [nivel] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobAreaRelacionada The current object (for fluent API support)
      */
@@ -515,7 +530,7 @@ abstract class JobAreaRelacionada implements ActiveRecordInterface
 
     /**
      * Set the value of [status] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobAreaRelacionada The current object (for fluent API support)
      */
@@ -535,7 +550,7 @@ abstract class JobAreaRelacionada implements ActiveRecordInterface
 
     /**
      * Set the value of [last_user_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobAreaRelacionada The current object (for fluent API support)
      */
@@ -555,7 +570,7 @@ abstract class JobAreaRelacionada implements ActiveRecordInterface
 
     /**
      * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobAreaRelacionada The current object (for fluent API support)
@@ -575,7 +590,7 @@ abstract class JobAreaRelacionada implements ActiveRecordInterface
 
     /**
      * Sets the value of [modification_date] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobAreaRelacionada The current object (for fluent API support)
@@ -919,25 +934,25 @@ abstract class JobAreaRelacionada implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID_AREA_1':                        
+                    case 'ID_AREA_1':
                         $stmt->bindValue($identifier, $this->id_area_1, PDO::PARAM_INT);
                         break;
-                    case 'ID_AREA_2':                        
+                    case 'ID_AREA_2':
                         $stmt->bindValue($identifier, $this->id_area_2, PDO::PARAM_INT);
                         break;
-                    case 'NIVEL':                        
+                    case 'NIVEL':
                         $stmt->bindValue($identifier, $this->nivel, PDO::PARAM_INT);
                         break;
-                    case 'STATUS':                        
+                    case 'STATUS':
                         $stmt->bindValue($identifier, $this->status, PDO::PARAM_STR);
                         break;
-                    case 'LAST_USER_ID':                        
+                    case 'LAST_USER_ID':
                         $stmt->bindValue($identifier, $this->last_user_id, PDO::PARAM_INT);
                         break;
-                    case 'CREATION_DATE':                        
+                    case 'CREATION_DATE':
                         $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'MODIFICATION_DATE':                        
+                    case 'MODIFICATION_DATE':
                         $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                 }
@@ -1054,28 +1069,22 @@ abstract class JobAreaRelacionada implements ActiveRecordInterface
             $keys[5] => $this->getCreationDate(),
             $keys[6] => $this->getModificationDate(),
         );
-
-        $utc = new \DateTimeZone('utc');
         if ($result[$keys[5]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[5]];
-            $result[$keys[5]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[5]] = $result[$keys[5]]->format('c');
         }
-        
+
         if ($result[$keys[6]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[6]];
-            $result[$keys[6]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[6]] = $result[$keys[6]]->format('c');
         }
-        
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->aJobAreaTecnicaRelatedByIdArea1) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'jobAreaTecnica';
@@ -1086,11 +1095,11 @@ abstract class JobAreaRelacionada implements ActiveRecordInterface
                     default:
                         $key = 'JobAreaTecnica';
                 }
-        
+
                 $result[$key] = $this->aJobAreaTecnicaRelatedByIdArea1->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aJobAreaTecnicaRelatedByIdArea2) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'jobAreaTecnica';
@@ -1101,7 +1110,7 @@ abstract class JobAreaRelacionada implements ActiveRecordInterface
                     default:
                         $key = 'JobAreaTecnica';
                 }
-        
+
                 $result[$key] = $this->aJobAreaTecnicaRelatedByIdArea2->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
@@ -1327,7 +1336,7 @@ abstract class JobAreaRelacionada implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-        
+
     /**
      * Returns the composite primary key for this object.
      * The array elements will be in same order as specified in XML.

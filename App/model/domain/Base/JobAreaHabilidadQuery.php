@@ -17,7 +17,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'job_area_habilidad' table.
  *
- * 
+ *
  *
  * @method     ChildJobAreaHabilidadQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildJobAreaHabilidadQuery orderByNombre($order = Criteria::ASC) Order by the NOMBRE column
@@ -38,6 +38,10 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAreaHabilidadQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildJobAreaHabilidadQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildJobAreaHabilidadQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ *
+ * @method     ChildJobAreaHabilidadQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildJobAreaHabilidadQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildJobAreaHabilidadQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
  * @method     ChildJobAreaHabilidad findOne(ConnectionInterface $con = null) Return the first ChildJobAreaHabilidad matching the query
  * @method     ChildJobAreaHabilidad findOneOrCreate(ConnectionInterface $con = null) Return the first ChildJobAreaHabilidad matching the query, or a new ChildJobAreaHabilidad object populated from the query conditions when no match is found
@@ -131,7 +135,7 @@ abstract class JobAreaHabilidadQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = JobAreaHabilidadTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = JobAreaHabilidadTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -163,7 +167,7 @@ abstract class JobAreaHabilidadQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, NOMBRE, DESCRIPCION, STATUS, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM job_area_habilidad WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -175,7 +179,7 @@ abstract class JobAreaHabilidadQuery extends ModelCriteria
             /** @var ChildJobAreaHabilidad $obj */
             $obj = new ChildJobAreaHabilidad();
             $obj->hydrate($row);
-            JobAreaHabilidadTableMap::addInstanceToPool($obj, (string) $key);
+            JobAreaHabilidadTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -573,9 +577,9 @@ abstract class JobAreaHabilidadQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             JobAreaHabilidadTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             JobAreaHabilidadTableMap::clearRelatedInstancePool();
 

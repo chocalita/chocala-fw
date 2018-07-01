@@ -27,11 +27,11 @@ use Propel\Runtime\Util\PropelDateTime;
 /**
  * Base class that represents a row from the 'job_empresa_suscrita' table.
  *
- * 
+ *
  *
 * @package    propel.generator..Base
 */
-abstract class JobEmpresaSuscrita implements ActiveRecordInterface 
+abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -67,78 +67,91 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * The value for the id field.
+     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the entity_type_id field.
+     *
      * @var        int
      */
     protected $entity_type_id;
 
     /**
      * The value for the location_id field.
+     *
      * @var        int
      */
     protected $location_id;
 
     /**
      * The value for the scrap_empresa_id field.
+     *
      * @var        int
      */
     protected $scrap_empresa_id;
 
     /**
      * The value for the hash_code field.
+     *
      * @var        string
      */
     protected $hash_code;
 
     /**
      * The value for the nombre field.
+     *
      * @var        string
      */
     protected $nombre;
 
     /**
      * The value for the nit field.
+     *
      * @var        string
      */
     protected $nit;
 
     /**
      * The value for the email field.
+     *
      * @var        string
      */
     protected $email;
 
     /**
      * The value for the direccion field.
+     *
      * @var        string
      */
     protected $direccion;
 
     /**
      * The value for the representante field.
+     *
      * @var        string
      */
     protected $representante;
 
     /**
      * The value for the telefono field.
+     *
      * @var        string
      */
     protected $telefono;
 
     /**
      * The value for the celular field.
+     *
      * @var        string
      */
     protected $celular;
 
     /**
      * The value for the status field.
+     *
      * Note: this column has a database default value of: 'INITIAL'
      * @var        string
      */
@@ -146,6 +159,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * The value for the last_user_id field.
+     *
      * Note: this column has a database default value of: 0
      * @var        int
      */
@@ -153,6 +167,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * The value for the creation_date field.
+     *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
      * @var        \DateTime
      */
@@ -160,6 +175,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * The value for the modificacion_date field.
+     *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
      * @var        \DateTime
      */
@@ -411,12 +427,20 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        return array_keys(get_object_vars($this));
+        $cls = new \ReflectionClass($this);
+        $propertyNames = [];
+        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
+
+        foreach($serializableProperties as $property) {
+            $propertyNames[] = $property->getName();
+        }
+
+        return $propertyNames;
     }
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return int
      */
     public function getId()
@@ -426,7 +450,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [entity_type_id] column value.
-     * 
+     *
      * @return int
      */
     public function getEntityTypeId()
@@ -436,7 +460,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [location_id] column value.
-     * 
+     *
      * @return int
      */
     public function getLocationId()
@@ -446,7 +470,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [scrap_empresa_id] column value.
-     * 
+     *
      * @return int
      */
     public function getScrapEmpresaId()
@@ -456,7 +480,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [hash_code] column value.
-     * 
+     *
      * @return string
      */
     public function getHashCode()
@@ -466,7 +490,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [nombre] column value.
-     * 
+     *
      * @return string
      */
     public function getNombre()
@@ -476,7 +500,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [nit] column value.
-     * 
+     *
      * @return string
      */
     public function getNit()
@@ -486,7 +510,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [email] column value.
-     * 
+     *
      * @return string
      */
     public function getEmail()
@@ -496,7 +520,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [direccion] column value.
-     * 
+     *
      * @return string
      */
     public function getDireccion()
@@ -506,7 +530,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [representante] column value.
-     * 
+     *
      * @return string
      */
     public function getRepresentante()
@@ -516,7 +540,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [telefono] column value.
-     * 
+     *
      * @return string
      */
     public function getTelefono()
@@ -526,7 +550,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [celular] column value.
-     * 
+     *
      * @return string
      */
     public function getCelular()
@@ -536,7 +560,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [status] column value.
-     * 
+     *
      * @return string
      */
     public function getStatus()
@@ -546,7 +570,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [last_user_id] column value.
-     * 
+     *
      * @return int
      */
     public function getLastUserId()
@@ -556,7 +580,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [creation_date] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -576,7 +600,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [modificacion_date] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -596,7 +620,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -616,7 +640,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [entity_type_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -640,7 +664,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [location_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -664,7 +688,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [scrap_empresa_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -684,7 +708,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [hash_code] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -704,7 +728,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [nombre] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -724,7 +748,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [nit] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -744,7 +768,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [email] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -764,7 +788,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [direccion] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -784,7 +808,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [representante] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -804,7 +828,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [telefono] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -824,7 +848,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [celular] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -844,7 +868,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [status] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -864,7 +888,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Set the value of [last_user_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
      */
@@ -884,7 +908,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
@@ -904,7 +928,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
     /**
      * Sets the value of [modificacion_date] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobEmpresaSuscrita The current object (for fluent API support)
@@ -1310,52 +1334,52 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'ENTITY_TYPE_ID':                        
+                    case 'ENTITY_TYPE_ID':
                         $stmt->bindValue($identifier, $this->entity_type_id, PDO::PARAM_INT);
                         break;
-                    case 'LOCATION_ID':                        
+                    case 'LOCATION_ID':
                         $stmt->bindValue($identifier, $this->location_id, PDO::PARAM_INT);
                         break;
-                    case 'SCRAP_EMPRESA_ID':                        
+                    case 'SCRAP_EMPRESA_ID':
                         $stmt->bindValue($identifier, $this->scrap_empresa_id, PDO::PARAM_INT);
                         break;
-                    case 'HASH_CODE':                        
+                    case 'HASH_CODE':
                         $stmt->bindValue($identifier, $this->hash_code, PDO::PARAM_STR);
                         break;
-                    case 'NOMBRE':                        
+                    case 'NOMBRE':
                         $stmt->bindValue($identifier, $this->nombre, PDO::PARAM_STR);
                         break;
-                    case 'NIT':                        
+                    case 'NIT':
                         $stmt->bindValue($identifier, $this->nit, PDO::PARAM_STR);
                         break;
-                    case 'EMAIL':                        
+                    case 'EMAIL':
                         $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
                         break;
-                    case 'DIRECCION':                        
+                    case 'DIRECCION':
                         $stmt->bindValue($identifier, $this->direccion, PDO::PARAM_STR);
                         break;
-                    case 'REPRESENTANTE':                        
+                    case 'REPRESENTANTE':
                         $stmt->bindValue($identifier, $this->representante, PDO::PARAM_STR);
                         break;
-                    case 'TELEFONO':                        
+                    case 'TELEFONO':
                         $stmt->bindValue($identifier, $this->telefono, PDO::PARAM_STR);
                         break;
-                    case 'CELULAR':                        
+                    case 'CELULAR':
                         $stmt->bindValue($identifier, $this->celular, PDO::PARAM_STR);
                         break;
-                    case 'STATUS':                        
+                    case 'STATUS':
                         $stmt->bindValue($identifier, $this->status, PDO::PARAM_STR);
                         break;
-                    case 'LAST_USER_ID':                        
+                    case 'LAST_USER_ID':
                         $stmt->bindValue($identifier, $this->last_user_id, PDO::PARAM_INT);
                         break;
-                    case 'CREATION_DATE':                        
+                    case 'CREATION_DATE':
                         $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'MODIFICACION_DATE':                        
+                    case 'MODIFICACION_DATE':
                         $stmt->bindValue($identifier, $this->modificacion_date ? $this->modificacion_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                 }
@@ -1515,28 +1539,22 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
             $keys[14] => $this->getCreationDate(),
             $keys[15] => $this->getModificacionDate(),
         );
-
-        $utc = new \DateTimeZone('utc');
         if ($result[$keys[14]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[14]];
-            $result[$keys[14]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[14]] = $result[$keys[14]]->format('c');
         }
-        
+
         if ($result[$keys[15]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[15]];
-            $result[$keys[15]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[15]] = $result[$keys[15]]->format('c');
         }
-        
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->aSysEntityType) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysEntityType';
@@ -1547,11 +1565,11 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
                     default:
                         $key = 'SysEntityType';
                 }
-        
+
                 $result[$key] = $this->aSysEntityType->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aSysLocation) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysLocation';
@@ -1562,7 +1580,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
                     default:
                         $key = 'SysLocation';
                 }
-        
+
                 $result[$key] = $this->aSysLocation->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
@@ -1853,7 +1871,7 @@ abstract class JobEmpresaSuscrita implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-        
+
     /**
      * Returns the primary key for this object (row).
      * @return int

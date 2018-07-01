@@ -13,6 +13,9 @@ use \SysLocationQuery as ChildSysLocationQuery;
 use \DateTime;
 use \Exception;
 use \PDO;
+use Map\JobEmpresaSuscritaTableMap;
+use Map\SysEntityBranchTableMap;
+use Map\SysEntityTableMap;
 use Map\SysLocationTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -31,11 +34,11 @@ use Propel\Runtime\Util\PropelDateTime;
 /**
  * Base class that represents a row from the 'sys_location' table.
  *
- * 
+ *
  *
 * @package    propel.generator..Base
 */
-abstract class SysLocation implements ActiveRecordInterface 
+abstract class SysLocation implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -71,66 +74,77 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * The value for the id field.
+     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the main_id field.
+     *
      * @var        int
      */
     protected $main_id;
 
     /**
      * The value for the code field.
+     *
      * @var        string
      */
     protected $code;
 
     /**
      * The value for the status field.
+     *
      * @var        string
      */
     protected $status;
 
     /**
      * The value for the name field.
+     *
      * @var        string
      */
     protected $name;
 
     /**
      * The value for the type field.
+     *
      * @var        string
      */
     protected $type;
 
     /**
      * The value for the level field.
+     *
      * @var        int
      */
     protected $level;
 
     /**
      * The value for the lft field.
+     *
      * @var        int
      */
     protected $lft;
 
     /**
      * The value for the rgt field.
+     *
      * @var        int
      */
     protected $rgt;
 
     /**
      * The value for the last_user_id field.
+     *
      * @var        int
      */
     protected $last_user_id;
 
     /**
      * The value for the creation_date field.
+     *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
      * @var        \DateTime
      */
@@ -138,6 +152,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * The value for the modification_date field.
+     *
      * @var        \DateTime
      */
     protected $modification_date;
@@ -412,12 +427,20 @@ abstract class SysLocation implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        return array_keys(get_object_vars($this));
+        $cls = new \ReflectionClass($this);
+        $propertyNames = [];
+        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
+
+        foreach($serializableProperties as $property) {
+            $propertyNames[] = $property->getName();
+        }
+
+        return $propertyNames;
     }
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return int
      */
     public function getId()
@@ -427,7 +450,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Get the [main_id] column value.
-     * 
+     *
      * @return int
      */
     public function getMainId()
@@ -437,7 +460,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Get the [code] column value.
-     * 
+     *
      * @return string
      */
     public function getCode()
@@ -447,7 +470,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Get the [status] column value.
-     * 
+     *
      * @return string
      */
     public function getStatus()
@@ -457,7 +480,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Get the [name] column value.
-     * 
+     *
      * @return string
      */
     public function getName()
@@ -467,7 +490,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Get the [type] column value.
-     * 
+     *
      * @return string
      */
     public function getType()
@@ -477,7 +500,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Get the [level] column value.
-     * 
+     *
      * @return int
      */
     public function getLevel()
@@ -487,7 +510,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Get the [lft] column value.
-     * 
+     *
      * @return int
      */
     public function getLft()
@@ -497,7 +520,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Get the [rgt] column value.
-     * 
+     *
      * @return int
      */
     public function getRgt()
@@ -507,7 +530,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Get the [last_user_id] column value.
-     * 
+     *
      * @return int
      */
     public function getLastUserId()
@@ -517,7 +540,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [creation_date] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -537,7 +560,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [modification_date] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -557,7 +580,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysLocation The current object (for fluent API support)
      */
@@ -577,7 +600,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Set the value of [main_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysLocation The current object (for fluent API support)
      */
@@ -597,7 +620,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Set the value of [code] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysLocation The current object (for fluent API support)
      */
@@ -617,7 +640,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Set the value of [status] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysLocation The current object (for fluent API support)
      */
@@ -637,7 +660,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Set the value of [name] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysLocation The current object (for fluent API support)
      */
@@ -657,7 +680,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Set the value of [type] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\SysLocation The current object (for fluent API support)
      */
@@ -677,7 +700,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Set the value of [level] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysLocation The current object (for fluent API support)
      */
@@ -697,7 +720,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Set the value of [lft] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysLocation The current object (for fluent API support)
      */
@@ -717,7 +740,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Set the value of [rgt] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysLocation The current object (for fluent API support)
      */
@@ -737,7 +760,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Set the value of [last_user_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\SysLocation The current object (for fluent API support)
      */
@@ -757,7 +780,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysLocation The current object (for fluent API support)
@@ -777,7 +800,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
     /**
      * Sets the value of [modification_date] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysLocation The current object (for fluent API support)
@@ -1183,40 +1206,40 @@ abstract class SysLocation implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'MAIN_ID':                        
+                    case 'MAIN_ID':
                         $stmt->bindValue($identifier, $this->main_id, PDO::PARAM_INT);
                         break;
-                    case 'CODE':                        
+                    case 'CODE':
                         $stmt->bindValue($identifier, $this->code, PDO::PARAM_STR);
                         break;
-                    case 'STATUS':                        
+                    case 'STATUS':
                         $stmt->bindValue($identifier, $this->status, PDO::PARAM_STR);
                         break;
-                    case 'NAME':                        
+                    case 'NAME':
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
                         break;
-                    case 'TYPE':                        
+                    case 'TYPE':
                         $stmt->bindValue($identifier, $this->type, PDO::PARAM_STR);
                         break;
-                    case 'LEVEL':                        
+                    case 'LEVEL':
                         $stmt->bindValue($identifier, $this->level, PDO::PARAM_INT);
                         break;
-                    case 'LFT':                        
+                    case 'LFT':
                         $stmt->bindValue($identifier, $this->lft, PDO::PARAM_INT);
                         break;
-                    case 'RGT':                        
+                    case 'RGT':
                         $stmt->bindValue($identifier, $this->rgt, PDO::PARAM_INT);
                         break;
-                    case 'LAST_USER_ID':                        
+                    case 'LAST_USER_ID':
                         $stmt->bindValue($identifier, $this->last_user_id, PDO::PARAM_INT);
                         break;
-                    case 'CREATION_DATE':                        
+                    case 'CREATION_DATE':
                         $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'MODIFICATION_DATE':                        
+                    case 'MODIFICATION_DATE':
                         $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                 }
@@ -1360,28 +1383,22 @@ abstract class SysLocation implements ActiveRecordInterface
             $keys[10] => $this->getCreationDate(),
             $keys[11] => $this->getModificationDate(),
         );
-
-        $utc = new \DateTimeZone('utc');
         if ($result[$keys[10]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[10]];
-            $result[$keys[10]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[10]] = $result[$keys[10]]->format('c');
         }
-        
+
         if ($result[$keys[11]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[11]];
-            $result[$keys[11]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[11]] = $result[$keys[11]]->format('c');
         }
-        
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->collJobEmpresaSuscritas) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'jobEmpresaSuscritas';
@@ -1392,11 +1409,11 @@ abstract class SysLocation implements ActiveRecordInterface
                     default:
                         $key = 'JobEmpresaSuscritas';
                 }
-        
+
                 $result[$key] = $this->collJobEmpresaSuscritas->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collSysEntities) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysEntities';
@@ -1407,11 +1424,11 @@ abstract class SysLocation implements ActiveRecordInterface
                     default:
                         $key = 'SysEntities';
                 }
-        
+
                 $result[$key] = $this->collSysEntities->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collSysEntityBranches) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'sysEntityBranches';
@@ -1422,7 +1439,7 @@ abstract class SysLocation implements ActiveRecordInterface
                     default:
                         $key = 'SysEntityBranches';
                 }
-        
+
                 $result[$key] = $this->collSysEntityBranches->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
@@ -1677,7 +1694,7 @@ abstract class SysLocation implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-        
+
     /**
      * Returns the primary key for this object (row).
      * @return int
@@ -1846,7 +1863,10 @@ abstract class SysLocation implements ActiveRecordInterface
         if (null !== $this->collJobEmpresaSuscritas && !$overrideExisting) {
             return;
         }
-        $this->collJobEmpresaSuscritas = new ObjectCollection();
+
+        $collectionClassName = JobEmpresaSuscritaTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collJobEmpresaSuscritas = new $collectionClassName;
         $this->collJobEmpresaSuscritas->setModel('\JobEmpresaSuscrita');
     }
 
@@ -1923,7 +1943,7 @@ abstract class SysLocation implements ActiveRecordInterface
         /** @var ChildJobEmpresaSuscrita[] $jobEmpresaSuscritasToDelete */
         $jobEmpresaSuscritasToDelete = $this->getJobEmpresaSuscritas(new Criteria(), $con)->diff($jobEmpresaSuscritas);
 
-        
+
         $this->jobEmpresaSuscritasScheduledForDeletion = $jobEmpresaSuscritasToDelete;
 
         foreach ($jobEmpresaSuscritasToDelete as $jobEmpresaSuscritaRemoved) {
@@ -1991,6 +2011,10 @@ abstract class SysLocation implements ActiveRecordInterface
 
         if (!$this->collJobEmpresaSuscritas->contains($l)) {
             $this->doAddJobEmpresaSuscrita($l);
+
+            if ($this->jobEmpresaSuscritasScheduledForDeletion and $this->jobEmpresaSuscritasScheduledForDeletion->contains($l)) {
+                $this->jobEmpresaSuscritasScheduledForDeletion->remove($this->jobEmpresaSuscritasScheduledForDeletion->search($l));
+            }
         }
 
         return $this;
@@ -2089,7 +2113,10 @@ abstract class SysLocation implements ActiveRecordInterface
         if (null !== $this->collSysEntities && !$overrideExisting) {
             return;
         }
-        $this->collSysEntities = new ObjectCollection();
+
+        $collectionClassName = SysEntityTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collSysEntities = new $collectionClassName;
         $this->collSysEntities->setModel('\SysEntity');
     }
 
@@ -2166,7 +2193,7 @@ abstract class SysLocation implements ActiveRecordInterface
         /** @var ChildSysEntity[] $sysEntitiesToDelete */
         $sysEntitiesToDelete = $this->getSysEntities(new Criteria(), $con)->diff($sysEntities);
 
-        
+
         $this->sysEntitiesScheduledForDeletion = $sysEntitiesToDelete;
 
         foreach ($sysEntitiesToDelete as $sysEntityRemoved) {
@@ -2234,6 +2261,10 @@ abstract class SysLocation implements ActiveRecordInterface
 
         if (!$this->collSysEntities->contains($l)) {
             $this->doAddSysEntity($l);
+
+            if ($this->sysEntitiesScheduledForDeletion and $this->sysEntitiesScheduledForDeletion->contains($l)) {
+                $this->sysEntitiesScheduledForDeletion->remove($this->sysEntitiesScheduledForDeletion->search($l));
+            }
         }
 
         return $this;
@@ -2332,7 +2363,10 @@ abstract class SysLocation implements ActiveRecordInterface
         if (null !== $this->collSysEntityBranches && !$overrideExisting) {
             return;
         }
-        $this->collSysEntityBranches = new ObjectCollection();
+
+        $collectionClassName = SysEntityBranchTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collSysEntityBranches = new $collectionClassName;
         $this->collSysEntityBranches->setModel('\SysEntityBranch');
     }
 
@@ -2409,7 +2443,7 @@ abstract class SysLocation implements ActiveRecordInterface
         /** @var ChildSysEntityBranch[] $sysEntityBranchesToDelete */
         $sysEntityBranchesToDelete = $this->getSysEntityBranches(new Criteria(), $con)->diff($sysEntityBranches);
 
-        
+
         $this->sysEntityBranchesScheduledForDeletion = $sysEntityBranchesToDelete;
 
         foreach ($sysEntityBranchesToDelete as $sysEntityBranchRemoved) {
@@ -2477,6 +2511,10 @@ abstract class SysLocation implements ActiveRecordInterface
 
         if (!$this->collSysEntityBranches->contains($l)) {
             $this->doAddSysEntityBranch($l);
+
+            if ($this->sysEntityBranchesScheduledForDeletion and $this->sysEntityBranchesScheduledForDeletion->contains($l)) {
+                $this->sysEntityBranchesScheduledForDeletion->remove($this->sysEntityBranchesScheduledForDeletion->search($l));
+            }
         }
 
         return $this;

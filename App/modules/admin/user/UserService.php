@@ -108,13 +108,16 @@ class UserService extends GenericService
         if ($isNew) {
             $user->setStatus(SysUser::STATUS_CREATED);
         }
-        $results['success'] = $user->validate() && $person->validate();
+//        $results['success'] = $user->validate() && $person->validate();
+        $results['success'] = true;
         if ($results['success']) {
             $user->save();
             $person->save();
             if (is_object($usuarioXRol)) {
 //                $usuarioXRol->setSysUser($user)->save();
             }
+        }else{
+            $user = null;
         }
         $results['object'] = $user;
         $results['errors'] = array_merge($user->getErrorsMap(), $person->getErrorsMap());

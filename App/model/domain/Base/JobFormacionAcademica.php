@@ -29,11 +29,11 @@ use Propel\Runtime\Util\PropelDateTime;
 /**
  * Base class that represents a row from the 'job_formacion_academica' table.
  *
- * 
+ *
  *
 * @package    propel.generator..Base
 */
-abstract class JobFormacionAcademica implements ActiveRecordInterface 
+abstract class JobFormacionAcademica implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -69,66 +69,77 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * The value for the id field.
+     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the id_curriculum field.
+     *
      * @var        int
      */
     protected $id_curriculum;
 
     /**
      * The value for the id_tipo_formacion field.
+     *
      * @var        int
      */
     protected $id_tipo_formacion;
 
     /**
      * The value for the id_profesion field.
+     *
      * @var        int
      */
     protected $id_profesion;
 
     /**
      * The value for the id_institucion field.
+     *
      * @var        int
      */
     protected $id_institucion;
 
     /**
      * The value for the nombre_institucion field.
+     *
      * @var        string
      */
     protected $nombre_institucion;
 
     /**
      * The value for the nombre_estudios field.
+     *
      * @var        string
      */
     protected $nombre_estudios;
 
     /**
      * The value for the nombre_titulo field.
+     *
      * @var        string
      */
     protected $nombre_titulo;
 
     /**
      * The value for the fecha_inicio field.
+     *
      * @var        \DateTime
      */
     protected $fecha_inicio;
 
     /**
      * The value for the fecha_fin field.
+     *
      * @var        \DateTime
      */
     protected $fecha_fin;
 
     /**
      * The value for the estudiante field.
+     *
      * Note: this column has a database default value of: false
      * @var        boolean
      */
@@ -136,6 +147,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * The value for the egresado field.
+     *
      * Note: this column has a database default value of: false
      * @var        boolean
      */
@@ -143,6 +155,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * The value for the titulado_academico field.
+     *
      * Note: this column has a database default value of: false
      * @var        boolean
      */
@@ -150,6 +163,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * The value for the titulado_convalidado field.
+     *
      * Note: this column has a database default value of: false
      * @var        boolean
      */
@@ -157,42 +171,49 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * The value for the anios_cursados field.
+     *
      * @var        string
      */
     protected $anios_cursados;
 
     /**
      * The value for the documento_egreso field.
+     *
      * @var        string
      */
     protected $documento_egreso;
 
     /**
      * The value for the documento_academico field.
+     *
      * @var        string
      */
     protected $documento_academico;
 
     /**
      * The value for the documento_convalidado field.
+     *
      * @var        string
      */
     protected $documento_convalidado;
 
     /**
      * The value for the fecha_egreso field.
+     *
      * @var        \DateTime
      */
     protected $fecha_egreso;
 
     /**
      * The value for the fecha_titulacion field.
+     *
      * @var        \DateTime
      */
     protected $fecha_titulacion;
 
     /**
      * The value for the verificaciones field.
+     *
      * Note: this column has a database default value of: 0
      * @var        int
      */
@@ -200,6 +221,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * The value for the status field.
+     *
      * Note: this column has a database default value of: 'ACTIVE'
      * @var        string
      */
@@ -207,6 +229,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * The value for the last_user_id field.
+     *
      * Note: this column has a database default value of: 0
      * @var        int
      */
@@ -214,6 +237,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * The value for the creation_date field.
+     *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
      * @var        \DateTime
      */
@@ -221,6 +245,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * The value for the modification_date field.
+     *
      * @var        \DateTime
      */
     protected $modification_date;
@@ -481,12 +506,20 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        return array_keys(get_object_vars($this));
+        $cls = new \ReflectionClass($this);
+        $propertyNames = [];
+        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
+
+        foreach($serializableProperties as $property) {
+            $propertyNames[] = $property->getName();
+        }
+
+        return $propertyNames;
     }
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return int
      */
     public function getId()
@@ -496,7 +529,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [id_curriculum] column value.
-     * 
+     *
      * @return int
      */
     public function getIdCurriculum()
@@ -506,7 +539,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [id_tipo_formacion] column value.
-     * 
+     *
      * @return int
      */
     public function getIdTipoFormacion()
@@ -516,7 +549,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [id_profesion] column value.
-     * 
+     *
      * @return int
      */
     public function getIdProfesion()
@@ -526,7 +559,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [id_institucion] column value.
-     * 
+     *
      * @return int
      */
     public function getIdInstitucion()
@@ -536,7 +569,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [nombre_institucion] column value.
-     * 
+     *
      * @return string
      */
     public function getNombreInstitucion()
@@ -546,7 +579,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [nombre_estudios] column value.
-     * 
+     *
      * @return string
      */
     public function getNombreEstudios()
@@ -556,7 +589,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [nombre_titulo] column value.
-     * 
+     *
      * @return string
      */
     public function getNombreTitulo()
@@ -566,7 +599,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [fecha_inicio] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -586,7 +619,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [fecha_fin] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -606,7 +639,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [estudiante] column value.
-     * 
+     *
      * @return boolean
      */
     public function getEstudiante()
@@ -616,7 +649,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [estudiante] column value.
-     * 
+     *
      * @return boolean
      */
     public function isEstudiante()
@@ -626,7 +659,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [egresado] column value.
-     * 
+     *
      * @return boolean
      */
     public function getEgresado()
@@ -636,7 +669,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [egresado] column value.
-     * 
+     *
      * @return boolean
      */
     public function isEgresado()
@@ -646,7 +679,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [titulado_academico] column value.
-     * 
+     *
      * @return boolean
      */
     public function getTituladoAcademico()
@@ -656,7 +689,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [titulado_academico] column value.
-     * 
+     *
      * @return boolean
      */
     public function isTituladoAcademico()
@@ -666,7 +699,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [titulado_convalidado] column value.
-     * 
+     *
      * @return boolean
      */
     public function getTituladoConvalidado()
@@ -676,7 +709,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [titulado_convalidado] column value.
-     * 
+     *
      * @return boolean
      */
     public function isTituladoConvalidado()
@@ -686,7 +719,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [anios_cursados] column value.
-     * 
+     *
      * @return string
      */
     public function getAniosCursados()
@@ -696,7 +729,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [documento_egreso] column value.
-     * 
+     *
      * @return string
      */
     public function getDocumentoEgreso()
@@ -706,7 +739,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [documento_academico] column value.
-     * 
+     *
      * @return string
      */
     public function getDocumentoAcademico()
@@ -716,7 +749,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [documento_convalidado] column value.
-     * 
+     *
      * @return string
      */
     public function getDocumentoConvalidado()
@@ -726,7 +759,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [fecha_egreso] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -746,7 +779,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [fecha_titulacion] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -766,7 +799,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [verificaciones] column value.
-     * 
+     *
      * @return int
      */
     public function getVerificaciones()
@@ -776,7 +809,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [status] column value.
-     * 
+     *
      * @return string
      */
     public function getStatus()
@@ -786,7 +819,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [last_user_id] column value.
-     * 
+     *
      * @return int
      */
     public function getLastUserId()
@@ -796,7 +829,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [creation_date] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -816,7 +849,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [modification_date] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -836,7 +869,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
      */
@@ -856,7 +889,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Set the value of [id_curriculum] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
      */
@@ -880,7 +913,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Set the value of [id_tipo_formacion] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
      */
@@ -904,7 +937,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Set the value of [id_profesion] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
      */
@@ -928,7 +961,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Set the value of [id_institucion] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
      */
@@ -948,7 +981,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Set the value of [nombre_institucion] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
      */
@@ -968,7 +1001,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Set the value of [nombre_estudios] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
      */
@@ -988,7 +1021,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Set the value of [nombre_titulo] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
      */
@@ -1008,7 +1041,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Sets the value of [fecha_inicio] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
@@ -1028,7 +1061,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Sets the value of [fecha_fin] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
@@ -1052,7 +1085,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     * 
+     *
      * @param  boolean|integer|string $v The new value
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
      */
@@ -1080,7 +1113,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     * 
+     *
      * @param  boolean|integer|string $v The new value
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
      */
@@ -1108,7 +1141,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     * 
+     *
      * @param  boolean|integer|string $v The new value
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
      */
@@ -1136,7 +1169,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     * 
+     *
      * @param  boolean|integer|string $v The new value
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
      */
@@ -1160,7 +1193,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Set the value of [anios_cursados] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
      */
@@ -1180,7 +1213,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Set the value of [documento_egreso] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
      */
@@ -1200,7 +1233,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Set the value of [documento_academico] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
      */
@@ -1220,7 +1253,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Set the value of [documento_convalidado] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
      */
@@ -1240,7 +1273,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Sets the value of [fecha_egreso] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
@@ -1260,7 +1293,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Sets the value of [fecha_titulacion] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
@@ -1280,7 +1313,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Set the value of [verificaciones] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
      */
@@ -1300,7 +1333,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Set the value of [status] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
      */
@@ -1320,7 +1353,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Set the value of [last_user_id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
      */
@@ -1340,7 +1373,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
@@ -1360,7 +1393,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
     /**
      * Sets the value of [modification_date] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobFormacionAcademica The current object (for fluent API support)
@@ -1863,34 +1896,34 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'ID_CURRICULUM':                        
+                    case 'ID_CURRICULUM':
                         $stmt->bindValue($identifier, $this->id_curriculum, PDO::PARAM_INT);
                         break;
-                    case 'ID_TIPO_FORMACION':                        
+                    case 'ID_TIPO_FORMACION':
                         $stmt->bindValue($identifier, $this->id_tipo_formacion, PDO::PARAM_INT);
                         break;
-                    case 'ID_PROFESION':                        
+                    case 'ID_PROFESION':
                         $stmt->bindValue($identifier, $this->id_profesion, PDO::PARAM_INT);
                         break;
-                    case 'ID_INSTITUCION':                        
+                    case 'ID_INSTITUCION':
                         $stmt->bindValue($identifier, $this->id_institucion, PDO::PARAM_INT);
                         break;
-                    case 'NOMBRE_INSTITUCION':                        
+                    case 'NOMBRE_INSTITUCION':
                         $stmt->bindValue($identifier, $this->nombre_institucion, PDO::PARAM_STR);
                         break;
-                    case 'NOMBRE_ESTUDIOS':                        
+                    case 'NOMBRE_ESTUDIOS':
                         $stmt->bindValue($identifier, $this->nombre_estudios, PDO::PARAM_STR);
                         break;
-                    case 'NOMBRE_TITULO':                        
+                    case 'NOMBRE_TITULO':
                         $stmt->bindValue($identifier, $this->nombre_titulo, PDO::PARAM_STR);
                         break;
-                    case 'FECHA_INICIO':                        
+                    case 'FECHA_INICIO':
                         $stmt->bindValue($identifier, $this->fecha_inicio ? $this->fecha_inicio->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'FECHA_FIN':                        
+                    case 'FECHA_FIN':
                         $stmt->bindValue($identifier, $this->fecha_fin ? $this->fecha_fin->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                     case 'ESTUDIANTE':
@@ -1905,37 +1938,37 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
                     case 'TITULADO_CONVALIDADO':
                         $stmt->bindValue($identifier, (int) $this->titulado_convalidado, PDO::PARAM_INT);
                         break;
-                    case 'ANIOS_CURSADOS':                        
+                    case 'ANIOS_CURSADOS':
                         $stmt->bindValue($identifier, $this->anios_cursados, PDO::PARAM_STR);
                         break;
-                    case 'DOCUMENTO_EGRESO':                        
+                    case 'DOCUMENTO_EGRESO':
                         $stmt->bindValue($identifier, $this->documento_egreso, PDO::PARAM_STR);
                         break;
-                    case 'DOCUMENTO_ACADEMICO':                        
+                    case 'DOCUMENTO_ACADEMICO':
                         $stmt->bindValue($identifier, $this->documento_academico, PDO::PARAM_STR);
                         break;
-                    case 'DOCUMENTO_CONVALIDADO':                        
+                    case 'DOCUMENTO_CONVALIDADO':
                         $stmt->bindValue($identifier, $this->documento_convalidado, PDO::PARAM_STR);
                         break;
-                    case 'FECHA_EGRESO':                        
+                    case 'FECHA_EGRESO':
                         $stmt->bindValue($identifier, $this->fecha_egreso ? $this->fecha_egreso->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'FECHA_TITULACION':                        
+                    case 'FECHA_TITULACION':
                         $stmt->bindValue($identifier, $this->fecha_titulacion ? $this->fecha_titulacion->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'VERIFICACIONES':                        
+                    case 'VERIFICACIONES':
                         $stmt->bindValue($identifier, $this->verificaciones, PDO::PARAM_INT);
                         break;
-                    case 'STATUS':                        
+                    case 'STATUS':
                         $stmt->bindValue($identifier, $this->status, PDO::PARAM_STR);
                         break;
-                    case 'LAST_USER_ID':                        
+                    case 'LAST_USER_ID':
                         $stmt->bindValue($identifier, $this->last_user_id, PDO::PARAM_INT);
                         break;
-                    case 'CREATION_DATE':                        
+                    case 'CREATION_DATE':
                         $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'MODIFICATION_DATE':                        
+                    case 'MODIFICATION_DATE':
                         $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                 }
@@ -2131,52 +2164,38 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
             $keys[23] => $this->getCreationDate(),
             $keys[24] => $this->getModificationDate(),
         );
-
-        $utc = new \DateTimeZone('utc');
         if ($result[$keys[8]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[8]];
-            $result[$keys[8]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[8]] = $result[$keys[8]]->format('c');
         }
-        
+
         if ($result[$keys[9]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[9]];
-            $result[$keys[9]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[9]] = $result[$keys[9]]->format('c');
         }
-        
+
         if ($result[$keys[18]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[18]];
-            $result[$keys[18]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[18]] = $result[$keys[18]]->format('c');
         }
-        
+
         if ($result[$keys[19]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[19]];
-            $result[$keys[19]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[19]] = $result[$keys[19]]->format('c');
         }
-        
+
         if ($result[$keys[23]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[23]];
-            $result[$keys[23]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[23]] = $result[$keys[23]]->format('c');
         }
-        
+
         if ($result[$keys[24]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[24]];
-            $result[$keys[24]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[24]] = $result[$keys[24]]->format('c');
         }
-        
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->aJobTipoFormacion) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'jobTipoFormacion';
@@ -2187,11 +2206,11 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
                     default:
                         $key = 'JobTipoFormacion';
                 }
-        
+
                 $result[$key] = $this->aJobTipoFormacion->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aJobProfesion) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'jobProfesion';
@@ -2202,11 +2221,11 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
                     default:
                         $key = 'JobProfesion';
                 }
-        
+
                 $result[$key] = $this->aJobProfesion->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aJobCurriculum) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'jobCurriculum';
@@ -2217,7 +2236,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
                     default:
                         $key = 'JobCurriculum';
                 }
-        
+
                 $result[$key] = $this->aJobCurriculum->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
@@ -2589,7 +2608,7 @@ abstract class JobFormacionAcademica implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-        
+
     /**
      * Returns the primary key for this object (row).
      * @return int

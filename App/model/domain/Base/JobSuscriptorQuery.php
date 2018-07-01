@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'job_suscriptor' table.
  *
- * 
+ *
  *
  * @method     ChildJobSuscriptorQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildJobSuscriptorQuery orderByIdTmpArea($order = Criteria::ASC) Order by the ID_TMP_AREA column
@@ -52,13 +52,29 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSuscriptorQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildJobSuscriptorQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildJobSuscriptorQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildJobSuscriptorQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildJobSuscriptorQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildJobSuscriptorQuery leftJoinTmpArea($relationAlias = null) Adds a LEFT JOIN clause to the query using the TmpArea relation
  * @method     ChildJobSuscriptorQuery rightJoinTmpArea($relationAlias = null) Adds a RIGHT JOIN clause to the query using the TmpArea relation
  * @method     ChildJobSuscriptorQuery innerJoinTmpArea($relationAlias = null) Adds a INNER JOIN clause to the query using the TmpArea relation
  *
+ * @method     ChildJobSuscriptorQuery joinWithTmpArea($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the TmpArea relation
+ *
+ * @method     ChildJobSuscriptorQuery leftJoinWithTmpArea() Adds a LEFT JOIN clause and with to the query using the TmpArea relation
+ * @method     ChildJobSuscriptorQuery rightJoinWithTmpArea() Adds a RIGHT JOIN clause and with to the query using the TmpArea relation
+ * @method     ChildJobSuscriptorQuery innerJoinWithTmpArea() Adds a INNER JOIN clause and with to the query using the TmpArea relation
+ *
  * @method     ChildJobSuscriptorQuery leftJoinTmpFormacion($relationAlias = null) Adds a LEFT JOIN clause to the query using the TmpFormacion relation
  * @method     ChildJobSuscriptorQuery rightJoinTmpFormacion($relationAlias = null) Adds a RIGHT JOIN clause to the query using the TmpFormacion relation
  * @method     ChildJobSuscriptorQuery innerJoinTmpFormacion($relationAlias = null) Adds a INNER JOIN clause to the query using the TmpFormacion relation
+ *
+ * @method     ChildJobSuscriptorQuery joinWithTmpFormacion($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the TmpFormacion relation
+ *
+ * @method     ChildJobSuscriptorQuery leftJoinWithTmpFormacion() Adds a LEFT JOIN clause and with to the query using the TmpFormacion relation
+ * @method     ChildJobSuscriptorQuery rightJoinWithTmpFormacion() Adds a RIGHT JOIN clause and with to the query using the TmpFormacion relation
+ * @method     ChildJobSuscriptorQuery innerJoinWithTmpFormacion() Adds a INNER JOIN clause and with to the query using the TmpFormacion relation
  *
  * @method     \TmpAreaQuery|\TmpFormacionQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -172,7 +188,7 @@ abstract class JobSuscriptorQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = JobSuscriptorTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = JobSuscriptorTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -204,7 +220,7 @@ abstract class JobSuscriptorQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, ID_TMP_AREA, ID_TMP_FORMACION, EMAIL, NOMBRE_SIMPLE, NOMBRES, APELLIDOS, UBICACION, IP, STATUS, CONFIRMATION, CREATION_DATE, MODIFICATION_DATE FROM job_suscriptor WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -216,7 +232,7 @@ abstract class JobSuscriptorQuery extends ModelCriteria
             /** @var ChildJobSuscriptor $obj */
             $obj = new ChildJobSuscriptor();
             $obj->hydrate($row);
-            JobSuscriptorTableMap::addInstanceToPool($obj, (string) $key);
+            JobSuscriptorTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -972,9 +988,9 @@ abstract class JobSuscriptorQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             JobSuscriptorTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             JobSuscriptorTableMap::clearRelatedInstancePool();
 

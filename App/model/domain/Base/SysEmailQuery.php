@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'sys_email' table.
  *
- * 
+ *
  *
  * @method     ChildSysEmailQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysEmailQuery orderByCode($order = Criteria::ASC) Order by the CODE column
@@ -56,9 +56,19 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysEmailQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildSysEmailQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildSysEmailQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildSysEmailQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildSysEmailQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildSysEmailQuery leftJoinSysEmailSent($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEmailSent relation
  * @method     ChildSysEmailQuery rightJoinSysEmailSent($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEmailSent relation
  * @method     ChildSysEmailQuery innerJoinSysEmailSent($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEmailSent relation
+ *
+ * @method     ChildSysEmailQuery joinWithSysEmailSent($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEmailSent relation
+ *
+ * @method     ChildSysEmailQuery leftJoinWithSysEmailSent() Adds a LEFT JOIN clause and with to the query using the SysEmailSent relation
+ * @method     ChildSysEmailQuery rightJoinWithSysEmailSent() Adds a RIGHT JOIN clause and with to the query using the SysEmailSent relation
+ * @method     ChildSysEmailQuery innerJoinWithSysEmailSent() Adds a INNER JOIN clause and with to the query using the SysEmailSent relation
  *
  * @method     \SysEmailSentQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -178,7 +188,7 @@ abstract class SysEmailQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysEmailTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = SysEmailTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -210,7 +220,7 @@ abstract class SysEmailQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, CODE, NAME, DESCRIPTION, FROM_EMAIL, FROM_NAME, CC, BCC, SUBJECT, BODY, ATTACHMENTS, TEMPLATE, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM sys_email WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -222,7 +232,7 @@ abstract class SysEmailQuery extends ModelCriteria
             /** @var ChildSysEmail $obj */
             $obj = new ChildSysEmail();
             $obj->hydrate($row);
-            SysEmailTableMap::addInstanceToPool($obj, (string) $key);
+            SysEmailTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -925,9 +935,9 @@ abstract class SysEmailQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             SysEmailTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             SysEmailTableMap::clearRelatedInstancePool();
 

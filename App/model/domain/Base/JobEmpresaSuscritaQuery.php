@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'job_empresa_suscrita' table.
  *
- * 
+ *
  *
  * @method     ChildJobEmpresaSuscritaQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildJobEmpresaSuscritaQuery orderByEntityTypeId($order = Criteria::ASC) Order by the ENTITY_TYPE_ID column
@@ -58,13 +58,29 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobEmpresaSuscritaQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildJobEmpresaSuscritaQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildJobEmpresaSuscritaQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildJobEmpresaSuscritaQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildJobEmpresaSuscritaQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildJobEmpresaSuscritaQuery leftJoinSysEntityType($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEntityType relation
  * @method     ChildJobEmpresaSuscritaQuery rightJoinSysEntityType($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEntityType relation
  * @method     ChildJobEmpresaSuscritaQuery innerJoinSysEntityType($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEntityType relation
  *
+ * @method     ChildJobEmpresaSuscritaQuery joinWithSysEntityType($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEntityType relation
+ *
+ * @method     ChildJobEmpresaSuscritaQuery leftJoinWithSysEntityType() Adds a LEFT JOIN clause and with to the query using the SysEntityType relation
+ * @method     ChildJobEmpresaSuscritaQuery rightJoinWithSysEntityType() Adds a RIGHT JOIN clause and with to the query using the SysEntityType relation
+ * @method     ChildJobEmpresaSuscritaQuery innerJoinWithSysEntityType() Adds a INNER JOIN clause and with to the query using the SysEntityType relation
+ *
  * @method     ChildJobEmpresaSuscritaQuery leftJoinSysLocation($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysLocation relation
  * @method     ChildJobEmpresaSuscritaQuery rightJoinSysLocation($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysLocation relation
  * @method     ChildJobEmpresaSuscritaQuery innerJoinSysLocation($relationAlias = null) Adds a INNER JOIN clause to the query using the SysLocation relation
+ *
+ * @method     ChildJobEmpresaSuscritaQuery joinWithSysLocation($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysLocation relation
+ *
+ * @method     ChildJobEmpresaSuscritaQuery leftJoinWithSysLocation() Adds a LEFT JOIN clause and with to the query using the SysLocation relation
+ * @method     ChildJobEmpresaSuscritaQuery rightJoinWithSysLocation() Adds a RIGHT JOIN clause and with to the query using the SysLocation relation
+ * @method     ChildJobEmpresaSuscritaQuery innerJoinWithSysLocation() Adds a INNER JOIN clause and with to the query using the SysLocation relation
  *
  * @method     \SysEntityTypeQuery|\SysLocationQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -187,7 +203,7 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = JobEmpresaSuscritaTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = JobEmpresaSuscritaTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -219,7 +235,7 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, ENTITY_TYPE_ID, LOCATION_ID, SCRAP_EMPRESA_ID, HASH_CODE, NOMBRE, NIT, EMAIL, DIRECCION, REPRESENTANTE, TELEFONO, CELULAR, STATUS, LAST_USER_ID, CREATION_DATE, MODIFICACION_DATE FROM job_empresa_suscrita WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -231,7 +247,7 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
             /** @var ChildJobEmpresaSuscrita $obj */
             $obj = new ChildJobEmpresaSuscrita();
             $obj->hydrate($row);
-            JobEmpresaSuscritaTableMap::addInstanceToPool($obj, (string) $key);
+            JobEmpresaSuscritaTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -1084,9 +1100,9 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             JobEmpresaSuscritaTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             JobEmpresaSuscritaTableMap::clearRelatedInstancePool();
 

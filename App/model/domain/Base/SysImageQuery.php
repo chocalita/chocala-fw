@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'sys_image' table.
  *
- * 
+ *
  *
  * @method     ChildSysImageQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysImageQuery orderByUserId($order = Criteria::ASC) Order by the USER_ID column
@@ -46,9 +46,19 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysImageQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildSysImageQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildSysImageQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildSysImageQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildSysImageQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildSysImageQuery leftJoinSysUser($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysUser relation
  * @method     ChildSysImageQuery rightJoinSysUser($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysUser relation
  * @method     ChildSysImageQuery innerJoinSysUser($relationAlias = null) Adds a INNER JOIN clause to the query using the SysUser relation
+ *
+ * @method     ChildSysImageQuery joinWithSysUser($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysUser relation
+ *
+ * @method     ChildSysImageQuery leftJoinWithSysUser() Adds a LEFT JOIN clause and with to the query using the SysUser relation
+ * @method     ChildSysImageQuery rightJoinWithSysUser() Adds a RIGHT JOIN clause and with to the query using the SysUser relation
+ * @method     ChildSysImageQuery innerJoinWithSysUser() Adds a INNER JOIN clause and with to the query using the SysUser relation
  *
  * @method     \SysUserQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -153,7 +163,7 @@ abstract class SysImageQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysImageTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = SysImageTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -185,7 +195,7 @@ abstract class SysImageQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, USER_ID, TITLE, DESCRIPTION, IMG_NAME, IMG_TYPE, IMG_SIZE, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM sys_image WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -197,7 +207,7 @@ abstract class SysImageQuery extends ModelCriteria
             /** @var ChildSysImage $obj */
             $obj = new ChildSysImage();
             $obj->hydrate($row);
-            SysImageTableMap::addInstanceToPool($obj, (string) $key);
+            SysImageTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -785,9 +795,9 @@ abstract class SysImageQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             SysImageTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             SysImageTableMap::clearRelatedInstancePool();
 

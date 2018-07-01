@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'sys_email_sent' table.
  *
- * 
+ *
  *
  * @method     ChildSysEmailSentQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysEmailSentQuery orderByEmailId($order = Criteria::ASC) Order by the EMAIL_ID column
@@ -56,13 +56,29 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysEmailSentQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildSysEmailSentQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildSysEmailSentQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildSysEmailSentQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildSysEmailSentQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildSysEmailSentQuery leftJoinSysEmail($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEmail relation
  * @method     ChildSysEmailSentQuery rightJoinSysEmail($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEmail relation
  * @method     ChildSysEmailSentQuery innerJoinSysEmail($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEmail relation
  *
+ * @method     ChildSysEmailSentQuery joinWithSysEmail($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEmail relation
+ *
+ * @method     ChildSysEmailSentQuery leftJoinWithSysEmail() Adds a LEFT JOIN clause and with to the query using the SysEmail relation
+ * @method     ChildSysEmailSentQuery rightJoinWithSysEmail() Adds a RIGHT JOIN clause and with to the query using the SysEmail relation
+ * @method     ChildSysEmailSentQuery innerJoinWithSysEmail() Adds a INNER JOIN clause and with to the query using the SysEmail relation
+ *
  * @method     ChildSysEmailSentQuery leftJoinSysUser($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysUser relation
  * @method     ChildSysEmailSentQuery rightJoinSysUser($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysUser relation
  * @method     ChildSysEmailSentQuery innerJoinSysUser($relationAlias = null) Adds a INNER JOIN clause to the query using the SysUser relation
+ *
+ * @method     ChildSysEmailSentQuery joinWithSysUser($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysUser relation
+ *
+ * @method     ChildSysEmailSentQuery leftJoinWithSysUser() Adds a LEFT JOIN clause and with to the query using the SysUser relation
+ * @method     ChildSysEmailSentQuery rightJoinWithSysUser() Adds a RIGHT JOIN clause and with to the query using the SysUser relation
+ * @method     ChildSysEmailSentQuery innerJoinWithSysUser() Adds a INNER JOIN clause and with to the query using the SysUser relation
  *
  * @method     \SysEmailQuery|\SysUserQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -182,7 +198,7 @@ abstract class SysEmailSentQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysEmailSentTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = SysEmailSentTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -214,7 +230,7 @@ abstract class SysEmailSentQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, EMAIL_ID, USER_ID, SENDER_ID, HASH_STRING, FROM_NAME, FROM_EMAIL, TO_EMAIL, CC, BCC, SUBJECT, CONTENT, IS_SUCCESS, SHIPPING_DATE, OPENING_DATE FROM sys_email_sent WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -226,7 +242,7 @@ abstract class SysEmailSentQuery extends ModelCriteria
             /** @var ChildSysEmailSent $obj */
             $obj = new ChildSysEmailSent();
             $obj->hydrate($row);
-            SysEmailSentTableMap::addInstanceToPool($obj, (string) $key);
+            SysEmailSentTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -1036,9 +1052,9 @@ abstract class SysEmailSentQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             SysEmailSentTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             SysEmailSentTableMap::clearRelatedInstancePool();
 

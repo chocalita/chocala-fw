@@ -18,7 +18,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'sys_entity_param' table.
  *
- * 
+ *
  *
  * @method     ChildSysEntityParamQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysEntityParamQuery orderByEntityId($order = Criteria::ASC) Order by the ENTITY_ID column
@@ -42,13 +42,29 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysEntityParamQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildSysEntityParamQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ChildSysEntityParamQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildSysEntityParamQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildSysEntityParamQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
  * @method     ChildSysEntityParamQuery leftJoinSysEntity($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEntity relation
  * @method     ChildSysEntityParamQuery rightJoinSysEntity($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEntity relation
  * @method     ChildSysEntityParamQuery innerJoinSysEntity($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEntity relation
  *
+ * @method     ChildSysEntityParamQuery joinWithSysEntity($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysEntity relation
+ *
+ * @method     ChildSysEntityParamQuery leftJoinWithSysEntity() Adds a LEFT JOIN clause and with to the query using the SysEntity relation
+ * @method     ChildSysEntityParamQuery rightJoinWithSysEntity() Adds a RIGHT JOIN clause and with to the query using the SysEntity relation
+ * @method     ChildSysEntityParamQuery innerJoinWithSysEntity() Adds a INNER JOIN clause and with to the query using the SysEntity relation
+ *
  * @method     ChildSysEntityParamQuery leftJoinSysParam($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysParam relation
  * @method     ChildSysEntityParamQuery rightJoinSysParam($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysParam relation
  * @method     ChildSysEntityParamQuery innerJoinSysParam($relationAlias = null) Adds a INNER JOIN clause to the query using the SysParam relation
+ *
+ * @method     ChildSysEntityParamQuery joinWithSysParam($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysParam relation
+ *
+ * @method     ChildSysEntityParamQuery leftJoinWithSysParam() Adds a LEFT JOIN clause and with to the query using the SysParam relation
+ * @method     ChildSysEntityParamQuery rightJoinWithSysParam() Adds a RIGHT JOIN clause and with to the query using the SysParam relation
+ * @method     ChildSysEntityParamQuery innerJoinWithSysParam() Adds a INNER JOIN clause and with to the query using the SysParam relation
  *
  * @method     \SysEntityQuery|\SysParamQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -147,7 +163,7 @@ abstract class SysEntityParamQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysEntityParamTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = SysEntityParamTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -179,7 +195,7 @@ abstract class SysEntityParamQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, ENTITY_ID, PARAM_ID, VALUE, DESCRIPTION, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM sys_entity_param WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -191,7 +207,7 @@ abstract class SysEntityParamQuery extends ModelCriteria
             /** @var ChildSysEntityParam $obj */
             $obj = new ChildSysEntityParam();
             $obj->hydrate($row);
-            SysEntityParamTableMap::addInstanceToPool($obj, (string) $key);
+            SysEntityParamTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -800,9 +816,9 @@ abstract class SysEntityParamQuery extends ModelCriteria
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
-            
+
             SysEntityParamTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             SysEntityParamTableMap::clearRelatedInstancePool();
 

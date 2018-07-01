@@ -27,11 +27,11 @@ use Propel\Runtime\Util\PropelDateTime;
 /**
  * Base class that represents a row from the 'job_suscriptor' table.
  *
- * 
+ *
  *
 * @package    propel.generator..Base
 */
-abstract class JobSuscriptor implements ActiveRecordInterface 
+abstract class JobSuscriptor implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -67,60 +67,70 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * The value for the id field.
+     *
      * @var        int
      */
     protected $id;
 
     /**
      * The value for the id_tmp_area field.
+     *
      * @var        int
      */
     protected $id_tmp_area;
 
     /**
      * The value for the id_tmp_formacion field.
+     *
      * @var        int
      */
     protected $id_tmp_formacion;
 
     /**
      * The value for the email field.
+     *
      * @var        string
      */
     protected $email;
 
     /**
      * The value for the nombre_simple field.
+     *
      * @var        string
      */
     protected $nombre_simple;
 
     /**
      * The value for the nombres field.
+     *
      * @var        string
      */
     protected $nombres;
 
     /**
      * The value for the apellidos field.
+     *
      * @var        string
      */
     protected $apellidos;
 
     /**
      * The value for the ubicacion field.
+     *
      * @var        string
      */
     protected $ubicacion;
 
     /**
      * The value for the ip field.
+     *
      * @var        string
      */
     protected $ip;
 
     /**
      * The value for the status field.
+     *
      * Note: this column has a database default value of: 'INICIADO'
      * @var        string
      */
@@ -128,12 +138,14 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * The value for the confirmation field.
+     *
      * @var        \DateTime
      */
     protected $confirmation;
 
     /**
      * The value for the creation_date field.
+     *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
      * @var        \DateTime
      */
@@ -141,6 +153,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * The value for the modification_date field.
+     *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
      * @var        \DateTime
      */
@@ -391,12 +404,20 @@ abstract class JobSuscriptor implements ActiveRecordInterface
     {
         $this->clearAllReferences();
 
-        return array_keys(get_object_vars($this));
+        $cls = new \ReflectionClass($this);
+        $propertyNames = [];
+        $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
+
+        foreach($serializableProperties as $property) {
+            $propertyNames[] = $property->getName();
+        }
+
+        return $propertyNames;
     }
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return int
      */
     public function getId()
@@ -406,7 +427,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Get the [id_tmp_area] column value.
-     * 
+     *
      * @return int
      */
     public function getIdTmpArea()
@@ -416,7 +437,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Get the [id_tmp_formacion] column value.
-     * 
+     *
      * @return int
      */
     public function getIdTmpFormacion()
@@ -426,7 +447,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Get the [email] column value.
-     * 
+     *
      * @return string
      */
     public function getEmail()
@@ -436,7 +457,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Get the [nombre_simple] column value.
-     * 
+     *
      * @return string
      */
     public function getNombreSimple()
@@ -446,7 +467,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Get the [nombres] column value.
-     * 
+     *
      * @return string
      */
     public function getNombres()
@@ -456,7 +477,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Get the [apellidos] column value.
-     * 
+     *
      * @return string
      */
     public function getApellidos()
@@ -466,7 +487,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Get the [ubicacion] column value.
-     * 
+     *
      * @return string
      */
     public function getUbicacion()
@@ -476,7 +497,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Get the [ip] column value.
-     * 
+     *
      * @return string
      */
     public function getIp()
@@ -486,7 +507,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Get the [status] column value.
-     * 
+     *
      * @return string
      */
     public function getStatus()
@@ -496,7 +517,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [confirmation] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -516,7 +537,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [creation_date] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -536,7 +557,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [modification_date] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
@@ -556,7 +577,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobSuscriptor The current object (for fluent API support)
      */
@@ -576,7 +597,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Set the value of [id_tmp_area] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobSuscriptor The current object (for fluent API support)
      */
@@ -600,7 +621,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Set the value of [id_tmp_formacion] column.
-     * 
+     *
      * @param int $v new value
      * @return $this|\JobSuscriptor The current object (for fluent API support)
      */
@@ -624,7 +645,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Set the value of [email] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobSuscriptor The current object (for fluent API support)
      */
@@ -644,7 +665,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Set the value of [nombre_simple] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobSuscriptor The current object (for fluent API support)
      */
@@ -664,7 +685,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Set the value of [nombres] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobSuscriptor The current object (for fluent API support)
      */
@@ -684,7 +705,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Set the value of [apellidos] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobSuscriptor The current object (for fluent API support)
      */
@@ -704,7 +725,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Set the value of [ubicacion] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobSuscriptor The current object (for fluent API support)
      */
@@ -724,7 +745,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Set the value of [ip] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobSuscriptor The current object (for fluent API support)
      */
@@ -744,7 +765,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Set the value of [status] column.
-     * 
+     *
      * @param string $v new value
      * @return $this|\JobSuscriptor The current object (for fluent API support)
      */
@@ -764,7 +785,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Sets the value of [confirmation] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobSuscriptor The current object (for fluent API support)
@@ -784,7 +805,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobSuscriptor The current object (for fluent API support)
@@ -804,7 +825,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
     /**
      * Sets the value of [modification_date] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobSuscriptor The current object (for fluent API support)
@@ -1191,43 +1212,43 @@ abstract class JobSuscriptor implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'ID_TMP_AREA':                        
+                    case 'ID_TMP_AREA':
                         $stmt->bindValue($identifier, $this->id_tmp_area, PDO::PARAM_INT);
                         break;
-                    case 'ID_TMP_FORMACION':                        
+                    case 'ID_TMP_FORMACION':
                         $stmt->bindValue($identifier, $this->id_tmp_formacion, PDO::PARAM_INT);
                         break;
-                    case 'EMAIL':                        
+                    case 'EMAIL':
                         $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
                         break;
-                    case 'NOMBRE_SIMPLE':                        
+                    case 'NOMBRE_SIMPLE':
                         $stmt->bindValue($identifier, $this->nombre_simple, PDO::PARAM_STR);
                         break;
-                    case 'NOMBRES':                        
+                    case 'NOMBRES':
                         $stmt->bindValue($identifier, $this->nombres, PDO::PARAM_STR);
                         break;
-                    case 'APELLIDOS':                        
+                    case 'APELLIDOS':
                         $stmt->bindValue($identifier, $this->apellidos, PDO::PARAM_STR);
                         break;
-                    case 'UBICACION':                        
+                    case 'UBICACION':
                         $stmt->bindValue($identifier, $this->ubicacion, PDO::PARAM_STR);
                         break;
-                    case 'IP':                        
+                    case 'IP':
                         $stmt->bindValue($identifier, $this->ip, PDO::PARAM_STR);
                         break;
-                    case 'STATUS':                        
+                    case 'STATUS':
                         $stmt->bindValue($identifier, $this->status, PDO::PARAM_STR);
                         break;
-                    case 'CONFIRMATION':                        
+                    case 'CONFIRMATION':
                         $stmt->bindValue($identifier, $this->confirmation ? $this->confirmation->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'CREATION_DATE':                        
+                    case 'CREATION_DATE':
                         $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'MODIFICATION_DATE':                        
+                    case 'MODIFICATION_DATE':
                         $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                 }
@@ -1375,34 +1396,26 @@ abstract class JobSuscriptor implements ActiveRecordInterface
             $keys[11] => $this->getCreationDate(),
             $keys[12] => $this->getModificationDate(),
         );
-
-        $utc = new \DateTimeZone('utc');
         if ($result[$keys[10]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[10]];
-            $result[$keys[10]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[10]] = $result[$keys[10]]->format('c');
         }
-        
+
         if ($result[$keys[11]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[11]];
-            $result[$keys[11]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[11]] = $result[$keys[11]]->format('c');
         }
-        
+
         if ($result[$keys[12]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[12]];
-            $result[$keys[12]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+            $result[$keys[12]] = $result[$keys[12]]->format('c');
         }
-        
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->aTmpArea) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'tmpArea';
@@ -1413,11 +1426,11 @@ abstract class JobSuscriptor implements ActiveRecordInterface
                     default:
                         $key = 'TmpArea';
                 }
-        
+
                 $result[$key] = $this->aTmpArea->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aTmpFormacion) {
-                
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'tmpFormacion';
@@ -1428,7 +1441,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
                     default:
                         $key = 'TmpFormacion';
                 }
-        
+
                 $result[$key] = $this->aTmpFormacion->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
@@ -1692,7 +1705,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
         return spl_object_hash($this);
     }
-        
+
     /**
      * Returns the primary key for this object (row).
      * @return int

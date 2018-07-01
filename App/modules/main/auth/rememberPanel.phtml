@@ -1,0 +1,27 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h4 class="modal-title text-center"><?=("Recuperar contraseña");?></h4>
+</div>
+<form class="form-vertical form-login" name="loginForm" id="loginForm" method="post">
+    <div class="modal-body no-padding-bottom">
+        <div class="form-group">
+            <input type="text" class="form-control required" name="username" autocomplete="off" placeholder="Correo Electrónico: "/>
+        </div>
+        <div class="form-group text-center no-margin-bottom">
+            <input type="submit" name="Submit" value="<?= ("Recuperar"); ?>"
+                   class="btn btn-warning full-width" onclick="return BsModalLogin.remember(this)">
+        </div>
+    </div>
+</form>
+<div class="modal-body">
+    <div class="form-group text-center">
+        <button class="btn btn-transparent full-width" onclick="return BsModalLogin.loginPanel(this)">
+            <?= ("Iniciar sesión"); ?>
+        </button>
+    </div>
+    <div class="form-group text-center">
+        <button class="btn btn-transparent full-width" onclick="return BsModalLogin.registerPanel(this)">
+            <?= ("Registrarme"); ?>
+        </button>
+    </div>
+</div>
