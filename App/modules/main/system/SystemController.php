@@ -123,8 +123,7 @@ class SystemController extends AdminWebController
     {
         $passwordRequest = $this->userService->loadPasswordRequest($this->id);
         $success = false;
-        $errors = array();
-//        $user = $passwordRequest->getSysUser();
+        $errors = [];
         if (!is_object($passwordRequest)) {
             $this->redirectTo(['action' => 'main']);
         }
@@ -153,21 +152,19 @@ class SystemController extends AdminWebController
     public function changePassword()
     {
         $success = false;
+        $errors = [];
         if (UserControl::isLoggedIn()) {
             if (trim(Req::_('Password')) == '' || trim(Req::_('RPassword')) == '') {
-                $errors = 'Debe ingresar y repetir su nueva contraseña.';
+                $errors = ['field' => 'Password', 'message' => 'Debe ingresar y repetir su nueva contraseña.'];
             } else if (Req::_('Password') != Req::_('RPassword')) {
-                $errors = 'Debe repetir la nueva contraseña.';
-            } else if (strlen(Req::_('Password')) < 6) {
-                $errors = 'La contraseña es demasiado corta.';
+                $errors = ['field' => 'RPassword', 'message' => 'La repetición no coincide con la nueva contraseña.'];
+            } else if (strlen(Req::_('Password')) < 8) {
+                $errors = ['field' => 'Password', 'message' => 'La contraseña es demasiado corta.'];
             } else {
                 $data['Password'] = UserControl::crypt(Req::_('Password'));
                 $data['Status'] = SysUser::STATUS_ACTIVE;
                 $results = $this->userService->insertOrUpdate($data, $this->sessionUser);
                 $success = $results['success'];
-                if ($success) {
-                    $errors = 'Se cambió correctamente su password de usuario';
-                }
             }
         }
         $this->set('success', $success);

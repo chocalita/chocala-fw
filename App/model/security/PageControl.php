@@ -220,7 +220,9 @@ class PageControl implements ISingleton
                     ->filterBySysRol($rols, Criteria::IN)
                 ->endUse()
                 ->useSysModuleQuery()
-                    ->orderByPosition()
+//                    ->orderByPosition()
+                    ->withColumn("SysModule.position", "ModulePosition")
+                    ->orderBy("ModulePosition", "asc")
                 ->endUse()
                 ->orderByPosition()
             ->find();

@@ -8,6 +8,7 @@ use Base\JobAvisoQuery as BaseJobAvisoQuery;
  *
  * @method static JobAvisoQuery createValids($noDeletes = true, $modelAlias = null, Criteria $criteria = null)
  * @method JobAvisoQuery filterValids()
+ * @method JobAvisoQuery orders()
  */
 class JobAvisoQuery extends BaseJobAvisoQuery implements SoftDeletion
 {

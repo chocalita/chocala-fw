@@ -58,6 +58,26 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysUserQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
  * @method     ChildSysUserQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
+ * @method     ChildSysUserQuery leftJoinJobUserEmpresaSuscrita($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobUserEmpresaSuscrita relation
+ * @method     ChildSysUserQuery rightJoinJobUserEmpresaSuscrita($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobUserEmpresaSuscrita relation
+ * @method     ChildSysUserQuery innerJoinJobUserEmpresaSuscrita($relationAlias = null) Adds a INNER JOIN clause to the query using the JobUserEmpresaSuscrita relation
+ *
+ * @method     ChildSysUserQuery joinWithJobUserEmpresaSuscrita($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobUserEmpresaSuscrita relation
+ *
+ * @method     ChildSysUserQuery leftJoinWithJobUserEmpresaSuscrita() Adds a LEFT JOIN clause and with to the query using the JobUserEmpresaSuscrita relation
+ * @method     ChildSysUserQuery rightJoinWithJobUserEmpresaSuscrita() Adds a RIGHT JOIN clause and with to the query using the JobUserEmpresaSuscrita relation
+ * @method     ChildSysUserQuery innerJoinWithJobUserEmpresaSuscrita() Adds a INNER JOIN clause and with to the query using the JobUserEmpresaSuscrita relation
+ *
+ * @method     ChildSysUserQuery leftJoinSysAuth($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysAuth relation
+ * @method     ChildSysUserQuery rightJoinSysAuth($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysAuth relation
+ * @method     ChildSysUserQuery innerJoinSysAuth($relationAlias = null) Adds a INNER JOIN clause to the query using the SysAuth relation
+ *
+ * @method     ChildSysUserQuery joinWithSysAuth($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SysAuth relation
+ *
+ * @method     ChildSysUserQuery leftJoinWithSysAuth() Adds a LEFT JOIN clause and with to the query using the SysAuth relation
+ * @method     ChildSysUserQuery rightJoinWithSysAuth() Adds a RIGHT JOIN clause and with to the query using the SysAuth relation
+ * @method     ChildSysUserQuery innerJoinWithSysAuth() Adds a INNER JOIN clause and with to the query using the SysAuth relation
+ *
  * @method     ChildSysUserQuery leftJoinSysEmailSent($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysEmailSent relation
  * @method     ChildSysUserQuery rightJoinSysEmailSent($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysEmailSent relation
  * @method     ChildSysUserQuery innerJoinSysEmailSent($relationAlias = null) Adds a INNER JOIN clause to the query using the SysEmailSent relation
@@ -138,7 +158,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysUserQuery rightJoinWithSysUserXRol() Adds a RIGHT JOIN clause and with to the query using the SysUserXRol relation
  * @method     ChildSysUserQuery innerJoinWithSysUserXRol() Adds a INNER JOIN clause and with to the query using the SysUserXRol relation
  *
- * @method     \SysEmailSentQuery|\SysEntityUserQuery|\SysImageQuery|\SysPasswordQuery|\SysPasswordRequestQuery|\SysPersonQuery|\SysUserParamQuery|\SysUserXRolQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \JobUserEmpresaSuscritaQuery|\SysAuthQuery|\SysEmailSentQuery|\SysEntityUserQuery|\SysImageQuery|\SysPasswordQuery|\SysPasswordRequestQuery|\SysPersonQuery|\SysUserParamQuery|\SysUserXRolQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildSysUser findOne(ConnectionInterface $con = null) Return the first ChildSysUser matching the query
  * @method     ChildSysUser findOneOrCreate(ConnectionInterface $con = null) Return the first ChildSysUser matching the query, or a new ChildSysUser object populated from the query conditions when no match is found
@@ -253,21 +273,27 @@ abstract class SysUserQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysUserTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(SysUserTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = SysUserTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -420,11 +446,10 @@ abstract class SysUserQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByEmail('fooValue');   // WHERE EMAIL = 'fooValue'
-     * $query->filterByEmail('%fooValue%'); // WHERE EMAIL LIKE '%fooValue%'
+     * $query->filterByEmail('%fooValue%', Criteria::LIKE); // WHERE EMAIL LIKE '%fooValue%'
      * </code>
      *
      * @param     string $email The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysUserQuery The current query, for fluid interface
@@ -434,9 +459,6 @@ abstract class SysUserQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($email)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $email)) {
-                $email = str_replace('*', '%', $email);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -449,11 +471,10 @@ abstract class SysUserQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByUsername('fooValue');   // WHERE USERNAME = 'fooValue'
-     * $query->filterByUsername('%fooValue%'); // WHERE USERNAME LIKE '%fooValue%'
+     * $query->filterByUsername('%fooValue%', Criteria::LIKE); // WHERE USERNAME LIKE '%fooValue%'
      * </code>
      *
      * @param     string $username The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysUserQuery The current query, for fluid interface
@@ -463,9 +484,6 @@ abstract class SysUserQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($username)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $username)) {
-                $username = str_replace('*', '%', $username);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -478,11 +496,10 @@ abstract class SysUserQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByPassword('fooValue');   // WHERE PASSWORD = 'fooValue'
-     * $query->filterByPassword('%fooValue%'); // WHERE PASSWORD LIKE '%fooValue%'
+     * $query->filterByPassword('%fooValue%', Criteria::LIKE); // WHERE PASSWORD LIKE '%fooValue%'
      * </code>
      *
      * @param     string $password The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysUserQuery The current query, for fluid interface
@@ -492,9 +509,6 @@ abstract class SysUserQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($password)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $password)) {
-                $password = str_replace('*', '%', $password);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -507,11 +521,10 @@ abstract class SysUserQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByStatus('fooValue');   // WHERE STATUS = 'fooValue'
-     * $query->filterByStatus('%fooValue%'); // WHERE STATUS LIKE '%fooValue%'
+     * $query->filterByStatus('%fooValue%', Criteria::LIKE); // WHERE STATUS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $status The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysUserQuery The current query, for fluid interface
@@ -521,9 +534,6 @@ abstract class SysUserQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($status)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $status)) {
-                $status = str_replace('*', '%', $status);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -536,11 +546,10 @@ abstract class SysUserQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByLocation('fooValue');   // WHERE LOCATION = 'fooValue'
-     * $query->filterByLocation('%fooValue%'); // WHERE LOCATION LIKE '%fooValue%'
+     * $query->filterByLocation('%fooValue%', Criteria::LIKE); // WHERE LOCATION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $location The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysUserQuery The current query, for fluid interface
@@ -550,9 +559,6 @@ abstract class SysUserQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($location)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $location)) {
-                $location = str_replace('*', '%', $location);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -565,11 +571,10 @@ abstract class SysUserQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByAddress('fooValue');   // WHERE ADDRESS = 'fooValue'
-     * $query->filterByAddress('%fooValue%'); // WHERE ADDRESS LIKE '%fooValue%'
+     * $query->filterByAddress('%fooValue%', Criteria::LIKE); // WHERE ADDRESS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $address The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysUserQuery The current query, for fluid interface
@@ -579,9 +584,6 @@ abstract class SysUserQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($address)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $address)) {
-                $address = str_replace('*', '%', $address);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -594,11 +596,10 @@ abstract class SysUserQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByImageMime('fooValue');   // WHERE IMAGE_MIME = 'fooValue'
-     * $query->filterByImageMime('%fooValue%'); // WHERE IMAGE_MIME LIKE '%fooValue%'
+     * $query->filterByImageMime('%fooValue%', Criteria::LIKE); // WHERE IMAGE_MIME LIKE '%fooValue%'
      * </code>
      *
      * @param     string $imageMime The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysUserQuery The current query, for fluid interface
@@ -608,9 +609,6 @@ abstract class SysUserQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($imageMime)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $imageMime)) {
-                $imageMime = str_replace('*', '%', $imageMime);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -869,6 +867,152 @@ abstract class SysUserQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(SysUserTableMap::COL_MODIFICATION_DATE, $modificationDate, $comparison);
+    }
+
+    /**
+     * Filter the query by a related \JobUserEmpresaSuscrita object
+     *
+     * @param \JobUserEmpresaSuscrita|ObjectCollection $jobUserEmpresaSuscrita the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildSysUserQuery The current query, for fluid interface
+     */
+    public function filterByJobUserEmpresaSuscrita($jobUserEmpresaSuscrita, $comparison = null)
+    {
+        if ($jobUserEmpresaSuscrita instanceof \JobUserEmpresaSuscrita) {
+            return $this
+                ->addUsingAlias(SysUserTableMap::COL_ID, $jobUserEmpresaSuscrita->getUserId(), $comparison);
+        } elseif ($jobUserEmpresaSuscrita instanceof ObjectCollection) {
+            return $this
+                ->useJobUserEmpresaSuscritaQuery()
+                ->filterByPrimaryKeys($jobUserEmpresaSuscrita->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByJobUserEmpresaSuscrita() only accepts arguments of type \JobUserEmpresaSuscrita or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the JobUserEmpresaSuscrita relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildSysUserQuery The current query, for fluid interface
+     */
+    public function joinJobUserEmpresaSuscrita($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('JobUserEmpresaSuscrita');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'JobUserEmpresaSuscrita');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the JobUserEmpresaSuscrita relation JobUserEmpresaSuscrita object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \JobUserEmpresaSuscritaQuery A secondary query class using the current class as primary query
+     */
+    public function useJobUserEmpresaSuscritaQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinJobUserEmpresaSuscrita($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'JobUserEmpresaSuscrita', '\JobUserEmpresaSuscritaQuery');
+    }
+
+    /**
+     * Filter the query by a related \SysAuth object
+     *
+     * @param \SysAuth|ObjectCollection $sysAuth the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildSysUserQuery The current query, for fluid interface
+     */
+    public function filterBySysAuth($sysAuth, $comparison = null)
+    {
+        if ($sysAuth instanceof \SysAuth) {
+            return $this
+                ->addUsingAlias(SysUserTableMap::COL_ID, $sysAuth->getUserId(), $comparison);
+        } elseif ($sysAuth instanceof ObjectCollection) {
+            return $this
+                ->useSysAuthQuery()
+                ->filterByPrimaryKeys($sysAuth->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterBySysAuth() only accepts arguments of type \SysAuth or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the SysAuth relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildSysUserQuery The current query, for fluid interface
+     */
+    public function joinSysAuth($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('SysAuth');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'SysAuth');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the SysAuth relation SysAuth object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \SysAuthQuery A secondary query class using the current class as primary query
+     */
+    public function useSysAuthQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinSysAuth($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'SysAuth', '\SysAuthQuery');
     }
 
     /**

@@ -1,5 +1,5 @@
-
-
+-- DROP DATABASE jobs;
+-- CREATE DATABASE jobs CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 -- phpMyAdmin SQL Dump
 -- version 4.5.2

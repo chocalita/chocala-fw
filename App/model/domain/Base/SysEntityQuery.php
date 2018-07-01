@@ -238,21 +238,27 @@ abstract class SysEntityQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysEntityTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(SysEntityTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = SysEntityTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -532,11 +538,10 @@ abstract class SysEntityQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByCode('fooValue');   // WHERE CODE = 'fooValue'
-     * $query->filterByCode('%fooValue%'); // WHERE CODE LIKE '%fooValue%'
+     * $query->filterByCode('%fooValue%', Criteria::LIKE); // WHERE CODE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $code The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityQuery The current query, for fluid interface
@@ -546,9 +551,6 @@ abstract class SysEntityQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($code)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $code)) {
-                $code = str_replace('*', '%', $code);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -561,11 +563,10 @@ abstract class SysEntityQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByComercialName('fooValue');   // WHERE COMERCIAL_NAME = 'fooValue'
-     * $query->filterByComercialName('%fooValue%'); // WHERE COMERCIAL_NAME LIKE '%fooValue%'
+     * $query->filterByComercialName('%fooValue%', Criteria::LIKE); // WHERE COMERCIAL_NAME LIKE '%fooValue%'
      * </code>
      *
      * @param     string $comercialName The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityQuery The current query, for fluid interface
@@ -575,9 +576,6 @@ abstract class SysEntityQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($comercialName)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $comercialName)) {
-                $comercialName = str_replace('*', '%', $comercialName);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -590,11 +588,10 @@ abstract class SysEntityQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByFormalName('fooValue');   // WHERE FORMAL_NAME = 'fooValue'
-     * $query->filterByFormalName('%fooValue%'); // WHERE FORMAL_NAME LIKE '%fooValue%'
+     * $query->filterByFormalName('%fooValue%', Criteria::LIKE); // WHERE FORMAL_NAME LIKE '%fooValue%'
      * </code>
      *
      * @param     string $formalName The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityQuery The current query, for fluid interface
@@ -604,9 +601,6 @@ abstract class SysEntityQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($formalName)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $formalName)) {
-                $formalName = str_replace('*', '%', $formalName);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -619,11 +613,10 @@ abstract class SysEntityQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByNit('fooValue');   // WHERE NIT = 'fooValue'
-     * $query->filterByNit('%fooValue%'); // WHERE NIT LIKE '%fooValue%'
+     * $query->filterByNit('%fooValue%', Criteria::LIKE); // WHERE NIT LIKE '%fooValue%'
      * </code>
      *
      * @param     string $nit The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityQuery The current query, for fluid interface
@@ -633,9 +626,6 @@ abstract class SysEntityQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($nit)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nit)) {
-                $nit = str_replace('*', '%', $nit);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -648,11 +638,10 @@ abstract class SysEntityQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByEmail('fooValue');   // WHERE EMAIL = 'fooValue'
-     * $query->filterByEmail('%fooValue%'); // WHERE EMAIL LIKE '%fooValue%'
+     * $query->filterByEmail('%fooValue%', Criteria::LIKE); // WHERE EMAIL LIKE '%fooValue%'
      * </code>
      *
      * @param     string $email The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityQuery The current query, for fluid interface
@@ -662,9 +651,6 @@ abstract class SysEntityQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($email)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $email)) {
-                $email = str_replace('*', '%', $email);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -677,11 +663,10 @@ abstract class SysEntityQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByAddress('fooValue');   // WHERE ADDRESS = 'fooValue'
-     * $query->filterByAddress('%fooValue%'); // WHERE ADDRESS LIKE '%fooValue%'
+     * $query->filterByAddress('%fooValue%', Criteria::LIKE); // WHERE ADDRESS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $address The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityQuery The current query, for fluid interface
@@ -691,9 +676,6 @@ abstract class SysEntityQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($address)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $address)) {
-                $address = str_replace('*', '%', $address);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -706,11 +688,10 @@ abstract class SysEntityQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByPhone('fooValue');   // WHERE PHONE = 'fooValue'
-     * $query->filterByPhone('%fooValue%'); // WHERE PHONE LIKE '%fooValue%'
+     * $query->filterByPhone('%fooValue%', Criteria::LIKE); // WHERE PHONE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $phone The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityQuery The current query, for fluid interface
@@ -720,9 +701,6 @@ abstract class SysEntityQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($phone)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $phone)) {
-                $phone = str_replace('*', '%', $phone);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -735,11 +713,10 @@ abstract class SysEntityQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByCellphone('fooValue');   // WHERE CELLPHONE = 'fooValue'
-     * $query->filterByCellphone('%fooValue%'); // WHERE CELLPHONE LIKE '%fooValue%'
+     * $query->filterByCellphone('%fooValue%', Criteria::LIKE); // WHERE CELLPHONE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $cellphone The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityQuery The current query, for fluid interface
@@ -749,9 +726,6 @@ abstract class SysEntityQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($cellphone)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $cellphone)) {
-                $cellphone = str_replace('*', '%', $cellphone);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -764,11 +738,10 @@ abstract class SysEntityQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByActivities('fooValue');   // WHERE ACTIVITIES = 'fooValue'
-     * $query->filterByActivities('%fooValue%'); // WHERE ACTIVITIES LIKE '%fooValue%'
+     * $query->filterByActivities('%fooValue%', Criteria::LIKE); // WHERE ACTIVITIES LIKE '%fooValue%'
      * </code>
      *
      * @param     string $activities The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityQuery The current query, for fluid interface
@@ -778,9 +751,6 @@ abstract class SysEntityQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($activities)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $activities)) {
-                $activities = str_replace('*', '%', $activities);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -793,11 +763,10 @@ abstract class SysEntityQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByDescription('fooValue');   // WHERE DESCRIPTION = 'fooValue'
-     * $query->filterByDescription('%fooValue%'); // WHERE DESCRIPTION LIKE '%fooValue%'
+     * $query->filterByDescription('%fooValue%', Criteria::LIKE); // WHERE DESCRIPTION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $description The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityQuery The current query, for fluid interface
@@ -807,9 +776,6 @@ abstract class SysEntityQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($description)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $description)) {
-                $description = str_replace('*', '%', $description);
-                $comparison = Criteria::LIKE;
             }
         }
 

@@ -122,52 +122,58 @@ class FrontController implements IFrontController, ISingleton
      */
     public function genericRouting(GlobalVars $gvr)
     {
-        try{
-            $domain = trim($gvr->controller()!=''? $gvr->controller():
+        try {
+            $domain = trim($gvr->controller() != '' ? $gvr->controller() :
                 Configs::value('app.default.controller'));
             $controller = ucfirst($domain);
-            $class = $controller.self::SUFFIX_CONTROLLER;
-            $controllerPath = $this->classPath.$domain.'.'.$class;
-            if(Chocala::exist(Chocala::namespacePath($controllerPath).
-                    Chocala::CLASS_EXTENSION, false)){
+            $class = $controller . self::SUFFIX_CONTROLLER;
+            $controllerDir = $this->classPath . $domain;
+            $controllerPath = $controllerDir . '.' . $class;
+            if (!Chocala::exist(Chocala::namespacePath($controllerDir))) {
+                throw new ChocalaException(ChocalaErrors::DIRECTORY_NOT_FOUND);
+            } elseif (!Chocala::exist(Chocala::namespacePath($controllerPath) .
+                Chocala::CLASS_EXTENSION, false)) {
+                throw new ChocalaException(ChocalaErrors::CLASS_NOT_FOUND);
+            } else {
                 Chocala::import($controllerPath);
-                $action = lcfirst(trim($gvr->action()!=''? $gvr->action():
+                $action = lcfirst(trim($gvr->action() != '' ? $gvr->action() :
                     Configs::value('app.default.action')));
-                if(Chocala::classImplements($class, 'IController')){
-                    if(Chocala::classHasMethod($class, $action)){
+                if (Chocala::classImplements($class, 'IController')) {
+                    if (Chocala::classHasMethod($class, $action)) {
                         $this->controller = $controller;
                         $this->action = $action;
-                    }else{
+                    } else {
                         throw new ChocalaException(ChocalaErrors::
-                                CLASS_NOT_HAS_METHOD);
+                        CLASS_NOT_HAS_METHOD);
                     }
-                }else{
+                } else {
                     throw new ChocalaException(ChocalaErrors::
-                        CLASS_NOT_IMPLEMENTS_INTERFACE);
+                    CLASS_NOT_IMPLEMENTS_INTERFACE);
                 }
-            }else{
-                throw new ChocalaException(ChocalaErrors::CLASS_NOT_FOUND);
             }
-        }catch(ChocalaException $che){
-            HttpManager::responseAs404();
+        } catch (ChocalaException $che) {
             ChocalaErrorsManager::manage($che);
-            if(Configs::value('app.run.environment') == 'PRODUCTION'){
-                header($_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently');
-                header('Location: '.WEB_ROOT);
+            if (strtoupper(Configs::value('app.run.environment')) != 'DEVELOPMENT') {
+                HttpManager::responseAs404();
+//                header($_SERVER['SERVER_PROTOCOL'] . ' 301 Moved Permanently');
+//                header('Location: ' . WEB_ROOT);
+//                exit();
+            } else {
+                echo $che->getCode().': '.$che->getMessage();
                 exit();
-            }else{
-                if(ChocalaVars::asBoolean(Configs::value('app.run.modular')) &&
-                        $this->module == null){
+                // TODO: manage NOT FOUND or another exceptions
+                if (ChocalaVars::asBoolean(Configs::value('app.run.modular')) &&
+                    $this->module == null) {
                     $this->module = Configs::value('app.default.module');
                 }
-                if($this->controller == null){
+                if ($this->controller == null) {
                     $this->module = ChocalaVars::asBoolean(
-                            Configs::value('app.run.modular'))? 
-                            Configs::value('app.default.module'): null;
+                        Configs::value('app.run.modular')) ?
+                        Configs::value('app.default.module') : null;
                     $this->controller = ucfirst(
-                            Configs::value('app.default.controller'));
+                        Configs::value('app.default.controller'));
                 }
-                if($this->action == null){
+                if ($this->action == null) {
                     $this->action = ChocalaVars::NO_ROUTE;
                 }
             }
@@ -206,7 +212,6 @@ class FrontController implements IFrontController, ISingleton
     {
         try{
             $class = $this->controller.self::SUFFIX_CONTROLLER;
-            $moduleInc = $this->module;
             $module = $this->module;
             $action = $this->action;
             $this->controllerCall($module, $class, $action);

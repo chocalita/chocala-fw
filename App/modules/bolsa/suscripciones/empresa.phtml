@@ -15,6 +15,12 @@
     padding-bottom: 10px;
     /*border-top: 10px solid #0d70b7;*/
 }
+
+.landing-page section .tyc p {
+    color: #666666;
+    font-size: 11px;
+    text-align: justify;
+}
 </style>
 
 <section class="timeline gray-section">
@@ -23,7 +29,7 @@
 
         <br />
 
-        <div class="row">
+        <div id="rowSuscripcion" class="row">
             <div class="col-lg-12">
                 <div class="ibox">
                     <div class="ibox-title">
@@ -32,7 +38,7 @@
                     <div class="ibox-content">
                         <h2>Registro de <?= $tipoSuscripcion; ?></h2>
                         <p>
-                            <span class="text-blue">¡En 3 simples pasos podrá publicar sus anuncios gratis!</span>
+                            <span class="text-blue">¡En unos simples pasos podrás completar la suscripción y publicar anuncios gratis!</span>
                         </p>
 
                         <form id="form" action="#" class="form-horizontal wizard-big">
@@ -52,8 +58,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="control-label col-xs-4 col-md-3">Nombre
-                                                de <?= $tipoSuscripcion; ?></label>
+                                            <label class="control-label col-xs-4 col-md-3">Nombre de <?= $tipoSuscripcion; ?></label>
                                             <div class="col-xs-8 col-md-9">
                                                 <input id="Nombre" name="Nombre"
                                                        value="<?= $empresaSuscrita->getNombre(); ?>"
@@ -126,20 +131,14 @@
                                             </div>
                                         </div>
 
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-4 col-md-3" for="logo">Logotipo (opcional)</label>
+                                            <div class="col-xs-8 col-md-9">
+                                                <input type="file" id="logo" name="logo" class="" />
+                                            </div>
+                                        </div>
 
-<!--                                        <div class="form-group">
-                                            <label>Username *</label>
-                                            <input id="userName" name="userName" type="text" class="form-control required">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Password *</label>
-                                            <input id="password" name="password" type="text" class="form-control required">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Confirm Password *</label>
-                                            <input id="confirm" name="confirm" type="text" class="form-control required">
-                                        </div>
--->                                    </div>
+                                    </div>
                                     <div class="col-lg-4">
                                         <div class="text-center">
                                             <div style="margin-top: 20px">
@@ -152,44 +151,354 @@
                                 <input type="hidden" name="hc" value="<?= $empresaSuscrita->getHashCode(); ?>" />
 
                             </fieldset>
-                            <h1>Profile</h1>
+                            <h1>Cuenta de Usuario</h1>
                             <fieldset>
-                                <h2>Profile Information</h2>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>First name *</label>
-                                            <input id="name" name="name" type="text" class="form-control required">
+
+                                <h2>Datos de Cuenta de Usuario</h2>
+
+                                    <div class="col-xs-12">
+
+                                    <div class="alert alert-info">
+                                        Esta Cuenta de Usuario servirá para administrar los anuncios de su <?= $tipoSuscripcion; ?>.
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="firstName">Primer Nombre</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="FirstName" name="FirstName" value="<?=$person? $person->getFirstName(): '';?>"
+                                                           size="30" maxlength="30" class="form-control uppercase"
+                                                           placeholder="Primer nombre..." autocomplete="off" />
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Last name *</label>
-                                            <input id="surname" name="surname" type="text" class="form-control required">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="MiddleName">Segundo Nombre</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="MiddleName" name="MiddleName" value="<?=$person? $person->getMiddleName(): '';?>"
+                                                           size="30" maxlength="30" class="form-control uppercase"
+                                                           placeholder="Segundo nombre..." autocomplete="off" />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>Email *</label>
-                                            <input id="email" name="email" type="text" class="form-control required email">
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="LastName">Primer Apellido</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="LastName" name="LastName" value="<?=$person? $person->getLastName(): '';?>"
+                                                           size="30" maxlength="30" class="form-control uppercase"
+                                                           placeholder="Primer apellido..." autocomplete="off" />
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Address *</label>
-                                            <input id="address" name="address" type="text" class="form-control">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="SecondLastName">Segundo Apellido</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="SecondLastName" name="SecondLastName" value="<?=$person? $person->getSecondLastName(): '';?>"
+                                                           size="30" maxlength="100" class="form-control uppercase"
+                                                           placeholder="Segundo apellido..." autocomplete="off" />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="IdNumber">Carnet de Identidad</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="IdNumber" name="IdNumber" value="<?=$person? $person->getIdNumber(): '';?>"
+                                                           size="30" maxlength="30" class="form-control"
+                                                           placeholder="Cédula de Identidad..." autocomplete="off" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="Gender">Sexo</label>
+                                                <div class="col-sm-8">
+                                                    <div class="radio-listcc" id="Gender">
+                                                        <label>
+                                                            <input type="radio" name="Gender" value="MALE"
+                                                                   class="form-control radio" <?=$person? ($person->getGender()=='MALE'? 'checked="true" ': ''): '';?>/>
+                                                            Masculino
+                                                        </label>
+                                                        &nbsp;&nbsp;
+                                                        <label>
+                                                            <input type="radio" name="Gender" value="FEMALE"
+                                                                   class="form-control radio" <?=$person? ($person->getGender()=='FEMALE'? 'checked="true" ': ''): '';?>/>
+                                                            Femenino
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="Address">Dirección</label>
+                                                <div class="col-sm-8">
+                                                    <textarea id="Address" name="Address" cols="30" rows="3" class="form-control"
+                                                              placeholder="Dirección..."><?=$person? $person->getAddress(): '';?></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="PhoneWork">Teléfono Fijo</label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="fa fa-phone"></i></div>
+                                                        <input type="text" id="PhoneWork" name="PhoneWork" value="<?=$person? $person->getPhoneWork(): '';?>"
+                                                               size="30" maxlength="30" class="form-control"
+                                                               placeholder="" autocomplete="off" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="Cellphone1">Celular</label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="fa fa-phone"></i></div>
+                                                        <input type="text" id="Cellphone1" name="Cellphone1" value="<?=$person? $person->getCellphone1(): '';?>"
+                                                               size="30" maxlength="30" class="form-control"
+                                                               placeholder="" autocomplete="off" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <h3 class="underline">Cuenta de Usuario</h3>
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="Email">Email</label>
+                                                <div class="col-sm-8">
+                                                    <input type="email" id="Email" name="Email" value="<?=$user? $user->getEmail(): '';?>"
+                                                           size="30" maxlength="80" class="form-control"
+                                                           placeholder="Email..." autocomplete="off" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="Username">Username</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="Username" name="Username" value="<?=$user? $user->getUsername(): '';?>"
+                                                           size="30" maxlength="30" class="form-control"
+                                                           placeholder="Username..." autocomplete="off" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="Password">Contraseña</label>
+                                                <div class="col-sm-8">
+                                                    <input type="password" id="Password" name="Password" value=""
+                                                           size="30" maxlength="80" class="form-control"
+                                                           placeholder="Contraseña..." autocomplete="off" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="Password2">Repetir contraseña</label>
+                                                <div class="col-sm-8">
+                                                    <input type="password" id="Password2" name="Password2" value=""
+                                                           size="30" maxlength="30" class="form-control"
+                                                           placeholder="Repetir contraseña..." autocomplete="off" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
+
+                                <input type="hidden" name="hc" value="<?= $empresaSuscrita->getHashCode(); ?>" />
+
                             </fieldset>
 
-                            <h1>Warning</h1>
+                            <h1>Anuncio</h1>
                             <fieldset>
-                                <div class="text-center" style="margin-top: 120px">
-                                    <h2>You did it Man :-)</h2>
+
+                                <h2>Su Requerimiento de Personal</h2>
+
+                                <div class="col-xs-12">
+
+                                    <div class="alert alert-info">
+                                        Debe ingresar datos del requerimiento a publicar y las direcciones donde se recepcionaran postulaciones.
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3" for="Cargo">Cargo</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" id="Cargo" name="Cargo" value="<?=$aviso? $aviso->getCargo(): '';?>"
+                                                   class="form-control" maxlength="100" placeholder="Cargo..." />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3" for="Code">Teléfonos</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" id="TelefonoContacto" name="TelefonoContacto" value="<?=$aviso? $aviso->getTelefonoContacto(): '';?>"
+                                                   size="30" maxlength="30" class="form-control" placeholder="Telefonos..."
+                                                   autocomplete="off" class="validate[required]" />
+                                        </div>
+
+                                        <label class="control-label col-sm-2" for="CorreoContacto">Correo Electrónico</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" id="CorreoContacto" name="CorreoContacto" value="<?=$aviso? $aviso->getCorreoContacto(): '';?>"
+                                                   size="25" maxlength="100" class="form-control" placeholder="Email..."
+                                                   autocomplete="off" class="validate[required]" />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-6" for="FechaVencimiento">Fecha Vencimiento</label>
+                                                <div class="col-sm-6">
+                                                    <div class="input-group date">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                        <input type="text" id="FechaVencimiento" name="FechaVencimiento" value="<?=$aviso? $aviso->getFechaVencimiento("d/m/Y"): '10/6/2018';?>"
+                                                               class="form-control datepicker" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3" for="Descripcion">Formaciones</label>
+                                        <div class="col-sm-9">
+                                            <div id="FormacionesReferencia">
+                                                <select name="FormacionReferencia[]" class="form-control formaciones">
+                                                    <option value="">-Seleccionar-</option>
+                                                    <?php
+                                                    foreach($formacionReferenciaList as $formacionReferencia):
+                                                        $check = $aviso && $aviso->tieneFormacion($formacionReferencia)? 'checked="yes"': '';
+                                                        ?>
+                                                        <option value="<?=$formacionReferencia->getNombre();?>"><?=$formacionReferencia->getNombre();?></option>
+                                                    <?php
+                                                    endforeach;
+                                                    ?>
+                                                </select>
+                                            </div>
+                                            <a href="#" class="addFormacion"><i class="fa fa-plus-square"></i> Agregar formación</a>
+                                            <span>
+                                                &nbsp;
+                                                <a href="#" class="removeFormacion text-danger hide"><i class="fa fa-minus-square"></i> Quitar formación</a>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3" for="Descripcion">Descripción del Puesto</label>
+                                        <div class="col-sm-9">
+                                            <textarea id="Descripcion"  name="Descripcion"
+                                                      class="form-control" rows="2" cols="20" placeholder="Descripción del puesto..."><?=$aviso? $aviso->getDescripcion(): '';?></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3" for="Requisito">Requisitos</label>
+                                        <div class="col-sm-9">
+                                            <textarea id="Requisito" name="Requisito"
+                                                      class="form-control" rows="2" cols="20" placeholder="Requisitos del puesto..."><?=$aviso? $aviso->getRequisito(): '';?></textarea>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-6" for="NivelFormacion">Nivel Formación</label>
+                                                <div class="col-sm-6">
+                                                    <select id="NivelFormacion" name="NivelFormacion"
+                                                            class="form-control">
+                                                        <option value="">-Seleccionar-</option>
+                                                        <?php
+                                                        foreach($nivelesFormacion as $nivelFormacion):
+                                                            $sel = $aviso && $aviso->getNivelFormacion() == $nivelFormacion? 'selected="yes"': '';
+                                                            ?>
+                                                            <option value="<?=$nivelFormacion;?>" <?=$sel;?> ><?=$nivelFormacion;?></option>
+                                                        <?php
+                                                        endforeach;
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-6" for="AniosExperiencia">Años de Experiencia</label>
+                                                <div class="col-sm-6">
+                                                    <input type="number" id="AniosExperiencia" name="AniosExperiencia" value="<?=$aviso? $aviso->getAniosExperiencia(): '';?>"
+                                                           class="form-control" maxlength="50" placeholder="Años experiencia..." />
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-6" for="Localizacion">Localización</label>
+                                                <div class="col-sm-6">
+                                                    <div id="Localizacion" >
+                                                    <?php
+                                                    foreach($localizaciones as $localizacion):
+                                                        $check = $aviso && $aviso->getLocalizacion()==$localizacion? 'checked="yes"': '';
+                                                        ?>
+                                                        <label class="block">
+                                                            <input type="radio" name="Localizacion" value="<?=$localizacion;?>"
+                                                                <?=$check;?> style="display: inline;" /> <?=$localizacion;?>
+                                                        </label>
+                                                    <?php
+                                                    endforeach;
+                                                    ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
                                 </div>
+
+                                <input type="hidden" name="hc" value="<?= $empresaSuscrita->getHashCode(); ?>" />
+
                             </fieldset>
 
-                            <h1>Finish</h1>
+                            <h1>Finalizar</h1>
                             <fieldset>
-                                <h2>Terms and Conditions</h2>
-                                <input id="acceptTerms" name="acceptTerms" type="checkbox" class="required"> <label for="acceptTerms">I agree with the Terms and Conditions.</label>
+
+                                <h2>Términos y Condiciones</h2>
+                                <div class="tyc">
+                                    <?php
+                                    include_once("tyc.phtml");
+                                    ?>
+                                    <div class="form-group">
+                                        <input id="Agree" name="Agree" type="checkbox" value="YES" class="required" />
+                                        <label for="Agree">Acepto los Términos y Condiciones.</label>
+
+                                        <input type="hidden" name="hc" value="<?= $empresaSuscrita->getHashCode(); ?>" />
+                                    </div>
+                                </div>
                             </fieldset>
                         </form>
                     </div>
@@ -198,41 +507,56 @@
 
         </div>
 
+        <div id="rowSuscrito" class="row" style="display: none;">
+            <section class="features">
+                <div class="container">
+                    <!--                <div class="row">-->
+                    <div class="col-lg-12 text-center">
+                        <div class="navy-line"></div>
+                        <h1>Se inició la difusión de tu anuncio</h1>
+                        <p>Tu anuncio ya está al alcance de más de 8000 personas que estan en busca de empleo</p>
+
+                        <div class="alert alert-success">¡Felicidades <strong id="nombreSuscriptor"></strong>! Has completado el registro de la empresa <strong id="empresaSuscrita"></strong>
+                            y publicaste su primer requerimiento de personal para <strong id="requerimientoPublicado"></strong>.
+                            <br />
+                            Tu anuncio ya se encuentra disponible para los visitantes de Empleos.Click,
+                            sí desear ver el anuncio que publicaste puedes hacer <a href="" class="redirect">click aquí</a>.
+                            <br />
+                            ¡Empleos.Click te ayuda a conseguir los talentos que necesitas!
+                        </div>
+                        <a href="" class="btn btn-sm btn-success block full-width m-b redirect">Ver el anuncio</a>
+
+                    </div>
+                    <!--                </div>-->
+                    <!--                <div class="row">-->
+                    <div class="col-lg-5 col-lg-offset-1 features-text">
+                        <small>Empleos.Click</small>
+                        <h2>Logra amplia difusión</h2>
+                        <i class="fa fa-bullhorn big-icon pull-left"></i>
+                        <p>Registra tus ofertas de empleo con tu cuenta de empresa completamente gratis,
+                            asi logras amplio alcance a través de nuestros canales de difusión,
+                            todo completamente en línea desde la comodidad de tu hogar u oficina.
+                        </p>
+                    </div>
+                    <div class="col-lg-5 features-text">
+                        <small>Empleos.Click</small>
+                        <h2>Encuentra los mejores candidatos</h2>
+                        <i class="fa fa-users big-icon pull-right"></i>
+                        <p>Sabemos que el principal factor de desarrollo de cada empresa es el talento humano,
+                            por eso, innovamos en brindar un medio efectivo para la obtención de prospectos y candidatos
+                            que puedan cubrir de mejor manera los espacios de empleo requeridos.
+                        </p>
+                    </div>
+                    <!--                </div>-->
+                </div>
+
+            </section>
+
+        </div>
+
 
         <div style="clear: both;"></div>
 
-        <section class="features">
-            <div class="container">
-                <!--                <div class="row">-->
-                <div class="col-lg-12 text-center">
-                    <div class="navy-line"></div>
-                    <h1>El mejor canal gratuito para tus anuncios</h1>
-                    <p>Ponemos tus anuncios al alcance de más de 5000 personas que estan en busca de empleo</p>
-                </div>
-                <!--                </div>-->
-                <!--                <div class="row">-->
-                <div class="col-lg-5 col-lg-offset-1 features-text">
-                    <small>Empleos.Click</small>
-                    <h2>Logra amplia difusión</h2>
-                    <i class="fa fa-bullhorn big-icon pull-left"></i>
-                    <p>Registra tus ofertas de empleo con tu cuenta de empresa completamente gratis,
-                        asi logras amplio alcance a través de nuestros canales de difusión,
-                        todo completamente en línea desde la comodidad de tu hogar u oficina.
-                    </p>
-                </div>
-                <div class="col-lg-5 features-text">
-                    <small>Empleos.Click</small>
-                    <h2>Encuentra los mejores candidatos</h2>
-                    <i class="fa fa-users big-icon pull-right"></i>
-                    <p>Sabemos que el principal factor de desarrollo de cada empresa es el talento humano,
-                        por eso, innovamos en brindar un medio efectivo para la obtención de prospectos y candidatos
-                        que puedan cubrir de mejor manera los espacios de empleo requeridos.
-                    </p>
-                </div>
-                <!--                </div>-->
-            </div>
-
-        </section>
     </div>
 
 </section>
@@ -260,135 +584,172 @@
 <script src="<?= JS_WEB; ?>plugins/staps/jquery.steps.min.js"></script>
 
 <script type="text/javascript">
-    jQuery(document).ready(function () {
-        $("#form").steps({
-            bodyTag: "fieldset",
-            // var settings = {
-            // };
-            //onStepChanging: function (event, currentIndex, newIndex) {
-            //    if (currentIndex > newIndex) {
-            //        return true;
-            //    }
-            //    return validate("<?//=URI::toPage().'step';?>//" + newIndex , $("#form-p-" + currentIndex));
-            //},
-            //onStepChanged: function (event, currentIndex, priorIndex) {
-            //}
-            onStepChanging: changeStep
-        });
+var is_async_step = false;
+jQuery(document).ready(function () {
 
-        function changeStep(event, currentIndex, newIndex) {
+    $("#form").steps({
+        labels: {
+            // current: "current step:",
+            // pagination: "Pagination",
+            finish: "Finalizar",
+            next: "Siguiente",
+            previous: "Anterior",
+            loading: "Cargando..."
+        },
+        bodyTag: "fieldset",
+        onStepChanging: changeStep,
+        onFinished: changeStep
+    });
 
-            if (is_async_step)
+    function changeStep(event, currentIndex, newIndex) {
+        $(".datepicker").datepicker({format: 'dd/mm/yyyy', language: 'es'});
+        if (currentIndex > newIndex) {
+            return true;
+        }
+        if (is_async_step) {
+            is_async_step = false;
+            //Allow next step
+            return true;
+        }
+        var arr = $("#form_tag_id").serializeArray();
+        arr.push({ name: "one_more_field", value: "one_more_value" });
+/*
+        $.post("", arr).done(function (data)
+        {
+            if(data != "ok")
             {
-                is_async_step = false;
-                //Allow next step
-                return true;
+                return;
             }
 
-            var arr = $("#form_tag_id").serializeArray();
-            arr.push({ name: "one_more_field", value: "one_more_value" });
-            $.post("", arr).done(function (data)
-            {
-                if(data != "ok")
-                {
-                    return;
-                }
-
-                is_async_step = true;
-                //trigger navigation event
-                $("#wizard").steps("next");
-            });
+            is_async_step = true;
+            //trigger navigation event
+            $("#wizard").steps("next");
+        });
+*/
 
 
-            var action = "<?//=URI::toPage().'step';?>//" + newIndex;
-            var fieldset = $("#form-p-" + currentIndex);
-
-            var success = false;
-            fieldset.find('div.help-block').remove();
-            fieldset.find('div.has-error').removeClass('has-error');
-            $.ajax({
-                url: action,
-                type: "POST",
-                data: fieldset.serialize(),
-                beforeSend: function( xhr ) {
-                    fieldset.parent().mask("");
-                }
-            })
-                .done(function(data) {
-                    var result = eval(data);
-                    if (!result.success) {
-                        fieldset.find('div.help-block').remove();
-                        fieldset.find('div.has-error').removeClass('has-error');
-                        $(result.errors).each(function(i, el) {
-                            fieldset.find('#' + el.field)
-                                .parents('div.form-group')
-                                .first()
-                                .addClass('has-error');
-                            fieldset.find('#' + el.field)
-                                .parent()
-                                .append('<div class="help-block">'+el.message+'</div>');
-                        });
-                    } else {
-                        // alert("Si ta bueno")
-                        success = true;
+        var $form = $("#form-p-" + currentIndex);
+        var $formData = new FormData();
+        $form.find('input, textarea, select').each(function(){
+            var input = $(this);
+            var type = input.attr('type');
+            switch (type){
+                case "checkbox":
+                    if (input.is(":checked")) {
+                        $formData.append(input.attr('name'), input.val());
                     }
-                })
-                .fail(function(jqXHR, textStatus){
-                    alert("ERROR: error en envío de datos");
-                })
-                .always(function(){
-                    fieldset.parent().unmask();
-                });
+                    break;
+                case "radio":
+                    if(input.is(":checked")) {
+                        $formData.append(input.attr('name'), input.val());
+                    }
+                    break;
+                case "file":
+                    $.each(input.prop("files"),function(i,file){
+                        $formData.append(input.attr("name"), file);
+                    });
+                    break;
+                default:
+                    if(!input.is(":disabled") && type != "submit" && type != "button"){
+                        $formData.append(input.attr('name'), input.val());
+                    }
+            }
+        });
 
 
-            //forbid the next step because $.post is an asynchronous function
+        if(newIndex == null && currentIndex<3){
             return false;
         }
-
-
-        function validate(action, fieldset) {
-            var action = "<?//=URI::toPage().'step';?>//" + newIndex;
-            var fieldset = $("#form-p-" + currentIndex);
-
-            var success = false;
-            fieldset.find('div.help-block').remove();
-            fieldset.find('div.has-error').removeClass('has-error');
-            $.ajax({
-                url: action,
-                type: "POST",
-                data: fieldset.serialize(),
-                beforeSend: function( xhr ) {
-                    fieldset.parent().mask("");
-                }
-            })
-                .done(function(data) {
-                    var result = eval(data);
-                    if (!result.success) {
-                        fieldset.find('div.help-block').remove();
-                        fieldset.find('div.has-error').removeClass('has-error');
-                        $(result.errors).each(function(i, el) {
-                            fieldset.find('#' + el.field)
-                                .parents('div.form-group')
-                                .first()
-                                .addClass('has-error');
-                            fieldset.find('#' + el.field)
-                                .parent()
-                                .append('<div class="help-block">'+el.message+'</div>');
-                        });
-                    } else {
-                        // alert("Si ta bueno")
-                        success = true;
-                    }
-                })
-                .fail(function(jqXHR, textStatus){
-                    alert("ERROR: error en envío de datos");
-                })
-                .always(function(){
-                    fieldset.parent().unmask();
-                });
-            // alert(success);
-            return success;
+        var action = "<?=URI::toPage().'step';?>" + newIndex;
+        if(currentIndex == 3) {
+            action = "<?=URI::toPage().'finish';?>";
         }
-        
+        var fieldset = $("#form-p-" + currentIndex);
+
+        // var success = false;
+        fieldset.find('div.help-block').remove();
+        fieldset.find('div.has-error').removeClass('has-error');
+        $.ajax({
+            url: action,
+            type: "POST",
+            // data: fieldset.serialize(),
+            data: $formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            beforeSend: function( xhr ) {
+                fieldset.parent().mask("");
+            }
+        }).done(function(data) {
+            var result = eval(data);
+            if (!result.success) {
+                fieldset.find('div.help-block').remove();
+                fieldset.find('div.has-error').removeClass('has-error');
+                $(result.errors).each(function(i, el) {
+                    fieldset.find('#' + el.field)
+                        .parents('div.form-group')
+                        .first()
+                        .addClass('has-error');
+                    fieldset.find('#' + el.field)
+                        .parent()
+                        .find("div.help-block")
+                        .remove();
+                    fieldset.find('#' + el.field)
+                        .parent()
+                        .append('<div class="help-block">'+el.message+'</div>');
+                });
+            } else {
+                // alert("Si ta bueno")
+                is_async_step = true;
+                if(currentIndex == 3) {
+                    //window.location = "<?//=URI::toPage().'publicada';?>//"
+                    $("#rowSuscripcion").hide();
+                    $("#nombreSuscriptor").html(result.nombreSuscriptor);
+                    $("#empresaSuscrita").html(result.empresaSuscrita);
+                    $("#requerimientoPublicado").html(result.requerimientoPublicado);
+                    $("#rowSuscrito .redirect").attr("href", "<?=WEB_ROOT;?>/index.htm#aviso-" + result.idAviso);
+                    $("#rowSuscrito").fadeIn();
+                }
+            }
+        }).fail(function(jqXHR, textStatus){
+            alert("ERROR: error en envío de datos");
+            fieldset.parent().unmask();
+        }).always(function(){
+            // alert("ya no se ve")
+            fieldset.parent().unmask();
+            if(is_async_step) {
+                //trigger navigation event
+                $("#form").steps("next");
+            }
+        });
+
+        //forbid the next step because $.post is an asynchronous function
+        return false;
+    }
+
+    $(".addFormacion").click(function(){
+        $(".formaciones").first().clone().appendTo("#FormacionesReferencia");
+        verifyAddRemove();
+        return false;
     });
+    $(".removeFormacion").click(function(){
+        $(".formaciones").last().remove();
+        verifyAddRemove();
+        return false;
+    });
+    function verifyAddRemove(){
+        var selects = $(".formaciones");
+        if(selects.size() > 1){
+            $(".removeFormacion").removeClass("hide");
+        } else {
+            $(".removeFormacion").addClass("hide");
+        }
+        if(selects.size() < 10){
+            $(".addFormacion").removeClass("hide");
+        } else {
+            $(".addFormacion").addClass("hide");
+        }
+    }
+
+});
 </script>

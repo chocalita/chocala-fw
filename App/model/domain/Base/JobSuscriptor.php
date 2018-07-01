@@ -2,6 +2,8 @@
 
 namespace Base;
 
+use \JobPostulante as ChildJobPostulante;
+use \JobPostulanteQuery as ChildJobPostulanteQuery;
 use \JobSuscriptorQuery as ChildJobSuscriptorQuery;
 use \TmpArea as ChildTmpArea;
 use \TmpAreaQuery as ChildTmpAreaQuery;
@@ -29,8 +31,8 @@ use Propel\Runtime\Util\PropelDateTime;
  *
  *
  *
-* @package    propel.generator..Base
-*/
+ * @package    propel.generator..Base
+ */
 abstract class JobSuscriptor implements ActiveRecordInterface
 {
     /**
@@ -87,6 +89,13 @@ abstract class JobSuscriptor implements ActiveRecordInterface
     protected $id_tmp_formacion;
 
     /**
+     * The value for the id_postulante field.
+     *
+     * @var        int
+     */
+    protected $id_postulante;
+
+    /**
      * The value for the email field.
      *
      * @var        string
@@ -139,7 +148,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
     /**
      * The value for the confirmation field.
      *
-     * @var        \DateTime
+     * @var        DateTime
      */
     protected $confirmation;
 
@@ -147,7 +156,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
      * The value for the creation_date field.
      *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
-     * @var        \DateTime
+     * @var        DateTime
      */
     protected $creation_date;
 
@@ -155,7 +164,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
      * The value for the modification_date field.
      *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
-     * @var        \DateTime
+     * @var        DateTime
      */
     protected $modification_date;
 
@@ -168,6 +177,11 @@ abstract class JobSuscriptor implements ActiveRecordInterface
      * @var        ChildTmpFormacion
      */
     protected $aTmpFormacion;
+
+    /**
+     * @var        ChildJobPostulante
+     */
+    protected $aJobPostulante;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -446,6 +460,16 @@ abstract class JobSuscriptor implements ActiveRecordInterface
     }
 
     /**
+     * Get the [id_postulante] column value.
+     *
+     * @return int
+     */
+    public function getIdPostulante()
+    {
+        return $this->id_postulante;
+    }
+
+    /**
      * Get the [email] column value.
      *
      * @return string
@@ -519,7 +543,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [confirmation] column value.
      *
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -531,7 +555,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
         if ($format === null) {
             return $this->confirmation;
         } else {
-            return $this->confirmation instanceof \DateTime ? $this->confirmation->format($format) : null;
+            return $this->confirmation instanceof \DateTimeInterface ? $this->confirmation->format($format) : null;
         }
     }
 
@@ -539,7 +563,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [creation_date] column value.
      *
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -551,7 +575,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
         if ($format === null) {
             return $this->creation_date;
         } else {
-            return $this->creation_date instanceof \DateTime ? $this->creation_date->format($format) : null;
+            return $this->creation_date instanceof \DateTimeInterface ? $this->creation_date->format($format) : null;
         }
     }
 
@@ -559,7 +583,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [modification_date] column value.
      *
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -571,7 +595,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
         if ($format === null) {
             return $this->modification_date;
         } else {
-            return $this->modification_date instanceof \DateTime ? $this->modification_date->format($format) : null;
+            return $this->modification_date instanceof \DateTimeInterface ? $this->modification_date->format($format) : null;
         }
     }
 
@@ -642,6 +666,30 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
         return $this;
     } // setIdTmpFormacion()
+
+    /**
+     * Set the value of [id_postulante] column.
+     *
+     * @param int $v new value
+     * @return $this|\JobSuscriptor The current object (for fluent API support)
+     */
+    public function setIdPostulante($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->id_postulante !== $v) {
+            $this->id_postulante = $v;
+            $this->modifiedColumns[JobSuscriptorTableMap::COL_ID_POSTULANTE] = true;
+        }
+
+        if ($this->aJobPostulante !== null && $this->aJobPostulante->getId() !== $v) {
+            $this->aJobPostulante = null;
+        }
+
+        return $this;
+    } // setIdPostulante()
 
     /**
      * Set the value of [email] column.
@@ -786,7 +834,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
     /**
      * Sets the value of [confirmation] column to a normalized version of the date/time value specified.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobSuscriptor The current object (for fluent API support)
      */
@@ -794,7 +842,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->confirmation !== null || $dt !== null) {
-            if ($this->confirmation === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->confirmation->format("Y-m-d H:i:s")) {
+            if ($this->confirmation === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->confirmation->format("Y-m-d H:i:s.u")) {
                 $this->confirmation = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[JobSuscriptorTableMap::COL_CONFIRMATION] = true;
             }
@@ -806,7 +854,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
     /**
      * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobSuscriptor The current object (for fluent API support)
      */
@@ -814,7 +862,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->creation_date !== null || $dt !== null) {
-            if ($this->creation_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->creation_date->format("Y-m-d H:i:s")) {
+            if ($this->creation_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->creation_date->format("Y-m-d H:i:s.u")) {
                 $this->creation_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[JobSuscriptorTableMap::COL_CREATION_DATE] = true;
             }
@@ -826,7 +874,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
     /**
      * Sets the value of [modification_date] column to a normalized version of the date/time value specified.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobSuscriptor The current object (for fluent API support)
      */
@@ -834,7 +882,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->modification_date !== null || $dt !== null) {
-            if ($this->modification_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->modification_date->format("Y-m-d H:i:s")) {
+            if ($this->modification_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->modification_date->format("Y-m-d H:i:s.u")) {
                 $this->modification_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[JobSuscriptorTableMap::COL_MODIFICATION_DATE] = true;
             }
@@ -892,40 +940,43 @@ abstract class JobSuscriptor implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : JobSuscriptorTableMap::translateFieldName('IdTmpFormacion', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id_tmp_formacion = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : JobSuscriptorTableMap::translateFieldName('Email', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : JobSuscriptorTableMap::translateFieldName('IdPostulante', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->id_postulante = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : JobSuscriptorTableMap::translateFieldName('Email', TableMap::TYPE_PHPNAME, $indexType)];
             $this->email = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : JobSuscriptorTableMap::translateFieldName('NombreSimple', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : JobSuscriptorTableMap::translateFieldName('NombreSimple', TableMap::TYPE_PHPNAME, $indexType)];
             $this->nombre_simple = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : JobSuscriptorTableMap::translateFieldName('Nombres', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : JobSuscriptorTableMap::translateFieldName('Nombres', TableMap::TYPE_PHPNAME, $indexType)];
             $this->nombres = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : JobSuscriptorTableMap::translateFieldName('Apellidos', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : JobSuscriptorTableMap::translateFieldName('Apellidos', TableMap::TYPE_PHPNAME, $indexType)];
             $this->apellidos = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : JobSuscriptorTableMap::translateFieldName('Ubicacion', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : JobSuscriptorTableMap::translateFieldName('Ubicacion', TableMap::TYPE_PHPNAME, $indexType)];
             $this->ubicacion = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : JobSuscriptorTableMap::translateFieldName('Ip', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : JobSuscriptorTableMap::translateFieldName('Ip', TableMap::TYPE_PHPNAME, $indexType)];
             $this->ip = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : JobSuscriptorTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : JobSuscriptorTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
             $this->status = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : JobSuscriptorTableMap::translateFieldName('Confirmation', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : JobSuscriptorTableMap::translateFieldName('Confirmation', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->confirmation = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : JobSuscriptorTableMap::translateFieldName('CreationDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : JobSuscriptorTableMap::translateFieldName('CreationDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->creation_date = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : JobSuscriptorTableMap::translateFieldName('ModificationDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 13 + $startcol : JobSuscriptorTableMap::translateFieldName('ModificationDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
@@ -938,7 +989,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 13; // 13 = JobSuscriptorTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 14; // 14 = JobSuscriptorTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\JobSuscriptor'), 0, $e);
@@ -965,6 +1016,9 @@ abstract class JobSuscriptor implements ActiveRecordInterface
         }
         if ($this->aTmpFormacion !== null && $this->id_tmp_formacion !== $this->aTmpFormacion->getId()) {
             $this->aTmpFormacion = null;
+        }
+        if ($this->aJobPostulante !== null && $this->id_postulante !== $this->aJobPostulante->getId()) {
+            $this->aJobPostulante = null;
         }
     } // ensureConsistency
 
@@ -1007,6 +1061,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
             $this->aTmpArea = null;
             $this->aTmpFormacion = null;
+            $this->aJobPostulante = null;
         } // if (deep)
     }
 
@@ -1060,13 +1115,17 @@ abstract class JobSuscriptor implements ActiveRecordInterface
             throw new PropelException("You cannot save an object that has been deleted.");
         }
 
+        if ($this->alreadyInSave) {
+            return 0;
+        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getWriteConnection(JobSuscriptorTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
-            $isInsert = $this->isNew();
             $ret = $this->preSave($con);
+            $isInsert = $this->isNew();
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
             } else {
@@ -1125,6 +1184,13 @@ abstract class JobSuscriptor implements ActiveRecordInterface
                 $this->setTmpFormacion($this->aTmpFormacion);
             }
 
+            if ($this->aJobPostulante !== null) {
+                if ($this->aJobPostulante->isModified() || $this->aJobPostulante->isNew()) {
+                    $affectedRows += $this->aJobPostulante->save($con);
+                }
+                $this->setJobPostulante($this->aJobPostulante);
+            }
+
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
                 if ($this->isNew()) {
@@ -1170,6 +1236,9 @@ abstract class JobSuscriptor implements ActiveRecordInterface
         }
         if ($this->isColumnModified(JobSuscriptorTableMap::COL_ID_TMP_FORMACION)) {
             $modifiedColumns[':p' . $index++]  = 'ID_TMP_FORMACION';
+        }
+        if ($this->isColumnModified(JobSuscriptorTableMap::COL_ID_POSTULANTE)) {
+            $modifiedColumns[':p' . $index++]  = 'ID_POSTULANTE';
         }
         if ($this->isColumnModified(JobSuscriptorTableMap::COL_EMAIL)) {
             $modifiedColumns[':p' . $index++]  = 'EMAIL';
@@ -1221,6 +1290,9 @@ abstract class JobSuscriptor implements ActiveRecordInterface
                     case 'ID_TMP_FORMACION':
                         $stmt->bindValue($identifier, $this->id_tmp_formacion, PDO::PARAM_INT);
                         break;
+                    case 'ID_POSTULANTE':
+                        $stmt->bindValue($identifier, $this->id_postulante, PDO::PARAM_INT);
+                        break;
                     case 'EMAIL':
                         $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
                         break;
@@ -1243,13 +1315,13 @@ abstract class JobSuscriptor implements ActiveRecordInterface
                         $stmt->bindValue($identifier, $this->status, PDO::PARAM_STR);
                         break;
                     case 'CONFIRMATION':
-                        $stmt->bindValue($identifier, $this->confirmation ? $this->confirmation->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->confirmation ? $this->confirmation->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
                     case 'CREATION_DATE':
-                        $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
                     case 'MODIFICATION_DATE':
-                        $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1323,33 +1395,36 @@ abstract class JobSuscriptor implements ActiveRecordInterface
                 return $this->getIdTmpFormacion();
                 break;
             case 3:
-                return $this->getEmail();
+                return $this->getIdPostulante();
                 break;
             case 4:
-                return $this->getNombreSimple();
+                return $this->getEmail();
                 break;
             case 5:
-                return $this->getNombres();
+                return $this->getNombreSimple();
                 break;
             case 6:
-                return $this->getApellidos();
+                return $this->getNombres();
                 break;
             case 7:
-                return $this->getUbicacion();
+                return $this->getApellidos();
                 break;
             case 8:
-                return $this->getIp();
+                return $this->getUbicacion();
                 break;
             case 9:
-                return $this->getStatus();
+                return $this->getIp();
                 break;
             case 10:
-                return $this->getConfirmation();
+                return $this->getStatus();
                 break;
             case 11:
-                return $this->getCreationDate();
+                return $this->getConfirmation();
                 break;
             case 12:
+                return $this->getCreationDate();
+                break;
+            case 13:
                 return $this->getModificationDate();
                 break;
             default:
@@ -1385,27 +1460,28 @@ abstract class JobSuscriptor implements ActiveRecordInterface
             $keys[0] => $this->getId(),
             $keys[1] => $this->getIdTmpArea(),
             $keys[2] => $this->getIdTmpFormacion(),
-            $keys[3] => $this->getEmail(),
-            $keys[4] => $this->getNombreSimple(),
-            $keys[5] => $this->getNombres(),
-            $keys[6] => $this->getApellidos(),
-            $keys[7] => $this->getUbicacion(),
-            $keys[8] => $this->getIp(),
-            $keys[9] => $this->getStatus(),
-            $keys[10] => $this->getConfirmation(),
-            $keys[11] => $this->getCreationDate(),
-            $keys[12] => $this->getModificationDate(),
+            $keys[3] => $this->getIdPostulante(),
+            $keys[4] => $this->getEmail(),
+            $keys[5] => $this->getNombreSimple(),
+            $keys[6] => $this->getNombres(),
+            $keys[7] => $this->getApellidos(),
+            $keys[8] => $this->getUbicacion(),
+            $keys[9] => $this->getIp(),
+            $keys[10] => $this->getStatus(),
+            $keys[11] => $this->getConfirmation(),
+            $keys[12] => $this->getCreationDate(),
+            $keys[13] => $this->getModificationDate(),
         );
-        if ($result[$keys[10]] instanceof \DateTime) {
-            $result[$keys[10]] = $result[$keys[10]]->format('c');
-        }
-
-        if ($result[$keys[11]] instanceof \DateTime) {
+        if ($result[$keys[11]] instanceof \DateTimeInterface) {
             $result[$keys[11]] = $result[$keys[11]]->format('c');
         }
 
-        if ($result[$keys[12]] instanceof \DateTime) {
+        if ($result[$keys[12]] instanceof \DateTimeInterface) {
             $result[$keys[12]] = $result[$keys[12]]->format('c');
+        }
+
+        if ($result[$keys[13]] instanceof \DateTimeInterface) {
+            $result[$keys[13]] = $result[$keys[13]]->format('c');
         }
 
         $virtualColumns = $this->virtualColumns;
@@ -1443,6 +1519,21 @@ abstract class JobSuscriptor implements ActiveRecordInterface
                 }
 
                 $result[$key] = $this->aTmpFormacion->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->aJobPostulante) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'jobPostulante';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'job_postulante';
+                        break;
+                    default:
+                        $key = 'JobPostulante';
+                }
+
+                $result[$key] = $this->aJobPostulante->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
 
@@ -1488,33 +1579,36 @@ abstract class JobSuscriptor implements ActiveRecordInterface
                 $this->setIdTmpFormacion($value);
                 break;
             case 3:
-                $this->setEmail($value);
+                $this->setIdPostulante($value);
                 break;
             case 4:
-                $this->setNombreSimple($value);
+                $this->setEmail($value);
                 break;
             case 5:
-                $this->setNombres($value);
+                $this->setNombreSimple($value);
                 break;
             case 6:
-                $this->setApellidos($value);
+                $this->setNombres($value);
                 break;
             case 7:
-                $this->setUbicacion($value);
+                $this->setApellidos($value);
                 break;
             case 8:
-                $this->setIp($value);
+                $this->setUbicacion($value);
                 break;
             case 9:
-                $this->setStatus($value);
+                $this->setIp($value);
                 break;
             case 10:
-                $this->setConfirmation($value);
+                $this->setStatus($value);
                 break;
             case 11:
-                $this->setCreationDate($value);
+                $this->setConfirmation($value);
                 break;
             case 12:
+                $this->setCreationDate($value);
+                break;
+            case 13:
                 $this->setModificationDate($value);
                 break;
         } // switch()
@@ -1553,34 +1647,37 @@ abstract class JobSuscriptor implements ActiveRecordInterface
             $this->setIdTmpFormacion($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setEmail($arr[$keys[3]]);
+            $this->setIdPostulante($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setNombreSimple($arr[$keys[4]]);
+            $this->setEmail($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
-            $this->setNombres($arr[$keys[5]]);
+            $this->setNombreSimple($arr[$keys[5]]);
         }
         if (array_key_exists($keys[6], $arr)) {
-            $this->setApellidos($arr[$keys[6]]);
+            $this->setNombres($arr[$keys[6]]);
         }
         if (array_key_exists($keys[7], $arr)) {
-            $this->setUbicacion($arr[$keys[7]]);
+            $this->setApellidos($arr[$keys[7]]);
         }
         if (array_key_exists($keys[8], $arr)) {
-            $this->setIp($arr[$keys[8]]);
+            $this->setUbicacion($arr[$keys[8]]);
         }
         if (array_key_exists($keys[9], $arr)) {
-            $this->setStatus($arr[$keys[9]]);
+            $this->setIp($arr[$keys[9]]);
         }
         if (array_key_exists($keys[10], $arr)) {
-            $this->setConfirmation($arr[$keys[10]]);
+            $this->setStatus($arr[$keys[10]]);
         }
         if (array_key_exists($keys[11], $arr)) {
-            $this->setCreationDate($arr[$keys[11]]);
+            $this->setConfirmation($arr[$keys[11]]);
         }
         if (array_key_exists($keys[12], $arr)) {
-            $this->setModificationDate($arr[$keys[12]]);
+            $this->setCreationDate($arr[$keys[12]]);
+        }
+        if (array_key_exists($keys[13], $arr)) {
+            $this->setModificationDate($arr[$keys[13]]);
         }
     }
 
@@ -1631,6 +1728,9 @@ abstract class JobSuscriptor implements ActiveRecordInterface
         }
         if ($this->isColumnModified(JobSuscriptorTableMap::COL_ID_TMP_FORMACION)) {
             $criteria->add(JobSuscriptorTableMap::COL_ID_TMP_FORMACION, $this->id_tmp_formacion);
+        }
+        if ($this->isColumnModified(JobSuscriptorTableMap::COL_ID_POSTULANTE)) {
+            $criteria->add(JobSuscriptorTableMap::COL_ID_POSTULANTE, $this->id_postulante);
         }
         if ($this->isColumnModified(JobSuscriptorTableMap::COL_EMAIL)) {
             $criteria->add(JobSuscriptorTableMap::COL_EMAIL, $this->email);
@@ -1750,6 +1850,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
     {
         $copyObj->setIdTmpArea($this->getIdTmpArea());
         $copyObj->setIdTmpFormacion($this->getIdTmpFormacion());
+        $copyObj->setIdPostulante($this->getIdPostulante());
         $copyObj->setEmail($this->getEmail());
         $copyObj->setNombreSimple($this->getNombreSimple());
         $copyObj->setNombres($this->getNombres());
@@ -1825,7 +1926,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
      */
     public function getTmpArea(ConnectionInterface $con = null)
     {
-        if ($this->aTmpArea === null && ($this->id_tmp_area !== null)) {
+        if ($this->aTmpArea === null && ($this->id_tmp_area != 0)) {
             $this->aTmpArea = ChildTmpAreaQuery::create()->findPk($this->id_tmp_area, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
@@ -1876,7 +1977,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
      */
     public function getTmpFormacion(ConnectionInterface $con = null)
     {
-        if ($this->aTmpFormacion === null && ($this->id_tmp_formacion !== null)) {
+        if ($this->aTmpFormacion === null && ($this->id_tmp_formacion != 0)) {
             $this->aTmpFormacion = ChildTmpFormacionQuery::create()->findPk($this->id_tmp_formacion, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
@@ -1888,6 +1989,59 @@ abstract class JobSuscriptor implements ActiveRecordInterface
         }
 
         return $this->aTmpFormacion;
+    }
+
+    /**
+     * Declares an association between this object and a ChildJobPostulante object.
+     *
+     * @param  ChildJobPostulante $v
+     * @return $this|\JobSuscriptor The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setJobPostulante(ChildJobPostulante $v = null)
+    {
+        if ($v === null) {
+            $this->setIdPostulante(NULL);
+        } else {
+            $this->setIdPostulante($v->getId());
+        }
+
+        $this->aJobPostulante = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildJobPostulante object, it will not be re-added.
+        if ($v !== null) {
+            $v->addJobSuscriptor($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated ChildJobPostulante object
+     *
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildJobPostulante The associated ChildJobPostulante object.
+     * @throws PropelException
+     */
+    public function getJobPostulante(ConnectionInterface $con = null)
+    {
+        if ($this->aJobPostulante === null && ($this->id_postulante != 0)) {
+            $this->aJobPostulante = ChildJobPostulanteQuery::create()
+                ->filterByJobSuscriptor($this) // here
+                ->findOne($con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aJobPostulante->addJobSuscriptors($this);
+             */
+        }
+
+        return $this->aJobPostulante;
     }
 
     /**
@@ -1903,9 +2057,13 @@ abstract class JobSuscriptor implements ActiveRecordInterface
         if (null !== $this->aTmpFormacion) {
             $this->aTmpFormacion->removeJobSuscriptor($this);
         }
+        if (null !== $this->aJobPostulante) {
+            $this->aJobPostulante->removeJobSuscriptor($this);
+        }
         $this->id = null;
         $this->id_tmp_area = null;
         $this->id_tmp_formacion = null;
+        $this->id_postulante = null;
         $this->email = null;
         $this->nombre_simple = null;
         $this->nombres = null;
@@ -1939,6 +2097,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
 
         $this->aTmpArea = null;
         $this->aTmpFormacion = null;
+        $this->aJobPostulante = null;
     }
 
     /**
@@ -1958,6 +2117,9 @@ abstract class JobSuscriptor implements ActiveRecordInterface
      */
     public function preSave(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preSave')) {
+            return parent::preSave($con);
+        }
         return true;
     }
 
@@ -1967,7 +2129,9 @@ abstract class JobSuscriptor implements ActiveRecordInterface
      */
     public function postSave(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postSave')) {
+            parent::postSave($con);
+        }
     }
 
     /**
@@ -1977,6 +2141,9 @@ abstract class JobSuscriptor implements ActiveRecordInterface
      */
     public function preInsert(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preInsert')) {
+            return parent::preInsert($con);
+        }
         return true;
     }
 
@@ -1986,7 +2153,9 @@ abstract class JobSuscriptor implements ActiveRecordInterface
      */
     public function postInsert(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postInsert')) {
+            parent::postInsert($con);
+        }
     }
 
     /**
@@ -1996,6 +2165,9 @@ abstract class JobSuscriptor implements ActiveRecordInterface
      */
     public function preUpdate(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preUpdate')) {
+            return parent::preUpdate($con);
+        }
         return true;
     }
 
@@ -2005,7 +2177,9 @@ abstract class JobSuscriptor implements ActiveRecordInterface
      */
     public function postUpdate(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postUpdate')) {
+            parent::postUpdate($con);
+        }
     }
 
     /**
@@ -2015,6 +2189,9 @@ abstract class JobSuscriptor implements ActiveRecordInterface
      */
     public function preDelete(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preDelete')) {
+            return parent::preDelete($con);
+        }
         return true;
     }
 
@@ -2024,7 +2201,9 @@ abstract class JobSuscriptor implements ActiveRecordInterface
      */
     public function postDelete(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postDelete')) {
+            parent::postDelete($con);
+        }
     }
 
 

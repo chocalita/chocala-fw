@@ -76,4 +76,30 @@ trait SoftQuery
 //        return $noDeletes? $query->filterValids(): $query;
     }
 
+    /**
+     * @param array $orderByArray
+     * @return SoftDeletion
+     */
+    public function orders($orderByArray)
+    {
+        $query = $this;
+        foreach ($orderByArray as $field => $order) {
+            $query = $query->orderBy($field, static::resolveOrder($order));
+        }
+        return $query;
+    }
+
+    /**
+     * @param $order
+     * @return string
+     */
+    protected static function resolveOrder($order)
+    {
+        if (Validation::isInteger($order)) {
+            return ($order * 1) == -1 ?: Criteria::ASC;
+        } else {
+            return strtoupper($order) == Criteria::DESC ? Criteria::DESC : Criteria::ASC;
+        }
+    }
+
 }

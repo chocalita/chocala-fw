@@ -2,8 +2,9 @@
 
 namespace Base;
 
-use \SysAuth as ChildSysAuth;
 use \SysAuthQuery as ChildSysAuthQuery;
+use \SysUser as ChildSysUser;
+use \SysUserQuery as ChildSysUserQuery;
 use \DateTime;
 use \Exception;
 use \PDO;
@@ -13,7 +14,6 @@ use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Collection\Collection;
-use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\BadMethodCallException;
 use Propel\Runtime\Exception\LogicException;
@@ -27,8 +27,8 @@ use Propel\Runtime\Util\PropelDateTime;
  *
  *
  *
-* @package    propel.generator..Base
-*/
+ * @package    propel.generator..Base
+ */
 abstract class SysAuth implements ActiveRecordInterface
 {
     /**
@@ -112,27 +112,21 @@ abstract class SysAuth implements ActiveRecordInterface
      * The value for the creation_date field.
      *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
-     * @var        \DateTime
+     * @var        DateTime
      */
     protected $creation_date;
 
     /**
      * The value for the modification_date field.
      *
-     * @var        \DateTime
+     * @var        DateTime
      */
     protected $modification_date;
 
     /**
-     * @var        ChildSysAuth
+     * @var        ChildSysUser
      */
-    protected $aSysAuthRelatedByUserId;
-
-    /**
-     * @var        ObjectCollection|ChildSysAuth[] Collection to store aggregation of ChildSysAuth objects.
-     */
-    protected $collSysAuthsRelatedById;
-    protected $collSysAuthsRelatedByIdPartial;
+    protected $aSysUser;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -141,12 +135,6 @@ abstract class SysAuth implements ActiveRecordInterface
      * @var boolean
      */
     protected $alreadyInSave = false;
-
-    /**
-     * An array of objects scheduled for deletion.
-     * @var ObjectCollection|ChildSysAuth[]
-     */
-    protected $sysAuthsRelatedByIdScheduledForDeletion = null;
 
     /**
      * Applies default values to this object.
@@ -452,7 +440,7 @@ abstract class SysAuth implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [creation_date] column value.
      *
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -464,7 +452,7 @@ abstract class SysAuth implements ActiveRecordInterface
         if ($format === null) {
             return $this->creation_date;
         } else {
-            return $this->creation_date instanceof \DateTime ? $this->creation_date->format($format) : null;
+            return $this->creation_date instanceof \DateTimeInterface ? $this->creation_date->format($format) : null;
         }
     }
 
@@ -472,7 +460,7 @@ abstract class SysAuth implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [modification_date] column value.
      *
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -484,7 +472,7 @@ abstract class SysAuth implements ActiveRecordInterface
         if ($format === null) {
             return $this->modification_date;
         } else {
-            return $this->modification_date instanceof \DateTime ? $this->modification_date->format($format) : null;
+            return $this->modification_date instanceof \DateTimeInterface ? $this->modification_date->format($format) : null;
         }
     }
 
@@ -525,8 +513,8 @@ abstract class SysAuth implements ActiveRecordInterface
             $this->modifiedColumns[SysAuthTableMap::COL_USER_ID] = true;
         }
 
-        if ($this->aSysAuthRelatedByUserId !== null && $this->aSysAuthRelatedByUserId->getId() !== $v) {
-            $this->aSysAuthRelatedByUserId = null;
+        if ($this->aSysUser !== null && $this->aSysUser->getId() !== $v) {
+            $this->aSysUser = null;
         }
 
         return $this;
@@ -615,7 +603,7 @@ abstract class SysAuth implements ActiveRecordInterface
     /**
      * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysAuth The current object (for fluent API support)
      */
@@ -623,7 +611,7 @@ abstract class SysAuth implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->creation_date !== null || $dt !== null) {
-            if ($this->creation_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->creation_date->format("Y-m-d H:i:s")) {
+            if ($this->creation_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->creation_date->format("Y-m-d H:i:s.u")) {
                 $this->creation_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[SysAuthTableMap::COL_CREATION_DATE] = true;
             }
@@ -635,7 +623,7 @@ abstract class SysAuth implements ActiveRecordInterface
     /**
      * Sets the value of [modification_date] column to a normalized version of the date/time value specified.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysAuth The current object (for fluent API support)
      */
@@ -643,7 +631,7 @@ abstract class SysAuth implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->modification_date !== null || $dt !== null) {
-            if ($this->modification_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->modification_date->format("Y-m-d H:i:s")) {
+            if ($this->modification_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->modification_date->format("Y-m-d H:i:s.u")) {
                 $this->modification_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[SysAuthTableMap::COL_MODIFICATION_DATE] = true;
             }
@@ -759,8 +747,8 @@ abstract class SysAuth implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
-        if ($this->aSysAuthRelatedByUserId !== null && $this->user_id !== $this->aSysAuthRelatedByUserId->getId()) {
-            $this->aSysAuthRelatedByUserId = null;
+        if ($this->aSysUser !== null && $this->user_id !== $this->aSysUser->getId()) {
+            $this->aSysUser = null;
         }
     } // ensureConsistency
 
@@ -801,9 +789,7 @@ abstract class SysAuth implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->aSysAuthRelatedByUserId = null;
-            $this->collSysAuthsRelatedById = null;
-
+            $this->aSysUser = null;
         } // if (deep)
     }
 
@@ -857,13 +843,17 @@ abstract class SysAuth implements ActiveRecordInterface
             throw new PropelException("You cannot save an object that has been deleted.");
         }
 
+        if ($this->alreadyInSave) {
+            return 0;
+        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysAuthTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
-            $isInsert = $this->isNew();
             $ret = $this->preSave($con);
+            $isInsert = $this->isNew();
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
             } else {
@@ -908,11 +898,11 @@ abstract class SysAuth implements ActiveRecordInterface
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
-            if ($this->aSysAuthRelatedByUserId !== null) {
-                if ($this->aSysAuthRelatedByUserId->isModified() || $this->aSysAuthRelatedByUserId->isNew()) {
-                    $affectedRows += $this->aSysAuthRelatedByUserId->save($con);
+            if ($this->aSysUser !== null) {
+                if ($this->aSysUser->isModified() || $this->aSysUser->isNew()) {
+                    $affectedRows += $this->aSysUser->save($con);
                 }
-                $this->setSysAuthRelatedByUserId($this->aSysAuthRelatedByUserId);
+                $this->setSysUser($this->aSysUser);
             }
 
             if ($this->isNew() || $this->isModified()) {
@@ -924,23 +914,6 @@ abstract class SysAuth implements ActiveRecordInterface
                     $affectedRows += $this->doUpdate($con);
                 }
                 $this->resetModified();
-            }
-
-            if ($this->sysAuthsRelatedByIdScheduledForDeletion !== null) {
-                if (!$this->sysAuthsRelatedByIdScheduledForDeletion->isEmpty()) {
-                    \SysAuthQuery::create()
-                        ->filterByPrimaryKeys($this->sysAuthsRelatedByIdScheduledForDeletion->getPrimaryKeys(false))
-                        ->delete($con);
-                    $this->sysAuthsRelatedByIdScheduledForDeletion = null;
-                }
-            }
-
-            if ($this->collSysAuthsRelatedById !== null) {
-                foreach ($this->collSysAuthsRelatedById as $referrerFK) {
-                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
-                        $affectedRows += $referrerFK->save($con);
-                    }
-                }
             }
 
             $this->alreadyInSave = false;
@@ -1023,10 +996,10 @@ abstract class SysAuth implements ActiveRecordInterface
                         $stmt->bindValue($identifier, $this->status, PDO::PARAM_STR);
                         break;
                     case 'CREATION_DATE':
-                        $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
                     case 'MODIFICATION_DATE':
-                        $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1153,11 +1126,11 @@ abstract class SysAuth implements ActiveRecordInterface
             $keys[6] => $this->getCreationDate(),
             $keys[7] => $this->getModificationDate(),
         );
-        if ($result[$keys[6]] instanceof \DateTime) {
+        if ($result[$keys[6]] instanceof \DateTimeInterface) {
             $result[$keys[6]] = $result[$keys[6]]->format('c');
         }
 
-        if ($result[$keys[7]] instanceof \DateTime) {
+        if ($result[$keys[7]] instanceof \DateTimeInterface) {
             $result[$keys[7]] = $result[$keys[7]]->format('c');
         }
 
@@ -1167,35 +1140,20 @@ abstract class SysAuth implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->aSysAuthRelatedByUserId) {
+            if (null !== $this->aSysUser) {
 
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
-                        $key = 'sysAuth';
+                        $key = 'sysUser';
                         break;
                     case TableMap::TYPE_FIELDNAME:
-                        $key = 'sys_auth';
+                        $key = 'sys_user';
                         break;
                     default:
-                        $key = 'SysAuth';
+                        $key = 'SysUser';
                 }
 
-                $result[$key] = $this->aSysAuthRelatedByUserId->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
-            }
-            if (null !== $this->collSysAuthsRelatedById) {
-
-                switch ($keyType) {
-                    case TableMap::TYPE_CAMELNAME:
-                        $key = 'sysAuths';
-                        break;
-                    case TableMap::TYPE_FIELDNAME:
-                        $key = 'sys_auths';
-                        break;
-                    default:
-                        $key = 'SysAuths';
-                }
-
-                $result[$key] = $this->collSysAuthsRelatedById->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+                $result[$key] = $this->aSysUser->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
 
@@ -1463,20 +1421,6 @@ abstract class SysAuth implements ActiveRecordInterface
         $copyObj->setStatus($this->getStatus());
         $copyObj->setCreationDate($this->getCreationDate());
         $copyObj->setModificationDate($this->getModificationDate());
-
-        if ($deepCopy) {
-            // important: temporarily setNew(false) because this affects the behavior of
-            // the getter/setter methods for fkey referrer objects.
-            $copyObj->setNew(false);
-
-            foreach ($this->getSysAuthsRelatedById() as $relObj) {
-                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addSysAuthRelatedById($relObj->copy($deepCopy));
-                }
-            }
-
-        } // if ($deepCopy)
-
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1506,13 +1450,13 @@ abstract class SysAuth implements ActiveRecordInterface
     }
 
     /**
-     * Declares an association between this object and a ChildSysAuth object.
+     * Declares an association between this object and a ChildSysUser object.
      *
-     * @param  ChildSysAuth $v
+     * @param  ChildSysUser $v
      * @return $this|\SysAuth The current object (for fluent API support)
      * @throws PropelException
      */
-    public function setSysAuthRelatedByUserId(ChildSysAuth $v = null)
+    public function setSysUser(ChildSysUser $v = null)
     {
         if ($v === null) {
             $this->setUserId(NULL);
@@ -1520,12 +1464,12 @@ abstract class SysAuth implements ActiveRecordInterface
             $this->setUserId($v->getId());
         }
 
-        $this->aSysAuthRelatedByUserId = $v;
+        $this->aSysUser = $v;
 
         // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the ChildSysAuth object, it will not be re-added.
+        // If this object has already been added to the ChildSysUser object, it will not be re-added.
         if ($v !== null) {
-            $v->addSysAuthRelatedById($this);
+            $v->addSysAuth($this);
         }
 
 
@@ -1534,267 +1478,26 @@ abstract class SysAuth implements ActiveRecordInterface
 
 
     /**
-     * Get the associated ChildSysAuth object
+     * Get the associated ChildSysUser object
      *
      * @param  ConnectionInterface $con Optional Connection object.
-     * @return ChildSysAuth The associated ChildSysAuth object.
+     * @return ChildSysUser The associated ChildSysUser object.
      * @throws PropelException
      */
-    public function getSysAuthRelatedByUserId(ConnectionInterface $con = null)
+    public function getSysUser(ConnectionInterface $con = null)
     {
-        if ($this->aSysAuthRelatedByUserId === null && ($this->user_id !== null)) {
-            $this->aSysAuthRelatedByUserId = ChildSysAuthQuery::create()->findPk($this->user_id, $con);
+        if ($this->aSysUser === null && ($this->user_id != 0)) {
+            $this->aSysUser = ChildSysUserQuery::create()->findPk($this->user_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
                 to this object.  This level of coupling may, however, be
                 undesirable since it could result in an only partially populated collection
                 in the referenced object.
-                $this->aSysAuthRelatedByUserId->addSysAuthsRelatedById($this);
+                $this->aSysUser->addSysAuths($this);
              */
         }
 
-        return $this->aSysAuthRelatedByUserId;
-    }
-
-
-    /**
-     * Initializes a collection based on the name of a relation.
-     * Avoids crafting an 'init[$relationName]s' method name
-     * that wouldn't work when StandardEnglishPluralizer is used.
-     *
-     * @param      string $relationName The name of the relation to initialize
-     * @return void
-     */
-    public function initRelation($relationName)
-    {
-        if ('SysAuthRelatedById' == $relationName) {
-            return $this->initSysAuthsRelatedById();
-        }
-    }
-
-    /**
-     * Clears out the collSysAuthsRelatedById collection
-     *
-     * This does not modify the database; however, it will remove any associated objects, causing
-     * them to be refetched by subsequent calls to accessor method.
-     *
-     * @return void
-     * @see        addSysAuthsRelatedById()
-     */
-    public function clearSysAuthsRelatedById()
-    {
-        $this->collSysAuthsRelatedById = null; // important to set this to NULL since that means it is uninitialized
-    }
-
-    /**
-     * Reset is the collSysAuthsRelatedById collection loaded partially.
-     */
-    public function resetPartialSysAuthsRelatedById($v = true)
-    {
-        $this->collSysAuthsRelatedByIdPartial = $v;
-    }
-
-    /**
-     * Initializes the collSysAuthsRelatedById collection.
-     *
-     * By default this just sets the collSysAuthsRelatedById collection to an empty array (like clearcollSysAuthsRelatedById());
-     * however, you may wish to override this method in your stub class to provide setting appropriate
-     * to your application -- for example, setting the initial array to the values stored in database.
-     *
-     * @param      boolean $overrideExisting If set to true, the method call initializes
-     *                                        the collection even if it is not empty
-     *
-     * @return void
-     */
-    public function initSysAuthsRelatedById($overrideExisting = true)
-    {
-        if (null !== $this->collSysAuthsRelatedById && !$overrideExisting) {
-            return;
-        }
-
-        $collectionClassName = SysAuthTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collSysAuthsRelatedById = new $collectionClassName;
-        $this->collSysAuthsRelatedById->setModel('\SysAuth');
-    }
-
-    /**
-     * Gets an array of ChildSysAuth objects which contain a foreign key that references this object.
-     *
-     * If the $criteria is not null, it is used to always fetch the results from the database.
-     * Otherwise the results are fetched from the database the first time, then cached.
-     * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildSysAuth is new, it will return
-     * an empty collection or the current collection; the criteria is ignored on a new object.
-     *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @return ObjectCollection|ChildSysAuth[] List of ChildSysAuth objects
-     * @throws PropelException
-     */
-    public function getSysAuthsRelatedById(Criteria $criteria = null, ConnectionInterface $con = null)
-    {
-        $partial = $this->collSysAuthsRelatedByIdPartial && !$this->isNew();
-        if (null === $this->collSysAuthsRelatedById || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collSysAuthsRelatedById) {
-                // return empty collection
-                $this->initSysAuthsRelatedById();
-            } else {
-                $collSysAuthsRelatedById = ChildSysAuthQuery::create(null, $criteria)
-                    ->filterBySysAuthRelatedByUserId($this)
-                    ->find($con);
-
-                if (null !== $criteria) {
-                    if (false !== $this->collSysAuthsRelatedByIdPartial && count($collSysAuthsRelatedById)) {
-                        $this->initSysAuthsRelatedById(false);
-
-                        foreach ($collSysAuthsRelatedById as $obj) {
-                            if (false == $this->collSysAuthsRelatedById->contains($obj)) {
-                                $this->collSysAuthsRelatedById->append($obj);
-                            }
-                        }
-
-                        $this->collSysAuthsRelatedByIdPartial = true;
-                    }
-
-                    return $collSysAuthsRelatedById;
-                }
-
-                if ($partial && $this->collSysAuthsRelatedById) {
-                    foreach ($this->collSysAuthsRelatedById as $obj) {
-                        if ($obj->isNew()) {
-                            $collSysAuthsRelatedById[] = $obj;
-                        }
-                    }
-                }
-
-                $this->collSysAuthsRelatedById = $collSysAuthsRelatedById;
-                $this->collSysAuthsRelatedByIdPartial = false;
-            }
-        }
-
-        return $this->collSysAuthsRelatedById;
-    }
-
-    /**
-     * Sets a collection of ChildSysAuth objects related by a one-to-many relationship
-     * to the current object.
-     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
-     * and new objects from the given Propel collection.
-     *
-     * @param      Collection $sysAuthsRelatedById A Propel collection.
-     * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildSysAuth The current object (for fluent API support)
-     */
-    public function setSysAuthsRelatedById(Collection $sysAuthsRelatedById, ConnectionInterface $con = null)
-    {
-        /** @var ChildSysAuth[] $sysAuthsRelatedByIdToDelete */
-        $sysAuthsRelatedByIdToDelete = $this->getSysAuthsRelatedById(new Criteria(), $con)->diff($sysAuthsRelatedById);
-
-
-        $this->sysAuthsRelatedByIdScheduledForDeletion = $sysAuthsRelatedByIdToDelete;
-
-        foreach ($sysAuthsRelatedByIdToDelete as $sysAuthRelatedByIdRemoved) {
-            $sysAuthRelatedByIdRemoved->setSysAuthRelatedByUserId(null);
-        }
-
-        $this->collSysAuthsRelatedById = null;
-        foreach ($sysAuthsRelatedById as $sysAuthRelatedById) {
-            $this->addSysAuthRelatedById($sysAuthRelatedById);
-        }
-
-        $this->collSysAuthsRelatedById = $sysAuthsRelatedById;
-        $this->collSysAuthsRelatedByIdPartial = false;
-
-        return $this;
-    }
-
-    /**
-     * Returns the number of related SysAuth objects.
-     *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct
-     * @param      ConnectionInterface $con
-     * @return int             Count of related SysAuth objects.
-     * @throws PropelException
-     */
-    public function countSysAuthsRelatedById(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
-    {
-        $partial = $this->collSysAuthsRelatedByIdPartial && !$this->isNew();
-        if (null === $this->collSysAuthsRelatedById || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collSysAuthsRelatedById) {
-                return 0;
-            }
-
-            if ($partial && !$criteria) {
-                return count($this->getSysAuthsRelatedById());
-            }
-
-            $query = ChildSysAuthQuery::create(null, $criteria);
-            if ($distinct) {
-                $query->distinct();
-            }
-
-            return $query
-                ->filterBySysAuthRelatedByUserId($this)
-                ->count($con);
-        }
-
-        return count($this->collSysAuthsRelatedById);
-    }
-
-    /**
-     * Method called to associate a ChildSysAuth object to this object
-     * through the ChildSysAuth foreign key attribute.
-     *
-     * @param  ChildSysAuth $l ChildSysAuth
-     * @return $this|\SysAuth The current object (for fluent API support)
-     */
-    public function addSysAuthRelatedById(ChildSysAuth $l)
-    {
-        if ($this->collSysAuthsRelatedById === null) {
-            $this->initSysAuthsRelatedById();
-            $this->collSysAuthsRelatedByIdPartial = true;
-        }
-
-        if (!$this->collSysAuthsRelatedById->contains($l)) {
-            $this->doAddSysAuthRelatedById($l);
-
-            if ($this->sysAuthsRelatedByIdScheduledForDeletion and $this->sysAuthsRelatedByIdScheduledForDeletion->contains($l)) {
-                $this->sysAuthsRelatedByIdScheduledForDeletion->remove($this->sysAuthsRelatedByIdScheduledForDeletion->search($l));
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param ChildSysAuth $sysAuthRelatedById The ChildSysAuth object to add.
-     */
-    protected function doAddSysAuthRelatedById(ChildSysAuth $sysAuthRelatedById)
-    {
-        $this->collSysAuthsRelatedById[]= $sysAuthRelatedById;
-        $sysAuthRelatedById->setSysAuthRelatedByUserId($this);
-    }
-
-    /**
-     * @param  ChildSysAuth $sysAuthRelatedById The ChildSysAuth object to remove.
-     * @return $this|ChildSysAuth The current object (for fluent API support)
-     */
-    public function removeSysAuthRelatedById(ChildSysAuth $sysAuthRelatedById)
-    {
-        if ($this->getSysAuthsRelatedById()->contains($sysAuthRelatedById)) {
-            $pos = $this->collSysAuthsRelatedById->search($sysAuthRelatedById);
-            $this->collSysAuthsRelatedById->remove($pos);
-            if (null === $this->sysAuthsRelatedByIdScheduledForDeletion) {
-                $this->sysAuthsRelatedByIdScheduledForDeletion = clone $this->collSysAuthsRelatedById;
-                $this->sysAuthsRelatedByIdScheduledForDeletion->clear();
-            }
-            $this->sysAuthsRelatedByIdScheduledForDeletion[]= clone $sysAuthRelatedById;
-            $sysAuthRelatedById->setSysAuthRelatedByUserId(null);
-        }
-
-        return $this;
+        return $this->aSysUser;
     }
 
     /**
@@ -1804,8 +1507,8 @@ abstract class SysAuth implements ActiveRecordInterface
      */
     public function clear()
     {
-        if (null !== $this->aSysAuthRelatedByUserId) {
-            $this->aSysAuthRelatedByUserId->removeSysAuthRelatedById($this);
+        if (null !== $this->aSysUser) {
+            $this->aSysUser->removeSysAuth($this);
         }
         $this->id = null;
         $this->user_id = null;
@@ -1834,15 +1537,9 @@ abstract class SysAuth implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
-            if ($this->collSysAuthsRelatedById) {
-                foreach ($this->collSysAuthsRelatedById as $o) {
-                    $o->clearAllReferences($deep);
-                }
-            }
         } // if ($deep)
 
-        $this->collSysAuthsRelatedById = null;
-        $this->aSysAuthRelatedByUserId = null;
+        $this->aSysUser = null;
     }
 
     /**
@@ -1862,6 +1559,9 @@ abstract class SysAuth implements ActiveRecordInterface
      */
     public function preSave(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preSave')) {
+            return parent::preSave($con);
+        }
         return true;
     }
 
@@ -1871,7 +1571,9 @@ abstract class SysAuth implements ActiveRecordInterface
      */
     public function postSave(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postSave')) {
+            parent::postSave($con);
+        }
     }
 
     /**
@@ -1881,6 +1583,9 @@ abstract class SysAuth implements ActiveRecordInterface
      */
     public function preInsert(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preInsert')) {
+            return parent::preInsert($con);
+        }
         return true;
     }
 
@@ -1890,7 +1595,9 @@ abstract class SysAuth implements ActiveRecordInterface
      */
     public function postInsert(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postInsert')) {
+            parent::postInsert($con);
+        }
     }
 
     /**
@@ -1900,6 +1607,9 @@ abstract class SysAuth implements ActiveRecordInterface
      */
     public function preUpdate(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preUpdate')) {
+            return parent::preUpdate($con);
+        }
         return true;
     }
 
@@ -1909,7 +1619,9 @@ abstract class SysAuth implements ActiveRecordInterface
      */
     public function postUpdate(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postUpdate')) {
+            parent::postUpdate($con);
+        }
     }
 
     /**
@@ -1919,6 +1631,9 @@ abstract class SysAuth implements ActiveRecordInterface
      */
     public function preDelete(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preDelete')) {
+            return parent::preDelete($con);
+        }
         return true;
     }
 
@@ -1928,7 +1643,9 @@ abstract class SysAuth implements ActiveRecordInterface
      */
     public function postDelete(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postDelete')) {
+            parent::postDelete($con);
+        }
     }
 
 

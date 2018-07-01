@@ -162,7 +162,7 @@ class SysAuthTableMap extends TableMap
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
-        $this->addForeignKey('USER_ID', 'UserId', 'INTEGER', 'sys_auth', 'ID', true, null, null);
+        $this->addForeignKey('USER_ID', 'UserId', 'INTEGER', 'sys_user', 'ID', true, null, null);
         $this->addColumn('TYPE', 'Type', 'VARCHAR', true, 50, '');
         $this->addColumn('ACCESS_TOKEN', 'AccessToken', 'VARCHAR', true, 50, '');
         $this->addColumn('JSON', 'Json', 'LONGVARCHAR', false, null, null);
@@ -176,20 +176,13 @@ class SysAuthTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('SysAuthRelatedByUserId', '\\SysAuth', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('SysUser', '\\SysUser', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':USER_ID',
     1 => ':ID',
   ),
 ), null, null, null, false);
-        $this->addRelation('SysAuthRelatedById', '\\SysAuth', RelationMap::ONE_TO_MANY, array (
-  0 =>
-  array (
-    0 => ':USER_ID',
-    1 => ':ID',
-  ),
-), null, null, 'SysAuthsRelatedById', false);
     } // buildRelations()
 
     /**

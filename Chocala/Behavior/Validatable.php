@@ -155,5 +155,4 @@ trait Validatable
         return ValidationHelper::failuresMap($this->validationFailures);
     }
 
-
 }

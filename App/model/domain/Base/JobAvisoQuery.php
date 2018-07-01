@@ -23,10 +23,12 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAvisoQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildJobAvisoQuery orderByAreaId($order = Criteria::ASC) Order by the AREA_ID column
  * @method     ChildJobAvisoQuery orderByAreaTecnicaId($order = Criteria::ASC) Order by the AREA_TECNICA_ID column
+ * @method     ChildJobAvisoQuery orderByEmpresaSuscritaId($order = Criteria::ASC) Order by the EMPRESA_SUSCRITA_ID column
  * @method     ChildJobAvisoQuery orderByLocalizacion($order = Criteria::ASC) Order by the LOCALIZACION column
  * @method     ChildJobAvisoQuery orderByCargo($order = Criteria::ASC) Order by the CARGO column
  * @method     ChildJobAvisoQuery orderByDescripcion($order = Criteria::ASC) Order by the DESCRIPCION column
  * @method     ChildJobAvisoQuery orderByNombreEmpresa($order = Criteria::ASC) Order by the NOMBRE_EMPRESA column
+ * @method     ChildJobAvisoQuery orderByAliasEmpresa($order = Criteria::ASC) Order by the ALIAS_EMPRESA column
  * @method     ChildJobAvisoQuery orderByDireccion($order = Criteria::ASC) Order by the DIRECCION column
  * @method     ChildJobAvisoQuery orderByTelefonoContacto($order = Criteria::ASC) Order by the TELEFONO_CONTACTO column
  * @method     ChildJobAvisoQuery orderByCorreoContacto($order = Criteria::ASC) Order by the CORREO_CONTACTO column
@@ -51,10 +53,12 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAvisoQuery groupById() Group by the ID column
  * @method     ChildJobAvisoQuery groupByAreaId() Group by the AREA_ID column
  * @method     ChildJobAvisoQuery groupByAreaTecnicaId() Group by the AREA_TECNICA_ID column
+ * @method     ChildJobAvisoQuery groupByEmpresaSuscritaId() Group by the EMPRESA_SUSCRITA_ID column
  * @method     ChildJobAvisoQuery groupByLocalizacion() Group by the LOCALIZACION column
  * @method     ChildJobAvisoQuery groupByCargo() Group by the CARGO column
  * @method     ChildJobAvisoQuery groupByDescripcion() Group by the DESCRIPCION column
  * @method     ChildJobAvisoQuery groupByNombreEmpresa() Group by the NOMBRE_EMPRESA column
+ * @method     ChildJobAvisoQuery groupByAliasEmpresa() Group by the ALIAS_EMPRESA column
  * @method     ChildJobAvisoQuery groupByDireccion() Group by the DIRECCION column
  * @method     ChildJobAvisoQuery groupByTelefonoContacto() Group by the TELEFONO_CONTACTO column
  * @method     ChildJobAvisoQuery groupByCorreoContacto() Group by the CORREO_CONTACTO column
@@ -104,7 +108,27 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAvisoQuery rightJoinWithJobArea() Adds a RIGHT JOIN clause and with to the query using the JobArea relation
  * @method     ChildJobAvisoQuery innerJoinWithJobArea() Adds a INNER JOIN clause and with to the query using the JobArea relation
  *
- * @method     \JobAreaTecnicaQuery|\JobAreaQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     ChildJobAvisoQuery leftJoinJobEmpresaSuscrita($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobEmpresaSuscrita relation
+ * @method     ChildJobAvisoQuery rightJoinJobEmpresaSuscrita($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobEmpresaSuscrita relation
+ * @method     ChildJobAvisoQuery innerJoinJobEmpresaSuscrita($relationAlias = null) Adds a INNER JOIN clause to the query using the JobEmpresaSuscrita relation
+ *
+ * @method     ChildJobAvisoQuery joinWithJobEmpresaSuscrita($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobEmpresaSuscrita relation
+ *
+ * @method     ChildJobAvisoQuery leftJoinWithJobEmpresaSuscrita() Adds a LEFT JOIN clause and with to the query using the JobEmpresaSuscrita relation
+ * @method     ChildJobAvisoQuery rightJoinWithJobEmpresaSuscrita() Adds a RIGHT JOIN clause and with to the query using the JobEmpresaSuscrita relation
+ * @method     ChildJobAvisoQuery innerJoinWithJobEmpresaSuscrita() Adds a INNER JOIN clause and with to the query using the JobEmpresaSuscrita relation
+ *
+ * @method     ChildJobAvisoQuery leftJoinJobPostulanteAviso($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobPostulanteAviso relation
+ * @method     ChildJobAvisoQuery rightJoinJobPostulanteAviso($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobPostulanteAviso relation
+ * @method     ChildJobAvisoQuery innerJoinJobPostulanteAviso($relationAlias = null) Adds a INNER JOIN clause to the query using the JobPostulanteAviso relation
+ *
+ * @method     ChildJobAvisoQuery joinWithJobPostulanteAviso($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobPostulanteAviso relation
+ *
+ * @method     ChildJobAvisoQuery leftJoinWithJobPostulanteAviso() Adds a LEFT JOIN clause and with to the query using the JobPostulanteAviso relation
+ * @method     ChildJobAvisoQuery rightJoinWithJobPostulanteAviso() Adds a RIGHT JOIN clause and with to the query using the JobPostulanteAviso relation
+ * @method     ChildJobAvisoQuery innerJoinWithJobPostulanteAviso() Adds a INNER JOIN clause and with to the query using the JobPostulanteAviso relation
+ *
+ * @method     \JobAreaTecnicaQuery|\JobAreaQuery|\JobEmpresaSuscritaQuery|\JobPostulanteAvisoQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildJobAviso findOne(ConnectionInterface $con = null) Return the first ChildJobAviso matching the query
  * @method     ChildJobAviso findOneOrCreate(ConnectionInterface $con = null) Return the first ChildJobAviso matching the query, or a new ChildJobAviso object populated from the query conditions when no match is found
@@ -112,10 +136,12 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAviso findOneById(int $ID) Return the first ChildJobAviso filtered by the ID column
  * @method     ChildJobAviso findOneByAreaId(int $AREA_ID) Return the first ChildJobAviso filtered by the AREA_ID column
  * @method     ChildJobAviso findOneByAreaTecnicaId(int $AREA_TECNICA_ID) Return the first ChildJobAviso filtered by the AREA_TECNICA_ID column
+ * @method     ChildJobAviso findOneByEmpresaSuscritaId(int $EMPRESA_SUSCRITA_ID) Return the first ChildJobAviso filtered by the EMPRESA_SUSCRITA_ID column
  * @method     ChildJobAviso findOneByLocalizacion(string $LOCALIZACION) Return the first ChildJobAviso filtered by the LOCALIZACION column
  * @method     ChildJobAviso findOneByCargo(string $CARGO) Return the first ChildJobAviso filtered by the CARGO column
  * @method     ChildJobAviso findOneByDescripcion(string $DESCRIPCION) Return the first ChildJobAviso filtered by the DESCRIPCION column
  * @method     ChildJobAviso findOneByNombreEmpresa(string $NOMBRE_EMPRESA) Return the first ChildJobAviso filtered by the NOMBRE_EMPRESA column
+ * @method     ChildJobAviso findOneByAliasEmpresa(string $ALIAS_EMPRESA) Return the first ChildJobAviso filtered by the ALIAS_EMPRESA column
  * @method     ChildJobAviso findOneByDireccion(string $DIRECCION) Return the first ChildJobAviso filtered by the DIRECCION column
  * @method     ChildJobAviso findOneByTelefonoContacto(int $TELEFONO_CONTACTO) Return the first ChildJobAviso filtered by the TELEFONO_CONTACTO column
  * @method     ChildJobAviso findOneByCorreoContacto(string $CORREO_CONTACTO) Return the first ChildJobAviso filtered by the CORREO_CONTACTO column
@@ -143,10 +169,12 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAviso requireOneById(int $ID) Return the first ChildJobAviso filtered by the ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobAviso requireOneByAreaId(int $AREA_ID) Return the first ChildJobAviso filtered by the AREA_ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobAviso requireOneByAreaTecnicaId(int $AREA_TECNICA_ID) Return the first ChildJobAviso filtered by the AREA_TECNICA_ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobAviso requireOneByEmpresaSuscritaId(int $EMPRESA_SUSCRITA_ID) Return the first ChildJobAviso filtered by the EMPRESA_SUSCRITA_ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobAviso requireOneByLocalizacion(string $LOCALIZACION) Return the first ChildJobAviso filtered by the LOCALIZACION column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobAviso requireOneByCargo(string $CARGO) Return the first ChildJobAviso filtered by the CARGO column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobAviso requireOneByDescripcion(string $DESCRIPCION) Return the first ChildJobAviso filtered by the DESCRIPCION column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobAviso requireOneByNombreEmpresa(string $NOMBRE_EMPRESA) Return the first ChildJobAviso filtered by the NOMBRE_EMPRESA column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobAviso requireOneByAliasEmpresa(string $ALIAS_EMPRESA) Return the first ChildJobAviso filtered by the ALIAS_EMPRESA column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobAviso requireOneByDireccion(string $DIRECCION) Return the first ChildJobAviso filtered by the DIRECCION column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobAviso requireOneByTelefonoContacto(int $TELEFONO_CONTACTO) Return the first ChildJobAviso filtered by the TELEFONO_CONTACTO column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobAviso requireOneByCorreoContacto(string $CORREO_CONTACTO) Return the first ChildJobAviso filtered by the CORREO_CONTACTO column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -172,10 +200,12 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobAviso[]|ObjectCollection findById(int $ID) Return ChildJobAviso objects filtered by the ID column
  * @method     ChildJobAviso[]|ObjectCollection findByAreaId(int $AREA_ID) Return ChildJobAviso objects filtered by the AREA_ID column
  * @method     ChildJobAviso[]|ObjectCollection findByAreaTecnicaId(int $AREA_TECNICA_ID) Return ChildJobAviso objects filtered by the AREA_TECNICA_ID column
+ * @method     ChildJobAviso[]|ObjectCollection findByEmpresaSuscritaId(int $EMPRESA_SUSCRITA_ID) Return ChildJobAviso objects filtered by the EMPRESA_SUSCRITA_ID column
  * @method     ChildJobAviso[]|ObjectCollection findByLocalizacion(string $LOCALIZACION) Return ChildJobAviso objects filtered by the LOCALIZACION column
  * @method     ChildJobAviso[]|ObjectCollection findByCargo(string $CARGO) Return ChildJobAviso objects filtered by the CARGO column
  * @method     ChildJobAviso[]|ObjectCollection findByDescripcion(string $DESCRIPCION) Return ChildJobAviso objects filtered by the DESCRIPCION column
  * @method     ChildJobAviso[]|ObjectCollection findByNombreEmpresa(string $NOMBRE_EMPRESA) Return ChildJobAviso objects filtered by the NOMBRE_EMPRESA column
+ * @method     ChildJobAviso[]|ObjectCollection findByAliasEmpresa(string $ALIAS_EMPRESA) Return ChildJobAviso objects filtered by the ALIAS_EMPRESA column
  * @method     ChildJobAviso[]|ObjectCollection findByDireccion(string $DIRECCION) Return ChildJobAviso objects filtered by the DIRECCION column
  * @method     ChildJobAviso[]|ObjectCollection findByTelefonoContacto(int $TELEFONO_CONTACTO) Return ChildJobAviso objects filtered by the TELEFONO_CONTACTO column
  * @method     ChildJobAviso[]|ObjectCollection findByCorreoContacto(string $CORREO_CONTACTO) Return ChildJobAviso objects filtered by the CORREO_CONTACTO column
@@ -258,21 +288,27 @@ abstract class JobAvisoQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = JobAvisoTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(JobAvisoTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = JobAvisoTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -288,7 +324,7 @@ abstract class JobAvisoQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT ID, AREA_ID, AREA_TECNICA_ID, LOCALIZACION, CARGO, DESCRIPCION, NOMBRE_EMPRESA, DIRECCION, TELEFONO_CONTACTO, CORREO_CONTACTO, FECHA_PUBLICACION, FECHA_VENCIMIENTO, REQUISITO, ANIOS_EXPERIENCIA, NIVEL_FORMACION, SALARIO, PROFESION, FUENTE, TIENE_IMAGEN, MIMETYPE, AREAS_REFERENCIA, FORMACIONES_REFERENCIA, DESTACADO, STATUS, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM job_aviso WHERE ID = :p0';
+        $sql = 'SELECT ID, AREA_ID, AREA_TECNICA_ID, EMPRESA_SUSCRITA_ID, LOCALIZACION, CARGO, DESCRIPCION, NOMBRE_EMPRESA, ALIAS_EMPRESA, DIRECCION, TELEFONO_CONTACTO, CORREO_CONTACTO, FECHA_PUBLICACION, FECHA_VENCIMIENTO, REQUISITO, ANIOS_EXPERIENCIA, NIVEL_FORMACION, SALARIO, PROFESION, FUENTE, TIENE_IMAGEN, MIMETYPE, AREAS_REFERENCIA, FORMACIONES_REFERENCIA, DESTACADO, STATUS, LAST_USER_ID, CREATION_DATE, MODIFICATION_DATE FROM job_aviso WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -506,16 +542,58 @@ abstract class JobAvisoQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query on the EMPRESA_SUSCRITA_ID column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByEmpresaSuscritaId(1234); // WHERE EMPRESA_SUSCRITA_ID = 1234
+     * $query->filterByEmpresaSuscritaId(array(12, 34)); // WHERE EMPRESA_SUSCRITA_ID IN (12, 34)
+     * $query->filterByEmpresaSuscritaId(array('min' => 12)); // WHERE EMPRESA_SUSCRITA_ID > 12
+     * </code>
+     *
+     * @see       filterByJobEmpresaSuscrita()
+     *
+     * @param     mixed $empresaSuscritaId The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobAvisoQuery The current query, for fluid interface
+     */
+    public function filterByEmpresaSuscritaId($empresaSuscritaId = null, $comparison = null)
+    {
+        if (is_array($empresaSuscritaId)) {
+            $useMinMax = false;
+            if (isset($empresaSuscritaId['min'])) {
+                $this->addUsingAlias(JobAvisoTableMap::COL_EMPRESA_SUSCRITA_ID, $empresaSuscritaId['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($empresaSuscritaId['max'])) {
+                $this->addUsingAlias(JobAvisoTableMap::COL_EMPRESA_SUSCRITA_ID, $empresaSuscritaId['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(JobAvisoTableMap::COL_EMPRESA_SUSCRITA_ID, $empresaSuscritaId, $comparison);
+    }
+
+    /**
      * Filter the query on the LOCALIZACION column
      *
      * Example usage:
      * <code>
      * $query->filterByLocalizacion('fooValue');   // WHERE LOCALIZACION = 'fooValue'
-     * $query->filterByLocalizacion('%fooValue%'); // WHERE LOCALIZACION LIKE '%fooValue%'
+     * $query->filterByLocalizacion('%fooValue%', Criteria::LIKE); // WHERE LOCALIZACION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $localizacion The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobAvisoQuery The current query, for fluid interface
@@ -525,9 +603,6 @@ abstract class JobAvisoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($localizacion)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $localizacion)) {
-                $localizacion = str_replace('*', '%', $localizacion);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -540,11 +615,10 @@ abstract class JobAvisoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByCargo('fooValue');   // WHERE CARGO = 'fooValue'
-     * $query->filterByCargo('%fooValue%'); // WHERE CARGO LIKE '%fooValue%'
+     * $query->filterByCargo('%fooValue%', Criteria::LIKE); // WHERE CARGO LIKE '%fooValue%'
      * </code>
      *
      * @param     string $cargo The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobAvisoQuery The current query, for fluid interface
@@ -554,9 +628,6 @@ abstract class JobAvisoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($cargo)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $cargo)) {
-                $cargo = str_replace('*', '%', $cargo);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -569,11 +640,10 @@ abstract class JobAvisoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByDescripcion('fooValue');   // WHERE DESCRIPCION = 'fooValue'
-     * $query->filterByDescripcion('%fooValue%'); // WHERE DESCRIPCION LIKE '%fooValue%'
+     * $query->filterByDescripcion('%fooValue%', Criteria::LIKE); // WHERE DESCRIPCION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $descripcion The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobAvisoQuery The current query, for fluid interface
@@ -583,9 +653,6 @@ abstract class JobAvisoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($descripcion)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $descripcion)) {
-                $descripcion = str_replace('*', '%', $descripcion);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -598,11 +665,10 @@ abstract class JobAvisoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByNombreEmpresa('fooValue');   // WHERE NOMBRE_EMPRESA = 'fooValue'
-     * $query->filterByNombreEmpresa('%fooValue%'); // WHERE NOMBRE_EMPRESA LIKE '%fooValue%'
+     * $query->filterByNombreEmpresa('%fooValue%', Criteria::LIKE); // WHERE NOMBRE_EMPRESA LIKE '%fooValue%'
      * </code>
      *
      * @param     string $nombreEmpresa The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobAvisoQuery The current query, for fluid interface
@@ -612,13 +678,35 @@ abstract class JobAvisoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($nombreEmpresa)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nombreEmpresa)) {
-                $nombreEmpresa = str_replace('*', '%', $nombreEmpresa);
-                $comparison = Criteria::LIKE;
             }
         }
 
         return $this->addUsingAlias(JobAvisoTableMap::COL_NOMBRE_EMPRESA, $nombreEmpresa, $comparison);
+    }
+
+    /**
+     * Filter the query on the ALIAS_EMPRESA column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByAliasEmpresa('fooValue');   // WHERE ALIAS_EMPRESA = 'fooValue'
+     * $query->filterByAliasEmpresa('%fooValue%', Criteria::LIKE); // WHERE ALIAS_EMPRESA LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $aliasEmpresa The value to use as filter.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobAvisoQuery The current query, for fluid interface
+     */
+    public function filterByAliasEmpresa($aliasEmpresa = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($aliasEmpresa)) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(JobAvisoTableMap::COL_ALIAS_EMPRESA, $aliasEmpresa, $comparison);
     }
 
     /**
@@ -627,11 +715,10 @@ abstract class JobAvisoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByDireccion('fooValue');   // WHERE DIRECCION = 'fooValue'
-     * $query->filterByDireccion('%fooValue%'); // WHERE DIRECCION LIKE '%fooValue%'
+     * $query->filterByDireccion('%fooValue%', Criteria::LIKE); // WHERE DIRECCION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $direccion The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobAvisoQuery The current query, for fluid interface
@@ -641,9 +728,6 @@ abstract class JobAvisoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($direccion)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $direccion)) {
-                $direccion = str_replace('*', '%', $direccion);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -697,11 +781,10 @@ abstract class JobAvisoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByCorreoContacto('fooValue');   // WHERE CORREO_CONTACTO = 'fooValue'
-     * $query->filterByCorreoContacto('%fooValue%'); // WHERE CORREO_CONTACTO LIKE '%fooValue%'
+     * $query->filterByCorreoContacto('%fooValue%', Criteria::LIKE); // WHERE CORREO_CONTACTO LIKE '%fooValue%'
      * </code>
      *
      * @param     string $correoContacto The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobAvisoQuery The current query, for fluid interface
@@ -711,9 +794,6 @@ abstract class JobAvisoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($correoContacto)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $correoContacto)) {
-                $correoContacto = str_replace('*', '%', $correoContacto);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -812,11 +892,10 @@ abstract class JobAvisoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByRequisito('fooValue');   // WHERE REQUISITO = 'fooValue'
-     * $query->filterByRequisito('%fooValue%'); // WHERE REQUISITO LIKE '%fooValue%'
+     * $query->filterByRequisito('%fooValue%', Criteria::LIKE); // WHERE REQUISITO LIKE '%fooValue%'
      * </code>
      *
      * @param     string $requisito The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobAvisoQuery The current query, for fluid interface
@@ -826,9 +905,6 @@ abstract class JobAvisoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($requisito)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $requisito)) {
-                $requisito = str_replace('*', '%', $requisito);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -882,11 +958,10 @@ abstract class JobAvisoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByNivelFormacion('fooValue');   // WHERE NIVEL_FORMACION = 'fooValue'
-     * $query->filterByNivelFormacion('%fooValue%'); // WHERE NIVEL_FORMACION LIKE '%fooValue%'
+     * $query->filterByNivelFormacion('%fooValue%', Criteria::LIKE); // WHERE NIVEL_FORMACION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $nivelFormacion The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobAvisoQuery The current query, for fluid interface
@@ -896,9 +971,6 @@ abstract class JobAvisoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($nivelFormacion)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nivelFormacion)) {
-                $nivelFormacion = str_replace('*', '%', $nivelFormacion);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -952,11 +1024,10 @@ abstract class JobAvisoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByProfesion('fooValue');   // WHERE PROFESION = 'fooValue'
-     * $query->filterByProfesion('%fooValue%'); // WHERE PROFESION LIKE '%fooValue%'
+     * $query->filterByProfesion('%fooValue%', Criteria::LIKE); // WHERE PROFESION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $profesion The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobAvisoQuery The current query, for fluid interface
@@ -966,9 +1037,6 @@ abstract class JobAvisoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($profesion)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $profesion)) {
-                $profesion = str_replace('*', '%', $profesion);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -981,11 +1049,10 @@ abstract class JobAvisoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByFuente('fooValue');   // WHERE FUENTE = 'fooValue'
-     * $query->filterByFuente('%fooValue%'); // WHERE FUENTE LIKE '%fooValue%'
+     * $query->filterByFuente('%fooValue%', Criteria::LIKE); // WHERE FUENTE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $fuente The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobAvisoQuery The current query, for fluid interface
@@ -995,9 +1062,6 @@ abstract class JobAvisoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($fuente)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $fuente)) {
-                $fuente = str_replace('*', '%', $fuente);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -1037,11 +1101,10 @@ abstract class JobAvisoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByMimetype('fooValue');   // WHERE MIMETYPE = 'fooValue'
-     * $query->filterByMimetype('%fooValue%'); // WHERE MIMETYPE LIKE '%fooValue%'
+     * $query->filterByMimetype('%fooValue%', Criteria::LIKE); // WHERE MIMETYPE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $mimetype The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobAvisoQuery The current query, for fluid interface
@@ -1051,9 +1114,6 @@ abstract class JobAvisoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($mimetype)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $mimetype)) {
-                $mimetype = str_replace('*', '%', $mimetype);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -1066,11 +1126,10 @@ abstract class JobAvisoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByAreasReferencia('fooValue');   // WHERE AREAS_REFERENCIA = 'fooValue'
-     * $query->filterByAreasReferencia('%fooValue%'); // WHERE AREAS_REFERENCIA LIKE '%fooValue%'
+     * $query->filterByAreasReferencia('%fooValue%', Criteria::LIKE); // WHERE AREAS_REFERENCIA LIKE '%fooValue%'
      * </code>
      *
      * @param     string $areasReferencia The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobAvisoQuery The current query, for fluid interface
@@ -1080,9 +1139,6 @@ abstract class JobAvisoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($areasReferencia)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $areasReferencia)) {
-                $areasReferencia = str_replace('*', '%', $areasReferencia);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -1095,11 +1151,10 @@ abstract class JobAvisoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByFormacionesReferencia('fooValue');   // WHERE FORMACIONES_REFERENCIA = 'fooValue'
-     * $query->filterByFormacionesReferencia('%fooValue%'); // WHERE FORMACIONES_REFERENCIA LIKE '%fooValue%'
+     * $query->filterByFormacionesReferencia('%fooValue%', Criteria::LIKE); // WHERE FORMACIONES_REFERENCIA LIKE '%fooValue%'
      * </code>
      *
      * @param     string $formacionesReferencia The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobAvisoQuery The current query, for fluid interface
@@ -1109,9 +1164,6 @@ abstract class JobAvisoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($formacionesReferencia)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $formacionesReferencia)) {
-                $formacionesReferencia = str_replace('*', '%', $formacionesReferencia);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -1151,11 +1203,10 @@ abstract class JobAvisoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByStatus('fooValue');   // WHERE STATUS = 'fooValue'
-     * $query->filterByStatus('%fooValue%'); // WHERE STATUS LIKE '%fooValue%'
+     * $query->filterByStatus('%fooValue%', Criteria::LIKE); // WHERE STATUS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $status The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobAvisoQuery The current query, for fluid interface
@@ -1165,9 +1216,6 @@ abstract class JobAvisoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($status)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $status)) {
-                $status = str_replace('*', '%', $status);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -1180,11 +1228,10 @@ abstract class JobAvisoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByLastUserId('fooValue');   // WHERE LAST_USER_ID = 'fooValue'
-     * $query->filterByLastUserId('%fooValue%'); // WHERE LAST_USER_ID LIKE '%fooValue%'
+     * $query->filterByLastUserId('%fooValue%', Criteria::LIKE); // WHERE LAST_USER_ID LIKE '%fooValue%'
      * </code>
      *
      * @param     string $lastUserId The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobAvisoQuery The current query, for fluid interface
@@ -1194,9 +1241,6 @@ abstract class JobAvisoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($lastUserId)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $lastUserId)) {
-                $lastUserId = str_replace('*', '%', $lastUserId);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -1441,6 +1485,156 @@ abstract class JobAvisoQuery extends ModelCriteria
         return $this
             ->joinJobArea($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'JobArea', '\JobAreaQuery');
+    }
+
+    /**
+     * Filter the query by a related \JobEmpresaSuscrita object
+     *
+     * @param \JobEmpresaSuscrita|ObjectCollection $jobEmpresaSuscrita The related object(s) to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @throws \Propel\Runtime\Exception\PropelException
+     *
+     * @return ChildJobAvisoQuery The current query, for fluid interface
+     */
+    public function filterByJobEmpresaSuscrita($jobEmpresaSuscrita, $comparison = null)
+    {
+        if ($jobEmpresaSuscrita instanceof \JobEmpresaSuscrita) {
+            return $this
+                ->addUsingAlias(JobAvisoTableMap::COL_EMPRESA_SUSCRITA_ID, $jobEmpresaSuscrita->getId(), $comparison);
+        } elseif ($jobEmpresaSuscrita instanceof ObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(JobAvisoTableMap::COL_EMPRESA_SUSCRITA_ID, $jobEmpresaSuscrita->toKeyValue('PrimaryKey', 'Id'), $comparison);
+        } else {
+            throw new PropelException('filterByJobEmpresaSuscrita() only accepts arguments of type \JobEmpresaSuscrita or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the JobEmpresaSuscrita relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildJobAvisoQuery The current query, for fluid interface
+     */
+    public function joinJobEmpresaSuscrita($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('JobEmpresaSuscrita');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'JobEmpresaSuscrita');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the JobEmpresaSuscrita relation JobEmpresaSuscrita object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \JobEmpresaSuscritaQuery A secondary query class using the current class as primary query
+     */
+    public function useJobEmpresaSuscritaQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinJobEmpresaSuscrita($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'JobEmpresaSuscrita', '\JobEmpresaSuscritaQuery');
+    }
+
+    /**
+     * Filter the query by a related \JobPostulanteAviso object
+     *
+     * @param \JobPostulanteAviso|ObjectCollection $jobPostulanteAviso the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildJobAvisoQuery The current query, for fluid interface
+     */
+    public function filterByJobPostulanteAviso($jobPostulanteAviso, $comparison = null)
+    {
+        if ($jobPostulanteAviso instanceof \JobPostulanteAviso) {
+            return $this
+                ->addUsingAlias(JobAvisoTableMap::COL_ID, $jobPostulanteAviso->getIdAviso(), $comparison);
+        } elseif ($jobPostulanteAviso instanceof ObjectCollection) {
+            return $this
+                ->useJobPostulanteAvisoQuery()
+                ->filterByPrimaryKeys($jobPostulanteAviso->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByJobPostulanteAviso() only accepts arguments of type \JobPostulanteAviso or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the JobPostulanteAviso relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildJobAvisoQuery The current query, for fluid interface
+     */
+    public function joinJobPostulanteAviso($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('JobPostulanteAviso');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'JobPostulanteAviso');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the JobPostulanteAviso relation JobPostulanteAviso object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \JobPostulanteAvisoQuery A secondary query class using the current class as primary query
+     */
+    public function useJobPostulanteAvisoQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinJobPostulanteAviso($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'JobPostulanteAviso', '\JobPostulanteAvisoQuery');
     }
 
     /**

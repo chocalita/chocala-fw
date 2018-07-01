@@ -180,21 +180,27 @@ abstract class TmpProspectoQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = TmpProspectoTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(TmpProspectoTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = TmpProspectoTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -347,11 +353,10 @@ abstract class TmpProspectoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByPrimerApellido('fooValue');   // WHERE primer_apellido = 'fooValue'
-     * $query->filterByPrimerApellido('%fooValue%'); // WHERE primer_apellido LIKE '%fooValue%'
+     * $query->filterByPrimerApellido('%fooValue%', Criteria::LIKE); // WHERE primer_apellido LIKE '%fooValue%'
      * </code>
      *
      * @param     string $primerApellido The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpProspectoQuery The current query, for fluid interface
@@ -361,9 +366,6 @@ abstract class TmpProspectoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($primerApellido)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $primerApellido)) {
-                $primerApellido = str_replace('*', '%', $primerApellido);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -376,11 +378,10 @@ abstract class TmpProspectoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterBySegundoApellido('fooValue');   // WHERE segundo_apellido = 'fooValue'
-     * $query->filterBySegundoApellido('%fooValue%'); // WHERE segundo_apellido LIKE '%fooValue%'
+     * $query->filterBySegundoApellido('%fooValue%', Criteria::LIKE); // WHERE segundo_apellido LIKE '%fooValue%'
      * </code>
      *
      * @param     string $segundoApellido The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpProspectoQuery The current query, for fluid interface
@@ -390,9 +391,6 @@ abstract class TmpProspectoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($segundoApellido)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $segundoApellido)) {
-                $segundoApellido = str_replace('*', '%', $segundoApellido);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -405,11 +403,10 @@ abstract class TmpProspectoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByNombres('fooValue');   // WHERE nombres = 'fooValue'
-     * $query->filterByNombres('%fooValue%'); // WHERE nombres LIKE '%fooValue%'
+     * $query->filterByNombres('%fooValue%', Criteria::LIKE); // WHERE nombres LIKE '%fooValue%'
      * </code>
      *
      * @param     string $nombres The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpProspectoQuery The current query, for fluid interface
@@ -419,9 +416,6 @@ abstract class TmpProspectoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($nombres)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nombres)) {
-                $nombres = str_replace('*', '%', $nombres);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -477,11 +471,10 @@ abstract class TmpProspectoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByCi('fooValue');   // WHERE ci = 'fooValue'
-     * $query->filterByCi('%fooValue%'); // WHERE ci LIKE '%fooValue%'
+     * $query->filterByCi('%fooValue%', Criteria::LIKE); // WHERE ci LIKE '%fooValue%'
      * </code>
      *
      * @param     string $ci The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpProspectoQuery The current query, for fluid interface
@@ -491,9 +484,6 @@ abstract class TmpProspectoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($ci)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $ci)) {
-                $ci = str_replace('*', '%', $ci);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -506,11 +496,10 @@ abstract class TmpProspectoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByExtensionCi('fooValue');   // WHERE extension_ci = 'fooValue'
-     * $query->filterByExtensionCi('%fooValue%'); // WHERE extension_ci LIKE '%fooValue%'
+     * $query->filterByExtensionCi('%fooValue%', Criteria::LIKE); // WHERE extension_ci LIKE '%fooValue%'
      * </code>
      *
      * @param     string $extensionCi The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpProspectoQuery The current query, for fluid interface
@@ -520,9 +509,6 @@ abstract class TmpProspectoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($extensionCi)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $extensionCi)) {
-                $extensionCi = str_replace('*', '%', $extensionCi);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -535,11 +521,10 @@ abstract class TmpProspectoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterBySexo('fooValue');   // WHERE sexo = 'fooValue'
-     * $query->filterBySexo('%fooValue%'); // WHERE sexo LIKE '%fooValue%'
+     * $query->filterBySexo('%fooValue%', Criteria::LIKE); // WHERE sexo LIKE '%fooValue%'
      * </code>
      *
      * @param     string $sexo The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpProspectoQuery The current query, for fluid interface
@@ -549,9 +534,6 @@ abstract class TmpProspectoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($sexo)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $sexo)) {
-                $sexo = str_replace('*', '%', $sexo);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -564,11 +546,10 @@ abstract class TmpProspectoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByPais('fooValue');   // WHERE pais = 'fooValue'
-     * $query->filterByPais('%fooValue%'); // WHERE pais LIKE '%fooValue%'
+     * $query->filterByPais('%fooValue%', Criteria::LIKE); // WHERE pais LIKE '%fooValue%'
      * </code>
      *
      * @param     string $pais The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpProspectoQuery The current query, for fluid interface
@@ -578,9 +559,6 @@ abstract class TmpProspectoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($pais)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $pais)) {
-                $pais = str_replace('*', '%', $pais);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -593,11 +571,10 @@ abstract class TmpProspectoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByResidencia('fooValue');   // WHERE residencia = 'fooValue'
-     * $query->filterByResidencia('%fooValue%'); // WHERE residencia LIKE '%fooValue%'
+     * $query->filterByResidencia('%fooValue%', Criteria::LIKE); // WHERE residencia LIKE '%fooValue%'
      * </code>
      *
      * @param     string $residencia The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpProspectoQuery The current query, for fluid interface
@@ -607,9 +584,6 @@ abstract class TmpProspectoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($residencia)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $residencia)) {
-                $residencia = str_replace('*', '%', $residencia);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -622,11 +596,10 @@ abstract class TmpProspectoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByDireccion('fooValue');   // WHERE direccion = 'fooValue'
-     * $query->filterByDireccion('%fooValue%'); // WHERE direccion LIKE '%fooValue%'
+     * $query->filterByDireccion('%fooValue%', Criteria::LIKE); // WHERE direccion LIKE '%fooValue%'
      * </code>
      *
      * @param     string $direccion The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpProspectoQuery The current query, for fluid interface
@@ -636,9 +609,6 @@ abstract class TmpProspectoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($direccion)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $direccion)) {
-                $direccion = str_replace('*', '%', $direccion);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -651,11 +621,10 @@ abstract class TmpProspectoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByCelular('fooValue');   // WHERE celular = 'fooValue'
-     * $query->filterByCelular('%fooValue%'); // WHERE celular LIKE '%fooValue%'
+     * $query->filterByCelular('%fooValue%', Criteria::LIKE); // WHERE celular LIKE '%fooValue%'
      * </code>
      *
      * @param     string $celular The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpProspectoQuery The current query, for fluid interface
@@ -665,9 +634,6 @@ abstract class TmpProspectoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($celular)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $celular)) {
-                $celular = str_replace('*', '%', $celular);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -680,11 +646,10 @@ abstract class TmpProspectoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByEmail('fooValue');   // WHERE email = 'fooValue'
-     * $query->filterByEmail('%fooValue%'); // WHERE email LIKE '%fooValue%'
+     * $query->filterByEmail('%fooValue%', Criteria::LIKE); // WHERE email LIKE '%fooValue%'
      * </code>
      *
      * @param     string $email The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpProspectoQuery The current query, for fluid interface
@@ -694,9 +659,6 @@ abstract class TmpProspectoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($email)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $email)) {
-                $email = str_replace('*', '%', $email);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -750,11 +712,10 @@ abstract class TmpProspectoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByAreas('fooValue');   // WHERE areas = 'fooValue'
-     * $query->filterByAreas('%fooValue%'); // WHERE areas LIKE '%fooValue%'
+     * $query->filterByAreas('%fooValue%', Criteria::LIKE); // WHERE areas LIKE '%fooValue%'
      * </code>
      *
      * @param     string $areas The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpProspectoQuery The current query, for fluid interface
@@ -764,9 +725,6 @@ abstract class TmpProspectoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($areas)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $areas)) {
-                $areas = str_replace('*', '%', $areas);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -779,11 +737,10 @@ abstract class TmpProspectoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByFormaciones('fooValue');   // WHERE formaciones = 'fooValue'
-     * $query->filterByFormaciones('%fooValue%'); // WHERE formaciones LIKE '%fooValue%'
+     * $query->filterByFormaciones('%fooValue%', Criteria::LIKE); // WHERE formaciones LIKE '%fooValue%'
      * </code>
      *
      * @param     string $formaciones The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpProspectoQuery The current query, for fluid interface
@@ -793,9 +750,6 @@ abstract class TmpProspectoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($formaciones)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $formaciones)) {
-                $formaciones = str_replace('*', '%', $formaciones);
-                $comparison = Criteria::LIKE;
             }
         }
 

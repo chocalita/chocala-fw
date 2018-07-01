@@ -40,18 +40,25 @@ class JobAviso extends BaseJobAviso implements JsonSerializable
             'null' => false, 'blank' => false,
             'size' => ['min' => 3, 'max' => 100],
         ],
+        'TelefonoContacto' => [
+            'null' => true, 'blank' => false,
+            'size' => ['min' => 7, 'max' => 20],
+            'validator' => 'validateTelefonoCorreo'
+        ],
         'CorreoContacto' => [
             'null' => true, 'blank' => false,
             'email' => true,
             'size' => ['min' => 10, 'max' => 100],
+            'validator' => 'validateTelefonoCorreo'
         ],
         'Descripcion' => [
             'null' => true, 'blank' => false,
-            'size' => ['min' => 5, 'max' => 2000],
+            'size' => ['min' => 10, 'max' => 5000],
+            'validator' => true
         ],
         'Requisito' => [
             'null' => false, 'blank' => false,
-            'size' => ['min' => 2, 'max' => 2000],
+            'size' => ['min' => 10, 'max' => 5000],
         ],
         'NombreEmpresa' => [
             'null' => false, 'blank' => false,
@@ -70,20 +77,40 @@ class JobAviso extends BaseJobAviso implements JsonSerializable
         'FechaVencimiento' => [
             'null' => false, 'blank' => false,
         ],
+        'Localizacion' => [
+            'null' => false, 'blank' => false,
+        ],
         'AreasReferencia' => [
             'null' => true, 'blank' => true,
             'size' => ['min' => 2, 'max' => 500],
         ],
         'FormacionesReferencia' => [
-            'null' => true, 'blank' => false,
+            'null' => false, 'blank' => false,
             'size' => ['min' => 2, 'max' => 2000],
         ],
     ];
+
+    public function __validateDescripcion($value)
+    {
+        if ($this->getDestacado() && $this->getDescripcion() == '') {
+            return 'validate.required';
+        }
+        return true;
+    }
+
+    public function validateTelefonoCorreo($value)
+    {
+        if ($this->getTelefonoContacto() == '' && $this->getCorreoContacto() == '') {
+            return 'validate.telefonoCorreo';
+        }
+        return true;
+    }
 
     public function preSave()
     {
         $this->descripcion = trim($this->descripcion) ?: null;
         $this->direccion = trim($this->direccion) ?: null;
+        $this->telefono_contacto = trim($this->telefono_contacto) ?: null;
         $this->correo_contacto = trim($this->correo_contacto) ?: null;
         $this->areas_referencia = trim($this->areas_referencia) ?: null;
         $this->formaciones_referencia = trim($this->formaciones_referencia) ?: null;

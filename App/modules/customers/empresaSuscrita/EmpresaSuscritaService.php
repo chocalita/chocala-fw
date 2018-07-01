@@ -9,6 +9,8 @@
 class EmpresaSuscritaService extends GenericService
 {
 
+    const SESSION_VAR = 'userEmpresaSuscrita';
+
     /**
      * @var EmpresaSuscritaService
      */
@@ -102,14 +104,9 @@ class EmpresaSuscritaService extends GenericService
             $empresaSuscrita = $results['object'];
             $empresaSuscrita->save();
             // TODO: hash encrypt to base64 * 2
-            $hashLink = $empresaSuscrita->getHashCode();
+            $hash = SpecialStrings::generateHash(20);
             $email = EmailService::instance()->findByCode(JobEmpresaSuscrita::EMAIL_SUBSCRIPTION);
-//            $tmpArea = TmpAreaQuery::create()->findPk($suscriptor->getIdTmpArea());
-//            print_r($suscriptor);
-//            echo "\n Codigo : ";
-//            echo $suscriptor->getIdTmpArea()."\n";
-//            print_r($tmpArea); exit();
-            $linkRegistro = WEB_ROOT.'bolsa/trabajo/completar/'.$hashLink;
+            $linkRegistro = WEB_ROOT . 'bolsa/suscripciones/empresa/' . $empresaSuscrita->getHashCode();
             $emailMap = [
                 'TrackingHash' => $hash,
                 'To' => [
@@ -139,6 +136,154 @@ class EmpresaSuscritaService extends GenericService
         } else {
             return IMG_WEB . "imgEntidad/" . $pkEntidad . ".jpg";
         }
+    }
+
+    public function rolAdministrador()
+    {
+        return SysRolQuery::create()->findOneByCode("ENT_ADM");
+    }
+
+    /**
+     * @param JobEmpresaSuscrita $empresaSuscrita
+     * @param array $data
+     * @return mixed
+     */
+    public function verifyEmpresaSuscrita($empresaSuscrita, $data)
+    {
+        $results["success"] = false;
+        $data['Status'] = JobEmpresaSuscrita::STATUS_CONFIRMED;
+        $empresaSuscrita->fromArray($data);
+        if ($data['logo']) {
+            $empresaSuscrita->setMimetype($data['logo']['type']);
+            $empresaSuscrita->setTieneLogo(true);
+        }
+        $results['success'] = $empresaSuscrita->validate();
+        if ($results['success']) {
+            $filedata = $data['logo'];
+            $imageObj = new Image($filedata);
+            $imageObj->saveResizeMax($empresaSuscrita->imageDir(), AppParam::value(JobAviso::P_MAX_TAMANO_AVISO));
+            Session::set('empresaSuscrita', $empresaSuscrita);
+        }
+        $results['errors'] = $empresaSuscrita->getErrorsMap();
+//        $results['success'] = true;
+        return $results;
+    }
+
+    public function verifyUserAccount($data)
+    {
+        $results["success"] = false;
+        // TODO: validate equals password
+        $data['Password'] = SysUser::crypt($data['Password']);
+
+        $rolAdmin = $this->rolAdministrador();
+        $data['RolId'] = $rolAdmin->getId();
+
+        $user = new SysUser();
+        $usuarioXRol = new SysUserXRol();
+        $usuarioXRol->setRolId($data['RolId']);
+        $person = new SysPerson();
+        $user->addSysPerson($person);
+        $person->setSysUser($user);
+        $user->fromArray($data);
+        $person->fromArray($data);
+        $user->setStatus(SysUser::STATUS_CREATED);
+
+        $results['success'] = $person->validate() && $user->validate();
+        if ($results['success'] && $data['Password'] != $data['Password2']) {
+            $field = 'Password2';
+            $messageKey = get_class($user) . '.' . $field . '.' . 'validate.password2';
+            $message = __($messageKey, []);
+            $results['success'] = false;
+            $results['errors'] = [
+                ['field' => $field, 'message' => $message]
+            ];
+            return $results;
+        }
+        if ($results['success']) {
+            Session::set('personaSuscrita', $person);
+            Session::set('usuarioSuscrito', $user);
+        }
+        $results['errors'] = $person->getErrorsMap();
+//        $results['success'] = true;
+        return $results;
+    }
+
+    public function verifyAviso($data)
+    {
+        $data['Destacado'] = true;
+        $data['FechaPublicacion'] = date('Y-m-d');
+        $aviso = new JobAviso();
+        $this->prepareInsert($aviso);
+        $aviso->fromArray($data);
+        $results['success'] = $aviso->validate();
+        if ($results['success']) {
+            Session::set('avisoSuscripcion', $aviso);
+        }
+        $results['errors'] = $aviso->getErrorsMap();
+        return $results;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     * @throws \Propel\Runtime\Exception\PropelException
+     */
+    public function finalizarSuscripcion($data)
+    {
+        $results["success"] = false;
+        $empresaSuscrita = Session::_('empresaSuscrita');
+        $person = Session::_('personaSuscrita');
+        $user = Session::_('usuarioSuscrito');
+        $aviso = Session::_('avisoSuscripcion');
+        if ($data['Agree'] == '') {
+            $field = 'Agree';
+            $messageKey = get_class(new JobAviso()) . '.' . 'validate.agree';
+            $message = __($messageKey, []);
+            $results['errors'] = [
+                ['field' => $field, 'message' => $message]
+            ];
+        } else {
+            if ($empresaSuscrita->validate()) {
+                $empresaSuscrita->save();
+            } else {
+                $results['errors'] = $empresaSuscrita->getErrorsMap();
+            }
+            if ($user->validate()) {
+                $user->save();
+            } else {
+                $results['errors'] = $person->getErrorsMap();
+            }
+            if ($person->validate()) {
+                $person->setSysUser($user);
+                $person->save();
+                $rol = $this->rolAdministrador();
+                $userXRol = new SysUserXRol();
+                $userXRol->setSysUser($user);
+                $userXRol->setSysRol($rol);
+                $userXRol->save();
+                $userEmpresa = new JobUserEmpresaSuscrita();
+                $userEmpresa->setSysUser($user);
+                $userEmpresa->setJobEmpresaSuscrita($empresaSuscrita);
+                $userEmpresa->setSysRol($rol);
+                $userEmpresa->save();
+                Session::set(self::SESSION_VAR, $userEmpresa);
+            } else {
+                $results['errors'] = $user->getErrorsMap();
+            }
+            if ($aviso->validate()) {
+                $aviso->setJobEmpresaSuscrita($empresaSuscrita);
+                $aviso->setLastUserId($user->getId());
+                $aviso->save();
+                $results['success'] = true;
+                $results['nombreSuscriptor'] = $person->getFirstName();
+                $results['empresaSuscrita'] = $empresaSuscrita->getNombre();
+                $results['requerimientoPublicado'] = $aviso->getCargo();
+                $results['idAviso'] = $aviso->getId();
+            } else {
+                $results['errors'] = $aviso->getErrorsMap();
+            }
+        }
+        return $results;
     }
 
 }

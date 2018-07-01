@@ -23,6 +23,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSuscriptorQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildJobSuscriptorQuery orderByIdTmpArea($order = Criteria::ASC) Order by the ID_TMP_AREA column
  * @method     ChildJobSuscriptorQuery orderByIdTmpFormacion($order = Criteria::ASC) Order by the ID_TMP_FORMACION column
+ * @method     ChildJobSuscriptorQuery orderByIdPostulante($order = Criteria::ASC) Order by the ID_POSTULANTE column
  * @method     ChildJobSuscriptorQuery orderByEmail($order = Criteria::ASC) Order by the EMAIL column
  * @method     ChildJobSuscriptorQuery orderByNombreSimple($order = Criteria::ASC) Order by the NOMBRE_SIMPLE column
  * @method     ChildJobSuscriptorQuery orderByNombres($order = Criteria::ASC) Order by the NOMBRES column
@@ -37,6 +38,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSuscriptorQuery groupById() Group by the ID column
  * @method     ChildJobSuscriptorQuery groupByIdTmpArea() Group by the ID_TMP_AREA column
  * @method     ChildJobSuscriptorQuery groupByIdTmpFormacion() Group by the ID_TMP_FORMACION column
+ * @method     ChildJobSuscriptorQuery groupByIdPostulante() Group by the ID_POSTULANTE column
  * @method     ChildJobSuscriptorQuery groupByEmail() Group by the EMAIL column
  * @method     ChildJobSuscriptorQuery groupByNombreSimple() Group by the NOMBRE_SIMPLE column
  * @method     ChildJobSuscriptorQuery groupByNombres() Group by the NOMBRES column
@@ -76,7 +78,17 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSuscriptorQuery rightJoinWithTmpFormacion() Adds a RIGHT JOIN clause and with to the query using the TmpFormacion relation
  * @method     ChildJobSuscriptorQuery innerJoinWithTmpFormacion() Adds a INNER JOIN clause and with to the query using the TmpFormacion relation
  *
- * @method     \TmpAreaQuery|\TmpFormacionQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     ChildJobSuscriptorQuery leftJoinJobPostulante($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobPostulante relation
+ * @method     ChildJobSuscriptorQuery rightJoinJobPostulante($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobPostulante relation
+ * @method     ChildJobSuscriptorQuery innerJoinJobPostulante($relationAlias = null) Adds a INNER JOIN clause to the query using the JobPostulante relation
+ *
+ * @method     ChildJobSuscriptorQuery joinWithJobPostulante($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobPostulante relation
+ *
+ * @method     ChildJobSuscriptorQuery leftJoinWithJobPostulante() Adds a LEFT JOIN clause and with to the query using the JobPostulante relation
+ * @method     ChildJobSuscriptorQuery rightJoinWithJobPostulante() Adds a RIGHT JOIN clause and with to the query using the JobPostulante relation
+ * @method     ChildJobSuscriptorQuery innerJoinWithJobPostulante() Adds a INNER JOIN clause and with to the query using the JobPostulante relation
+ *
+ * @method     \TmpAreaQuery|\TmpFormacionQuery|\JobPostulanteQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildJobSuscriptor findOne(ConnectionInterface $con = null) Return the first ChildJobSuscriptor matching the query
  * @method     ChildJobSuscriptor findOneOrCreate(ConnectionInterface $con = null) Return the first ChildJobSuscriptor matching the query, or a new ChildJobSuscriptor object populated from the query conditions when no match is found
@@ -84,6 +96,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSuscriptor findOneById(int $ID) Return the first ChildJobSuscriptor filtered by the ID column
  * @method     ChildJobSuscriptor findOneByIdTmpArea(int $ID_TMP_AREA) Return the first ChildJobSuscriptor filtered by the ID_TMP_AREA column
  * @method     ChildJobSuscriptor findOneByIdTmpFormacion(int $ID_TMP_FORMACION) Return the first ChildJobSuscriptor filtered by the ID_TMP_FORMACION column
+ * @method     ChildJobSuscriptor findOneByIdPostulante(int $ID_POSTULANTE) Return the first ChildJobSuscriptor filtered by the ID_POSTULANTE column
  * @method     ChildJobSuscriptor findOneByEmail(string $EMAIL) Return the first ChildJobSuscriptor filtered by the EMAIL column
  * @method     ChildJobSuscriptor findOneByNombreSimple(string $NOMBRE_SIMPLE) Return the first ChildJobSuscriptor filtered by the NOMBRE_SIMPLE column
  * @method     ChildJobSuscriptor findOneByNombres(string $NOMBRES) Return the first ChildJobSuscriptor filtered by the NOMBRES column
@@ -101,6 +114,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSuscriptor requireOneById(int $ID) Return the first ChildJobSuscriptor filtered by the ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSuscriptor requireOneByIdTmpArea(int $ID_TMP_AREA) Return the first ChildJobSuscriptor filtered by the ID_TMP_AREA column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSuscriptor requireOneByIdTmpFormacion(int $ID_TMP_FORMACION) Return the first ChildJobSuscriptor filtered by the ID_TMP_FORMACION column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobSuscriptor requireOneByIdPostulante(int $ID_POSTULANTE) Return the first ChildJobSuscriptor filtered by the ID_POSTULANTE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSuscriptor requireOneByEmail(string $EMAIL) Return the first ChildJobSuscriptor filtered by the EMAIL column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSuscriptor requireOneByNombreSimple(string $NOMBRE_SIMPLE) Return the first ChildJobSuscriptor filtered by the NOMBRE_SIMPLE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSuscriptor requireOneByNombres(string $NOMBRES) Return the first ChildJobSuscriptor filtered by the NOMBRES column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -116,6 +130,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSuscriptor[]|ObjectCollection findById(int $ID) Return ChildJobSuscriptor objects filtered by the ID column
  * @method     ChildJobSuscriptor[]|ObjectCollection findByIdTmpArea(int $ID_TMP_AREA) Return ChildJobSuscriptor objects filtered by the ID_TMP_AREA column
  * @method     ChildJobSuscriptor[]|ObjectCollection findByIdTmpFormacion(int $ID_TMP_FORMACION) Return ChildJobSuscriptor objects filtered by the ID_TMP_FORMACION column
+ * @method     ChildJobSuscriptor[]|ObjectCollection findByIdPostulante(int $ID_POSTULANTE) Return ChildJobSuscriptor objects filtered by the ID_POSTULANTE column
  * @method     ChildJobSuscriptor[]|ObjectCollection findByEmail(string $EMAIL) Return ChildJobSuscriptor objects filtered by the EMAIL column
  * @method     ChildJobSuscriptor[]|ObjectCollection findByNombreSimple(string $NOMBRE_SIMPLE) Return ChildJobSuscriptor objects filtered by the NOMBRE_SIMPLE column
  * @method     ChildJobSuscriptor[]|ObjectCollection findByNombres(string $NOMBRES) Return ChildJobSuscriptor objects filtered by the NOMBRES column
@@ -188,21 +203,27 @@ abstract class JobSuscriptorQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = JobSuscriptorTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(JobSuscriptorTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = JobSuscriptorTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -218,7 +239,7 @@ abstract class JobSuscriptorQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT ID, ID_TMP_AREA, ID_TMP_FORMACION, EMAIL, NOMBRE_SIMPLE, NOMBRES, APELLIDOS, UBICACION, IP, STATUS, CONFIRMATION, CREATION_DATE, MODIFICATION_DATE FROM job_suscriptor WHERE ID = :p0';
+        $sql = 'SELECT ID, ID_TMP_AREA, ID_TMP_FORMACION, ID_POSTULANTE, EMAIL, NOMBRE_SIMPLE, NOMBRES, APELLIDOS, UBICACION, IP, STATUS, CONFIRMATION, CREATION_DATE, MODIFICATION_DATE FROM job_suscriptor WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -436,16 +457,58 @@ abstract class JobSuscriptorQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query on the ID_POSTULANTE column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByIdPostulante(1234); // WHERE ID_POSTULANTE = 1234
+     * $query->filterByIdPostulante(array(12, 34)); // WHERE ID_POSTULANTE IN (12, 34)
+     * $query->filterByIdPostulante(array('min' => 12)); // WHERE ID_POSTULANTE > 12
+     * </code>
+     *
+     * @see       filterByJobPostulante()
+     *
+     * @param     mixed $idPostulante The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobSuscriptorQuery The current query, for fluid interface
+     */
+    public function filterByIdPostulante($idPostulante = null, $comparison = null)
+    {
+        if (is_array($idPostulante)) {
+            $useMinMax = false;
+            if (isset($idPostulante['min'])) {
+                $this->addUsingAlias(JobSuscriptorTableMap::COL_ID_POSTULANTE, $idPostulante['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($idPostulante['max'])) {
+                $this->addUsingAlias(JobSuscriptorTableMap::COL_ID_POSTULANTE, $idPostulante['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(JobSuscriptorTableMap::COL_ID_POSTULANTE, $idPostulante, $comparison);
+    }
+
+    /**
      * Filter the query on the EMAIL column
      *
      * Example usage:
      * <code>
      * $query->filterByEmail('fooValue');   // WHERE EMAIL = 'fooValue'
-     * $query->filterByEmail('%fooValue%'); // WHERE EMAIL LIKE '%fooValue%'
+     * $query->filterByEmail('%fooValue%', Criteria::LIKE); // WHERE EMAIL LIKE '%fooValue%'
      * </code>
      *
      * @param     string $email The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobSuscriptorQuery The current query, for fluid interface
@@ -455,9 +518,6 @@ abstract class JobSuscriptorQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($email)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $email)) {
-                $email = str_replace('*', '%', $email);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -470,11 +530,10 @@ abstract class JobSuscriptorQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByNombreSimple('fooValue');   // WHERE NOMBRE_SIMPLE = 'fooValue'
-     * $query->filterByNombreSimple('%fooValue%'); // WHERE NOMBRE_SIMPLE LIKE '%fooValue%'
+     * $query->filterByNombreSimple('%fooValue%', Criteria::LIKE); // WHERE NOMBRE_SIMPLE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $nombreSimple The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobSuscriptorQuery The current query, for fluid interface
@@ -484,9 +543,6 @@ abstract class JobSuscriptorQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($nombreSimple)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nombreSimple)) {
-                $nombreSimple = str_replace('*', '%', $nombreSimple);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -499,11 +555,10 @@ abstract class JobSuscriptorQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByNombres('fooValue');   // WHERE NOMBRES = 'fooValue'
-     * $query->filterByNombres('%fooValue%'); // WHERE NOMBRES LIKE '%fooValue%'
+     * $query->filterByNombres('%fooValue%', Criteria::LIKE); // WHERE NOMBRES LIKE '%fooValue%'
      * </code>
      *
      * @param     string $nombres The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobSuscriptorQuery The current query, for fluid interface
@@ -513,9 +568,6 @@ abstract class JobSuscriptorQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($nombres)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nombres)) {
-                $nombres = str_replace('*', '%', $nombres);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -528,11 +580,10 @@ abstract class JobSuscriptorQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByApellidos('fooValue');   // WHERE APELLIDOS = 'fooValue'
-     * $query->filterByApellidos('%fooValue%'); // WHERE APELLIDOS LIKE '%fooValue%'
+     * $query->filterByApellidos('%fooValue%', Criteria::LIKE); // WHERE APELLIDOS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $apellidos The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobSuscriptorQuery The current query, for fluid interface
@@ -542,9 +593,6 @@ abstract class JobSuscriptorQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($apellidos)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $apellidos)) {
-                $apellidos = str_replace('*', '%', $apellidos);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -557,11 +605,10 @@ abstract class JobSuscriptorQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByUbicacion('fooValue');   // WHERE UBICACION = 'fooValue'
-     * $query->filterByUbicacion('%fooValue%'); // WHERE UBICACION LIKE '%fooValue%'
+     * $query->filterByUbicacion('%fooValue%', Criteria::LIKE); // WHERE UBICACION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $ubicacion The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobSuscriptorQuery The current query, for fluid interface
@@ -571,9 +618,6 @@ abstract class JobSuscriptorQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($ubicacion)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $ubicacion)) {
-                $ubicacion = str_replace('*', '%', $ubicacion);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -586,11 +630,10 @@ abstract class JobSuscriptorQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByIp('fooValue');   // WHERE IP = 'fooValue'
-     * $query->filterByIp('%fooValue%'); // WHERE IP LIKE '%fooValue%'
+     * $query->filterByIp('%fooValue%', Criteria::LIKE); // WHERE IP LIKE '%fooValue%'
      * </code>
      *
      * @param     string $ip The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobSuscriptorQuery The current query, for fluid interface
@@ -600,9 +643,6 @@ abstract class JobSuscriptorQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($ip)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $ip)) {
-                $ip = str_replace('*', '%', $ip);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -615,11 +655,10 @@ abstract class JobSuscriptorQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByStatus('fooValue');   // WHERE STATUS = 'fooValue'
-     * $query->filterByStatus('%fooValue%'); // WHERE STATUS LIKE '%fooValue%'
+     * $query->filterByStatus('%fooValue%', Criteria::LIKE); // WHERE STATUS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $status The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobSuscriptorQuery The current query, for fluid interface
@@ -629,9 +668,6 @@ abstract class JobSuscriptorQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($status)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $status)) {
-                $status = str_replace('*', '%', $status);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -919,6 +955,83 @@ abstract class JobSuscriptorQuery extends ModelCriteria
         return $this
             ->joinTmpFormacion($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'TmpFormacion', '\TmpFormacionQuery');
+    }
+
+    /**
+     * Filter the query by a related \JobPostulante object
+     *
+     * @param \JobPostulante|ObjectCollection $jobPostulante The related object(s) to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @throws \Propel\Runtime\Exception\PropelException
+     *
+     * @return ChildJobSuscriptorQuery The current query, for fluid interface
+     */
+    public function filterByJobPostulante($jobPostulante, $comparison = null)
+    {
+        if ($jobPostulante instanceof \JobPostulante) {
+            return $this
+                ->addUsingAlias(JobSuscriptorTableMap::COL_ID_POSTULANTE, $jobPostulante->getId(), $comparison);
+        } elseif ($jobPostulante instanceof ObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(JobSuscriptorTableMap::COL_ID_POSTULANTE, $jobPostulante->toKeyValue('PrimaryKey', 'Id'), $comparison);
+        } else {
+            throw new PropelException('filterByJobPostulante() only accepts arguments of type \JobPostulante or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the JobPostulante relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildJobSuscriptorQuery The current query, for fluid interface
+     */
+    public function joinJobPostulante($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('JobPostulante');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'JobPostulante');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the JobPostulante relation JobPostulante object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \JobPostulanteQuery A secondary query class using the current class as primary query
+     */
+    public function useJobPostulanteQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinJobPostulante($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'JobPostulante', '\JobPostulanteQuery');
     }
 
     /**

@@ -2,6 +2,10 @@
 
 namespace Base;
 
+use \JobUserEmpresaSuscrita as ChildJobUserEmpresaSuscrita;
+use \JobUserEmpresaSuscritaQuery as ChildJobUserEmpresaSuscritaQuery;
+use \SysAuth as ChildSysAuth;
+use \SysAuthQuery as ChildSysAuthQuery;
 use \SysEmailSent as ChildSysEmailSent;
 use \SysEmailSentQuery as ChildSysEmailSentQuery;
 use \SysEntityUser as ChildSysEntityUser;
@@ -23,6 +27,8 @@ use \SysUserXRolQuery as ChildSysUserXRolQuery;
 use \DateTime;
 use \Exception;
 use \PDO;
+use Map\JobUserEmpresaSuscritaTableMap;
+use Map\SysAuthTableMap;
 use Map\SysEmailSentTableMap;
 use Map\SysEntityUserTableMap;
 use Map\SysImageTableMap;
@@ -51,8 +57,8 @@ use Propel\Runtime\Util\PropelDateTime;
  *
  *
  *
-* @package    propel.generator..Base
-*/
+ * @package    propel.generator..Base
+ */
 abstract class SysUser implements ActiveRecordInterface
 {
     /**
@@ -147,14 +153,14 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * The value for the actual_access field.
      *
-     * @var        \DateTime
+     * @var        DateTime
      */
     protected $actual_access;
 
     /**
      * The value for the last_access field.
      *
-     * @var        \DateTime
+     * @var        DateTime
      */
     protected $last_access;
 
@@ -178,16 +184,29 @@ abstract class SysUser implements ActiveRecordInterface
      * The value for the creation_date field.
      *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
-     * @var        \DateTime
+     * @var        DateTime
      */
     protected $creation_date;
 
     /**
      * The value for the modification_date field.
      *
-     * @var        \DateTime
+     * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
+     * @var        DateTime
      */
     protected $modification_date;
+
+    /**
+     * @var        ObjectCollection|ChildJobUserEmpresaSuscrita[] Collection to store aggregation of ChildJobUserEmpresaSuscrita objects.
+     */
+    protected $collJobUserEmpresaSuscritas;
+    protected $collJobUserEmpresaSuscritasPartial;
+
+    /**
+     * @var        ObjectCollection|ChildSysAuth[] Collection to store aggregation of ChildSysAuth objects.
+     */
+    protected $collSysAuths;
+    protected $collSysAuthsPartial;
 
     /**
      * @var        ObjectCollection|ChildSysEmailSent[] Collection to store aggregation of ChildSysEmailSent objects.
@@ -244,6 +263,18 @@ abstract class SysUser implements ActiveRecordInterface
      * @var boolean
      */
     protected $alreadyInSave = false;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection|ChildJobUserEmpresaSuscrita[]
+     */
+    protected $jobUserEmpresaSuscritasScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection|ChildSysAuth[]
+     */
+    protected $sysAuthsScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
@@ -617,7 +648,7 @@ abstract class SysUser implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [actual_access] column value.
      *
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -629,7 +660,7 @@ abstract class SysUser implements ActiveRecordInterface
         if ($format === null) {
             return $this->actual_access;
         } else {
-            return $this->actual_access instanceof \DateTime ? $this->actual_access->format($format) : null;
+            return $this->actual_access instanceof \DateTimeInterface ? $this->actual_access->format($format) : null;
         }
     }
 
@@ -637,7 +668,7 @@ abstract class SysUser implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [last_access] column value.
      *
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -649,7 +680,7 @@ abstract class SysUser implements ActiveRecordInterface
         if ($format === null) {
             return $this->last_access;
         } else {
-            return $this->last_access instanceof \DateTime ? $this->last_access->format($format) : null;
+            return $this->last_access instanceof \DateTimeInterface ? $this->last_access->format($format) : null;
         }
     }
 
@@ -677,7 +708,7 @@ abstract class SysUser implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [creation_date] column value.
      *
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -689,7 +720,7 @@ abstract class SysUser implements ActiveRecordInterface
         if ($format === null) {
             return $this->creation_date;
         } else {
-            return $this->creation_date instanceof \DateTime ? $this->creation_date->format($format) : null;
+            return $this->creation_date instanceof \DateTimeInterface ? $this->creation_date->format($format) : null;
         }
     }
 
@@ -697,7 +728,7 @@ abstract class SysUser implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [modification_date] column value.
      *
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -709,7 +740,7 @@ abstract class SysUser implements ActiveRecordInterface
         if ($format === null) {
             return $this->modification_date;
         } else {
-            return $this->modification_date instanceof \DateTime ? $this->modification_date->format($format) : null;
+            return $this->modification_date instanceof \DateTimeInterface ? $this->modification_date->format($format) : null;
         }
     }
 
@@ -876,7 +907,7 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Sets the value of [actual_access] column to a normalized version of the date/time value specified.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysUser The current object (for fluent API support)
      */
@@ -884,7 +915,7 @@ abstract class SysUser implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->actual_access !== null || $dt !== null) {
-            if ($this->actual_access === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->actual_access->format("Y-m-d H:i:s")) {
+            if ($this->actual_access === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->actual_access->format("Y-m-d H:i:s.u")) {
                 $this->actual_access = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[SysUserTableMap::COL_ACTUAL_ACCESS] = true;
             }
@@ -896,7 +927,7 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Sets the value of [last_access] column to a normalized version of the date/time value specified.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysUser The current object (for fluent API support)
      */
@@ -904,7 +935,7 @@ abstract class SysUser implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->last_access !== null || $dt !== null) {
-            if ($this->last_access === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->last_access->format("Y-m-d H:i:s")) {
+            if ($this->last_access === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->last_access->format("Y-m-d H:i:s.u")) {
                 $this->last_access = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[SysUserTableMap::COL_LAST_ACCESS] = true;
             }
@@ -956,7 +987,7 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysUser The current object (for fluent API support)
      */
@@ -964,7 +995,7 @@ abstract class SysUser implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->creation_date !== null || $dt !== null) {
-            if ($this->creation_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->creation_date->format("Y-m-d H:i:s")) {
+            if ($this->creation_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->creation_date->format("Y-m-d H:i:s.u")) {
                 $this->creation_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[SysUserTableMap::COL_CREATION_DATE] = true;
             }
@@ -976,7 +1007,7 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Sets the value of [modification_date] column to a normalized version of the date/time value specified.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysUser The current object (for fluent API support)
      */
@@ -984,7 +1015,7 @@ abstract class SysUser implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->modification_date !== null || $dt !== null) {
-            if ($this->modification_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->modification_date->format("Y-m-d H:i:s")) {
+            if ($this->modification_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->modification_date->format("Y-m-d H:i:s.u")) {
                 $this->modification_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[SysUserTableMap::COL_MODIFICATION_DATE] = true;
             }
@@ -1163,6 +1194,10 @@ abstract class SysUser implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
+            $this->collJobUserEmpresaSuscritas = null;
+
+            $this->collSysAuths = null;
+
             $this->collSysEmailSents = null;
 
             $this->collSysEntityUsers = null;
@@ -1232,13 +1267,17 @@ abstract class SysUser implements ActiveRecordInterface
             throw new PropelException("You cannot save an object that has been deleted.");
         }
 
+        if ($this->alreadyInSave) {
+            return 0;
+        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysUserTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
-            $isInsert = $this->isNew();
             $ret = $this->preSave($con);
+            $isInsert = $this->isNew();
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
             } else {
@@ -1287,6 +1326,40 @@ abstract class SysUser implements ActiveRecordInterface
                     $affectedRows += $this->doUpdate($con);
                 }
                 $this->resetModified();
+            }
+
+            if ($this->jobUserEmpresaSuscritasScheduledForDeletion !== null) {
+                if (!$this->jobUserEmpresaSuscritasScheduledForDeletion->isEmpty()) {
+                    \JobUserEmpresaSuscritaQuery::create()
+                        ->filterByPrimaryKeys($this->jobUserEmpresaSuscritasScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->jobUserEmpresaSuscritasScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collJobUserEmpresaSuscritas !== null) {
+                foreach ($this->collJobUserEmpresaSuscritas as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
+            if ($this->sysAuthsScheduledForDeletion !== null) {
+                if (!$this->sysAuthsScheduledForDeletion->isEmpty()) {
+                    \SysAuthQuery::create()
+                        ->filterByPrimaryKeys($this->sysAuthsScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->sysAuthsScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collSysAuths !== null) {
+                foreach ($this->collSysAuths as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
             }
 
             if ($this->sysEmailSentsScheduledForDeletion !== null) {
@@ -1530,10 +1603,10 @@ abstract class SysUser implements ActiveRecordInterface
                         $stmt->bindValue($identifier, $this->image_mime, PDO::PARAM_STR);
                         break;
                     case 'ACTUAL_ACCESS':
-                        $stmt->bindValue($identifier, $this->actual_access ? $this->actual_access->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->actual_access ? $this->actual_access->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
                     case 'LAST_ACCESS':
-                        $stmt->bindValue($identifier, $this->last_access ? $this->last_access->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->last_access ? $this->last_access->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
                     case 'ACCESS_FAILURES':
                         $stmt->bindValue($identifier, $this->access_failures, PDO::PARAM_INT);
@@ -1542,10 +1615,10 @@ abstract class SysUser implements ActiveRecordInterface
                         $stmt->bindValue($identifier, $this->last_user_id, PDO::PARAM_INT);
                         break;
                     case 'CREATION_DATE':
-                        $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
                     case 'MODIFICATION_DATE':
-                        $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1696,19 +1769,19 @@ abstract class SysUser implements ActiveRecordInterface
             $keys[12] => $this->getCreationDate(),
             $keys[13] => $this->getModificationDate(),
         );
-        if ($result[$keys[8]] instanceof \DateTime) {
+        if ($result[$keys[8]] instanceof \DateTimeInterface) {
             $result[$keys[8]] = $result[$keys[8]]->format('c');
         }
 
-        if ($result[$keys[9]] instanceof \DateTime) {
+        if ($result[$keys[9]] instanceof \DateTimeInterface) {
             $result[$keys[9]] = $result[$keys[9]]->format('c');
         }
 
-        if ($result[$keys[12]] instanceof \DateTime) {
+        if ($result[$keys[12]] instanceof \DateTimeInterface) {
             $result[$keys[12]] = $result[$keys[12]]->format('c');
         }
 
-        if ($result[$keys[13]] instanceof \DateTime) {
+        if ($result[$keys[13]] instanceof \DateTimeInterface) {
             $result[$keys[13]] = $result[$keys[13]]->format('c');
         }
 
@@ -1718,6 +1791,36 @@ abstract class SysUser implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
+            if (null !== $this->collJobUserEmpresaSuscritas) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'jobUserEmpresaSuscritas';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'job_user_empresa_suscritas';
+                        break;
+                    default:
+                        $key = 'JobUserEmpresaSuscritas';
+                }
+
+                $result[$key] = $this->collJobUserEmpresaSuscritas->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+            if (null !== $this->collSysAuths) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'sysAuths';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'sys_auths';
+                        break;
+                    default:
+                        $key = 'SysAuths';
+                }
+
+                $result[$key] = $this->collSysAuths->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
             if (null !== $this->collSysEmailSents) {
 
                 switch ($keyType) {
@@ -2170,6 +2273,18 @@ abstract class SysUser implements ActiveRecordInterface
             // the getter/setter methods for fkey referrer objects.
             $copyObj->setNew(false);
 
+            foreach ($this->getJobUserEmpresaSuscritas() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addJobUserEmpresaSuscrita($relObj->copy($deepCopy));
+                }
+            }
+
+            foreach ($this->getSysAuths() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addSysAuth($relObj->copy($deepCopy));
+                }
+            }
+
             foreach ($this->getSysEmailSents() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
                     $copyObj->addSysEmailSent($relObj->copy($deepCopy));
@@ -2259,30 +2374,546 @@ abstract class SysUser implements ActiveRecordInterface
      */
     public function initRelation($relationName)
     {
+        if ('JobUserEmpresaSuscrita' == $relationName) {
+            $this->initJobUserEmpresaSuscritas();
+            return;
+        }
+        if ('SysAuth' == $relationName) {
+            $this->initSysAuths();
+            return;
+        }
         if ('SysEmailSent' == $relationName) {
-            return $this->initSysEmailSents();
+            $this->initSysEmailSents();
+            return;
         }
         if ('SysEntityUser' == $relationName) {
-            return $this->initSysEntityUsers();
+            $this->initSysEntityUsers();
+            return;
         }
         if ('SysImage' == $relationName) {
-            return $this->initSysImages();
+            $this->initSysImages();
+            return;
         }
         if ('SysPassword' == $relationName) {
-            return $this->initSysPasswords();
+            $this->initSysPasswords();
+            return;
         }
         if ('SysPasswordRequest' == $relationName) {
-            return $this->initSysPasswordRequests();
+            $this->initSysPasswordRequests();
+            return;
         }
         if ('SysPerson' == $relationName) {
-            return $this->initSyspeople();
+            $this->initSyspeople();
+            return;
         }
         if ('SysUserParam' == $relationName) {
-            return $this->initSysUserParams();
+            $this->initSysUserParams();
+            return;
         }
         if ('SysUserXRol' == $relationName) {
-            return $this->initSysUserXRols();
+            $this->initSysUserXRols();
+            return;
         }
+    }
+
+    /**
+     * Clears out the collJobUserEmpresaSuscritas collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addJobUserEmpresaSuscritas()
+     */
+    public function clearJobUserEmpresaSuscritas()
+    {
+        $this->collJobUserEmpresaSuscritas = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collJobUserEmpresaSuscritas collection loaded partially.
+     */
+    public function resetPartialJobUserEmpresaSuscritas($v = true)
+    {
+        $this->collJobUserEmpresaSuscritasPartial = $v;
+    }
+
+    /**
+     * Initializes the collJobUserEmpresaSuscritas collection.
+     *
+     * By default this just sets the collJobUserEmpresaSuscritas collection to an empty array (like clearcollJobUserEmpresaSuscritas());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initJobUserEmpresaSuscritas($overrideExisting = true)
+    {
+        if (null !== $this->collJobUserEmpresaSuscritas && !$overrideExisting) {
+            return;
+        }
+
+        $collectionClassName = JobUserEmpresaSuscritaTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collJobUserEmpresaSuscritas = new $collectionClassName;
+        $this->collJobUserEmpresaSuscritas->setModel('\JobUserEmpresaSuscrita');
+    }
+
+    /**
+     * Gets an array of ChildJobUserEmpresaSuscrita objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildSysUser is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return ObjectCollection|ChildJobUserEmpresaSuscrita[] List of ChildJobUserEmpresaSuscrita objects
+     * @throws PropelException
+     */
+    public function getJobUserEmpresaSuscritas(Criteria $criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collJobUserEmpresaSuscritasPartial && !$this->isNew();
+        if (null === $this->collJobUserEmpresaSuscritas || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collJobUserEmpresaSuscritas) {
+                // return empty collection
+                $this->initJobUserEmpresaSuscritas();
+            } else {
+                $collJobUserEmpresaSuscritas = ChildJobUserEmpresaSuscritaQuery::create(null, $criteria)
+                    ->filterBySysUser($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collJobUserEmpresaSuscritasPartial && count($collJobUserEmpresaSuscritas)) {
+                        $this->initJobUserEmpresaSuscritas(false);
+
+                        foreach ($collJobUserEmpresaSuscritas as $obj) {
+                            if (false == $this->collJobUserEmpresaSuscritas->contains($obj)) {
+                                $this->collJobUserEmpresaSuscritas->append($obj);
+                            }
+                        }
+
+                        $this->collJobUserEmpresaSuscritasPartial = true;
+                    }
+
+                    return $collJobUserEmpresaSuscritas;
+                }
+
+                if ($partial && $this->collJobUserEmpresaSuscritas) {
+                    foreach ($this->collJobUserEmpresaSuscritas as $obj) {
+                        if ($obj->isNew()) {
+                            $collJobUserEmpresaSuscritas[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collJobUserEmpresaSuscritas = $collJobUserEmpresaSuscritas;
+                $this->collJobUserEmpresaSuscritasPartial = false;
+            }
+        }
+
+        return $this->collJobUserEmpresaSuscritas;
+    }
+
+    /**
+     * Sets a collection of ChildJobUserEmpresaSuscrita objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $jobUserEmpresaSuscritas A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return $this|ChildSysUser The current object (for fluent API support)
+     */
+    public function setJobUserEmpresaSuscritas(Collection $jobUserEmpresaSuscritas, ConnectionInterface $con = null)
+    {
+        /** @var ChildJobUserEmpresaSuscrita[] $jobUserEmpresaSuscritasToDelete */
+        $jobUserEmpresaSuscritasToDelete = $this->getJobUserEmpresaSuscritas(new Criteria(), $con)->diff($jobUserEmpresaSuscritas);
+
+
+        $this->jobUserEmpresaSuscritasScheduledForDeletion = $jobUserEmpresaSuscritasToDelete;
+
+        foreach ($jobUserEmpresaSuscritasToDelete as $jobUserEmpresaSuscritaRemoved) {
+            $jobUserEmpresaSuscritaRemoved->setSysUser(null);
+        }
+
+        $this->collJobUserEmpresaSuscritas = null;
+        foreach ($jobUserEmpresaSuscritas as $jobUserEmpresaSuscrita) {
+            $this->addJobUserEmpresaSuscrita($jobUserEmpresaSuscrita);
+        }
+
+        $this->collJobUserEmpresaSuscritas = $jobUserEmpresaSuscritas;
+        $this->collJobUserEmpresaSuscritasPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related JobUserEmpresaSuscrita objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related JobUserEmpresaSuscrita objects.
+     * @throws PropelException
+     */
+    public function countJobUserEmpresaSuscritas(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collJobUserEmpresaSuscritasPartial && !$this->isNew();
+        if (null === $this->collJobUserEmpresaSuscritas || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collJobUserEmpresaSuscritas) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getJobUserEmpresaSuscritas());
+            }
+
+            $query = ChildJobUserEmpresaSuscritaQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterBySysUser($this)
+                ->count($con);
+        }
+
+        return count($this->collJobUserEmpresaSuscritas);
+    }
+
+    /**
+     * Method called to associate a ChildJobUserEmpresaSuscrita object to this object
+     * through the ChildJobUserEmpresaSuscrita foreign key attribute.
+     *
+     * @param  ChildJobUserEmpresaSuscrita $l ChildJobUserEmpresaSuscrita
+     * @return $this|\SysUser The current object (for fluent API support)
+     */
+    public function addJobUserEmpresaSuscrita(ChildJobUserEmpresaSuscrita $l)
+    {
+        if ($this->collJobUserEmpresaSuscritas === null) {
+            $this->initJobUserEmpresaSuscritas();
+            $this->collJobUserEmpresaSuscritasPartial = true;
+        }
+
+        if (!$this->collJobUserEmpresaSuscritas->contains($l)) {
+            $this->doAddJobUserEmpresaSuscrita($l);
+
+            if ($this->jobUserEmpresaSuscritasScheduledForDeletion and $this->jobUserEmpresaSuscritasScheduledForDeletion->contains($l)) {
+                $this->jobUserEmpresaSuscritasScheduledForDeletion->remove($this->jobUserEmpresaSuscritasScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ChildJobUserEmpresaSuscrita $jobUserEmpresaSuscrita The ChildJobUserEmpresaSuscrita object to add.
+     */
+    protected function doAddJobUserEmpresaSuscrita(ChildJobUserEmpresaSuscrita $jobUserEmpresaSuscrita)
+    {
+        $this->collJobUserEmpresaSuscritas[]= $jobUserEmpresaSuscrita;
+        $jobUserEmpresaSuscrita->setSysUser($this);
+    }
+
+    /**
+     * @param  ChildJobUserEmpresaSuscrita $jobUserEmpresaSuscrita The ChildJobUserEmpresaSuscrita object to remove.
+     * @return $this|ChildSysUser The current object (for fluent API support)
+     */
+    public function removeJobUserEmpresaSuscrita(ChildJobUserEmpresaSuscrita $jobUserEmpresaSuscrita)
+    {
+        if ($this->getJobUserEmpresaSuscritas()->contains($jobUserEmpresaSuscrita)) {
+            $pos = $this->collJobUserEmpresaSuscritas->search($jobUserEmpresaSuscrita);
+            $this->collJobUserEmpresaSuscritas->remove($pos);
+            if (null === $this->jobUserEmpresaSuscritasScheduledForDeletion) {
+                $this->jobUserEmpresaSuscritasScheduledForDeletion = clone $this->collJobUserEmpresaSuscritas;
+                $this->jobUserEmpresaSuscritasScheduledForDeletion->clear();
+            }
+            $this->jobUserEmpresaSuscritasScheduledForDeletion[]= clone $jobUserEmpresaSuscrita;
+            $jobUserEmpresaSuscrita->setSysUser(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this SysUser is new, it will return
+     * an empty collection; or if this SysUser has previously
+     * been saved, it will retrieve related JobUserEmpresaSuscritas from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in SysUser.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildJobUserEmpresaSuscrita[] List of ChildJobUserEmpresaSuscrita objects
+     */
+    public function getJobUserEmpresaSuscritasJoinJobEmpresaSuscrita(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildJobUserEmpresaSuscritaQuery::create(null, $criteria);
+        $query->joinWith('JobEmpresaSuscrita', $joinBehavior);
+
+        return $this->getJobUserEmpresaSuscritas($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this SysUser is new, it will return
+     * an empty collection; or if this SysUser has previously
+     * been saved, it will retrieve related JobUserEmpresaSuscritas from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in SysUser.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildJobUserEmpresaSuscrita[] List of ChildJobUserEmpresaSuscrita objects
+     */
+    public function getJobUserEmpresaSuscritasJoinSysRol(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildJobUserEmpresaSuscritaQuery::create(null, $criteria);
+        $query->joinWith('SysRol', $joinBehavior);
+
+        return $this->getJobUserEmpresaSuscritas($query, $con);
+    }
+
+    /**
+     * Clears out the collSysAuths collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addSysAuths()
+     */
+    public function clearSysAuths()
+    {
+        $this->collSysAuths = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collSysAuths collection loaded partially.
+     */
+    public function resetPartialSysAuths($v = true)
+    {
+        $this->collSysAuthsPartial = $v;
+    }
+
+    /**
+     * Initializes the collSysAuths collection.
+     *
+     * By default this just sets the collSysAuths collection to an empty array (like clearcollSysAuths());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initSysAuths($overrideExisting = true)
+    {
+        if (null !== $this->collSysAuths && !$overrideExisting) {
+            return;
+        }
+
+        $collectionClassName = SysAuthTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collSysAuths = new $collectionClassName;
+        $this->collSysAuths->setModel('\SysAuth');
+    }
+
+    /**
+     * Gets an array of ChildSysAuth objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildSysUser is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return ObjectCollection|ChildSysAuth[] List of ChildSysAuth objects
+     * @throws PropelException
+     */
+    public function getSysAuths(Criteria $criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collSysAuthsPartial && !$this->isNew();
+        if (null === $this->collSysAuths || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collSysAuths) {
+                // return empty collection
+                $this->initSysAuths();
+            } else {
+                $collSysAuths = ChildSysAuthQuery::create(null, $criteria)
+                    ->filterBySysUser($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collSysAuthsPartial && count($collSysAuths)) {
+                        $this->initSysAuths(false);
+
+                        foreach ($collSysAuths as $obj) {
+                            if (false == $this->collSysAuths->contains($obj)) {
+                                $this->collSysAuths->append($obj);
+                            }
+                        }
+
+                        $this->collSysAuthsPartial = true;
+                    }
+
+                    return $collSysAuths;
+                }
+
+                if ($partial && $this->collSysAuths) {
+                    foreach ($this->collSysAuths as $obj) {
+                        if ($obj->isNew()) {
+                            $collSysAuths[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collSysAuths = $collSysAuths;
+                $this->collSysAuthsPartial = false;
+            }
+        }
+
+        return $this->collSysAuths;
+    }
+
+    /**
+     * Sets a collection of ChildSysAuth objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $sysAuths A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return $this|ChildSysUser The current object (for fluent API support)
+     */
+    public function setSysAuths(Collection $sysAuths, ConnectionInterface $con = null)
+    {
+        /** @var ChildSysAuth[] $sysAuthsToDelete */
+        $sysAuthsToDelete = $this->getSysAuths(new Criteria(), $con)->diff($sysAuths);
+
+
+        $this->sysAuthsScheduledForDeletion = $sysAuthsToDelete;
+
+        foreach ($sysAuthsToDelete as $sysAuthRemoved) {
+            $sysAuthRemoved->setSysUser(null);
+        }
+
+        $this->collSysAuths = null;
+        foreach ($sysAuths as $sysAuth) {
+            $this->addSysAuth($sysAuth);
+        }
+
+        $this->collSysAuths = $sysAuths;
+        $this->collSysAuthsPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related SysAuth objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related SysAuth objects.
+     * @throws PropelException
+     */
+    public function countSysAuths(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collSysAuthsPartial && !$this->isNew();
+        if (null === $this->collSysAuths || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collSysAuths) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getSysAuths());
+            }
+
+            $query = ChildSysAuthQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterBySysUser($this)
+                ->count($con);
+        }
+
+        return count($this->collSysAuths);
+    }
+
+    /**
+     * Method called to associate a ChildSysAuth object to this object
+     * through the ChildSysAuth foreign key attribute.
+     *
+     * @param  ChildSysAuth $l ChildSysAuth
+     * @return $this|\SysUser The current object (for fluent API support)
+     */
+    public function addSysAuth(ChildSysAuth $l)
+    {
+        if ($this->collSysAuths === null) {
+            $this->initSysAuths();
+            $this->collSysAuthsPartial = true;
+        }
+
+        if (!$this->collSysAuths->contains($l)) {
+            $this->doAddSysAuth($l);
+
+            if ($this->sysAuthsScheduledForDeletion and $this->sysAuthsScheduledForDeletion->contains($l)) {
+                $this->sysAuthsScheduledForDeletion->remove($this->sysAuthsScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ChildSysAuth $sysAuth The ChildSysAuth object to add.
+     */
+    protected function doAddSysAuth(ChildSysAuth $sysAuth)
+    {
+        $this->collSysAuths[]= $sysAuth;
+        $sysAuth->setSysUser($this);
+    }
+
+    /**
+     * @param  ChildSysAuth $sysAuth The ChildSysAuth object to remove.
+     * @return $this|ChildSysUser The current object (for fluent API support)
+     */
+    public function removeSysAuth(ChildSysAuth $sysAuth)
+    {
+        if ($this->getSysAuths()->contains($sysAuth)) {
+            $pos = $this->collSysAuths->search($sysAuth);
+            $this->collSysAuths->remove($pos);
+            if (null === $this->sysAuthsScheduledForDeletion) {
+                $this->sysAuthsScheduledForDeletion = clone $this->collSysAuths;
+                $this->sysAuthsScheduledForDeletion->clear();
+            }
+            $this->sysAuthsScheduledForDeletion[]= clone $sysAuth;
+            $sysAuth->setSysUser(null);
+        }
+
+        return $this;
     }
 
     /**
@@ -4278,6 +4909,16 @@ abstract class SysUser implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
+            if ($this->collJobUserEmpresaSuscritas) {
+                foreach ($this->collJobUserEmpresaSuscritas as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
+            if ($this->collSysAuths) {
+                foreach ($this->collSysAuths as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
             if ($this->collSysEmailSents) {
                 foreach ($this->collSysEmailSents as $o) {
                     $o->clearAllReferences($deep);
@@ -4320,6 +4961,8 @@ abstract class SysUser implements ActiveRecordInterface
             }
         } // if ($deep)
 
+        $this->collJobUserEmpresaSuscritas = null;
+        $this->collSysAuths = null;
         $this->collSysEmailSents = null;
         $this->collSysEntityUsers = null;
         $this->collSysImages = null;
@@ -4347,6 +4990,9 @@ abstract class SysUser implements ActiveRecordInterface
      */
     public function preSave(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preSave')) {
+            return parent::preSave($con);
+        }
         return true;
     }
 
@@ -4356,7 +5002,9 @@ abstract class SysUser implements ActiveRecordInterface
      */
     public function postSave(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postSave')) {
+            parent::postSave($con);
+        }
     }
 
     /**
@@ -4366,6 +5014,9 @@ abstract class SysUser implements ActiveRecordInterface
      */
     public function preInsert(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preInsert')) {
+            return parent::preInsert($con);
+        }
         return true;
     }
 
@@ -4375,7 +5026,9 @@ abstract class SysUser implements ActiveRecordInterface
      */
     public function postInsert(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postInsert')) {
+            parent::postInsert($con);
+        }
     }
 
     /**
@@ -4385,6 +5038,9 @@ abstract class SysUser implements ActiveRecordInterface
      */
     public function preUpdate(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preUpdate')) {
+            return parent::preUpdate($con);
+        }
         return true;
     }
 
@@ -4394,7 +5050,9 @@ abstract class SysUser implements ActiveRecordInterface
      */
     public function postUpdate(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postUpdate')) {
+            parent::postUpdate($con);
+        }
     }
 
     /**
@@ -4404,6 +5062,9 @@ abstract class SysUser implements ActiveRecordInterface
      */
     public function preDelete(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preDelete')) {
+            return parent::preDelete($con);
+        }
         return true;
     }
 
@@ -4413,7 +5074,9 @@ abstract class SysUser implements ActiveRecordInterface
      */
     public function postDelete(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postDelete')) {
+            parent::postDelete($con);
+        }
     }
 
 

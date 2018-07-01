@@ -25,12 +25,14 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildTmpFormacionQuery orderByKeywords($order = Criteria::ASC) Order by the keywords column
  * @method     ChildTmpFormacionQuery orderByAreasReferencia($order = Criteria::ASC) Order by the areas_referencia column
  * @method     ChildTmpFormacionQuery orderByFormacionesReferencia($order = Criteria::ASC) Order by the formaciones_referencia column
+ * @method     ChildTmpFormacionQuery orderByActivo($order = Criteria::ASC) Order by the activo column
  *
  * @method     ChildTmpFormacionQuery groupById() Group by the id column
  * @method     ChildTmpFormacionQuery groupByNombre() Group by the nombre column
  * @method     ChildTmpFormacionQuery groupByKeywords() Group by the keywords column
  * @method     ChildTmpFormacionQuery groupByAreasReferencia() Group by the areas_referencia column
  * @method     ChildTmpFormacionQuery groupByFormacionesReferencia() Group by the formaciones_referencia column
+ * @method     ChildTmpFormacionQuery groupByActivo() Group by the activo column
  *
  * @method     ChildTmpFormacionQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildTmpFormacionQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -59,7 +61,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildTmpFormacion findOneByNombre(string $nombre) Return the first ChildTmpFormacion filtered by the nombre column
  * @method     ChildTmpFormacion findOneByKeywords(string $keywords) Return the first ChildTmpFormacion filtered by the keywords column
  * @method     ChildTmpFormacion findOneByAreasReferencia(string $areas_referencia) Return the first ChildTmpFormacion filtered by the areas_referencia column
- * @method     ChildTmpFormacion findOneByFormacionesReferencia(string $formaciones_referencia) Return the first ChildTmpFormacion filtered by the formaciones_referencia column *
+ * @method     ChildTmpFormacion findOneByFormacionesReferencia(string $formaciones_referencia) Return the first ChildTmpFormacion filtered by the formaciones_referencia column
+ * @method     ChildTmpFormacion findOneByActivo(boolean $activo) Return the first ChildTmpFormacion filtered by the activo column *
 
  * @method     ChildTmpFormacion requirePk($key, ConnectionInterface $con = null) Return the ChildTmpFormacion by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildTmpFormacion requireOne(ConnectionInterface $con = null) Return the first ChildTmpFormacion matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -69,6 +72,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildTmpFormacion requireOneByKeywords(string $keywords) Return the first ChildTmpFormacion filtered by the keywords column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildTmpFormacion requireOneByAreasReferencia(string $areas_referencia) Return the first ChildTmpFormacion filtered by the areas_referencia column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildTmpFormacion requireOneByFormacionesReferencia(string $formaciones_referencia) Return the first ChildTmpFormacion filtered by the formaciones_referencia column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildTmpFormacion requireOneByActivo(boolean $activo) Return the first ChildTmpFormacion filtered by the activo column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildTmpFormacion[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildTmpFormacion objects based on current ModelCriteria
  * @method     ChildTmpFormacion[]|ObjectCollection findById(int $id) Return ChildTmpFormacion objects filtered by the id column
@@ -76,6 +80,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildTmpFormacion[]|ObjectCollection findByKeywords(string $keywords) Return ChildTmpFormacion objects filtered by the keywords column
  * @method     ChildTmpFormacion[]|ObjectCollection findByAreasReferencia(string $areas_referencia) Return ChildTmpFormacion objects filtered by the areas_referencia column
  * @method     ChildTmpFormacion[]|ObjectCollection findByFormacionesReferencia(string $formaciones_referencia) Return ChildTmpFormacion objects filtered by the formaciones_referencia column
+ * @method     ChildTmpFormacion[]|ObjectCollection findByActivo(boolean $activo) Return ChildTmpFormacion objects filtered by the activo column
  * @method     ChildTmpFormacion[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
@@ -138,21 +143,27 @@ abstract class TmpFormacionQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = TmpFormacionTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(TmpFormacionTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = TmpFormacionTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -168,7 +179,7 @@ abstract class TmpFormacionQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, nombre, keywords, areas_referencia, formaciones_referencia FROM tmp_formacion WHERE id = :p0';
+        $sql = 'SELECT id, nombre, keywords, areas_referencia, formaciones_referencia, activo FROM tmp_formacion WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -305,11 +316,10 @@ abstract class TmpFormacionQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByNombre('fooValue');   // WHERE nombre = 'fooValue'
-     * $query->filterByNombre('%fooValue%'); // WHERE nombre LIKE '%fooValue%'
+     * $query->filterByNombre('%fooValue%', Criteria::LIKE); // WHERE nombre LIKE '%fooValue%'
      * </code>
      *
      * @param     string $nombre The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpFormacionQuery The current query, for fluid interface
@@ -319,9 +329,6 @@ abstract class TmpFormacionQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($nombre)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nombre)) {
-                $nombre = str_replace('*', '%', $nombre);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -334,11 +341,10 @@ abstract class TmpFormacionQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByKeywords('fooValue');   // WHERE keywords = 'fooValue'
-     * $query->filterByKeywords('%fooValue%'); // WHERE keywords LIKE '%fooValue%'
+     * $query->filterByKeywords('%fooValue%', Criteria::LIKE); // WHERE keywords LIKE '%fooValue%'
      * </code>
      *
      * @param     string $keywords The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpFormacionQuery The current query, for fluid interface
@@ -348,9 +354,6 @@ abstract class TmpFormacionQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($keywords)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $keywords)) {
-                $keywords = str_replace('*', '%', $keywords);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -363,11 +366,10 @@ abstract class TmpFormacionQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByAreasReferencia('fooValue');   // WHERE areas_referencia = 'fooValue'
-     * $query->filterByAreasReferencia('%fooValue%'); // WHERE areas_referencia LIKE '%fooValue%'
+     * $query->filterByAreasReferencia('%fooValue%', Criteria::LIKE); // WHERE areas_referencia LIKE '%fooValue%'
      * </code>
      *
      * @param     string $areasReferencia The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpFormacionQuery The current query, for fluid interface
@@ -377,9 +379,6 @@ abstract class TmpFormacionQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($areasReferencia)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $areasReferencia)) {
-                $areasReferencia = str_replace('*', '%', $areasReferencia);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -392,11 +391,10 @@ abstract class TmpFormacionQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByFormacionesReferencia('fooValue');   // WHERE formaciones_referencia = 'fooValue'
-     * $query->filterByFormacionesReferencia('%fooValue%'); // WHERE formaciones_referencia LIKE '%fooValue%'
+     * $query->filterByFormacionesReferencia('%fooValue%', Criteria::LIKE); // WHERE formaciones_referencia LIKE '%fooValue%'
      * </code>
      *
      * @param     string $formacionesReferencia The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpFormacionQuery The current query, for fluid interface
@@ -406,13 +404,37 @@ abstract class TmpFormacionQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($formacionesReferencia)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $formacionesReferencia)) {
-                $formacionesReferencia = str_replace('*', '%', $formacionesReferencia);
-                $comparison = Criteria::LIKE;
             }
         }
 
         return $this->addUsingAlias(TmpFormacionTableMap::COL_FORMACIONES_REFERENCIA, $formacionesReferencia, $comparison);
+    }
+
+    /**
+     * Filter the query on the activo column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByActivo(true); // WHERE activo = true
+     * $query->filterByActivo('yes'); // WHERE activo = true
+     * </code>
+     *
+     * @param     boolean|string $activo The value to use as filter.
+     *              Non-boolean arguments are converted using the following rules:
+     *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildTmpFormacionQuery The current query, for fluid interface
+     */
+    public function filterByActivo($activo = null, $comparison = null)
+    {
+        if (is_string($activo)) {
+            $activo = in_array(strtolower($activo), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+        }
+
+        return $this->addUsingAlias(TmpFormacionTableMap::COL_ACTIVO, $activo, $comparison);
     }
 
     /**

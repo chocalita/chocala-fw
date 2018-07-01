@@ -18,6 +18,16 @@ return array(
     'validate.notInList' => 'El valor se encuentra entre los valores no permitidos',
     'validate.unique' => 'Este valor ya se encuentra registrado',
 
+
+    'SysUser.Password2.validate.password2' => 'Debe repetir la contraseña ingresada',
+
+    /* JobAviso */
+    'JobAviso.validate.telefonoCorreo' => 'Debe ingresar un teléfono o correo de contacto',
+    'JobAviso.validate.telefonoCorreo' => 'Debe ingresar un teléfono o correo de contacto',
+    'JobAviso.validate.agree' => 'Debe aceptar los términos y condiciones para completar su publicación',
+    'JobAviso.FormacionesReferencia.validate.null' => 'Debe indicar la formación requerida',
+    'JobAviso.Localizacion.validate.null' => 'Debe indicar una localización',
+
     /* JobSuscriptor */
     'JobSuscriptor.NombreSimple.validate.size' => 'El nombre debe tener entre [{min}] y [{max}] caracteres',
     'JobSuscriptor.Email.validate.size' => 'El correo debe tener entre [{min}] y [{max}] caracteres',
@@ -36,6 +46,7 @@ return array(
     'JobEmpresaSuscrita.Representante.validate.null' => 'Debe ingresar el nombre del representante',
     'JobEmpresaSuscrita.Representante.validate.blank' => 'Debe ingresar el nombre del representante',
     'JobEmpresaSuscrita.Representante.validate.size' => 'La longitud debe ser de [{min}] a [{max}] caracteres',
+    'JobEmpresaSuscrita.Representante.validate.nombreCompleto' => 'Debe ingresar el nombre y apellido del representante',
     'JobEmpresaSuscrita.EntityTypeId.validate.null' => 'Debe especificar el tipo de empresa o negocio',
     'JobEmpresaSuscrita.EntityTypeId.validate.blank' => 'Debe especificar el tipo de empresa o negocio',
 

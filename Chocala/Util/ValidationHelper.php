@@ -415,6 +415,10 @@ abstract class ValidationHelper
         }
     }
 
+    /**
+     * @param array $failures
+     * @return array
+     */
     public static function failuresMap($failures)
     {
         return array_map(function ($obj) {

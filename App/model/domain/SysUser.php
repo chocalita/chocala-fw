@@ -74,7 +74,7 @@ class SysUser extends BaseSysUser implements JsonSerializable
         ],
         'Password' => [
             'null' => false, 'blank' => false,
-            'size'=> ['min' => 3, 'max' => 500],
+            'size'=> ['min' => 6, 'max' => 200],
         ],
         'Status' => [
             'null' => false, 'blank' => false,

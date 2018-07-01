@@ -2,6 +2,8 @@
 
 namespace Base;
 
+use \JobUserEmpresaSuscrita as ChildJobUserEmpresaSuscrita;
+use \JobUserEmpresaSuscritaQuery as ChildJobUserEmpresaSuscritaQuery;
 use \SysEntityUser as ChildSysEntityUser;
 use \SysEntityUserQuery as ChildSysEntityUserQuery;
 use \SysRol as ChildSysRol;
@@ -12,6 +14,7 @@ use \SysUserXRol as ChildSysUserXRol;
 use \SysUserXRolQuery as ChildSysUserXRolQuery;
 use \Exception;
 use \PDO;
+use Map\JobUserEmpresaSuscritaTableMap;
 use Map\SysEntityUserTableMap;
 use Map\SysRolTableMap;
 use Map\SysRolXUriTableMap;
@@ -34,8 +37,8 @@ use Propel\Runtime\Parser\AbstractParser;
  *
  *
  *
-* @package    propel.generator..Base
-*/
+ * @package    propel.generator..Base
+ */
 abstract class SysRol implements ActiveRecordInterface
 {
     /**
@@ -99,6 +102,12 @@ abstract class SysRol implements ActiveRecordInterface
     protected $description;
 
     /**
+     * @var        ObjectCollection|ChildJobUserEmpresaSuscrita[] Collection to store aggregation of ChildJobUserEmpresaSuscrita objects.
+     */
+    protected $collJobUserEmpresaSuscritas;
+    protected $collJobUserEmpresaSuscritasPartial;
+
+    /**
      * @var        ObjectCollection|ChildSysEntityUser[] Collection to store aggregation of ChildSysEntityUser objects.
      */
     protected $collSysEntityUsers;
@@ -123,6 +132,12 @@ abstract class SysRol implements ActiveRecordInterface
      * @var boolean
      */
     protected $alreadyInSave = false;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection|ChildJobUserEmpresaSuscrita[]
+     */
+    protected $jobUserEmpresaSuscritasScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
@@ -603,6 +618,8 @@ abstract class SysRol implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
+            $this->collJobUserEmpresaSuscritas = null;
+
             $this->collSysEntityUsers = null;
 
             $this->collSysRolXUris = null;
@@ -662,13 +679,17 @@ abstract class SysRol implements ActiveRecordInterface
             throw new PropelException("You cannot save an object that has been deleted.");
         }
 
+        if ($this->alreadyInSave) {
+            return 0;
+        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysRolTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
-            $isInsert = $this->isNew();
             $ret = $this->preSave($con);
+            $isInsert = $this->isNew();
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
             } else {
@@ -717,6 +738,23 @@ abstract class SysRol implements ActiveRecordInterface
                     $affectedRows += $this->doUpdate($con);
                 }
                 $this->resetModified();
+            }
+
+            if ($this->jobUserEmpresaSuscritasScheduledForDeletion !== null) {
+                if (!$this->jobUserEmpresaSuscritasScheduledForDeletion->isEmpty()) {
+                    \JobUserEmpresaSuscritaQuery::create()
+                        ->filterByPrimaryKeys($this->jobUserEmpresaSuscritasScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->jobUserEmpresaSuscritasScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collJobUserEmpresaSuscritas !== null) {
+                foreach ($this->collJobUserEmpresaSuscritas as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
             }
 
             if ($this->sysEntityUsersScheduledForDeletion !== null) {
@@ -946,6 +984,21 @@ abstract class SysRol implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
+            if (null !== $this->collJobUserEmpresaSuscritas) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'jobUserEmpresaSuscritas';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'job_user_empresa_suscritas';
+                        break;
+                    default:
+                        $key = 'JobUserEmpresaSuscritas';
+                }
+
+                $result[$key] = $this->collJobUserEmpresaSuscritas->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
             if (null !== $this->collSysEntityUsers) {
 
                 switch ($keyType) {
@@ -1223,6 +1276,12 @@ abstract class SysRol implements ActiveRecordInterface
             // the getter/setter methods for fkey referrer objects.
             $copyObj->setNew(false);
 
+            foreach ($this->getJobUserEmpresaSuscritas() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addJobUserEmpresaSuscrita($relObj->copy($deepCopy));
+                }
+            }
+
             foreach ($this->getSysEntityUsers() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
                     $copyObj->addSysEntityUser($relObj->copy($deepCopy));
@@ -1282,15 +1341,297 @@ abstract class SysRol implements ActiveRecordInterface
      */
     public function initRelation($relationName)
     {
+        if ('JobUserEmpresaSuscrita' == $relationName) {
+            $this->initJobUserEmpresaSuscritas();
+            return;
+        }
         if ('SysEntityUser' == $relationName) {
-            return $this->initSysEntityUsers();
+            $this->initSysEntityUsers();
+            return;
         }
         if ('SysRolXUri' == $relationName) {
-            return $this->initSysRolXUris();
+            $this->initSysRolXUris();
+            return;
         }
         if ('SysUserXRol' == $relationName) {
-            return $this->initSysUserXRols();
+            $this->initSysUserXRols();
+            return;
         }
+    }
+
+    /**
+     * Clears out the collJobUserEmpresaSuscritas collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addJobUserEmpresaSuscritas()
+     */
+    public function clearJobUserEmpresaSuscritas()
+    {
+        $this->collJobUserEmpresaSuscritas = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collJobUserEmpresaSuscritas collection loaded partially.
+     */
+    public function resetPartialJobUserEmpresaSuscritas($v = true)
+    {
+        $this->collJobUserEmpresaSuscritasPartial = $v;
+    }
+
+    /**
+     * Initializes the collJobUserEmpresaSuscritas collection.
+     *
+     * By default this just sets the collJobUserEmpresaSuscritas collection to an empty array (like clearcollJobUserEmpresaSuscritas());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initJobUserEmpresaSuscritas($overrideExisting = true)
+    {
+        if (null !== $this->collJobUserEmpresaSuscritas && !$overrideExisting) {
+            return;
+        }
+
+        $collectionClassName = JobUserEmpresaSuscritaTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collJobUserEmpresaSuscritas = new $collectionClassName;
+        $this->collJobUserEmpresaSuscritas->setModel('\JobUserEmpresaSuscrita');
+    }
+
+    /**
+     * Gets an array of ChildJobUserEmpresaSuscrita objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildSysRol is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return ObjectCollection|ChildJobUserEmpresaSuscrita[] List of ChildJobUserEmpresaSuscrita objects
+     * @throws PropelException
+     */
+    public function getJobUserEmpresaSuscritas(Criteria $criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collJobUserEmpresaSuscritasPartial && !$this->isNew();
+        if (null === $this->collJobUserEmpresaSuscritas || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collJobUserEmpresaSuscritas) {
+                // return empty collection
+                $this->initJobUserEmpresaSuscritas();
+            } else {
+                $collJobUserEmpresaSuscritas = ChildJobUserEmpresaSuscritaQuery::create(null, $criteria)
+                    ->filterBySysRol($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collJobUserEmpresaSuscritasPartial && count($collJobUserEmpresaSuscritas)) {
+                        $this->initJobUserEmpresaSuscritas(false);
+
+                        foreach ($collJobUserEmpresaSuscritas as $obj) {
+                            if (false == $this->collJobUserEmpresaSuscritas->contains($obj)) {
+                                $this->collJobUserEmpresaSuscritas->append($obj);
+                            }
+                        }
+
+                        $this->collJobUserEmpresaSuscritasPartial = true;
+                    }
+
+                    return $collJobUserEmpresaSuscritas;
+                }
+
+                if ($partial && $this->collJobUserEmpresaSuscritas) {
+                    foreach ($this->collJobUserEmpresaSuscritas as $obj) {
+                        if ($obj->isNew()) {
+                            $collJobUserEmpresaSuscritas[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collJobUserEmpresaSuscritas = $collJobUserEmpresaSuscritas;
+                $this->collJobUserEmpresaSuscritasPartial = false;
+            }
+        }
+
+        return $this->collJobUserEmpresaSuscritas;
+    }
+
+    /**
+     * Sets a collection of ChildJobUserEmpresaSuscrita objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $jobUserEmpresaSuscritas A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return $this|ChildSysRol The current object (for fluent API support)
+     */
+    public function setJobUserEmpresaSuscritas(Collection $jobUserEmpresaSuscritas, ConnectionInterface $con = null)
+    {
+        /** @var ChildJobUserEmpresaSuscrita[] $jobUserEmpresaSuscritasToDelete */
+        $jobUserEmpresaSuscritasToDelete = $this->getJobUserEmpresaSuscritas(new Criteria(), $con)->diff($jobUserEmpresaSuscritas);
+
+
+        $this->jobUserEmpresaSuscritasScheduledForDeletion = $jobUserEmpresaSuscritasToDelete;
+
+        foreach ($jobUserEmpresaSuscritasToDelete as $jobUserEmpresaSuscritaRemoved) {
+            $jobUserEmpresaSuscritaRemoved->setSysRol(null);
+        }
+
+        $this->collJobUserEmpresaSuscritas = null;
+        foreach ($jobUserEmpresaSuscritas as $jobUserEmpresaSuscrita) {
+            $this->addJobUserEmpresaSuscrita($jobUserEmpresaSuscrita);
+        }
+
+        $this->collJobUserEmpresaSuscritas = $jobUserEmpresaSuscritas;
+        $this->collJobUserEmpresaSuscritasPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related JobUserEmpresaSuscrita objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related JobUserEmpresaSuscrita objects.
+     * @throws PropelException
+     */
+    public function countJobUserEmpresaSuscritas(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collJobUserEmpresaSuscritasPartial && !$this->isNew();
+        if (null === $this->collJobUserEmpresaSuscritas || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collJobUserEmpresaSuscritas) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getJobUserEmpresaSuscritas());
+            }
+
+            $query = ChildJobUserEmpresaSuscritaQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterBySysRol($this)
+                ->count($con);
+        }
+
+        return count($this->collJobUserEmpresaSuscritas);
+    }
+
+    /**
+     * Method called to associate a ChildJobUserEmpresaSuscrita object to this object
+     * through the ChildJobUserEmpresaSuscrita foreign key attribute.
+     *
+     * @param  ChildJobUserEmpresaSuscrita $l ChildJobUserEmpresaSuscrita
+     * @return $this|\SysRol The current object (for fluent API support)
+     */
+    public function addJobUserEmpresaSuscrita(ChildJobUserEmpresaSuscrita $l)
+    {
+        if ($this->collJobUserEmpresaSuscritas === null) {
+            $this->initJobUserEmpresaSuscritas();
+            $this->collJobUserEmpresaSuscritasPartial = true;
+        }
+
+        if (!$this->collJobUserEmpresaSuscritas->contains($l)) {
+            $this->doAddJobUserEmpresaSuscrita($l);
+
+            if ($this->jobUserEmpresaSuscritasScheduledForDeletion and $this->jobUserEmpresaSuscritasScheduledForDeletion->contains($l)) {
+                $this->jobUserEmpresaSuscritasScheduledForDeletion->remove($this->jobUserEmpresaSuscritasScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ChildJobUserEmpresaSuscrita $jobUserEmpresaSuscrita The ChildJobUserEmpresaSuscrita object to add.
+     */
+    protected function doAddJobUserEmpresaSuscrita(ChildJobUserEmpresaSuscrita $jobUserEmpresaSuscrita)
+    {
+        $this->collJobUserEmpresaSuscritas[]= $jobUserEmpresaSuscrita;
+        $jobUserEmpresaSuscrita->setSysRol($this);
+    }
+
+    /**
+     * @param  ChildJobUserEmpresaSuscrita $jobUserEmpresaSuscrita The ChildJobUserEmpresaSuscrita object to remove.
+     * @return $this|ChildSysRol The current object (for fluent API support)
+     */
+    public function removeJobUserEmpresaSuscrita(ChildJobUserEmpresaSuscrita $jobUserEmpresaSuscrita)
+    {
+        if ($this->getJobUserEmpresaSuscritas()->contains($jobUserEmpresaSuscrita)) {
+            $pos = $this->collJobUserEmpresaSuscritas->search($jobUserEmpresaSuscrita);
+            $this->collJobUserEmpresaSuscritas->remove($pos);
+            if (null === $this->jobUserEmpresaSuscritasScheduledForDeletion) {
+                $this->jobUserEmpresaSuscritasScheduledForDeletion = clone $this->collJobUserEmpresaSuscritas;
+                $this->jobUserEmpresaSuscritasScheduledForDeletion->clear();
+            }
+            $this->jobUserEmpresaSuscritasScheduledForDeletion[]= clone $jobUserEmpresaSuscrita;
+            $jobUserEmpresaSuscrita->setSysRol(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this SysRol is new, it will return
+     * an empty collection; or if this SysRol has previously
+     * been saved, it will retrieve related JobUserEmpresaSuscritas from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in SysRol.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildJobUserEmpresaSuscrita[] List of ChildJobUserEmpresaSuscrita objects
+     */
+    public function getJobUserEmpresaSuscritasJoinJobEmpresaSuscrita(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildJobUserEmpresaSuscritaQuery::create(null, $criteria);
+        $query->joinWith('JobEmpresaSuscrita', $joinBehavior);
+
+        return $this->getJobUserEmpresaSuscritas($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this SysRol is new, it will return
+     * an empty collection; or if this SysRol has previously
+     * been saved, it will retrieve related JobUserEmpresaSuscritas from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in SysRol.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildJobUserEmpresaSuscrita[] List of ChildJobUserEmpresaSuscrita objects
+     */
+    public function getJobUserEmpresaSuscritasJoinSysUser(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildJobUserEmpresaSuscritaQuery::create(null, $criteria);
+        $query->joinWith('SysUser', $joinBehavior);
+
+        return $this->getJobUserEmpresaSuscritas($query, $con);
     }
 
     /**
@@ -2103,6 +2444,11 @@ abstract class SysRol implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
+            if ($this->collJobUserEmpresaSuscritas) {
+                foreach ($this->collJobUserEmpresaSuscritas as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
             if ($this->collSysEntityUsers) {
                 foreach ($this->collSysEntityUsers as $o) {
                     $o->clearAllReferences($deep);
@@ -2120,6 +2466,7 @@ abstract class SysRol implements ActiveRecordInterface
             }
         } // if ($deep)
 
+        $this->collJobUserEmpresaSuscritas = null;
         $this->collSysEntityUsers = null;
         $this->collSysRolXUris = null;
         $this->collSysUserXRols = null;
@@ -2142,6 +2489,9 @@ abstract class SysRol implements ActiveRecordInterface
      */
     public function preSave(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preSave')) {
+            return parent::preSave($con);
+        }
         return true;
     }
 
@@ -2151,7 +2501,9 @@ abstract class SysRol implements ActiveRecordInterface
      */
     public function postSave(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postSave')) {
+            parent::postSave($con);
+        }
     }
 
     /**
@@ -2161,6 +2513,9 @@ abstract class SysRol implements ActiveRecordInterface
      */
     public function preInsert(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preInsert')) {
+            return parent::preInsert($con);
+        }
         return true;
     }
 
@@ -2170,7 +2525,9 @@ abstract class SysRol implements ActiveRecordInterface
      */
     public function postInsert(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postInsert')) {
+            parent::postInsert($con);
+        }
     }
 
     /**
@@ -2180,6 +2537,9 @@ abstract class SysRol implements ActiveRecordInterface
      */
     public function preUpdate(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preUpdate')) {
+            return parent::preUpdate($con);
+        }
         return true;
     }
 
@@ -2189,7 +2549,9 @@ abstract class SysRol implements ActiveRecordInterface
      */
     public function postUpdate(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postUpdate')) {
+            parent::postUpdate($con);
+        }
     }
 
     /**
@@ -2199,6 +2561,9 @@ abstract class SysRol implements ActiveRecordInterface
      */
     public function preDelete(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preDelete')) {
+            return parent::preDelete($con);
+        }
         return true;
     }
 
@@ -2208,7 +2573,9 @@ abstract class SysRol implements ActiveRecordInterface
      */
     public function postDelete(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postDelete')) {
+            parent::postDelete($con);
+        }
     }
 
 

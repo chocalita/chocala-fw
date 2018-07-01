@@ -59,7 +59,7 @@ class TmpFormacionTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 5;
+    const NUM_COLUMNS = 6;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,7 @@ class TmpFormacionTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 5;
+    const NUM_HYDRATE_COLUMNS = 6;
 
     /**
      * the column name for the id field
@@ -97,6 +97,11 @@ class TmpFormacionTableMap extends TableMap
     const COL_FORMACIONES_REFERENCIA = 'tmp_formacion.formaciones_referencia';
 
     /**
+     * the column name for the activo field
+     */
+    const COL_ACTIVO = 'tmp_formacion.activo';
+
+    /**
      * The default string format for model objects of the related table
      */
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -108,11 +113,11 @@ class TmpFormacionTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Nombre', 'Keywords', 'AreasReferencia', 'FormacionesReferencia', ),
-        self::TYPE_CAMELNAME     => array('id', 'nombre', 'keywords', 'areasReferencia', 'formacionesReferencia', ),
-        self::TYPE_COLNAME       => array(TmpFormacionTableMap::COL_ID, TmpFormacionTableMap::COL_NOMBRE, TmpFormacionTableMap::COL_KEYWORDS, TmpFormacionTableMap::COL_AREAS_REFERENCIA, TmpFormacionTableMap::COL_FORMACIONES_REFERENCIA, ),
-        self::TYPE_FIELDNAME     => array('id', 'nombre', 'keywords', 'areas_referencia', 'formaciones_referencia', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
+        self::TYPE_PHPNAME       => array('Id', 'Nombre', 'Keywords', 'AreasReferencia', 'FormacionesReferencia', 'Activo', ),
+        self::TYPE_CAMELNAME     => array('id', 'nombre', 'keywords', 'areasReferencia', 'formacionesReferencia', 'activo', ),
+        self::TYPE_COLNAME       => array(TmpFormacionTableMap::COL_ID, TmpFormacionTableMap::COL_NOMBRE, TmpFormacionTableMap::COL_KEYWORDS, TmpFormacionTableMap::COL_AREAS_REFERENCIA, TmpFormacionTableMap::COL_FORMACIONES_REFERENCIA, TmpFormacionTableMap::COL_ACTIVO, ),
+        self::TYPE_FIELDNAME     => array('id', 'nombre', 'keywords', 'areas_referencia', 'formaciones_referencia', 'activo', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -122,11 +127,11 @@ class TmpFormacionTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Nombre' => 1, 'Keywords' => 2, 'AreasReferencia' => 3, 'FormacionesReferencia' => 4, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'nombre' => 1, 'keywords' => 2, 'areasReferencia' => 3, 'formacionesReferencia' => 4, ),
-        self::TYPE_COLNAME       => array(TmpFormacionTableMap::COL_ID => 0, TmpFormacionTableMap::COL_NOMBRE => 1, TmpFormacionTableMap::COL_KEYWORDS => 2, TmpFormacionTableMap::COL_AREAS_REFERENCIA => 3, TmpFormacionTableMap::COL_FORMACIONES_REFERENCIA => 4, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'nombre' => 1, 'keywords' => 2, 'areas_referencia' => 3, 'formaciones_referencia' => 4, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Nombre' => 1, 'Keywords' => 2, 'AreasReferencia' => 3, 'FormacionesReferencia' => 4, 'Activo' => 5, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'nombre' => 1, 'keywords' => 2, 'areasReferencia' => 3, 'formacionesReferencia' => 4, 'activo' => 5, ),
+        self::TYPE_COLNAME       => array(TmpFormacionTableMap::COL_ID => 0, TmpFormacionTableMap::COL_NOMBRE => 1, TmpFormacionTableMap::COL_KEYWORDS => 2, TmpFormacionTableMap::COL_AREAS_REFERENCIA => 3, TmpFormacionTableMap::COL_FORMACIONES_REFERENCIA => 4, TmpFormacionTableMap::COL_ACTIVO => 5, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'nombre' => 1, 'keywords' => 2, 'areas_referencia' => 3, 'formaciones_referencia' => 4, 'activo' => 5, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -151,6 +156,7 @@ class TmpFormacionTableMap extends TableMap
         $this->addColumn('keywords', 'Keywords', 'LONGVARCHAR', false, null, null);
         $this->addColumn('areas_referencia', 'AreasReferencia', 'VARCHAR', false, 2000, null);
         $this->addColumn('formaciones_referencia', 'FormacionesReferencia', 'VARCHAR', false, 2000, null);
+        $this->addColumn('activo', 'Activo', 'BOOLEAN', true, 1, true);
     } // initialize()
 
     /**
@@ -313,12 +319,14 @@ class TmpFormacionTableMap extends TableMap
             $criteria->addSelectColumn(TmpFormacionTableMap::COL_KEYWORDS);
             $criteria->addSelectColumn(TmpFormacionTableMap::COL_AREAS_REFERENCIA);
             $criteria->addSelectColumn(TmpFormacionTableMap::COL_FORMACIONES_REFERENCIA);
+            $criteria->addSelectColumn(TmpFormacionTableMap::COL_ACTIVO);
         } else {
             $criteria->addSelectColumn($alias . '.id');
             $criteria->addSelectColumn($alias . '.nombre');
             $criteria->addSelectColumn($alias . '.keywords');
             $criteria->addSelectColumn($alias . '.areas_referencia');
             $criteria->addSelectColumn($alias . '.formaciones_referencia');
+            $criteria->addSelectColumn($alias . '.activo');
         }
     }
 

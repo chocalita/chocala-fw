@@ -83,6 +83,7 @@
                                 $toEditLink = URI::toPage().'edit/';
                                 $toDeleteLink = URI::toPage().'delete/';
                                 $i = 0;
+                                /* @var JobAviso $aviso */
                                 foreach($listVigentes as $aviso):
                                     $pk = $aviso->getId();
                                     ?>
@@ -92,7 +93,7 @@
                                         <td class="text-left"><?= $aviso->getCargo(); ?></td>
                                         <td class="text-left"><?= $aviso->getRequisito(); ?></td>
                                         <td class="text-left"><?= $aviso->getDescripcion(); ?></td>
-                                        <td class="text-left"><?= $aviso->getDescripcion(); ?></td>
+                                        <td class="text-left"><?= $aviso->getNivelFormacion(); ?></td>
                                         <td class="text-center">
                                             <a href="<?= $toDetailsLink.$pk; ?>" class="btn btn-sm btn-success btn-circle"><i class="fa fa-eye"></i></a>
                                             <?php
@@ -137,6 +138,7 @@
                                 $toEditLink = URI::toPage().'edit/';
                                 $toDeleteLink = URI::toPage().'delete/';
                                 $i = 0;
+                                /* @var JobAviso $aviso */
                                 foreach($listNoVigentes as $aviso):
                                     $pk = $aviso->getId();
                                     ?>
@@ -146,7 +148,7 @@
                                         <td class="text-left"><?= $aviso->getCargo(); ?></td>
                                         <td class="text-left"><?= $aviso->getRequisito(); ?></td>
                                         <td class="text-left"><?= $aviso->getDescripcion(); ?></td>
-                                        <td class="text-left"><?= $aviso->getDescripcion(); ?></td>
+                                        <td class="text-left"><?= $aviso->getNivelFormacion(); ?></td>
                                         <td class="text-center">
                                             <a href="<?= $toDetailsLink.$pk; ?>" class="btn btn-sm btn-success btn-circle"><i class="fa fa-eye"></i></a>
                                             <?php
@@ -186,7 +188,9 @@
 $(document).ready(function(){
     $('.dataTables').DataTable({
         "language": {
-            "emptyTable": "No se encontraron registros"
+            "url" : "<?=JQUERY_WEB;?>jquery.dataTables-Spanish.json"
+            // "url" : "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+            // "emptyTable": "No se encontraron registros"
         },
         dom: '<"html5buttons"B>lTfgitp',
         buttons: [

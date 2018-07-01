@@ -17,6 +17,8 @@ class JobEmpresaSuscrita extends BaseJobEmpresaSuscrita implements JsonSerializa
     const STATUS_CONFIRMED = 'CONFIRMED';
     const STATUS_SUSCRIBED = 'SUSCRIBED';
 
+    const EMPRESA_DIR = 'empresas/logo';
+
     static $validationRules = [
         'EntityTypeId' => [
             'null' => false, 'blank' => false,
@@ -43,6 +45,7 @@ class JobEmpresaSuscrita extends BaseJobEmpresaSuscrita implements JsonSerializa
         'Representante' => [
             'null' => false, 'blank' => false,
             'size' => ['min' => 2, 'max' => 100],
+            'validator' => true
         ],
         'Nit' => [
             'null' => true, 'blank' => false,
@@ -71,6 +74,14 @@ class JobEmpresaSuscrita extends BaseJobEmpresaSuscrita implements JsonSerializa
     {
         if (!$this->isInitial() && !is_object($this->getSysLocation())) {
             return 'validate.required';
+        }
+        return true;
+    }
+
+    public function __validateRepresentante($value)
+    {
+        if (trim($value) != '' && (strpos($value, ' ') === false || strlen($value)< 7)) {
+            return 'validate.nombreCompleto';
         }
         return true;
     }
@@ -138,6 +149,30 @@ class JobEmpresaSuscrita extends BaseJobEmpresaSuscrita implements JsonSerializa
     public function isInitial()
     {
         return $this->status == self::STATUS_INITIAL;
+    }
+
+    /**
+     * @return string
+     */
+    public function imageName()
+    {
+        return $this->hash_code . '.' . ImageMimeTypes::mimeExtensionFrom($this->getMimetype());
+    }
+
+    /**
+     * @return string
+     */
+    public function imageDir()
+    {
+        return FilesHelper::dirPath(self::EMPRESA_DIR) . $this->imageName();
+    }
+
+    /**
+     * @return string
+     */
+    public function imageWeb()
+    {
+        return FilesHelper::webPath(self::EMPRESA_DIR) . $this->imageName();
     }
 
 }
