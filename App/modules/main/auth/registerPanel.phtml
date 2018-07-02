@@ -20,13 +20,13 @@
         </div>
         <div class="form-group text-center no-margin-bottom">
             <input type="submit" name="Submit" value="<?= ("Registrarme"); ?>"
-                   class="btn btn-warning full-width" onclick="return BsModalLogin.register(this)">
+                   class="btn btn-warning full-width" cho-register-btn>
         </div>
     </div>
 </form>
 <div class="modal-body no-padding-top no-padding-bottom">
     <div class="form-group text-center">
-        <button class="btn btn-success btn-facebook full-width" onclick="return BsModalLogin.signInFacebook(this)">
+        <button class="btn btn-success btn-facebook full-width" cho-facebook-sign-in-btn>
             <i class="fa fa-facebook-f"></i> <?= ("Registrarme con facebook"); ?>
         </button>
     </div>
@@ -34,7 +34,7 @@
 <div class="modal-body">
     <div class="form-group text-center">
         <label><?=("Tienes una cuenta?")?></label>
-        <button class="btn btn-transparent full-width" onclick="return BsModalLogin.loginPanel(this)">
+        <button class="btn btn-transparent full-width" cho-login-panel-btn>
             <?= ("Iniciar sesión"); ?>
         </button>
     </div>

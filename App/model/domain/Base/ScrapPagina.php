@@ -28,8 +28,8 @@ use Propel\Runtime\Parser\AbstractParser;
  *
  *
  *
- * @package    propel.generator..Base
- */
+* @package    propel.generator..Base
+*/
 abstract class ScrapPagina implements ActiveRecordInterface
 {
     /**
@@ -664,17 +664,13 @@ abstract class ScrapPagina implements ActiveRecordInterface
             throw new PropelException("You cannot save an object that has been deleted.");
         }
 
-        if ($this->alreadyInSave) {
-            return 0;
-        }
-
         if ($con === null) {
             $con = Propel::getServiceContainer()->getWriteConnection(ScrapPaginaTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
-            $ret = $this->preSave($con);
             $isInsert = $this->isNew();
+            $ret = $this->preSave($con);
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
             } else {
@@ -1213,8 +1209,7 @@ abstract class ScrapPagina implements ActiveRecordInterface
     public function initRelation($relationName)
     {
         if ('ScrapEmpresa' == $relationName) {
-            $this->initScrapEmpresas();
-            return;
+            return $this->initScrapEmpresas();
         }
     }
 
@@ -1550,9 +1545,6 @@ abstract class ScrapPagina implements ActiveRecordInterface
      */
     public function preSave(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::preSave')) {
-            return parent::preSave($con);
-        }
         return true;
     }
 
@@ -1562,9 +1554,7 @@ abstract class ScrapPagina implements ActiveRecordInterface
      */
     public function postSave(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::postSave')) {
-            parent::postSave($con);
-        }
+
     }
 
     /**
@@ -1574,9 +1564,6 @@ abstract class ScrapPagina implements ActiveRecordInterface
      */
     public function preInsert(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::preInsert')) {
-            return parent::preInsert($con);
-        }
         return true;
     }
 
@@ -1586,9 +1573,7 @@ abstract class ScrapPagina implements ActiveRecordInterface
      */
     public function postInsert(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::postInsert')) {
-            parent::postInsert($con);
-        }
+
     }
 
     /**
@@ -1598,9 +1583,6 @@ abstract class ScrapPagina implements ActiveRecordInterface
      */
     public function preUpdate(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::preUpdate')) {
-            return parent::preUpdate($con);
-        }
         return true;
     }
 
@@ -1610,9 +1592,7 @@ abstract class ScrapPagina implements ActiveRecordInterface
      */
     public function postUpdate(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::postUpdate')) {
-            parent::postUpdate($con);
-        }
+
     }
 
     /**
@@ -1622,9 +1602,6 @@ abstract class ScrapPagina implements ActiveRecordInterface
      */
     public function preDelete(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::preDelete')) {
-            return parent::preDelete($con);
-        }
         return true;
     }
 
@@ -1634,9 +1611,7 @@ abstract class ScrapPagina implements ActiveRecordInterface
      */
     public function postDelete(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::postDelete')) {
-            parent::postDelete($con);
-        }
+
     }
 
 

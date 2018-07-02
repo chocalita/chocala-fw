@@ -25,8 +25,8 @@ use Propel\Runtime\Util\PropelDateTime;
  *
  *
  *
- * @package    propel.generator..Base
- */
+* @package    propel.generator..Base
+*/
 abstract class TmpProspecto implements ActiveRecordInterface
 {
     /**
@@ -92,7 +92,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
     /**
      * The value for the fecha_nacimiento field.
      *
-     * @var        DateTime
+     * @var        \DateTime
      */
     protected $fecha_nacimiento;
 
@@ -450,7 +450,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [fecha_nacimiento] column value.
      *
      *
-     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00
@@ -462,7 +462,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
         if ($format === null) {
             return $this->fecha_nacimiento;
         } else {
-            return $this->fecha_nacimiento instanceof \DateTimeInterface ? $this->fecha_nacimiento->format($format) : null;
+            return $this->fecha_nacimiento instanceof \DateTime ? $this->fecha_nacimiento->format($format) : null;
         }
     }
 
@@ -659,7 +659,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
     /**
      * Sets the value of [fecha_nacimiento] column to a normalized version of the date/time value specified.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
+     * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\TmpProspecto The current object (for fluent API support)
      */
@@ -1104,17 +1104,13 @@ abstract class TmpProspecto implements ActiveRecordInterface
             throw new PropelException("You cannot save an object that has been deleted.");
         }
 
-        if ($this->alreadyInSave) {
-            return 0;
-        }
-
         if ($con === null) {
             $con = Propel::getServiceContainer()->getWriteConnection(TmpProspectoTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
-            $ret = $this->preSave($con);
             $isInsert = $this->isNew();
+            $ret = $this->preSave($con);
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
             } else {
@@ -1259,7 +1255,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
                         $stmt->bindValue($identifier, $this->nombres, PDO::PARAM_STR);
                         break;
                     case 'fecha_nacimiento':
-                        $stmt->bindValue($identifier, $this->fecha_nacimiento ? $this->fecha_nacimiento->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->fecha_nacimiento ? $this->fecha_nacimiento->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                     case 'ci':
                         $stmt->bindValue($identifier, $this->ci, PDO::PARAM_STR);
@@ -1443,7 +1439,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
             $keys[14] => $this->getAreas(),
             $keys[15] => $this->getFormaciones(),
         );
-        if ($result[$keys[4]] instanceof \DateTimeInterface) {
+        if ($result[$keys[4]] instanceof \DateTime) {
             $result[$keys[4]] = $result[$keys[4]]->format('c');
         }
 
@@ -1887,9 +1883,6 @@ abstract class TmpProspecto implements ActiveRecordInterface
      */
     public function preSave(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::preSave')) {
-            return parent::preSave($con);
-        }
         return true;
     }
 
@@ -1899,9 +1892,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
      */
     public function postSave(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::postSave')) {
-            parent::postSave($con);
-        }
+
     }
 
     /**
@@ -1911,9 +1902,6 @@ abstract class TmpProspecto implements ActiveRecordInterface
      */
     public function preInsert(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::preInsert')) {
-            return parent::preInsert($con);
-        }
         return true;
     }
 
@@ -1923,9 +1911,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
      */
     public function postInsert(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::postInsert')) {
-            parent::postInsert($con);
-        }
+
     }
 
     /**
@@ -1935,9 +1921,6 @@ abstract class TmpProspecto implements ActiveRecordInterface
      */
     public function preUpdate(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::preUpdate')) {
-            return parent::preUpdate($con);
-        }
         return true;
     }
 
@@ -1947,9 +1930,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
      */
     public function postUpdate(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::postUpdate')) {
-            parent::postUpdate($con);
-        }
+
     }
 
     /**
@@ -1959,9 +1940,6 @@ abstract class TmpProspecto implements ActiveRecordInterface
      */
     public function preDelete(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::preDelete')) {
-            return parent::preDelete($con);
-        }
         return true;
     }
 
@@ -1971,9 +1949,7 @@ abstract class TmpProspecto implements ActiveRecordInterface
      */
     public function postDelete(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::postDelete')) {
-            parent::postDelete($con);
-        }
+
     }
 
 

@@ -29,8 +29,8 @@ use Propel\Runtime\Parser\AbstractParser;
  *
  *
  *
- * @package    propel.generator..Base
- */
+* @package    propel.generator..Base
+*/
 abstract class ScrapEmpresa implements ActiveRecordInterface
 {
     /**
@@ -1170,17 +1170,13 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
             throw new PropelException("You cannot save an object that has been deleted.");
         }
 
-        if ($this->alreadyInSave) {
-            return 0;
-        }
-
         if ($con === null) {
             $con = Propel::getServiceContainer()->getWriteConnection(ScrapEmpresaTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
-            $ret = $this->preSave($con);
             $isInsert = $this->isNew();
+            $ret = $this->preSave($con);
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
             } else {
@@ -2009,7 +2005,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
      */
     public function getScrapActividad(ConnectionInterface $con = null)
     {
-        if ($this->aScrapActividad === null && ($this->id_actividad != 0)) {
+        if ($this->aScrapActividad === null && ($this->id_actividad !== null)) {
             $this->aScrapActividad = ChildScrapActividadQuery::create()->findPk($this->id_actividad, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
@@ -2060,7 +2056,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
      */
     public function getScrapTipoEmpresa(ConnectionInterface $con = null)
     {
-        if ($this->aScrapTipoEmpresa === null && ($this->id_tipo_empresa != 0)) {
+        if ($this->aScrapTipoEmpresa === null && ($this->id_tipo_empresa !== null)) {
             $this->aScrapTipoEmpresa = ChildScrapTipoEmpresaQuery::create()->findPk($this->id_tipo_empresa, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
@@ -2111,7 +2107,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
      */
     public function getScrapPagina(ConnectionInterface $con = null)
     {
-        if ($this->aScrapPagina === null && ($this->id_pagina != 0)) {
+        if ($this->aScrapPagina === null && ($this->id_pagina !== null)) {
             $this->aScrapPagina = ChildScrapPaginaQuery::create()->findPk($this->id_pagina, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
@@ -2200,9 +2196,6 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
      */
     public function preSave(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::preSave')) {
-            return parent::preSave($con);
-        }
         return true;
     }
 
@@ -2212,9 +2205,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
      */
     public function postSave(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::postSave')) {
-            parent::postSave($con);
-        }
+
     }
 
     /**
@@ -2224,9 +2215,6 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
      */
     public function preInsert(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::preInsert')) {
-            return parent::preInsert($con);
-        }
         return true;
     }
 
@@ -2236,9 +2224,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
      */
     public function postInsert(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::postInsert')) {
-            parent::postInsert($con);
-        }
+
     }
 
     /**
@@ -2248,9 +2234,6 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
      */
     public function preUpdate(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::preUpdate')) {
-            return parent::preUpdate($con);
-        }
         return true;
     }
 
@@ -2260,9 +2243,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
      */
     public function postUpdate(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::postUpdate')) {
-            parent::postUpdate($con);
-        }
+
     }
 
     /**
@@ -2272,9 +2253,6 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
      */
     public function preDelete(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::preDelete')) {
-            return parent::preDelete($con);
-        }
         return true;
     }
 
@@ -2284,9 +2262,7 @@ abstract class ScrapEmpresa implements ActiveRecordInterface
      */
     public function postDelete(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::postDelete')) {
-            parent::postDelete($con);
-        }
+
     }
 
 

@@ -29,8 +29,8 @@ use Propel\Runtime\Util\PropelDateTime;
  *
  *
  *
- * @package    propel.generator..Base
- */
+* @package    propel.generator..Base
+*/
 abstract class SysEmailSent implements ActiveRecordInterface
 {
     /**
@@ -161,14 +161,14 @@ abstract class SysEmailSent implements ActiveRecordInterface
      * The value for the shipping_date field.
      *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
-     * @var        DateTime
+     * @var        \DateTime
      */
     protected $shipping_date;
 
     /**
      * The value for the opening_date field.
      *
-     * @var        DateTime
+     * @var        \DateTime
      */
     protected $opening_date;
 
@@ -572,7 +572,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [shipping_date] column value.
      *
      *
-     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -584,7 +584,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
         if ($format === null) {
             return $this->shipping_date;
         } else {
-            return $this->shipping_date instanceof \DateTimeInterface ? $this->shipping_date->format($format) : null;
+            return $this->shipping_date instanceof \DateTime ? $this->shipping_date->format($format) : null;
         }
     }
 
@@ -592,7 +592,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [opening_date] column value.
      *
      *
-     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -604,7 +604,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
         if ($format === null) {
             return $this->opening_date;
         } else {
-            return $this->opening_date instanceof \DateTimeInterface ? $this->opening_date->format($format) : null;
+            return $this->opening_date instanceof \DateTime ? $this->opening_date->format($format) : null;
         }
     }
 
@@ -887,7 +887,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
     /**
      * Sets the value of [shipping_date] column to a normalized version of the date/time value specified.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
+     * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysEmailSent The current object (for fluent API support)
      */
@@ -895,7 +895,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->shipping_date !== null || $dt !== null) {
-            if ($this->shipping_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->shipping_date->format("Y-m-d H:i:s.u")) {
+            if ($this->shipping_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->shipping_date->format("Y-m-d H:i:s")) {
                 $this->shipping_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[SysEmailSentTableMap::COL_SHIPPING_DATE] = true;
             }
@@ -907,7 +907,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
     /**
      * Sets the value of [opening_date] column to a normalized version of the date/time value specified.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
+     * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysEmailSent The current object (for fluent API support)
      */
@@ -915,7 +915,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->opening_date !== null || $dt !== null) {
-            if ($this->opening_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->opening_date->format("Y-m-d H:i:s.u")) {
+            if ($this->opening_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->opening_date->format("Y-m-d H:i:s")) {
                 $this->opening_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[SysEmailSentTableMap::COL_OPENING_DATE] = true;
             }
@@ -1144,17 +1144,13 @@ abstract class SysEmailSent implements ActiveRecordInterface
             throw new PropelException("You cannot save an object that has been deleted.");
         }
 
-        if ($this->alreadyInSave) {
-            return 0;
-        }
-
         if ($con === null) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysEmailSentTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
-            $ret = $this->preSave($con);
             $isInsert = $this->isNew();
+            $ret = $this->preSave($con);
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
             } else {
@@ -1346,10 +1342,10 @@ abstract class SysEmailSent implements ActiveRecordInterface
                         $stmt->bindValue($identifier, (int) $this->is_success, PDO::PARAM_INT);
                         break;
                     case 'SHIPPING_DATE':
-                        $stmt->bindValue($identifier, $this->shipping_date ? $this->shipping_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->shipping_date ? $this->shipping_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                     case 'OPENING_DATE':
-                        $stmt->bindValue($identifier, $this->opening_date ? $this->opening_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->opening_date ? $this->opening_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1504,11 +1500,11 @@ abstract class SysEmailSent implements ActiveRecordInterface
             $keys[13] => $this->getShippingDate(),
             $keys[14] => $this->getOpeningDate(),
         );
-        if ($result[$keys[13]] instanceof \DateTimeInterface) {
+        if ($result[$keys[13]] instanceof \DateTime) {
             $result[$keys[13]] = $result[$keys[13]]->format('c');
         }
 
-        if ($result[$keys[14]] instanceof \DateTimeInterface) {
+        if ($result[$keys[14]] instanceof \DateTime) {
             $result[$keys[14]] = $result[$keys[14]]->format('c');
         }
 
@@ -1949,7 +1945,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
      */
     public function getSysEmail(ConnectionInterface $con = null)
     {
-        if ($this->aSysEmail === null && ($this->email_id != 0)) {
+        if ($this->aSysEmail === null && ($this->email_id !== null)) {
             $this->aSysEmail = ChildSysEmailQuery::create()->findPk($this->email_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
@@ -2000,7 +1996,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
      */
     public function getSysUser(ConnectionInterface $con = null)
     {
-        if ($this->aSysUser === null && ($this->user_id != 0)) {
+        if ($this->aSysUser === null && ($this->user_id !== null)) {
             $this->aSysUser = ChildSysUserQuery::create()->findPk($this->user_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
@@ -2084,9 +2080,6 @@ abstract class SysEmailSent implements ActiveRecordInterface
      */
     public function preSave(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::preSave')) {
-            return parent::preSave($con);
-        }
         return true;
     }
 
@@ -2096,9 +2089,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
      */
     public function postSave(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::postSave')) {
-            parent::postSave($con);
-        }
+
     }
 
     /**
@@ -2108,9 +2099,6 @@ abstract class SysEmailSent implements ActiveRecordInterface
      */
     public function preInsert(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::preInsert')) {
-            return parent::preInsert($con);
-        }
         return true;
     }
 
@@ -2120,9 +2108,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
      */
     public function postInsert(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::postInsert')) {
-            parent::postInsert($con);
-        }
+
     }
 
     /**
@@ -2132,9 +2118,6 @@ abstract class SysEmailSent implements ActiveRecordInterface
      */
     public function preUpdate(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::preUpdate')) {
-            return parent::preUpdate($con);
-        }
         return true;
     }
 
@@ -2144,9 +2127,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
      */
     public function postUpdate(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::postUpdate')) {
-            parent::postUpdate($con);
-        }
+
     }
 
     /**
@@ -2156,9 +2137,6 @@ abstract class SysEmailSent implements ActiveRecordInterface
      */
     public function preDelete(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::preDelete')) {
-            return parent::preDelete($con);
-        }
         return true;
     }
 
@@ -2168,9 +2146,7 @@ abstract class SysEmailSent implements ActiveRecordInterface
      */
     public function postDelete(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::postDelete')) {
-            parent::postDelete($con);
-        }
+
     }
 
 

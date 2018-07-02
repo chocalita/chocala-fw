@@ -13,24 +13,24 @@
         </div>
         <div class="form-group text-center no-margin-bottom">
             <input type="submit" name="Submit" value="<?= ("Ingresar"); ?>"
-                   class="btn btn-warning full-width" onclick="return BsModalLogin.signIn(this)">
+                   class="btn btn-warning full-width" cho-sign-in-btn>
         </div>
     </div>
 </form>
 <div class="modal-body no-padding-top no-padding-bottom">
     <div class="form-group text-center">
-        <button class="btn btn-success btn-facebook full-width" onclick="return BsModalLogin.signInFacebook(this)">
+        <button class="btn btn-success btn-facebook full-width" cho-facebook-sign-in-btn>
             <i class="fa fa-facebook-f"></i> <?= ("Ingresar con facebook"); ?>
         </button>
     </div>
     <div class="form-group text-center">
-        <a onclick="return BsModalLogin.rememberPanel(this)"><?=("Olvidé mi contraseña")?></a>
+        <a cho-remember-panel-btn><?=("Olvidé mi contraseña")?></a>
     </div>
 </div>
 <div class="modal-body">
     <div class="form-group text-center">
         <label><?=("Aún no tienes una cuenta?")?></label>
-        <button class="btn btn-transparent full-width" onclick="return BsModalLogin.registerPanel(this)">
+        <button class="btn btn-transparent full-width" cho-register-panel-btn>
             <?= ("Registrarme"); ?>
         </button>
     </div>

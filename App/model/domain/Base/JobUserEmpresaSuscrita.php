@@ -31,8 +31,8 @@ use Propel\Runtime\Util\PropelDateTime;
  *
  *
  *
- * @package    propel.generator..Base
- */
+* @package    propel.generator..Base
+*/
 abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
 {
     /**
@@ -115,7 +115,7 @@ abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
      * The value for the creation_date field.
      *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
-     * @var        DateTime
+     * @var        \DateTime
      */
     protected $creation_date;
 
@@ -123,7 +123,7 @@ abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
      * The value for the modification_date field.
      *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
-     * @var        DateTime
+     * @var        \DateTime
      */
     protected $modification_date;
 
@@ -463,7 +463,7 @@ abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [creation_date] column value.
      *
      *
-     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -475,7 +475,7 @@ abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
         if ($format === null) {
             return $this->creation_date;
         } else {
-            return $this->creation_date instanceof \DateTimeInterface ? $this->creation_date->format($format) : null;
+            return $this->creation_date instanceof \DateTime ? $this->creation_date->format($format) : null;
         }
     }
 
@@ -483,7 +483,7 @@ abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [modification_date] column value.
      *
      *
-     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -495,7 +495,7 @@ abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
         if ($format === null) {
             return $this->modification_date;
         } else {
-            return $this->modification_date instanceof \DateTimeInterface ? $this->modification_date->format($format) : null;
+            return $this->modification_date instanceof \DateTime ? $this->modification_date->format($format) : null;
         }
     }
 
@@ -642,7 +642,7 @@ abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
     /**
      * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
+     * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobUserEmpresaSuscrita The current object (for fluent API support)
      */
@@ -650,7 +650,7 @@ abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->creation_date !== null || $dt !== null) {
-            if ($this->creation_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->creation_date->format("Y-m-d H:i:s.u")) {
+            if ($this->creation_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->creation_date->format("Y-m-d H:i:s")) {
                 $this->creation_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[JobUserEmpresaSuscritaTableMap::COL_CREATION_DATE] = true;
             }
@@ -662,7 +662,7 @@ abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
     /**
      * Sets the value of [modification_date] column to a normalized version of the date/time value specified.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
+     * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobUserEmpresaSuscrita The current object (for fluent API support)
      */
@@ -670,7 +670,7 @@ abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->modification_date !== null || $dt !== null) {
-            if ($this->modification_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->modification_date->format("Y-m-d H:i:s.u")) {
+            if ($this->modification_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->modification_date->format("Y-m-d H:i:s")) {
                 $this->modification_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[JobUserEmpresaSuscritaTableMap::COL_MODIFICATION_DATE] = true;
             }
@@ -886,17 +886,13 @@ abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
             throw new PropelException("You cannot save an object that has been deleted.");
         }
 
-        if ($this->alreadyInSave) {
-            return 0;
-        }
-
         if ($con === null) {
             $con = Propel::getServiceContainer()->getWriteConnection(JobUserEmpresaSuscritaTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
-            $ret = $this->preSave($con);
             $isInsert = $this->isNew();
+            $ret = $this->preSave($con);
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
             } else {
@@ -1053,10 +1049,10 @@ abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
                         $stmt->bindValue($identifier, $this->last_user_id, PDO::PARAM_INT);
                         break;
                     case 'CREATION_DATE':
-                        $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                     case 'MODIFICATION_DATE':
-                        $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1183,11 +1179,11 @@ abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
             $keys[6] => $this->getCreationDate(),
             $keys[7] => $this->getModificationDate(),
         );
-        if ($result[$keys[6]] instanceof \DateTimeInterface) {
+        if ($result[$keys[6]] instanceof \DateTime) {
             $result[$keys[6]] = $result[$keys[6]]->format('c');
         }
 
-        if ($result[$keys[7]] instanceof \DateTimeInterface) {
+        if ($result[$keys[7]] instanceof \DateTime) {
             $result[$keys[7]] = $result[$keys[7]]->format('c');
         }
 
@@ -1573,7 +1569,7 @@ abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
      */
     public function getJobEmpresaSuscrita(ConnectionInterface $con = null)
     {
-        if ($this->aJobEmpresaSuscrita === null && ($this->empresa_suscrita_id != 0)) {
+        if ($this->aJobEmpresaSuscrita === null && ($this->empresa_suscrita_id !== null)) {
             $this->aJobEmpresaSuscrita = ChildJobEmpresaSuscritaQuery::create()->findPk($this->empresa_suscrita_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
@@ -1624,7 +1620,7 @@ abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
      */
     public function getSysRol(ConnectionInterface $con = null)
     {
-        if ($this->aSysRol === null && ($this->rol_id != 0)) {
+        if ($this->aSysRol === null && ($this->rol_id !== null)) {
             $this->aSysRol = ChildSysRolQuery::create()->findPk($this->rol_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
@@ -1675,7 +1671,7 @@ abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
      */
     public function getSysUser(ConnectionInterface $con = null)
     {
-        if ($this->aSysUser === null && ($this->user_id != 0)) {
+        if ($this->aSysUser === null && ($this->user_id !== null)) {
             $this->aSysUser = ChildSysUserQuery::create()->findPk($this->user_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
@@ -1756,9 +1752,6 @@ abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
      */
     public function preSave(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::preSave')) {
-            return parent::preSave($con);
-        }
         return true;
     }
 
@@ -1768,9 +1761,7 @@ abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
      */
     public function postSave(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::postSave')) {
-            parent::postSave($con);
-        }
+
     }
 
     /**
@@ -1780,9 +1771,6 @@ abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
      */
     public function preInsert(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::preInsert')) {
-            return parent::preInsert($con);
-        }
         return true;
     }
 
@@ -1792,9 +1780,7 @@ abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
      */
     public function postInsert(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::postInsert')) {
-            parent::postInsert($con);
-        }
+
     }
 
     /**
@@ -1804,9 +1790,6 @@ abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
      */
     public function preUpdate(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::preUpdate')) {
-            return parent::preUpdate($con);
-        }
         return true;
     }
 
@@ -1816,9 +1799,7 @@ abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
      */
     public function postUpdate(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::postUpdate')) {
-            parent::postUpdate($con);
-        }
+
     }
 
     /**
@@ -1828,9 +1809,6 @@ abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
      */
     public function preDelete(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::preDelete')) {
-            return parent::preDelete($con);
-        }
         return true;
     }
 
@@ -1840,9 +1818,7 @@ abstract class JobUserEmpresaSuscrita implements ActiveRecordInterface
      */
     public function postDelete(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::postDelete')) {
-            parent::postDelete($con);
-        }
+
     }
 
 

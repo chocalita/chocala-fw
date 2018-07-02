@@ -37,7 +37,7 @@ class AuthController extends AdminWebController
         $this->renderAsJSON();
     }
 
-    public function loginPanel()
+    public function loadPanel()
     {
         if (Req::_("panel") == "register") {
             $this->renderViewWithoutLayout('main.auth.registerPanel');
@@ -45,6 +45,15 @@ class AuthController extends AdminWebController
             $this->renderViewWithoutLayout('main.auth.rememberPanel');
         } else{
             $this->renderViewWithoutLayout('main.auth.loginPanel');
+        }
+    }
+
+    public function options()
+    {
+        if (!is_object($this->sessionUser)) {
+            $this->renderViewWithoutLayout('main.auth.privateOptions');
+        }else{
+            $this->renderViewWithoutLayout('main.auth.publicOptions');
         }
     }
 

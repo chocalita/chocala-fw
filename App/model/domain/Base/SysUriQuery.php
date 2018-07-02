@@ -178,27 +178,21 @@ abstract class SysUriQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-
-        if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(SysUriTableMap::DATABASE_NAME);
-        }
-
-        $this->basePreSelect($con);
-
-        if (
-            $this->formatter || $this->modelAlias || $this->with || $this->select
-            || $this->selectColumns || $this->asColumns || $this->selectModifiers
-            || $this->map || $this->having || $this->joins
-        ) {
-            return $this->findPkComplex($key, $con);
-        }
-
-        if ((null !== ($obj = SysUriTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+        if ((null !== ($obj = SysUriTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
-
-        return $this->findPkSimple($key, $con);
+        if ($con === null) {
+            $con = Propel::getServiceContainer()->getReadConnection(SysUriTableMap::DATABASE_NAME);
+        }
+        $this->basePreSelect($con);
+        if ($this->formatter || $this->modelAlias || $this->with || $this->select
+         || $this->selectColumns || $this->asColumns || $this->selectModifiers
+         || $this->map || $this->having || $this->joins) {
+            return $this->findPkComplex($key, $con);
+        } else {
+            return $this->findPkSimple($key, $con);
+        }
     }
 
     /**
@@ -394,10 +388,11 @@ abstract class SysUriQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByUri('fooValue');   // WHERE URI = 'fooValue'
-     * $query->filterByUri('%fooValue%', Criteria::LIKE); // WHERE URI LIKE '%fooValue%'
+     * $query->filterByUri('%fooValue%'); // WHERE URI LIKE '%fooValue%'
      * </code>
      *
      * @param     string $uri The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysUriQuery The current query, for fluid interface
@@ -407,6 +402,9 @@ abstract class SysUriQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($uri)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $uri)) {
+                $uri = str_replace('*', '%', $uri);
+                $comparison = Criteria::LIKE;
             }
         }
 
@@ -419,10 +417,11 @@ abstract class SysUriQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByTitle('fooValue');   // WHERE TITLE = 'fooValue'
-     * $query->filterByTitle('%fooValue%', Criteria::LIKE); // WHERE TITLE LIKE '%fooValue%'
+     * $query->filterByTitle('%fooValue%'); // WHERE TITLE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $title The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysUriQuery The current query, for fluid interface
@@ -432,6 +431,9 @@ abstract class SysUriQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($title)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $title)) {
+                $title = str_replace('*', '%', $title);
+                $comparison = Criteria::LIKE;
             }
         }
 
@@ -444,10 +446,11 @@ abstract class SysUriQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByAccess('fooValue');   // WHERE ACCESS = 'fooValue'
-     * $query->filterByAccess('%fooValue%', Criteria::LIKE); // WHERE ACCESS LIKE '%fooValue%'
+     * $query->filterByAccess('%fooValue%'); // WHERE ACCESS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $access The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysUriQuery The current query, for fluid interface
@@ -457,6 +460,9 @@ abstract class SysUriQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($access)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $access)) {
+                $access = str_replace('*', '%', $access);
+                $comparison = Criteria::LIKE;
             }
         }
 
@@ -469,10 +475,11 @@ abstract class SysUriQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByType('fooValue');   // WHERE TYPE = 'fooValue'
-     * $query->filterByType('%fooValue%', Criteria::LIKE); // WHERE TYPE LIKE '%fooValue%'
+     * $query->filterByType('%fooValue%'); // WHERE TYPE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $type The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysUriQuery The current query, for fluid interface
@@ -482,6 +489,9 @@ abstract class SysUriQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($type)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $type)) {
+                $type = str_replace('*', '%', $type);
+                $comparison = Criteria::LIKE;
             }
         }
 
@@ -535,10 +545,11 @@ abstract class SysUriQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByDescription('fooValue');   // WHERE DESCRIPTION = 'fooValue'
-     * $query->filterByDescription('%fooValue%', Criteria::LIKE); // WHERE DESCRIPTION LIKE '%fooValue%'
+     * $query->filterByDescription('%fooValue%'); // WHERE DESCRIPTION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $description The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysUriQuery The current query, for fluid interface
@@ -548,6 +559,9 @@ abstract class SysUriQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($description)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $description)) {
+                $description = str_replace('*', '%', $description);
+                $comparison = Criteria::LIKE;
             }
         }
 
@@ -560,10 +574,11 @@ abstract class SysUriQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByIcon('fooValue');   // WHERE ICON = 'fooValue'
-     * $query->filterByIcon('%fooValue%', Criteria::LIKE); // WHERE ICON LIKE '%fooValue%'
+     * $query->filterByIcon('%fooValue%'); // WHERE ICON LIKE '%fooValue%'
      * </code>
      *
      * @param     string $icon The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysUriQuery The current query, for fluid interface
@@ -573,6 +588,9 @@ abstract class SysUriQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($icon)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $icon)) {
+                $icon = str_replace('*', '%', $icon);
+                $comparison = Criteria::LIKE;
             }
         }
 
@@ -585,10 +603,11 @@ abstract class SysUriQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByMark('fooValue');   // WHERE MARK = 'fooValue'
-     * $query->filterByMark('%fooValue%', Criteria::LIKE); // WHERE MARK LIKE '%fooValue%'
+     * $query->filterByMark('%fooValue%'); // WHERE MARK LIKE '%fooValue%'
      * </code>
      *
      * @param     string $mark The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysUriQuery The current query, for fluid interface
@@ -598,6 +617,9 @@ abstract class SysUriQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($mark)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $mark)) {
+                $mark = str_replace('*', '%', $mark);
+                $comparison = Criteria::LIKE;
             }
         }
 

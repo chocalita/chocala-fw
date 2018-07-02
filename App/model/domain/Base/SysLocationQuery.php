@@ -193,27 +193,21 @@ abstract class SysLocationQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-
-        if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(SysLocationTableMap::DATABASE_NAME);
-        }
-
-        $this->basePreSelect($con);
-
-        if (
-            $this->formatter || $this->modelAlias || $this->with || $this->select
-            || $this->selectColumns || $this->asColumns || $this->selectModifiers
-            || $this->map || $this->having || $this->joins
-        ) {
-            return $this->findPkComplex($key, $con);
-        }
-
-        if ((null !== ($obj = SysLocationTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+        if ((null !== ($obj = SysLocationTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
-
-        return $this->findPkSimple($key, $con);
+        if ($con === null) {
+            $con = Propel::getServiceContainer()->getReadConnection(SysLocationTableMap::DATABASE_NAME);
+        }
+        $this->basePreSelect($con);
+        if ($this->formatter || $this->modelAlias || $this->with || $this->select
+         || $this->selectColumns || $this->asColumns || $this->selectModifiers
+         || $this->map || $this->having || $this->joins) {
+            return $this->findPkComplex($key, $con);
+        } else {
+            return $this->findPkSimple($key, $con);
+        }
     }
 
     /**
@@ -407,10 +401,11 @@ abstract class SysLocationQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByCode('fooValue');   // WHERE CODE = 'fooValue'
-     * $query->filterByCode('%fooValue%', Criteria::LIKE); // WHERE CODE LIKE '%fooValue%'
+     * $query->filterByCode('%fooValue%'); // WHERE CODE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $code The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysLocationQuery The current query, for fluid interface
@@ -420,6 +415,9 @@ abstract class SysLocationQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($code)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $code)) {
+                $code = str_replace('*', '%', $code);
+                $comparison = Criteria::LIKE;
             }
         }
 
@@ -432,10 +430,11 @@ abstract class SysLocationQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByStatus('fooValue');   // WHERE STATUS = 'fooValue'
-     * $query->filterByStatus('%fooValue%', Criteria::LIKE); // WHERE STATUS LIKE '%fooValue%'
+     * $query->filterByStatus('%fooValue%'); // WHERE STATUS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $status The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysLocationQuery The current query, for fluid interface
@@ -445,6 +444,9 @@ abstract class SysLocationQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($status)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $status)) {
+                $status = str_replace('*', '%', $status);
+                $comparison = Criteria::LIKE;
             }
         }
 
@@ -457,10 +459,11 @@ abstract class SysLocationQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByName('fooValue');   // WHERE NAME = 'fooValue'
-     * $query->filterByName('%fooValue%', Criteria::LIKE); // WHERE NAME LIKE '%fooValue%'
+     * $query->filterByName('%fooValue%'); // WHERE NAME LIKE '%fooValue%'
      * </code>
      *
      * @param     string $name The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysLocationQuery The current query, for fluid interface
@@ -470,6 +473,9 @@ abstract class SysLocationQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($name)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $name)) {
+                $name = str_replace('*', '%', $name);
+                $comparison = Criteria::LIKE;
             }
         }
 
@@ -482,10 +488,11 @@ abstract class SysLocationQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByType('fooValue');   // WHERE TYPE = 'fooValue'
-     * $query->filterByType('%fooValue%', Criteria::LIKE); // WHERE TYPE LIKE '%fooValue%'
+     * $query->filterByType('%fooValue%'); // WHERE TYPE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $type The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysLocationQuery The current query, for fluid interface
@@ -495,6 +502,9 @@ abstract class SysLocationQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($type)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $type)) {
+                $type = str_replace('*', '%', $type);
+                $comparison = Criteria::LIKE;
             }
         }
 

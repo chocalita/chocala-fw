@@ -5,7 +5,7 @@
  */
 class AuthService extends GenericService
 {
-
+    const TYPE_FACEBOOK = 'FACEBOOK';
     /**
     * @var AuthService
     */
@@ -54,9 +54,10 @@ class AuthService extends GenericService
      */
     public function saveUserFromFacebook($oFacebookUser)
     {
-        if (is_object($oFacebookUser) && ($accessToken = $oFacebookUser->getId()) != "" && ($email = $oFacebookUser->getEmail()) != "") {
+        if (is_object($oFacebookUser) && ($accessToken = $oFacebookUser->getId()) != ""
+            && ($email = $oFacebookUser->getEmail()) != "") {
             $oAuth = SysAuthQuery::create()
-                ->filterByType(SysAuth::TYPE_FACEBOOK)
+                ->filterByType(AuthService::TYPE_FACEBOOK)
                 ->filterByAccessToken($accessToken)
                 ->filterByStatus(SysUser::STATUS_CLOSED, Criteria::NOT_EQUAL)
                 ->findOne();
@@ -76,14 +77,14 @@ class AuthService extends GenericService
                 if(is_object($aResult["object"])){
                     $this->insertOrUpdate([
                         "UserId" => $aResult["object"]->getId(),
-                        "Type" => SysAuth::TYPE_FACEBOOK,
+                        "Type" => AuthService::TYPE_FACEBOOK,
                         "AccessToken" => $accessToken,
                         "Json" => $oFacebookUser->asJson(),
                     ]);
                     return $aResult["object"];
                 }
             }else{
-                return $this->findPk($oAuth->getUserId());
+                return $oAuth->getSysUser();
             }
 
         }

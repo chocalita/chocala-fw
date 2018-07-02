@@ -25,8 +25,8 @@ use Propel\Runtime\Util\PropelDateTime;
  *
  *
  *
- * @package    propel.generator..Base
- */
+* @package    propel.generator..Base
+*/
 abstract class JobEmpresaDirectorio implements ActiveRecordInterface
 {
     /**
@@ -141,14 +141,14 @@ abstract class JobEmpresaDirectorio implements ActiveRecordInterface
     /**
      * The value for the fecha_matricula field.
      *
-     * @var        DateTime
+     * @var        \DateTime
      */
     protected $fecha_matricula;
 
     /**
      * The value for the fecha_renovacion field.
      *
-     * @var        DateTime
+     * @var        \DateTime
      */
     protected $fecha_renovacion;
 
@@ -653,7 +653,7 @@ abstract class JobEmpresaDirectorio implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [fecha_matricula] column value.
      *
      *
-     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00
@@ -665,7 +665,7 @@ abstract class JobEmpresaDirectorio implements ActiveRecordInterface
         if ($format === null) {
             return $this->fecha_matricula;
         } else {
-            return $this->fecha_matricula instanceof \DateTimeInterface ? $this->fecha_matricula->format($format) : null;
+            return $this->fecha_matricula instanceof \DateTime ? $this->fecha_matricula->format($format) : null;
         }
     }
 
@@ -673,7 +673,7 @@ abstract class JobEmpresaDirectorio implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [fecha_renovacion] column value.
      *
      *
-     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00
@@ -685,7 +685,7 @@ abstract class JobEmpresaDirectorio implements ActiveRecordInterface
         if ($format === null) {
             return $this->fecha_renovacion;
         } else {
-            return $this->fecha_renovacion instanceof \DateTimeInterface ? $this->fecha_renovacion->format($format) : null;
+            return $this->fecha_renovacion instanceof \DateTime ? $this->fecha_renovacion->format($format) : null;
         }
     }
 
@@ -1132,7 +1132,7 @@ abstract class JobEmpresaDirectorio implements ActiveRecordInterface
     /**
      * Sets the value of [fecha_matricula] column to a normalized version of the date/time value specified.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
+     * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobEmpresaDirectorio The current object (for fluent API support)
      */
@@ -1152,7 +1152,7 @@ abstract class JobEmpresaDirectorio implements ActiveRecordInterface
     /**
      * Sets the value of [fecha_renovacion] column to a normalized version of the date/time value specified.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
+     * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\JobEmpresaDirectorio The current object (for fluent API support)
      */
@@ -1877,17 +1877,13 @@ abstract class JobEmpresaDirectorio implements ActiveRecordInterface
             throw new PropelException("You cannot save an object that has been deleted.");
         }
 
-        if ($this->alreadyInSave) {
-            return 0;
-        }
-
         if ($con === null) {
             $con = Propel::getServiceContainer()->getWriteConnection(JobEmpresaDirectorioTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
-            $ret = $this->preSave($con);
             $isInsert = $this->isNew();
+            $ret = $this->preSave($con);
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
             } else {
@@ -2110,10 +2106,10 @@ abstract class JobEmpresaDirectorio implements ActiveRecordInterface
                         $stmt->bindValue($identifier, $this->fono2, PDO::PARAM_STR);
                         break;
                     case 'FECHA_MATRICULA':
-                        $stmt->bindValue($identifier, $this->fecha_matricula ? $this->fecha_matricula->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->fecha_matricula ? $this->fecha_matricula->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                     case 'FECHA_RENOVACION':
-                        $stmt->bindValue($identifier, $this->fecha_renovacion ? $this->fecha_renovacion->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->fecha_renovacion ? $this->fecha_renovacion->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                     case 'ULT_RENOV':
                         $stmt->bindValue($identifier, $this->ult_renov, PDO::PARAM_INT);
@@ -2406,11 +2402,11 @@ abstract class JobEmpresaDirectorio implements ActiveRecordInterface
             $keys[33] => $this->getDes3(),
             $keys[34] => $this->getDes4(),
         );
-        if ($result[$keys[11]] instanceof \DateTimeInterface) {
+        if ($result[$keys[11]] instanceof \DateTime) {
             $result[$keys[11]] = $result[$keys[11]]->format('c');
         }
 
-        if ($result[$keys[12]] instanceof \DateTimeInterface) {
+        if ($result[$keys[12]] instanceof \DateTime) {
             $result[$keys[12]] = $result[$keys[12]]->format('c');
         }
 
@@ -3063,9 +3059,6 @@ abstract class JobEmpresaDirectorio implements ActiveRecordInterface
      */
     public function preSave(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::preSave')) {
-            return parent::preSave($con);
-        }
         return true;
     }
 
@@ -3075,9 +3068,7 @@ abstract class JobEmpresaDirectorio implements ActiveRecordInterface
      */
     public function postSave(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::postSave')) {
-            parent::postSave($con);
-        }
+
     }
 
     /**
@@ -3087,9 +3078,6 @@ abstract class JobEmpresaDirectorio implements ActiveRecordInterface
      */
     public function preInsert(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::preInsert')) {
-            return parent::preInsert($con);
-        }
         return true;
     }
 
@@ -3099,9 +3087,7 @@ abstract class JobEmpresaDirectorio implements ActiveRecordInterface
      */
     public function postInsert(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::postInsert')) {
-            parent::postInsert($con);
-        }
+
     }
 
     /**
@@ -3111,9 +3097,6 @@ abstract class JobEmpresaDirectorio implements ActiveRecordInterface
      */
     public function preUpdate(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::preUpdate')) {
-            return parent::preUpdate($con);
-        }
         return true;
     }
 
@@ -3123,9 +3106,7 @@ abstract class JobEmpresaDirectorio implements ActiveRecordInterface
      */
     public function postUpdate(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::postUpdate')) {
-            parent::postUpdate($con);
-        }
+
     }
 
     /**
@@ -3135,9 +3116,6 @@ abstract class JobEmpresaDirectorio implements ActiveRecordInterface
      */
     public function preDelete(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::preDelete')) {
-            return parent::preDelete($con);
-        }
         return true;
     }
 
@@ -3147,9 +3125,7 @@ abstract class JobEmpresaDirectorio implements ActiveRecordInterface
      */
     public function postDelete(ConnectionInterface $con = null)
     {
-        if (is_callable('parent::postDelete')) {
-            parent::postDelete($con);
-        }
+
     }
 
 

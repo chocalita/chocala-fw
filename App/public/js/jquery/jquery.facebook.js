@@ -1,41 +1,39 @@
 /**
- * Created by raulhuanca on 11/7/16.
+ * Created by raulhuanca on 11/6/2018.
  */
-// This is called with the results from from FB.getLoginStatus().
-var FacebookApi = {
-    statusListener:null,
-    listenStatus:function(statusListener){
-        this.statusListener =  statusListener;
-        return this;
-    },
-    statusChangeCallback:function(response) {
-        // The response object is returned with a status field that lets the
-        // app know the current login status of the person.
-        // Full docs on the response object can be found in the documentation
-        // for FB.getLoginStatus().
-        if(typeof this.statusListener == "function"){
-            this.statusListener(response);
+var FacebookApi = (function(){
+    var statusListener = null;
+    return {
+        listenStatus:function(statusListenerParam){
+            statusListener =  statusListenerParam;
+            return this;
+        },
+        setChangingStatusCallback:function(response) {
+            if(typeof statusListener == "function"){
+                statusListener(response);
+            }
+        },
+        checkLoginState:function() {
+            var $this = this;
+            FB.getLoginStatus(function(response) {
+                $this.setChangingStatusCallback(response);
+            });
+        },
+        login:function(callback){
+            if(typeof FB != "undefined") {
+                FB.login(function (response) {
+                    if(typeof callback === "function"){
+                        callback(response);
+                    }
+                }, {scope: 'public_profile,email,manage_pages'});
+            }
+            return this;
+        },
+        logout:function(){
+            FB.api('/me/permissions', 'delete');
         }
-    },
-    checkLoginState:function() {
-        FB.getLoginStatus(function(response) {
-            FacebookApi.statusChangeCallback(response);
-        });
-    },
-    login:function(callback){
-        if(typeof FB != "undefined") {
-            FB.login(function (response) {
-                if(typeof callback === "function"){
-                    callback(response);
-                }
-            }, {scope: 'public_profile,email,manage_pages'});
-        }
-        return this;
-    },
-    logout:function(){
-        FB.api('/me/permissions', 'delete');
     }
-}
+})();
 
 
 // This function is called when someone finishes with the Login
@@ -65,7 +63,7 @@ window.fbAsyncInit = function() {
         // These three cases are handled in the callback function.
 
         FB.getLoginStatus(function(response) {
-            FacebookApi.statusChangeCallback(response);
+            FacebookApi.setChangingStatusCallback(response);
         });
     }
 };

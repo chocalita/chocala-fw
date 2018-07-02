@@ -148,27 +148,21 @@ abstract class SysEntityTypeQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-
-        if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(SysEntityTypeTableMap::DATABASE_NAME);
-        }
-
-        $this->basePreSelect($con);
-
-        if (
-            $this->formatter || $this->modelAlias || $this->with || $this->select
-            || $this->selectColumns || $this->asColumns || $this->selectModifiers
-            || $this->map || $this->having || $this->joins
-        ) {
-            return $this->findPkComplex($key, $con);
-        }
-
-        if ((null !== ($obj = SysEntityTypeTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+        if ((null !== ($obj = SysEntityTypeTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
-
-        return $this->findPkSimple($key, $con);
+        if ($con === null) {
+            $con = Propel::getServiceContainer()->getReadConnection(SysEntityTypeTableMap::DATABASE_NAME);
+        }
+        $this->basePreSelect($con);
+        if ($this->formatter || $this->modelAlias || $this->with || $this->select
+         || $this->selectColumns || $this->asColumns || $this->selectModifiers
+         || $this->map || $this->having || $this->joins) {
+            return $this->findPkComplex($key, $con);
+        } else {
+            return $this->findPkSimple($key, $con);
+        }
     }
 
     /**
@@ -321,10 +315,11 @@ abstract class SysEntityTypeQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByGroupCode('fooValue');   // WHERE GROUP_CODE = 'fooValue'
-     * $query->filterByGroupCode('%fooValue%', Criteria::LIKE); // WHERE GROUP_CODE LIKE '%fooValue%'
+     * $query->filterByGroupCode('%fooValue%'); // WHERE GROUP_CODE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $groupCode The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityTypeQuery The current query, for fluid interface
@@ -334,6 +329,9 @@ abstract class SysEntityTypeQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($groupCode)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $groupCode)) {
+                $groupCode = str_replace('*', '%', $groupCode);
+                $comparison = Criteria::LIKE;
             }
         }
 
@@ -346,10 +344,11 @@ abstract class SysEntityTypeQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByCode('fooValue');   // WHERE CODE = 'fooValue'
-     * $query->filterByCode('%fooValue%', Criteria::LIKE); // WHERE CODE LIKE '%fooValue%'
+     * $query->filterByCode('%fooValue%'); // WHERE CODE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $code The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityTypeQuery The current query, for fluid interface
@@ -359,6 +358,9 @@ abstract class SysEntityTypeQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($code)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $code)) {
+                $code = str_replace('*', '%', $code);
+                $comparison = Criteria::LIKE;
             }
         }
 
@@ -371,10 +373,11 @@ abstract class SysEntityTypeQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByName('fooValue');   // WHERE NAME = 'fooValue'
-     * $query->filterByName('%fooValue%', Criteria::LIKE); // WHERE NAME LIKE '%fooValue%'
+     * $query->filterByName('%fooValue%'); // WHERE NAME LIKE '%fooValue%'
      * </code>
      *
      * @param     string $name The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityTypeQuery The current query, for fluid interface
@@ -384,6 +387,9 @@ abstract class SysEntityTypeQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($name)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $name)) {
+                $name = str_replace('*', '%', $name);
+                $comparison = Criteria::LIKE;
             }
         }
 
@@ -396,10 +402,11 @@ abstract class SysEntityTypeQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByDescription('fooValue');   // WHERE DESCRIPTION = 'fooValue'
-     * $query->filterByDescription('%fooValue%', Criteria::LIKE); // WHERE DESCRIPTION LIKE '%fooValue%'
+     * $query->filterByDescription('%fooValue%'); // WHERE DESCRIPTION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $description The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEntityTypeQuery The current query, for fluid interface
@@ -409,6 +416,9 @@ abstract class SysEntityTypeQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($description)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $description)) {
+                $description = str_replace('*', '%', $description);
+                $comparison = Criteria::LIKE;
             }
         }
 

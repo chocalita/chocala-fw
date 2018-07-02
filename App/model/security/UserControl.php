@@ -111,8 +111,8 @@ class UserControl implements ISingleton
     public static function login($username, $password)
     {
         $sysUser = SysUserQuery::create()
-                ->filterByUsername($username)
-                ->filterByStatus(SysUser::inactives(), Criteria::NOT_IN)
+            ->filterByUsername($username)
+            ->filterByStatus(SysUser::inactives(), Criteria::NOT_IN)
             ->findOne();
         if(is_object($sysUser)){
             if($sysUser->getPassword() == self::crypt($password)){

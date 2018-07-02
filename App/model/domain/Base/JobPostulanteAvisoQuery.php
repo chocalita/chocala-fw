@@ -183,27 +183,21 @@ abstract class JobPostulanteAvisoQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-
-        if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(JobPostulanteAvisoTableMap::DATABASE_NAME);
-        }
-
-        $this->basePreSelect($con);
-
-        if (
-            $this->formatter || $this->modelAlias || $this->with || $this->select
-            || $this->selectColumns || $this->asColumns || $this->selectModifiers
-            || $this->map || $this->having || $this->joins
-        ) {
-            return $this->findPkComplex($key, $con);
-        }
-
-        if ((null !== ($obj = JobPostulanteAvisoTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+        if ((null !== ($obj = JobPostulanteAvisoTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
-
-        return $this->findPkSimple($key, $con);
+        if ($con === null) {
+            $con = Propel::getServiceContainer()->getReadConnection(JobPostulanteAvisoTableMap::DATABASE_NAME);
+        }
+        $this->basePreSelect($con);
+        if ($this->formatter || $this->modelAlias || $this->with || $this->select
+         || $this->selectColumns || $this->asColumns || $this->selectModifiers
+         || $this->map || $this->having || $this->joins) {
+            return $this->findPkComplex($key, $con);
+        } else {
+            return $this->findPkSimple($key, $con);
+        }
     }
 
     /**
@@ -442,10 +436,11 @@ abstract class JobPostulanteAvisoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByEstado('fooValue');   // WHERE ESTADO = 'fooValue'
-     * $query->filterByEstado('%fooValue%', Criteria::LIKE); // WHERE ESTADO LIKE '%fooValue%'
+     * $query->filterByEstado('%fooValue%'); // WHERE ESTADO LIKE '%fooValue%'
      * </code>
      *
      * @param     string $estado The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobPostulanteAvisoQuery The current query, for fluid interface
@@ -455,6 +450,9 @@ abstract class JobPostulanteAvisoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($estado)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $estado)) {
+                $estado = str_replace('*', '%', $estado);
+                $comparison = Criteria::LIKE;
             }
         }
 
@@ -508,10 +506,11 @@ abstract class JobPostulanteAvisoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByCartaPresentacion('fooValue');   // WHERE CARTA_PRESENTACION = 'fooValue'
-     * $query->filterByCartaPresentacion('%fooValue%', Criteria::LIKE); // WHERE CARTA_PRESENTACION LIKE '%fooValue%'
+     * $query->filterByCartaPresentacion('%fooValue%'); // WHERE CARTA_PRESENTACION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $cartaPresentacion The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobPostulanteAvisoQuery The current query, for fluid interface
@@ -521,6 +520,9 @@ abstract class JobPostulanteAvisoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($cartaPresentacion)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $cartaPresentacion)) {
+                $cartaPresentacion = str_replace('*', '%', $cartaPresentacion);
+                $comparison = Criteria::LIKE;
             }
         }
 
@@ -533,10 +535,11 @@ abstract class JobPostulanteAvisoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByCvMime('fooValue');   // WHERE CV_MIME = 'fooValue'
-     * $query->filterByCvMime('%fooValue%', Criteria::LIKE); // WHERE CV_MIME LIKE '%fooValue%'
+     * $query->filterByCvMime('%fooValue%'); // WHERE CV_MIME LIKE '%fooValue%'
      * </code>
      *
      * @param     string $cvMime The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobPostulanteAvisoQuery The current query, for fluid interface
@@ -546,6 +549,9 @@ abstract class JobPostulanteAvisoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($cvMime)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $cvMime)) {
+                $cvMime = str_replace('*', '%', $cvMime);
+                $comparison = Criteria::LIKE;
             }
         }
 
@@ -558,10 +564,11 @@ abstract class JobPostulanteAvisoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByCvFilename('fooValue');   // WHERE CV_FILENAME = 'fooValue'
-     * $query->filterByCvFilename('%fooValue%', Criteria::LIKE); // WHERE CV_FILENAME LIKE '%fooValue%'
+     * $query->filterByCvFilename('%fooValue%'); // WHERE CV_FILENAME LIKE '%fooValue%'
      * </code>
      *
      * @param     string $cvFilename The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobPostulanteAvisoQuery The current query, for fluid interface
@@ -571,6 +578,9 @@ abstract class JobPostulanteAvisoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($cvFilename)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $cvFilename)) {
+                $cvFilename = str_replace('*', '%', $cvFilename);
+                $comparison = Criteria::LIKE;
             }
         }
 

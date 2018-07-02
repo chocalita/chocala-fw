@@ -128,6 +128,20 @@ abstract class WebController implements IController
     }
 
     /**
+     * Generate and display the html code from request page with action,
+     * controller and module properties using the layout and template on the
+     * view engine
+     * @param string $view
+     * @param string $module
+     * @return void
+     */
+    final public function renderViewWithoutLayout($view, $module=null)
+    {
+        $this->view->renderViewWithoutLayout(lcfirst($view), $module);
+        $this->rendered = true;
+    }
+
+    /**
      * Generate and send a json response encoding the controller's vars from
      * request page with action, controller and module
      *

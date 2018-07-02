@@ -178,27 +178,21 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-
-        if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(SysPasswordRequestTableMap::DATABASE_NAME);
-        }
-
-        $this->basePreSelect($con);
-
-        if (
-            $this->formatter || $this->modelAlias || $this->with || $this->select
-            || $this->selectColumns || $this->asColumns || $this->selectModifiers
-            || $this->map || $this->having || $this->joins
-        ) {
-            return $this->findPkComplex($key, $con);
-        }
-
-        if ((null !== ($obj = SysPasswordRequestTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+        if ((null !== ($obj = SysPasswordRequestTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
-
-        return $this->findPkSimple($key, $con);
+        if ($con === null) {
+            $con = Propel::getServiceContainer()->getReadConnection(SysPasswordRequestTableMap::DATABASE_NAME);
+        }
+        $this->basePreSelect($con);
+        if ($this->formatter || $this->modelAlias || $this->with || $this->select
+         || $this->selectColumns || $this->asColumns || $this->selectModifiers
+         || $this->map || $this->having || $this->joins) {
+            return $this->findPkComplex($key, $con);
+        } else {
+            return $this->findPkSimple($key, $con);
+        }
     }
 
     /**
@@ -394,10 +388,11 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByEmail('fooValue');   // WHERE EMAIL = 'fooValue'
-     * $query->filterByEmail('%fooValue%', Criteria::LIKE); // WHERE EMAIL LIKE '%fooValue%'
+     * $query->filterByEmail('%fooValue%'); // WHERE EMAIL LIKE '%fooValue%'
      * </code>
      *
      * @param     string $email The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysPasswordRequestQuery The current query, for fluid interface
@@ -407,6 +402,9 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($email)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $email)) {
+                $email = str_replace('*', '%', $email);
+                $comparison = Criteria::LIKE;
             }
         }
 
@@ -419,10 +417,11 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByHashString('fooValue');   // WHERE HASH_STRING = 'fooValue'
-     * $query->filterByHashString('%fooValue%', Criteria::LIKE); // WHERE HASH_STRING LIKE '%fooValue%'
+     * $query->filterByHashString('%fooValue%'); // WHERE HASH_STRING LIKE '%fooValue%'
      * </code>
      *
      * @param     string $hashString The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysPasswordRequestQuery The current query, for fluid interface
@@ -432,6 +431,9 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($hashString)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $hashString)) {
+                $hashString = str_replace('*', '%', $hashString);
+                $comparison = Criteria::LIKE;
             }
         }
 
@@ -512,10 +514,11 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByRequestIp('fooValue');   // WHERE REQUEST_IP = 'fooValue'
-     * $query->filterByRequestIp('%fooValue%', Criteria::LIKE); // WHERE REQUEST_IP LIKE '%fooValue%'
+     * $query->filterByRequestIp('%fooValue%'); // WHERE REQUEST_IP LIKE '%fooValue%'
      * </code>
      *
      * @param     string $requestIp The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysPasswordRequestQuery The current query, for fluid interface
@@ -525,6 +528,9 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($requestIp)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $requestIp)) {
+                $requestIp = str_replace('*', '%', $requestIp);
+                $comparison = Criteria::LIKE;
             }
         }
 
@@ -537,10 +543,11 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByRestoredIp('fooValue');   // WHERE RESTORED_IP = 'fooValue'
-     * $query->filterByRestoredIp('%fooValue%', Criteria::LIKE); // WHERE RESTORED_IP LIKE '%fooValue%'
+     * $query->filterByRestoredIp('%fooValue%'); // WHERE RESTORED_IP LIKE '%fooValue%'
      * </code>
      *
      * @param     string $restoredIp The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysPasswordRequestQuery The current query, for fluid interface
@@ -550,6 +557,9 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($restoredIp)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $restoredIp)) {
+                $restoredIp = str_replace('*', '%', $restoredIp);
+                $comparison = Criteria::LIKE;
             }
         }
 
