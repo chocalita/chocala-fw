@@ -26,11 +26,6 @@ class AvisosController extends EmpresaAdminController
      */
     protected $formacionReferenciaService;
 
-    public function _init()
-    {
-        parent::_init();
-    }
-
     public function index()
     {
         $this->redirectTo(['action' => 'avisosVigentes']);

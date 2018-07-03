@@ -7,7 +7,7 @@
  * Date: 05/01/2018
  * Time: 06:59 PM
  */
-class SuscripcionesController extends AdminWebController
+class SuscripcionesController extends PublicWebController
 {
 
     /**
