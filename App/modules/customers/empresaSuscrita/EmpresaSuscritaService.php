@@ -182,17 +182,11 @@ class EmpresaSuscritaService extends GenericService
         $usuarioXRol = new SysUserXRol();
         $usuarioXRol->setRolId($data['RolId']);
         $person = new SysPerson();
-//        echo "<br />ESTA AQUI 7";
 //        $user->addSysPerson($person);
-//        echo "<br />ESTA AQUI 8";
 //        $person->setSysUser($user);
-//        echo "<br />ESTA AQUI 9";
         $user->fromArray($data);
-//        echo "<br />ESTA AQUI 10";
         $person->fromArray($data);
-//        echo "<br />ESTA AQUI 11";
         $user->setStatus(SysUser::STATUS_CREATED);
-//        echo "<br />ESTA AQUI 12";
 
         $results['success'] = $person->validate() && $user->validate();
         if ($results['success'] && $data['Password'] != $data['Password2']) {
