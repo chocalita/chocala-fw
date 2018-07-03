@@ -185,7 +185,7 @@ class EmpresaSuscritaService extends GenericService
 //        echo "<br />ESTA AQUI 7";
 //        $user->addSysPerson($person);
 //        echo "<br />ESTA AQUI 8";
-        $person->setSysUser($user);
+//        $person->setSysUser($user);
 //        echo "<br />ESTA AQUI 9";
         $user->fromArray($data);
 //        echo "<br />ESTA AQUI 10";
