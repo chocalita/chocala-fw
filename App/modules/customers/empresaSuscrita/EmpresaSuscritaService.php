@@ -175,18 +175,30 @@ class EmpresaSuscritaService extends GenericService
         // TODO: validate equals password
         $data['Password'] = SysUser::crypt($data['Password']);
 
+        echo "<br />ESTA AQUI 1";
         $rolAdmin = $this->rolAdministrador();
+        echo "<br />ESTA AQUI @";
         $data['RolId'] = $rolAdmin->getId();
+        echo "<br />ESTA AQUI 3";
 
         $user = new SysUser();
+        echo "<br />ESTA AQUI $";
         $usuarioXRol = new SysUserXRol();
+        echo "<br />ESTA AQUI 5";
         $usuarioXRol->setRolId($data['RolId']);
+        echo "<br />ESTA AQUI 6";
         $person = new SysPerson();
+        echo "<br />ESTA AQUI 7";
         $user->addSysPerson($person);
+        echo "<br />ESTA AQUI 8";
         $person->setSysUser($user);
+        echo "<br />ESTA AQUI 9";
         $user->fromArray($data);
+        echo "<br />ESTA AQUI 10";
         $person->fromArray($data);
+        echo "<br />ESTA AQUI 11";
         $user->setStatus(SysUser::STATUS_CREATED);
+        echo "<br />ESTA AQUI 12";
 
         $results['success'] = $person->validate() && $user->validate();
         if ($results['success'] && $data['Password'] != $data['Password2']) {
