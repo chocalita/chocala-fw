@@ -182,8 +182,8 @@ class EmpresaSuscritaService extends GenericService
         $usuarioXRol = new SysUserXRol();
         $usuarioXRol->setRolId($data['RolId']);
         $person = new SysPerson();
-        $user->addSysPerson($person);
-        $person->setSysUser($user);
+//        $user->addSysPerson($person);
+//        $person->setSysUser($user);
         $user->fromArray($data);
         $person->fromArray($data);
         $user->setStatus(SysUser::STATUS_CREATED);

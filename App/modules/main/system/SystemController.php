@@ -37,6 +37,12 @@ class SystemController extends AdminWebController
      */
     protected $holaService;
 
+    public function _init()
+    {
+        $this->view->changeLayout('private');
+        $this->sessionUser = UserControl::user();
+    }
+
     public function index()
     {
         $this->redirectTo(['action' => 'access']);

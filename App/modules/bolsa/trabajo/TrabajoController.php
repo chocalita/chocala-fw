@@ -44,7 +44,7 @@ class TrabajoController extends PublicWebController
      */
     protected $formacionReferenciaService;
 
-    const SUSCRIPCION_MSG_COOKIE = "SUSCRIPCION_MSG_TMP1";
+    const SUSCRIPCION_MSG_COOKIE = "SUSCRIPCION_MSG_TMP2";
 
     public function index()
     {
