@@ -71,7 +71,7 @@ class AuthService extends GenericService
                     "LastName" => $oFacebookUser->getLastName() != ""? $oFacebookUser->getLastName() : "FBUser",
                     "Email" => $oFacebookUser->getEmail(),
                     "Username" => $oFacebookUser->getEmail(),
-                    "Password" => "FBUser",
+                    "Password" => "FBUser123",
                     "RolId" => 3,
                 ], $oUserAlreadyRegistered);
                 if(is_object($aResult["object"])){
@@ -102,6 +102,15 @@ class AuthService extends GenericService
             $result = $result->filterByUsername($data['value']);
         }
         return is_object($result->findOne());
+    }
+
+    public function getMenu(WebView $oView)
+    {
+        if (UserControl::isLoggedIn()) {
+            return $oView->renderViewWithoutLayoutAsString('main.auth.privateOptions');
+        }else{
+            return $oView->renderViewWithoutLayoutAsString('main.auth.publicOptions');
+        }
     }
 
 }

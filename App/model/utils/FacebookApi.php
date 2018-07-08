@@ -80,7 +80,9 @@ class FacebookApi
 
     public function logout()
     {
-        unset($_SESSION['facebook_access_token']);
+        if(isset($_SESSION['facebook_access_token'])) {
+            unset($_SESSION['facebook_access_token']);
+        }
     }
 
     public function getUser()

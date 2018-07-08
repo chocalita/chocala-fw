@@ -84,6 +84,16 @@ class WebView implements IView
 
     /**
      *
+     * @param string $name
+     * @return mixed
+     */
+    public function getVar($name)
+    {
+        return isset($this->vars[$name]) ? $this->vars[$name] : false;
+    }
+
+    /**
+     *
      * @return string
      */
     protected function viewPath()
@@ -167,6 +177,13 @@ class WebView implements IView
         Headers::instance()->sendHeaders();
         echo $this->renderTemplate();
         exit;
+    }
+
+    public function renderViewWithoutLayoutAsString($template, $module=null)
+    {
+        $this->module = $module;
+        $this->template = $this->templatePath().lcfirst($template);
+        return $this->renderTemplate();
     }
 
     public function renderJSON()

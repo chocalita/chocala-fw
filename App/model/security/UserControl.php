@@ -116,15 +116,24 @@ class UserControl implements ISingleton
             ->findOne();
         if(is_object($sysUser)){
             if($sysUser->getPassword() == self::crypt($password)){
-                $sysUser->updateAccess();
-                Session::set(self::sessionVar(), $sysUser);
-                SecurityRegistry::instance()->updateRegistry('user', new UserControl());
+                self::saveSession($sysUser);
                 return true;
             } else {
                 $sysUser->updateAccessFailures();
             }
         }
         return false;
+    }
+
+    /**
+     * Save User into Session
+     * @param $sysUser SysUser
+     */
+    public function saveIntoSession($sysUser)
+    {
+        $sysUser->updateAccess();
+        Session::set(self::sessionVar(), $sysUser);
+        SecurityRegistry::instance()->updateRegistry('user', new UserControl());
     }
 
     /**

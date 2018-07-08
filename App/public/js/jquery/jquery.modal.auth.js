@@ -1,4 +1,4 @@
-var BsModalLogin = window.BsModalLogin || (function ($, webRoot) {
+var ModalAuth = window.ModalAuth || (function ($, webRoot) {
     var panel = {
         LOGIN: "login",
         REGISTER: "register",
@@ -22,25 +22,25 @@ var BsModalLogin = window.BsModalLogin || (function ($, webRoot) {
 
     var initButtons = function(){
         $("#"+panelId+" [cho-login-panel-btn]").click(function(){
-            return BsModalLogin.loginPanel(this);
+            return ModalAuth.loginPanel(this);
         });
         $("#"+panelId+" [cho-sign-in-btn]").click(function(){
-            return BsModalLogin.signIn(this);
+            return ModalAuth.signIn(this);
         });
         $("#"+panelId+" [cho-remember-panel-btn]").click(function(){
-            return BsModalLogin.rememberPanel(this);
+            return ModalAuth.rememberPanel(this);
         });
         $("#"+panelId+" [cho-remember-btn]").click(function(){
-            return BsModalLogin.remember(this);
+            return ModalAuth.remember(this);
         });
         $("#"+panelId+" [cho-register-panel-btn]").click(function(){
-            return BsModalLogin.registerPanel(this);
+            return ModalAuth.registerPanel(this);
         });
         $("#"+panelId+" [cho-register-btn]").click(function(){
-            return BsModalLogin.register(this);
+            return ModalAuth.register(this);
         });
         $("#"+panelId+" [cho-facebook-sign-in-btn]").click(function(){
-            return BsModalLogin.signInFacebook(this);
+            return ModalAuth.signInFacebook(this);
         });
     };
 
@@ -48,7 +48,7 @@ var BsModalLogin = window.BsModalLogin || (function ($, webRoot) {
         $.post(webRoot + paths.OPTIONS, function (response) {
             $("#navbar").html(response);
             $('a[data-id=btn-login]').click(function(){
-                BsModalLogin.loginPanel();
+                ModalAuth.loginPanel();
             });
         }, "html");
     };

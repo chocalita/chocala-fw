@@ -56,14 +56,6 @@
     <script src="<?=JQUERY_WEB;?>jquery.validationEngine.js" type="text/javascript"></script>
     <script src="<?=JQUERY_WEB;?>jquery.validationEngine-es.js" type="text/javascript"></script>
     <script src="<?=JQUERY_WEB;?>jquery.formAjaxPost.js" type="text/javascript"></script>
-
-
-    <script type="application/javascript">
-    $().ready(function () {
-        BsModalLogin.options();
-    });
-    </script>
-
     <?php
     if(strtoupper(Configs::value('app.run.environment')) != 'DEVELOPMENT'){
     ?>
@@ -168,6 +160,13 @@
     <?php
     }
     ?>
+    <script type="application/javascript">
+        $().ready(function () {
+            $('a[data-id=btn-login]').click(function(){
+                ModalAuth.loginPanel();
+            });
+        });
+    </script>
 </head>
 
 <body id="page-top" class="landing-page">
@@ -196,9 +195,7 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a data-id="btn-login">Iniciar sesión</a></li>
-                        <li><a class="page-scroll" href="<?=WEB_ROOT;?>index.htm">Inicio</a></li>
-                        <li><a class="page-scroll" href="#ventajas">Ventajas</a></li>
+                        <?=$this->getVar('__Menu')?>
                     </ul>
                 </div>
             </div>

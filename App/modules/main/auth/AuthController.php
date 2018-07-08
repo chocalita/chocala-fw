@@ -50,11 +50,18 @@ class AuthController extends AdminWebController
 
     public function options()
     {
-        if (!is_object($this->sessionUser)) {
+        if (UserControl::isLoggedIn()) {
             $this->renderViewWithoutLayout('main.auth.privateOptions');
         }else{
             $this->renderViewWithoutLayout('main.auth.publicOptions');
         }
+    }
+
+    public function signOut()
+    {
+        UserControl::logout();
+        FacebookApi::instance()->logout();
+        $this->redirectTo(['uri' => '/']);
     }
 
     public function signinFacebook()
@@ -75,6 +82,7 @@ class AuthController extends AdminWebController
                         }else{
                             $imageUrl = $imageUrlFacebook;
                         }
+                        UserControl::saveIntoSession($oUser);
                     } else {
                         $statusFacebook = "FACEBOOK_EMAIL_REQUIRED";
                         FacebookApi::instance()->logout();

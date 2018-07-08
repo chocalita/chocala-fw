@@ -33,6 +33,12 @@ class TrabajoController extends PublicWebController
     protected $suscriptorService;
 
     /**
+     * @var AuthService
+     * @service main.auth.AuthService
+     */
+    protected $authService;
+
+    /**
      * @var FormacionReferenciaService Injected service
      * @service recursos.formacionReferencia.FormacionReferenciaService
      */
@@ -60,6 +66,7 @@ class TrabajoController extends PublicWebController
         $this->set('totalMesPasado', $totalMesPasado);
         $this->set('avisosOdd', $avisosOdd);
         $this->set('avisosEven', $avisosEven);
+        $this->set('__Menu', $this->authService->getMenu($this->view));
         // TODO: send an email on suscription
         if (!Cookie::has(self::SUSCRIPCION_MSG_COOKIE)) {
             $formacionReferenciaList = $this->formacionReferenciaService->dataList(['activo' => true]);
