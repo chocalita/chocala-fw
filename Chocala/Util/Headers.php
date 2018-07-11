@@ -95,6 +95,7 @@ class Headers
         if($this->charset != ''){
             $contentType.= '; charset='.$this->charset;
         }
+        header("Access-Control-Allow-Origin: *");
         header('Content-Type: '.$contentType);
     }
 

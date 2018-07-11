@@ -71,5 +71,4 @@ if($_REQUEST['url'] == ''){
 }
 
 require_once(CHOCALA_DIR.'ChocalaRunner.php');
-header("Access-Control-Allow-Origin: *");
 ChocalaRunner::run();
