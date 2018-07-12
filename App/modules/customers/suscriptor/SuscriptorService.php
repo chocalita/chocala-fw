@@ -165,6 +165,7 @@ class SuscriptorService extends GenericService
         $nSent = 0;
 
         $suscriptoresNotificados = $this->suscriptoresNotificados(self::DEFAULT_INTERVAL_NOTIFICATION_DAYS + 6);
+        echo "Notificados -> " . $suscriptoresNotificados->count();
         $idsNotificados = array_map(function ($item) { return $item->getId(); }
             , $suscriptoresNotificados->getArrayCopy());
         $suscriptoresPosibles = $this->validsQuery()

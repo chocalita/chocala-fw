@@ -47,7 +47,7 @@ class SuscriptorController extends AdminWebController
 
     public function mailing()
     {
-        $this->suscriptorService->mailing(10);
+        $this->suscriptorService->mailing(2);
         $this->render("<strong>MAILING FINALIZADO</strong>");
     }
 
