@@ -122,7 +122,7 @@ class SuscriptorService extends GenericService
         }
         $dateBase = new DateUtil($dateBase->format('Y-m-d'));
         if ($days > 0) {
-            $dateBase->modify("-${days} days");
+            $dateBase = $dateBase->modify("-${days} days");
         }
         $email = EmailService::instance()->findByCode(JobSuscriptor::EMAIL_NOTIFICATION_SUBSCRIBE);
         return SysEmailSentQuery::create()
@@ -139,6 +139,7 @@ class SuscriptorService extends GenericService
     public function suscriptoresNotificados($days, $dateBase = null)
     {
         $notificacionesRecientes = $this->notificacionesRecientes($days, $dateBase);
+        echo "Notificaciones recientes -> " .  $notificacionesRecientes->count();
         $emails = array_map(function ($item) { return $item->emailOnly(); }, $notificacionesRecientes->getArrayCopy());
         return $this->validsQuery()
                 ->filterByEmail($emails, Criteria::IN)
