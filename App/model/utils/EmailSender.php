@@ -77,6 +77,37 @@ class EmailSender
     }
 
     /**
+     * @return string
+     */
+    public static function trackingUrl()
+    {
+        return WEB_ROOT . AppParam::value(AppParam::G_EMAIL_TRACKING_URI);
+    }
+    /**
+     * @return int
+     */
+    public static function maxBatchSizeToSend()
+    {
+        return AppParam::value(AppParam::G_EMAIL_MAX_BATCH_SIZE);
+    }
+
+    /**
+     * @return int
+     */
+    public static function timesBetweenSend()
+    {
+        return AppParam::value(AppParam::G_EMAIL_TIME_BETWEEN_SEND);
+    }
+
+    /**
+     * @return int
+     */
+    public static function maxSendTries()
+    {
+        return AppParam::value(AppParam::G_EMAIL_MAX_SENDING_TRIES);
+    }
+
+    /**
      * @param $emailMap
      * @return mixed|string
      */
@@ -128,13 +159,13 @@ class EmailSender
             $emailMap['Body'] = $this->email->getBody();
         }
         $trackingHash = isset($emailMap['TrackingHash']) ? $emailMap['TrackingHash'] : SpecialStrings::generateHash(30);
-        $emailMap['TrackingLink'] = WEB_ROOT . AppParam::value(AppParam::G_EMAIL_TRACKING_URI) . $trackingHash;
+        $emailMap['TrackingLink'] = self::trackingUrl() . $trackingHash;
         $emailMap['Body'] = $this->renderBody($emailMap);
         $this->emailEngine->prepare($emailMap, $emailVars);
         $this->emailEngine->processVars();
         $nSents = 0;
-        $maxTries = AppParam::value(AppParam::G_EMAIL_MAX_SENDING_TRIES);
-        $timeBetween = AppParam::value(AppParam::G_EMAIL_TIME_BETWEEN_SEND);
+        $timeBetween = self::timesBetweenSend();
+        $maxTries = self::maxSendTries();
         do {
             $success = $this->emailEngine->Send();
             sleep($timeBetween);

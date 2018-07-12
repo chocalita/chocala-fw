@@ -11,7 +11,7 @@ Chocala::import("Modules.customers.aviso.AvisoService");
 class SuscriptorService extends GenericService
 {
 
-    const DEFAULT_INTERVAL_NOTIFICATION_DAYS = 5;
+    const DEFAULT_INTERVAL_NOTIFICATION_DAYS = 11;
 
     /**
      * @var SuscriptorService
@@ -161,12 +161,12 @@ class SuscriptorService extends GenericService
         return $results;
     }
 
-    public function mailing($maxToSend = 0)
+    public function mailing()
     {
+        $maxToSend = EmailSender::maxBatchSizeToSend();
         $email = EmailService::instance()->findByCode(JobSuscriptor::EMAIL_NOTIFICATION_SUBSCRIBE);
         $nSent = 0;
-        echo "Excluded Last Days -> ". self::DEFAULT_INTERVAL_NOTIFICATION_DAYS + 6;
-        $suscriptoresNotificados = $this->suscriptoresNotificados(self::DEFAULT_INTERVAL_NOTIFICATION_DAYS + 6);
+        $suscriptoresNotificados = $this->suscriptoresNotificados(self::DEFAULT_INTERVAL_NOTIFICATION_DAYS);
         echo "<br /> Notificados -> " . $suscriptoresNotificados->count();
         $idsNotificados = array_map(function ($item) { return $item->getId(); }
             , $suscriptoresNotificados->getArrayCopy());

@@ -63,7 +63,7 @@ abstract class AppParam
     /**
      * @param SysParam $param
      * @param SysUser $user
-     * @return bool|DateTime|float|string
+     * @return bool|DateTime|int|float|string
      */
     public static function userValue(SysParam $param, SysUser $user)
     {
@@ -74,7 +74,7 @@ abstract class AppParam
     /**
      * @param SysParam $param
      * @param SysEntity $entity
-     * @return bool|DateTime|float|string
+     * @return bool|DateTime|int|float|string
      */
     public static function entityValue(SysParam $param, SysEntity $entity)
     {
@@ -84,7 +84,8 @@ abstract class AppParam
 
     /**
      * @param string $code
-     * @return bool|DateTime|float|string
+     * @return bool|DateTime|int|float|string
+     *
      */
     public static function value($code)
     {
