@@ -198,6 +198,7 @@ class EmailSender
         $emailSent->setBcc($this->emailEngine->serializeBCC());
         $emailSent->setSubject($this->emailEngine->Subject);
         $emailSent->setContent($this->emailEngine->Body);
+        $emailSent->setShippingDate(new DateUtil());
         return $emailSent->save() ? $emailSent : null;
     }
 

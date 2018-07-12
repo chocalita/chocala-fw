@@ -6,12 +6,19 @@ use Base\SysEmailSent as BaseSysEmailSent;
  * Class SysEmailSent
  * @author ypra
  */
-class SysEmailSent extends BaseSysEmailSent
+class SysEmailSent extends BaseSysEmailSent implements JsonSerializable
 {
+    use  Validatable, Convertible;
+
+    static $validationRules = [
+        'ShippingDate' => [
+            'null' => false,
+        ],
+    ];
 
     public function preSave()
     {
-
+        return parent::preSave();
     }
 
     public function preValidate()
@@ -22,7 +29,6 @@ class SysEmailSent extends BaseSysEmailSent
     public function preInsert()
     {
         return $this->preSave();
-        $this->shipping_date = new DateUtil();
     }
 
     public function preUpdate()
