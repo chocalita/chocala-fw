@@ -159,9 +159,10 @@ class SuscriptorService extends GenericService
         return $results;
     }
 
-    public function mailing()
+    public function mailing($maxToSend = 0)
     {
         $email = EmailService::instance()->findByCode(JobSuscriptor::EMAIL_NOTIFICATION_SUBSCRIBE);
+        $nSent = 0;
 
         $suscriptoresNotificados = $this->suscriptoresNotificados(self::DEFAULT_INTERVAL_NOTIFICATION_DAYS + 6);
         $idsNotificados = array_map(function ($item) { return $item->getId(); }
@@ -169,6 +170,7 @@ class SuscriptorService extends GenericService
         $suscriptoresPosibles = $this->validsQuery()
                 ->filterById($idsNotificados, Criteria::NOT_IN)
             ->find();
+        echo "Posibles -> " . $suscriptoresPosibles->count();
         $avisosFormacionesArray = $this->avisosFormacionesArray();
         foreach ($suscriptoresPosibles as $suscriptorPosible) {
             $avisosDirectos = [];
@@ -241,6 +243,9 @@ class SuscriptorService extends GenericService
                 $emailSender = EmailSender::instanceFrom($email);
                 $emailSent = $emailSender->sendMail($emailMap, $emailVars);
                 $results['email'] = $emailSent->getToEmail();
+                if ($maxToSend > 0 && $nSent == $maxToSend) {
+                    break;
+                }
             }
         }
     }
