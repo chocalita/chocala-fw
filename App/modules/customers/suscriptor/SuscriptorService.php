@@ -165,7 +165,7 @@ class SuscriptorService extends GenericService
     {
         $email = EmailService::instance()->findByCode(JobSuscriptor::EMAIL_NOTIFICATION_SUBSCRIBE);
         $nSent = 0;
-        echo "INTERVAL DAYS". self::DEFAULT_INTERVAL_NOTIFICATION_DAYS;
+        echo "Excluded Last Days -> ". self::DEFAULT_INTERVAL_NOTIFICATION_DAYS + 6;
         $suscriptoresNotificados = $this->suscriptoresNotificados(self::DEFAULT_INTERVAL_NOTIFICATION_DAYS + 6);
         echo "<br /> Notificados -> " . $suscriptoresNotificados->count();
         $idsNotificados = array_map(function ($item) { return $item->getId(); }
