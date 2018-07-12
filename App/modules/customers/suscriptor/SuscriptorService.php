@@ -124,6 +124,7 @@ class SuscriptorService extends GenericService
         if ($days > 0) {
             $dateBase = $dateBase->modify("-${days} days");
         }
+        echo "<br />dateBase -> ".$dateBase->format("d/M/y");
         $email = EmailService::instance()->findByCode(JobSuscriptor::EMAIL_NOTIFICATION_SUBSCRIBE);
         return SysEmailSentQuery::create()
                 ->filterBySysEmail($email)
@@ -139,7 +140,7 @@ class SuscriptorService extends GenericService
     public function suscriptoresNotificados($days, $dateBase = null)
     {
         $notificacionesRecientes = $this->notificacionesRecientes($days, $dateBase);
-        echo "Notificaciones recientes -> " .  $notificacionesRecientes->count();
+        echo "<br />Notificaciones recientes -> " .  $notificacionesRecientes->count();
         $emails = array_map(function ($item) { return $item->emailOnly(); }, $notificacionesRecientes->getArrayCopy());
         return $this->validsQuery()
                 ->filterByEmail($emails, Criteria::IN)
@@ -164,9 +165,9 @@ class SuscriptorService extends GenericService
     {
         $email = EmailService::instance()->findByCode(JobSuscriptor::EMAIL_NOTIFICATION_SUBSCRIBE);
         $nSent = 0;
-
+        echo "INTERVAL DAYS". self::DEFAULT_INTERVAL_NOTIFICATION_DAYS;
         $suscriptoresNotificados = $this->suscriptoresNotificados(self::DEFAULT_INTERVAL_NOTIFICATION_DAYS + 6);
-        echo "Notificados -> " . $suscriptoresNotificados->count();
+        echo "<br /> Notificados -> " . $suscriptoresNotificados->count();
         $idsNotificados = array_map(function ($item) { return $item->getId(); }
             , $suscriptoresNotificados->getArrayCopy());
         $suscriptoresPosibles = $this->validsQuery()
