@@ -200,8 +200,8 @@ class SuscriptorService extends GenericService
                 }
             }
 
-            foreach($avisosComplementarios as $avisoComplementario) {
-                if(sizeof($avisosDetallados) < 7) {
+            foreach ($avisosComplementarios as $avisoComplementario) {
+                if (sizeof($avisosDetallados) < 7) {
                     $avisosDetallados[] = $avisoComplementario;
                 }
             }
@@ -215,8 +215,8 @@ class SuscriptorService extends GenericService
 
                 $fraseDetalle = sizeof($avisosDirectos) > 1 ?
                     'Encontramos por lo menos ' . $totalRelacionados . ' requerimientos de personal relacionados a tus intereses de trabajo como <strong>' .
-                    $nombreFormacionDirecta. '</strong>, te detallamos algunos que te podrian resultar útiles' :
-                    'En estos dias no tuvimos muchos requerimientos de personal relacionados a <strong>' . $nombreFormacionDirecta. '</strong>, sin embargo, ' .
+                    $nombreFormacionDirecta . '</strong>, te detallamos algunos que te podrian resultar útiles' :
+                    'En estos dias no tuvimos muchos requerimientos de personal relacionados a <strong>' . $nombreFormacionDirecta . '</strong>, sin embargo, ' .
                     'a continuación te presentamos algunas opciones que podrian servirte de referencia';
 
                 $listDetallado = "<ul>";
@@ -243,6 +243,7 @@ class SuscriptorService extends GenericService
                 $emailSender = EmailSender::instanceFrom($email);
                 $emailSent = $emailSender->sendMail($emailMap, $emailVars);
                 $results['email'] = $emailSent->getToEmail();
+                $nSent++;
                 if ($maxToSend > 0 && $nSent == $maxToSend) {
                     break;
                 }
