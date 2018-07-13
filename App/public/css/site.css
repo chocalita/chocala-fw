@@ -26,6 +26,7 @@
     padding-top: 15px;
     padding-bottom: 15px;
 }
+
 /* LANDING PAGE BUTTON
 **********************************************************/
 .landing-page .btn-primary{
@@ -88,6 +89,16 @@
 .aviso-details .row{
     padding: 5px 0;
 
+}
+
+/*  PRIVATE LAYOUT STYLES
+******************************************************/
+@media only screen and (max-device-width : 320px) {
+    .loginColumns {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 50px 20px 20px 20px;
+    }
 }
 
 /*  MEDIA QUERIES
