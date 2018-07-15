@@ -37,7 +37,7 @@ class SecurityFilter extends ChocalaFilter
         if ($toVerify) {
             $pageControl = PageControl::instance();
             if ($pageControl->isRegistered() && !$pageControl->canRead()) {
-                $this->redirectTo(array('uri' => 'main/system/access'));
+                $this->redirectTo(array('uri' => 'main/system/naccess'));
             }
         }
     }

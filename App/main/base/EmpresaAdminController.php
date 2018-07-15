@@ -17,17 +17,33 @@ abstract class EmpresaAdminController extends AdminWebController
     {
         parent::_init();
         $this->view->changeLayout('suscripciones');
-        $query = JobUserEmpresaSuscritaQuery::create()->filterBySysUser($this->sessionUser);
-        $empresaSuscritaCount = $query->count();
+        $queryUserEmpresaSuscrita = JobUserEmpresaSuscritaQuery::create()->filterBySysUser($this->sessionUser);
+        $empresaSuscritaCount = $queryUserEmpresaSuscrita->count();
         if ($empresaSuscritaCount == 1) {
-            $userEmpresaSuscrita = $query->findOne();
+            $userEmpresaSuscrita = $queryUserEmpresaSuscrita->findOne();
             $this->sessionEmpresaSuscrita = $userEmpresaSuscrita->getJobEmpresaSuscrita();
+        } else {
+            echo "EMPRESAS ENCONTRADAS PARA EL USUARIO -> " . $empresaSuscritaCount;
+            exit();
         }
         if ($this->sessionEmpresaSuscrita == null) {
             // TODO: redirecto to security controls
             echo "NO SE ENCONTRO EMPRESA DE USUARIO";
             exit();
         }
+    }
+
+    public function checkUpdate(JobAviso $object)
+    {
+        if(!PageControl::canUpdate() || !$this->isTenantOwner($object)){
+            throw new ChocalaException("Forbidden Exception");
+        }
+    }
+
+    public function isTenantOwner(JobAviso $object)
+    {
+        return is_object($this->sessionEmpresaSuscrita) && is_object($object) &&
+            $this->sessionEmpresaSuscrita->getId() == $object->getEmpresaSuscritaId();
     }
 
 }

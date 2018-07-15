@@ -25,6 +25,7 @@ class JobAviso extends BaseJobAviso implements JsonSerializable
 
     /**
      * @return bool
+     * @throws \Propel\Runtime\Exception\PropelException
      */
     public function isVigente()
     {
