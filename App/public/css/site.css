@@ -37,6 +37,14 @@
     background-color: #1ab394;
     color: #FFFFFF;
 }
+.landing-page .btn-success{
+    background-color: transparent;
+    color: #1a7bb9;
+}
+.landing-page .btn-success:hover{
+    background-color: #1a7bb9;
+    color: #FFFFFF;
+}
 .profile-element .img-circle{
     max-height: 50px;
     max-width: 50px;
