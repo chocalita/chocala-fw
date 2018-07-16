@@ -132,6 +132,13 @@ class SuscriptorService extends GenericService
                     ['field' => 'email', 'message' => 'Debe ingresar un email válido']
                 );
             }
+            if (!Validation::isMinLength($data['captcha'], 4)
+                || !AvisoService::instance()->verifyCaptcha($data['captcha'])) {
+                $results['success'] = false;
+                array_push($results['errors'],
+                    ['field' => 'captcha', 'message' => 'Verificación incorrecta, intenta otra vez']
+                );
+            }
             if ($results['success']) {
                 $linkAviso = WEB_ROOT . 'bolsa/trabajo/index/?verAviso=' . $aviso->getId();
 

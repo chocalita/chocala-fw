@@ -349,26 +349,23 @@ class Image implements IImage
     public static function createTmpImageFromText($text, $fileName)
     {
         try {
-            $image = imagecreatetruecolor(200, 50) or die("Cannot Initialize new GD image stream");
+            $image = imagecreatetruecolor(150, 30) or die("Cannot Initialize new GD image stream");
             $backgroundColor = imagecolorallocate($image, 255, 255, 255);
             $lineColor = imagecolorallocate($image, 64, 64, 64);
-            $pixelColor = imagecolorallocate($image, 0, 0, 255);
-            imagefilledrectangle($image, 0, 0, 200, 50, $backgroundColor);
-            for ($i = 0; $i < 3; $i++) {
-                imageline($image, 0, rand() % 50, 200, rand() % 50, $lineColor);
-            }
+            $pixelColor = imagecolorallocate($image, 244, 244, 244);
+            imagefilledrectangle($image, 0, 0, 150, 30, $backgroundColor);
             for ($i = 0; $i < 1000; $i++) {
-                imagesetpixel($image, rand() % 200, rand() % 50, $pixelColor);
+                imagesetpixel($image, rand() % 150, rand() % 30, $pixelColor);
             }
             $textColor = imagecolorallocate($image, 0, 0, 0);
             $n = strlen($text);
             for ($i = 0; $i < $n; $i++) {
                 $letter = $text[$i];
-                imagestring($image, 7, 5 + ($i * 30), 20, $letter, $textColor);
+                imagestring($image, 9, 15 + ($i * 30), 7, $letter, $textColor);
             }
-            $imagePath = PUBLIC_DIR . IMG_TMP_PATH . $fileName . ".png";
+            $imagePath = PUBLIC_DIR . self::IMG_TMP_PATH . $fileName . ".png";
             imagepng($image, $imagePath);
-            return WEB_ROOT . IMG_TMP_PATH . $fileName . ".png";
+            return WEB_ROOT . self::IMG_TMP_PATH . $fileName . ".png";
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -376,7 +373,7 @@ class Image implements IImage
 
     public static function deleteTmpImage($fileName)
     {
-        @unlink(PUBLIC_DIR . IMG_TMP_PATH  . $fileName.".png");
+        @unlink(PUBLIC_DIR . self::IMG_TMP_PATH  . $fileName.".png");
     }
 
 }

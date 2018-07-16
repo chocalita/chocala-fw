@@ -49,6 +49,23 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <label class="control-label col-sm-3"></label>
+            <div class="col-sm-4">
+                    <img src="<?= $captchaUrl; ?>" id="imageCaptcha" width="200" height="27"/>
+            </div>
+            <div class="col-sm-1">
+                <span class="input-group-addon" id="refreshCaptcha"><i class="fa fa-refresh"></i></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-3"></label>
+            <div class="col-sm-9">
+                <input style="width: 60px" type="text" id="captcha" name="captcha" value="" placeholder=""
+                       class="form-control" maxlength="4" />
+            </div>
+        </div>
     </div>
     <div class="modal-footer">
         <?php
@@ -77,6 +94,12 @@ if (strtoupper(Configs::value('app.run.environment')) != 'DEVELOPMENT') {
 ?>
 <script type="text/javascript">
 $().ready(function () {
+    function refreshCaptcha() {
+        $.get("<?=WEB_ROOT?>bolsa/trabajo/changeCaptcha",function(response){
+            $("#imageCaptcha").attr('src', response.captchaImageUrl);
+        });
+    }
+    $("#refreshCaptcha").click(refreshCaptcha);
     $(".ajaxPost").formAjaxPost({
         'beforeSend': function(xhr){
             $("#diselo-fields").parent().mask("");
@@ -95,6 +118,9 @@ $().ready(function () {
                 $form.find('#' + el.field)
                     .parent()
                     .append('<div class="help-block">'+el.message+'</div>');
+                if(el.field == 'captcha'){
+                    refreshCaptcha();
+                }
             });
             $("#diselo-fields").parent().unmask();
         },

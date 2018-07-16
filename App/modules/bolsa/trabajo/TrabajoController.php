@@ -140,6 +140,7 @@ class TrabajoController extends PublicWebController
     {
         $aviso = $this->avisoIfExist();
         $this->set('aviso', $aviso);
+        $this->set('captchaUrl', $this->avisoService->createCaptcha());
         //TODO: set captcha
 
         if (HttpManager::isAJAXRequest()) {
@@ -190,10 +191,5 @@ class TrabajoController extends PublicWebController
     {
         $this->set('captchaImageUrl', $this->avisoService->createCaptcha());
         $this->renderAsJSON();
-    }
-
-    public function verifyCaptcha()
-    {
-        $this->set("captchaResult", $this->avisoService->captchaVerify(Request::get('captcha')));
     }
 }
