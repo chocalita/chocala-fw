@@ -300,7 +300,9 @@ jQuery(document).ready(function() {
 
     function openOnLoad() {
         var prodId = getParameterByName('verAviso');
-        document.getElementById("link-" + prodId).click();
+        if(document.getElementById("link-" + prodId)) {
+            document.getElementById("link-" + prodId).click();
+        }
     }
 
     openOnLoad();

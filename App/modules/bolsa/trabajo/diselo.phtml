@@ -1,171 +1,68 @@
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
-                class="sr-only">Cerrar</span></button>
-    <h1 class="modal-title text-success"><?= $aviso->getCargo(); ?></h1>
-</div>
-<div class="modal-body aviso-details">
+<form action="<?=URI::toPage();?>enviarAmigo" method="post" role="form" class="ajaxPost form-horizontal">
 
-    <?php
-    if (true || !$aviso->getTieneImagen()) {
-        ?>
-        <div class="row">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                    class="sr-only">Cerrar</span></button>
+        <h1 class="modal-title text-success">Enviar Oferta laboral</h1>
+    </div>
+    <div id="diselo-fields" class="modal-body">
 
-            <div class="col-md-3">
-                <div class="row">
-                    <div class="form-group">
-                        <label class="control-label">Empresa</label>
-                        <div class="">
-                            <?= $aviso->getNombreEmpresa(); ?>
-                        </div>
-                    </div>
-                </div>
+        <input type="hidden" id="id" name="id" value="<?=$aviso->getId();?>" />
 
-                <?php
-                /*if($aviso->getDescripcion() != '') {
-                ?>
-                    <div class="row">
-                        <div class="form-group">
-                            <label class="control-label">Descripción</label>
-                            <div class="">
-                                <?= nl2br($aviso->getDescripcion()); ?>
-                            </div>
-                        </div>
-                    </div>
-                <?php
-                }*/
-                ?>
 
-                <div class="row">
-                    <div class="form-group">
-                        <label class="control-label ">Requisitos</label>
-                        <div class="">
-                            <?= nl2br($aviso->getRequisito()); ?>
-                        </div>
-                    </div>
-                </div>
-
-                <?php
-                if ($aviso->getDireccion() != '') {
-                    ?>
-                    <div class="row">
-                        <div class="form-group">
-                            <label class="control-label ">Dirección</label>
-                            <div class=""><?= $aviso->getDireccion(); ?></div>
-                        </div>
-                    </div>
-                    <?php
-                }
-                ?>
-
-                <?php
-                if ($aviso->getTelefonoContacto() != '') {
-                    ?>
-                    <div class="row">
-                        <div class="form-group">
-                            <label class="control-label">Teléfono</label>
-                            <div class=""><?= $aviso->getTelefonoContacto(); ?></div>
-                        </div>
-                    </div>
-                    <?php
-                }
-                ?>
-
-                <?php
-                if ($aviso->getCorreoContacto() != '') {
-                    ?>
-                    <div class="row">
-                        <div class="form-group">
-                            <label class="control-label ">Email</label>
-                            <div class=""><?= $aviso->getCorreoContacto(); ?></div>
-                        </div>
-                    </div>
-                    <?php
-                }
-                ?>
-
-                <?php
-                if ($aviso->getAniosExperiencia() != '') {
-                    ?>
-                    <div class="row">
-                        <div class="form-group">
-                            <label class="control-label ">Años de Experiencia</label>
-                            <div class=""><?= $aviso->getAniosExperiencia(); ?></div>
-                        </div>
-                    </div>
-                    <?php
-                }
-                ?>
-                <?php
-                if ($aviso->getNivelFormacion() != '') {
-                    ?>
-                    <div class="row">
-                        <div class="form-group">
-                            <label class="control-label">Formación</label>
-                            <div class=""><?= $aviso->getNivelFormacion(); ?></div>
-                        </div>
-                    </div>
-                    <?php
-                }
-                ?>
-                <div class="row">
-                    <div class="form-group">
-                        <label class="control-label ">Ciudad</label>
-                        <div class=""><?= $aviso->getLocalizacion(); ?></div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group">
-                        <label class="control-label">Fecha de Publicación</label>
-                        <div class=""><?= $aviso->getFechaPublicacion("d/m/Y"); ?></div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group">
-                        <label class="control-label">Fecha de Vencimiento</label>
-                        <div class=""><?= $aviso->getFechaVencimiento("d/m/Y"); ?></div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group">
-                        <label class="control-label ">Fuente</label>
-                        <div class=""><?= $aviso->getFuente(); ?></div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-md-8">
-                <?php
-                if (file_exists(PUBLIC_DIR . 'files/avisos/' . $aviso->getId() . '.jpg')) {
-                    ?>
-                    <img src="<?= WEB_ROOT . 'files/avisos/' . $aviso->getId() . '.jpg'; ?>" alt="" class="col-sm-12"
-                         style="max-width: 100%;">
-                    <?php
-                } else {
-                    ?>
-                    <img src="<?= WEB_ROOT . 'files/avisos/' . $aviso->getId() . '.png'; ?>" alt="" class="col-sm-12"
-                         style="max-width: 100%;">
-                    <?php
-                }
-                ?>
+        <div class="form-group">
+            <label class="control-label col-sm-3">Oferta laboral</label>
+            <div class="col-sm-9">
+                <strong><?=$aviso->getCargo();?></strong>
+                <br />
+                <span class="text-success"><?=$aviso->getNombreEmpresa();?></span>
             </div>
         </div>
-        <?php
-    }
-    ?>
 
-</div>
-<div class="modal-footer">
-    <?php
-    if (HttpManager::isAJAXRequest()) {
-        ?>
-        <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar</button>
+        <div class="form-group">
+            <label class="control-label col-sm-3" for="remitente">Remitente</label>
+            <div class="col-sm-9">
+
+                <input type="text" id="remitente" name="remitente" value="" placeholder="Tu nombre..."
+                       class="form-control" maxlength="30" />
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-3" for="nombre">Tu amigo</label>
+            <div class="col-sm-9">
+
+                <input type="text" id="nombre" name="nombre" value="" placeholder="Nombre de tu amigo..."
+                       class="form-control" maxlength="30" />
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-3" for="email">Email</label>
+            <div class="col-sm-9">
+
+                <input type="text" id="email" name="email" value="" placeholder="Email de tu amigo..."
+                       class="form-control" maxlength="100" />
+
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
         <?php
-    }
-    ?>
-</div>
+        if (HttpManager::isAJAXRequest()) {
+            ?>
+            <button type="submit" class="btn btn-primary">Enviar oferta</button>
+
+            <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar</button>
+            <?php
+        }
+        ?>
+    </div>
+
+</form>
 
 <?php
 if (strtoupper(Configs::value('app.run.environment')) != 'DEVELOPMENT') {
@@ -178,3 +75,47 @@ if (strtoupper(Configs::value('app.run.environment')) != 'DEVELOPMENT') {
     <?php
 }
 ?>
+<script type="text/javascript">
+$().ready(function () {
+    $(".ajaxPost").formAjaxPost({
+        'beforeSend': function(xhr){
+            $("#diselo-fields").parent().mask("");
+            $("#formSuscripcion").find('div.help-block').remove();
+            $("#formSuscripcion").find('div.has-error').removeClass('has-error');
+        },
+        'onErrors': function ($form, errors) {
+            $form.find('div.help-block').remove();
+            $form.find('div.has-error').removeClass('has-error');
+            $(errors).each(function(i, el) {
+                $form.find('#' + el.field)
+                    .parents('div.form-group')
+                    .first()
+                    .addClass('has-error');
+                //.append('<div class="help-block">'+el.message+'</div>');
+                $form.find('#' + el.field)
+                    .parent()
+                    .append('<div class="help-block">'+el.message+'</div>');
+            });
+            $("#diselo-fields").parent().unmask();
+        },
+        'onSuccess': function (data) {
+            // $("#formSuscripcion").reset();
+            var message = "<br />" +
+                "<div class=\"alert alert-success\">" +
+                "Hemos enviado un correo a <strong>" + $("#email").val() + "</strong>" +
+                " invitando a conocer la oferta laboral a <strong>" + $("#nombre").val() + "</strong>" +
+                " <br /> ¡Empleos.Click te conecta con las mejores oportunidades laborales!." +
+                "</div>"
+            ;
+            $("#diselo-fields").parent().unmask();
+            // $("#myModal .panel-body").html(
+            $("#diselo-fields").parent().html(
+                message  +
+                "<button type=\"button\" class=\"btn btn-sm btn-success block full-width m-b\" data-dismiss=\"modal\">Ok, entendido</button>"
+            );
+            // $("#myModal").modal('show');
+        }
+    });
+});
+</script>
+
