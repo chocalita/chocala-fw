@@ -47,18 +47,18 @@
     <!--    <script src="<?=JS_WEB;?>plugins/gritter/jquery.gritter.min.js"></script>-->
 
     <!-- Our plugins javascript -->
-    <script>var WEB_ROOT = "<?=WEB_ROOT?>"</script>
     <link href="<?=JQUERY_WEB;?>jquery.empleos-loadmask.css" rel="stylesheet" type="text/css" />
-    <link href="<?=JQUERY_WEB;?>jquery.modal.css" rel="stylesheet" type="text/css" />
-    <link href="<?=JQUERY_WEB;?>jquery.validationEngine.css" rel="stylesheet" type="text/css" />
     <!--link href="<?=JQUERY_WEB;?>jquery.loadmask.css" rel="stylesheet" type="text/css" /-->
     <script src="<?=JQUERY_WEB;?>jquery.loadmask.js" type="text/javascript"></script>
-    <script src="<?=JQUERY_WEB;?>jquery.modal.js" type="text/javascript"></script>
-    <script src="<?=JQUERY_WEB;?>jquery.modal.auth.js" type="text/javascript"></script>
-    <script src="<?=JQUERY_WEB;?>jquery.facebook.js" type="text/javascript"></script>
-    <script src="<?=JQUERY_WEB;?>jquery.validationEngine.js" type="text/javascript"></script>
-    <script src="<?=JQUERY_WEB;?>jquery.validationEngine-es.js" type="text/javascript"></script>
     <script src="<?=JQUERY_WEB;?>jquery.formAjaxPost.js" type="text/javascript"></script>
+
+
+    <script type="application/javascript">
+    $().ready(function () {
+
+    });
+    </script>
+
     <?php
     if(strtoupper(Configs::value('app.run.environment')) != 'DEVELOPMENT'){
     ?>
@@ -163,13 +163,6 @@
     <?php
     }
     ?>
-    <script type="application/javascript">
-        $().ready(function () {
-            $('a[data-id=btn-login]').click(function(){
-                ModalAuth.loginPanel();
-            });
-        });
-    </script>
 </head>
 
 <body id="page-top" class="landing-page">
@@ -199,6 +192,9 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <?=$this->getVar('__Menu')?>
+                        <li><a class="page-scroll" href="<?=WEB_ROOT;?>index.htm">Inicio</a></li>
+                        <li><a class="page-scroll buttonSuscribir" href="#suscribir">Suscribirme</a></li>
+                        <li><a class="page-scroll" href="#ventajas">Ventajas</a></li>
                     </ul>
                 </div>
             </div>

@@ -375,7 +375,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="input-group date">
                                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                        <input type="text" id="FechaVencimiento" name="FechaVencimiento" value="<?=$aviso? $aviso->getFechaVencimiento("d/m/Y"): '10/6/2018';?>"
+                                                        <input type="text" id="FechaVencimiento" name="FechaVencimiento" value="<?=$aviso? $aviso->getFechaVencimiento("d/m/Y"): '10/8/2018';?>"
                                                                class="form-control datepicker" />
                                                     </div>
                                                 </div>
@@ -571,7 +571,7 @@
         <ul class="list-inline social-icon">
             <li><a href="https://www.twitter.com/EmpleosClick/" target="_blank"><i class="fa fa-twitter"></i></a>
             </li>
-            <li><a href="https://www.facebook.com/empleos.clic/" target="_blank"><i class="fa fa-facebook"></i></a>
+            <li><a href="https://www.facebook.com/empleos.click/" target="_blank"><i class="fa fa-facebook"></i></a>
             </li>
         </ul>
     </div>
@@ -707,7 +707,7 @@ jQuery(document).ready(function () {
                     $("#nombreSuscriptor").html(result.nombreSuscriptor);
                     $("#empresaSuscrita").html(result.empresaSuscrita);
                     $("#requerimientoPublicado").html(result.requerimientoPublicado);
-                    $("#rowSuscrito .redirect").attr("href", "<?=WEB_ROOT;?>/index.htm#aviso-" + result.idAviso);
+                    $("#rowSuscrito .redirect").attr("href", "<?=WEB_ROOT;?>index.htm#aviso-" + result.idAviso);
                     $("#rowSuscrito").fadeIn();
                 }
             }

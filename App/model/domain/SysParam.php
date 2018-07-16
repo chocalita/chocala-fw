@@ -110,7 +110,7 @@ class SysParam extends BaseSysParam
     /**
      * @param string $value
      * @param string|null $type
-     * @return bool|DateTime|float|string
+     * @return bool|DateTime|int|float|string
      */
     public static function matchedValue($value, $type = null)
     {
@@ -159,7 +159,7 @@ class SysParam extends BaseSysParam
     }
 
     /**
-     * @return bool|DateTime|float|string
+     * @return bool|DateTime|int|float|string
      */
     public function value()
     {

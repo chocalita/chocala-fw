@@ -1,0 +1,134 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Avisos</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a href="<?= URI::toPage() ?>">Avisos</a>
+            </li>
+            <li class="active">
+                <strong>Datos del Aviso</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <?= BarView::renderBar('messages'); ?>
+
+    <div class="row">
+
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-title">
+                    <h5>Información General</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="ibox-content">
+
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+
+                                <tr>
+                                    <th>
+                                        <h2>
+                                            <?=$aviso->getCargo();?>
+                                        </h2>
+                                    </th>
+                                </tr>
+                            <tr>
+                                <th>Fecha de Publicación:</th>
+                                <td><?=$aviso->getFechaPublicacion('d/M/Y')?: '-----';?></td>
+                                    <th>Fecha de Vencimiento:</th>
+                                <td><?=$aviso->getFechaVencimiento('d/M/Y')?: '-----';?></td>
+                            </tr>
+                            <tr>
+                                <th>Descripción:</th>
+                                <td><?=$aviso->getDescripcion();?></td>
+                            </tr>
+                                <tr>
+                                    <th>Requisitos:</th>
+                                    <td><?=$aviso->getRequisito();?></td>
+                                </tr>
+                                <tr>
+                                    <th>Nivel Formación:</th>
+                                    <td><?=$aviso->getNivelFormacion();?></td>
+                                </tr>
+                                <tr>
+                                    <th>Años de Experiencia:</th>
+                                    <td><?=$aviso->getAniosExperiencia();?></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-title">
+                    <h5>Datos de Contacto</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="ibox-content">
+
+                    <h4>Oficina Central</h4>
+
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+<script>
+$(document).ready(function(){
+    $('.dataTables').DataTable({
+        "language": {
+            "emptyTable": "No se encontraron registros"
+        },
+        dom: '<"html5buttons"B>lTfgitp',
+        buttons: [
+            {extend: 'copy', title: 'Copiar'},
+            {extend: 'csv', title: 'Reporte CSV'},
+            {extend: 'excel', title: 'Reporte Excel'},
+            {extend: 'pdf', title: 'Reporte PDF'},
+            {extend: 'print',
+                customize: function (win){
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
+                }
+            }
+        ]
+    });
+});
+</script>

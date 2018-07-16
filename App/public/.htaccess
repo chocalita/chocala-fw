@@ -3,9 +3,11 @@
     RewriteCond %{HTTPS} off
 #    RewriteCond %{HTTP_HOST} !=consultora.empleos.click
 #    RewriteCond %{HTTP_HOST} !=www.empleos.com
-    RewriteCond %{HTTP_HOST} !=127.0.0.1
     RewriteCond %{HTTP_HOST} !=localhost
-    RewriteCond %{HTTP_HOST} !^www\.empleos\.click$ [NC]
+    RewriteCond %{HTTP_HOST} !=127.0.0.1
+    RewriteCond %{HTTP_HOST} !=192.168.0.15
+    RewriteCond %{HTTP_HOST} !=192.168.1.100
+#    RewriteCond %{HTTP_HOST} !^blog\.empleos\.click$ [NC]
     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f

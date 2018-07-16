@@ -11,7 +11,7 @@ Chocala::import("Modules.customers.aviso.AvisoService");
 class SuscriptorService extends GenericService
 {
 
-    const DEFAULT_INTERVAL_NOTIFICATION_DAYS = 5;
+    const DEFAULT_INTERVAL_NOTIFICATION_DAYS = 11;
 
     /**
      * @var SuscriptorService
@@ -122,8 +122,9 @@ class SuscriptorService extends GenericService
         }
         $dateBase = new DateUtil($dateBase->format('Y-m-d'));
         if ($days > 0) {
-            $dateBase->modify("-${days} days");
+            $dateBase = $dateBase->modify("-${days} days");
         }
+        echo "<br />dateBase -> ".$dateBase->format("d/M/y");
         $email = EmailService::instance()->findByCode(JobSuscriptor::EMAIL_NOTIFICATION_SUBSCRIBE);
         return SysEmailSentQuery::create()
                 ->filterBySysEmail($email)
@@ -139,6 +140,7 @@ class SuscriptorService extends GenericService
     public function suscriptoresNotificados($days, $dateBase = null)
     {
         $notificacionesRecientes = $this->notificacionesRecientes($days, $dateBase);
+        echo "<br />Notificaciones recientes -> " .  $notificacionesRecientes->count();
         $emails = array_map(function ($item) { return $item->emailOnly(); }, $notificacionesRecientes->getArrayCopy());
         return $this->validsQuery()
                 ->filterByEmail($emails, Criteria::IN)
@@ -161,14 +163,17 @@ class SuscriptorService extends GenericService
 
     public function mailing()
     {
+        $maxToSend = EmailSender::maxBatchSizeToSend();
         $email = EmailService::instance()->findByCode(JobSuscriptor::EMAIL_NOTIFICATION_SUBSCRIBE);
-
-        $suscriptoresNotificados = $this->suscriptoresNotificados(self::DEFAULT_INTERVAL_NOTIFICATION_DAYS + 6);
+        $nSent = 0;
+        $suscriptoresNotificados = $this->suscriptoresNotificados(self::DEFAULT_INTERVAL_NOTIFICATION_DAYS);
+        echo "<br /> Notificados -> " . $suscriptoresNotificados->count();
         $idsNotificados = array_map(function ($item) { return $item->getId(); }
             , $suscriptoresNotificados->getArrayCopy());
         $suscriptoresPosibles = $this->validsQuery()
                 ->filterById($idsNotificados, Criteria::NOT_IN)
             ->find();
+        echo "Posibles -> " . $suscriptoresPosibles->count();
         $avisosFormacionesArray = $this->avisosFormacionesArray();
         foreach ($suscriptoresPosibles as $suscriptorPosible) {
             $avisosDirectos = [];
@@ -198,8 +203,8 @@ class SuscriptorService extends GenericService
                 }
             }
 
-            foreach($avisosComplementarios as $avisoComplementario) {
-                if(sizeof($avisosDetallados) < 7) {
+            foreach ($avisosComplementarios as $avisoComplementario) {
+                if (sizeof($avisosDetallados) < 7) {
                     $avisosDetallados[] = $avisoComplementario;
                 }
             }
@@ -213,8 +218,8 @@ class SuscriptorService extends GenericService
 
                 $fraseDetalle = sizeof($avisosDirectos) > 1 ?
                     'Encontramos por lo menos ' . $totalRelacionados . ' requerimientos de personal relacionados a tus intereses de trabajo como <strong>' .
-                    $nombreFormacionDirecta. '</strong>, te detallamos algunos que te podrian resultar útiles' :
-                    'En estos dias no tuvimos muchos requerimientos de personal relacionados a <strong>' . $nombreFormacionDirecta. '</strong>, sin embargo, ' .
+                    $nombreFormacionDirecta . '</strong>, te detallamos algunos que te podrian resultar útiles' :
+                    'En estos dias no tuvimos muchos requerimientos de personal relacionados a <strong>' . $nombreFormacionDirecta . '</strong>, sin embargo, ' .
                     'a continuación te presentamos algunas opciones que podrian servirte de referencia';
 
                 $listDetallado = "<ul>";
@@ -241,6 +246,10 @@ class SuscriptorService extends GenericService
                 $emailSender = EmailSender::instanceFrom($email);
                 $emailSent = $emailSender->sendMail($emailMap, $emailVars);
                 $results['email'] = $emailSent->getToEmail();
+                $nSent++;
+                if ($maxToSend > 0 && $nSent == $maxToSend) {
+                    break;
+                }
             }
         }
     }

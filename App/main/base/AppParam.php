@@ -13,6 +13,8 @@ abstract class AppParam
 
     const G_MAX_USER_INCORRECT_LOGIN = 'G_MAX_USER_INCORRECT_LOGIN';
 
+    const G_EMAIL_MAX_BATCH_SIZE = 'G_EMAIL_MAX_BATCH_SIZE';
+
     const G_EMAIL_MAX_SENDING_TRIES = 'G_EMAIL_MAX_SENDING_TRIES';
 
     const G_EMAIL_TIME_BETWEEN_SEND = 'G_EMAIL_TIME_BETWEEN_SEND';
@@ -63,7 +65,7 @@ abstract class AppParam
     /**
      * @param SysParam $param
      * @param SysUser $user
-     * @return bool|DateTime|float|string
+     * @return bool|DateTime|int|float|string
      */
     public static function userValue(SysParam $param, SysUser $user)
     {
@@ -74,7 +76,7 @@ abstract class AppParam
     /**
      * @param SysParam $param
      * @param SysEntity $entity
-     * @return bool|DateTime|float|string
+     * @return bool|DateTime|int|float|string
      */
     public static function entityValue(SysParam $param, SysEntity $entity)
     {
@@ -84,7 +86,8 @@ abstract class AppParam
 
     /**
      * @param string $code
-     * @return bool|DateTime|float|string
+     * @return bool|DateTime|int|float|string
+     *
      */
     public static function value($code)
     {

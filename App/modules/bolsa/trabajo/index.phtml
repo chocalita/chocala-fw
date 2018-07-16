@@ -63,6 +63,19 @@
                 </div>
             </div>
         </div>
+
+        <div class="row text-center">
+            <a class="btn btn-outline btn-primary btn-large buttonSuscribir" href="#">
+                <i class="fa fa-paste"></i> Suscribete a nuevas ofertas
+            </a>
+        </div>
+        <br />
+        <div class="row text-center">
+            <a class="btn btn-outline btn-success btn-large" href="https://www.facebook.com/pg/empleos.click/reviews/" target="_blank">
+                <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> Califica nuestra página
+            </a>
+        </div>
+
     </div>
 
 </section>
@@ -212,7 +225,7 @@ jQuery(document).ready(function() {
         5000);
 
     <?php
-    if(isset($SUSCRIPCION_MSG_COOKIE)){
+//    if(isset($SUSCRIPCION_MSG_COOKIE)){
     ?>
     $("#formSuscripcion").formAjaxPost({
         'beforeSend': function(xhr){
@@ -250,13 +263,21 @@ jQuery(document).ready(function() {
     function verifyAdvertising() {
         if ($.cookie(advCookie) == null) {
             $.cookie(advCookie, 'myValue', {expires: 5});
-            $("#myModal").modal('show');
+            // $("#myModal").modal('show');
+            openModalSuscripcion();
             console.log("Habilitado para mensajes con " + $.cookie(advCookie));
         }
     }
     setTimeout(verifyAdvertising, 30000);
-    <?php
+
+    function openModalSuscripcion() {
+        $("#myModal").modal('show');
     }
+    <?php
+//    }
     ?>
+    $(".buttonSuscribir").click(function(){
+        openModalSuscripcion();
+    });
 });
 </script>

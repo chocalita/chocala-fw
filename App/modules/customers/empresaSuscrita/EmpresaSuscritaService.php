@@ -203,7 +203,7 @@ class EmpresaSuscritaService extends GenericService
             Session::set('personaSuscrita', $person);
             Session::set('usuarioSuscrito', $user);
         }
-        $results['errors'] = $person->getErrorsMap();
+        $results['errors'] = array_merge($person->getErrorsMap(), $user->getErrorsMap());
 //        $results['success'] = true;
         return $results;
     }

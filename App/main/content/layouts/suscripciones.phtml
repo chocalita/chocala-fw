@@ -77,35 +77,34 @@
 
                     <div class="navbar-collapse collapse" id="navbar">
                         <ul class="nav navbar-nav">
-                            <li class="active">
-                                <a aria-expanded="false" role="button" href="layouts.html"> Back to main Layout page</a>
+<!--                            <li class="active">-->
+                            <li>
+                                <a aria-expanded="false" role="button" href="<?=URI::createURLTo(['uri' => 'cliente/avisos/avisosVigentes']);?>"><i class="fa fa-list-ul"></i>Anuncios vigentes</a>
                             </li>
+                            <li>
+                                <a aria-expanded="false" role="button" href="<?=URI::createURLTo(['uri' => 'cliente/avisos/historialAvisos']);?>"><i class="fa fa-folder"></i>Historial de Anuncios</a>
+                            </li>
+                            <li>
+                                <a aria-expanded="false" role="button" href="<?=URI::createURLTo(['uri' => 'cliente/avisos/#']);?>"><i class="fa fa-institution"></i>Mi Empresa</a>
+                            </li>
+                            <li>
+                                <a aria-expanded="false" role="button" href="<?=URI::createURLTo(['uri' => 'cliente/avisos/#']);?>"><i class="fa fa-user"></i>Perfil</a>
+                            </li>
+                            <li>
+                                <a aria-expanded="false" role="button" href="<?=URI::createURLTo(['uri' => 'cliente/avisos/tutorial']);?>"><i class="fa fa-book"></i>Tutorial</a>
+                            </li>
+                            <li>
+                                <a aria-expanded="false" role="button" href="<?=URI::createURLTo(['uri' => 'cliente/avisos/alcance']);?>"><i class="fa fa-paper-plane"></i>Alcance</a>
+                            </li>
+<!--
                             <li class="dropdown">
                                 <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> Menu item <span class="caret"></span></a>
                                 <ul role="menu" class="dropdown-menu">
                                     <li><a href="">Menu item</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> Menu item <span class="caret"></span></a>
-                                <ul role="menu" class="dropdown-menu">
                                     <li><a href="">Menu item</a></li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
-                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> Menu item <span class="caret"></span></a>
-                                <ul role="menu" class="dropdown-menu">
-                                    <li><a href="">Menu item</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> Menu item <span class="caret"></span></a>
-                                <ul role="menu" class="dropdown-menu">
-                                    <li><a href="">Menu item</a></li>
-                                    <li><a href="">Menu item</a></li>
-                                </ul>
-                            </li>
-
+-->
                         </ul>
                         <?php
                         if(UserControl::isLoggedIn()) {
@@ -130,7 +129,7 @@
 
             <div class="footer">
                 <div class="pull-right">
-                    10GB of <strong>250GB</strong> Free.
+                    El <strong>Portal de Empleos</strong> de Bolivia.
                 </div>
                 <div>
                     <strong>Derechos Reservados</strong> <?=Configs::value('app.company');?> &copy; <?=date('Y');?>
