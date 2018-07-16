@@ -123,6 +123,7 @@ class SuscriptorService extends GenericService
             if (!Validation::isEmail($data['email'])) {
                 $results['success'] = false;
             }
+            $linkAviso = WEB_ROOT . 'bolsa/trabajo/index/?verAviso=' . $aviso->getId();
 
             $hash = SpecialStrings::generateHash(20);
             $email = EmailService::instance()->findByCode(JobSuscriptor::J_EMAIL_NOTIFICATION_DISELO);
@@ -133,10 +134,11 @@ class SuscriptorService extends GenericService
                 ],
             ];
             $emailVars = [
-                '~REMITENTE~' => $data['remitente'],
-                '~NOMBRE~' => $data['nombre'],
+                '~REMITENTE~' => ucwords($data['remitente']),
+                '~NOMBRE~' => ucwords($data['nombre']),
                 '~CARGO~' => htmlspecialchars($aviso->getCargo()),
                 '~NOMBRE_EMPRESA~' => htmlspecialchars($aviso->getNombreEmpresa()),
+                '~LINK_AVISO~' => $linkAviso,
             ];
             $emailSent = EmailSender::instanceFrom($email)->sendMail($emailMap, $emailVars);
             $results['email'] = $emailSent->getToEmail();

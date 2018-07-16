@@ -54,7 +54,7 @@
                                 <a href="<?= WEB_ROOT.'bolsa/trabajo/diselo/'.$aviso->getId(); ?>"
                                    class="pull-right btn btn-xs btn-success" data-toggle="modal" data-target="#modalDetalle"><i class="fa fa-bullhorn"></i></a>
                                 <span class="pull-right">&nbsp;</span>
-                                <a href="<?= WEB_ROOT.'bolsa/trabajo/empleo/'.$aviso->getId().'/'.SpecialStrings::text2Url(trim($aviso->getCargo()))."/".SpecialStrings::text2Url(ucwords(strtolower(trim($aviso->getNombreEmpresa())))); ?>"
+                                <a id="link-<?=$aviso->getId();?>" href="<?= WEB_ROOT.'bolsa/trabajo/empleo/'.$aviso->getId().'/'.SpecialStrings::text2Url(trim($aviso->getCargo()))."/".SpecialStrings::text2Url(ucwords(strtolower(trim($aviso->getNombreEmpresa())))); ?>"
                                    class="pull-right btn btn-xs btn-primary" data-toggle="modal" data-target="#modalDetalle<?=$aviso->getTieneImagen()? 'Big': '';?>">Ver Detalles</a>
                                 <i class="fa fa-clock-o"></i> Vence el <?=$aviso->getFechaVencimiento('d/m/Y');?>
                             </div>
@@ -288,5 +288,22 @@ jQuery(document).ready(function() {
     $(".buttonSuscribir").click(function(){
         openModalSuscripcion();
     });
+
+
+
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    function openOnLoad() {
+        var prodId = getParameterByName('verAviso');
+        document.getElementById("link-" + prodId).click();
+    }
+
+    openOnLoad();
+
 });
 </script>
