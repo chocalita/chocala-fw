@@ -156,4 +156,14 @@ class TrabajoController extends PublicWebController
         $this->renderAsJSON();
     }
 
+    public function changeCaptcha()
+    {
+        $this->set('captchaImageUrl', $this->avisoService->createCaptcha());
+        $this->renderAsJSON();
+    }
+
+    public function verifyCaptcha()
+    {
+        $this->set("captchaResult", $this->avisoService->captchaVerify(Request::get('captcha')));
+    }
 }

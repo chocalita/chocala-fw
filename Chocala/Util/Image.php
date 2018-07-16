@@ -8,7 +8,7 @@ require_once('ImageMimeTypes.php');
  */
 class Image implements IImage
 {
-
+    const IMG_TMP_PATH = "files" . DIRECTORY_SEPARATOR . "tmp" . DIRECTORY_SEPARATOR;
     /**
      *
      * @var string
@@ -344,6 +344,39 @@ class Image implements IImage
         }
         file_put_contents($dir.$fileName,file_get_contents(NAMERESIZE));
         @unlink(NAMERESIZE);
+    }
+
+    public static function createTmpImageFromText($text, $fileName)
+    {
+        try {
+            $image = imagecreatetruecolor(200, 50) or die("Cannot Initialize new GD image stream");
+            $backgroundColor = imagecolorallocate($image, 255, 255, 255);
+            $lineColor = imagecolorallocate($image, 64, 64, 64);
+            $pixelColor = imagecolorallocate($image, 0, 0, 255);
+            imagefilledrectangle($image, 0, 0, 200, 50, $backgroundColor);
+            for ($i = 0; $i < 3; $i++) {
+                imageline($image, 0, rand() % 50, 200, rand() % 50, $lineColor);
+            }
+            for ($i = 0; $i < 1000; $i++) {
+                imagesetpixel($image, rand() % 200, rand() % 50, $pixelColor);
+            }
+            $textColor = imagecolorallocate($image, 0, 0, 0);
+            $n = strlen($text);
+            for ($i = 0; $i < $n; $i++) {
+                $letter = $text[$i];
+                imagestring($image, 7, 5 + ($i * 30), 20, $letter, $textColor);
+            }
+            $imagePath = PUBLIC_DIR . IMG_TMP_PATH . $fileName . ".png";
+            imagepng($image, $imagePath);
+            return WEB_ROOT . IMG_TMP_PATH . $fileName . ".png";
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public static function deleteTmpImage($fileName)
+    {
+        @unlink(PUBLIC_DIR . IMG_TMP_PATH  . $fileName.".png");
     }
 
 }

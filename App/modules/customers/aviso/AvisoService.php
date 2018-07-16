@@ -5,7 +5,7 @@
  *
  * @author ypra
  */
-class AvisoService extends GenericService
+class AvisoService extends AppSecureService
 {
 
     /**
