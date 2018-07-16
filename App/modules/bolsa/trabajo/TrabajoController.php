@@ -129,6 +129,25 @@ class TrabajoController extends PublicWebController
         $this->renderAsJSON();
     }
 
+    public function diselo()
+    {
+        $aviso = $this->avisoIfExist();
+        $this->set('aviso', $aviso);
+        //TODO: set captcha
+
+        if (HttpManager::isAJAXRequest()) {
+            $this->view->changeLayout('ajax');
+        } else {
+            Flash::set('page_title', 'Empleos.Click - Trabajos en Bolivia - ' . $aviso->getCargo());
+            Flash::set('page_description', 'Compartir Trabajo para ' . $aviso->getCargo() . ' en ' .
+                ($aviso->getLocalizacion() ?: $aviso->getNombreEmpresa()) .
+                ". Compartir Requerimiento de Personal para " . ucwords(strtolower($aviso->getFormacionesReferencia())) .
+                ". " . $aviso->getRequisito());
+            $this->view->renderView('trabajo.empleoSEO', "bolsa");
+        }
+
+    }
+
     public function enviarAmigo()
     {
         $data = Req::all();
