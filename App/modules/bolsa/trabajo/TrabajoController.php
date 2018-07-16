@@ -129,6 +129,17 @@ class TrabajoController extends PublicWebController
         $this->renderAsJSON();
     }
 
+    public function enviarAmigo()
+    {
+        $data = Req::all();
+        $data['Ip'] = $_SERVER['REMOTE_ADDR'];
+        $aviso = $this->avisoIfExist();
+        $results = $this->suscriptorService->enviarAmigo($data, $aviso);
+        $this->set('success', $results['success']);
+        $this->set('errors', $results['errors']);
+        $this->renderAsJSON();
+    }
+
     public function empresa()
     {
         $entityTypeList = $this->entityTypeService

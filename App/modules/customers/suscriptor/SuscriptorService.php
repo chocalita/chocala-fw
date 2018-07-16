@@ -110,6 +110,40 @@ class SuscriptorService extends GenericService
         return $results;
     }
 
+    public function enviarAmigo(array $data, JobAviso $aviso)
+    {
+        $results = ['success' => true, 'errors' => []];
+        if ($results['success']) {
+            if (!Validation::isMinLength($data['remitente'], 3)) {
+                $results['success'] = false;
+            }
+            if (!Validation::isMinLength($data['nombre'], 3)) {
+                $results['success'] = false;
+            }
+            if (!Validation::isEmail($data['email'])) {
+                $results['success'] = false;
+            }
+
+            $hash = SpecialStrings::generateHash(20);
+            $email = EmailService::instance()->findByCode(JobSuscriptor::J_EMAIL_NOTIFICATION_DISELO);
+            $emailMap = [
+                'TrackingHash' => $hash,
+                'To' => [
+                    ['Email' => $data['email'], 'Name' => $data['nombre']],
+                ],
+            ];
+            $emailVars = [
+                '~REMITENTE~' => $data['remitente'],
+                '~NOMBRE~' => $data['nombre'],
+                '~CARGO~' => htmlspecialchars($aviso->getCargo()),
+                '~NOMBRE_EMPRESA~' => htmlspecialchars($aviso->getNombreEmpresa()),
+            ];
+            $emailSent = EmailSender::instanceFrom($email)->sendMail($emailMap, $emailVars);
+            $results['email'] = $emailSent->getToEmail();
+        }
+        return $results;
+    }
+
     /**
      * @param int $days
      * @param null $dateBase

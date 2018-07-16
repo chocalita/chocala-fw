@@ -8,6 +8,8 @@ class JobSuscriptor extends BaseJobSuscriptor implements JsonSerializable
 {
     use  Validatable, Convertible;
 
+    const J_EMAIL_NOTIFICATION_DISELO = 'J_EMAIL_NOTIFICATION_DISELO';
+
     const EMAIL_SUBSCRIPTION_INITIAL = 'J_EMAIL_SUBSCRIPTION_INITIAL';
 
     const EMAIL_NOTIFICATION_SUBSCRIBE = 'J_EMAIL_NOTIFICATION_SUBSCRIBE';
