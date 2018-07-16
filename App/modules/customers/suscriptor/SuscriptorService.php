@@ -116,30 +116,43 @@ class SuscriptorService extends GenericService
         if ($results['success']) {
             if (!Validation::isMinLength($data['remitente'], 3)) {
                 $results['success'] = false;
+                array_push($results['errors'],
+                    ['field' => 'remitente', 'message' => 'Debe ingresar un nombre de remitente válido']
+                );
             }
             if (!Validation::isMinLength($data['nombre'], 3)) {
                 $results['success'] = false;
+                array_push($results['errors'],
+                    ['field' => 'nombre', 'message' => 'Debe ingresar un nombre de amigo válido']
+                );
             }
             if (!Validation::isEmail($data['email'])) {
                 $results['success'] = false;
+                array_push($results['errors'],
+                    ['field' => 'email', 'message' => 'Debe ingresar un email válido']
+                );
             }
+            if ($results['success']) {
+                $linkAviso = WEB_ROOT . 'bolsa/trabajo/index/?verAviso=' . $aviso->getId();
 
-            $hash = SpecialStrings::generateHash(20);
-            $email = EmailService::instance()->findByCode(JobSuscriptor::J_EMAIL_NOTIFICATION_DISELO);
-            $emailMap = [
-                'TrackingHash' => $hash,
-                'To' => [
-                    ['Email' => $data['email'], 'Name' => $data['nombre']],
-                ],
-            ];
-            $emailVars = [
-                '~REMITENTE~' => $data['remitente'],
-                '~NOMBRE~' => $data['nombre'],
-                '~CARGO~' => htmlspecialchars($aviso->getCargo()),
-                '~NOMBRE_EMPRESA~' => htmlspecialchars($aviso->getNombreEmpresa()),
-            ];
-            $emailSent = EmailSender::instanceFrom($email)->sendMail($emailMap, $emailVars);
-            $results['email'] = $emailSent->getToEmail();
+                $hash = SpecialStrings::generateHash(20);
+                $email = EmailService::instance()->findByCode(JobSuscriptor::J_EMAIL_NOTIFICATION_DISELO);
+                $emailMap = [
+                    'TrackingHash' => $hash,
+                    'To' => [
+                        ['Email' => $data['email'], 'Name' => $data['nombre']],
+                    ],
+                ];
+                $emailVars = [
+                    '~REMITENTE~' => ucwords($data['remitente']),
+                    '~NOMBRE~' => ucwords($data['nombre']),
+                    '~CARGO~' => htmlspecialchars($aviso->getCargo()),
+                    '~NOMBRE_EMPRESA~' => htmlspecialchars($aviso->getNombreEmpresa()),
+                    '~LINK_AVISO~' => $linkAviso,
+                ];
+                $emailSent = EmailSender::instanceFrom($email)->sendMail($emailMap, $emailVars);
+                $results['email'] = $emailSent->getToEmail();
+            }
         }
         return $results;
     }
