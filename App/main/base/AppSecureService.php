@@ -10,6 +10,7 @@ abstract class AppSecureService extends GenericService
 {
     const LAST_CAPTCHA_GENERATED_TEXT = "LAST_CAPTCHA_GENERATED_TEXT";
     const LAST_CAPTCHA_GENERATED_PATH = "LAST_CAPTCHA_GENERATED_PATH";
+    const CAPTCHA_DEFAULT_IMG = "CAPTCHA-0123.png";
 
     /**
      * @var SysUser
@@ -32,16 +33,23 @@ abstract class AppSecureService extends GenericService
     {
         $this->deleteCaptcha();
         $text = SpecialStrings::generateHash(4);
-        $imageName = "IMG-" . time();
+        $imageFilename = "CAPTCHA-" . time() . SpecialStrings::generateHash(8) . '.png';
         Session::set(self::LAST_CAPTCHA_GENERATED_TEXT, $text);
-        Session::set(self::LAST_CAPTCHA_GENERATED_PATH, $imageName);
-        return Image::createTmpImageFromText($text, $imageName);
+        Session::set(self::LAST_CAPTCHA_GENERATED_PATH, $imageFilename);
+        FilesHelper::webPath('tmp');
+        $filePath = FilesHelper::dirPath('tmp') . $imageFilename;
+        if (Image::createTmpImageFromText($text, $filePath)) {
+            return FilesHelper::webPath('tmp') . $imageFilename;
+        }
+        return FilesHelper::webPath('tmp').self::CAPTCHA_DEFAULT_IMG;
     }
 
     private function deleteCaptcha()
     {
         if(Session::has(self::LAST_CAPTCHA_GENERATED_PATH)) {
-            Image::deleteTmpImage(Session::get(self::LAST_CAPTCHA_GENERATED_PATH));
+            Image::deleteTmpImage(FilesHelper::dirPath('tmp') .
+                Session::get(self::LAST_CAPTCHA_GENERATED_PATH));
+            Session::delete(self::LAST_CAPTCHA_GENERATED_PATH);
         }
     }
 

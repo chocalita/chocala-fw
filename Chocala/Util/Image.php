@@ -346,7 +346,7 @@ class Image implements IImage
         @unlink(NAMERESIZE);
     }
 
-    public static function createTmpImageFromText($text, $fileName)
+    public static function createTmpImageFromText($text, $filePath)
     {
         try {
             $image = imagecreatetruecolor(150, 30) or die("Cannot Initialize new GD image stream");
@@ -363,17 +363,17 @@ class Image implements IImage
                 $letter = $text[$i];
                 imagestring($image, 9, 15 + ($i * 30), 7, $letter, $textColor);
             }
-            $imagePath = PUBLIC_DIR . self::IMG_TMP_PATH . $fileName . ".png";
-            imagepng($image, $imagePath);
-            return WEB_ROOT . self::IMG_TMP_PATH . $fileName . ".png";
+//            $filePath = PUBLIC_DIR . self::IMG_TMP_PATH . $filePath . ".png";
+            imagepng($image, $filePath);
+            return true; //WEB_ROOT . self::IMG_TMP_PATH . $filePath . ".png";
         } catch (Exception $e) {
             return $e->getMessage();
         }
     }
 
-    public static function deleteTmpImage($fileName)
+    public static function deleteTmpImage($filePath)
     {
-        @unlink(PUBLIC_DIR . self::IMG_TMP_PATH  . $fileName.".png");
+        @unlink($filePath);
     }
 
 }
