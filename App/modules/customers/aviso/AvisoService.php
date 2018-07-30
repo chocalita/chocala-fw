@@ -59,7 +59,7 @@ class AvisoService extends AppSecureService
     {
         $query = $this->validsQuery()
             ->filterVigentes(new DateTime(), $vigentes)
-            ->orderByDestacado(Criteria::DESC)
+            ->orderByDestacado(Criteria::ASC)
             ->orderByFechaVencimiento($order);
         return $query->find();
     }
