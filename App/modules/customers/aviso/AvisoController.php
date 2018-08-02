@@ -42,8 +42,8 @@ class AvisoController extends AdminWebController
         $filters = Req::all();
         $filters['_page'] = $filters['_page'] ?: 1;
 //        $filters['_max'] = $filters['_max']?: 20;  //comment for all results
-        $listVigentes = $this->avisoService->listVigencia();
-        $listNoVigentes = $this->avisoService->listVigencia(false);
+        $listVigentes = $this->avisoService->listVigentes();
+        $listNoVigentes = $this->avisoService->listVigentes(false);
         $avisoPager = $this->avisoService->dataList($filters);
         $this->set('avisoPager', $avisoPager);
         $this->set('listVigentes', $listVigentes);

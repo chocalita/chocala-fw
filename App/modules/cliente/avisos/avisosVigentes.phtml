@@ -3,10 +3,10 @@
         <h2>Anuncios Vigentes</h2>
         <ol class="breadcrumb">
             <li>
-                <a href="<?=URI::createURLTo(['uri' => 'cliente/']);?>">Empresa Suscrita</a>
+                <a href="<?=URI::toModule();?>">Empresa Suscrita</a>
             </li>
             <li>
-                <a href="<?=URI::createURLTo(['uri' => 'cliente/avisos/']);?>">Anuncios</a>
+                <a href="<?=URI::toPage();?>">Anuncios</a>
             </li>
             <li class="active">
                 <strong>Anuncios Vigentes</strong>
@@ -62,7 +62,7 @@
                             <th>Empresa</th>
                             <th width="10%">Cargo</th>
                             <th>Requisito</th>
-                            <th>Descripcion</th>
+                            <th>Descripción</th>
                             <th>Nivel Formación</th>
                             <th width="15%" class="noExport">Acciones</th>
                         </tr>
@@ -115,8 +115,6 @@
 
     </div>
 </div>
-
-<h2><?=$avisoPager->count();?> Avisos</h2>
 
 <script type="application/javascript">
 $(document).ready(function(){

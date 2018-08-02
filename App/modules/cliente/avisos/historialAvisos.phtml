@@ -3,10 +3,10 @@
         <h2>Historial de Anuncios</h2>
         <ol class="breadcrumb">
             <li>
-                <a href="<?=URI::createURLTo(['uri' => 'cliente/']);?>">Empresa Suscrita</a>
+                <a href="<?=URI::toModule();?>">Empresa Suscrita</a>
             </li>
             <li>
-                <a href="<?=URI::createURLTo(['uri' => 'cliente/avisos/']);?>">Anuncios</a>
+                <a href="<?=URI::toPage();?>">Anuncios</a>
             </li>
             <li class="active">
                 <strong>Historial de Anuncios</strong>
@@ -20,11 +20,106 @@
 
 <div class="wrapper wrapper-content animated fadeInRight">
 
-
     <?= BarView::renderBar('messages'); ?>
 
     <div class="row">
 
-    </div>
+        <div class="ibox float-e-margins">
 
+            <div class="ibox-title">
+                <h5>Historial de Avisos</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                        <i class="fa fa-wrench"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#">Opción 1</a>
+                        </li>
+                    </ul>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="ibox-content">
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover dataTables" >
+                        <thead>
+                        <tr>
+                            <th>Empresa</th>
+                            <th width="10%">Cargo</th>
+                            <th>Requisito</th>
+                            <th>Descripción</th>
+                            <th>Nivel Formación</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        $toDetailsLink = URI::toPage().'show/';
+                        $toEditLink = URI::toPage().'edit/';
+                        $toDeleteLink = URI::toPage().'delete/';
+                        $i = 0;
+                        /* @var JobAviso $aviso */
+                        foreach($avisoPager as $aviso):
+                            $pk = $aviso->getId();
+                            ?>
+                            <tr role="row">
+                                <td class="text-left"><?= $aviso->getNombreEmpresa(); ?></td>
+
+                                <td class="text-left"><?= $aviso->getCargo(); ?></td>
+                                <td class="text-left"><?= $aviso->getRequisito(); ?></td>
+                                <td class="text-left"><?= $aviso->getDescripcion(); ?></td>
+                                <td class="text-left"><?= $aviso->getNivelFormacion(); ?></td>
+                            </tr>
+                            <?php
+                            $i++;
+                        endforeach;
+                        ?>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
 </div>
+
+<script type="application/javascript">
+    $(document).ready(function(){
+        var exports = { columns: "thead th:not(.noExport)"};
+        $('.dataTables').DataTable({
+            "language": {
+                "url" : "<?=JQUERY_WEB;?>jquery.dataTables-Spanish.json"
+                // "url" : "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                // "emptyTable": "No se encontraron registros"
+            },
+            dom: '<"html5buttons"B>lTfgitp',
+            buttons: [
+                {extend: 'copy', title: 'Copiar', text: 'Copiar', exportOptions: exports},
+                {extend: 'csv', title: 'Reporte CSV', text: 'CSV', exportOptions: exports},
+                {extend: 'excel', title: 'Reporte Excel', text: 'Excel', exportOptions: exports},
+                {extend: 'pdf', title: 'Reporte PDF', text: 'PDF', exportOptions: exports},
+                {extend: 'print', title: 'Imprimir', text: 'Imprimir', exportOptions: exports,
+                    // exportOptions: {
+                    //     columns: "thead th:not(.noExport)"
+                    // },
+                    customize: function (win){
+                        $(win.document.body).addClass('white-bg');
+                        $(win.document.body).css('font-size', '10px');
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
+                }
+            ]
+        });
+    });
+</script>

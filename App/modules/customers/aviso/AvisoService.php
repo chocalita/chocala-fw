@@ -38,32 +38,44 @@ class AvisoService extends AppSecureService
     /**
      * @param array $filters
      * @return JobAviso[]|\Propel\Runtime\Util\PropelModelPager
+     * @throws \Propel\Runtime\Exception\PropelException
      */
     public function dataList($filters = [])
     {
+        $orders = $filters['_order'] ?: ['FechaVencimiento' => Criteria::DESC];
         $query = $this->validsQuery()
-            ->_if(isset($filters['code']))
-            ->filterByDescripcion('%' . $filters['descripcion'] . '%', Criteria::ILIKE)
-            ->_endif();
+            ->_if(isset($filters['_fechaVigencia']))
+                ->filterVigentes($filters['_fechaVigencia'])
+            ->_endif()
+            ->_if(isset($filters['_fechaNoVigencia']))
+                ->filterVigentes($filters['_fechaNoVigencia'], false)
+            ->_endif()
+            ->_if(isset($filters['empresaSuscrita']))
+                ->filterByJobEmpresaSuscrita($filters['empresaSuscrita'])
+            ->_endif()
+            ->_if(isset($filters['cargo']))
+                ->filterByCargo('%' . $filters['cargo'] . '%', Criteria::ILIKE)
+            ->_endif()
+            ->_if(isset($filters['descripcion']))
+                ->filterByDescripcion('%' . $filters['descripcion'] . '%', Criteria::ILIKE)
+            ->_endif()
+            ->_if(isset($filters['nombreEmpresa']))
+                ->filterByNombreEmpresa('%' . $filters['nombreEmpresa'] . '%', Criteria::ILIKE)
+            ->_endif()
+            ->_if(isset($filters['nivelFormacion']))
+                ->filterByNivelFormacion($filters['nivelFormacion'] , Criteria::EQUAL)
+            ->_endif()
+            ->_if(isset($filters['profesion']))
+                ->filterByProfesion('%' . $filters['profesion'] . '%', Criteria::ILIKE)
+            ->_endif()
+            ->_if(isset($filters['status']))
+                ->filterByStatus($filters['status'] , Criteria::EQUAL)
+            ->_endif()
+            ->orders($orders);
         $_page = $filters['_page'] ?: 1;
         $_max = $filters['_max'] ?: $query->count();
         return $query->paginate($_page, $_max);
     }
-
-    /**
-     * @param bool|true $vigentes
-     * @param string $order
-     * @return JobAviso[]|\Propel\Runtime\Collection\ObjectCollection
-     */
-    public function listVigencia($vigentes = true, $order = Criteria::ASC)
-    {
-        $query = $this->validsQuery()
-            ->filterVigentes(new DateTime(), $vigentes)
-            ->orderByDestacado(Criteria::ASC)
-            ->orderByFechaVencimiento($order);
-        return $query->find();
-    }
-
 
     /**
      * @return int
@@ -123,22 +135,40 @@ class AvisoService extends AppSecureService
     }
 
     /**
-     * @param JobEmpresaSuscrita $empresaSuscrita
-     * @param DateTime $fecha
+     * @param bool $vigentes
      * @param array $filters
      * @return JobAviso[]|\Propel\Runtime\Util\PropelModelPager
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function vigentesEmpresa(JobEmpresaSuscrita $empresaSuscrita, $fecha, $filters = [])
+    public function listVigentes($vigentes = true, $filters = [])
     {
-        $orders = $filters['_order'] ?: ['FechaVencimiento' => Criteria::DESC];
-        $query = $this->validsQuery()
-            ->filterByJobEmpresaSuscrita($empresaSuscrita)
-            ->filterVigentes($fecha)
-            ->orders($orders);
-        $_page = $filters['_page'] ?: 1;
-        $_max = $filters['_max'] ?: $query->count();
-        return $query->paginate($_page, $_max);
+        $filters['_order'] = $filters['_order'] ?: [
+            'Destacado' => Criteria::DESC,
+            'FechaVencimiento' => Criteria::DESC
+        ];
+        if($vigentes){
+            $filters['_fechaVigencia'] = $filters['_fechaVigencia'] ?: new DateTime();
+        } else {
+            $filters['_fechaNoVigencia'] = $filters['_fechaNoVigencia'] ?: new DateTime();
+        }
+        return $this->dataList($filters);
+    }
+
+    /**
+     * @param JobEmpresaSuscrita $empresaSuscrita
+     * @param $vigentes
+     * @param array $filters
+     * @return JobAviso[]|\Propel\Runtime\Util\PropelModelPager
+     * @throws \Propel\Runtime\Exception\PropelException
+     */
+    public function vigentesEmpresa(JobEmpresaSuscrita $empresaSuscrita, $vigentes, $filters = [])
+    {
+        $filters['empresaSuscrita'] = $empresaSuscrita;
+        $filters['_order'] = $filters['_order'] ?: [
+//            'Destacado' => Criteria::DESC,
+            'FechaVencimiento' => Criteria::ASC
+        ];
+        return $this->listVigentes($vigentes, $filters);
     }
 
 }

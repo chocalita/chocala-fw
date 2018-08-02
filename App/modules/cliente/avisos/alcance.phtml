@@ -3,10 +3,10 @@
         <h2>Alcance de Publicación</h2>
         <ol class="breadcrumb">
             <li>
-                <a href="<?=URI::createURLTo(['uri' => 'cliente/']);?>">Empresa Suscrita</a>
+                <a href="<?=URI::toModule();?>">Empresa Suscrita</a>
             </li>
             <li>
-                <a href="<?=URI::createURLTo(['uri' => 'cliente/avisos/']);?>">Anuncios</a>
+                <a href="<?=URI::toPage();?>">Anuncios</a>
             </li>
             <li class="active">
                 <strong>Alcance de Publicación</strong>
@@ -22,7 +22,65 @@
 
     <?= BarView::renderBar('messages'); ?>
 
-    <div class="row">
+    <div class="landing-page">
+
+        <div class="row">
+            <div class="col-sm-3 text-justify">
+                <h2><span class="text-blue">20000+</span> visitas al mes</h2>
+                <p><strong>Empleos.Click</strong> ya tiene garantizado un tráfico mensual de más de 20000 personas. Técnicos y profesionales,
+                    que visitan nuestro portal y se constituyen en potenciales prospectos en busca de nuevas oportunidades laborales.
+                </p>
+            </div>
+            <div class="col-sm-3 text-justify">
+                <h2><span class="text-blue">11000+</span> Facebook fans</h2>
+                <p>Sorpresivamente hemos conseguido como portal oficial de empleos, más de 11000 fans en nuestra página de facebook,
+                    y tenemos semanalmente miles de interacciones desde nuestra página.</p>
+            </div>
+            <div class="col-sm-3 text-justify">
+                <h2><span class="text-blue">3000+</span> suscriptores</h2>
+                <p>Gracias a la confianza depositada por los visitantes, nuestro sistema ya cuenta con más de 3000 suscriptores,
+                    a quienes notificamos periódicamente sobre convocatorias que pueden ser de su interés laboral.</p>
+            </div>
+            <div class="col-sm-3 text-justify">
+                <h2><span class="text-blue">Máximo</span> rendimiento</h2>
+                <p>Desde octubre de 2017, <strong>Empleos.Click</strong> se constituye en el portal boliviano de referencia para la
+                    conexión de empleos, en los pocos meses nuestor alto rendimiento nos consolidadó en un importante mecanismo de contacto
+                    entre especialistas y empresas.
+                </p>
+            </div>
+        </div>
+
+        <section class="features">
+            <div class="container">
+
+                <div class="col-lg-12 text-center">
+                    <div class="navy-line"></div>
+                    <h1>El mejor canal gratuito para tus anuncios</h1>
+                    <p>Ponemos tus anuncios al alcance de más de 8000 personas que estan en busca de empleo</p>
+                </div>
+
+                <div class="col-lg-5 col-lg-offset-1 features-text">
+                    <small>Empleos.Click</small>
+                    <h2>Logra amplia difusión</h2>
+                    <i class="fa fa-bullhorn big-icon pull-left"></i>
+                    <p>Registra tus ofertas de empleo con tu cuenta de empresa completamente gratis,
+                        asi logras amplio alcance a través de nuestros canales de difusión,
+                        todo completamente en línea desde la comodidad de tu hogar u oficina.
+                    </p>
+                </div>
+                <div class="col-lg-5 features-text">
+                    <small>Empleos.Click</small>
+                    <h2>Encuentra los mejores candidatos</h2>
+                    <i class="fa fa-users big-icon pull-right"></i>
+                    <p>Sabemos que el principal factor de desarrollo de cada empresa es el talento humano,
+                        por eso, innovamos en brindar un medio efectivo para la obtención de prospectos y candidatos
+                        que puedan cubrir de mejor manera los espacios de empleo requeridos.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
 
     </div>
 
