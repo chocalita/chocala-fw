@@ -45,14 +45,10 @@ class SuscripcionesController extends PublicWebController
         $empresaSuscrita = JobEmpresaSuscritaQuery::create()->findOneByHashCode($this->id);
         if (is_object($empresaSuscrita)) {
             if ($empresaSuscrita->getStatus() == JobEmpresaSuscrita::STATUS_INITIAL) {
-                $esEmpresaFormal = $empresaSuscrita->getSysEntityType()->getGroupCode() == SysEntityType::GROUP_FORMAL_COMPANY;
-                $tipoSuscripcion = $esEmpresaFormal ? 'Empresa' : 'Negocio';
                 $locaciones = SysLocationQuery::create()->filterByType("DEPARTMENT")->find();
                 $formacionReferenciaList = $this->formacionReferenciaService->dataList(['activo' => true]);
                 $this->set('localizaciones', AppParam::param('P_LOCALIZACIONES_AVISO')->options());
                 $this->set('empresaSuscrita', $empresaSuscrita);
-                $this->set('tipoSuscripcion', $tipoSuscripcion);
-                $this->set('esEmpresaFormal', $esEmpresaFormal);
                 $this->set('locaciones', $locaciones);
                 $this->set('nivelesFormacion', JobAviso::$nivelesFormacion);
                 $this->set('formacionReferenciaList', $formacionReferenciaList);

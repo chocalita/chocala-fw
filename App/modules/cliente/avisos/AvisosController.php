@@ -150,12 +150,20 @@ class AvisosController extends EmpresaAdminController
 
     public function empresa()
     {
+        $usuariosEmpresaSuscrita = $this->sessionEmpresaSuscrita->getJobUserEmpresaSuscritas();
         $this->set("empresaSuscrita" , $this->sessionEmpresaSuscrita);
+        $this->set("usuariosEmpresaSuscrita" , $usuariosEmpresaSuscrita);
     }
 
     public function perfil()
     {
-        $this->render("AQUI VA EL PERFIL DE USUARIO");
+        $this->set('user', $this->sessionUser);
+        $this->set('person', $this->sessionUser->person());
+
+        $usuariosEmpresaSuscrita = $this->sessionEmpresaSuscrita->getJobUserEmpresaSuscritas();
+        $this->set("empresaSuscrita" , $this->sessionEmpresaSuscrita);
+        $this->set("usuariosEmpresaSuscrita" , $usuariosEmpresaSuscrita);
+//        $this->render("AQUI VA EL PERFIL DE USUARIO");
     }
 
     public function tutorial()

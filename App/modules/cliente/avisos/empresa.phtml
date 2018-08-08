@@ -1,3 +1,4 @@
+<?php /** @var JobEmpresaSuscrita $empresaSuscrita */ ?>
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
         <h2>Mi Empresa</h2>
@@ -18,16 +19,160 @@
     </div>
 </div>
 
-<div class="wrapper wrapper-content animated fadeInRight">
+<div class="wrapper wrapper-content">
+<!--<div class="wrapper wrapper-content animated fadeInRight">-->
 
     <?= BarView::renderBar('messages'); ?>
 
-    <div class="landing-page">
+    <div class="row animated fadeInRight">
+        <div class="col-md-4">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Datos de su <?=$empresaSuscrita->getSysEntityType()->tipoEntidadFormal();?></h5>
+                </div>
+                <div>
+                    <?php
+                    if($empresaSuscrita->isTieneLogo()) {
+                    ?>
+                    <div class="ibox-content no-padding border-left-right">
+                        <img src="<?= $empresaSuscrita->imageWeb(); ?>" alt="LOGO EMPRESA" class="img-responsive"/>
+                    </div>
+                    <?php
+                    }
+                    ?>
+                    <div class="ibox-content profile-content">
+                        <h4>
+                            <strong><?=$empresaSuscrita->getNombre();?></strong>
+                            <?php if($empresaSuscrita->getSysEntityType()->esEmpresaFormal()) { ?>
+                            <br />
+                            <small><?=$empresaSuscrita->getSysEntityType()->getName();?></small>
+                            <?php } ?>
+                        </h4>
+                        <p><i class="fa fa-map-marker"></i> <?=$empresaSuscrita->getDireccion();?> - <?=$empresaSuscrita->getSysLocation()->getName();?></p>
+                        <br />
 
-        <?php if (file_exists($empresaSuscrita->imageDir())) { ?>
-            <img src="<?= $empresaSuscrita->imageWeb(); ?>" alt="LOGO EMPRESA">
-        <?php } ?>
+                        <?php if($empresaSuscrita->getSysEntityType()->esEmpresaFormal()) { ?>
+                        <h5>N.I.T.</h5>
+                        <p>
+                            <?=$empresaSuscrita->getNit();?>
+                        </p>
+                        <?php } ?>
 
+                        <h5>Representante</h5>
+                        <p>
+                            <?=$empresaSuscrita->getRepresentante();?>
+                        </p>
+
+                        <h5>Email</h5>
+                        <p>
+                            <?=$empresaSuscrita->getEmail();?>
+                        </p>
+
+                        <?php if($empresaSuscrita->getTelefono() != '') { ?>
+                        <h5>Teléfono</h5>
+                        <p>
+                            <?=$empresaSuscrita->getTelefono();?>
+                        </p>
+                        <?php } ?>
+
+                        <?php if($empresaSuscrita->getCelular() != '') { ?>
+                        <h5>Celular</h5>
+                        <p>
+                            <?=$empresaSuscrita->getCelular();?>
+                        </p>
+                        <?php } ?>
+
+                        <br />
+
+                        <h5>Fecha de Suscripción</h5>
+                        <p>
+                            <?=$empresaSuscrita->getCreationDate('d / m / Y');?>
+                        </p>
+
+                        <br />
+
+                        <div class="user-button">
+                            <div class="row">
+                                <a href="#" class="btn btn-primary btn-sm btn-block">
+                                    <i class="fa fa-edit"></i> Editar Información de <?=$empresaSuscrita->getSysEntityType()->tipoEntidadFormal();?>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Usuarios</h5>
+                </div>
+                <div class="ibox-content">
+
+                    <div>
+                        <div class="feed-activity-list">
+
+                            <?php
+                            foreach ($usuariosEmpresaSuscrita as $userEmpresaSuscrita) {
+                                /** @var JobUserEmpresaSuscrita $userEmpresaSuscrita */
+                                $user = $userEmpresaSuscrita->getSysUser();
+                                $person = $user->person();
+                                $rol = $userEmpresaSuscrita->getSysRol();
+                            ?>
+
+                            <div class="feed-element">
+                                <a href="#" class="pull-left">
+<!--                                    <img alt="image" class="img-circle" src="img/a1.jpg">-->
+                                    <?php
+                                    if($user->getImageMime()) {
+                                        ?>
+                                        <img alt="image" class="img-responsive img-circle" src="<?= $user->imageWeb(SysUser::IMG_MEDIUM); ?>">
+                                        <?php
+                                    }else {
+                                        ?>
+                                        <img alt="image" class="img-responsive img-circle" src="<?= IMG_WEB; ?>profile-big.png">
+                                        <?php
+                                    }
+                                    ?>
+                                </a>
+                                <div class="media-body ">
+                                    <small class="pull-right text-navy">Ultimo Acceso: <?=$user->getLastAccess('d/m/y H:i');?></small>
+                                    <strong><?=$user->completeName();?></strong> con rol <strong><?=$rol->getName();?></strong>. <br>
+                                    <small class="text-muted">Asignado el <?=$userEmpresaSuscrita->getCreationDate('d/m/Y H:i');?></small>
+                                    <p>
+                                        <strong>Email:</strong> <?=$user->getEmail();?>
+                                        <br />
+                                        <strong>Teléfono:</strong> <?=$person->getCellphone1()?: ($person->getPhoneWork()?: ($person->getPhoneHome()));?>
+                                    </p>
+                                    <div class="well">
+                                        <?=$rol->getDescription();?>
+                                    </div>
+<!--
+                                    <div class="actions">
+                                        <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> Like </a>
+                                        <a class="btn btn-xs btn-danger"><i class="fa fa-heart"></i> Love</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> Like </a>
+                                    </div>
+-->
+                                </div>
+                            </div>
+                            <?php
+                            }
+                            ?>
+
+                        </div>
+
+                        <a class="btn btn-primary btn-sm btn-block m"><i class="fa fa-users"></i> Administrar Usuarios</a>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
     </div>
+
 
 </div>
