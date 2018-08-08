@@ -144,7 +144,7 @@ class AvisoService extends AppSecureService
     {
         $filters['_order'] = $filters['_order'] ?: [
             'Destacado' => Criteria::DESC,
-            'FechaVencimiento' => Criteria::DESC
+            'FechaVencimiento' => Criteria::ASC
         ];
         if($vigentes){
             $filters['_fechaVigencia'] = $filters['_fechaVigencia'] ?: new DateTime();
