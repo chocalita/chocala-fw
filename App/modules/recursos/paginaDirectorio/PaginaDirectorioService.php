@@ -492,28 +492,31 @@ class PaginaDirectorioService extends GenericService
     {
         $con = \Propel\Runtime\Propel::getConnection();
         $con->beginTransaction();
-        for ($i = 141301 ; $i<=145000; $i++){
+        for ($i = 190001; $i <= 193500; $i++) {
+            // Obtenido hasta 185000 el 08/08/2018 23:44
 //            $this->requestInfo($i);
 
 //            $emp = JobEmpresaDirectorioQuery::create()->findPk($i);
 //            if(!is_object($emp)) {
                 $id = SpecialStrings::normalizeNumber($i, 8);
                 $url = 'http://www.fundempresa.org.bo/directorio/Inicio/MostrarEmpresa';
-                $params = "CodigoMatricula=".$id;
+                $params = "CodigoMatricula=" . $id;
                 $handler = curl_init($url);
                 curl_setopt($handler, CURLOPT_POST, 1);
                 curl_setopt($handler, CURLOPT_POSTFIELDS, $params);
                 curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
                 $response = curl_exec($handler);
                 curl_close($handler);
-                $obj = new JobEmpresaDirectorio();
-                $obj->setId($i);
-                $obj->setInfo($response);
-                $obj->setIdMatricula($i);
-                $obj->setMatricula($id);
-                $obj->setRazon($id);
-                $obj->setSeccion($id);
-                $obj->save($con);
+                if ($response != '[]') {
+                    $obj = new JobEmpresaDirectorio();
+                    $obj->setId($i);
+                    $obj->setInfo($response);
+                    $obj->setIdMatricula($i);
+                    $obj->setMatricula($id);
+                    $obj->setRazon($id);
+                    $obj->setSeccion($id);
+                    $obj->save($con);
+                }
 //            }
             if($i%100 == 0) {
                 $con->commit();
