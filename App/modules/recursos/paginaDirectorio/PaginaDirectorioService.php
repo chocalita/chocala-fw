@@ -492,10 +492,10 @@ class PaginaDirectorioService extends GenericService
     {
         $con = \Propel\Runtime\Propel::getConnection();
         $con->beginTransaction();
-        for ($i = 190001; $i <= 193500; $i++) {
+        $nInfo = 0;
+        for ($i = 219901; $i <= 220000; $i++) {
             // Obtenido hasta 185000 el 08/08/2018 23:44
 //            $this->requestInfo($i);
-
 //            $emp = JobEmpresaDirectorioQuery::create()->findPk($i);
 //            if(!is_object($emp)) {
                 $id = SpecialStrings::normalizeNumber($i, 8);
@@ -507,6 +507,7 @@ class PaginaDirectorioService extends GenericService
                 curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
                 $response = curl_exec($handler);
                 curl_close($handler);
+
                 if ($response != '[]') {
                     $obj = new JobEmpresaDirectorio();
                     $obj->setId($i);
@@ -516,16 +517,46 @@ class PaginaDirectorioService extends GenericService
                     $obj->setRazon($id);
                     $obj->setSeccion($id);
                     $obj->save($con);
+                    $nInfo++;
                 }
 //            }
-            if($i%100 == 0) {
+            if ($nInfo % 500 == 0) {
                 $con->commit();
+                echo "Obtenidos " . $nInfo . " - " . date("d/M/y h:i:s") . "<br />";
                 $con->beginTransaction();
-                sleep(1);
             }
         }
         $con->commit();
-        echo "FINISHED!"; exit();
+        echo "Total Obtenidos " . $nInfo . " - " . date("d/M/y h:i:s") . "<br />";
+    }
+
+    public function scraping2()
+    {
+        $empresaRegistroIncompleto = JobEmpresaDirectorioQuery::create()
+            ->filterByInfo("")
+            ->orderById(Criteria::ASC)
+            ->find();
+        $nInfo = 0;
+        foreach ($empresaRegistroIncompleto as $empresaSinInfo) {
+            $id = SpecialStrings::normalizeNumber($empresaSinInfo->getId(), 8);
+            $url = 'http://www.fundempresa.org.bo/directorio/Inicio/MostrarEmpresa';
+            $params = "CodigoMatricula=" . $id;
+            $handler = curl_init($url);
+            curl_setopt($handler, CURLOPT_POST, 1);
+            curl_setopt($handler, CURLOPT_POSTFIELDS, $params);
+            curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($handler);
+            curl_close($handler);
+            if ($response != '[]') {
+                $empresaSinInfo->setInfo($response);
+                $empresaSinInfo->save();
+                $nInfo ++;
+            }
+            if ($nInfo % 500 == 0) {
+                echo "Completados " . $nInfo . " - " . date("d/M/y h:i:s") . "<br />";
+            }
+        }
+        echo "Total Completados " . $nInfo . " - " . date("d/M/y h:i:s") . "<br />";
     }
 
     public function spider()
