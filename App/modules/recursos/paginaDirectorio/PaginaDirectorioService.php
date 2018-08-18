@@ -493,8 +493,13 @@ class PaginaDirectorioService extends GenericService
         $con = \Propel\Runtime\Propel::getConnection();
         $con->beginTransaction();
         $nInfo = 0;
-        for ($i = 219901; $i <= 220000; $i++) {
-            // Obtenido hasta 185000 el 08/08/2018 23:44
+
+
+//        $mbd = new PDO('mysql:host=localhost;dbname=prueba', $usuario, $contraseña);
+
+
+        for ($i = 228501; $i <= 230000; $i++) {
+            // Obtenido hasta 230000 el 18/08/2018 07:30
 //            $this->requestInfo($i);
 //            $emp = JobEmpresaDirectorioQuery::create()->findPk($i);
 //            if(!is_object($emp)) {
@@ -520,7 +525,7 @@ class PaginaDirectorioService extends GenericService
                     $nInfo++;
                 }
 //            }
-            if ($nInfo % 500 == 0) {
+            if ($nInfo % 100 == 0) {
                 $con->commit();
                 echo "Obtenidos " . $nInfo . " - " . date("d/M/y h:i:s") . "<br />";
                 $con->beginTransaction();
