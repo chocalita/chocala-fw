@@ -78,6 +78,7 @@ class AuthService extends GenericService
                         "AccessToken" => $accessToken,
                         "Json" => $oFacebookUser->asJson(),
                     ]);
+                    $aResult["object"]->setStatus(SysUser::STATUS_ACTIVE)->save();
                     return $aResult["object"];
                 }
             }else{
