@@ -48,7 +48,7 @@ class TrabajoController extends PublicWebController
 
     public function index()
     {
-        $avisosVigentes = $this->avisoService->listVigencia(true);
+        $avisosVigentes = $this->avisoService->listVigentes();
         $totalMes = $this->avisoService->countVigentesMes();
         $totalMesPasado = $this->avisoService->countVigentesMesPasado();
         $avisosOdd = [];
@@ -77,7 +77,7 @@ class TrabajoController extends PublicWebController
 
     public function lista()
     {
-        $avisosVigentes = $this->avisoService->listVigencia(true);
+        $avisosVigentes = $this->avisoService->listVigentes();
         $totalMes = $this->avisoService->countVigentesMes();
         $totalMesPasado = $this->avisoService->countVigentesMesPasado();
         $avisosOdd = [];

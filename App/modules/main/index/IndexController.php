@@ -17,24 +17,6 @@ class IndexController extends PublicWebController
     public function index()
     {
         $this->set('message', 'This page is running successfully!');
-        $avisosVigentes = $this->avisoService->listVigencia(true);
-        $totalMes = $this->avisoService->countVigentesMes();
-        $totalMesPasado = $this->avisoService->countVigentesMesPasado();
-        $avisosOdd = [];
-        $avisosEven = [];
-        $i = 0;
-        foreach ($avisosVigentes as $aviso) {
-            if ($i++ % 2) {
-                array_push($avisosEven, $aviso);
-            } else {
-                array_push($avisosOdd, $aviso);
-            }
-        }
-        $this->set('avisosVigentes', $avisosVigentes);
-        $this->set('totalMes', $totalMes);
-        $this->set('totalMesPasado', $totalMesPasado);
-        $this->set('avisosOdd', $avisosOdd);
-        $this->set('avisosEven', $avisosEven);
     }
 
     public function test()

@@ -40,7 +40,7 @@ class AvisosController extends EmpresaAdminController
     public function avisosVigentes()
     {
         $filters = Req::all();
-        $avisoPager = $this->avisoService->vigentesEmpresa($this->sessionEmpresaSuscrita, new DateTime(), $filters);
+        $avisoPager = $this->avisoService->vigentesEmpresa($this->sessionEmpresaSuscrita, true, $filters);
         $this->set('avisoPager', $avisoPager);
     }
 
@@ -143,7 +143,27 @@ class AvisosController extends EmpresaAdminController
 
     public function historialAvisos()
     {
+        $filters = Req::all();
+        $avisoPager = $this->avisoService->vigentesEmpresa($this->sessionEmpresaSuscrita, false, $filters);
+        $this->set('avisoPager', $avisoPager);
+    }
 
+    public function empresa()
+    {
+        $usuariosEmpresaSuscrita = $this->sessionEmpresaSuscrita->getJobUserEmpresaSuscritas();
+        $this->set("empresaSuscrita" , $this->sessionEmpresaSuscrita);
+        $this->set("usuariosEmpresaSuscrita" , $usuariosEmpresaSuscrita);
+    }
+
+    public function perfil()
+    {
+        $this->set('user', $this->sessionUser);
+        $this->set('person', $this->sessionUser->person());
+
+        $usuariosEmpresaSuscrita = $this->sessionEmpresaSuscrita->getJobUserEmpresaSuscritas();
+        $this->set("empresaSuscrita" , $this->sessionEmpresaSuscrita);
+        $this->set("usuariosEmpresaSuscrita" , $usuariosEmpresaSuscrita);
+//        $this->render("AQUI VA EL PERFIL DE USUARIO");
     }
 
     public function tutorial()

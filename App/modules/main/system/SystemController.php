@@ -78,6 +78,8 @@ class SystemController extends AdminWebController
     {
         if (UserControl::hasRol('SUPER') || UserControl::hasRol('CODE')) {
             $this->redirectTo(['action' => 'admin']);
+        } else if (UserControl::hasRol('ENT_ADM')) {
+            $this->redirectTo(['uri' => 'cliente/avisos']);
         } else {
             $this->redirectTo(['action' => 'adminOther']);
         }

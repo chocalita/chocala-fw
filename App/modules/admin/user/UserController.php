@@ -144,7 +144,7 @@ class UserController extends AdminWebController
 
     public function profileImageForm()
     {
-        if(PageControl::canUpdate()){
+        if (PageControl::canUpdate()) {
             $user = $this->sessionUser;
             $data = Req::all();
             $data['Location'] = Req::_('City');

@@ -109,4 +109,9 @@ class SysEntityType extends BaseSysEntityType implements JsonSerializable
         return $this->group_code == self::GROUP_FORMAL_COMPANY;
     }
 
+    public function tipoEntidadFormal()
+    {
+        return $this->esEmpresaFormal() ? 'Empresa' : 'Negocio';
+    }
+
 }

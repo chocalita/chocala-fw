@@ -492,37 +492,76 @@ class PaginaDirectorioService extends GenericService
     {
         $con = \Propel\Runtime\Propel::getConnection();
         $con->beginTransaction();
-        for ($i = 141301 ; $i<=145000; $i++){
-//            $this->requestInfo($i);
+        $nInfo = 0;
 
+
+//        $mbd = new PDO('mysql:host=localhost;dbname=prueba', $usuario, $contraseña);
+
+
+        for ($i = 228501; $i <= 230000; $i++) {
+            // Obtenido hasta 230000 el 18/08/2018 07:30
+//            $this->requestInfo($i);
 //            $emp = JobEmpresaDirectorioQuery::create()->findPk($i);
 //            if(!is_object($emp)) {
                 $id = SpecialStrings::normalizeNumber($i, 8);
                 $url = 'http://www.fundempresa.org.bo/directorio/Inicio/MostrarEmpresa';
-                $params = "CodigoMatricula=".$id;
+                $params = "CodigoMatricula=" . $id;
                 $handler = curl_init($url);
                 curl_setopt($handler, CURLOPT_POST, 1);
                 curl_setopt($handler, CURLOPT_POSTFIELDS, $params);
                 curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
                 $response = curl_exec($handler);
                 curl_close($handler);
-                $obj = new JobEmpresaDirectorio();
-                $obj->setId($i);
-                $obj->setInfo($response);
-                $obj->setIdMatricula($i);
-                $obj->setMatricula($id);
-                $obj->setRazon($id);
-                $obj->setSeccion($id);
-                $obj->save($con);
+
+                if ($response != '[]') {
+                    $obj = new JobEmpresaDirectorio();
+                    $obj->setId($i);
+                    $obj->setInfo($response);
+                    $obj->setIdMatricula($i);
+                    $obj->setMatricula($id);
+                    $obj->setRazon($id);
+                    $obj->setSeccion($id);
+                    $obj->save($con);
+                    $nInfo++;
+                }
 //            }
-            if($i%100 == 0) {
+            if ($nInfo % 100 == 0) {
                 $con->commit();
+                echo "Obtenidos " . $nInfo . " - " . date("d/M/y h:i:s") . "<br />";
                 $con->beginTransaction();
-                sleep(1);
             }
         }
         $con->commit();
-        echo "FINISHED!"; exit();
+        echo "Total Obtenidos " . $nInfo . " - " . date("d/M/y h:i:s") . "<br />";
+    }
+
+    public function scraping2()
+    {
+        $empresaRegistroIncompleto = JobEmpresaDirectorioQuery::create()
+            ->filterByInfo("")
+            ->orderById(Criteria::ASC)
+            ->find();
+        $nInfo = 0;
+        foreach ($empresaRegistroIncompleto as $empresaSinInfo) {
+            $id = SpecialStrings::normalizeNumber($empresaSinInfo->getId(), 8);
+            $url = 'http://www.fundempresa.org.bo/directorio/Inicio/MostrarEmpresa';
+            $params = "CodigoMatricula=" . $id;
+            $handler = curl_init($url);
+            curl_setopt($handler, CURLOPT_POST, 1);
+            curl_setopt($handler, CURLOPT_POSTFIELDS, $params);
+            curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($handler);
+            curl_close($handler);
+            if ($response != '[]') {
+                $empresaSinInfo->setInfo($response);
+                $empresaSinInfo->save();
+                $nInfo ++;
+            }
+            if ($nInfo % 500 == 0) {
+                echo "Completados " . $nInfo . " - " . date("d/M/y h:i:s") . "<br />";
+            }
+        }
+        echo "Total Completados " . $nInfo . " - " . date("d/M/y h:i:s") . "<br />";
     }
 
     public function spider()
