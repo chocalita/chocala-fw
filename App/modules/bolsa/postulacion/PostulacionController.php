@@ -30,7 +30,7 @@ class PostulacionController extends PublicWebController
 
     /**
      * @var PostulacionService Injected service
-     * @service bolsa.postulacion.postulacionService
+     * @service bolsa.postulacion.PostulacionService
      */
     protected $postulacionService;
 
