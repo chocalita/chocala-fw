@@ -56,12 +56,14 @@ class PaginaDirectorioController extends AdminWebController
 
     public function procesarInfo()
     {
-        $limit = $this->id ?: 1000;
+        $minId = 0;
+        $limit = $this->id ?: 300;
         $empresaDirectorios = JobEmpresaDirectorioQuery::create()
-            ->filterByInfo("", Criteria::NOT_EQUAL)
+//            ->filterByInfo("[]", Criteria::NOT_EQUAL)
             ->filterByTps(null)
-            ->limit($limit)
+            ->filterById($minId, Criteria::GREATER_THAN)
             ->orderById(Criteria::DESC)
+            ->limit($limit)
             ->find();
         $con = \Propel\Runtime\Propel::getConnection();
         $con->beginTransaction();
@@ -72,41 +74,41 @@ class PaginaDirectorioController extends AdminWebController
             $nInfo++;
             $jd = (array) json_decode($ed->getInfo(),true);
             $jd = $jd[0];
-            $ed->setMatricula($jd['matricula']?: $ed->getMatricula());
-            $ed->setRazon($jd['razon']?: $ed->getRazon());
-            $ed->setTps($jd['tps']);
-            $ed->setDpto($jd['dpto']);
-            $ed->setMunicipio($jd['Municipio']);
-            $ed->setDireccion($jd['Direccion']);
-            $ed->setFono($jd['fono']);
-            $ed->setFono2($jd['fono2']);
-            $ed->setFechaMatricula($jd['fec_mat']);
-            $ed->setFechaRenovacion($jd['fec_ren']);
-            $ed->setUltRenov($jd['ult_renov']);
-            $ed->setEstMat($jd['est_mat']);
-            $ed->setCierre($jd['cierre']);
-            $ed->setIdClase($jd['id_clase']);
-            $ed->setNumId($jd['num_id']);
-            $ed->setNombre($jd['nombre']);
-            $ed->setCtrAct($jd['ctr_act']);
-            $ed->setIdReg($jd['id_reg']);
-            $ed->setVisible($jd['visible']);
-            $ed->setFax($jd['fax']);
-            $ed->setMail($jd['mail']);
-            $ed->setActividad($jd['actividad']);
-            $ed->setLicencia($jd['licencia']);
-            $ed->setContacto($jd['contacto']);
-            $ed->setIdMatricula($jd['id_matricula']?: $ed->getIdMatricula());
-            $ed->setSeccion($jd['SECCION']?: $ed->getSeccion());
-            $ed->setDivision($jd['DIVISION']);
-            $ed->setClase($jd['CLASE']);
-            $ed->setDes1($jd['DES1']);
-            $ed->setDes2($jd['DES2']);
-            $ed->setGrupo($jd['GRUPO']);
-            $ed->setDes3($jd['DES3']);
-            $ed->setDes4($jd['DES4']);
+            $ed->setMatricula(trim($jd['matricula']) ?: $ed->getMatricula());
+            $ed->setRazon(trim($jd['razon']) ?: $ed->getRazon());
+            $ed->setTps(trim($jd['tps']) ?: null);
+            $ed->setDpto(trim($jd['dpto']) ?: null);
+            $ed->setMunicipio(trim($jd['Municipio']) ?: null);
+            $ed->setDireccion(trim($jd['Direccion']) ?: null);
+            $ed->setFono(trim($jd['fono']) ?: null);
+            $ed->setFono2(trim($jd['fono2']) ?: null);
+            $ed->setFechaMatricula(trim($jd['fec_mat']) ?: null);
+            $ed->setFechaRenovacion(trim($jd['fec_ren']) ?: null);
+            $ed->setUltRenov(trim($jd['ult_renov']) ?: null);
+            $ed->setEstMat(trim($jd['est_mat']) ?: null);
+            $ed->setCierre(trim($jd['cierre']) ?: null);
+            $ed->setIdClase(trim($jd['id_clase']) ?: null);
+            $ed->setNumId(trim($jd['num_id']) ?: null);
+            $ed->setNombre(trim($jd['nombre']) ?: null);
+            $ed->setCtrAct(trim($jd['ctr_act']) ?: null);
+            $ed->setIdReg(trim($jd['id_reg']) ?: null);
+            $ed->setVisible(trim($jd['visible']) ?: null);
+            $ed->setFax(trim($jd['fax']) ?: null);
+            $ed->setMail(trim($jd['mail']) ?: null);
+            $ed->setActividad(trim($jd['actividad']) ?: null);
+            $ed->setLicencia(trim($jd['licencia']) ?: null);
+            $ed->setContacto(trim($jd['contacto']) ?: null);
+            $ed->setIdMatricula(trim($jd['id_matricula'])?: $ed->getIdMatricula());
+            $ed->setSeccion(trim($jd['SECCION'])?: $ed->getSeccion());
+            $ed->setDivision(trim($jd['DIVISION']) ?: null);
+            $ed->setClase(trim($jd['CLASE']) ?: null);
+            $ed->setDes1(trim($jd['DES1']) ?: null);
+            $ed->setDes2(trim($jd['DES2']) ?: null);
+            $ed->setGrupo(trim($jd['GRUPO']) ?: null);
+            $ed->setDes3(trim($jd['DES3']) ?: null);
+            $ed->setDes4(trim($jd['DES4']) ?: null);
             $ed->save($con);
-            if ($nInfo % 500 == 0) {
+            if ($nInfo % 200 == 0) {
                 $con->commit();
                 $con->beginTransaction();
                 $i = 0;

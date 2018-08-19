@@ -498,7 +498,7 @@ class PaginaDirectorioService extends GenericService
 //        $mbd = new PDO('mysql:host=localhost;dbname=prueba', $usuario, $contraseña);
 
 
-        for ($i = 228501; $i <= 230000; $i++) {
+        for ($i = 230001; $i <= 233000; $i++) {
             // Obtenido hasta 230000 el 18/08/2018 07:30
 //            $this->requestInfo($i);
 //            $emp = JobEmpresaDirectorioQuery::create()->findPk($i);
@@ -513,7 +513,7 @@ class PaginaDirectorioService extends GenericService
                 $response = curl_exec($handler);
                 curl_close($handler);
 
-                if ($response != '[]') {
+                if (trim($response) != '' && trim($response) != '[]') {
                     $obj = new JobEmpresaDirectorio();
                     $obj->setId($i);
                     $obj->setInfo($response);
@@ -540,10 +540,14 @@ class PaginaDirectorioService extends GenericService
         $empresaRegistroIncompleto = JobEmpresaDirectorioQuery::create()
             ->filterByInfo("")
             ->orderById(Criteria::ASC)
+//            ->offset(1)
+//            ->limit(5000)
             ->find();
+//        echo $empresaRegistroIncompleto->count(); exit();
         $nInfo = 0;
         foreach ($empresaRegistroIncompleto as $empresaSinInfo) {
             $id = SpecialStrings::normalizeNumber($empresaSinInfo->getId(), 8);
+//            echo $id; exit;
             $url = 'http://www.fundempresa.org.bo/directorio/Inicio/MostrarEmpresa';
             $params = "CodigoMatricula=" . $id;
             $handler = curl_init($url);
@@ -552,12 +556,14 @@ class PaginaDirectorioService extends GenericService
             curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
             $response = curl_exec($handler);
             curl_close($handler);
-            if ($response != '[]') {
+            if (trim($response) != '' && trim($response) != '[]') {
                 $empresaSinInfo->setInfo($response);
                 $empresaSinInfo->save();
                 $nInfo ++;
+            } else {
+                $empresaSinInfo->delete();
             }
-            if ($nInfo % 500 == 0) {
+            if ($nInfo % 200 == 0) {
                 echo "Completados " . $nInfo . " - " . date("d/M/y h:i:s") . "<br />";
             }
         }
