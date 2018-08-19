@@ -85,10 +85,10 @@ class PostulacionController extends PublicWebController
             if(!$this->postulacionService->verifyCaptcha(Req::_('captcha'))){
                 throw new Exception("Verificación de captcha incorrecta, intenta otra vez.");
             }
-            if(!UserControl::isLoggedIn()) {
-                $user = $this->userService->findOneByEmail(Req::_('email'));
-            }else{
+            if(UserControl::isLoggedIn()) {
                 $user = UserControl::user();
+            }else{
+                $user = $this->userService->findOneByEmail(Req::_('email'));
             }
             if(!is_object($user)) {
                 if(Req::_('password') == ""){
@@ -110,11 +110,7 @@ class PostulacionController extends PublicWebController
             }
             if(is_object($user)){
                 $fileName = $user->getId() . "-" . Req::_('pk') . "-" . $_FILES['cv']['name'];
-                if(is_uploaded_file($_FILES['cv']['tmp_name'])) {
-                    move_uploaded_file($_FILES['cv']['tmp_name'], $this->postulacionService->getCvDir() . $fileName);
-                }else{
-                    throw new Exception("Tú curriculum no pudo ser guardado.");
-                }
+                move_uploaded_file($_FILES['cv']['tmp_name'], $this->postulacionService->getCvDir() . $fileName);
                 Req::set("cvMime", $_FILES['cv']['type']);
                 Req::set("cvFilename", $fileName);
 
