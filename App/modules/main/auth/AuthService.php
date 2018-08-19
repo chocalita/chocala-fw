@@ -41,7 +41,7 @@ class AuthService extends GenericService
         $auth->fromArray($data);
         $auth->save();
         $results['object'] = $auth;
-        $results['errors'] = $auth->getErrorsMap();
+        $results['errors'] = [];//$auth->getErrorsMap();
         return $results;
     }
 
