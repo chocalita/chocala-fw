@@ -340,7 +340,7 @@
     </vendor>
   </table>
   <table name="job_postulante" idMethod="native" phpName="JobPostulante">
-    <column name="ID" phpName="Id" type="INTEGER" required="true"/>
+    <column name="ID" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="USER_ID" phpName="UserId" type="INTEGER" required="true"/>
     <column name="LOCATION_ID" phpName="LocationId" type="INTEGER"/>
     <column name="ESTADO" phpName="Estado" type="VARCHAR" size="30" required="true"/>
@@ -365,9 +365,6 @@
     <column name="LAST_USER_ID" phpName="LastUserId" type="INTEGER" required="true" defaultValue="0"/>
     <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
     <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP" defaultValue="0000-00-00 00:00:00"/>
-    <index name="ID">
-      <index-column name="ID"/>
-    </index>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
@@ -376,7 +373,7 @@
     <column name="ID" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="ID_AVISO" phpName="IdAviso" type="INTEGER" required="true"/>
     <column name="ID_POSTULANTE" phpName="IdPostulante" type="INTEGER" required="true"/>
-    <column name="ESTADO" phpName="Estado" type="VARCHAR" size="20" required="true"/>
+    <column name="ESTADO" phpName="Estado" type="VARCHAR" size="20" required="true" defaultValue=""/>
     <column name="PRETENSION_SALARIAL" phpName="PretensionSalarial" type="INTEGER"/>
     <column name="CARTA_PRESENTACION" phpName="CartaPresentacion" type="VARCHAR" size="20"/>
     <column name="CV_MIME" phpName="CvMime" type="VARCHAR" size="30"/>
@@ -385,11 +382,11 @@
     <column name="LAST_USER_ID" phpName="LastUserId" type="INTEGER" required="true" defaultValue="0"/>
     <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
     <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP"/>
+    <foreign-key foreignTable="job_postulante" name="job_postulante_aviso_ibfk_1">
+      <reference local="ID_POSTULANTE" foreign="ID"/>
+    </foreign-key>
     <foreign-key foreignTable="job_aviso" name="job_postulante_aviso_fk1">
       <reference local="ID_AVISO" foreign="ID"/>
-    </foreign-key>
-    <foreign-key foreignTable="job_postulante" name="job_postulante_aviso_fk2">
-      <reference local="ID_POSTULANTE" foreign="ID"/>
     </foreign-key>
     <index name="ID_AVISO">
       <index-column name="ID_AVISO"/>

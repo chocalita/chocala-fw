@@ -2025,9 +2025,7 @@ abstract class JobSuscriptor implements ActiveRecordInterface
     public function getJobPostulante(ConnectionInterface $con = null)
     {
         if ($this->aJobPostulante === null && ($this->id_postulante !== null)) {
-            $this->aJobPostulante = ChildJobPostulanteQuery::create()
-                ->filterByJobSuscriptor($this) // here
-                ->findOne($con);
+            $this->aJobPostulante = ChildJobPostulanteQuery::create()->findPk($this->id_postulante, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
                 to this object.  This level of coupling may, however, be

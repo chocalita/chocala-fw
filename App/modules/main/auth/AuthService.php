@@ -62,10 +62,7 @@ class AuthService extends GenericService
                 ->filterByStatus(SysUser::STATUS_CLOSED, Criteria::NOT_EQUAL)
                 ->findOne();
             if (!is_object($oAuth)) {
-                $oUserAlreadyRegistered = SysUserQuery::create()
-                    ->filterByUsername($oFacebookUser->getEmail())
-                    ->filterByStatus(SysUser::STATUS_CLOSED, Criteria::NOT_EQUAL)
-                    ->findOne();
+                $oUserAlreadyRegistered = UserService::instance()->findOneByEmail($oFacebookUser->getEmail());
                 $aResult = UserService::instance()->insertOrUpdate([
                     "FirstName" => $oFacebookUser->getName(),
                     "LastName" => $oFacebookUser->getLastName() != ""? $oFacebookUser->getLastName() : "FBUser",

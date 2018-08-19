@@ -3,5 +3,7 @@
 .idea/*
 App/public/images/avisos/*
 App/public/files/avisos/*
+App/public/files/cvs/*
+App/public/files/tmp/*
 Vendor/*
 !Vendor/composer/autoload_classmap.php

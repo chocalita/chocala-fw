@@ -11,7 +11,9 @@
 .capitalize{
     text-transform: capitalize;
 }
-
+.display-none{
+    display: none;
+}
 select.form-control{
     -moz-appearance:menulist;
 }

@@ -184,7 +184,7 @@ class JobPostulanteAvisoTableMap extends TableMap
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
         $this->addForeignKey('ID_AVISO', 'IdAviso', 'INTEGER', 'job_aviso', 'ID', true, null, null);
         $this->addForeignKey('ID_POSTULANTE', 'IdPostulante', 'INTEGER', 'job_postulante', 'ID', true, null, null);
-        $this->addColumn('ESTADO', 'Estado', 'VARCHAR', true, 20, null);
+        $this->addColumn('ESTADO', 'Estado', 'VARCHAR', true, 20, '');
         $this->addColumn('PRETENSION_SALARIAL', 'PretensionSalarial', 'INTEGER', false, null, null);
         $this->addColumn('CARTA_PRESENTACION', 'CartaPresentacion', 'VARCHAR', false, 20, null);
         $this->addColumn('CV_MIME', 'CvMime', 'VARCHAR', false, 30, null);
@@ -200,17 +200,17 @@ class JobPostulanteAvisoTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('JobAviso', '\\JobAviso', RelationMap::MANY_TO_ONE, array (
-  0 =>
-  array (
-    0 => ':ID_AVISO',
-    1 => ':ID',
-  ),
-), null, null, null, false);
         $this->addRelation('JobPostulante', '\\JobPostulante', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':ID_POSTULANTE',
+    1 => ':ID',
+  ),
+), null, null, null, false);
+        $this->addRelation('JobAviso', '\\JobAviso', RelationMap::MANY_TO_ONE, array (
+  0 =>
+  array (
+    0 => ':ID_AVISO',
     1 => ':ID',
   ),
 ), null, null, null, false);

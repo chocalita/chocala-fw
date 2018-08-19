@@ -37,6 +37,29 @@ class AuthController extends PublicWebController
         $this->renderAsJSON();
     }
 
+    public function remember()
+    {
+        try{
+            $user = $this->userService->findOneByEmail(Req::_('username'));
+            if(is_object($user)){
+                if($this->userService->sendResetPassword($user)){
+                    $status = "OK";
+                    $message = "Se envió correctamente el correo de restauración de acceso.";
+                }else{
+                    throw new Exception("No se pudo enviar la contraseña, intenta otra vez.");
+                }
+            }else{
+                throw new Exception("Usuario incorrecto.");
+            }
+        }catch (Exception $e){
+            $status = "ERROR";
+            $message = $e->getMessage();
+        }
+        $this->set("status", $status);
+        $this->set("message", $message);
+        $this->renderAsJSON();
+    }
+
     public function loadPanel()
     {
         if (Req::_("panel") == "register") {
@@ -62,6 +85,40 @@ class AuthController extends PublicWebController
         UserControl::logout();
         FacebookApi::instance()->logout();
         $this->redirectTo(['uri' => '']);
+    }
+
+    public function register()
+    {
+        $status = "OK";
+        $message = "";
+        try {
+            if (Req::_('username') && Req::_('pass')) {
+                if(!$this->authService->verifyEquals(['field'=>'Username', 'value' => Req::_('username')])) {
+                    $aResult = $this->userService->insertOrUpdate([
+                        "FirstName" => Req::_('name'),
+                        "LastName" => Req::_('lastName'),
+                        "Email" => Req::_('username'),
+                        "Username" => Req::_('username'),
+                        "Password" => Req::_('pass'),
+                        "RolId" => 3,
+                    ]);
+                    if(is_object($aResult['object'])){
+                        $aResult['object']->setStatus(SysUser::STATUS_ACTIVE)->save();
+                        UserControl::login(Req::_('username'), Req::_('pass'));
+                    }
+                } else {
+                    throw new Exception("El email ya ha sido utilizado.");
+                }
+            } else {
+                throw new Exception("Por favor, Llena los campos obligatorios.");
+            }
+        }catch (Exception $e){
+            $status = "ERROR";
+            $message = $e->getMessage();
+        }
+        $this->set("status", $status);
+        $this->set("message", $message);
+        $this->renderAsJSON();
     }
 
     public function signinFacebook()

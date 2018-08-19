@@ -1,0 +1,152 @@
+<section id="postulacion" class="timeline gray-section">
+    <div class="container">
+        <h1><?=$aviso?></h1>
+        <div class="row">
+            <div class="col-md-5">
+                <form cho-form-postulacion class="form-vertical">
+                    <div class="modal-body">
+                    <?php if(!UserControl::isLoggedIn()){?>
+                        <div class="form-group">
+                            <label>Nombres</label>
+                            <input class="form-control validate[required]" type="text" name="nombres"  placeholder="Nombres"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Apellidos</label>
+                            <input class="form-control validate[required]" type="text" name="apellidos"  placeholder="Apellidos"/>
+                        </div>
+                    <?php }?>
+                        <div class="form-group">
+                            <label>Celular</label>
+                            <input class="form-control validate[required, custom[cellphone]]" maxlength="8" type="phone" name="celular"  placeholder="Celular"/>
+                        </div>
+                        <?php if(!UserControl::isLoggedIn()){?>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input class="form-control validate[required, custom[email], funcCall[validateEmail]]" type="email" id="email" name="email" placeholder="Email"/>
+                        </div>
+                        <div container-password class="form-group display-none">
+                            <label>Contaseña</label>
+                            <input type="password" name="password" class="validate[condRequired[email]] form-control"
+                                   placeholder="Contraseña" autocomplete="off">
+                        </div>
+                        <?php }?>
+                        <div class="form-group">
+                            <label>Curriculum Vitae</label>
+                            <input class="form-control validate[required, custom[validateMime[pdf|doc|docx]]]" type="file" name="cv" placeholder="Curriculum Vitae"/>
+                        </div>
+                        <div class="form-group">
+                            <label></label>
+                            <div class="col-sm-5" style="padding-left: 0">
+                                <img src="<?= $captchaUrl; ?>" id="imageCaptcha" width="200" height="27"/>
+                            </div>
+                            <div class="col-sm-1">
+                                <span class="input-group-addon" id="refreshCaptcha"><i class="fa fa-refresh"></i></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Captcha</label>
+                            <div>
+                                <input style="width: 70px" type="text" id="captcha" name="captcha" value="" placeholder=""
+                                       class="form-control validate[required]" maxlength="4" />
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-success" cho-btn-send>
+                                <i class="fa fa-check"></i> Postularme
+                            </button>
+                            <input type="hidden" name="pk" value="<?=$idPostulacion?>">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        ModalAuth.afterLoginCallback(postulacion);
+        function refreshCaptcha() {
+            $.get("<?=WEB_ROOT?>bolsa/postulacion/changeCaptcha",function(response){
+                $("#imageCaptcha").attr('src', response.captchaImageUrl);
+            });
+        }
+        $("[cho-btn-send]").click(function(){
+            return postularme(this);
+        });
+        $('[cho-form-postulacion]').validationEngine({promptPosition: "topRight", scroll: false});
+        $("#refreshCaptcha").click(refreshCaptcha);
+        function postulacion(){
+            $.post(WEB_ROOT+"bolsa/postulacion/postulacion/<?=$idPostulacion?>",function(response){
+                $("#postulacion").replaceWith(response);
+            },'html');
+        }
+        function showErrorMessage($currentForm, message){
+            $currentForm.find('.error-message').remove();
+            var div = document.createElement('div');
+            div.className = "error-message alert alert-danger";
+            div.innerHTML = message;
+            $currentForm.find(".modal-body").prepend(div);
+        }
+
+        function validateEmail(field, rules, i, options)
+        {
+            var $form = $(field).closest('form');
+            $form.find('[container-password]').addClass('display-none');
+            if (field.val() != "") {
+                $.ajax({
+                    url: WEB_ROOT + "main/auth/verifyEquals",
+                    type: 'POST',
+                    data: {field: 'Username', value: field.val()},
+                    dataType: "json",
+                    async: false, //blocks window close
+                    success: function (response) {
+                        if(response[1] === true){
+                            $form.find('[container-password]').removeClass('display-none');
+                        }
+                    }
+                });
+            }
+            return false;
+        }
+
+        function postularme(obj){
+            var $form = $(obj).closest('form');
+            if ($form.validationEngine('validate') === true) {
+                var $formData = new FormData();
+                $form.find('input, textarea, select').each(function(){
+                    var input = $(this);
+                    var type = input.attr('type');
+                    switch (type){
+                        case "file":
+                            $.each(input.prop("files"),function(i,file){
+                                $formData.append(input.attr("name"), file);
+                            });
+                            break;
+                        default:
+                            if(!input.is(":disabled") && type != "submit" && type != "button"){
+                                $formData.append(input.attr('name'), input.val());
+                            }
+                    }
+                });
+                $.ajax({
+                    url: WEB_ROOT + "bolsa/postulacion/postularme",
+                    type: "POST",
+                    data: $formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    dataType: "json",
+                    success:function(response){
+                        if(response.status == "OK") {
+                            $form.replaceWith('<p class="alert alert-success">'+response.message+'</p>');
+                        }else{
+                            showErrorMessage($form, response.message);
+                        }
+                    }
+                }).fail(function(jqXHR, textStatus){
+                    alert("ERROR: error en envío de datos");
+                });
+            }
+            return false;
+        }
+    </script>
+</section>

@@ -89,6 +89,7 @@ abstract class JobPostulanteAviso implements ActiveRecordInterface
     /**
      * The value for the estado field.
      *
+     * Note: this column has a database default value of: ''
      * @var        string
      */
     protected $estado;
@@ -152,14 +153,14 @@ abstract class JobPostulanteAviso implements ActiveRecordInterface
     protected $modification_date;
 
     /**
-     * @var        ChildJobAviso
-     */
-    protected $aJobAviso;
-
-    /**
      * @var        ChildJobPostulante
      */
     protected $aJobPostulante;
+
+    /**
+     * @var        ChildJobAviso
+     */
+    protected $aJobAviso;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -177,6 +178,7 @@ abstract class JobPostulanteAviso implements ActiveRecordInterface
      */
     public function applyDefaultValues()
     {
+        $this->estado = '';
         $this->last_user_id = 0;
     }
 
@@ -815,6 +817,10 @@ abstract class JobPostulanteAviso implements ActiveRecordInterface
      */
     public function hasOnlyDefaultValues()
     {
+            if ($this->estado !== '') {
+                return false;
+            }
+
             if ($this->last_user_id !== 0) {
                 return false;
             }
@@ -964,8 +970,8 @@ abstract class JobPostulanteAviso implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->aJobAviso = null;
             $this->aJobPostulante = null;
+            $this->aJobAviso = null;
         } // if (deep)
     }
 
@@ -1070,18 +1076,18 @@ abstract class JobPostulanteAviso implements ActiveRecordInterface
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
-            if ($this->aJobAviso !== null) {
-                if ($this->aJobAviso->isModified() || $this->aJobAviso->isNew()) {
-                    $affectedRows += $this->aJobAviso->save($con);
-                }
-                $this->setJobAviso($this->aJobAviso);
-            }
-
             if ($this->aJobPostulante !== null) {
                 if ($this->aJobPostulante->isModified() || $this->aJobPostulante->isNew()) {
                     $affectedRows += $this->aJobPostulante->save($con);
                 }
                 $this->setJobPostulante($this->aJobPostulante);
+            }
+
+            if ($this->aJobAviso !== null) {
+                if ($this->aJobAviso->isModified() || $this->aJobAviso->isNew()) {
+                    $affectedRows += $this->aJobAviso->save($con);
+                }
+                $this->setJobAviso($this->aJobAviso);
             }
 
             if ($this->isNew() || $this->isModified()) {
@@ -1363,21 +1369,6 @@ abstract class JobPostulanteAviso implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->aJobAviso) {
-
-                switch ($keyType) {
-                    case TableMap::TYPE_CAMELNAME:
-                        $key = 'jobAviso';
-                        break;
-                    case TableMap::TYPE_FIELDNAME:
-                        $key = 'job_aviso';
-                        break;
-                    default:
-                        $key = 'JobAviso';
-                }
-
-                $result[$key] = $this->aJobAviso->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
-            }
             if (null !== $this->aJobPostulante) {
 
                 switch ($keyType) {
@@ -1392,6 +1383,21 @@ abstract class JobPostulanteAviso implements ActiveRecordInterface
                 }
 
                 $result[$key] = $this->aJobPostulante->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->aJobAviso) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'jobAviso';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'job_aviso';
+                        break;
+                    default:
+                        $key = 'JobAviso';
+                }
+
+                $result[$key] = $this->aJobAviso->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
 
@@ -1728,6 +1734,57 @@ abstract class JobPostulanteAviso implements ActiveRecordInterface
     }
 
     /**
+     * Declares an association between this object and a ChildJobPostulante object.
+     *
+     * @param  ChildJobPostulante $v
+     * @return $this|\JobPostulanteAviso The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setJobPostulante(ChildJobPostulante $v = null)
+    {
+        if ($v === null) {
+            $this->setIdPostulante(NULL);
+        } else {
+            $this->setIdPostulante($v->getId());
+        }
+
+        $this->aJobPostulante = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildJobPostulante object, it will not be re-added.
+        if ($v !== null) {
+            $v->addJobPostulanteAviso($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated ChildJobPostulante object
+     *
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildJobPostulante The associated ChildJobPostulante object.
+     * @throws PropelException
+     */
+    public function getJobPostulante(ConnectionInterface $con = null)
+    {
+        if ($this->aJobPostulante === null && ($this->id_postulante !== null)) {
+            $this->aJobPostulante = ChildJobPostulanteQuery::create()->findPk($this->id_postulante, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aJobPostulante->addJobPostulanteAvisos($this);
+             */
+        }
+
+        return $this->aJobPostulante;
+    }
+
+    /**
      * Declares an association between this object and a ChildJobAviso object.
      *
      * @param  ChildJobAviso $v
@@ -1779,70 +1836,17 @@ abstract class JobPostulanteAviso implements ActiveRecordInterface
     }
 
     /**
-     * Declares an association between this object and a ChildJobPostulante object.
-     *
-     * @param  ChildJobPostulante $v
-     * @return $this|\JobPostulanteAviso The current object (for fluent API support)
-     * @throws PropelException
-     */
-    public function setJobPostulante(ChildJobPostulante $v = null)
-    {
-        if ($v === null) {
-            $this->setIdPostulante(NULL);
-        } else {
-            $this->setIdPostulante($v->getId());
-        }
-
-        $this->aJobPostulante = $v;
-
-        // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the ChildJobPostulante object, it will not be re-added.
-        if ($v !== null) {
-            $v->addJobPostulanteAviso($this);
-        }
-
-
-        return $this;
-    }
-
-
-    /**
-     * Get the associated ChildJobPostulante object
-     *
-     * @param  ConnectionInterface $con Optional Connection object.
-     * @return ChildJobPostulante The associated ChildJobPostulante object.
-     * @throws PropelException
-     */
-    public function getJobPostulante(ConnectionInterface $con = null)
-    {
-        if ($this->aJobPostulante === null && ($this->id_postulante !== null)) {
-            $this->aJobPostulante = ChildJobPostulanteQuery::create()
-                ->filterByJobPostulanteAviso($this) // here
-                ->findOne($con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aJobPostulante->addJobPostulanteAvisos($this);
-             */
-        }
-
-        return $this->aJobPostulante;
-    }
-
-    /**
      * Clears the current object, sets all attributes to their default values and removes
      * outgoing references as well as back-references (from other objects to this one. Results probably in a database
      * change of those foreign objects when you call `save` there).
      */
     public function clear()
     {
-        if (null !== $this->aJobAviso) {
-            $this->aJobAviso->removeJobPostulanteAviso($this);
-        }
         if (null !== $this->aJobPostulante) {
             $this->aJobPostulante->removeJobPostulanteAviso($this);
+        }
+        if (null !== $this->aJobAviso) {
+            $this->aJobAviso->removeJobPostulanteAviso($this);
         }
         $this->id = null;
         $this->id_aviso = null;
@@ -1877,8 +1881,8 @@ abstract class JobPostulanteAviso implements ActiveRecordInterface
         if ($deep) {
         } // if ($deep)
 
-        $this->aJobAviso = null;
         $this->aJobPostulante = null;
+        $this->aJobAviso = null;
     }
 
     /**

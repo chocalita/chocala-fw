@@ -78,6 +78,10 @@
                     "regex": /^[\-\+]?\d+$/,
                     "alertText": "* No es un valor entero válido"
                 },
+                "cellphone": {
+                    "regex": /^([6-7])([0-9]{7})$/,
+                    "alertText": "* Ingresa un número de celular válido 6XXXXXX o 7XXXXXX"
+                },
                 "number": {
                     // Number, including positive, negative, and floating decimal. credit: orefalo
                     "regex": /^[\-\+]?((([0-9]{1,3})([,][0-9]{3})*)|([0-9]+))?([\.]([0-9]+))?$/,
@@ -135,7 +139,18 @@
                 },
                 "validate2fields": {
                     "alertText": "* Por favor entrar HELLO"
-                }
+                },
+                "validateMime": {
+                    "func": function(field, rules, i, options){
+                        var uploadedFile = $(field);
+                        if (uploadedFile) {
+                            var extensions = rules[i+2];
+                            var mimeFilter = new RegExp(extensions);
+                            return (mimeFilter.test($(uploadedFile).val().split('.').reverse()[0])) ? true : false;
+                        }
+                    },
+                    "alertText": "Archivos válidos PDF y WORD"
+                },
             };
             
         }

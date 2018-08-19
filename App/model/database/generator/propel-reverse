@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-propel reverse --output-dir="schema" default
+propel reverse --output-dir="." default

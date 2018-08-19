@@ -8,6 +8,7 @@ var ModalAuth = window.ModalAuth || (function ($, webRoot) {
     var paths = {
         LOAD_PANEL: "main/auth/loadPanel",
         REGISTER: "main/auth/register",
+        REMEMBER: "main/auth/remember",
         LOGOUT: "main/auth/logout",
         OPTIONS: "main/auth/options",
         SIGN_IN: "main/auth/signin",
@@ -17,6 +18,7 @@ var ModalAuth = window.ModalAuth || (function ($, webRoot) {
 
     var onSaveCallback = null;
     var onCloseCallback = null;
+    var afterLoginCallback = null;
     var panelId = "login-panel";
     var data = {};
 
@@ -50,6 +52,9 @@ var ModalAuth = window.ModalAuth || (function ($, webRoot) {
             $('a[data-id=btn-login]').click(function(){
                 ModalAuth.loginPanel();
             });
+            if(typeof afterLoginCallback == "function"){
+                afterLoginCallback();
+            }
         }, "html");
     };
 
@@ -181,11 +186,28 @@ var ModalAuth = window.ModalAuth || (function ($, webRoot) {
             }
             return false;
         },
-        remember: function () {
+        remember: function (obj) {
+            var $form = $(obj).closest('form');
+            $form.validationEngine({
+                promptPosition: "topRight",
+                scroll: false
+            });
+            if ($form.validationEngine('validate')) {
+                $.post(webRoot + paths.REMEMBER, $form.serialize(), function (response) {
+                    if (response.status == "OK") {
+                        processSaveCallback(response);
+                    } else {
+                        showErrorMessage($form, response.message);
+                    }
+                }, "json");
+            }
             return false;
         },
         logout: function () {
             return $.post(webRoot + paths.LOGOUT, {}, function (response) {}, "json");
+        },
+        afterLoginCallback:function(callback){
+            afterLoginCallback = callback;
         }
     };
 })(jQuery, WEB_ROOT);

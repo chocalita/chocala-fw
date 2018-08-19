@@ -54,16 +54,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobPostulanteAvisoQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
  * @method     ChildJobPostulanteAvisoQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
- * @method     ChildJobPostulanteAvisoQuery leftJoinJobAviso($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobAviso relation
- * @method     ChildJobPostulanteAvisoQuery rightJoinJobAviso($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobAviso relation
- * @method     ChildJobPostulanteAvisoQuery innerJoinJobAviso($relationAlias = null) Adds a INNER JOIN clause to the query using the JobAviso relation
- *
- * @method     ChildJobPostulanteAvisoQuery joinWithJobAviso($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobAviso relation
- *
- * @method     ChildJobPostulanteAvisoQuery leftJoinWithJobAviso() Adds a LEFT JOIN clause and with to the query using the JobAviso relation
- * @method     ChildJobPostulanteAvisoQuery rightJoinWithJobAviso() Adds a RIGHT JOIN clause and with to the query using the JobAviso relation
- * @method     ChildJobPostulanteAvisoQuery innerJoinWithJobAviso() Adds a INNER JOIN clause and with to the query using the JobAviso relation
- *
  * @method     ChildJobPostulanteAvisoQuery leftJoinJobPostulante($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobPostulante relation
  * @method     ChildJobPostulanteAvisoQuery rightJoinJobPostulante($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobPostulante relation
  * @method     ChildJobPostulanteAvisoQuery innerJoinJobPostulante($relationAlias = null) Adds a INNER JOIN clause to the query using the JobPostulante relation
@@ -74,7 +64,17 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobPostulanteAvisoQuery rightJoinWithJobPostulante() Adds a RIGHT JOIN clause and with to the query using the JobPostulante relation
  * @method     ChildJobPostulanteAvisoQuery innerJoinWithJobPostulante() Adds a INNER JOIN clause and with to the query using the JobPostulante relation
  *
- * @method     \JobAvisoQuery|\JobPostulanteQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     ChildJobPostulanteAvisoQuery leftJoinJobAviso($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobAviso relation
+ * @method     ChildJobPostulanteAvisoQuery rightJoinJobAviso($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobAviso relation
+ * @method     ChildJobPostulanteAvisoQuery innerJoinJobAviso($relationAlias = null) Adds a INNER JOIN clause to the query using the JobAviso relation
+ *
+ * @method     ChildJobPostulanteAvisoQuery joinWithJobAviso($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobAviso relation
+ *
+ * @method     ChildJobPostulanteAvisoQuery leftJoinWithJobAviso() Adds a LEFT JOIN clause and with to the query using the JobAviso relation
+ * @method     ChildJobPostulanteAvisoQuery rightJoinWithJobAviso() Adds a RIGHT JOIN clause and with to the query using the JobAviso relation
+ * @method     ChildJobPostulanteAvisoQuery innerJoinWithJobAviso() Adds a INNER JOIN clause and with to the query using the JobAviso relation
+ *
+ * @method     \JobPostulanteQuery|\JobAvisoQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildJobPostulanteAviso findOne(ConnectionInterface $con = null) Return the first ChildJobPostulanteAviso matching the query
  * @method     ChildJobPostulanteAviso findOneOrCreate(ConnectionInterface $con = null) Return the first ChildJobPostulanteAviso matching the query, or a new ChildJobPostulanteAviso object populated from the query conditions when no match is found
@@ -758,83 +758,6 @@ abstract class JobPostulanteAvisoQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related \JobAviso object
-     *
-     * @param \JobAviso|ObjectCollection $jobAviso The related object(s) to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @throws \Propel\Runtime\Exception\PropelException
-     *
-     * @return ChildJobPostulanteAvisoQuery The current query, for fluid interface
-     */
-    public function filterByJobAviso($jobAviso, $comparison = null)
-    {
-        if ($jobAviso instanceof \JobAviso) {
-            return $this
-                ->addUsingAlias(JobPostulanteAvisoTableMap::COL_ID_AVISO, $jobAviso->getId(), $comparison);
-        } elseif ($jobAviso instanceof ObjectCollection) {
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-
-            return $this
-                ->addUsingAlias(JobPostulanteAvisoTableMap::COL_ID_AVISO, $jobAviso->toKeyValue('PrimaryKey', 'Id'), $comparison);
-        } else {
-            throw new PropelException('filterByJobAviso() only accepts arguments of type \JobAviso or Collection');
-        }
-    }
-
-    /**
-     * Adds a JOIN clause to the query using the JobAviso relation
-     *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return $this|ChildJobPostulanteAvisoQuery The current query, for fluid interface
-     */
-    public function joinJobAviso($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-    {
-        $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('JobAviso');
-
-        // create a ModelJoin object for this join
-        $join = new ModelJoin();
-        $join->setJoinType($joinType);
-        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-        if ($previousJoin = $this->getPreviousJoin()) {
-            $join->setPreviousJoin($previousJoin);
-        }
-
-        // add the ModelJoin to the current object
-        if ($relationAlias) {
-            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-            $this->addJoinObject($join, $relationAlias);
-        } else {
-            $this->addJoinObject($join, 'JobAviso');
-        }
-
-        return $this;
-    }
-
-    /**
-     * Use the JobAviso relation JobAviso object
-     *
-     * @see useQuery()
-     *
-     * @param     string $relationAlias optional alias for the relation,
-     *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return \JobAvisoQuery A secondary query class using the current class as primary query
-     */
-    public function useJobAvisoQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-    {
-        return $this
-            ->joinJobAviso($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'JobAviso', '\JobAvisoQuery');
-    }
-
-    /**
      * Filter the query by a related \JobPostulante object
      *
      * @param \JobPostulante|ObjectCollection $jobPostulante The related object(s) to use as filter
@@ -909,6 +832,83 @@ abstract class JobPostulanteAvisoQuery extends ModelCriteria
         return $this
             ->joinJobPostulante($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'JobPostulante', '\JobPostulanteQuery');
+    }
+
+    /**
+     * Filter the query by a related \JobAviso object
+     *
+     * @param \JobAviso|ObjectCollection $jobAviso The related object(s) to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @throws \Propel\Runtime\Exception\PropelException
+     *
+     * @return ChildJobPostulanteAvisoQuery The current query, for fluid interface
+     */
+    public function filterByJobAviso($jobAviso, $comparison = null)
+    {
+        if ($jobAviso instanceof \JobAviso) {
+            return $this
+                ->addUsingAlias(JobPostulanteAvisoTableMap::COL_ID_AVISO, $jobAviso->getId(), $comparison);
+        } elseif ($jobAviso instanceof ObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(JobPostulanteAvisoTableMap::COL_ID_AVISO, $jobAviso->toKeyValue('PrimaryKey', 'Id'), $comparison);
+        } else {
+            throw new PropelException('filterByJobAviso() only accepts arguments of type \JobAviso or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the JobAviso relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildJobPostulanteAvisoQuery The current query, for fluid interface
+     */
+    public function joinJobAviso($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('JobAviso');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'JobAviso');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the JobAviso relation JobAviso object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \JobAvisoQuery A secondary query class using the current class as primary query
+     */
+    public function useJobAvisoQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinJobAviso($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'JobAviso', '\JobAvisoQuery');
     }
 
     /**

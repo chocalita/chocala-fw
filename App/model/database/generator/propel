@@ -4,4 +4,4 @@ cd ..
 cd ..
 cd ..
 cd ..
-composer update
+composer dumpautoload

@@ -40,6 +40,18 @@ class UserService extends GenericService
     }
 
     /**
+     * @param $email
+     * @return SysUser
+     */
+    public function findOneByEmail($email)
+    {
+        return SysUserQuery::create()
+            ->filterByUsername($email)
+            ->filterByStatus(SysUser::STATUS_CLOSED, Criteria::NOT_EQUAL)
+            ->findOne();
+    }
+
+    /**
      * @param array $filters
      * @return SysUser[]|\Propel\Runtime\Util\PropelModelPager
      */

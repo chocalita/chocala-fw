@@ -11,7 +11,9 @@
 .capitalize{
     text-transform: capitalize;
 }
-
+.display-none{
+    display: none;
+}
 .text-blue {
     color: #1c84c6;
 }
