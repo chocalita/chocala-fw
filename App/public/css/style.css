@@ -86,6 +86,19 @@ h5 {
   padding: 20px 10px;
   min-height: 50px;
 }
+.form-group .captcha img{
+  border: 1px solid #E5E6E7;
+  height: 35px;
+}
+.form-group .captcha span{
+  height: 35px;
+  width: 35px;
+  margin-left: -3px;
+  padding-top: 9px;
+}
+.form-group .captcha img,.form-group .captcha span{
+  display: inline-block;
+}
 .dropdown-menu {
   border: medium none;
   border-radius: 3px;
@@ -6533,6 +6546,7 @@ body.body-small .vote-icon {
 .pace-inactive {
   display: none;
 }
+
 body.landing-page {
   color: #676a6c;
   font-family: 'Open Sans', helvetica, arial, sans-serif;
