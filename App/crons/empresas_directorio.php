@@ -7,7 +7,7 @@ require_once "internal.php";
 //    exit();
 //}
 
-$_REQUEST['url'] == 'recursos/paginaDirectorio/testCron';
+$_REQUEST['url'] = 'recursos/paginaDirectorio/testCron';
 require_once(CHOCALA_DIR.'ChocalaRunner.php');
 ChocalaRunner::run();
 ?>
