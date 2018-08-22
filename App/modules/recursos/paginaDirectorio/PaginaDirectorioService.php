@@ -498,7 +498,7 @@ class PaginaDirectorioService extends GenericService
 //        $mbd = new PDO('mysql:host=localhost;dbname=prueba', $usuario, $contraseña);
 
 
-        for ($i = 230001; $i <= 233000; $i++) {
+        for ($i = 230001; $i <= 250000; $i++) {
             // Obtenido hasta 230000 el 18/08/2018 07:30
 //            $this->requestInfo($i);
 //            $emp = JobEmpresaDirectorioQuery::create()->findPk($i);

@@ -57,7 +57,7 @@ class PaginaDirectorioController extends AdminWebController
     public function procesarInfo()
     {
         $minId = 0;
-        $limit = $this->id ?: 300;
+        $limit = $this->id ?: 20000;
         $empresaDirectorios = JobEmpresaDirectorioQuery::create()
 //            ->filterByInfo("[]", Criteria::NOT_EQUAL)
             ->filterByTps(null)
