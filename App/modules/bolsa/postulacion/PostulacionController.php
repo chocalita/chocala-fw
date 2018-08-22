@@ -53,8 +53,13 @@ class PostulacionController extends PublicWebController
         $this->set('descripcionAviso', 'Para postular ingresa tus datos personales y curriculum vitae.');
         $this->set('postulacionRegistrada', false);
         $this->set('captchaUrl', $this->postulacionService->createCaptcha());
+        $this->set("fechaVencimiento", $aviso->getFechaVencimiento("d/m/Y"));
         if(!is_object($aviso)){
             $this->redirectTo(['url' => '']);
+        }
+        if((new DateTime()) > $aviso->getFechaVencimiento()){
+            $this->view->renderView('bolsa.postulacion.vencido');
+            exit;
         }
         if(UserControl::isLoggedIn() && $this->postulacionService->findPostulacionPorIdUsuario(UserControl::user()->getId(), $this->id)) {
             $this->view->renderView('bolsa.postulacion.registrado');
