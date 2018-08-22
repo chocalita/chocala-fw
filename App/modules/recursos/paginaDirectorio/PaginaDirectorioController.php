@@ -125,6 +125,7 @@ class PaginaDirectorioController extends AdminWebController
     {
         $fileDir = DIR_WEB.'mytest.txt';
         file_put_contents($fileDir, "Este es el test");
+        $this->render("SUCCESS!");
     }
 
 }
