@@ -65,4 +65,14 @@ abstract class FilesHelper
         return pathinfo($file)['extension'];
     }
 
+    public static function autoVersion($fileDir)
+    {
+        $fileRoot = APP_DIR."public".DIRECTORY_SEPARATOR;
+        if (!file_exists($fileRoot . $fileDir)) {
+            return $fileDir;
+        }
+        $mtime = filemtime($fileRoot . $fileDir);
+        return WEB_ROOT . $fileDir . "?v=$mtime";
+    }
+
 }

@@ -54,8 +54,14 @@
                                 <a href="<?= WEB_ROOT.'bolsa/trabajo/diselo/'.$aviso->getId(); ?>"
                                    class="pull-right btn btn-xs btn-success" data-toggle="modal" data-target="#modalDetalle"><i class="fa fa-bullhorn"></i></a>
                                 <span class="pull-right">&nbsp;</span>
+                                <?php if(!$postulanteService->hasBeenApplied($aviso->getId(), $idPostulante)){?>
+                                <a href="<?= WEB_ROOT.'bolsa/postulacion/'.$aviso->getId().'/'.SpecialStrings::text2Url(trim($aviso->getCargo()))."/".SpecialStrings::text2Url(ucwords(strtolower(trim($aviso->getNombreEmpresa())))); ?>"
+                                   class="pull-right btn btn-xs btn-success" rel="nofollow">Postular</a>
+                                <?php }?>
+                                <span class="pull-right">&nbsp;</span>
                                 <a id="link-<?=$aviso->getId();?>" href="<?= WEB_ROOT.'bolsa/trabajo/empleo/'.$aviso->getId().'/'.SpecialStrings::text2Url(trim($aviso->getCargo()))."/".SpecialStrings::text2Url(ucwords(strtolower(trim($aviso->getNombreEmpresa())))); ?>"
                                    class="pull-right btn btn-xs btn-primary" data-toggle="modal" data-target="#modalDetalle<?=$aviso->getTieneImagen()? 'Big': '';?>">Ver Detalles</a>
+
                                 <i class="fa fa-clock-o"></i> Vence el <?=$aviso->getFechaVencimiento('d/m/Y');?> <?= $aviso->getLocalizacion() != '' ? '<br /><i class="fa fa-map-marker"></i> <small> ' . $aviso->getLocalizacion() . '</small>' : '';?>
                             </div>
                         </div>

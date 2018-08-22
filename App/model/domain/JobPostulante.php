@@ -15,5 +15,6 @@ use Base\JobPostulante as BaseJobPostulante;
 class JobPostulante extends BaseJobPostulante
 {
     const ESTADO_NUEVO = 'NUEVO';
+    const ESTADO_ELIMINADO = 'ELIMINADO';
 
 }

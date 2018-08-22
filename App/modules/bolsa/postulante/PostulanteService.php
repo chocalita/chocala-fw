@@ -9,6 +9,7 @@ class PostulanteService extends GenericService
      * @var PostulanteService
      */
     protected static $instance = null;
+    protected $aAppliedAnnouncements = null;
 
     public function createQuery()
     {
@@ -42,5 +43,36 @@ class PostulanteService extends GenericService
         $results['object'] = $postulante;
         $results['errors'] = [];//$postulante->getErrorsMap();
         return $results;
+    }
+
+    public function getArrayAppliedAnnouncements($idPostulante)
+    {
+        if($this->aAppliedAnnouncements == null){
+            $this->aAppliedAnnouncements = JobPostulanteAvisoQuery::create()
+                ->filterByIdPostulante($idPostulante)
+                ->find()
+                ->toKeyValue("IdAviso", "IdAviso");
+        }
+        return $this->aAppliedAnnouncements;
+    }
+
+    public function hasBeenApplied($idAviso, $idPostulante)
+    {
+        return in_array($idAviso, $this->getArrayAppliedAnnouncements($idPostulante));
+    }
+
+    /**
+     * @param $user SysUser
+     */
+    public function getIdPostulante($user)
+    {
+        if(is_object($user)){
+            $postulante = JobPostulanteQuery::create()
+                ->filterByUserId($user->getId())
+                ->filterByEstado(JobPostulante::ESTADO_ELIMINADO, Criteria::NOT_EQUAL)
+                ->findOne();
+            return is_object($postulante) ? $postulante->getId() : null;
+        }
+        return null;
     }
 }

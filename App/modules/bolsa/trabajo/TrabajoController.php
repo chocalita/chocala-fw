@@ -33,6 +33,12 @@ class TrabajoController extends PublicWebController
     protected $suscriptorService;
 
     /**
+     * @var PostulanteService
+     * @service bolsa.postulante.PostulanteService
+     */
+    protected $postulanteService;
+
+    /**
      * @var AuthService
      * @service main.auth.AuthService
      */
@@ -66,6 +72,8 @@ class TrabajoController extends PublicWebController
         $this->set('totalMesPasado', $totalMesPasado);
         $this->set('avisosOdd', $avisosOdd);
         $this->set('avisosEven', $avisosEven);
+        $this->set('postulanteService', $this->postulanteService);
+        $this->set('idPostulante', $this->postulanteService->getIdPostulante(UserControl::user()));
         $this->set('__Menu', $this->authService->getMenu($this->view));
         // TODO: send an email on suscription
         if (!Cookie::has(self::SUSCRIPCION_MSG_COOKIE)) {

@@ -49,7 +49,8 @@ class PostulacionController extends PublicWebController
         $this->set('__Menu', $this->authService->getMenu($this->view));
         $aviso = $this->avisoIfExist();
         $this->set('idPostulacion', $aviso->getId());
-        $this->set('aviso', $aviso->getDescripcion());
+        $this->set('cargoAviso', $aviso->getCargo());
+        $this->set('descripcionAviso', 'Para postular ingresa tus datos personales y curriculum vitae.');
         $this->set('postulacionRegistrada', false);
         $this->set('captchaUrl', $this->postulacionService->createCaptcha());
         if(!is_object($aviso)){

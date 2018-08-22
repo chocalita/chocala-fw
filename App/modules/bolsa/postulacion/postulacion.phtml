@@ -1,6 +1,7 @@
 <section id="postulacion" class="timeline gray-section">
     <div class="container">
-        <h1><?=$aviso?></h1>
+        <h1><?=$cargoAviso?></h1>
+        <p><small><?=$descripcionAviso?></small></p>
         <div class="row">
             <div class="col-md-5">
                 <form cho-form-postulacion class="form-vertical">
@@ -109,6 +110,7 @@
         function postularme(obj){
             var $form = $(obj).closest('form');
             if ($form.validationEngine('validate') === true) {
+                $(obj).btnLoadingOn();
                 var $formData = new FormData();
                 $form.find('input, textarea, select').each(function(){
                     var input = $(this);
@@ -134,13 +136,18 @@
                     processData: false,
                     dataType: "json",
                     success:function(response){
+                        $(obj).btnLoadingOff();
                         if(response.status == "OK") {
-                            $form.replaceWith('<p class="alert alert-success">'+response.message+'</p>');
+                            $form.replaceWith(
+                                '<p class="alert alert-success">'+response.message+'</p>'+
+                                '<p><a href="'+WEB_ROOT+'">Ver más ofertas de empleo</a></p>'
+                            );
                         }else{
                             showErrorMessage($form, response.message);
                         }
                     }
                 }).fail(function(jqXHR, textStatus){
+                    $(obj).btnLoadingOff();
                     alert("ERROR: error en envío de datos");
                 });
             }

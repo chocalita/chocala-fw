@@ -6,4 +6,5 @@ App/public/files/avisos/*
 App/public/files/cvs/*
 App/public/files/tmp/*
 Vendor/*
+Grunt/node_modules/*
 !Vendor/composer/autoload_classmap.php
