@@ -121,4 +121,10 @@ class PaginaDirectorioController extends AdminWebController
         exit();
     }
 
+    public function testCron()
+    {
+        $fileDir = DIR_WEB.'mytest.txt';
+        file_put_contents($fileDir, "Este es el test");
+    }
+
 }
