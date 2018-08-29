@@ -123,9 +123,96 @@ class PaginaDirectorioController extends AdminWebController
 
     public function testCron()
     {
-        $fileDir = DIR_WEB.'mytest.txt';
+        $fileDir = APP_DIR.'mytest.txt';
         file_put_contents($fileDir, "Este es el test");
+
+
+        $host = 'localhost';
+        $db = 'directorio';
+        $user = 'root';
+        $pass = '';
+        $charset = 'utf8';
+
+        $dsn = "mysql:host=$host;port=3307;dbname=$db;charset=$charset";
+
+        $opt = [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false,
+        ];
+
+        try {
+            $pdo = new PDO($dsn, $user, $pass, $opt);
+            $stmt = $pdo->prepare("select count(*) from empresa_directorio where TPS like 'SOCIEDAD DE %'");
+            echo 'Connected to database';
+            $stmt->execute();
+            $result = $stmt->fetch();
+            echo "<br />Total SRL -> " . $result['count(*)'];
+
+            $stmt = $pdo->prepare("select count(*) from empresa_directorio where TPS like 'SOCIEDAD DE %'");
+            $stmt->execute();
+            $result = $stmt->fetch();
+
+            echo "<br />Total Emails -> " . $result['count(*)'];
+            print_r($result);
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+        }
+
+
         $this->render("SUCCESS!");
+    }
+
+    public function sanearDatos() {
+        $objs = JobEmpresaDirectorioQuery::create()
+            ->filterByActividad("% ", Criteria::LIKE)
+            ->find();
+        echo $objs->count();
+        exit();
+//        $objs = JobEmpresaDirectorioQuery::create()
+//            ->orderById()
+//            ->offset(135000)
+//            ->limit(50000)
+//            ->find();
+        $con = \Propel\Runtime\Propel::getConnection();
+        $con->beginTransaction();
+        $nInfo = 0;
+        foreach ($objs as $obj) {
+            $obj->setRazon(trim($obj->getRazon())?: null);
+            $obj->setTps(trim($obj->getTps())?: null);
+            $obj->setDpto(trim($obj->getDpto())?: null);
+            $obj->setMunicipio(trim($obj->getMunicipio())?: null);
+            $obj->setDireccion(trim($obj->getDireccion())?: null);
+            $obj->setFono(trim($obj->getFono())?: null);
+            $obj->setFono2(trim($obj->getFono2())?: null);
+            $obj->setEstMat(trim($obj->getEstMat())?: null);
+            $obj->setIdClase(trim($obj->getIdClase())?: null);
+            $obj->setNumId(trim($obj->getNumId())?: null);
+            $obj->setNombre(trim($obj->getNombre())?: null);
+            $obj->setCtrAct(trim($obj->getCtrAct())?: null);
+            $obj->setIdReg(trim($obj->getIdReg())?: null);
+            $obj->setFax(trim($obj->getFax())?: null);
+            $obj->setMail(trim($obj->getMail())?: null);
+            $obj->setActividad(trim($obj->getActividad())?: null);
+            $obj->setLicencia(trim($obj->getLicencia())?: null);
+            $obj->setContacto(trim($obj->getContacto())?: null);
+            $obj->setSeccion(trim($obj->getSeccion())?: null);
+            $obj->setDes1(trim($obj->getDes1())?: null);
+            $obj->setDes2(trim($obj->getDes2())?: null);
+            $obj->setDes3(trim($obj->getDes3())?: null);
+            $obj->setDes4(trim($obj->getDes4())?: null);
+            $obj->save();
+//            $obj->save($con);
+            $nInfo++;
+            if ($nInfo % 500 == 0) {
+//                $con->commit();
+//                $con->beginTransaction();
+//                $i = 0;
+                echo "Procesados " . $nInfo . " - " . date("d/M/y h:i:s") . "<br />";
+            }
+        }
+//        $con->commit();
+        $this->render("HECHO TODO!");
     }
 
 }
