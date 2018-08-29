@@ -24,6 +24,11 @@ define('WEB_ROOT',
 
 $_REQUEST['url'] = 'recursos/paginaDirectorio/testCron';
 require_once(CHOCALA_DIR.'ChocalaRunner.php');
-ChocalaRunner::run();
+try {
+    ChocalaRunner::run();
+} catch (Exception $e) {
+    file_put_contents(APP_DIR . "first.txt", "ERROR " . $e->getMessage() ." " . date("H:i:s"));
+}
+
 
 ?>
