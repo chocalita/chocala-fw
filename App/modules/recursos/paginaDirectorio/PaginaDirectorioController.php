@@ -121,6 +121,9 @@ class PaginaDirectorioController extends AdminWebController
         exit();
     }
 
+    /**
+     *
+     */
     public function testCron()
     {
         $fileDir = APP_DIR.'mytest.txt';
