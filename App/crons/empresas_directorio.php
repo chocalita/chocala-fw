@@ -6,6 +6,7 @@ require_once "internal.php";
 //    header('Location: index.htm');
 //    exit();
 //}
+file_put_contents(APP_DIR . "first.txt", "yecid");
 
 $_REQUEST['url'] = 'recursos/paginaDirectorio/testCron';
 require_once(CHOCALA_DIR.'ChocalaRunner.php');
