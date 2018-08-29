@@ -6,7 +6,7 @@ require_once "internal.php";
 //    header('Location: index.htm');
 //    exit();
 //}
-file_put_contents(APP_DIR . "first.txt", "yecid");
+file_put_contents(APP_DIR . "first.txt", "yecid " . date("H:i:s"));
 //print_r($_SERVER); exit();
 
 $_SERVER['HTTP_HOST'] = 'www.empleos.click';
