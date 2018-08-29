@@ -126,7 +126,7 @@ class PaginaDirectorioController extends AdminWebController
      */
     public function testCron()
     {
-        $fileDir = APP_DIR.'mytest.txt';
+        $fileDir = APP_DIR.DIRECTORY_SEPARATOR.'mytest.txt';
         file_put_contents($fileDir, "Este es el test " . date("H:i:s"));
 
 

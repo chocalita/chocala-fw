@@ -15,6 +15,7 @@ require_once "internal.php";
     $_SERVER['HTTP_HOST'] = 'www.empleos.click';
     $_SERVER['SCRIPT_NAME'] = '';
     $_SERVER['REQUEST_METHOD'] = 'GET';
+    $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
     $_GET['app'] = 'empleos.click';
 
 /*
