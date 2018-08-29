@@ -25,7 +25,7 @@ class SecurityFilter extends ChocalaFilter
                 $toVerify = !in_array($this->actionName,
                     self::$noControls[$this->controllerName]);
             } else {
-                $toVerify = !self::$noControls[$this->controllerName] == '*';
+                $toVerify = !isset(self::$noControls[$this->controllerName]) || !self::$noControls[$this->controllerName] == '*';
             }
         }
         if (UserControl::isLoggedIn() && UserControl::user()->hasCreatedStatus() &&
