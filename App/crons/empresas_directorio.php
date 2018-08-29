@@ -27,7 +27,7 @@ define('WEB_ROOT',
     require_once(CHOCALA_DIR.'ChocalaRunner.php');
     ChocalaRunner::run();
 } catch (Exception $e) {
-    file_put_contents(APP_DIR . "first.txt", "ERROR " . $e->getMessage() ." " . date("H:i:s"));
+    file_put_contents(APP_DIR . "error.txt", "ERROR " . $e->getMessage() ." " . date("H:i:s"));
 }
 
 
