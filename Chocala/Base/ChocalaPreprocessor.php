@@ -11,7 +11,7 @@ class ChocalaPreprocessor
      * @param $excludes
      * @return ReflectionProperty[]
      */
-    public static function properties($object, $excludes)
+    public static function properties($object, $excludes = '')
     {
         $c = new ReflectionClass(get_class($object));
         return $c->getProperties();
