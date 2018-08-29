@@ -1,5 +1,6 @@
 <?php
-error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING);
+error_reporting(E_ALL );
+//error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING);
 
 ini_set('memory_limit', '512M');
 

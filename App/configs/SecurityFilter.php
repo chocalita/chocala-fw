@@ -21,7 +21,7 @@ class SecurityFilter extends ChocalaFilter
         SecurityRegistry::instance();
         $toVerify = !array_key_exists($this->controllerName, self::$noControls);
         if ($toVerify) {
-            if (is_array(self::$noControls[$this->controllerName])) {
+            if (isset(self::$noControls[$this->controllerName]) && is_array(self::$noControls[$this->controllerName])) {
                 $toVerify = !in_array($this->actionName,
                     self::$noControls[$this->controllerName]);
             } else {

@@ -6,12 +6,16 @@ require_once "internal.php";
 //    header('Location: index.htm');
 //    exit();
 //}
-file_put_contents(APP_DIR . "first.txt", "yecid " . date("H:i:s"));
-//print_r($_SERVER); exit();
-try {
+//try {
+//$o = 0;
+//$r = 0;
+//$t = $o / $r;
+    file_put_contents(APP_DIR . "first.txt", "yecid " . date("H:i:s"));
 
     $_SERVER['HTTP_HOST'] = 'www.empleos.click';
     $_SERVER['SCRIPT_NAME'] = '';
+    $_SERVER['REQUEST_METHOD'] = 'GET';
+    $_GET['app'] = 'empleos.click';
 
 /*
 define('WEB_ROOT',
@@ -24,11 +28,18 @@ define('WEB_ROOT',
 */
 
     $_REQUEST['url'] = 'recursos/paginaDirectorio/testCron';
-    require_once(CHOCALA_DIR.'ChocalaRunner.php');
-    ChocalaRunner::run();
-} catch (Exception $e) {
-    file_put_contents(APP_DIR . "error.txt", "ERROR " . $e->getMessage() ." " . date("H:i:s"));
-}
+
+    require_once(CHOCALA_DIR.'ChocalaRunner2.php');
+
+    file_put_contents(APP_DIR . "second.txt", "yecid " . $_REQUEST['url']);
+
+    ChocalaRunner2::run();
+
+    file_put_contents(APP_DIR . "third.txt", "yecid " . date("H:i:s"));
+
+//} catch (Exception $e) {
+//    file_put_contents(APP_DIR . "error.txt", "ERROR " . $e->getMessage() ." " . date("H:i:s"));
+//}
 
 
 ?>
