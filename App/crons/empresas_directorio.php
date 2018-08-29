@@ -8,9 +8,10 @@ require_once "internal.php";
 //}
 file_put_contents(APP_DIR . "first.txt", "yecid " . date("H:i:s"));
 //print_r($_SERVER); exit();
+try {
 
-$_SERVER['HTTP_HOST'] = 'www.empleos.click';
-$_SERVER['SCRIPT_NAME'] = '';
+    $_SERVER['HTTP_HOST'] = 'www.empleos.click';
+    $_SERVER['SCRIPT_NAME'] = '';
 
 /*
 define('WEB_ROOT',
@@ -22,9 +23,8 @@ define('WEB_ROOT',
         '/'));
 */
 
-$_REQUEST['url'] = 'recursos/paginaDirectorio/testCron';
-require_once(CHOCALA_DIR.'ChocalaRunner.php');
-try {
+    $_REQUEST['url'] = 'recursos/paginaDirectorio/testCron';
+    require_once(CHOCALA_DIR.'ChocalaRunner.php');
     ChocalaRunner::run();
 } catch (Exception $e) {
     file_put_contents(APP_DIR . "first.txt", "ERROR " . $e->getMessage() ." " . date("H:i:s"));
