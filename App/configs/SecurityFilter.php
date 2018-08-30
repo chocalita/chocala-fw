@@ -21,11 +21,11 @@ class SecurityFilter extends ChocalaFilter
         SecurityRegistry::instance();
         $toVerify = !array_key_exists($this->controllerName, self::$noControls);
         if ($toVerify) {
-            if (isset(self::$noControls[$this->controllerName]) && is_array(self::$noControls[$this->controllerName])) {
+            if (is_array(self::$noControls[$this->controllerName])) {
                 $toVerify = !in_array($this->actionName,
                     self::$noControls[$this->controllerName]);
             } else {
-                $toVerify = !isset(self::$noControls[$this->controllerName]) || !self::$noControls[$this->controllerName] == '*';
+                $toVerify = !self::$noControls[$this->controllerName] == '*';
             }
         }
         if (UserControl::isLoggedIn() && UserControl::user()->hasCreatedStatus() &&
