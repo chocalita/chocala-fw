@@ -9,15 +9,15 @@ class CronsController extends WebController
 {
 
     /**
-     * @var PaginaDirectorioService Injected service
-     * @service PaginaDirectorioService
+     * @var CronsService Injected service
+     * @service CronsService
      */
-    protected $paginaDirectorioService;
+    protected $cronsService;
 
     public function index()
     {
-        $departamentos = $this->paginaDirectorioService->departamentos();
-        $resumenData = $this->paginaDirectorioService->resumen();
+        $departamentos = $this->cronsService->departamentos();
+        $resumenData = $this->cronsService->resumen();
         $this->set('departamentos', $departamentos);
         $this->set('resumenData', $resumenData);
     }
@@ -26,9 +26,9 @@ class CronsController extends WebController
     {
         $depto = Req::_('Departamento');
         $tiempo = Req::_('Tiempo');
-        $departamentos = $this->paginaDirectorioService->departamentos();
+        $departamentos = $this->cronsService->departamentos();
         if(array_key_exists($depto, $departamentos)){
-            $this->paginaDirectorioService->leerDepartamentoTimeout($depto, $tiempo);
+            $this->cronsService->leerDepartamentoTimeout($depto, $tiempo);
         }
         $this->redirectTo(['action' => 'index', 'params' => ['Departamento' => $depto]]);
     }
@@ -37,7 +37,7 @@ class CronsController extends WebController
     {
 //        $this->paginaDirectorioService->leerDepartamentoTimeout('02', 20);
         $empresa = ScrapEmpresaQuery::createValids()->findOneByIdEmpresa('3cf74613018208cb3a762093812095ae');
-        $this->paginaDirectorioService->scrapEmpresa($empresa);
+        $this->cronsService->scrapEmpresa($empresa);
         $this->render("FINALIZADO");
     }
 
