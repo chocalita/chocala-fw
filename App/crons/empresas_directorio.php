@@ -28,7 +28,7 @@ define('WEB_ROOT',
         '/'));
 */
 
-    $_REQUEST['url'] = 'recursos/paginaDirectorio/testCron';
+    $_REQUEST['url'] = 'recursos/crons/testCron';
 
     require_once(CHOCALA_DIR.'ChocalaRunner2.php');
 
