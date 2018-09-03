@@ -46,17 +46,15 @@ class CronsController extends WebController
      */
     public function testCron()
     {
-        $fileDir = APP_DIR.DIRECTORY_SEPARATOR.'mytest.txt';
-        echo $fileDir;
-        file_put_contents($fileDir, "Este es el test " . date("H:i:s"));
+        $cronDirectory = APP_DIR . DIRECTORY_SEPARATOR . 'crons' . DIRECTORY_SEPARATOR;
 
+        $cronFile = $cronDirectory . DIRECTORY_SEPARATOR . 'cron_results_' .date('yMdHis');
 
         $host = 'localhost';
         $db = 'directorio';
         $user = 'root';
         $pass = '';
         $charset = 'utf8';
-
         $dsn = "mysql:host=$host;port=3307;dbname=$db;charset=$charset";
 
         $opt = [
@@ -83,8 +81,14 @@ class CronsController extends WebController
             echo $e->getMessage();
         }
 
+        ob_start();
 
-        $this->render("SUCCESS!");
+        $content = ob_get_contents();
+        file_put_contents($cronFile, $content);
+        ob_end_flush();
+
+        exit();
+
     }
 
 }
