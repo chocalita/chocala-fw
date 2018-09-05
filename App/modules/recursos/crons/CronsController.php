@@ -61,32 +61,44 @@ class CronsController extends WebController
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES => false,
+//            PDO::ATTR_CASE => PDO::CASE_UPPER
         ];
 
         try {
+            $ids = ['0'];
+            // TODO: fill ids array
+            $statement = "SELECT * FROM empresa_directorio " .
+                " WHERE TPS='SOCIEDAD DE RESPONSABILIDAD LIMITADA' " .
+                " AND (MUNICIPIO='LA PAZ' OR MUNICIPIO='EL ALTO') AND ULT_RENOV > 2015 " .
+                " AND ID NOT IN (" . implode(',', $ids). ",-1) " .
+                " LIMIT 100;";
+            $statement = "select DPTO, count(DPTO) as counter from empresa_directorio group by DPTO;";
             $pdo = new PDO($dsn, $user, $pass, $opt);
-            $stmt = $pdo->prepare("select count(*) from empresa_directorio where TPS like 'SOCIEDAD DE %'");
+            $stmt = $pdo->prepare($statement);
             echo 'Connected to database';
             $stmt->execute();
-            $result = $stmt->fetch();
-            echo "<br />Total SRL -> " . $result['count(*)'];
+            $results = $stmt->fetchAll(PDO::FETCH_OBJ);
+            print_r($results);
 
-            $stmt = $pdo->prepare("select count(*) from empresa_directorio where TPS like 'SOCIEDAD DE %'");
-            $stmt->execute();
-            $result = $stmt->fetch();
+            foreach ($results as $resultObj) {
+                echo '<br />'. $resultObj->RAZON . ' - ' . $resultObj->ID_REG. '';
+            }
 
-            echo "<br />Total Emails -> " . $result['count(*)'];
-            print_r($result);
+
+//            echo "<br />Total SRL -> " . $result['count(*)'];
+//
+//
+//            echo "<br />Total Emails -> " . $result['count(*)'];
         } catch(PDOException $e) {
             echo $e->getMessage();
         }
 
-        ob_start();
-
-        $content = ob_get_contents();
-        file_put_contents($cronFile, $content);
-        ob_end_flush();
-
+//        ob_start();
+//
+//        $content = ob_get_contents();
+//        file_put_contents($cronFile, $content);
+//        ob_end_flush();
+//
         exit();
 
     }
