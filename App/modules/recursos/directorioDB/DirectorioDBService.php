@@ -22,7 +22,7 @@ class DirectorioDBService extends GenericService
         $charset = 'utf8';
         $dsn = "mysql:host=$host;port=3307;dbname=$db;charset=$charset";
 
-        $dsn = "mysql:host=mysql.empleos.click;port=3306;dbname=jobsterin;charset=$charset";
+        $dsn = "mysql:host=mysql.empleos.click;port=3306;dbname=directorio_empresas;charset=$charset";
         $user = 'jobsterin';
         $pass = 'Jobsterin.2017.pasS';
 
