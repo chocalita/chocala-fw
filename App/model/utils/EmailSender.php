@@ -125,6 +125,7 @@ class EmailSender
      * @param $emailMap
      * @param $emailVars
      * @return null|SysEmailSent
+     * @throws \Propel\Runtime\Exception\PropelException
      */
     public function sendMail($emailMap, $emailVars)
     {
