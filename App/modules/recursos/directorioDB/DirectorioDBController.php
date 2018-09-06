@@ -4,7 +4,7 @@
  *
  * @author ypra
  */
-class DirectorioDBController extends AdminWebController
+class DirectorioDBController extends WebController
 {
 
     /**
