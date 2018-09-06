@@ -89,7 +89,7 @@ class DirectorioDBService extends GenericService
                 " AND (MUNICIPIO='LA PAZ' OR MUNICIPIO='EL ALTO') " .
                 " AND ULT_RENOV > 2015 " .
                 " AND ID NOT IN (0, $notInIds) " .
-                " ORDER BY ID LIMIT 3;";
+                " ORDER BY ID LIMIT 10;";
             $resultsEmpresaDirectorio = $this->fetchAsObjects($statement);
             return $resultsEmpresaDirectorio;
         } catch(PDOException $e) {
@@ -112,7 +112,7 @@ class DirectorioDBService extends GenericService
         $email = SysEmailQuery::create()->findOneByCode(self::D_EMAIL_INVITATION_DIRECTORIO);
 //        $email = EmailService::instance()->findByCode(self::D_EMAIL_INVITATION_DIRECTORIO);
         $data['email'] = $empresaDirectorio->MAIL;
-        $data['email'] = "yecid.pra@gmail.com";
+//        $data['email'] = "yecid.pra@gmail.com";
         $data['nombre_empresa'] = $this->cleanRazon($empresaDirectorio->RAZON);
         $emailMap = [
             'TrackingHash' => $hash,
