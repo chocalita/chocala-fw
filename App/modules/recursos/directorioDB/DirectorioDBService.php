@@ -89,7 +89,7 @@ class DirectorioDBService extends GenericService
                 " AND (MUNICIPIO='LA PAZ' OR MUNICIPIO='EL ALTO') " .
                 " AND ULT_RENOV > 2015 " .
                 " AND ID NOT IN (0, $notInIds) " .
-                " ORDER BY ID LIMIT 10;";
+                " ORDER BY ID LIMIT 20;";
             $resultsEmpresaDirectorio = $this->fetchAsObjects($statement);
             return $resultsEmpresaDirectorio;
         } catch(PDOException $e) {
