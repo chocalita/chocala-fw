@@ -24,7 +24,17 @@ class DirectorioDBController extends AdminWebController
         $resultsTps = $this->directorioDBService->resumeTPS();
         $this->set('resultsDpto', $resultsDpto);
         $this->set('resultsTps', $resultsTps);
-//        print_r($results);
+    }
+
+    public function mailing()
+    {
+        $this->directorioDBService->mailing();
+        $this->render("FINISHED!");
+//        $resultsDpto = $this->directorioDBService->resumeDpto();
+//        $resultsTps = $this->directorioDBService->resumeTPS();
+//        $this->set('resultsDpto', $resultsDpto);
+//        $this->set('resultsTps', $resultsTps);
+//        print_r($results)
 //        exit();
     }
 

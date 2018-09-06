@@ -157,7 +157,7 @@ class SuscriptorService extends GenericService
                     '~NOMBRE_EMPRESA~' => htmlspecialchars($aviso->getNombreEmpresa()),
                     '~LINK_AVISO~' => $linkAviso,
                 ];
-                $emailSent = EmailSender::instanceFrom($email)->sendMail($emailMap, $emailVars);
+                $emailSent = EmailSender::instanceFrom($email)->sendM($emailMap, $emailVars);
                 $results['email'] = $emailSent->getToEmail();
             }
         }
