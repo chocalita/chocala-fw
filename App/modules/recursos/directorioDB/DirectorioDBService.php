@@ -10,21 +10,27 @@ Chocala::import("Modules.system.email.EmailService");
 class DirectorioDBService extends GenericService
 {
 
+    const D_EMAIL_INVITATION_DIRECTORIO = 'D_EMAIL_INVITATION_DIRECTORIO';
+
+    const LIMITE_DIARIO = 200;
+
+    const CANTIDAD_BLOQUE = 10;
+
     /**
      * @return PDO
      */
     public static function pdoConnection()
     {
-        $host = 'localhost';
-        $db = 'directorio';
-        $user = 'root';
-        $pass = '';
-        $charset = 'utf8';
-        $dsn = "mysql:host=$host;port=3307;dbname=$db;charset=$charset";
+        $env = Configs::value('app.run.environment');
+        $dbEnvConfigs = DBConfig::envConfigs($env);
 
-        $dsn = "mysql:host=mysql.empleos.click;port=3306;dbname=directorio_empresas;charset=$charset";
-        $user = 'jobsterin';
-        $pass = 'Jobsterin.2017.pasS';
+        $db = (strtoupper($env) != 'DEVELOPMENT') ? 'directorio_empresas' : 'directorio';
+        $host = $dbEnvConfigs['host'];
+        $port = $dbEnvConfigs['port'];
+        $user = $dbEnvConfigs['user'];
+        $pass = $dbEnvConfigs['password'];
+        $charset = $dbEnvConfigs['charset'];
+        $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
 
         $opt = [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -50,7 +56,7 @@ class DirectorioDBService extends GenericService
             $statement = "select $field, count($field) as TOTAL from empresa_directorio group by $field;";
             $results = $this->fetchAsObjects($statement);
             return $results;
-        } catch(PDOException $e) {
+        } catch (PDOException $e) {
             echo $e->getMessage();
         }
     }
@@ -70,15 +76,29 @@ class DirectorioDBService extends GenericService
         return $this->resumeByField('MUNICIPIO');
     }
 
-    public function empresasNoInvitadas()
+    public function alcanzadoLimiteDiario(SysEmail $email, $limit)
     {
         try {
-            $ids = [0];
-            $statement0 = "SELECT * FROM mail_sent WHERE 1=1" ;
-            $resultsMailSent = $this->fetchAsObjects($statement0);
-            if (sizeof($resultsMailSent) >= 200) {
+            $today = (new DateUtil())->format('Y-m-d');
+            $statement0 = "SELECT count(*) as TOTAL FROM mail_sent " .
+                " WHERE EMAIL_ID = {$email->getId()} AND  SHIPPING_DATE >= '$today 00:00:00' AND SHIPPING_DATE <= '$today 23:59:59'";
+            $resultsMailCount = $this->fetchAsObjects($statement0);
+            return ($resultsMailCount[0]->TOTAL * 1) >= $limit;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+        return false;
+    }
+
+    public function empresasNoInvitadas(SysEmail $email)
+    {
+        try {
+            if ($this->alcanzadoLimiteDiario($email, self::LIMITE_DIARIO)) {
                 return [];
             }
+            $ids = [0];
+            $statement0 = "SELECT * FROM mail_sent WHERE EMAIL_ID={$email->getId()}";
+            $resultsMailSent = $this->fetchAsObjects($statement0);
             foreach ($resultsMailSent as $mailSent) {
                 $ids[] = $mailSent->EMPRESA_DIRECTORIO_ID;
             }
@@ -88,16 +108,15 @@ class DirectorioDBService extends GenericService
                 " WHERE TPS='SOCIEDAD DE RESPONSABILIDAD LIMITADA' " .
                 " AND (MUNICIPIO='LA PAZ' OR MUNICIPIO='EL ALTO') " .
                 " AND ULT_RENOV > 2015 " .
-                " AND ID NOT IN (0, $notInIds) " .
+                " AND ID NOT IN ($notInIds) " .
                 " ORDER BY ID LIMIT 20;";
             $resultsEmpresaDirectorio = $this->fetchAsObjects($statement);
             return $resultsEmpresaDirectorio;
-        } catch(PDOException $e) {
+        } catch (PDOException $e) {
             echo $e->getMessage();
         }
+        return [];
     }
-
-    const D_EMAIL_INVITATION_DIRECTORIO = 'D_EMAIL_INVITATION_DIRECTORIO';
 
     public function cleanRazon($razon)
     {
@@ -106,13 +125,13 @@ class DirectorioDBService extends GenericService
         );
     }
 
-    public function sendMailInvitacion($empresaDirectorio, $pdo)
+    public function sendMailInvitacion(SysEmail $email, $empresaDirectorio, $pdo = null)
     {
+        if ($pdo == null) {
+            $pdo = self::pdoConnection();
+        }
         $hash = SpecialStrings::generateHash(20);
-        $email = SysEmailQuery::create()->findOneByCode(self::D_EMAIL_INVITATION_DIRECTORIO);
-//        $email = EmailService::instance()->findByCode(self::D_EMAIL_INVITATION_DIRECTORIO);
         $data['email'] = $empresaDirectorio->MAIL;
-//        $data['email'] = "yecid.pra@gmail.com";
         $data['nombre_empresa'] = $this->cleanRazon($empresaDirectorio->RAZON);
         $emailMap = [
             'TrackingHash' => $hash,
@@ -134,19 +153,52 @@ class DirectorioDBService extends GenericService
 
     public function mailing()
     {
+        $email = SysEmailQuery::create()->findOneByCode(self::D_EMAIL_INVITATION_DIRECTORIO);
         $pdo = self::pdoConnection();
-        $empresasNoInvitadas = $this->empresasNoInvitadas();
+        $empresasNoInvitadas = $this->empresasNoInvitadas($email);
+        print_r($empresasNoInvitadas);
+        exit();
         $results = "";
         ob_start();
         foreach ($empresasNoInvitadas as $empresasNoInvitada) {
-            $success = $this->sendMailInvitacion($empresasNoInvitada, $pdo);
-            echo "\n" . $empresasNoInvitada->RAZON . ' ['.$empresasNoInvitada->ID.'] -> ' . ($success? "SI": "NO");
+            $success = $this->sendMailInvitacion($email, $empresasNoInvitada, $pdo);
+            echo "\n" . $empresasNoInvitada->RAZON . ' [' . $empresasNoInvitada->ID . '] -> ' . ($success ? "SI" : "NO");
         }
         $results = ob_get_contents();
         ob_clean();
-        echo APP_DIR . "cron_results_".date("YMd-Hi").".txt";
-        file_put_contents(APP_DIR . "cron_results_".date("Ymd-Hi").".txt", $results);
+        echo APP_DIR . "cron_results_" . date("YMd-Hi") . ".txt";
+        file_put_contents(APP_DIR . "cron_results_" . date("Ymd-Hi") . ".txt", $results);
     }
 
+    /**
+     * @param $hashString
+     * @return bool
+     */
+    public function hashTracking($hashString)
+    {
+        $statement0 = "SELECT * FROM mail_sent WHERE HASH_STRING = '$hashString'";
+        $resultsMailCount = $this->fetchAsObjects($statement0);
+        if (sizeof($resultsMailCount) > 0) {
+            if ($resultsMailCount[0]->OPENING_DATE != null) {
+                return false;
+            }
+            $idMailSent = $resultsMailCount[0]->ID * 1;
+            $openingDate = (new DateUtil())->format('Y-m-d H:i:s');
+            $sql = "UPDATE mail_sent SET OPENING_DATE='$openingDate' WHERE ID=$idMailSent";
+            $pdo = self::pdoConnection();
+            $selectQueryResult = $pdo->prepare($sql);
+            return $selectQueryResult->execute();
+        }
+        return false;
+//        $emailSent = $this->findByHashString($hashString);
+//        if (is_object($emailSent)) {
+//            if (!$emailSent->getOpeningDate()) {
+//                $emailSent->setOpeningDate(new DateTime());
+//                $emailSent->save();
+//                return true;
+//            }
+//        }
+//        return false;
+    }
 
 }

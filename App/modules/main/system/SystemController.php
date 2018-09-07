@@ -190,4 +190,15 @@ class SystemController extends AdminWebController
         $this->redirectTo(['url' => IMG_WEB . 'divider-bar.png']);
     }
 
+    public function emailTrackingDirectorio()
+    {
+        try {
+            Chocala::import('Modules.recursos.directorioDB.DirectorioDBService');
+            $emailSent = DirectorioDBService::instance()->hashTracking($this->id);
+        } catch (Exception $e) {
+            $emailSent = null;
+        }
+        $this->redirectTo(['url' => IMG_WEB . 'divider-bar.png']);
+    }
+
 }

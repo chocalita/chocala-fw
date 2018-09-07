@@ -9,6 +9,8 @@ require_once("EmailEngine.php");
 class EmailDirectorioSender
 {
 
+    const G_EMAIL_TRACKING_URI_DIR_EMP = 'G_EMAIL_TRACKING_URI_DIR_EMP';
+
     /**
      * @var SysEmail
      */
@@ -88,7 +90,7 @@ class EmailDirectorioSender
      */
     public static function trackingUrl()
     {
-        return WEB_ROOT . AppParam::value(AppParam::G_EMAIL_TRACKING_URI);
+        return WEB_ROOT . AppParam::value(self::G_EMAIL_TRACKING_URI_DIR_EMP);
     }
     /**
      * @return int
@@ -176,8 +178,7 @@ class EmailDirectorioSender
         $maxTries = self::maxSendTries();
         do {
             $success = $this->emailEngine->Send();
-            sleep(1);
-//            sleep($timeBetween);
+            sleep($timeBetween);
         } while (!$success && ++$nSents < $maxTries);
         return $this->logEmail($trackingHash, $success, $pdo);
     }
@@ -198,14 +199,14 @@ class EmailDirectorioSender
             "USER_ID" => 1 ,
             "SENDER_ID" => 1 ,
             "EMPRESA_DIRECTORIO_ID" => $this->empresaDirectorioId*1 ,
-            "HASH_STRING" => "'".$hash ."'",
-            "FROM_NAME" => "'".$this->emailEngine->getFromName()."'",
-            "FROM_EMAIL" => "'".$this->emailEngine->getFrom()."'",
-            "TO_EMAIL" => "'".$this->emailEngine->serializeTo()."'",
-            "CC" => "'".$this->emailEngine->serializeCC()."'",
-            "BCC" => "'".$this->emailEngine->serializeBCC()."'",
-            "SUBJECT" => "'".$this->emailEngine->Subject."'",
-            "CONTENT" => "'".$this->emailEngine->Body."'",
+            "HASH_STRING" => $hash,
+            "FROM_NAME" => $this->emailEngine->getFromName(),
+            "FROM_EMAIL" => $this->emailEngine->getFrom(),
+            "TO_EMAIL" => $this->emailEngine->serializeTo(),
+            "CC" => $this->emailEngine->serializeCC(),
+            "BCC" => $this->emailEngine->serializeBCC(),
+            "SUBJECT" => $this->emailEngine->Subject,
+            "CONTENT" => $this->emailEngine->Body,
             "IS_SUCCESS" => $success? 1: 0,
 //            "SHIPPING_DATE" => "'".$dateTime."'",
 //            "OPENING_DATE" => "'".$dateTime."'"
@@ -213,10 +214,7 @@ class EmailDirectorioSender
         $fields = implode(",", array_keys($data));
         $fields2 = implode(",:", array_keys($data));
 
-        $params = "?". str_repeat(",?", sizeof($data) - 1);
-        $sql = "INSERT INTO mail_sent ($fields) VALUES ($params)" ;
         $sql = "INSERT INTO mail_sent ($fields) VALUES (:$fields2)" ;
-//        return $pdo->prepare($sql)->execute($data);
 
         try {
             $selectQueryResult = $pdo->prepare($sql);
@@ -242,42 +240,6 @@ class EmailDirectorioSender
         } catch (PDOException $e) {
             $this->handle_sql_errors($sql, $e->getMessage());
         }
-        //INSERT INTO mail_sent (
-        //EMAIL_ID,
-        //USER_ID,
-        //SENDER_ID,
-        //EMPRESA_DIRECTORIO_ID
-        //,HASH_STRING
-        //,FROM_NAME
-        //,FROM_EMAIL
-        //,TO_EMAIL
-        //,CC
-        //,BCC
-        //,SUBJECT
-        //,CONTENT
-        //,IS_SUCCESS
-        //,SHIPPING_DATE
-        //,OPENING_DATE
-        //) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-//        $emailSent = new SysEmailSent();
-//        $emailSent->setEmailId($this->email->getId());
-//        if (is_object($this->user)) {
-//            $emailSent->setSysUser($this->user);
-//        }
-//        if (UserControl::isLoggedIn()) {
-//            $emailSent->setSenderId(UserControl::user()->getId());
-//        }
-//        $emailSent->setHashString($hash);
-//        $emailSent->setIsSuccess($success);
-//        $emailSent->setFromName($this->emailEngine->getFromName());
-//        $emailSent->setFromEmail($this->emailEngine->getFrom());
-//        $emailSent->setToEmail($this->emailEngine->serializeTo());
-//        $emailSent->setCc($this->emailEngine->serializeCC());
-//        $emailSent->setBcc($this->emailEngine->serializeBCC());
-//        $emailSent->setSubject($this->emailEngine->Subject);
-//        $emailSent->setContent($this->emailEngine->Body);
-//        $emailSent->setShippingDate(new DateUtil());
-//        return $emailSent->save() ? $emailSent : null;
     }
 
     function handle_sql_errors($query, $error_message)
@@ -288,4 +250,5 @@ class EmailDirectorioSender
         echo $error_message;
         die;
     }
+
 }
