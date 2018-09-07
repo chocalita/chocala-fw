@@ -3,7 +3,7 @@ Chocala::import('Model.utils.EmailDirectorioSender');
 Chocala::import("Modules.system.email.EmailService");
 
 /**
- * Description of AreaReferenciaService
+ * Description of DirectorioDBService
  *
  * @author ypra
  */
@@ -12,9 +12,9 @@ class DirectorioDBService extends GenericService
 
     const D_EMAIL_INVITATION_DIRECTORIO = 'D_EMAIL_INVITATION_DIRECTORIO';
 
-    const LIMITE_DIARIO = 200;
+    const LIMITE_DIARIO = 400;
 
-    const CANTIDAD_BLOQUE = 5;
+    const CANTIDAD_BLOQUE = 20;
 
     /**
      * @return PDO
@@ -157,8 +157,8 @@ class DirectorioDBService extends GenericService
         $email = SysEmailQuery::create()->findOneByCode(self::D_EMAIL_INVITATION_DIRECTORIO);
         $pdo = self::pdoConnection();
         $empresasNoInvitadas = $this->empresasNoInvitadas($email);
-        print_r($empresasNoInvitadas);
-        exit();
+//        print_r($empresasNoInvitadas);
+//        exit();
         $results = "";
         ob_start();
         foreach ($empresasNoInvitadas as $empresasNoInvitada) {
