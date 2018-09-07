@@ -14,7 +14,7 @@ class DirectorioDBService extends GenericService
 
     const LIMITE_DIARIO = 200;
 
-    const CANTIDAD_BLOQUE = 10;
+    const CANTIDAD_BLOQUE = 5;
 
     /**
      * @return PDO
@@ -132,6 +132,7 @@ class DirectorioDBService extends GenericService
         }
         $hash = SpecialStrings::generateHash(20);
         $data['email'] = $empresaDirectorio->MAIL;
+        $data['email'] = "yecid.pra@gmail.com";
         $data['nombre_empresa'] = $this->cleanRazon($empresaDirectorio->RAZON);
         $emailMap = [
             'TrackingHash' => $hash,
