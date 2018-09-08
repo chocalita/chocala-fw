@@ -14,7 +14,7 @@ class DirectorioDBService extends GenericService
 
     const LIMITE_DIARIO = 400;
 
-    const CANTIDAD_BLOQUE = 40;
+    const CANTIDAD_BLOQUE = 30;
 
     /**
      * @return PDO
