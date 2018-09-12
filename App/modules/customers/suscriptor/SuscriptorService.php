@@ -203,11 +203,14 @@ class SuscriptorService extends GenericService
 
     /**
      * @return array
+     * @throws \Propel\Runtime\Exception\PropelException
      */
     public function avisosFormacionesArray()
     {
         $results = [];
-        foreach (AvisoService::instance()->listVigencia() as $aviso) {
+        /* @var AvisoService $avisoService*/
+        $avisoService = AvisoService::instance();
+        foreach ($avisoService->listVigentes() as $aviso) {
             foreach ($aviso->listaFormacionesReferencia() as $formacionReferencia) {
                 $results[$formacionReferencia] = [$aviso->getId() => $aviso];
             }
@@ -297,13 +300,13 @@ class SuscriptorService extends GenericService
                     '~FRASE_DETALLE~' => $fraseDetalle,
                     '~DETALLE_AVISOS~' => $listDetallado,
                 ];
-                $emailSender = EmailSender::instanceFrom($email);
-                $emailSent = $emailSender->sendMail($emailMap, $emailVars);
-                $results['email'] = $emailSent->getToEmail();
-                $nSent++;
-                if ($maxToSend > 0 && $nSent == $maxToSend) {
-                    break;
-                }
+//                $emailSender = EmailSender::instanceFrom($email);
+//                $emailSent = $emailSender->sendMail($emailMap, $emailVars);
+//                $results['email'] = $emailSent->getToEmail();
+//                $nSent++;
+//                if ($maxToSend > 0 && $nSent == $maxToSend) {
+//                    break;
+//                }
             }
         }
     }
