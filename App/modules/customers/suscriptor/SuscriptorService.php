@@ -300,13 +300,13 @@ class SuscriptorService extends GenericService
                     '~FRASE_DETALLE~' => $fraseDetalle,
                     '~DETALLE_AVISOS~' => $listDetallado,
                 ];
-//                $emailSender = EmailSender::instanceFrom($email);
-//                $emailSent = $emailSender->sendMail($emailMap, $emailVars);
-//                $results['email'] = $emailSent->getToEmail();
-//                $nSent++;
-//                if ($maxToSend > 0 && $nSent == $maxToSend) {
-//                    break;
-//                }
+                $emailSender = EmailSender::instanceFrom($email);
+                $emailSent = $emailSender->sendMail($emailMap, $emailVars);
+                $results['email'] = $emailSent->getToEmail();
+                $nSent++;
+                if ($maxToSend > 0 && $nSent == $maxToSend) {
+                    break;
+                }
             }
         }
     }
