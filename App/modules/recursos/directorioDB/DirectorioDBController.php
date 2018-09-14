@@ -28,7 +28,7 @@ class DirectorioDBController extends WebController
 
     public function mailing()
     {
-        exit();
+//        exit();
         $this->directorioDBService->mailing();
         $this->render("FINISHED!");
 //        $resultsDpto = $this->directorioDBService->resumeDpto();
