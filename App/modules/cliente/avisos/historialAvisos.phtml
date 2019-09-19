@@ -75,6 +75,21 @@
                                 <td class="text-left"><?= $aviso->getRequisito(); ?></td>
                                 <td class="text-left"><?= $aviso->getDescripcion(); ?></td>
                                 <td class="text-left"><?= $aviso->getNivelFormacion(); ?></td>
+                                <td class="text-center">
+                                    <a href="<?= $toDetailsLink.$pk; ?>" class="btn btn-sm btn-success btn-circle"><i class="fa fa-eye"></i></a>
+                                    <?php
+                                    if(PageControl::canUpdate()){
+                                        ?>
+                                        <a href="<?= $toEditLink.$pk; ?>" class="btn btn-sm btn-warning btn-circle" data-toggle="modal" ><i class="fa fa-edit"></i></a>
+                                        <?php
+                                    }
+                                    if(PageControl::canDelete()){
+                                        ?>
+                                        <a href="<?= $toDeleteLink.$pk; ?>"class="btn btn-sm btn-danger btn-circle" onclick="return confirm('¿Esta seguro de eliminar este registro? ');"><i class="fa fa-times"></i></a>
+                                        <?php
+                                    }
+                                    ?>
+                                </td>
                             </tr>
                             <?php
                             $i++;
