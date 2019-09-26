@@ -418,6 +418,34 @@
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
   </table>
+  <table name="job_sicoes" idMethod="native" phpName="JobSicoes">
+    <column name="ID" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="CUCE" phpName="Cuce" type="VARCHAR" size="100" required="true"/>
+    <column name="CODIGO_SISIN" phpName="CodigoSisin" type="VARCHAR" size="5000" required="true"/>
+    <column name="OBJETO_LICITACION" phpName="ObjetoLicitacion" type="VARCHAR" size="5000" required="true"/>
+    <column name="NOMBRE_ENTIDAD" phpName="NombreEntidad" type="VARCHAR" size="2000" required="true"/>
+    <column name="CODIGO_ENTIDAD" phpName="CodigoEntidad" type="INTEGER" size="100" required="true"/>
+    <column name="TELEFONO_ENTIDAD" phpName="TelefonoEntidad" type="VARCHAR" size="100" required="true"/>
+    <column name="FECHA_PUBLICACION" phpName="FechaPublicacion" type="DATE" required="true"/>
+    <column name="FECHA_LIMITE" phpName="FechaLimite" type="DATE" required="true"/>
+    <column name="MODALIDAD" phpName="Modalidad" type="VARCHAR" size="200" required="true"/>
+    <column name="TIPO_CONSULTORIA" phpName="TipoConsultoria" type="VARCHAR" size="200" required="true"/>
+    <column name="FORMA_ADJUDICACION" phpName="FormaAdjudicacion" type="VARCHAR" size="200" required="true"/>
+    <column name="TIPO_CONTRATACION" phpName="TipoContratacion" type="VARCHAR" size="200" required="true"/>
+    <column name="GARANTIAS_SOLICITADAS" phpName="GarantiasSolicitadas" type="VARCHAR" size="2000" required="true"/>
+    <column name="TIPO_REQUERIMIENTO" phpName="TipoRequerimiento" type="VARCHAR" size="200" required="true"/>
+    <column name="NUMERO_CONSULTORES" phpName="NumeroConsultores" type="INTEGER" required="true"/>
+    <column name="PRECIO_UNITARIO" phpName="PrecioUnitario" type="FLOAT" size="9" scale="3" required="true"/>
+    <column name="ENLACE" phpName="Enlace" type="VARCHAR" size="5000" required="true"/>
+    <column name="DEPARTAMENTO" phpName="Departamento" type="VARCHAR" size="50" required="true"/>
+    <column name="CONTACTO" phpName="Contacto" type="VARCHAR" size="500" required="true"/>
+    <unique name="CUCE">
+      <unique-column name="CUCE"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
   <table name="job_suscriptor" idMethod="native" phpName="JobSuscriptor">
     <column name="ID" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="ID_TMP_AREA" phpName="IdTmpArea" type="INTEGER"/>
