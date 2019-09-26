@@ -50,7 +50,9 @@ class SystemController extends AdminWebController
 
     public function access()
     {
-        SysUserQuery::create()->orderByUsername()->find();
+        if(UserControl::isLoggedIn()) {
+            $this->redirectTo(['action' => 'main']);
+        }
     }
 
     public function naccess()

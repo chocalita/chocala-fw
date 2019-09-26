@@ -219,4 +219,29 @@ class PaginaDirectorioController extends AdminWebController
         $this->render("HECHO TODO!");
     }
 
+    public function testSicoes()
+    {
+
+        $target = "https://www.infosicoes.com/contratacion-de-un-1-consultor-a-por-producto-para-la-sustanciacion-y-seguimiento-de-procesos-en-el-marco-de-los-decretos-supremos-1302-y-1320-gestion-2019-en-los-departa-lct374388.html";
+        $htmlPage = file_get_contents($target);
+        print_r($htmlPage);
+        $htmlDom = simple_html_dom::str_get_html($htmlPage);
+        $nodesA = $htmlDom->find('td[class=FormularioEtiqueta]');
+        $nodesB = $htmlDom->find('td[class=FormularioDato]');
+
+        echo sizeof($nodesA);
+        foreach ($nodesA as $node) {
+            echo "<br >". $node->plaintext;
+        }
+        foreach ($nodesB as $node) {
+            echo "<br >". $node->plaintext;
+        }
+//        print_r($nodesA);
+//        print_r($nodesB);
+        exit();
+
+
+
+    }
+
 }

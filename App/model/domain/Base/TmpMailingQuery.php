@@ -140,21 +140,27 @@ abstract class TmpMailingQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = TmpMailingTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(TmpMailingTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = TmpMailingTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -348,11 +354,10 @@ abstract class TmpMailingQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByEmail('fooValue');   // WHERE email = 'fooValue'
-     * $query->filterByEmail('%fooValue%'); // WHERE email LIKE '%fooValue%'
+     * $query->filterByEmail('%fooValue%', Criteria::LIKE); // WHERE email LIKE '%fooValue%'
      * </code>
      *
      * @param     string $email The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpMailingQuery The current query, for fluid interface
@@ -362,9 +367,6 @@ abstract class TmpMailingQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($email)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $email)) {
-                $email = str_replace('*', '%', $email);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -377,11 +379,10 @@ abstract class TmpMailingQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByAvisos('fooValue');   // WHERE avisos = 'fooValue'
-     * $query->filterByAvisos('%fooValue%'); // WHERE avisos LIKE '%fooValue%'
+     * $query->filterByAvisos('%fooValue%', Criteria::LIKE); // WHERE avisos LIKE '%fooValue%'
      * </code>
      *
      * @param     string $avisos The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildTmpMailingQuery The current query, for fluid interface
@@ -391,9 +392,6 @@ abstract class TmpMailingQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($avisos)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $avisos)) {
-                $avisos = str_replace('*', '%', $avisos);
-                $comparison = Criteria::LIKE;
             }
         }
 

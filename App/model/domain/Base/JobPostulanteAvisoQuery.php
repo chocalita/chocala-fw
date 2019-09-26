@@ -54,16 +54,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobPostulanteAvisoQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
  * @method     ChildJobPostulanteAvisoQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
- * @method     ChildJobPostulanteAvisoQuery leftJoinJobPostulante($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobPostulante relation
- * @method     ChildJobPostulanteAvisoQuery rightJoinJobPostulante($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobPostulante relation
- * @method     ChildJobPostulanteAvisoQuery innerJoinJobPostulante($relationAlias = null) Adds a INNER JOIN clause to the query using the JobPostulante relation
- *
- * @method     ChildJobPostulanteAvisoQuery joinWithJobPostulante($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobPostulante relation
- *
- * @method     ChildJobPostulanteAvisoQuery leftJoinWithJobPostulante() Adds a LEFT JOIN clause and with to the query using the JobPostulante relation
- * @method     ChildJobPostulanteAvisoQuery rightJoinWithJobPostulante() Adds a RIGHT JOIN clause and with to the query using the JobPostulante relation
- * @method     ChildJobPostulanteAvisoQuery innerJoinWithJobPostulante() Adds a INNER JOIN clause and with to the query using the JobPostulante relation
- *
  * @method     ChildJobPostulanteAvisoQuery leftJoinJobAviso($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobAviso relation
  * @method     ChildJobPostulanteAvisoQuery rightJoinJobAviso($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobAviso relation
  * @method     ChildJobPostulanteAvisoQuery innerJoinJobAviso($relationAlias = null) Adds a INNER JOIN clause to the query using the JobAviso relation
@@ -74,7 +64,17 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobPostulanteAvisoQuery rightJoinWithJobAviso() Adds a RIGHT JOIN clause and with to the query using the JobAviso relation
  * @method     ChildJobPostulanteAvisoQuery innerJoinWithJobAviso() Adds a INNER JOIN clause and with to the query using the JobAviso relation
  *
- * @method     \JobPostulanteQuery|\JobAvisoQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     ChildJobPostulanteAvisoQuery leftJoinJobPostulante($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobPostulante relation
+ * @method     ChildJobPostulanteAvisoQuery rightJoinJobPostulante($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobPostulante relation
+ * @method     ChildJobPostulanteAvisoQuery innerJoinJobPostulante($relationAlias = null) Adds a INNER JOIN clause to the query using the JobPostulante relation
+ *
+ * @method     ChildJobPostulanteAvisoQuery joinWithJobPostulante($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobPostulante relation
+ *
+ * @method     ChildJobPostulanteAvisoQuery leftJoinWithJobPostulante() Adds a LEFT JOIN clause and with to the query using the JobPostulante relation
+ * @method     ChildJobPostulanteAvisoQuery rightJoinWithJobPostulante() Adds a RIGHT JOIN clause and with to the query using the JobPostulante relation
+ * @method     ChildJobPostulanteAvisoQuery innerJoinWithJobPostulante() Adds a INNER JOIN clause and with to the query using the JobPostulante relation
+ *
+ * @method     \JobAvisoQuery|\JobPostulanteQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildJobPostulanteAviso findOne(ConnectionInterface $con = null) Return the first ChildJobPostulanteAviso matching the query
  * @method     ChildJobPostulanteAviso findOneOrCreate(ConnectionInterface $con = null) Return the first ChildJobPostulanteAviso matching the query, or a new ChildJobPostulanteAviso object populated from the query conditions when no match is found
@@ -183,21 +183,27 @@ abstract class JobPostulanteAvisoQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = JobPostulanteAvisoTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(JobPostulanteAvisoTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = JobPostulanteAvisoTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -436,11 +442,10 @@ abstract class JobPostulanteAvisoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByEstado('fooValue');   // WHERE ESTADO = 'fooValue'
-     * $query->filterByEstado('%fooValue%'); // WHERE ESTADO LIKE '%fooValue%'
+     * $query->filterByEstado('%fooValue%', Criteria::LIKE); // WHERE ESTADO LIKE '%fooValue%'
      * </code>
      *
      * @param     string $estado The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobPostulanteAvisoQuery The current query, for fluid interface
@@ -450,9 +455,6 @@ abstract class JobPostulanteAvisoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($estado)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $estado)) {
-                $estado = str_replace('*', '%', $estado);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -506,11 +508,10 @@ abstract class JobPostulanteAvisoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByCartaPresentacion('fooValue');   // WHERE CARTA_PRESENTACION = 'fooValue'
-     * $query->filterByCartaPresentacion('%fooValue%'); // WHERE CARTA_PRESENTACION LIKE '%fooValue%'
+     * $query->filterByCartaPresentacion('%fooValue%', Criteria::LIKE); // WHERE CARTA_PRESENTACION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $cartaPresentacion The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobPostulanteAvisoQuery The current query, for fluid interface
@@ -520,9 +521,6 @@ abstract class JobPostulanteAvisoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($cartaPresentacion)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $cartaPresentacion)) {
-                $cartaPresentacion = str_replace('*', '%', $cartaPresentacion);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -535,11 +533,10 @@ abstract class JobPostulanteAvisoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByCvMime('fooValue');   // WHERE CV_MIME = 'fooValue'
-     * $query->filterByCvMime('%fooValue%'); // WHERE CV_MIME LIKE '%fooValue%'
+     * $query->filterByCvMime('%fooValue%', Criteria::LIKE); // WHERE CV_MIME LIKE '%fooValue%'
      * </code>
      *
      * @param     string $cvMime The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobPostulanteAvisoQuery The current query, for fluid interface
@@ -549,9 +546,6 @@ abstract class JobPostulanteAvisoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($cvMime)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $cvMime)) {
-                $cvMime = str_replace('*', '%', $cvMime);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -564,11 +558,10 @@ abstract class JobPostulanteAvisoQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByCvFilename('fooValue');   // WHERE CV_FILENAME = 'fooValue'
-     * $query->filterByCvFilename('%fooValue%'); // WHERE CV_FILENAME LIKE '%fooValue%'
+     * $query->filterByCvFilename('%fooValue%', Criteria::LIKE); // WHERE CV_FILENAME LIKE '%fooValue%'
      * </code>
      *
      * @param     string $cvFilename The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobPostulanteAvisoQuery The current query, for fluid interface
@@ -578,9 +571,6 @@ abstract class JobPostulanteAvisoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($cvFilename)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $cvFilename)) {
-                $cvFilename = str_replace('*', '%', $cvFilename);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -758,83 +748,6 @@ abstract class JobPostulanteAvisoQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related \JobPostulante object
-     *
-     * @param \JobPostulante|ObjectCollection $jobPostulante The related object(s) to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @throws \Propel\Runtime\Exception\PropelException
-     *
-     * @return ChildJobPostulanteAvisoQuery The current query, for fluid interface
-     */
-    public function filterByJobPostulante($jobPostulante, $comparison = null)
-    {
-        if ($jobPostulante instanceof \JobPostulante) {
-            return $this
-                ->addUsingAlias(JobPostulanteAvisoTableMap::COL_ID_POSTULANTE, $jobPostulante->getId(), $comparison);
-        } elseif ($jobPostulante instanceof ObjectCollection) {
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-
-            return $this
-                ->addUsingAlias(JobPostulanteAvisoTableMap::COL_ID_POSTULANTE, $jobPostulante->toKeyValue('PrimaryKey', 'Id'), $comparison);
-        } else {
-            throw new PropelException('filterByJobPostulante() only accepts arguments of type \JobPostulante or Collection');
-        }
-    }
-
-    /**
-     * Adds a JOIN clause to the query using the JobPostulante relation
-     *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return $this|ChildJobPostulanteAvisoQuery The current query, for fluid interface
-     */
-    public function joinJobPostulante($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-    {
-        $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('JobPostulante');
-
-        // create a ModelJoin object for this join
-        $join = new ModelJoin();
-        $join->setJoinType($joinType);
-        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-        if ($previousJoin = $this->getPreviousJoin()) {
-            $join->setPreviousJoin($previousJoin);
-        }
-
-        // add the ModelJoin to the current object
-        if ($relationAlias) {
-            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-            $this->addJoinObject($join, $relationAlias);
-        } else {
-            $this->addJoinObject($join, 'JobPostulante');
-        }
-
-        return $this;
-    }
-
-    /**
-     * Use the JobPostulante relation JobPostulante object
-     *
-     * @see useQuery()
-     *
-     * @param     string $relationAlias optional alias for the relation,
-     *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return \JobPostulanteQuery A secondary query class using the current class as primary query
-     */
-    public function useJobPostulanteQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-    {
-        return $this
-            ->joinJobPostulante($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'JobPostulante', '\JobPostulanteQuery');
-    }
-
-    /**
      * Filter the query by a related \JobAviso object
      *
      * @param \JobAviso|ObjectCollection $jobAviso The related object(s) to use as filter
@@ -909,6 +822,83 @@ abstract class JobPostulanteAvisoQuery extends ModelCriteria
         return $this
             ->joinJobAviso($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'JobAviso', '\JobAvisoQuery');
+    }
+
+    /**
+     * Filter the query by a related \JobPostulante object
+     *
+     * @param \JobPostulante|ObjectCollection $jobPostulante The related object(s) to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @throws \Propel\Runtime\Exception\PropelException
+     *
+     * @return ChildJobPostulanteAvisoQuery The current query, for fluid interface
+     */
+    public function filterByJobPostulante($jobPostulante, $comparison = null)
+    {
+        if ($jobPostulante instanceof \JobPostulante) {
+            return $this
+                ->addUsingAlias(JobPostulanteAvisoTableMap::COL_ID_POSTULANTE, $jobPostulante->getId(), $comparison);
+        } elseif ($jobPostulante instanceof ObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(JobPostulanteAvisoTableMap::COL_ID_POSTULANTE, $jobPostulante->toKeyValue('PrimaryKey', 'Id'), $comparison);
+        } else {
+            throw new PropelException('filterByJobPostulante() only accepts arguments of type \JobPostulante or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the JobPostulante relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildJobPostulanteAvisoQuery The current query, for fluid interface
+     */
+    public function joinJobPostulante($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('JobPostulante');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'JobPostulante');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the JobPostulante relation JobPostulante object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \JobPostulanteQuery A secondary query class using the current class as primary query
+     */
+    public function useJobPostulanteQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinJobPostulante($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'JobPostulante', '\JobPostulanteQuery');
     }
 
     /**

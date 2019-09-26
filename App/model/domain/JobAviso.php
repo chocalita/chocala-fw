@@ -16,11 +16,12 @@ class JobAviso extends BaseJobAviso implements JsonSerializable
     const SIN_FORMACION = 'SIN FORMACION';
     const BACHILLER = 'BACHILLER';
     const TECNICO = 'TECNICO';
+    const EGRESADO = 'EGRESADO';
     const LICENCIATURA = 'LICENCIATURA';
     const MAESTRIA = 'MAESTRIA';
 
     static $nivelesFormacion = [
-        self::SIN_FORMACION, self::BACHILLER, self::TECNICO, self::LICENCIATURA, self::MAESTRIA,
+        self::SIN_FORMACION, self::BACHILLER, self::TECNICO, self::EGRESADO, self::LICENCIATURA, self::MAESTRIA,
     ];
 
     /**

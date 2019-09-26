@@ -273,21 +273,27 @@ abstract class SysUserQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysUserTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(SysUserTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = SysUserTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -440,11 +446,10 @@ abstract class SysUserQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByEmail('fooValue');   // WHERE EMAIL = 'fooValue'
-     * $query->filterByEmail('%fooValue%'); // WHERE EMAIL LIKE '%fooValue%'
+     * $query->filterByEmail('%fooValue%', Criteria::LIKE); // WHERE EMAIL LIKE '%fooValue%'
      * </code>
      *
      * @param     string $email The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysUserQuery The current query, for fluid interface
@@ -454,9 +459,6 @@ abstract class SysUserQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($email)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $email)) {
-                $email = str_replace('*', '%', $email);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -469,11 +471,10 @@ abstract class SysUserQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByUsername('fooValue');   // WHERE USERNAME = 'fooValue'
-     * $query->filterByUsername('%fooValue%'); // WHERE USERNAME LIKE '%fooValue%'
+     * $query->filterByUsername('%fooValue%', Criteria::LIKE); // WHERE USERNAME LIKE '%fooValue%'
      * </code>
      *
      * @param     string $username The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysUserQuery The current query, for fluid interface
@@ -483,9 +484,6 @@ abstract class SysUserQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($username)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $username)) {
-                $username = str_replace('*', '%', $username);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -498,11 +496,10 @@ abstract class SysUserQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByPassword('fooValue');   // WHERE PASSWORD = 'fooValue'
-     * $query->filterByPassword('%fooValue%'); // WHERE PASSWORD LIKE '%fooValue%'
+     * $query->filterByPassword('%fooValue%', Criteria::LIKE); // WHERE PASSWORD LIKE '%fooValue%'
      * </code>
      *
      * @param     string $password The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysUserQuery The current query, for fluid interface
@@ -512,9 +509,6 @@ abstract class SysUserQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($password)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $password)) {
-                $password = str_replace('*', '%', $password);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -527,11 +521,10 @@ abstract class SysUserQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByStatus('fooValue');   // WHERE STATUS = 'fooValue'
-     * $query->filterByStatus('%fooValue%'); // WHERE STATUS LIKE '%fooValue%'
+     * $query->filterByStatus('%fooValue%', Criteria::LIKE); // WHERE STATUS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $status The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysUserQuery The current query, for fluid interface
@@ -541,9 +534,6 @@ abstract class SysUserQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($status)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $status)) {
-                $status = str_replace('*', '%', $status);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -556,11 +546,10 @@ abstract class SysUserQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByLocation('fooValue');   // WHERE LOCATION = 'fooValue'
-     * $query->filterByLocation('%fooValue%'); // WHERE LOCATION LIKE '%fooValue%'
+     * $query->filterByLocation('%fooValue%', Criteria::LIKE); // WHERE LOCATION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $location The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysUserQuery The current query, for fluid interface
@@ -570,9 +559,6 @@ abstract class SysUserQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($location)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $location)) {
-                $location = str_replace('*', '%', $location);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -585,11 +571,10 @@ abstract class SysUserQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByAddress('fooValue');   // WHERE ADDRESS = 'fooValue'
-     * $query->filterByAddress('%fooValue%'); // WHERE ADDRESS LIKE '%fooValue%'
+     * $query->filterByAddress('%fooValue%', Criteria::LIKE); // WHERE ADDRESS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $address The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysUserQuery The current query, for fluid interface
@@ -599,9 +584,6 @@ abstract class SysUserQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($address)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $address)) {
-                $address = str_replace('*', '%', $address);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -614,11 +596,10 @@ abstract class SysUserQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByImageMime('fooValue');   // WHERE IMAGE_MIME = 'fooValue'
-     * $query->filterByImageMime('%fooValue%'); // WHERE IMAGE_MIME LIKE '%fooValue%'
+     * $query->filterByImageMime('%fooValue%', Criteria::LIKE); // WHERE IMAGE_MIME LIKE '%fooValue%'
      * </code>
      *
      * @param     string $imageMime The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysUserQuery The current query, for fluid interface
@@ -628,9 +609,6 @@ abstract class SysUserQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($imageMime)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $imageMime)) {
-                $imageMime = str_replace('*', '%', $imageMime);
-                $comparison = Criteria::LIKE;
             }
         }
 

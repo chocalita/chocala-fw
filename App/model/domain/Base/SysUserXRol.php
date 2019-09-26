@@ -27,8 +27,8 @@ use Propel\Runtime\Parser\AbstractParser;
  *
  *
  *
-* @package    propel.generator..Base
-*/
+ * @package    propel.generator..Base
+ */
 abstract class SysUserXRol implements ActiveRecordInterface
 {
     /**
@@ -559,13 +559,17 @@ abstract class SysUserXRol implements ActiveRecordInterface
             throw new PropelException("You cannot save an object that has been deleted.");
         }
 
+        if ($this->alreadyInSave) {
+            return 0;
+        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysUserXRolTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
-            $isInsert = $this->isNew();
             $ret = $this->preSave($con);
+            $isInsert = $this->isNew();
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
             } else {
@@ -1103,7 +1107,7 @@ abstract class SysUserXRol implements ActiveRecordInterface
      */
     public function getSysUser(ConnectionInterface $con = null)
     {
-        if ($this->aSysUser === null && ($this->user_id !== null)) {
+        if ($this->aSysUser === null && ($this->user_id != 0)) {
             $this->aSysUser = ChildSysUserQuery::create()->findPk($this->user_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
@@ -1154,7 +1158,7 @@ abstract class SysUserXRol implements ActiveRecordInterface
      */
     public function getSysRol(ConnectionInterface $con = null)
     {
-        if ($this->aSysRol === null && ($this->rol_id !== null)) {
+        if ($this->aSysRol === null && ($this->rol_id != 0)) {
             $this->aSysRol = ChildSysRolQuery::create()->findPk($this->rol_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
@@ -1224,6 +1228,9 @@ abstract class SysUserXRol implements ActiveRecordInterface
      */
     public function preSave(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preSave')) {
+            return parent::preSave($con);
+        }
         return true;
     }
 
@@ -1233,7 +1240,9 @@ abstract class SysUserXRol implements ActiveRecordInterface
      */
     public function postSave(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postSave')) {
+            parent::postSave($con);
+        }
     }
 
     /**
@@ -1243,6 +1252,9 @@ abstract class SysUserXRol implements ActiveRecordInterface
      */
     public function preInsert(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preInsert')) {
+            return parent::preInsert($con);
+        }
         return true;
     }
 
@@ -1252,7 +1264,9 @@ abstract class SysUserXRol implements ActiveRecordInterface
      */
     public function postInsert(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postInsert')) {
+            parent::postInsert($con);
+        }
     }
 
     /**
@@ -1262,6 +1276,9 @@ abstract class SysUserXRol implements ActiveRecordInterface
      */
     public function preUpdate(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preUpdate')) {
+            return parent::preUpdate($con);
+        }
         return true;
     }
 
@@ -1271,7 +1288,9 @@ abstract class SysUserXRol implements ActiveRecordInterface
      */
     public function postUpdate(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postUpdate')) {
+            parent::postUpdate($con);
+        }
     }
 
     /**
@@ -1281,6 +1300,9 @@ abstract class SysUserXRol implements ActiveRecordInterface
      */
     public function preDelete(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preDelete')) {
+            return parent::preDelete($con);
+        }
         return true;
     }
 
@@ -1290,7 +1312,9 @@ abstract class SysUserXRol implements ActiveRecordInterface
      */
     public function postDelete(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postDelete')) {
+            parent::postDelete($con);
+        }
     }
 
 
