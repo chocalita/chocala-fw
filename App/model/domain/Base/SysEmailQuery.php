@@ -188,21 +188,27 @@ abstract class SysEmailQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysEmailTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(SysEmailTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = SysEmailTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -355,11 +361,10 @@ abstract class SysEmailQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByCode('fooValue');   // WHERE CODE = 'fooValue'
-     * $query->filterByCode('%fooValue%'); // WHERE CODE LIKE '%fooValue%'
+     * $query->filterByCode('%fooValue%', Criteria::LIKE); // WHERE CODE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $code The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEmailQuery The current query, for fluid interface
@@ -369,9 +374,6 @@ abstract class SysEmailQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($code)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $code)) {
-                $code = str_replace('*', '%', $code);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -384,11 +386,10 @@ abstract class SysEmailQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByName('fooValue');   // WHERE NAME = 'fooValue'
-     * $query->filterByName('%fooValue%'); // WHERE NAME LIKE '%fooValue%'
+     * $query->filterByName('%fooValue%', Criteria::LIKE); // WHERE NAME LIKE '%fooValue%'
      * </code>
      *
      * @param     string $name The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEmailQuery The current query, for fluid interface
@@ -398,9 +399,6 @@ abstract class SysEmailQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($name)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $name)) {
-                $name = str_replace('*', '%', $name);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -413,11 +411,10 @@ abstract class SysEmailQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByDescription('fooValue');   // WHERE DESCRIPTION = 'fooValue'
-     * $query->filterByDescription('%fooValue%'); // WHERE DESCRIPTION LIKE '%fooValue%'
+     * $query->filterByDescription('%fooValue%', Criteria::LIKE); // WHERE DESCRIPTION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $description The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEmailQuery The current query, for fluid interface
@@ -427,9 +424,6 @@ abstract class SysEmailQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($description)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $description)) {
-                $description = str_replace('*', '%', $description);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -442,11 +436,10 @@ abstract class SysEmailQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByFromEmail('fooValue');   // WHERE FROM_EMAIL = 'fooValue'
-     * $query->filterByFromEmail('%fooValue%'); // WHERE FROM_EMAIL LIKE '%fooValue%'
+     * $query->filterByFromEmail('%fooValue%', Criteria::LIKE); // WHERE FROM_EMAIL LIKE '%fooValue%'
      * </code>
      *
      * @param     string $fromEmail The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEmailQuery The current query, for fluid interface
@@ -456,9 +449,6 @@ abstract class SysEmailQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($fromEmail)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $fromEmail)) {
-                $fromEmail = str_replace('*', '%', $fromEmail);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -471,11 +461,10 @@ abstract class SysEmailQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByFromName('fooValue');   // WHERE FROM_NAME = 'fooValue'
-     * $query->filterByFromName('%fooValue%'); // WHERE FROM_NAME LIKE '%fooValue%'
+     * $query->filterByFromName('%fooValue%', Criteria::LIKE); // WHERE FROM_NAME LIKE '%fooValue%'
      * </code>
      *
      * @param     string $fromName The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEmailQuery The current query, for fluid interface
@@ -485,9 +474,6 @@ abstract class SysEmailQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($fromName)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $fromName)) {
-                $fromName = str_replace('*', '%', $fromName);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -500,11 +486,10 @@ abstract class SysEmailQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByCc('fooValue');   // WHERE CC = 'fooValue'
-     * $query->filterByCc('%fooValue%'); // WHERE CC LIKE '%fooValue%'
+     * $query->filterByCc('%fooValue%', Criteria::LIKE); // WHERE CC LIKE '%fooValue%'
      * </code>
      *
      * @param     string $cc The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEmailQuery The current query, for fluid interface
@@ -514,9 +499,6 @@ abstract class SysEmailQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($cc)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $cc)) {
-                $cc = str_replace('*', '%', $cc);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -529,11 +511,10 @@ abstract class SysEmailQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByBcc('fooValue');   // WHERE BCC = 'fooValue'
-     * $query->filterByBcc('%fooValue%'); // WHERE BCC LIKE '%fooValue%'
+     * $query->filterByBcc('%fooValue%', Criteria::LIKE); // WHERE BCC LIKE '%fooValue%'
      * </code>
      *
      * @param     string $bcc The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEmailQuery The current query, for fluid interface
@@ -543,9 +524,6 @@ abstract class SysEmailQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($bcc)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $bcc)) {
-                $bcc = str_replace('*', '%', $bcc);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -558,11 +536,10 @@ abstract class SysEmailQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterBySubject('fooValue');   // WHERE SUBJECT = 'fooValue'
-     * $query->filterBySubject('%fooValue%'); // WHERE SUBJECT LIKE '%fooValue%'
+     * $query->filterBySubject('%fooValue%', Criteria::LIKE); // WHERE SUBJECT LIKE '%fooValue%'
      * </code>
      *
      * @param     string $subject The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEmailQuery The current query, for fluid interface
@@ -572,9 +549,6 @@ abstract class SysEmailQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($subject)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $subject)) {
-                $subject = str_replace('*', '%', $subject);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -587,11 +561,10 @@ abstract class SysEmailQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByBody('fooValue');   // WHERE BODY = 'fooValue'
-     * $query->filterByBody('%fooValue%'); // WHERE BODY LIKE '%fooValue%'
+     * $query->filterByBody('%fooValue%', Criteria::LIKE); // WHERE BODY LIKE '%fooValue%'
      * </code>
      *
      * @param     string $body The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEmailQuery The current query, for fluid interface
@@ -601,9 +574,6 @@ abstract class SysEmailQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($body)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $body)) {
-                $body = str_replace('*', '%', $body);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -616,11 +586,10 @@ abstract class SysEmailQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByAttachments('fooValue');   // WHERE ATTACHMENTS = 'fooValue'
-     * $query->filterByAttachments('%fooValue%'); // WHERE ATTACHMENTS LIKE '%fooValue%'
+     * $query->filterByAttachments('%fooValue%', Criteria::LIKE); // WHERE ATTACHMENTS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $attachments The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEmailQuery The current query, for fluid interface
@@ -630,9 +599,6 @@ abstract class SysEmailQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($attachments)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $attachments)) {
-                $attachments = str_replace('*', '%', $attachments);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -645,11 +611,10 @@ abstract class SysEmailQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByTemplate('fooValue');   // WHERE TEMPLATE = 'fooValue'
-     * $query->filterByTemplate('%fooValue%'); // WHERE TEMPLATE LIKE '%fooValue%'
+     * $query->filterByTemplate('%fooValue%', Criteria::LIKE); // WHERE TEMPLATE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $template The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysEmailQuery The current query, for fluid interface
@@ -659,9 +624,6 @@ abstract class SysEmailQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($template)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $template)) {
-                $template = str_replace('*', '%', $template);
-                $comparison = Criteria::LIKE;
             }
         }
 

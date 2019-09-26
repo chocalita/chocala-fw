@@ -133,21 +133,27 @@ abstract class ScrapPaginaQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = ScrapPaginaTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(ScrapPaginaTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = ScrapPaginaTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -300,11 +306,10 @@ abstract class ScrapPaginaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByDepartamento('fooValue');   // WHERE DEPARTAMENTO = 'fooValue'
-     * $query->filterByDepartamento('%fooValue%'); // WHERE DEPARTAMENTO LIKE '%fooValue%'
+     * $query->filterByDepartamento('%fooValue%', Criteria::LIKE); // WHERE DEPARTAMENTO LIKE '%fooValue%'
      * </code>
      *
      * @param     string $departamento The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildScrapPaginaQuery The current query, for fluid interface
@@ -314,9 +319,6 @@ abstract class ScrapPaginaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($departamento)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $departamento)) {
-                $departamento = str_replace('*', '%', $departamento);
-                $comparison = Criteria::LIKE;
             }
         }
 

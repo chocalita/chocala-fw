@@ -10,7 +10,8 @@ CREATE DATABASE jobs CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- mysqldump -p -u root jobs job_empresa_directorio > D:/host/empleos.click/App/job_empresa_directorio.sql
 
-
+-- mysqldump -h mysql.empleos.click -p -u jobsterin jobsterin > D:/host/empleos.click/App/jobs_prod.sql
+-- mysqldump -h 127.0.0.1 --port=3307 -p -u root jobs > D:/host/empleos.click/App/jobs_local.sql
 
 SELECT count(*) FROM jobs.job_empresa_directorio WHERE TPS='SOCIEDAD DE RESPONSABILIDAD LIMITADA' AND (MUNICIPIO='LA PAZ' OR MUNICIPIO='EL ALTO') AND ULT_RENOV > 2014;
 

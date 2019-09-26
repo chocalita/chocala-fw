@@ -238,21 +238,27 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = JobEmpresaSuscritaTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(JobEmpresaSuscritaTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = JobEmpresaSuscritaTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -532,11 +538,10 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByHashCode('fooValue');   // WHERE HASH_CODE = 'fooValue'
-     * $query->filterByHashCode('%fooValue%'); // WHERE HASH_CODE LIKE '%fooValue%'
+     * $query->filterByHashCode('%fooValue%', Criteria::LIKE); // WHERE HASH_CODE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $hashCode The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobEmpresaSuscritaQuery The current query, for fluid interface
@@ -546,9 +551,6 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($hashCode)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $hashCode)) {
-                $hashCode = str_replace('*', '%', $hashCode);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -561,11 +563,10 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByNombre('fooValue');   // WHERE NOMBRE = 'fooValue'
-     * $query->filterByNombre('%fooValue%'); // WHERE NOMBRE LIKE '%fooValue%'
+     * $query->filterByNombre('%fooValue%', Criteria::LIKE); // WHERE NOMBRE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $nombre The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobEmpresaSuscritaQuery The current query, for fluid interface
@@ -575,9 +576,6 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($nombre)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nombre)) {
-                $nombre = str_replace('*', '%', $nombre);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -590,11 +588,10 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByNit('fooValue');   // WHERE NIT = 'fooValue'
-     * $query->filterByNit('%fooValue%'); // WHERE NIT LIKE '%fooValue%'
+     * $query->filterByNit('%fooValue%', Criteria::LIKE); // WHERE NIT LIKE '%fooValue%'
      * </code>
      *
      * @param     string $nit The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobEmpresaSuscritaQuery The current query, for fluid interface
@@ -604,9 +601,6 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($nit)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nit)) {
-                $nit = str_replace('*', '%', $nit);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -619,11 +613,10 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByEmail('fooValue');   // WHERE EMAIL = 'fooValue'
-     * $query->filterByEmail('%fooValue%'); // WHERE EMAIL LIKE '%fooValue%'
+     * $query->filterByEmail('%fooValue%', Criteria::LIKE); // WHERE EMAIL LIKE '%fooValue%'
      * </code>
      *
      * @param     string $email The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobEmpresaSuscritaQuery The current query, for fluid interface
@@ -633,9 +626,6 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($email)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $email)) {
-                $email = str_replace('*', '%', $email);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -648,11 +638,10 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByDireccion('fooValue');   // WHERE DIRECCION = 'fooValue'
-     * $query->filterByDireccion('%fooValue%'); // WHERE DIRECCION LIKE '%fooValue%'
+     * $query->filterByDireccion('%fooValue%', Criteria::LIKE); // WHERE DIRECCION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $direccion The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobEmpresaSuscritaQuery The current query, for fluid interface
@@ -662,9 +651,6 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($direccion)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $direccion)) {
-                $direccion = str_replace('*', '%', $direccion);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -677,11 +663,10 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByRepresentante('fooValue');   // WHERE REPRESENTANTE = 'fooValue'
-     * $query->filterByRepresentante('%fooValue%'); // WHERE REPRESENTANTE LIKE '%fooValue%'
+     * $query->filterByRepresentante('%fooValue%', Criteria::LIKE); // WHERE REPRESENTANTE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $representante The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobEmpresaSuscritaQuery The current query, for fluid interface
@@ -691,9 +676,6 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($representante)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $representante)) {
-                $representante = str_replace('*', '%', $representante);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -706,11 +688,10 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByTelefono('fooValue');   // WHERE TELEFONO = 'fooValue'
-     * $query->filterByTelefono('%fooValue%'); // WHERE TELEFONO LIKE '%fooValue%'
+     * $query->filterByTelefono('%fooValue%', Criteria::LIKE); // WHERE TELEFONO LIKE '%fooValue%'
      * </code>
      *
      * @param     string $telefono The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobEmpresaSuscritaQuery The current query, for fluid interface
@@ -720,9 +701,6 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($telefono)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $telefono)) {
-                $telefono = str_replace('*', '%', $telefono);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -735,11 +713,10 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByCelular('fooValue');   // WHERE CELULAR = 'fooValue'
-     * $query->filterByCelular('%fooValue%'); // WHERE CELULAR LIKE '%fooValue%'
+     * $query->filterByCelular('%fooValue%', Criteria::LIKE); // WHERE CELULAR LIKE '%fooValue%'
      * </code>
      *
      * @param     string $celular The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobEmpresaSuscritaQuery The current query, for fluid interface
@@ -749,9 +726,6 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($celular)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $celular)) {
-                $celular = str_replace('*', '%', $celular);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -764,11 +738,10 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByStatus('fooValue');   // WHERE STATUS = 'fooValue'
-     * $query->filterByStatus('%fooValue%'); // WHERE STATUS LIKE '%fooValue%'
+     * $query->filterByStatus('%fooValue%', Criteria::LIKE); // WHERE STATUS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $status The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobEmpresaSuscritaQuery The current query, for fluid interface
@@ -778,9 +751,6 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($status)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $status)) {
-                $status = str_replace('*', '%', $status);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -793,11 +763,10 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByMimetype('fooValue');   // WHERE MIMETYPE = 'fooValue'
-     * $query->filterByMimetype('%fooValue%'); // WHERE MIMETYPE LIKE '%fooValue%'
+     * $query->filterByMimetype('%fooValue%', Criteria::LIKE); // WHERE MIMETYPE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $mimetype The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobEmpresaSuscritaQuery The current query, for fluid interface
@@ -807,9 +776,6 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($mimetype)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $mimetype)) {
-                $mimetype = str_replace('*', '%', $mimetype);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -849,11 +815,10 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByIpCreacion('fooValue');   // WHERE IP_CREACION = 'fooValue'
-     * $query->filterByIpCreacion('%fooValue%'); // WHERE IP_CREACION LIKE '%fooValue%'
+     * $query->filterByIpCreacion('%fooValue%', Criteria::LIKE); // WHERE IP_CREACION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $ipCreacion The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobEmpresaSuscritaQuery The current query, for fluid interface
@@ -863,9 +828,6 @@ abstract class JobEmpresaSuscritaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($ipCreacion)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $ipCreacion)) {
-                $ipCreacion = str_replace('*', '%', $ipCreacion);
-                $comparison = Criteria::LIKE;
             }
         }
 

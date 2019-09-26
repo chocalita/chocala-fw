@@ -153,21 +153,27 @@ abstract class SysAuthQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = SysAuthTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(SysAuthTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = SysAuthTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -363,11 +369,10 @@ abstract class SysAuthQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByType('fooValue');   // WHERE TYPE = 'fooValue'
-     * $query->filterByType('%fooValue%'); // WHERE TYPE LIKE '%fooValue%'
+     * $query->filterByType('%fooValue%', Criteria::LIKE); // WHERE TYPE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $type The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysAuthQuery The current query, for fluid interface
@@ -377,9 +382,6 @@ abstract class SysAuthQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($type)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $type)) {
-                $type = str_replace('*', '%', $type);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -392,11 +394,10 @@ abstract class SysAuthQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByAccessToken('fooValue');   // WHERE ACCESS_TOKEN = 'fooValue'
-     * $query->filterByAccessToken('%fooValue%'); // WHERE ACCESS_TOKEN LIKE '%fooValue%'
+     * $query->filterByAccessToken('%fooValue%', Criteria::LIKE); // WHERE ACCESS_TOKEN LIKE '%fooValue%'
      * </code>
      *
      * @param     string $accessToken The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysAuthQuery The current query, for fluid interface
@@ -406,9 +407,6 @@ abstract class SysAuthQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($accessToken)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $accessToken)) {
-                $accessToken = str_replace('*', '%', $accessToken);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -421,11 +419,10 @@ abstract class SysAuthQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByJson('fooValue');   // WHERE JSON = 'fooValue'
-     * $query->filterByJson('%fooValue%'); // WHERE JSON LIKE '%fooValue%'
+     * $query->filterByJson('%fooValue%', Criteria::LIKE); // WHERE JSON LIKE '%fooValue%'
      * </code>
      *
      * @param     string $json The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysAuthQuery The current query, for fluid interface
@@ -435,9 +432,6 @@ abstract class SysAuthQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($json)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $json)) {
-                $json = str_replace('*', '%', $json);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -450,11 +444,10 @@ abstract class SysAuthQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByStatus('fooValue');   // WHERE STATUS = 'fooValue'
-     * $query->filterByStatus('%fooValue%'); // WHERE STATUS LIKE '%fooValue%'
+     * $query->filterByStatus('%fooValue%', Criteria::LIKE); // WHERE STATUS LIKE '%fooValue%'
      * </code>
      *
      * @param     string $status The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildSysAuthQuery The current query, for fluid interface
@@ -464,9 +457,6 @@ abstract class SysAuthQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($status)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $status)) {
-                $status = str_replace('*', '%', $status);
-                $comparison = Criteria::LIKE;
             }
         }
 

@@ -213,21 +213,27 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = ScrapEmpresaTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key))) && !$this->formatter) {
-            // the object is already in the instance pool
-            return $obj;
-        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getReadConnection(ScrapEmpresaTableMap::DATABASE_NAME);
         }
+
         $this->basePreSelect($con);
-        if ($this->formatter || $this->modelAlias || $this->with || $this->select
-         || $this->selectColumns || $this->asColumns || $this->selectModifiers
-         || $this->map || $this->having || $this->joins) {
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
             return $this->findPkComplex($key, $con);
-        } else {
-            return $this->findPkSimple($key, $con);
         }
+
+        if ((null !== ($obj = ScrapEmpresaTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
     }
 
     /**
@@ -509,11 +515,10 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByIdEmpresa('fooValue');   // WHERE ID_EMPRESA = 'fooValue'
-     * $query->filterByIdEmpresa('%fooValue%'); // WHERE ID_EMPRESA LIKE '%fooValue%'
+     * $query->filterByIdEmpresa('%fooValue%', Criteria::LIKE); // WHERE ID_EMPRESA LIKE '%fooValue%'
      * </code>
      *
      * @param     string $idEmpresa The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildScrapEmpresaQuery The current query, for fluid interface
@@ -523,9 +528,6 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($idEmpresa)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $idEmpresa)) {
-                $idEmpresa = str_replace('*', '%', $idEmpresa);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -538,11 +540,10 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByNit('fooValue');   // WHERE NIT = 'fooValue'
-     * $query->filterByNit('%fooValue%'); // WHERE NIT LIKE '%fooValue%'
+     * $query->filterByNit('%fooValue%', Criteria::LIKE); // WHERE NIT LIKE '%fooValue%'
      * </code>
      *
      * @param     string $nit The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildScrapEmpresaQuery The current query, for fluid interface
@@ -552,9 +553,6 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($nit)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nit)) {
-                $nit = str_replace('*', '%', $nit);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -567,11 +565,10 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByNombre('fooValue');   // WHERE NOMBRE = 'fooValue'
-     * $query->filterByNombre('%fooValue%'); // WHERE NOMBRE LIKE '%fooValue%'
+     * $query->filterByNombre('%fooValue%', Criteria::LIKE); // WHERE NOMBRE LIKE '%fooValue%'
      * </code>
      *
      * @param     string $nombre The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildScrapEmpresaQuery The current query, for fluid interface
@@ -581,9 +578,6 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($nombre)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nombre)) {
-                $nombre = str_replace('*', '%', $nombre);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -596,11 +590,10 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByEmail('fooValue');   // WHERE EMAIL = 'fooValue'
-     * $query->filterByEmail('%fooValue%'); // WHERE EMAIL LIKE '%fooValue%'
+     * $query->filterByEmail('%fooValue%', Criteria::LIKE); // WHERE EMAIL LIKE '%fooValue%'
      * </code>
      *
      * @param     string $email The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildScrapEmpresaQuery The current query, for fluid interface
@@ -610,9 +603,6 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($email)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $email)) {
-                $email = str_replace('*', '%', $email);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -625,11 +615,10 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByActividad('fooValue');   // WHERE ACTIVIDAD = 'fooValue'
-     * $query->filterByActividad('%fooValue%'); // WHERE ACTIVIDAD LIKE '%fooValue%'
+     * $query->filterByActividad('%fooValue%', Criteria::LIKE); // WHERE ACTIVIDAD LIKE '%fooValue%'
      * </code>
      *
      * @param     string $actividad The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildScrapEmpresaQuery The current query, for fluid interface
@@ -639,9 +628,6 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($actividad)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $actividad)) {
-                $actividad = str_replace('*', '%', $actividad);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -681,11 +667,10 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByMatricula('fooValue');   // WHERE MATRICULA = 'fooValue'
-     * $query->filterByMatricula('%fooValue%'); // WHERE MATRICULA LIKE '%fooValue%'
+     * $query->filterByMatricula('%fooValue%', Criteria::LIKE); // WHERE MATRICULA LIKE '%fooValue%'
      * </code>
      *
      * @param     string $matricula The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildScrapEmpresaQuery The current query, for fluid interface
@@ -695,9 +680,6 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($matricula)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $matricula)) {
-                $matricula = str_replace('*', '%', $matricula);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -710,11 +692,10 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByLicencia('fooValue');   // WHERE LICENCIA = 'fooValue'
-     * $query->filterByLicencia('%fooValue%'); // WHERE LICENCIA LIKE '%fooValue%'
+     * $query->filterByLicencia('%fooValue%', Criteria::LIKE); // WHERE LICENCIA LIKE '%fooValue%'
      * </code>
      *
      * @param     string $licencia The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildScrapEmpresaQuery The current query, for fluid interface
@@ -724,9 +705,6 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($licencia)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $licencia)) {
-                $licencia = str_replace('*', '%', $licencia);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -739,11 +717,10 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByMunicipio('fooValue');   // WHERE MUNICIPIO = 'fooValue'
-     * $query->filterByMunicipio('%fooValue%'); // WHERE MUNICIPIO LIKE '%fooValue%'
+     * $query->filterByMunicipio('%fooValue%', Criteria::LIKE); // WHERE MUNICIPIO LIKE '%fooValue%'
      * </code>
      *
      * @param     string $municipio The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildScrapEmpresaQuery The current query, for fluid interface
@@ -753,9 +730,6 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($municipio)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $municipio)) {
-                $municipio = str_replace('*', '%', $municipio);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -768,11 +742,10 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByDireccion('fooValue');   // WHERE DIRECCION = 'fooValue'
-     * $query->filterByDireccion('%fooValue%'); // WHERE DIRECCION LIKE '%fooValue%'
+     * $query->filterByDireccion('%fooValue%', Criteria::LIKE); // WHERE DIRECCION LIKE '%fooValue%'
      * </code>
      *
      * @param     string $direccion The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildScrapEmpresaQuery The current query, for fluid interface
@@ -782,9 +755,6 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($direccion)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $direccion)) {
-                $direccion = str_replace('*', '%', $direccion);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -797,11 +767,10 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByTelefono('fooValue');   // WHERE TELEFONO = 'fooValue'
-     * $query->filterByTelefono('%fooValue%'); // WHERE TELEFONO LIKE '%fooValue%'
+     * $query->filterByTelefono('%fooValue%', Criteria::LIKE); // WHERE TELEFONO LIKE '%fooValue%'
      * </code>
      *
      * @param     string $telefono The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildScrapEmpresaQuery The current query, for fluid interface
@@ -811,9 +780,6 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($telefono)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $telefono)) {
-                $telefono = str_replace('*', '%', $telefono);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -826,11 +792,10 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
      * Example usage:
      * <code>
      * $query->filterByFax('fooValue');   // WHERE FAX = 'fooValue'
-     * $query->filterByFax('%fooValue%'); // WHERE FAX LIKE '%fooValue%'
+     * $query->filterByFax('%fooValue%', Criteria::LIKE); // WHERE FAX LIKE '%fooValue%'
      * </code>
      *
      * @param     string $fax The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildScrapEmpresaQuery The current query, for fluid interface
@@ -840,9 +805,6 @@ abstract class ScrapEmpresaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($fax)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $fax)) {
-                $fax = str_replace('*', '%', $fax);
-                $comparison = Criteria::LIKE;
             }
         }
 

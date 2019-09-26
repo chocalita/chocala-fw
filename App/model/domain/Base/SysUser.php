@@ -57,8 +57,8 @@ use Propel\Runtime\Util\PropelDateTime;
  *
  *
  *
-* @package    propel.generator..Base
-*/
+ * @package    propel.generator..Base
+ */
 abstract class SysUser implements ActiveRecordInterface
 {
     /**
@@ -153,14 +153,14 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * The value for the actual_access field.
      *
-     * @var        \DateTime
+     * @var        DateTime
      */
     protected $actual_access;
 
     /**
      * The value for the last_access field.
      *
-     * @var        \DateTime
+     * @var        DateTime
      */
     protected $last_access;
 
@@ -184,7 +184,7 @@ abstract class SysUser implements ActiveRecordInterface
      * The value for the creation_date field.
      *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
-     * @var        \DateTime
+     * @var        DateTime
      */
     protected $creation_date;
 
@@ -192,7 +192,7 @@ abstract class SysUser implements ActiveRecordInterface
      * The value for the modification_date field.
      *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
-     * @var        \DateTime
+     * @var        DateTime
      */
     protected $modification_date;
 
@@ -648,7 +648,7 @@ abstract class SysUser implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [actual_access] column value.
      *
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -660,7 +660,7 @@ abstract class SysUser implements ActiveRecordInterface
         if ($format === null) {
             return $this->actual_access;
         } else {
-            return $this->actual_access instanceof \DateTime ? $this->actual_access->format($format) : null;
+            return $this->actual_access instanceof \DateTimeInterface ? $this->actual_access->format($format) : null;
         }
     }
 
@@ -668,7 +668,7 @@ abstract class SysUser implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [last_access] column value.
      *
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -680,7 +680,7 @@ abstract class SysUser implements ActiveRecordInterface
         if ($format === null) {
             return $this->last_access;
         } else {
-            return $this->last_access instanceof \DateTime ? $this->last_access->format($format) : null;
+            return $this->last_access instanceof \DateTimeInterface ? $this->last_access->format($format) : null;
         }
     }
 
@@ -708,7 +708,7 @@ abstract class SysUser implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [creation_date] column value.
      *
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -720,7 +720,7 @@ abstract class SysUser implements ActiveRecordInterface
         if ($format === null) {
             return $this->creation_date;
         } else {
-            return $this->creation_date instanceof \DateTime ? $this->creation_date->format($format) : null;
+            return $this->creation_date instanceof \DateTimeInterface ? $this->creation_date->format($format) : null;
         }
     }
 
@@ -728,7 +728,7 @@ abstract class SysUser implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [modification_date] column value.
      *
      *
-     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
@@ -740,7 +740,7 @@ abstract class SysUser implements ActiveRecordInterface
         if ($format === null) {
             return $this->modification_date;
         } else {
-            return $this->modification_date instanceof \DateTime ? $this->modification_date->format($format) : null;
+            return $this->modification_date instanceof \DateTimeInterface ? $this->modification_date->format($format) : null;
         }
     }
 
@@ -907,7 +907,7 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Sets the value of [actual_access] column to a normalized version of the date/time value specified.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysUser The current object (for fluent API support)
      */
@@ -915,7 +915,7 @@ abstract class SysUser implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->actual_access !== null || $dt !== null) {
-            if ($this->actual_access === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->actual_access->format("Y-m-d H:i:s")) {
+            if ($this->actual_access === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->actual_access->format("Y-m-d H:i:s.u")) {
                 $this->actual_access = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[SysUserTableMap::COL_ACTUAL_ACCESS] = true;
             }
@@ -927,7 +927,7 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Sets the value of [last_access] column to a normalized version of the date/time value specified.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysUser The current object (for fluent API support)
      */
@@ -935,7 +935,7 @@ abstract class SysUser implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->last_access !== null || $dt !== null) {
-            if ($this->last_access === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->last_access->format("Y-m-d H:i:s")) {
+            if ($this->last_access === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->last_access->format("Y-m-d H:i:s.u")) {
                 $this->last_access = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[SysUserTableMap::COL_LAST_ACCESS] = true;
             }
@@ -987,7 +987,7 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysUser The current object (for fluent API support)
      */
@@ -995,7 +995,7 @@ abstract class SysUser implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->creation_date !== null || $dt !== null) {
-            if ($this->creation_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->creation_date->format("Y-m-d H:i:s")) {
+            if ($this->creation_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->creation_date->format("Y-m-d H:i:s.u")) {
                 $this->creation_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[SysUserTableMap::COL_CREATION_DATE] = true;
             }
@@ -1007,7 +1007,7 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Sets the value of [modification_date] column to a normalized version of the date/time value specified.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTime value.
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
      * @return $this|\SysUser The current object (for fluent API support)
      */
@@ -1015,7 +1015,7 @@ abstract class SysUser implements ActiveRecordInterface
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->modification_date !== null || $dt !== null) {
-            if ($this->modification_date === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->modification_date->format("Y-m-d H:i:s")) {
+            if ($this->modification_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->modification_date->format("Y-m-d H:i:s.u")) {
                 $this->modification_date = $dt === null ? null : clone $dt;
                 $this->modifiedColumns[SysUserTableMap::COL_MODIFICATION_DATE] = true;
             }
@@ -1267,13 +1267,17 @@ abstract class SysUser implements ActiveRecordInterface
             throw new PropelException("You cannot save an object that has been deleted.");
         }
 
+        if ($this->alreadyInSave) {
+            return 0;
+        }
+
         if ($con === null) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysUserTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
-            $isInsert = $this->isNew();
             $ret = $this->preSave($con);
+            $isInsert = $this->isNew();
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
             } else {
@@ -1599,10 +1603,10 @@ abstract class SysUser implements ActiveRecordInterface
                         $stmt->bindValue($identifier, $this->image_mime, PDO::PARAM_STR);
                         break;
                     case 'ACTUAL_ACCESS':
-                        $stmt->bindValue($identifier, $this->actual_access ? $this->actual_access->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->actual_access ? $this->actual_access->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
                     case 'LAST_ACCESS':
-                        $stmt->bindValue($identifier, $this->last_access ? $this->last_access->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->last_access ? $this->last_access->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
                     case 'ACCESS_FAILURES':
                         $stmt->bindValue($identifier, $this->access_failures, PDO::PARAM_INT);
@@ -1611,10 +1615,10 @@ abstract class SysUser implements ActiveRecordInterface
                         $stmt->bindValue($identifier, $this->last_user_id, PDO::PARAM_INT);
                         break;
                     case 'CREATION_DATE':
-                        $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
                     case 'MODIFICATION_DATE':
-                        $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1765,19 +1769,19 @@ abstract class SysUser implements ActiveRecordInterface
             $keys[12] => $this->getCreationDate(),
             $keys[13] => $this->getModificationDate(),
         );
-        if ($result[$keys[8]] instanceof \DateTime) {
+        if ($result[$keys[8]] instanceof \DateTimeInterface) {
             $result[$keys[8]] = $result[$keys[8]]->format('c');
         }
 
-        if ($result[$keys[9]] instanceof \DateTime) {
+        if ($result[$keys[9]] instanceof \DateTimeInterface) {
             $result[$keys[9]] = $result[$keys[9]]->format('c');
         }
 
-        if ($result[$keys[12]] instanceof \DateTime) {
+        if ($result[$keys[12]] instanceof \DateTimeInterface) {
             $result[$keys[12]] = $result[$keys[12]]->format('c');
         }
 
-        if ($result[$keys[13]] instanceof \DateTime) {
+        if ($result[$keys[13]] instanceof \DateTimeInterface) {
             $result[$keys[13]] = $result[$keys[13]]->format('c');
         }
 
@@ -2371,34 +2375,44 @@ abstract class SysUser implements ActiveRecordInterface
     public function initRelation($relationName)
     {
         if ('JobUserEmpresaSuscrita' == $relationName) {
-            return $this->initJobUserEmpresaSuscritas();
+            $this->initJobUserEmpresaSuscritas();
+            return;
         }
         if ('SysAuth' == $relationName) {
-            return $this->initSysAuths();
+            $this->initSysAuths();
+            return;
         }
         if ('SysEmailSent' == $relationName) {
-            return $this->initSysEmailSents();
+            $this->initSysEmailSents();
+            return;
         }
         if ('SysEntityUser' == $relationName) {
-            return $this->initSysEntityUsers();
+            $this->initSysEntityUsers();
+            return;
         }
         if ('SysImage' == $relationName) {
-            return $this->initSysImages();
+            $this->initSysImages();
+            return;
         }
         if ('SysPassword' == $relationName) {
-            return $this->initSysPasswords();
+            $this->initSysPasswords();
+            return;
         }
         if ('SysPasswordRequest' == $relationName) {
-            return $this->initSysPasswordRequests();
+            $this->initSysPasswordRequests();
+            return;
         }
         if ('SysPerson' == $relationName) {
-            return $this->initSyspeople();
+            $this->initSyspeople();
+            return;
         }
         if ('SysUserParam' == $relationName) {
-            return $this->initSysUserParams();
+            $this->initSysUserParams();
+            return;
         }
         if ('SysUserXRol' == $relationName) {
-            return $this->initSysUserXRols();
+            $this->initSysUserXRols();
+            return;
         }
     }
 
@@ -4976,6 +4990,9 @@ abstract class SysUser implements ActiveRecordInterface
      */
     public function preSave(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preSave')) {
+            return parent::preSave($con);
+        }
         return true;
     }
 
@@ -4985,7 +5002,9 @@ abstract class SysUser implements ActiveRecordInterface
      */
     public function postSave(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postSave')) {
+            parent::postSave($con);
+        }
     }
 
     /**
@@ -4995,6 +5014,9 @@ abstract class SysUser implements ActiveRecordInterface
      */
     public function preInsert(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preInsert')) {
+            return parent::preInsert($con);
+        }
         return true;
     }
 
@@ -5004,7 +5026,9 @@ abstract class SysUser implements ActiveRecordInterface
      */
     public function postInsert(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postInsert')) {
+            parent::postInsert($con);
+        }
     }
 
     /**
@@ -5014,6 +5038,9 @@ abstract class SysUser implements ActiveRecordInterface
      */
     public function preUpdate(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preUpdate')) {
+            return parent::preUpdate($con);
+        }
         return true;
     }
 
@@ -5023,7 +5050,9 @@ abstract class SysUser implements ActiveRecordInterface
      */
     public function postUpdate(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postUpdate')) {
+            parent::postUpdate($con);
+        }
     }
 
     /**
@@ -5033,6 +5062,9 @@ abstract class SysUser implements ActiveRecordInterface
      */
     public function preDelete(ConnectionInterface $con = null)
     {
+        if (is_callable('parent::preDelete')) {
+            return parent::preDelete($con);
+        }
         return true;
     }
 
@@ -5042,7 +5074,9 @@ abstract class SysUser implements ActiveRecordInterface
      */
     public function postDelete(ConnectionInterface $con = null)
     {
-
+        if (is_callable('parent::postDelete')) {
+            parent::postDelete($con);
+        }
     }
 
 

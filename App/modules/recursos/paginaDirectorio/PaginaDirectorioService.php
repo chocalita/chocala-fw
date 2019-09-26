@@ -347,6 +347,7 @@ class PaginaDirectorioService extends GenericService
     /**
      * @param ScrapEmpresa $empresa
      * @return ScrapEmpresa
+     * @throws \Propel\Runtime\Exception\PropelException
      */
     public function scrapEmpresa(ScrapEmpresa $empresa)
     {

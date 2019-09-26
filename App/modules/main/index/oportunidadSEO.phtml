@@ -34,6 +34,19 @@
                 </div>
 
                 <?php
+                if($aviso->getCompetencias() != '') {
+                    ?>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="control-label">Competencias</label>
+                            <div class=""><?=$aviso->getCompetencias();?></div>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
+
+                <?php
                 if($aviso->getDireccion() != '') {
                     ?>
                     <div class="form-group" itemprop="jobLocation" itemscope itemtype="http://schema.org/Place">

@@ -63,8 +63,7 @@
                                    class="pull-right btn btn-xs btn-primary" data-toggle="modal" data-target="#modalDetalle<?=$aviso->getTieneImagen()? 'Big': '';?>">Ver Detalles</a>
 
                                 <i class="fa fa-clock-o"></i> Vence el <?=$aviso->getFechaVencimiento('d/m/Y');?> <?= $aviso->getLocalizacion() != '' ? '<br /><i class="fa fa-map-marker"></i> <small> ' . $aviso->getLocalizacion() . '</small>' : '';?>
-                            </div>
-                        </div>
+                            </div></div>
                     </div>
                     <?php
                     if($i%3 == 0){
