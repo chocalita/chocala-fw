@@ -59,7 +59,7 @@ class JobSicoesDetalleTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 9;
+    const NUM_COLUMNS = 12;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,7 @@ class JobSicoesDetalleTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 9;
+    const NUM_HYDRATE_COLUMNS = 12;
 
     /**
      * the column name for the ID field
@@ -102,9 +102,9 @@ class JobSicoesDetalleTableMap extends TableMap
     const COL_CANTIDAD = 'job_sicoes_detalle.CANTIDAD';
 
     /**
-     * the column name for the PRECIO_REFERENCIAL field
+     * the column name for the PRECIO_UNIDAD field
      */
-    const COL_PRECIO_REFERENCIAL = 'job_sicoes_detalle.PRECIO_REFERENCIAL';
+    const COL_PRECIO_UNIDAD = 'job_sicoes_detalle.PRECIO_UNIDAD';
 
     /**
      * the column name for the CODIGO_CATALOGO field
@@ -115,6 +115,21 @@ class JobSicoesDetalleTableMap extends TableMap
      * the column name for the OBJETO_GASTO field
      */
     const COL_OBJETO_GASTO = 'job_sicoes_detalle.OBJETO_GASTO';
+
+    /**
+     * the column name for the STATUS field
+     */
+    const COL_STATUS = 'job_sicoes_detalle.STATUS';
+
+    /**
+     * the column name for the CREATION_DATE field
+     */
+    const COL_CREATION_DATE = 'job_sicoes_detalle.CREATION_DATE';
+
+    /**
+     * the column name for the MODIFICATION_DATE field
+     */
+    const COL_MODIFICATION_DATE = 'job_sicoes_detalle.MODIFICATION_DATE';
 
     /**
      * The default string format for model objects of the related table
@@ -128,11 +143,11 @@ class JobSicoesDetalleTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'IdSicoesConvocatoria', 'Numero', 'Descripcion', 'UnidadMedida', 'Cantidad', 'PrecioReferencial', 'CodigoCatalogo', 'ObjetoGasto', ),
-        self::TYPE_CAMELNAME     => array('id', 'idSicoesConvocatoria', 'numero', 'descripcion', 'unidadMedida', 'cantidad', 'precioReferencial', 'codigoCatalogo', 'objetoGasto', ),
-        self::TYPE_COLNAME       => array(JobSicoesDetalleTableMap::COL_ID, JobSicoesDetalleTableMap::COL_ID_SICOES_CONVOCATORIA, JobSicoesDetalleTableMap::COL_NUMERO, JobSicoesDetalleTableMap::COL_DESCRIPCION, JobSicoesDetalleTableMap::COL_UNIDAD_MEDIDA, JobSicoesDetalleTableMap::COL_CANTIDAD, JobSicoesDetalleTableMap::COL_PRECIO_REFERENCIAL, JobSicoesDetalleTableMap::COL_CODIGO_CATALOGO, JobSicoesDetalleTableMap::COL_OBJETO_GASTO, ),
-        self::TYPE_FIELDNAME     => array('ID', 'ID_SICOES_CONVOCATORIA', 'NUMERO', 'DESCRIPCION', 'UNIDAD_MEDIDA', 'CANTIDAD', 'PRECIO_REFERENCIAL', 'CODIGO_CATALOGO', 'OBJETO_GASTO', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
+        self::TYPE_PHPNAME       => array('Id', 'IdSicoesConvocatoria', 'Numero', 'Descripcion', 'UnidadMedida', 'Cantidad', 'PrecioUnidad', 'CodigoCatalogo', 'ObjetoGasto', 'Status', 'CreationDate', 'ModificationDate', ),
+        self::TYPE_CAMELNAME     => array('id', 'idSicoesConvocatoria', 'numero', 'descripcion', 'unidadMedida', 'cantidad', 'precioUnidad', 'codigoCatalogo', 'objetoGasto', 'status', 'creationDate', 'modificationDate', ),
+        self::TYPE_COLNAME       => array(JobSicoesDetalleTableMap::COL_ID, JobSicoesDetalleTableMap::COL_ID_SICOES_CONVOCATORIA, JobSicoesDetalleTableMap::COL_NUMERO, JobSicoesDetalleTableMap::COL_DESCRIPCION, JobSicoesDetalleTableMap::COL_UNIDAD_MEDIDA, JobSicoesDetalleTableMap::COL_CANTIDAD, JobSicoesDetalleTableMap::COL_PRECIO_UNIDAD, JobSicoesDetalleTableMap::COL_CODIGO_CATALOGO, JobSicoesDetalleTableMap::COL_OBJETO_GASTO, JobSicoesDetalleTableMap::COL_STATUS, JobSicoesDetalleTableMap::COL_CREATION_DATE, JobSicoesDetalleTableMap::COL_MODIFICATION_DATE, ),
+        self::TYPE_FIELDNAME     => array('ID', 'ID_SICOES_CONVOCATORIA', 'NUMERO', 'DESCRIPCION', 'UNIDAD_MEDIDA', 'CANTIDAD', 'PRECIO_UNIDAD', 'CODIGO_CATALOGO', 'OBJETO_GASTO', 'STATUS', 'CREATION_DATE', 'MODIFICATION_DATE', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
     );
 
     /**
@@ -142,11 +157,11 @@ class JobSicoesDetalleTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'IdSicoesConvocatoria' => 1, 'Numero' => 2, 'Descripcion' => 3, 'UnidadMedida' => 4, 'Cantidad' => 5, 'PrecioReferencial' => 6, 'CodigoCatalogo' => 7, 'ObjetoGasto' => 8, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'idSicoesConvocatoria' => 1, 'numero' => 2, 'descripcion' => 3, 'unidadMedida' => 4, 'cantidad' => 5, 'precioReferencial' => 6, 'codigoCatalogo' => 7, 'objetoGasto' => 8, ),
-        self::TYPE_COLNAME       => array(JobSicoesDetalleTableMap::COL_ID => 0, JobSicoesDetalleTableMap::COL_ID_SICOES_CONVOCATORIA => 1, JobSicoesDetalleTableMap::COL_NUMERO => 2, JobSicoesDetalleTableMap::COL_DESCRIPCION => 3, JobSicoesDetalleTableMap::COL_UNIDAD_MEDIDA => 4, JobSicoesDetalleTableMap::COL_CANTIDAD => 5, JobSicoesDetalleTableMap::COL_PRECIO_REFERENCIAL => 6, JobSicoesDetalleTableMap::COL_CODIGO_CATALOGO => 7, JobSicoesDetalleTableMap::COL_OBJETO_GASTO => 8, ),
-        self::TYPE_FIELDNAME     => array('ID' => 0, 'ID_SICOES_CONVOCATORIA' => 1, 'NUMERO' => 2, 'DESCRIPCION' => 3, 'UNIDAD_MEDIDA' => 4, 'CANTIDAD' => 5, 'PRECIO_REFERENCIAL' => 6, 'CODIGO_CATALOGO' => 7, 'OBJETO_GASTO' => 8, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'IdSicoesConvocatoria' => 1, 'Numero' => 2, 'Descripcion' => 3, 'UnidadMedida' => 4, 'Cantidad' => 5, 'PrecioUnidad' => 6, 'CodigoCatalogo' => 7, 'ObjetoGasto' => 8, 'Status' => 9, 'CreationDate' => 10, 'ModificationDate' => 11, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'idSicoesConvocatoria' => 1, 'numero' => 2, 'descripcion' => 3, 'unidadMedida' => 4, 'cantidad' => 5, 'precioUnidad' => 6, 'codigoCatalogo' => 7, 'objetoGasto' => 8, 'status' => 9, 'creationDate' => 10, 'modificationDate' => 11, ),
+        self::TYPE_COLNAME       => array(JobSicoesDetalleTableMap::COL_ID => 0, JobSicoesDetalleTableMap::COL_ID_SICOES_CONVOCATORIA => 1, JobSicoesDetalleTableMap::COL_NUMERO => 2, JobSicoesDetalleTableMap::COL_DESCRIPCION => 3, JobSicoesDetalleTableMap::COL_UNIDAD_MEDIDA => 4, JobSicoesDetalleTableMap::COL_CANTIDAD => 5, JobSicoesDetalleTableMap::COL_PRECIO_UNIDAD => 6, JobSicoesDetalleTableMap::COL_CODIGO_CATALOGO => 7, JobSicoesDetalleTableMap::COL_OBJETO_GASTO => 8, JobSicoesDetalleTableMap::COL_STATUS => 9, JobSicoesDetalleTableMap::COL_CREATION_DATE => 10, JobSicoesDetalleTableMap::COL_MODIFICATION_DATE => 11, ),
+        self::TYPE_FIELDNAME     => array('ID' => 0, 'ID_SICOES_CONVOCATORIA' => 1, 'NUMERO' => 2, 'DESCRIPCION' => 3, 'UNIDAD_MEDIDA' => 4, 'CANTIDAD' => 5, 'PRECIO_UNIDAD' => 6, 'CODIGO_CATALOGO' => 7, 'OBJETO_GASTO' => 8, 'STATUS' => 9, 'CREATION_DATE' => 10, 'MODIFICATION_DATE' => 11, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
     );
 
     /**
@@ -172,9 +187,12 @@ class JobSicoesDetalleTableMap extends TableMap
         $this->addColumn('DESCRIPCION', 'Descripcion', 'VARCHAR', true, 5000, null);
         $this->addColumn('UNIDAD_MEDIDA', 'UnidadMedida', 'VARCHAR', true, 100, null);
         $this->addColumn('CANTIDAD', 'Cantidad', 'INTEGER', true, null, null);
-        $this->addColumn('PRECIO_REFERENCIAL', 'PrecioReferencial', 'FLOAT', true, 9, null);
+        $this->addColumn('PRECIO_UNIDAD', 'PrecioUnidad', 'FLOAT', true, 9, null);
         $this->addColumn('CODIGO_CATALOGO', 'CodigoCatalogo', 'VARCHAR', false, 30, null);
         $this->addColumn('OBJETO_GASTO', 'ObjetoGasto', 'VARCHAR', false, 30, null);
+        $this->addColumn('STATUS', 'Status', 'VARCHAR', true, 30, null);
+        $this->addColumn('CREATION_DATE', 'CreationDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');
+        $this->addColumn('MODIFICATION_DATE', 'ModificationDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');
     } // initialize()
 
     /**
@@ -338,9 +356,12 @@ class JobSicoesDetalleTableMap extends TableMap
             $criteria->addSelectColumn(JobSicoesDetalleTableMap::COL_DESCRIPCION);
             $criteria->addSelectColumn(JobSicoesDetalleTableMap::COL_UNIDAD_MEDIDA);
             $criteria->addSelectColumn(JobSicoesDetalleTableMap::COL_CANTIDAD);
-            $criteria->addSelectColumn(JobSicoesDetalleTableMap::COL_PRECIO_REFERENCIAL);
+            $criteria->addSelectColumn(JobSicoesDetalleTableMap::COL_PRECIO_UNIDAD);
             $criteria->addSelectColumn(JobSicoesDetalleTableMap::COL_CODIGO_CATALOGO);
             $criteria->addSelectColumn(JobSicoesDetalleTableMap::COL_OBJETO_GASTO);
+            $criteria->addSelectColumn(JobSicoesDetalleTableMap::COL_STATUS);
+            $criteria->addSelectColumn(JobSicoesDetalleTableMap::COL_CREATION_DATE);
+            $criteria->addSelectColumn(JobSicoesDetalleTableMap::COL_MODIFICATION_DATE);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
             $criteria->addSelectColumn($alias . '.ID_SICOES_CONVOCATORIA');
@@ -348,9 +369,12 @@ class JobSicoesDetalleTableMap extends TableMap
             $criteria->addSelectColumn($alias . '.DESCRIPCION');
             $criteria->addSelectColumn($alias . '.UNIDAD_MEDIDA');
             $criteria->addSelectColumn($alias . '.CANTIDAD');
-            $criteria->addSelectColumn($alias . '.PRECIO_REFERENCIAL');
+            $criteria->addSelectColumn($alias . '.PRECIO_UNIDAD');
             $criteria->addSelectColumn($alias . '.CODIGO_CATALOGO');
             $criteria->addSelectColumn($alias . '.OBJETO_GASTO');
+            $criteria->addSelectColumn($alias . '.STATUS');
+            $criteria->addSelectColumn($alias . '.CREATION_DATE');
+            $criteria->addSelectColumn($alias . '.MODIFICATION_DATE');
         }
     }
 

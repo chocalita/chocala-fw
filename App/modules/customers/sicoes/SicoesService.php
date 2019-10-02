@@ -204,20 +204,6 @@ class SicoesService extends AppSecureService
             }
         }
 
-        $tablePrecio = $tablesDetalles[4];
-        $trsPrecio = $tablePrecio->find("table>tbody>tr");
-
-        foreach ($trsPrecio as $tr) {
-            $tds = $tr->find("td");
-            if (sizeof($tds) >= 8 && $tds[0]->plaintext != '#') {
-                $labelTd = strtoupper($tds[5]);
-                $cantidad = str_replace(",", "", trim($tds[5]->plaintext)) * 1;
-                $precioUnidad = str_replace(",", "", trim($tds[6]->plaintext)) * 1;
-                $data['NUMERO_CONSULTORES'] = $cantidad;
-                $data['PRECIO_UNITARIO'] = $precioUnidad;
-            }
-        }
-
 //        echo "<br /> P - " . $trsPrecio->plaintext;
 
 //        $data['TIPO_CONSULTORIA'] = trim(str_replace("&nbsp;", "", $tdsEntidad[3]->plaintext));
@@ -239,32 +225,64 @@ class SicoesService extends AppSecureService
         echo "<br />==== CONTENT ====================================<br />";
         echo $nodeLicitacionDiv[0];
 
-        $sicoes = new JobSicoesConvocatoria();
-        $sicoes->setCuce($data['CUCE']);
-        $sicoes->setCodigoSisin('');
-        $sicoes->setObjetoLicitacion($data['LICITACION']);
-        $sicoes->setNombreEntidad($data['NOMBRE_ENTIDAD']);
-        $sicoes->setCodigoEntidad($data['CODIGO_ENTIDAD']);
-        $sicoes->setTelefonoEntidad($data['TELEFONO_ENTIDAD']);
-        $sicoes->setFechaPublicacion($data['FECHA_PUBLICACION']);
-        $sicoes->setFechaLimite($data['FECHA_LIMITE']);
-        $sicoes->setEstado($data['ESTADO']);
-        $sicoes->setModalidad($data['MODALIDAD']);
-        $sicoes->setTipoConvocatoria($data['TIPO_CONVOCATORIA']);
-        $sicoes->setTipoConsultoria($data['TIPO_CONSULTORIA']);
-        $sicoes->setFormaAdjudicacion($data['FORMA_ADJUDICACION']);
-        $sicoes->setTipoContratacion($data['TIPO_CONTRATACION']);
-        $sicoes->setGarantiasSolicitadas($data['GARANTIAS_SOLICITADAS']);
-        $sicoes->setNumeroConsultores($data['NUMERO_CONSULTORES']);
-        $sicoes->setPrecioUnitario($data['PRECIO_UNITARIO']);
-        $sicoes->setEnlace();
-        $sicoes->setDepartamento($data['DEPARTAMENTO']);
-        $sicoes->setContacto($data['CONTACTO']);
-        $sicoes->setStatus();
-//        $sicoes->save();
-        echo "" . $sicoes->toJson();
+        $sicoesConvocatoria = new JobSicoesConvocatoria();
+        $sicoesConvocatoria->setCuce($data['CUCE']);
+        $sicoesConvocatoria->setCodigoSisin('');
+        $sicoesConvocatoria->setObjetoLicitacion($data['LICITACION']);
+        $sicoesConvocatoria->setNombreEntidad($data['NOMBRE_ENTIDAD']);
+        $sicoesConvocatoria->setCodigoEntidad($data['CODIGO_ENTIDAD']);
+        $sicoesConvocatoria->setTelefonoEntidad($data['TELEFONO_ENTIDAD']);
+        $sicoesConvocatoria->setFechaPublicacion($data['FECHA_PUBLICACION']);
+        $sicoesConvocatoria->setFechaLimite($data['FECHA_LIMITE']);
+        $sicoesConvocatoria->setEstado($data['ESTADO']);
+        $sicoesConvocatoria->setModalidad($data['MODALIDAD']);
+        $sicoesConvocatoria->setTipoConvocatoria($data['TIPO_CONVOCATORIA']);
+        $sicoesConvocatoria->setTipoConsultoria($data['TIPO_CONSULTORIA']);
+        $sicoesConvocatoria->setFormaAdjudicacion($data['FORMA_ADJUDICACION']);
+        $sicoesConvocatoria->setTipoContratacion($data['TIPO_CONTRATACION']);
+        $sicoesConvocatoria->setGarantiasSolicitadas($data['GARANTIAS_SOLICITADAS']);
+        $sicoesConvocatoria->setNumeroConsultores($data['NUMERO_CONSULTORES']);
+        $sicoesConvocatoria->setPrecioUnitario($data['PRECIO_UNITARIO']);
+        $sicoesConvocatoria->setEnlace();
+        $sicoesConvocatoria->setDepartamento($data['DEPARTAMENTO']);
+        $sicoesConvocatoria->setContacto($data['CONTACTO']);
+        $sicoesConvocatoria->setStatus();
+//        $sicoesConvocatoria->save();
 
-        file_put_contents(PUBLIC_DIR . "test-sicoes.json", $sicoes->toJson());
+
+        $tablePrecio = $tablesDetalles[4];
+        $trsPrecio = $tablePrecio->find("table>tbody>tr");
+
+        foreach ($trsPrecio as $tr) {
+            $tds = $tr->find("td");
+            if (sizeof($tds) >= 8 && $tds[0]->plaintext != '#') {
+                $labelTd = strtoupper($tds[5]);
+                $numeroDetalle = str_replace(",", "", trim($tds[0]->plaintext)) * 1;
+                $codigoCatalogo = str_replace(",", "", trim($tds[1]->plaintext));
+                $objetoGasto = str_replace(",", "", trim($tds[2]->plaintext));
+                $descripcionDetalle = str_replace(",", "", trim($tds[3]->plaintext));
+                $unidadMedida = str_replace(",", "", trim($tds[4]->plaintext));
+                $cantidad = str_replace(",", "", trim($tds[5]->plaintext)) * 1;
+                $precioUnidad = str_replace(",", "", trim($tds[6]->plaintext)) * 1;
+                $data['NUMERO_CONSULTORES'] = $cantidad;
+                $data['NUMERO_CONSULTORES'] = $cantidad;
+                $data['PRECIO_UNITARIO'] = $precioUnidad;
+
+                $sicoesDetalle = new JobSicoesDetalle();
+                $sicoesDetalle->setNumero();
+                $sicoesDetalle->setDescripcion();
+                $sicoesDetalle->setUnidadMedida();
+                $sicoesDetalle->setCantidad();
+                $sicoesDetalle->setPrecioReferencial();
+                $sicoesDetalle->setCodigoCatalogo();
+                $sicoesDetalle->setObjetoGasto();
+            }
+        }
+
+
+        echo "" . $sicoesConvocatoria->toJson();
+
+        file_put_contents(PUBLIC_DIR . "test-sicoes.json", $sicoesConvocatoria->toJson());
         exit();
     }
 

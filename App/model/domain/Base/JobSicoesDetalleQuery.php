@@ -26,9 +26,12 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSicoesDetalleQuery orderByDescripcion($order = Criteria::ASC) Order by the DESCRIPCION column
  * @method     ChildJobSicoesDetalleQuery orderByUnidadMedida($order = Criteria::ASC) Order by the UNIDAD_MEDIDA column
  * @method     ChildJobSicoesDetalleQuery orderByCantidad($order = Criteria::ASC) Order by the CANTIDAD column
- * @method     ChildJobSicoesDetalleQuery orderByPrecioReferencial($order = Criteria::ASC) Order by the PRECIO_REFERENCIAL column
+ * @method     ChildJobSicoesDetalleQuery orderByPrecioUnidad($order = Criteria::ASC) Order by the PRECIO_UNIDAD column
  * @method     ChildJobSicoesDetalleQuery orderByCodigoCatalogo($order = Criteria::ASC) Order by the CODIGO_CATALOGO column
  * @method     ChildJobSicoesDetalleQuery orderByObjetoGasto($order = Criteria::ASC) Order by the OBJETO_GASTO column
+ * @method     ChildJobSicoesDetalleQuery orderByStatus($order = Criteria::ASC) Order by the STATUS column
+ * @method     ChildJobSicoesDetalleQuery orderByCreationDate($order = Criteria::ASC) Order by the CREATION_DATE column
+ * @method     ChildJobSicoesDetalleQuery orderByModificationDate($order = Criteria::ASC) Order by the MODIFICATION_DATE column
  *
  * @method     ChildJobSicoesDetalleQuery groupById() Group by the ID column
  * @method     ChildJobSicoesDetalleQuery groupByIdSicoesConvocatoria() Group by the ID_SICOES_CONVOCATORIA column
@@ -36,9 +39,12 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSicoesDetalleQuery groupByDescripcion() Group by the DESCRIPCION column
  * @method     ChildJobSicoesDetalleQuery groupByUnidadMedida() Group by the UNIDAD_MEDIDA column
  * @method     ChildJobSicoesDetalleQuery groupByCantidad() Group by the CANTIDAD column
- * @method     ChildJobSicoesDetalleQuery groupByPrecioReferencial() Group by the PRECIO_REFERENCIAL column
+ * @method     ChildJobSicoesDetalleQuery groupByPrecioUnidad() Group by the PRECIO_UNIDAD column
  * @method     ChildJobSicoesDetalleQuery groupByCodigoCatalogo() Group by the CODIGO_CATALOGO column
  * @method     ChildJobSicoesDetalleQuery groupByObjetoGasto() Group by the OBJETO_GASTO column
+ * @method     ChildJobSicoesDetalleQuery groupByStatus() Group by the STATUS column
+ * @method     ChildJobSicoesDetalleQuery groupByCreationDate() Group by the CREATION_DATE column
+ * @method     ChildJobSicoesDetalleQuery groupByModificationDate() Group by the MODIFICATION_DATE column
  *
  * @method     ChildJobSicoesDetalleQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildJobSicoesDetalleQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -69,9 +75,12 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSicoesDetalle findOneByDescripcion(string $DESCRIPCION) Return the first ChildJobSicoesDetalle filtered by the DESCRIPCION column
  * @method     ChildJobSicoesDetalle findOneByUnidadMedida(string $UNIDAD_MEDIDA) Return the first ChildJobSicoesDetalle filtered by the UNIDAD_MEDIDA column
  * @method     ChildJobSicoesDetalle findOneByCantidad(int $CANTIDAD) Return the first ChildJobSicoesDetalle filtered by the CANTIDAD column
- * @method     ChildJobSicoesDetalle findOneByPrecioReferencial(double $PRECIO_REFERENCIAL) Return the first ChildJobSicoesDetalle filtered by the PRECIO_REFERENCIAL column
+ * @method     ChildJobSicoesDetalle findOneByPrecioUnidad(double $PRECIO_UNIDAD) Return the first ChildJobSicoesDetalle filtered by the PRECIO_UNIDAD column
  * @method     ChildJobSicoesDetalle findOneByCodigoCatalogo(string $CODIGO_CATALOGO) Return the first ChildJobSicoesDetalle filtered by the CODIGO_CATALOGO column
- * @method     ChildJobSicoesDetalle findOneByObjetoGasto(string $OBJETO_GASTO) Return the first ChildJobSicoesDetalle filtered by the OBJETO_GASTO column *
+ * @method     ChildJobSicoesDetalle findOneByObjetoGasto(string $OBJETO_GASTO) Return the first ChildJobSicoesDetalle filtered by the OBJETO_GASTO column
+ * @method     ChildJobSicoesDetalle findOneByStatus(string $STATUS) Return the first ChildJobSicoesDetalle filtered by the STATUS column
+ * @method     ChildJobSicoesDetalle findOneByCreationDate(string $CREATION_DATE) Return the first ChildJobSicoesDetalle filtered by the CREATION_DATE column
+ * @method     ChildJobSicoesDetalle findOneByModificationDate(string $MODIFICATION_DATE) Return the first ChildJobSicoesDetalle filtered by the MODIFICATION_DATE column *
 
  * @method     ChildJobSicoesDetalle requirePk($key, ConnectionInterface $con = null) Return the ChildJobSicoesDetalle by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSicoesDetalle requireOne(ConnectionInterface $con = null) Return the first ChildJobSicoesDetalle matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -82,9 +91,12 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSicoesDetalle requireOneByDescripcion(string $DESCRIPCION) Return the first ChildJobSicoesDetalle filtered by the DESCRIPCION column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSicoesDetalle requireOneByUnidadMedida(string $UNIDAD_MEDIDA) Return the first ChildJobSicoesDetalle filtered by the UNIDAD_MEDIDA column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSicoesDetalle requireOneByCantidad(int $CANTIDAD) Return the first ChildJobSicoesDetalle filtered by the CANTIDAD column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildJobSicoesDetalle requireOneByPrecioReferencial(double $PRECIO_REFERENCIAL) Return the first ChildJobSicoesDetalle filtered by the PRECIO_REFERENCIAL column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobSicoesDetalle requireOneByPrecioUnidad(double $PRECIO_UNIDAD) Return the first ChildJobSicoesDetalle filtered by the PRECIO_UNIDAD column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSicoesDetalle requireOneByCodigoCatalogo(string $CODIGO_CATALOGO) Return the first ChildJobSicoesDetalle filtered by the CODIGO_CATALOGO column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSicoesDetalle requireOneByObjetoGasto(string $OBJETO_GASTO) Return the first ChildJobSicoesDetalle filtered by the OBJETO_GASTO column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobSicoesDetalle requireOneByStatus(string $STATUS) Return the first ChildJobSicoesDetalle filtered by the STATUS column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobSicoesDetalle requireOneByCreationDate(string $CREATION_DATE) Return the first ChildJobSicoesDetalle filtered by the CREATION_DATE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobSicoesDetalle requireOneByModificationDate(string $MODIFICATION_DATE) Return the first ChildJobSicoesDetalle filtered by the MODIFICATION_DATE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildJobSicoesDetalle[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildJobSicoesDetalle objects based on current ModelCriteria
  * @method     ChildJobSicoesDetalle[]|ObjectCollection findById(int $ID) Return ChildJobSicoesDetalle objects filtered by the ID column
@@ -93,9 +105,12 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSicoesDetalle[]|ObjectCollection findByDescripcion(string $DESCRIPCION) Return ChildJobSicoesDetalle objects filtered by the DESCRIPCION column
  * @method     ChildJobSicoesDetalle[]|ObjectCollection findByUnidadMedida(string $UNIDAD_MEDIDA) Return ChildJobSicoesDetalle objects filtered by the UNIDAD_MEDIDA column
  * @method     ChildJobSicoesDetalle[]|ObjectCollection findByCantidad(int $CANTIDAD) Return ChildJobSicoesDetalle objects filtered by the CANTIDAD column
- * @method     ChildJobSicoesDetalle[]|ObjectCollection findByPrecioReferencial(double $PRECIO_REFERENCIAL) Return ChildJobSicoesDetalle objects filtered by the PRECIO_REFERENCIAL column
+ * @method     ChildJobSicoesDetalle[]|ObjectCollection findByPrecioUnidad(double $PRECIO_UNIDAD) Return ChildJobSicoesDetalle objects filtered by the PRECIO_UNIDAD column
  * @method     ChildJobSicoesDetalle[]|ObjectCollection findByCodigoCatalogo(string $CODIGO_CATALOGO) Return ChildJobSicoesDetalle objects filtered by the CODIGO_CATALOGO column
  * @method     ChildJobSicoesDetalle[]|ObjectCollection findByObjetoGasto(string $OBJETO_GASTO) Return ChildJobSicoesDetalle objects filtered by the OBJETO_GASTO column
+ * @method     ChildJobSicoesDetalle[]|ObjectCollection findByStatus(string $STATUS) Return ChildJobSicoesDetalle objects filtered by the STATUS column
+ * @method     ChildJobSicoesDetalle[]|ObjectCollection findByCreationDate(string $CREATION_DATE) Return ChildJobSicoesDetalle objects filtered by the CREATION_DATE column
+ * @method     ChildJobSicoesDetalle[]|ObjectCollection findByModificationDate(string $MODIFICATION_DATE) Return ChildJobSicoesDetalle objects filtered by the MODIFICATION_DATE column
  * @method     ChildJobSicoesDetalle[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
@@ -194,7 +209,7 @@ abstract class JobSicoesDetalleQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT ID, ID_SICOES_CONVOCATORIA, NUMERO, DESCRIPCION, UNIDAD_MEDIDA, CANTIDAD, PRECIO_REFERENCIAL, CODIGO_CATALOGO, OBJETO_GASTO FROM job_sicoes_detalle WHERE ID = :p0';
+        $sql = 'SELECT ID, ID_SICOES_CONVOCATORIA, NUMERO, DESCRIPCION, UNIDAD_MEDIDA, CANTIDAD, PRECIO_UNIDAD, CODIGO_CATALOGO, OBJETO_GASTO, STATUS, CREATION_DATE, MODIFICATION_DATE FROM job_sicoes_detalle WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -501,16 +516,16 @@ abstract class JobSicoesDetalleQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the PRECIO_REFERENCIAL column
+     * Filter the query on the PRECIO_UNIDAD column
      *
      * Example usage:
      * <code>
-     * $query->filterByPrecioReferencial(1234); // WHERE PRECIO_REFERENCIAL = 1234
-     * $query->filterByPrecioReferencial(array(12, 34)); // WHERE PRECIO_REFERENCIAL IN (12, 34)
-     * $query->filterByPrecioReferencial(array('min' => 12)); // WHERE PRECIO_REFERENCIAL > 12
+     * $query->filterByPrecioUnidad(1234); // WHERE PRECIO_UNIDAD = 1234
+     * $query->filterByPrecioUnidad(array(12, 34)); // WHERE PRECIO_UNIDAD IN (12, 34)
+     * $query->filterByPrecioUnidad(array('min' => 12)); // WHERE PRECIO_UNIDAD > 12
      * </code>
      *
-     * @param     mixed $precioReferencial The value to use as filter.
+     * @param     mixed $precioUnidad The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -518,16 +533,16 @@ abstract class JobSicoesDetalleQuery extends ModelCriteria
      *
      * @return $this|ChildJobSicoesDetalleQuery The current query, for fluid interface
      */
-    public function filterByPrecioReferencial($precioReferencial = null, $comparison = null)
+    public function filterByPrecioUnidad($precioUnidad = null, $comparison = null)
     {
-        if (is_array($precioReferencial)) {
+        if (is_array($precioUnidad)) {
             $useMinMax = false;
-            if (isset($precioReferencial['min'])) {
-                $this->addUsingAlias(JobSicoesDetalleTableMap::COL_PRECIO_REFERENCIAL, $precioReferencial['min'], Criteria::GREATER_EQUAL);
+            if (isset($precioUnidad['min'])) {
+                $this->addUsingAlias(JobSicoesDetalleTableMap::COL_PRECIO_UNIDAD, $precioUnidad['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($precioReferencial['max'])) {
-                $this->addUsingAlias(JobSicoesDetalleTableMap::COL_PRECIO_REFERENCIAL, $precioReferencial['max'], Criteria::LESS_EQUAL);
+            if (isset($precioUnidad['max'])) {
+                $this->addUsingAlias(JobSicoesDetalleTableMap::COL_PRECIO_UNIDAD, $precioUnidad['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -538,7 +553,7 @@ abstract class JobSicoesDetalleQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(JobSicoesDetalleTableMap::COL_PRECIO_REFERENCIAL, $precioReferencial, $comparison);
+        return $this->addUsingAlias(JobSicoesDetalleTableMap::COL_PRECIO_UNIDAD, $precioUnidad, $comparison);
     }
 
     /**
@@ -589,6 +604,117 @@ abstract class JobSicoesDetalleQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(JobSicoesDetalleTableMap::COL_OBJETO_GASTO, $objetoGasto, $comparison);
+    }
+
+    /**
+     * Filter the query on the STATUS column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByStatus('fooValue');   // WHERE STATUS = 'fooValue'
+     * $query->filterByStatus('%fooValue%', Criteria::LIKE); // WHERE STATUS LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $status The value to use as filter.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobSicoesDetalleQuery The current query, for fluid interface
+     */
+    public function filterByStatus($status = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($status)) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(JobSicoesDetalleTableMap::COL_STATUS, $status, $comparison);
+    }
+
+    /**
+     * Filter the query on the CREATION_DATE column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByCreationDate('2011-03-14'); // WHERE CREATION_DATE = '2011-03-14'
+     * $query->filterByCreationDate('now'); // WHERE CREATION_DATE = '2011-03-14'
+     * $query->filterByCreationDate(array('max' => 'yesterday')); // WHERE CREATION_DATE > '2011-03-13'
+     * </code>
+     *
+     * @param     mixed $creationDate The value to use as filter.
+     *              Values can be integers (unix timestamps), DateTime objects, or strings.
+     *              Empty strings are treated as NULL.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobSicoesDetalleQuery The current query, for fluid interface
+     */
+    public function filterByCreationDate($creationDate = null, $comparison = null)
+    {
+        if (is_array($creationDate)) {
+            $useMinMax = false;
+            if (isset($creationDate['min'])) {
+                $this->addUsingAlias(JobSicoesDetalleTableMap::COL_CREATION_DATE, $creationDate['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($creationDate['max'])) {
+                $this->addUsingAlias(JobSicoesDetalleTableMap::COL_CREATION_DATE, $creationDate['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(JobSicoesDetalleTableMap::COL_CREATION_DATE, $creationDate, $comparison);
+    }
+
+    /**
+     * Filter the query on the MODIFICATION_DATE column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByModificationDate('2011-03-14'); // WHERE MODIFICATION_DATE = '2011-03-14'
+     * $query->filterByModificationDate('now'); // WHERE MODIFICATION_DATE = '2011-03-14'
+     * $query->filterByModificationDate(array('max' => 'yesterday')); // WHERE MODIFICATION_DATE > '2011-03-13'
+     * </code>
+     *
+     * @param     mixed $modificationDate The value to use as filter.
+     *              Values can be integers (unix timestamps), DateTime objects, or strings.
+     *              Empty strings are treated as NULL.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobSicoesDetalleQuery The current query, for fluid interface
+     */
+    public function filterByModificationDate($modificationDate = null, $comparison = null)
+    {
+        if (is_array($modificationDate)) {
+            $useMinMax = false;
+            if (isset($modificationDate['min'])) {
+                $this->addUsingAlias(JobSicoesDetalleTableMap::COL_MODIFICATION_DATE, $modificationDate['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($modificationDate['max'])) {
+                $this->addUsingAlias(JobSicoesDetalleTableMap::COL_MODIFICATION_DATE, $modificationDate['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(JobSicoesDetalleTableMap::COL_MODIFICATION_DATE, $modificationDate, $comparison);
     }
 
     /**

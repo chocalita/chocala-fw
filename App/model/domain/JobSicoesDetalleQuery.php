@@ -3,16 +3,16 @@
 use Base\JobSicoesDetalleQuery as BaseJobSicoesDetalleQuery;
 
 /**
- * Skeleton subclass for performing query and update operations on the 'job_sicoes_detalle' table.
  *
+ * @author ypra
  *
- *
- * You should add additional methods to this class to meet the
- * application requirements.  This class will only be generated as
- * long as it does not already exist in the output directory.
+ * @method static JobSicoesDetalleQuery createValids($noDeletes = true, $modelAlias = null, Criteria $criteria = null)
+ * @method JobSicoesDetalleQuery filterValids()
+ * @method JobSicoesDetalleQuery orders()
  *
  */
-class JobSicoesDetalleQuery extends BaseJobSicoesDetalleQuery
+class JobSicoesDetalleQuery extends BaseJobSicoesDetalleQuery implements SoftDeletion
 {
+    use SoftQuery;
 
 }

@@ -3,16 +3,33 @@
 use Base\JobSicoesDetalle as BaseJobSicoesDetalle;
 
 /**
- * Skeleton subclass for representing a row from the 'job_sicoes_detalle' table.
  *
- *
- *
- * You should add additional methods to this class to meet the
- * application requirements.  This class will only be generated as
- * long as it does not already exist in the output directory.
  *
  */
-class JobSicoesDetalle extends BaseJobSicoesDetalle
+class JobSicoesDetalle extends BaseJobSicoesDetalle implements JsonSerializable
 {
+    use  Validatable, Convertible;
+
+    static $validationRules = [
+    ];
+
+
+    public function preValidate()
+    {
+        return $this->preSave();
+    }
+
+    public function preInsert()
+    {
+        return $this->preSave();
+        $this->creation_date = new DateUtil();
+        $this->modification_date = new DateUtil();
+    }
+
+    public function preUpdate()
+    {
+        return $this->preSave();
+    }
+
 
 }

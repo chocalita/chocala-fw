@@ -5,6 +5,7 @@ namespace Base;
 use \JobSicoesConvocatoria as ChildJobSicoesConvocatoria;
 use \JobSicoesConvocatoriaQuery as ChildJobSicoesConvocatoriaQuery;
 use \JobSicoesDetalleQuery as ChildJobSicoesDetalleQuery;
+use \DateTime;
 use \Exception;
 use \PDO;
 use Map\JobSicoesDetalleTableMap;
@@ -19,6 +20,7 @@ use Propel\Runtime\Exception\LogicException;
 use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
+use Propel\Runtime\Util\PropelDateTime;
 
 /**
  * Base class that represents a row from the 'job_sicoes_detalle' table.
@@ -104,11 +106,11 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
     protected $cantidad;
 
     /**
-     * The value for the precio_referencial field.
+     * The value for the precio_unidad field.
      *
      * @var        double
      */
-    protected $precio_referencial;
+    protected $precio_unidad;
 
     /**
      * The value for the codigo_catalogo field.
@@ -125,6 +127,29 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
     protected $objeto_gasto;
 
     /**
+     * The value for the status field.
+     *
+     * @var        string
+     */
+    protected $status;
+
+    /**
+     * The value for the creation_date field.
+     *
+     * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
+     * @var        DateTime
+     */
+    protected $creation_date;
+
+    /**
+     * The value for the modification_date field.
+     *
+     * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
+     * @var        DateTime
+     */
+    protected $modification_date;
+
+    /**
      * @var        ChildJobSicoesConvocatoria
      */
     protected $aJobSicoesConvocatoria;
@@ -138,10 +163,22 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
+     * Applies default values to this object.
+     * This method should be called from the object's constructor (or
+     * equivalent initialization method).
+     * @see __construct()
+     */
+    public function applyDefaultValues()
+    {
+    }
+
+    /**
      * Initializes internal state of Base\JobSicoesDetalle object.
+     * @see applyDefaults()
      */
     public function __construct()
     {
+        $this->applyDefaultValues();
     }
 
     /**
@@ -423,13 +460,13 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
     }
 
     /**
-     * Get the [precio_referencial] column value.
+     * Get the [precio_unidad] column value.
      *
      * @return double
      */
-    public function getPrecioReferencial()
+    public function getPrecioUnidad()
     {
-        return $this->precio_referencial;
+        return $this->precio_unidad;
     }
 
     /**
@@ -450,6 +487,56 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
     public function getObjetoGasto()
     {
         return $this->objeto_gasto;
+    }
+
+    /**
+     * Get the [status] column value.
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Get the [optionally formatted] temporal [creation_date] column value.
+     *
+     *
+     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
+     *                            If format is NULL, then the raw DateTime object will be returned.
+     *
+     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
+     *
+     * @throws PropelException - if unable to parse/validate the date/time value.
+     */
+    public function getCreationDate($format = NULL)
+    {
+        if ($format === null) {
+            return $this->creation_date;
+        } else {
+            return $this->creation_date instanceof \DateTimeInterface ? $this->creation_date->format($format) : null;
+        }
+    }
+
+    /**
+     * Get the [optionally formatted] temporal [modification_date] column value.
+     *
+     *
+     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
+     *                            If format is NULL, then the raw DateTime object will be returned.
+     *
+     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
+     *
+     * @throws PropelException - if unable to parse/validate the date/time value.
+     */
+    public function getModificationDate($format = NULL)
+    {
+        if ($format === null) {
+            return $this->modification_date;
+        } else {
+            return $this->modification_date instanceof \DateTimeInterface ? $this->modification_date->format($format) : null;
+        }
     }
 
     /**
@@ -577,24 +664,24 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
     } // setCantidad()
 
     /**
-     * Set the value of [precio_referencial] column.
+     * Set the value of [precio_unidad] column.
      *
      * @param double $v new value
      * @return $this|\JobSicoesDetalle The current object (for fluent API support)
      */
-    public function setPrecioReferencial($v)
+    public function setPrecioUnidad($v)
     {
         if ($v !== null) {
             $v = (double) $v;
         }
 
-        if ($this->precio_referencial !== $v) {
-            $this->precio_referencial = $v;
-            $this->modifiedColumns[JobSicoesDetalleTableMap::COL_PRECIO_REFERENCIAL] = true;
+        if ($this->precio_unidad !== $v) {
+            $this->precio_unidad = $v;
+            $this->modifiedColumns[JobSicoesDetalleTableMap::COL_PRECIO_UNIDAD] = true;
         }
 
         return $this;
-    } // setPrecioReferencial()
+    } // setPrecioUnidad()
 
     /**
      * Set the value of [codigo_catalogo] column.
@@ -635,6 +722,66 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
 
         return $this;
     } // setObjetoGasto()
+
+    /**
+     * Set the value of [status] column.
+     *
+     * @param string $v new value
+     * @return $this|\JobSicoesDetalle The current object (for fluent API support)
+     */
+    public function setStatus($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->status !== $v) {
+            $this->status = $v;
+            $this->modifiedColumns[JobSicoesDetalleTableMap::COL_STATUS] = true;
+        }
+
+        return $this;
+    } // setStatus()
+
+    /**
+     * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
+     *               Empty strings are treated as NULL.
+     * @return $this|\JobSicoesDetalle The current object (for fluent API support)
+     */
+    public function setCreationDate($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->creation_date !== null || $dt !== null) {
+            if ($this->creation_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->creation_date->format("Y-m-d H:i:s.u")) {
+                $this->creation_date = $dt === null ? null : clone $dt;
+                $this->modifiedColumns[JobSicoesDetalleTableMap::COL_CREATION_DATE] = true;
+            }
+        } // if either are not null
+
+        return $this;
+    } // setCreationDate()
+
+    /**
+     * Sets the value of [modification_date] column to a normalized version of the date/time value specified.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
+     *               Empty strings are treated as NULL.
+     * @return $this|\JobSicoesDetalle The current object (for fluent API support)
+     */
+    public function setModificationDate($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->modification_date !== null || $dt !== null) {
+            if ($this->modification_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->modification_date->format("Y-m-d H:i:s.u")) {
+                $this->modification_date = $dt === null ? null : clone $dt;
+                $this->modifiedColumns[JobSicoesDetalleTableMap::COL_MODIFICATION_DATE] = true;
+            }
+        } // if either are not null
+
+        return $this;
+    } // setModificationDate()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -690,14 +837,29 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : JobSicoesDetalleTableMap::translateFieldName('Cantidad', TableMap::TYPE_PHPNAME, $indexType)];
             $this->cantidad = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : JobSicoesDetalleTableMap::translateFieldName('PrecioReferencial', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->precio_referencial = (null !== $col) ? (double) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : JobSicoesDetalleTableMap::translateFieldName('PrecioUnidad', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->precio_unidad = (null !== $col) ? (double) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : JobSicoesDetalleTableMap::translateFieldName('CodigoCatalogo', TableMap::TYPE_PHPNAME, $indexType)];
             $this->codigo_catalogo = (null !== $col) ? (string) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : JobSicoesDetalleTableMap::translateFieldName('ObjetoGasto', TableMap::TYPE_PHPNAME, $indexType)];
             $this->objeto_gasto = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : JobSicoesDetalleTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->status = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : JobSicoesDetalleTableMap::translateFieldName('CreationDate', TableMap::TYPE_PHPNAME, $indexType)];
+            if ($col === '0000-00-00 00:00:00') {
+                $col = null;
+            }
+            $this->creation_date = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : JobSicoesDetalleTableMap::translateFieldName('ModificationDate', TableMap::TYPE_PHPNAME, $indexType)];
+            if ($col === '0000-00-00 00:00:00') {
+                $col = null;
+            }
+            $this->modification_date = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -706,7 +868,7 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 9; // 9 = JobSicoesDetalleTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 12; // 12 = JobSicoesDetalleTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\JobSicoesDetalle'), 0, $e);
@@ -937,14 +1099,23 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
         if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_CANTIDAD)) {
             $modifiedColumns[':p' . $index++]  = 'CANTIDAD';
         }
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_PRECIO_REFERENCIAL)) {
-            $modifiedColumns[':p' . $index++]  = 'PRECIO_REFERENCIAL';
+        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_PRECIO_UNIDAD)) {
+            $modifiedColumns[':p' . $index++]  = 'PRECIO_UNIDAD';
         }
         if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_CODIGO_CATALOGO)) {
             $modifiedColumns[':p' . $index++]  = 'CODIGO_CATALOGO';
         }
         if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_OBJETO_GASTO)) {
             $modifiedColumns[':p' . $index++]  = 'OBJETO_GASTO';
+        }
+        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_STATUS)) {
+            $modifiedColumns[':p' . $index++]  = 'STATUS';
+        }
+        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_CREATION_DATE)) {
+            $modifiedColumns[':p' . $index++]  = 'CREATION_DATE';
+        }
+        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_MODIFICATION_DATE)) {
+            $modifiedColumns[':p' . $index++]  = 'MODIFICATION_DATE';
         }
 
         $sql = sprintf(
@@ -975,14 +1146,23 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
                     case 'CANTIDAD':
                         $stmt->bindValue($identifier, $this->cantidad, PDO::PARAM_INT);
                         break;
-                    case 'PRECIO_REFERENCIAL':
-                        $stmt->bindValue($identifier, $this->precio_referencial, PDO::PARAM_STR);
+                    case 'PRECIO_UNIDAD':
+                        $stmt->bindValue($identifier, $this->precio_unidad, PDO::PARAM_STR);
                         break;
                     case 'CODIGO_CATALOGO':
                         $stmt->bindValue($identifier, $this->codigo_catalogo, PDO::PARAM_STR);
                         break;
                     case 'OBJETO_GASTO':
                         $stmt->bindValue($identifier, $this->objeto_gasto, PDO::PARAM_STR);
+                        break;
+                    case 'STATUS':
+                        $stmt->bindValue($identifier, $this->status, PDO::PARAM_STR);
+                        break;
+                    case 'CREATION_DATE':
+                        $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
+                        break;
+                    case 'MODIFICATION_DATE':
+                        $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1058,13 +1238,22 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
                 return $this->getCantidad();
                 break;
             case 6:
-                return $this->getPrecioReferencial();
+                return $this->getPrecioUnidad();
                 break;
             case 7:
                 return $this->getCodigoCatalogo();
                 break;
             case 8:
                 return $this->getObjetoGasto();
+                break;
+            case 9:
+                return $this->getStatus();
+                break;
+            case 10:
+                return $this->getCreationDate();
+                break;
+            case 11:
+                return $this->getModificationDate();
                 break;
             default:
                 return null;
@@ -1102,10 +1291,21 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
             $keys[3] => $this->getDescripcion(),
             $keys[4] => $this->getUnidadMedida(),
             $keys[5] => $this->getCantidad(),
-            $keys[6] => $this->getPrecioReferencial(),
+            $keys[6] => $this->getPrecioUnidad(),
             $keys[7] => $this->getCodigoCatalogo(),
             $keys[8] => $this->getObjetoGasto(),
+            $keys[9] => $this->getStatus(),
+            $keys[10] => $this->getCreationDate(),
+            $keys[11] => $this->getModificationDate(),
         );
+        if ($result[$keys[10]] instanceof \DateTimeInterface) {
+            $result[$keys[10]] = $result[$keys[10]]->format('c');
+        }
+
+        if ($result[$keys[11]] instanceof \DateTimeInterface) {
+            $result[$keys[11]] = $result[$keys[11]]->format('c');
+        }
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
@@ -1180,13 +1380,22 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
                 $this->setCantidad($value);
                 break;
             case 6:
-                $this->setPrecioReferencial($value);
+                $this->setPrecioUnidad($value);
                 break;
             case 7:
                 $this->setCodigoCatalogo($value);
                 break;
             case 8:
                 $this->setObjetoGasto($value);
+                break;
+            case 9:
+                $this->setStatus($value);
+                break;
+            case 10:
+                $this->setCreationDate($value);
+                break;
+            case 11:
+                $this->setModificationDate($value);
                 break;
         } // switch()
 
@@ -1233,13 +1442,22 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
             $this->setCantidad($arr[$keys[5]]);
         }
         if (array_key_exists($keys[6], $arr)) {
-            $this->setPrecioReferencial($arr[$keys[6]]);
+            $this->setPrecioUnidad($arr[$keys[6]]);
         }
         if (array_key_exists($keys[7], $arr)) {
             $this->setCodigoCatalogo($arr[$keys[7]]);
         }
         if (array_key_exists($keys[8], $arr)) {
             $this->setObjetoGasto($arr[$keys[8]]);
+        }
+        if (array_key_exists($keys[9], $arr)) {
+            $this->setStatus($arr[$keys[9]]);
+        }
+        if (array_key_exists($keys[10], $arr)) {
+            $this->setCreationDate($arr[$keys[10]]);
+        }
+        if (array_key_exists($keys[11], $arr)) {
+            $this->setModificationDate($arr[$keys[11]]);
         }
     }
 
@@ -1300,14 +1518,23 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
         if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_CANTIDAD)) {
             $criteria->add(JobSicoesDetalleTableMap::COL_CANTIDAD, $this->cantidad);
         }
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_PRECIO_REFERENCIAL)) {
-            $criteria->add(JobSicoesDetalleTableMap::COL_PRECIO_REFERENCIAL, $this->precio_referencial);
+        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_PRECIO_UNIDAD)) {
+            $criteria->add(JobSicoesDetalleTableMap::COL_PRECIO_UNIDAD, $this->precio_unidad);
         }
         if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_CODIGO_CATALOGO)) {
             $criteria->add(JobSicoesDetalleTableMap::COL_CODIGO_CATALOGO, $this->codigo_catalogo);
         }
         if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_OBJETO_GASTO)) {
             $criteria->add(JobSicoesDetalleTableMap::COL_OBJETO_GASTO, $this->objeto_gasto);
+        }
+        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_STATUS)) {
+            $criteria->add(JobSicoesDetalleTableMap::COL_STATUS, $this->status);
+        }
+        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_CREATION_DATE)) {
+            $criteria->add(JobSicoesDetalleTableMap::COL_CREATION_DATE, $this->creation_date);
+        }
+        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_MODIFICATION_DATE)) {
+            $criteria->add(JobSicoesDetalleTableMap::COL_MODIFICATION_DATE, $this->modification_date);
         }
 
         return $criteria;
@@ -1401,9 +1628,12 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
         $copyObj->setDescripcion($this->getDescripcion());
         $copyObj->setUnidadMedida($this->getUnidadMedida());
         $copyObj->setCantidad($this->getCantidad());
-        $copyObj->setPrecioReferencial($this->getPrecioReferencial());
+        $copyObj->setPrecioUnidad($this->getPrecioUnidad());
         $copyObj->setCodigoCatalogo($this->getCodigoCatalogo());
         $copyObj->setObjetoGasto($this->getObjetoGasto());
+        $copyObj->setStatus($this->getStatus());
+        $copyObj->setCreationDate($this->getCreationDate());
+        $copyObj->setModificationDate($this->getModificationDate());
         if ($makeNew) {
             $copyObj->setNew(true);
         }
@@ -1498,11 +1728,15 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
         $this->descripcion = null;
         $this->unidad_medida = null;
         $this->cantidad = null;
-        $this->precio_referencial = null;
+        $this->precio_unidad = null;
         $this->codigo_catalogo = null;
         $this->objeto_gasto = null;
+        $this->status = null;
+        $this->creation_date = null;
+        $this->modification_date = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
+        $this->applyDefaultValues();
         $this->resetModified();
         $this->setNew(true);
         $this->setDeleted(false);
