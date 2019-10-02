@@ -286,7 +286,7 @@ class JobAvisoTableMap extends TableMap
         $this->addColumn('FECHA_PUBLICACION', 'FechaPublicacion', 'DATE', true, null, null);
         $this->addColumn('FECHA_VENCIMIENTO', 'FechaVencimiento', 'DATE', true, null, null);
         $this->addColumn('REQUISITO', 'Requisito', 'VARCHAR', true, 5000, null);
-        $this->addColumn('COMPETENCIAS', 'Competencias', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('COMPETENCIAS', 'Competencias', 'VARCHAR', false, 3000, null);
         $this->addColumn('ANIOS_EXPERIENCIA', 'AniosExperiencia', 'INTEGER', false, null, null);
         $this->addColumn('NIVEL_FORMACION', 'NivelFormacion', 'VARCHAR', true, 200, null);
         $this->addColumn('SALARIO', 'Salario', 'DECIMAL', false, 11, null);

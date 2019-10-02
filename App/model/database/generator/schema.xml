@@ -105,7 +105,7 @@
     <column name="FECHA_PUBLICACION" phpName="FechaPublicacion" type="DATE" required="true"/>
     <column name="FECHA_VENCIMIENTO" phpName="FechaVencimiento" type="DATE" required="true"/>
     <column name="REQUISITO" phpName="Requisito" type="VARCHAR" size="5000" required="true"/>
-    <column name="COMPETENCIAS" phpName="Competencias" type="LONGVARCHAR"/>
+    <column name="COMPETENCIAS" phpName="Competencias" type="VARCHAR" size="3000"/>
     <column name="ANIOS_EXPERIENCIA" phpName="AniosExperiencia" type="INTEGER"/>
     <column name="NIVEL_FORMACION" phpName="NivelFormacion" type="VARCHAR" size="200" required="true"/>
     <column name="SALARIO" phpName="Salario" type="DECIMAL" size="11" scale="0"/>
@@ -419,7 +419,7 @@
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
   </table>
-  <table name="job_sicoes" idMethod="native" phpName="JobSicoes">
+  <table name="job_sicoes_convocatoria" idMethod="native" phpName="JobSicoesConvocatoria">
     <column name="ID" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="CUCE" phpName="Cuce" type="VARCHAR" size="100" required="true"/>
     <column name="CODIGO_SISIN" phpName="CodigoSisin" type="VARCHAR" size="100"/>
@@ -431,11 +431,11 @@
     <column name="FECHA_LIMITE" phpName="FechaLimite" type="DATE" required="true"/>
     <column name="ESTADO" phpName="Estado" type="VARCHAR" size="10" required="true"/>
     <column name="MODALIDAD" phpName="Modalidad" type="VARCHAR" size="200" required="true"/>
+    <column name="TIPO_CONVOCATORIA" phpName="TipoConvocatoria" type="VARCHAR" size="200" required="true"/>
     <column name="TIPO_CONSULTORIA" phpName="TipoConsultoria" type="VARCHAR" size="200" required="true"/>
     <column name="FORMA_ADJUDICACION" phpName="FormaAdjudicacion" type="VARCHAR" size="200" required="true"/>
     <column name="TIPO_CONTRATACION" phpName="TipoContratacion" type="VARCHAR" size="200" required="true"/>
     <column name="GARANTIAS_SOLICITADAS" phpName="GarantiasSolicitadas" type="VARCHAR" size="2000" required="true"/>
-    <column name="TIPO_REQUERIMIENTO" phpName="TipoRequerimiento" type="VARCHAR" size="200" required="true"/>
     <column name="NUMERO_CONSULTORES" phpName="NumeroConsultores" type="INTEGER" required="true"/>
     <column name="PRECIO_UNITARIO" phpName="PrecioUnitario" type="FLOAT" size="9" scale="3" required="true"/>
     <column name="ENLACE" phpName="Enlace" type="VARCHAR" size="5000" required="true"/>
@@ -447,6 +447,26 @@
     <unique name="CUCE">
       <unique-column name="CUCE"/>
     </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="job_sicoes_detalle" idMethod="native" phpName="JobSicoesDetalle">
+    <column name="ID" phpName="Id" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="ID_SICOES_CONVOCATORIA" phpName="IdSicoesConvocatoria" type="INTEGER" required="true"/>
+    <column name="NUMERO" phpName="Numero" type="INTEGER" required="true"/>
+    <column name="DESCRIPCION" phpName="Descripcion" type="VARCHAR" size="5000" required="true"/>
+    <column name="UNIDAD_MEDIDA" phpName="UnidadMedida" type="VARCHAR" size="100" required="true"/>
+    <column name="CANTIDAD" phpName="Cantidad" type="INTEGER" required="true"/>
+    <column name="PRECIO_REFERENCIAL" phpName="PrecioReferencial" type="FLOAT" size="9" scale="3" required="true"/>
+    <column name="CODIGO_CATALOGO" phpName="CodigoCatalogo" type="VARCHAR" size="30"/>
+    <column name="OBJETO_GASTO" phpName="ObjetoGasto" type="VARCHAR" size="30"/>
+    <foreign-key foreignTable="job_sicoes_convocatoria" name="fk_job_sicoes_detalle_sicoes_convocatoria">
+      <reference local="ID_SICOES_CONVOCATORIA" foreign="ID"/>
+    </foreign-key>
+    <index name="ID_SICOES_CONVOCATORIA">
+      <index-column name="ID_SICOES_CONVOCATORIA"/>
+    </index>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>

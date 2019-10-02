@@ -1,12 +1,12 @@
 <?php
 
-use Base\JobSicoes as BaseJobSicoes;
+use Base\JobSicoesConvocatoria as BaseJobSicoesConvocatoria;
 
 /**
  *
  *
  */
-class JobSicoes extends BaseJobSicoes implements JsonSerializable
+class JobSicoesConvocatoria extends BaseJobSicoesConvocatoria implements JsonSerializable
 {
     use  Validatable, Convertible;
 

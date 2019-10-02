@@ -84,17 +84,17 @@
                                     $toEditLink = URI::toPage().'edit/';
                                     $toDeleteLink = URI::toPage().'delete/';
                                     $i = 0;
-                                    /* @var JobSicoes $sicoes */
-                                    foreach($listVigentes as $sicoes):
-                                        $pk = $sicoes->getId();
+                                    /* @var JobSicoesConvocatoria $sicoesConvocatoria */
+                                    foreach($listVigentes as $sicoesConvocatoria):
+                                        $pk = $sicoesConvocatoria->getId();
                                         ?>
                                         <tr role="row">
-                                            <td class="text-left"><?= $sicoes->getNombreEmpresa(); ?></td>
+                                            <td class="text-left"><?= $sicoesConvocatoria->getNombreEmpresa(); ?></td>
 
-                                            <td class="text-left"><?= $sicoes->getCargo(); ?></td>
-                                            <td class="text-left"><?= $sicoes->getRequisito(); ?></td>
-                                            <td class="text-left"><?= $sicoes->getDescripcion(); ?></td>
-                                            <td class="text-left"><?= $sicoes->getNivelFormacion(); ?></td>
+                                            <td class="text-left"><?= $sicoesConvocatoria->getCargo(); ?></td>
+                                            <td class="text-left"><?= $sicoesConvocatoria->getRequisito(); ?></td>
+                                            <td class="text-left"><?= $sicoesConvocatoria->getDescripcion(); ?></td>
+                                            <td class="text-left"><?= $sicoesConvocatoria->getNivelFormacion(); ?></td>
                                             <td class="text-center">
                                                 <a href="<?= $toDetailsLink.$pk; ?>" class="btn btn-sm btn-success btn-circle"><i class="fa fa-eye"></i></a>
                                                 <?php
@@ -141,7 +141,7 @@
                                     $toEditLink = URI::toPage().'edit/';
                                     $toDeleteLink = URI::toPage().'delete/';
                                     $i = 0;
-                                    /* @var JobSicoes $sicoes */
+                                    /* @var JobSicoesConvocatoria $sicoes */
                                     foreach($listNoVigentes as $sicoes):
                                         $pk = $sicoes->getId();
                                         ?>

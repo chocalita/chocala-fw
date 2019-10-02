@@ -2,16 +2,21 @@
 
 namespace Base;
 
-use \JobSicoesQuery as ChildJobSicoesQuery;
+use \JobSicoesConvocatoria as ChildJobSicoesConvocatoria;
+use \JobSicoesConvocatoriaQuery as ChildJobSicoesConvocatoriaQuery;
+use \JobSicoesDetalle as ChildJobSicoesDetalle;
+use \JobSicoesDetalleQuery as ChildJobSicoesDetalleQuery;
 use \DateTime;
 use \Exception;
 use \PDO;
-use Map\JobSicoesTableMap;
+use Map\JobSicoesConvocatoriaTableMap;
+use Map\JobSicoesDetalleTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Collection\Collection;
+use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\BadMethodCallException;
 use Propel\Runtime\Exception\LogicException;
@@ -21,18 +26,18 @@ use Propel\Runtime\Parser\AbstractParser;
 use Propel\Runtime\Util\PropelDateTime;
 
 /**
- * Base class that represents a row from the 'job_sicoes' table.
+ * Base class that represents a row from the 'job_sicoes_convocatoria' table.
  *
  *
  *
  * @package    propel.generator..Base
  */
-abstract class JobSicoes implements ActiveRecordInterface
+abstract class JobSicoesConvocatoria implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Map\\JobSicoesTableMap';
+    const TABLE_MAP = '\\Map\\JobSicoesConvocatoriaTableMap';
 
 
     /**
@@ -139,6 +144,13 @@ abstract class JobSicoes implements ActiveRecordInterface
     protected $modalidad;
 
     /**
+     * The value for the tipo_convocatoria field.
+     *
+     * @var        string
+     */
+    protected $tipo_convocatoria;
+
+    /**
      * The value for the tipo_consultoria field.
      *
      * @var        string
@@ -165,13 +177,6 @@ abstract class JobSicoes implements ActiveRecordInterface
      * @var        string
      */
     protected $garantias_solicitadas;
-
-    /**
-     * The value for the tipo_requerimiento field.
-     *
-     * @var        string
-     */
-    protected $tipo_requerimiento;
 
     /**
      * The value for the numero_consultores field.
@@ -232,12 +237,24 @@ abstract class JobSicoes implements ActiveRecordInterface
     protected $modification_date;
 
     /**
+     * @var        ObjectCollection|ChildJobSicoesDetalle[] Collection to store aggregation of ChildJobSicoesDetalle objects.
+     */
+    protected $collJobSicoesDetalles;
+    protected $collJobSicoesDetallesPartial;
+
+    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      *
      * @var boolean
      */
     protected $alreadyInSave = false;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection|ChildJobSicoesDetalle[]
+     */
+    protected $jobSicoesDetallesScheduledForDeletion = null;
 
     /**
      * Applies default values to this object.
@@ -250,7 +267,7 @@ abstract class JobSicoes implements ActiveRecordInterface
     }
 
     /**
-     * Initializes internal state of Base\JobSicoes object.
+     * Initializes internal state of Base\JobSicoesConvocatoria object.
      * @see applyDefaults()
      */
     public function __construct()
@@ -347,9 +364,9 @@ abstract class JobSicoes implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>JobSicoes</code> instance.  If
-     * <code>obj</code> is an instance of <code>JobSicoes</code>, delegates to
-     * <code>equals(JobSicoes)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>JobSicoesConvocatoria</code> instance.  If
+     * <code>obj</code> is an instance of <code>JobSicoesConvocatoria</code>, delegates to
+     * <code>equals(JobSicoesConvocatoria)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -415,7 +432,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return $this|JobSicoes The current object, for fluid interface
+     * @return $this|JobSicoesConvocatoria The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -607,6 +624,16 @@ abstract class JobSicoes implements ActiveRecordInterface
     }
 
     /**
+     * Get the [tipo_convocatoria] column value.
+     *
+     * @return string
+     */
+    public function getTipoConvocatoria()
+    {
+        return $this->tipo_convocatoria;
+    }
+
+    /**
      * Get the [tipo_consultoria] column value.
      *
      * @return string
@@ -644,16 +671,6 @@ abstract class JobSicoes implements ActiveRecordInterface
     public function getGarantiasSolicitadas()
     {
         return $this->garantias_solicitadas;
-    }
-
-    /**
-     * Get the [tipo_requerimiento] column value.
-     *
-     * @return string
-     */
-    public function getTipoRequerimiento()
-    {
-        return $this->tipo_requerimiento;
     }
 
     /**
@@ -760,7 +777,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      * Set the value of [id] column.
      *
      * @param int $v new value
-     * @return $this|\JobSicoes The current object (for fluent API support)
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -770,7 +787,7 @@ abstract class JobSicoes implements ActiveRecordInterface
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[JobSicoesTableMap::COL_ID] = true;
+            $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_ID] = true;
         }
 
         return $this;
@@ -780,7 +797,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      * Set the value of [cuce] column.
      *
      * @param string $v new value
-     * @return $this|\JobSicoes The current object (for fluent API support)
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
      */
     public function setCuce($v)
     {
@@ -790,7 +807,7 @@ abstract class JobSicoes implements ActiveRecordInterface
 
         if ($this->cuce !== $v) {
             $this->cuce = $v;
-            $this->modifiedColumns[JobSicoesTableMap::COL_CUCE] = true;
+            $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_CUCE] = true;
         }
 
         return $this;
@@ -800,7 +817,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      * Set the value of [codigo_sisin] column.
      *
      * @param string $v new value
-     * @return $this|\JobSicoes The current object (for fluent API support)
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
      */
     public function setCodigoSisin($v)
     {
@@ -810,7 +827,7 @@ abstract class JobSicoes implements ActiveRecordInterface
 
         if ($this->codigo_sisin !== $v) {
             $this->codigo_sisin = $v;
-            $this->modifiedColumns[JobSicoesTableMap::COL_CODIGO_SISIN] = true;
+            $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_CODIGO_SISIN] = true;
         }
 
         return $this;
@@ -820,7 +837,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      * Set the value of [objeto_licitacion] column.
      *
      * @param string $v new value
-     * @return $this|\JobSicoes The current object (for fluent API support)
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
      */
     public function setObjetoLicitacion($v)
     {
@@ -830,7 +847,7 @@ abstract class JobSicoes implements ActiveRecordInterface
 
         if ($this->objeto_licitacion !== $v) {
             $this->objeto_licitacion = $v;
-            $this->modifiedColumns[JobSicoesTableMap::COL_OBJETO_LICITACION] = true;
+            $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_OBJETO_LICITACION] = true;
         }
 
         return $this;
@@ -840,7 +857,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      * Set the value of [nombre_entidad] column.
      *
      * @param string $v new value
-     * @return $this|\JobSicoes The current object (for fluent API support)
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
      */
     public function setNombreEntidad($v)
     {
@@ -850,7 +867,7 @@ abstract class JobSicoes implements ActiveRecordInterface
 
         if ($this->nombre_entidad !== $v) {
             $this->nombre_entidad = $v;
-            $this->modifiedColumns[JobSicoesTableMap::COL_NOMBRE_ENTIDAD] = true;
+            $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_NOMBRE_ENTIDAD] = true;
         }
 
         return $this;
@@ -860,7 +877,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      * Set the value of [codigo_entidad] column.
      *
      * @param int $v new value
-     * @return $this|\JobSicoes The current object (for fluent API support)
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
      */
     public function setCodigoEntidad($v)
     {
@@ -870,7 +887,7 @@ abstract class JobSicoes implements ActiveRecordInterface
 
         if ($this->codigo_entidad !== $v) {
             $this->codigo_entidad = $v;
-            $this->modifiedColumns[JobSicoesTableMap::COL_CODIGO_ENTIDAD] = true;
+            $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_CODIGO_ENTIDAD] = true;
         }
 
         return $this;
@@ -880,7 +897,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      * Set the value of [telefono_entidad] column.
      *
      * @param string $v new value
-     * @return $this|\JobSicoes The current object (for fluent API support)
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
      */
     public function setTelefonoEntidad($v)
     {
@@ -890,7 +907,7 @@ abstract class JobSicoes implements ActiveRecordInterface
 
         if ($this->telefono_entidad !== $v) {
             $this->telefono_entidad = $v;
-            $this->modifiedColumns[JobSicoesTableMap::COL_TELEFONO_ENTIDAD] = true;
+            $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_TELEFONO_ENTIDAD] = true;
         }
 
         return $this;
@@ -901,7 +918,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      *
      * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
-     * @return $this|\JobSicoes The current object (for fluent API support)
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
      */
     public function setFechaPublicacion($v)
     {
@@ -909,7 +926,7 @@ abstract class JobSicoes implements ActiveRecordInterface
         if ($this->fecha_publicacion !== null || $dt !== null) {
             if ($this->fecha_publicacion === null || $dt === null || $dt->format("Y-m-d") !== $this->fecha_publicacion->format("Y-m-d")) {
                 $this->fecha_publicacion = $dt === null ? null : clone $dt;
-                $this->modifiedColumns[JobSicoesTableMap::COL_FECHA_PUBLICACION] = true;
+                $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_FECHA_PUBLICACION] = true;
             }
         } // if either are not null
 
@@ -921,7 +938,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      *
      * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
-     * @return $this|\JobSicoes The current object (for fluent API support)
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
      */
     public function setFechaLimite($v)
     {
@@ -929,7 +946,7 @@ abstract class JobSicoes implements ActiveRecordInterface
         if ($this->fecha_limite !== null || $dt !== null) {
             if ($this->fecha_limite === null || $dt === null || $dt->format("Y-m-d") !== $this->fecha_limite->format("Y-m-d")) {
                 $this->fecha_limite = $dt === null ? null : clone $dt;
-                $this->modifiedColumns[JobSicoesTableMap::COL_FECHA_LIMITE] = true;
+                $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_FECHA_LIMITE] = true;
             }
         } // if either are not null
 
@@ -940,7 +957,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      * Set the value of [estado] column.
      *
      * @param string $v new value
-     * @return $this|\JobSicoes The current object (for fluent API support)
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
      */
     public function setEstado($v)
     {
@@ -950,7 +967,7 @@ abstract class JobSicoes implements ActiveRecordInterface
 
         if ($this->estado !== $v) {
             $this->estado = $v;
-            $this->modifiedColumns[JobSicoesTableMap::COL_ESTADO] = true;
+            $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_ESTADO] = true;
         }
 
         return $this;
@@ -960,7 +977,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      * Set the value of [modalidad] column.
      *
      * @param string $v new value
-     * @return $this|\JobSicoes The current object (for fluent API support)
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
      */
     public function setModalidad($v)
     {
@@ -970,17 +987,37 @@ abstract class JobSicoes implements ActiveRecordInterface
 
         if ($this->modalidad !== $v) {
             $this->modalidad = $v;
-            $this->modifiedColumns[JobSicoesTableMap::COL_MODALIDAD] = true;
+            $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_MODALIDAD] = true;
         }
 
         return $this;
     } // setModalidad()
 
     /**
+     * Set the value of [tipo_convocatoria] column.
+     *
+     * @param string $v new value
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
+     */
+    public function setTipoConvocatoria($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->tipo_convocatoria !== $v) {
+            $this->tipo_convocatoria = $v;
+            $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_TIPO_CONVOCATORIA] = true;
+        }
+
+        return $this;
+    } // setTipoConvocatoria()
+
+    /**
      * Set the value of [tipo_consultoria] column.
      *
      * @param string $v new value
-     * @return $this|\JobSicoes The current object (for fluent API support)
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
      */
     public function setTipoConsultoria($v)
     {
@@ -990,7 +1027,7 @@ abstract class JobSicoes implements ActiveRecordInterface
 
         if ($this->tipo_consultoria !== $v) {
             $this->tipo_consultoria = $v;
-            $this->modifiedColumns[JobSicoesTableMap::COL_TIPO_CONSULTORIA] = true;
+            $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_TIPO_CONSULTORIA] = true;
         }
 
         return $this;
@@ -1000,7 +1037,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      * Set the value of [forma_adjudicacion] column.
      *
      * @param string $v new value
-     * @return $this|\JobSicoes The current object (for fluent API support)
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
      */
     public function setFormaAdjudicacion($v)
     {
@@ -1010,7 +1047,7 @@ abstract class JobSicoes implements ActiveRecordInterface
 
         if ($this->forma_adjudicacion !== $v) {
             $this->forma_adjudicacion = $v;
-            $this->modifiedColumns[JobSicoesTableMap::COL_FORMA_ADJUDICACION] = true;
+            $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_FORMA_ADJUDICACION] = true;
         }
 
         return $this;
@@ -1020,7 +1057,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      * Set the value of [tipo_contratacion] column.
      *
      * @param string $v new value
-     * @return $this|\JobSicoes The current object (for fluent API support)
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
      */
     public function setTipoContratacion($v)
     {
@@ -1030,7 +1067,7 @@ abstract class JobSicoes implements ActiveRecordInterface
 
         if ($this->tipo_contratacion !== $v) {
             $this->tipo_contratacion = $v;
-            $this->modifiedColumns[JobSicoesTableMap::COL_TIPO_CONTRATACION] = true;
+            $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_TIPO_CONTRATACION] = true;
         }
 
         return $this;
@@ -1040,7 +1077,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      * Set the value of [garantias_solicitadas] column.
      *
      * @param string $v new value
-     * @return $this|\JobSicoes The current object (for fluent API support)
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
      */
     public function setGarantiasSolicitadas($v)
     {
@@ -1050,37 +1087,17 @@ abstract class JobSicoes implements ActiveRecordInterface
 
         if ($this->garantias_solicitadas !== $v) {
             $this->garantias_solicitadas = $v;
-            $this->modifiedColumns[JobSicoesTableMap::COL_GARANTIAS_SOLICITADAS] = true;
+            $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_GARANTIAS_SOLICITADAS] = true;
         }
 
         return $this;
     } // setGarantiasSolicitadas()
 
     /**
-     * Set the value of [tipo_requerimiento] column.
-     *
-     * @param string $v new value
-     * @return $this|\JobSicoes The current object (for fluent API support)
-     */
-    public function setTipoRequerimiento($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->tipo_requerimiento !== $v) {
-            $this->tipo_requerimiento = $v;
-            $this->modifiedColumns[JobSicoesTableMap::COL_TIPO_REQUERIMIENTO] = true;
-        }
-
-        return $this;
-    } // setTipoRequerimiento()
-
-    /**
      * Set the value of [numero_consultores] column.
      *
      * @param int $v new value
-     * @return $this|\JobSicoes The current object (for fluent API support)
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
      */
     public function setNumeroConsultores($v)
     {
@@ -1090,7 +1107,7 @@ abstract class JobSicoes implements ActiveRecordInterface
 
         if ($this->numero_consultores !== $v) {
             $this->numero_consultores = $v;
-            $this->modifiedColumns[JobSicoesTableMap::COL_NUMERO_CONSULTORES] = true;
+            $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_NUMERO_CONSULTORES] = true;
         }
 
         return $this;
@@ -1100,7 +1117,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      * Set the value of [precio_unitario] column.
      *
      * @param double $v new value
-     * @return $this|\JobSicoes The current object (for fluent API support)
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
      */
     public function setPrecioUnitario($v)
     {
@@ -1110,7 +1127,7 @@ abstract class JobSicoes implements ActiveRecordInterface
 
         if ($this->precio_unitario !== $v) {
             $this->precio_unitario = $v;
-            $this->modifiedColumns[JobSicoesTableMap::COL_PRECIO_UNITARIO] = true;
+            $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_PRECIO_UNITARIO] = true;
         }
 
         return $this;
@@ -1120,7 +1137,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      * Set the value of [enlace] column.
      *
      * @param string $v new value
-     * @return $this|\JobSicoes The current object (for fluent API support)
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
      */
     public function setEnlace($v)
     {
@@ -1130,7 +1147,7 @@ abstract class JobSicoes implements ActiveRecordInterface
 
         if ($this->enlace !== $v) {
             $this->enlace = $v;
-            $this->modifiedColumns[JobSicoesTableMap::COL_ENLACE] = true;
+            $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_ENLACE] = true;
         }
 
         return $this;
@@ -1140,7 +1157,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      * Set the value of [departamento] column.
      *
      * @param string $v new value
-     * @return $this|\JobSicoes The current object (for fluent API support)
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
      */
     public function setDepartamento($v)
     {
@@ -1150,7 +1167,7 @@ abstract class JobSicoes implements ActiveRecordInterface
 
         if ($this->departamento !== $v) {
             $this->departamento = $v;
-            $this->modifiedColumns[JobSicoesTableMap::COL_DEPARTAMENTO] = true;
+            $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_DEPARTAMENTO] = true;
         }
 
         return $this;
@@ -1160,7 +1177,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      * Set the value of [contacto] column.
      *
      * @param string $v new value
-     * @return $this|\JobSicoes The current object (for fluent API support)
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
      */
     public function setContacto($v)
     {
@@ -1170,7 +1187,7 @@ abstract class JobSicoes implements ActiveRecordInterface
 
         if ($this->contacto !== $v) {
             $this->contacto = $v;
-            $this->modifiedColumns[JobSicoesTableMap::COL_CONTACTO] = true;
+            $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_CONTACTO] = true;
         }
 
         return $this;
@@ -1180,7 +1197,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      * Set the value of [status] column.
      *
      * @param string $v new value
-     * @return $this|\JobSicoes The current object (for fluent API support)
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
      */
     public function setStatus($v)
     {
@@ -1190,7 +1207,7 @@ abstract class JobSicoes implements ActiveRecordInterface
 
         if ($this->status !== $v) {
             $this->status = $v;
-            $this->modifiedColumns[JobSicoesTableMap::COL_STATUS] = true;
+            $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_STATUS] = true;
         }
 
         return $this;
@@ -1201,7 +1218,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      *
      * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
-     * @return $this|\JobSicoes The current object (for fluent API support)
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
      */
     public function setCreationDate($v)
     {
@@ -1209,7 +1226,7 @@ abstract class JobSicoes implements ActiveRecordInterface
         if ($this->creation_date !== null || $dt !== null) {
             if ($this->creation_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->creation_date->format("Y-m-d H:i:s.u")) {
                 $this->creation_date = $dt === null ? null : clone $dt;
-                $this->modifiedColumns[JobSicoesTableMap::COL_CREATION_DATE] = true;
+                $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_CREATION_DATE] = true;
             }
         } // if either are not null
 
@@ -1221,7 +1238,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      *
      * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
-     * @return $this|\JobSicoes The current object (for fluent API support)
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
      */
     public function setModificationDate($v)
     {
@@ -1229,7 +1246,7 @@ abstract class JobSicoes implements ActiveRecordInterface
         if ($this->modification_date !== null || $dt !== null) {
             if ($this->modification_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->modification_date->format("Y-m-d H:i:s.u")) {
                 $this->modification_date = $dt === null ? null : clone $dt;
-                $this->modifiedColumns[JobSicoesTableMap::COL_MODIFICATION_DATE] = true;
+                $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_MODIFICATION_DATE] = true;
             }
         } // if either are not null
 
@@ -1272,85 +1289,85 @@ abstract class JobSicoes implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : JobSicoesTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : JobSicoesTableMap::translateFieldName('Cuce', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('Cuce', TableMap::TYPE_PHPNAME, $indexType)];
             $this->cuce = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : JobSicoesTableMap::translateFieldName('CodigoSisin', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('CodigoSisin', TableMap::TYPE_PHPNAME, $indexType)];
             $this->codigo_sisin = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : JobSicoesTableMap::translateFieldName('ObjetoLicitacion', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('ObjetoLicitacion', TableMap::TYPE_PHPNAME, $indexType)];
             $this->objeto_licitacion = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : JobSicoesTableMap::translateFieldName('NombreEntidad', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('NombreEntidad', TableMap::TYPE_PHPNAME, $indexType)];
             $this->nombre_entidad = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : JobSicoesTableMap::translateFieldName('CodigoEntidad', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('CodigoEntidad', TableMap::TYPE_PHPNAME, $indexType)];
             $this->codigo_entidad = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : JobSicoesTableMap::translateFieldName('TelefonoEntidad', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('TelefonoEntidad', TableMap::TYPE_PHPNAME, $indexType)];
             $this->telefono_entidad = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : JobSicoesTableMap::translateFieldName('FechaPublicacion', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('FechaPublicacion', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00') {
                 $col = null;
             }
             $this->fecha_publicacion = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : JobSicoesTableMap::translateFieldName('FechaLimite', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('FechaLimite', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00') {
                 $col = null;
             }
             $this->fecha_limite = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : JobSicoesTableMap::translateFieldName('Estado', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('Estado', TableMap::TYPE_PHPNAME, $indexType)];
             $this->estado = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : JobSicoesTableMap::translateFieldName('Modalidad', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('Modalidad', TableMap::TYPE_PHPNAME, $indexType)];
             $this->modalidad = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : JobSicoesTableMap::translateFieldName('TipoConsultoria', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('TipoConvocatoria', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->tipo_convocatoria = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('TipoConsultoria', TableMap::TYPE_PHPNAME, $indexType)];
             $this->tipo_consultoria = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : JobSicoesTableMap::translateFieldName('FormaAdjudicacion', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 13 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('FormaAdjudicacion', TableMap::TYPE_PHPNAME, $indexType)];
             $this->forma_adjudicacion = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 13 + $startcol : JobSicoesTableMap::translateFieldName('TipoContratacion', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 14 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('TipoContratacion', TableMap::TYPE_PHPNAME, $indexType)];
             $this->tipo_contratacion = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 14 + $startcol : JobSicoesTableMap::translateFieldName('GarantiasSolicitadas', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 15 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('GarantiasSolicitadas', TableMap::TYPE_PHPNAME, $indexType)];
             $this->garantias_solicitadas = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 15 + $startcol : JobSicoesTableMap::translateFieldName('TipoRequerimiento', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->tipo_requerimiento = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 16 + $startcol : JobSicoesTableMap::translateFieldName('NumeroConsultores', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 16 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('NumeroConsultores', TableMap::TYPE_PHPNAME, $indexType)];
             $this->numero_consultores = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 17 + $startcol : JobSicoesTableMap::translateFieldName('PrecioUnitario', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 17 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('PrecioUnitario', TableMap::TYPE_PHPNAME, $indexType)];
             $this->precio_unitario = (null !== $col) ? (double) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 18 + $startcol : JobSicoesTableMap::translateFieldName('Enlace', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 18 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('Enlace', TableMap::TYPE_PHPNAME, $indexType)];
             $this->enlace = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 19 + $startcol : JobSicoesTableMap::translateFieldName('Departamento', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 19 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('Departamento', TableMap::TYPE_PHPNAME, $indexType)];
             $this->departamento = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 20 + $startcol : JobSicoesTableMap::translateFieldName('Contacto', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 20 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('Contacto', TableMap::TYPE_PHPNAME, $indexType)];
             $this->contacto = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 21 + $startcol : JobSicoesTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 21 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
             $this->status = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 22 + $startcol : JobSicoesTableMap::translateFieldName('CreationDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 22 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('CreationDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->creation_date = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 23 + $startcol : JobSicoesTableMap::translateFieldName('ModificationDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 23 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('ModificationDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
@@ -1363,10 +1380,10 @@ abstract class JobSicoes implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 24; // 24 = JobSicoesTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 24; // 24 = JobSicoesConvocatoriaTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\JobSicoes'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\JobSicoesConvocatoria'), 0, $e);
         }
     }
 
@@ -1408,13 +1425,13 @@ abstract class JobSicoes implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(JobSicoesTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(JobSicoesConvocatoriaTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildJobSicoesQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildJobSicoesConvocatoriaQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -1423,6 +1440,8 @@ abstract class JobSicoes implements ActiveRecordInterface
         $this->hydrate($row, 0, true, $dataFetcher->getIndexType()); // rehydrate
 
         if ($deep) {  // also de-associate any related objects?
+
+            $this->collJobSicoesDetalles = null;
 
         } // if (deep)
     }
@@ -1433,8 +1452,8 @@ abstract class JobSicoes implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see JobSicoes::setDeleted()
-     * @see JobSicoes::isDeleted()
+     * @see JobSicoesConvocatoria::setDeleted()
+     * @see JobSicoesConvocatoria::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -1443,11 +1462,11 @@ abstract class JobSicoes implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(JobSicoesTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(JobSicoesConvocatoriaTableMap::DATABASE_NAME);
         }
 
         $con->transaction(function () use ($con) {
-            $deleteQuery = ChildJobSicoesQuery::create()
+            $deleteQuery = ChildJobSicoesConvocatoriaQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -1482,7 +1501,7 @@ abstract class JobSicoes implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(JobSicoesTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(JobSicoesConvocatoriaTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
@@ -1501,7 +1520,7 @@ abstract class JobSicoes implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                JobSicoesTableMap::addInstanceToPool($this);
+                JobSicoesConvocatoriaTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -1538,6 +1557,23 @@ abstract class JobSicoes implements ActiveRecordInterface
                 $this->resetModified();
             }
 
+            if ($this->jobSicoesDetallesScheduledForDeletion !== null) {
+                if (!$this->jobSicoesDetallesScheduledForDeletion->isEmpty()) {
+                    \JobSicoesDetalleQuery::create()
+                        ->filterByPrimaryKeys($this->jobSicoesDetallesScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->jobSicoesDetallesScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collJobSicoesDetalles !== null) {
+                foreach ($this->collJobSicoesDetalles as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
             $this->alreadyInSave = false;
 
         }
@@ -1558,87 +1594,87 @@ abstract class JobSicoes implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[JobSicoesTableMap::COL_ID] = true;
+        $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_ID] = true;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . JobSicoesTableMap::COL_ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . JobSicoesConvocatoriaTableMap::COL_ID . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(JobSicoesTableMap::COL_ID)) {
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'ID';
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_CUCE)) {
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_CUCE)) {
             $modifiedColumns[':p' . $index++]  = 'CUCE';
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_CODIGO_SISIN)) {
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_CODIGO_SISIN)) {
             $modifiedColumns[':p' . $index++]  = 'CODIGO_SISIN';
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_OBJETO_LICITACION)) {
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_OBJETO_LICITACION)) {
             $modifiedColumns[':p' . $index++]  = 'OBJETO_LICITACION';
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_NOMBRE_ENTIDAD)) {
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_NOMBRE_ENTIDAD)) {
             $modifiedColumns[':p' . $index++]  = 'NOMBRE_ENTIDAD';
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_CODIGO_ENTIDAD)) {
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_CODIGO_ENTIDAD)) {
             $modifiedColumns[':p' . $index++]  = 'CODIGO_ENTIDAD';
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_TELEFONO_ENTIDAD)) {
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_TELEFONO_ENTIDAD)) {
             $modifiedColumns[':p' . $index++]  = 'TELEFONO_ENTIDAD';
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_FECHA_PUBLICACION)) {
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_FECHA_PUBLICACION)) {
             $modifiedColumns[':p' . $index++]  = 'FECHA_PUBLICACION';
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_FECHA_LIMITE)) {
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_FECHA_LIMITE)) {
             $modifiedColumns[':p' . $index++]  = 'FECHA_LIMITE';
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_ESTADO)) {
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_ESTADO)) {
             $modifiedColumns[':p' . $index++]  = 'ESTADO';
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_MODALIDAD)) {
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_MODALIDAD)) {
             $modifiedColumns[':p' . $index++]  = 'MODALIDAD';
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_TIPO_CONSULTORIA)) {
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_TIPO_CONVOCATORIA)) {
+            $modifiedColumns[':p' . $index++]  = 'TIPO_CONVOCATORIA';
+        }
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_TIPO_CONSULTORIA)) {
             $modifiedColumns[':p' . $index++]  = 'TIPO_CONSULTORIA';
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_FORMA_ADJUDICACION)) {
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_FORMA_ADJUDICACION)) {
             $modifiedColumns[':p' . $index++]  = 'FORMA_ADJUDICACION';
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_TIPO_CONTRATACION)) {
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_TIPO_CONTRATACION)) {
             $modifiedColumns[':p' . $index++]  = 'TIPO_CONTRATACION';
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_GARANTIAS_SOLICITADAS)) {
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_GARANTIAS_SOLICITADAS)) {
             $modifiedColumns[':p' . $index++]  = 'GARANTIAS_SOLICITADAS';
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_TIPO_REQUERIMIENTO)) {
-            $modifiedColumns[':p' . $index++]  = 'TIPO_REQUERIMIENTO';
-        }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_NUMERO_CONSULTORES)) {
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_NUMERO_CONSULTORES)) {
             $modifiedColumns[':p' . $index++]  = 'NUMERO_CONSULTORES';
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_PRECIO_UNITARIO)) {
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_PRECIO_UNITARIO)) {
             $modifiedColumns[':p' . $index++]  = 'PRECIO_UNITARIO';
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_ENLACE)) {
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_ENLACE)) {
             $modifiedColumns[':p' . $index++]  = 'ENLACE';
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_DEPARTAMENTO)) {
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_DEPARTAMENTO)) {
             $modifiedColumns[':p' . $index++]  = 'DEPARTAMENTO';
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_CONTACTO)) {
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_CONTACTO)) {
             $modifiedColumns[':p' . $index++]  = 'CONTACTO';
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_STATUS)) {
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_STATUS)) {
             $modifiedColumns[':p' . $index++]  = 'STATUS';
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_CREATION_DATE)) {
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_CREATION_DATE)) {
             $modifiedColumns[':p' . $index++]  = 'CREATION_DATE';
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_MODIFICATION_DATE)) {
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_MODIFICATION_DATE)) {
             $modifiedColumns[':p' . $index++]  = 'MODIFICATION_DATE';
         }
 
         $sql = sprintf(
-            'INSERT INTO job_sicoes (%s) VALUES (%s)',
+            'INSERT INTO job_sicoes_convocatoria (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -1680,6 +1716,9 @@ abstract class JobSicoes implements ActiveRecordInterface
                     case 'MODALIDAD':
                         $stmt->bindValue($identifier, $this->modalidad, PDO::PARAM_STR);
                         break;
+                    case 'TIPO_CONVOCATORIA':
+                        $stmt->bindValue($identifier, $this->tipo_convocatoria, PDO::PARAM_STR);
+                        break;
                     case 'TIPO_CONSULTORIA':
                         $stmt->bindValue($identifier, $this->tipo_consultoria, PDO::PARAM_STR);
                         break;
@@ -1691,9 +1730,6 @@ abstract class JobSicoes implements ActiveRecordInterface
                         break;
                     case 'GARANTIAS_SOLICITADAS':
                         $stmt->bindValue($identifier, $this->garantias_solicitadas, PDO::PARAM_STR);
-                        break;
-                    case 'TIPO_REQUERIMIENTO':
-                        $stmt->bindValue($identifier, $this->tipo_requerimiento, PDO::PARAM_STR);
                         break;
                     case 'NUMERO_CONSULTORES':
                         $stmt->bindValue($identifier, $this->numero_consultores, PDO::PARAM_INT);
@@ -1765,7 +1801,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = JobSicoesTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = JobSicoesConvocatoriaTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -1815,19 +1851,19 @@ abstract class JobSicoes implements ActiveRecordInterface
                 return $this->getModalidad();
                 break;
             case 11:
-                return $this->getTipoConsultoria();
+                return $this->getTipoConvocatoria();
                 break;
             case 12:
-                return $this->getFormaAdjudicacion();
+                return $this->getTipoConsultoria();
                 break;
             case 13:
-                return $this->getTipoContratacion();
+                return $this->getFormaAdjudicacion();
                 break;
             case 14:
-                return $this->getGarantiasSolicitadas();
+                return $this->getTipoContratacion();
                 break;
             case 15:
-                return $this->getTipoRequerimiento();
+                return $this->getGarantiasSolicitadas();
                 break;
             case 16:
                 return $this->getNumeroConsultores();
@@ -1870,17 +1906,18 @@ abstract class JobSicoes implements ActiveRecordInterface
      *                    Defaults to TableMap::TYPE_PHPNAME.
      * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
      * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
+     * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
      *
      * @return array an associative array containing the field names (as keys) and field values
      */
-    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
+    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
 
-        if (isset($alreadyDumpedObjects['JobSicoes'][$this->hashCode()])) {
+        if (isset($alreadyDumpedObjects['JobSicoesConvocatoria'][$this->hashCode()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['JobSicoes'][$this->hashCode()] = true;
-        $keys = JobSicoesTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['JobSicoesConvocatoria'][$this->hashCode()] = true;
+        $keys = JobSicoesConvocatoriaTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
             $keys[1] => $this->getCuce(),
@@ -1893,11 +1930,11 @@ abstract class JobSicoes implements ActiveRecordInterface
             $keys[8] => $this->getFechaLimite(),
             $keys[9] => $this->getEstado(),
             $keys[10] => $this->getModalidad(),
-            $keys[11] => $this->getTipoConsultoria(),
-            $keys[12] => $this->getFormaAdjudicacion(),
-            $keys[13] => $this->getTipoContratacion(),
-            $keys[14] => $this->getGarantiasSolicitadas(),
-            $keys[15] => $this->getTipoRequerimiento(),
+            $keys[11] => $this->getTipoConvocatoria(),
+            $keys[12] => $this->getTipoConsultoria(),
+            $keys[13] => $this->getFormaAdjudicacion(),
+            $keys[14] => $this->getTipoContratacion(),
+            $keys[15] => $this->getGarantiasSolicitadas(),
             $keys[16] => $this->getNumeroConsultores(),
             $keys[17] => $this->getPrecioUnitario(),
             $keys[18] => $this->getEnlace(),
@@ -1928,6 +1965,23 @@ abstract class JobSicoes implements ActiveRecordInterface
             $result[$key] = $virtualColumn;
         }
 
+        if ($includeForeignObjects) {
+            if (null !== $this->collJobSicoesDetalles) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'jobSicoesDetalles';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'job_sicoes_detalles';
+                        break;
+                    default:
+                        $key = 'JobSicoesDetalles';
+                }
+
+                $result[$key] = $this->collJobSicoesDetalles->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+        }
 
         return $result;
     }
@@ -1941,11 +1995,11 @@ abstract class JobSicoes implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\JobSicoes
+     * @return $this|\JobSicoesConvocatoria
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = JobSicoesTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = JobSicoesConvocatoriaTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -1956,7 +2010,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\JobSicoes
+     * @return $this|\JobSicoesConvocatoria
      */
     public function setByPosition($pos, $value)
     {
@@ -1995,19 +2049,19 @@ abstract class JobSicoes implements ActiveRecordInterface
                 $this->setModalidad($value);
                 break;
             case 11:
-                $this->setTipoConsultoria($value);
+                $this->setTipoConvocatoria($value);
                 break;
             case 12:
-                $this->setFormaAdjudicacion($value);
+                $this->setTipoConsultoria($value);
                 break;
             case 13:
-                $this->setTipoContratacion($value);
+                $this->setFormaAdjudicacion($value);
                 break;
             case 14:
-                $this->setGarantiasSolicitadas($value);
+                $this->setTipoContratacion($value);
                 break;
             case 15:
-                $this->setTipoRequerimiento($value);
+                $this->setGarantiasSolicitadas($value);
                 break;
             case 16:
                 $this->setNumeroConsultores($value);
@@ -2057,7 +2111,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = JobSicoesTableMap::getFieldNames($keyType);
+        $keys = JobSicoesConvocatoriaTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
             $this->setId($arr[$keys[0]]);
@@ -2093,19 +2147,19 @@ abstract class JobSicoes implements ActiveRecordInterface
             $this->setModalidad($arr[$keys[10]]);
         }
         if (array_key_exists($keys[11], $arr)) {
-            $this->setTipoConsultoria($arr[$keys[11]]);
+            $this->setTipoConvocatoria($arr[$keys[11]]);
         }
         if (array_key_exists($keys[12], $arr)) {
-            $this->setFormaAdjudicacion($arr[$keys[12]]);
+            $this->setTipoConsultoria($arr[$keys[12]]);
         }
         if (array_key_exists($keys[13], $arr)) {
-            $this->setTipoContratacion($arr[$keys[13]]);
+            $this->setFormaAdjudicacion($arr[$keys[13]]);
         }
         if (array_key_exists($keys[14], $arr)) {
-            $this->setGarantiasSolicitadas($arr[$keys[14]]);
+            $this->setTipoContratacion($arr[$keys[14]]);
         }
         if (array_key_exists($keys[15], $arr)) {
-            $this->setTipoRequerimiento($arr[$keys[15]]);
+            $this->setGarantiasSolicitadas($arr[$keys[15]]);
         }
         if (array_key_exists($keys[16], $arr)) {
             $this->setNumeroConsultores($arr[$keys[16]]);
@@ -2150,7 +2204,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\JobSicoes The current object, for fluid interface
+     * @return $this|\JobSicoesConvocatoria The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -2170,79 +2224,79 @@ abstract class JobSicoes implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(JobSicoesTableMap::DATABASE_NAME);
+        $criteria = new Criteria(JobSicoesConvocatoriaTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(JobSicoesTableMap::COL_ID)) {
-            $criteria->add(JobSicoesTableMap::COL_ID, $this->id);
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_ID)) {
+            $criteria->add(JobSicoesConvocatoriaTableMap::COL_ID, $this->id);
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_CUCE)) {
-            $criteria->add(JobSicoesTableMap::COL_CUCE, $this->cuce);
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_CUCE)) {
+            $criteria->add(JobSicoesConvocatoriaTableMap::COL_CUCE, $this->cuce);
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_CODIGO_SISIN)) {
-            $criteria->add(JobSicoesTableMap::COL_CODIGO_SISIN, $this->codigo_sisin);
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_CODIGO_SISIN)) {
+            $criteria->add(JobSicoesConvocatoriaTableMap::COL_CODIGO_SISIN, $this->codigo_sisin);
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_OBJETO_LICITACION)) {
-            $criteria->add(JobSicoesTableMap::COL_OBJETO_LICITACION, $this->objeto_licitacion);
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_OBJETO_LICITACION)) {
+            $criteria->add(JobSicoesConvocatoriaTableMap::COL_OBJETO_LICITACION, $this->objeto_licitacion);
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_NOMBRE_ENTIDAD)) {
-            $criteria->add(JobSicoesTableMap::COL_NOMBRE_ENTIDAD, $this->nombre_entidad);
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_NOMBRE_ENTIDAD)) {
+            $criteria->add(JobSicoesConvocatoriaTableMap::COL_NOMBRE_ENTIDAD, $this->nombre_entidad);
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_CODIGO_ENTIDAD)) {
-            $criteria->add(JobSicoesTableMap::COL_CODIGO_ENTIDAD, $this->codigo_entidad);
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_CODIGO_ENTIDAD)) {
+            $criteria->add(JobSicoesConvocatoriaTableMap::COL_CODIGO_ENTIDAD, $this->codigo_entidad);
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_TELEFONO_ENTIDAD)) {
-            $criteria->add(JobSicoesTableMap::COL_TELEFONO_ENTIDAD, $this->telefono_entidad);
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_TELEFONO_ENTIDAD)) {
+            $criteria->add(JobSicoesConvocatoriaTableMap::COL_TELEFONO_ENTIDAD, $this->telefono_entidad);
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_FECHA_PUBLICACION)) {
-            $criteria->add(JobSicoesTableMap::COL_FECHA_PUBLICACION, $this->fecha_publicacion);
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_FECHA_PUBLICACION)) {
+            $criteria->add(JobSicoesConvocatoriaTableMap::COL_FECHA_PUBLICACION, $this->fecha_publicacion);
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_FECHA_LIMITE)) {
-            $criteria->add(JobSicoesTableMap::COL_FECHA_LIMITE, $this->fecha_limite);
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_FECHA_LIMITE)) {
+            $criteria->add(JobSicoesConvocatoriaTableMap::COL_FECHA_LIMITE, $this->fecha_limite);
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_ESTADO)) {
-            $criteria->add(JobSicoesTableMap::COL_ESTADO, $this->estado);
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_ESTADO)) {
+            $criteria->add(JobSicoesConvocatoriaTableMap::COL_ESTADO, $this->estado);
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_MODALIDAD)) {
-            $criteria->add(JobSicoesTableMap::COL_MODALIDAD, $this->modalidad);
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_MODALIDAD)) {
+            $criteria->add(JobSicoesConvocatoriaTableMap::COL_MODALIDAD, $this->modalidad);
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_TIPO_CONSULTORIA)) {
-            $criteria->add(JobSicoesTableMap::COL_TIPO_CONSULTORIA, $this->tipo_consultoria);
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_TIPO_CONVOCATORIA)) {
+            $criteria->add(JobSicoesConvocatoriaTableMap::COL_TIPO_CONVOCATORIA, $this->tipo_convocatoria);
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_FORMA_ADJUDICACION)) {
-            $criteria->add(JobSicoesTableMap::COL_FORMA_ADJUDICACION, $this->forma_adjudicacion);
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_TIPO_CONSULTORIA)) {
+            $criteria->add(JobSicoesConvocatoriaTableMap::COL_TIPO_CONSULTORIA, $this->tipo_consultoria);
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_TIPO_CONTRATACION)) {
-            $criteria->add(JobSicoesTableMap::COL_TIPO_CONTRATACION, $this->tipo_contratacion);
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_FORMA_ADJUDICACION)) {
+            $criteria->add(JobSicoesConvocatoriaTableMap::COL_FORMA_ADJUDICACION, $this->forma_adjudicacion);
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_GARANTIAS_SOLICITADAS)) {
-            $criteria->add(JobSicoesTableMap::COL_GARANTIAS_SOLICITADAS, $this->garantias_solicitadas);
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_TIPO_CONTRATACION)) {
+            $criteria->add(JobSicoesConvocatoriaTableMap::COL_TIPO_CONTRATACION, $this->tipo_contratacion);
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_TIPO_REQUERIMIENTO)) {
-            $criteria->add(JobSicoesTableMap::COL_TIPO_REQUERIMIENTO, $this->tipo_requerimiento);
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_GARANTIAS_SOLICITADAS)) {
+            $criteria->add(JobSicoesConvocatoriaTableMap::COL_GARANTIAS_SOLICITADAS, $this->garantias_solicitadas);
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_NUMERO_CONSULTORES)) {
-            $criteria->add(JobSicoesTableMap::COL_NUMERO_CONSULTORES, $this->numero_consultores);
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_NUMERO_CONSULTORES)) {
+            $criteria->add(JobSicoesConvocatoriaTableMap::COL_NUMERO_CONSULTORES, $this->numero_consultores);
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_PRECIO_UNITARIO)) {
-            $criteria->add(JobSicoesTableMap::COL_PRECIO_UNITARIO, $this->precio_unitario);
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_PRECIO_UNITARIO)) {
+            $criteria->add(JobSicoesConvocatoriaTableMap::COL_PRECIO_UNITARIO, $this->precio_unitario);
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_ENLACE)) {
-            $criteria->add(JobSicoesTableMap::COL_ENLACE, $this->enlace);
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_ENLACE)) {
+            $criteria->add(JobSicoesConvocatoriaTableMap::COL_ENLACE, $this->enlace);
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_DEPARTAMENTO)) {
-            $criteria->add(JobSicoesTableMap::COL_DEPARTAMENTO, $this->departamento);
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_DEPARTAMENTO)) {
+            $criteria->add(JobSicoesConvocatoriaTableMap::COL_DEPARTAMENTO, $this->departamento);
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_CONTACTO)) {
-            $criteria->add(JobSicoesTableMap::COL_CONTACTO, $this->contacto);
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_CONTACTO)) {
+            $criteria->add(JobSicoesConvocatoriaTableMap::COL_CONTACTO, $this->contacto);
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_STATUS)) {
-            $criteria->add(JobSicoesTableMap::COL_STATUS, $this->status);
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_STATUS)) {
+            $criteria->add(JobSicoesConvocatoriaTableMap::COL_STATUS, $this->status);
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_CREATION_DATE)) {
-            $criteria->add(JobSicoesTableMap::COL_CREATION_DATE, $this->creation_date);
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_CREATION_DATE)) {
+            $criteria->add(JobSicoesConvocatoriaTableMap::COL_CREATION_DATE, $this->creation_date);
         }
-        if ($this->isColumnModified(JobSicoesTableMap::COL_MODIFICATION_DATE)) {
-            $criteria->add(JobSicoesTableMap::COL_MODIFICATION_DATE, $this->modification_date);
+        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_MODIFICATION_DATE)) {
+            $criteria->add(JobSicoesConvocatoriaTableMap::COL_MODIFICATION_DATE, $this->modification_date);
         }
 
         return $criteria;
@@ -2260,8 +2314,8 @@ abstract class JobSicoes implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = ChildJobSicoesQuery::create();
-        $criteria->add(JobSicoesTableMap::COL_ID, $this->id);
+        $criteria = ChildJobSicoesConvocatoriaQuery::create();
+        $criteria->add(JobSicoesConvocatoriaTableMap::COL_ID, $this->id);
 
         return $criteria;
     }
@@ -2323,7 +2377,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \JobSicoes (or compatible) type.
+     * @param      object $copyObj An object of \JobSicoesConvocatoria (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
@@ -2340,11 +2394,11 @@ abstract class JobSicoes implements ActiveRecordInterface
         $copyObj->setFechaLimite($this->getFechaLimite());
         $copyObj->setEstado($this->getEstado());
         $copyObj->setModalidad($this->getModalidad());
+        $copyObj->setTipoConvocatoria($this->getTipoConvocatoria());
         $copyObj->setTipoConsultoria($this->getTipoConsultoria());
         $copyObj->setFormaAdjudicacion($this->getFormaAdjudicacion());
         $copyObj->setTipoContratacion($this->getTipoContratacion());
         $copyObj->setGarantiasSolicitadas($this->getGarantiasSolicitadas());
-        $copyObj->setTipoRequerimiento($this->getTipoRequerimiento());
         $copyObj->setNumeroConsultores($this->getNumeroConsultores());
         $copyObj->setPrecioUnitario($this->getPrecioUnitario());
         $copyObj->setEnlace($this->getEnlace());
@@ -2353,6 +2407,20 @@ abstract class JobSicoes implements ActiveRecordInterface
         $copyObj->setStatus($this->getStatus());
         $copyObj->setCreationDate($this->getCreationDate());
         $copyObj->setModificationDate($this->getModificationDate());
+
+        if ($deepCopy) {
+            // important: temporarily setNew(false) because this affects the behavior of
+            // the getter/setter methods for fkey referrer objects.
+            $copyObj->setNew(false);
+
+            foreach ($this->getJobSicoesDetalles() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addJobSicoesDetalle($relObj->copy($deepCopy));
+                }
+            }
+
+        } // if ($deepCopy)
+
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -2368,7 +2436,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \JobSicoes Clone of current object.
+     * @return \JobSicoesConvocatoria Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -2379,6 +2447,248 @@ abstract class JobSicoes implements ActiveRecordInterface
         $this->copyInto($copyObj, $deepCopy);
 
         return $copyObj;
+    }
+
+
+    /**
+     * Initializes a collection based on the name of a relation.
+     * Avoids crafting an 'init[$relationName]s' method name
+     * that wouldn't work when StandardEnglishPluralizer is used.
+     *
+     * @param      string $relationName The name of the relation to initialize
+     * @return void
+     */
+    public function initRelation($relationName)
+    {
+        if ('JobSicoesDetalle' == $relationName) {
+            $this->initJobSicoesDetalles();
+            return;
+        }
+    }
+
+    /**
+     * Clears out the collJobSicoesDetalles collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addJobSicoesDetalles()
+     */
+    public function clearJobSicoesDetalles()
+    {
+        $this->collJobSicoesDetalles = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collJobSicoesDetalles collection loaded partially.
+     */
+    public function resetPartialJobSicoesDetalles($v = true)
+    {
+        $this->collJobSicoesDetallesPartial = $v;
+    }
+
+    /**
+     * Initializes the collJobSicoesDetalles collection.
+     *
+     * By default this just sets the collJobSicoesDetalles collection to an empty array (like clearcollJobSicoesDetalles());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initJobSicoesDetalles($overrideExisting = true)
+    {
+        if (null !== $this->collJobSicoesDetalles && !$overrideExisting) {
+            return;
+        }
+
+        $collectionClassName = JobSicoesDetalleTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collJobSicoesDetalles = new $collectionClassName;
+        $this->collJobSicoesDetalles->setModel('\JobSicoesDetalle');
+    }
+
+    /**
+     * Gets an array of ChildJobSicoesDetalle objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildJobSicoesConvocatoria is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return ObjectCollection|ChildJobSicoesDetalle[] List of ChildJobSicoesDetalle objects
+     * @throws PropelException
+     */
+    public function getJobSicoesDetalles(Criteria $criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collJobSicoesDetallesPartial && !$this->isNew();
+        if (null === $this->collJobSicoesDetalles || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collJobSicoesDetalles) {
+                // return empty collection
+                $this->initJobSicoesDetalles();
+            } else {
+                $collJobSicoesDetalles = ChildJobSicoesDetalleQuery::create(null, $criteria)
+                    ->filterByJobSicoesConvocatoria($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collJobSicoesDetallesPartial && count($collJobSicoesDetalles)) {
+                        $this->initJobSicoesDetalles(false);
+
+                        foreach ($collJobSicoesDetalles as $obj) {
+                            if (false == $this->collJobSicoesDetalles->contains($obj)) {
+                                $this->collJobSicoesDetalles->append($obj);
+                            }
+                        }
+
+                        $this->collJobSicoesDetallesPartial = true;
+                    }
+
+                    return $collJobSicoesDetalles;
+                }
+
+                if ($partial && $this->collJobSicoesDetalles) {
+                    foreach ($this->collJobSicoesDetalles as $obj) {
+                        if ($obj->isNew()) {
+                            $collJobSicoesDetalles[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collJobSicoesDetalles = $collJobSicoesDetalles;
+                $this->collJobSicoesDetallesPartial = false;
+            }
+        }
+
+        return $this->collJobSicoesDetalles;
+    }
+
+    /**
+     * Sets a collection of ChildJobSicoesDetalle objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $jobSicoesDetalles A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return $this|ChildJobSicoesConvocatoria The current object (for fluent API support)
+     */
+    public function setJobSicoesDetalles(Collection $jobSicoesDetalles, ConnectionInterface $con = null)
+    {
+        /** @var ChildJobSicoesDetalle[] $jobSicoesDetallesToDelete */
+        $jobSicoesDetallesToDelete = $this->getJobSicoesDetalles(new Criteria(), $con)->diff($jobSicoesDetalles);
+
+
+        $this->jobSicoesDetallesScheduledForDeletion = $jobSicoesDetallesToDelete;
+
+        foreach ($jobSicoesDetallesToDelete as $jobSicoesDetalleRemoved) {
+            $jobSicoesDetalleRemoved->setJobSicoesConvocatoria(null);
+        }
+
+        $this->collJobSicoesDetalles = null;
+        foreach ($jobSicoesDetalles as $jobSicoesDetalle) {
+            $this->addJobSicoesDetalle($jobSicoesDetalle);
+        }
+
+        $this->collJobSicoesDetalles = $jobSicoesDetalles;
+        $this->collJobSicoesDetallesPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related JobSicoesDetalle objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related JobSicoesDetalle objects.
+     * @throws PropelException
+     */
+    public function countJobSicoesDetalles(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collJobSicoesDetallesPartial && !$this->isNew();
+        if (null === $this->collJobSicoesDetalles || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collJobSicoesDetalles) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getJobSicoesDetalles());
+            }
+
+            $query = ChildJobSicoesDetalleQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByJobSicoesConvocatoria($this)
+                ->count($con);
+        }
+
+        return count($this->collJobSicoesDetalles);
+    }
+
+    /**
+     * Method called to associate a ChildJobSicoesDetalle object to this object
+     * through the ChildJobSicoesDetalle foreign key attribute.
+     *
+     * @param  ChildJobSicoesDetalle $l ChildJobSicoesDetalle
+     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
+     */
+    public function addJobSicoesDetalle(ChildJobSicoesDetalle $l)
+    {
+        if ($this->collJobSicoesDetalles === null) {
+            $this->initJobSicoesDetalles();
+            $this->collJobSicoesDetallesPartial = true;
+        }
+
+        if (!$this->collJobSicoesDetalles->contains($l)) {
+            $this->doAddJobSicoesDetalle($l);
+
+            if ($this->jobSicoesDetallesScheduledForDeletion and $this->jobSicoesDetallesScheduledForDeletion->contains($l)) {
+                $this->jobSicoesDetallesScheduledForDeletion->remove($this->jobSicoesDetallesScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ChildJobSicoesDetalle $jobSicoesDetalle The ChildJobSicoesDetalle object to add.
+     */
+    protected function doAddJobSicoesDetalle(ChildJobSicoesDetalle $jobSicoesDetalle)
+    {
+        $this->collJobSicoesDetalles[]= $jobSicoesDetalle;
+        $jobSicoesDetalle->setJobSicoesConvocatoria($this);
+    }
+
+    /**
+     * @param  ChildJobSicoesDetalle $jobSicoesDetalle The ChildJobSicoesDetalle object to remove.
+     * @return $this|ChildJobSicoesConvocatoria The current object (for fluent API support)
+     */
+    public function removeJobSicoesDetalle(ChildJobSicoesDetalle $jobSicoesDetalle)
+    {
+        if ($this->getJobSicoesDetalles()->contains($jobSicoesDetalle)) {
+            $pos = $this->collJobSicoesDetalles->search($jobSicoesDetalle);
+            $this->collJobSicoesDetalles->remove($pos);
+            if (null === $this->jobSicoesDetallesScheduledForDeletion) {
+                $this->jobSicoesDetallesScheduledForDeletion = clone $this->collJobSicoesDetalles;
+                $this->jobSicoesDetallesScheduledForDeletion->clear();
+            }
+            $this->jobSicoesDetallesScheduledForDeletion[]= clone $jobSicoesDetalle;
+            $jobSicoesDetalle->setJobSicoesConvocatoria(null);
+        }
+
+        return $this;
     }
 
     /**
@@ -2399,11 +2709,11 @@ abstract class JobSicoes implements ActiveRecordInterface
         $this->fecha_limite = null;
         $this->estado = null;
         $this->modalidad = null;
+        $this->tipo_convocatoria = null;
         $this->tipo_consultoria = null;
         $this->forma_adjudicacion = null;
         $this->tipo_contratacion = null;
         $this->garantias_solicitadas = null;
-        $this->tipo_requerimiento = null;
         $this->numero_consultores = null;
         $this->precio_unitario = null;
         $this->enlace = null;
@@ -2431,8 +2741,14 @@ abstract class JobSicoes implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
+            if ($this->collJobSicoesDetalles) {
+                foreach ($this->collJobSicoesDetalles as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
         } // if ($deep)
 
+        $this->collJobSicoesDetalles = null;
     }
 
     /**
@@ -2442,7 +2758,7 @@ abstract class JobSicoes implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(JobSicoesTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(JobSicoesConvocatoriaTableMap::DEFAULT_STRING_FORMAT);
     }
 
     /**
