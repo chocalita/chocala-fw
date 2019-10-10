@@ -2,13 +2,15 @@
 
 namespace Base;
 
-use \JobSicoesConvocatoria as ChildJobSicoesConvocatoria;
-use \JobSicoesConvocatoriaQuery as ChildJobSicoesConvocatoriaQuery;
-use \JobSicoesDetalleQuery as ChildJobSicoesDetalleQuery;
+use \SysEvent as ChildSysEvent;
+use \SysEventQuery as ChildSysEventQuery;
+use \SysEventUserQuery as ChildSysEventUserQuery;
+use \SysUser as ChildSysUser;
+use \SysUserQuery as ChildSysUserQuery;
 use \DateTime;
 use \Exception;
 use \PDO;
-use Map\JobSicoesDetalleTableMap;
+use Map\SysEventUserTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -23,18 +25,18 @@ use Propel\Runtime\Parser\AbstractParser;
 use Propel\Runtime\Util\PropelDateTime;
 
 /**
- * Base class that represents a row from the 'job_sicoes_detalle' table.
+ * Base class that represents a row from the 'sys_event_user' table.
  *
  *
  *
  * @package    propel.generator..Base
  */
-abstract class JobSicoesDetalle implements ActiveRecordInterface
+abstract class SysEventUser implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Map\\JobSicoesDetalleTableMap';
+    const TABLE_MAP = '\\Map\\SysEventUserTableMap';
 
 
     /**
@@ -71,88 +73,50 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
     protected $id;
 
     /**
-     * The value for the id_sicoes_convocatoria field.
+     * The value for the event_id field.
      *
      * @var        int
      */
-    protected $id_sicoes_convocatoria;
+    protected $event_id;
 
     /**
-     * The value for the numero field.
+     * The value for the user_id field.
      *
      * @var        int
      */
-    protected $numero;
+    protected $user_id;
 
     /**
-     * The value for the descripcion field.
-     *
-     * @var        string
-     */
-    protected $descripcion;
-
-    /**
-     * The value for the unidad_medida field.
-     *
-     * @var        string
-     */
-    protected $unidad_medida;
-
-    /**
-     * The value for the cantidad field.
-     *
-     * @var        int
-     */
-    protected $cantidad;
-
-    /**
-     * The value for the precio_unidad field.
-     *
-     * @var        double
-     */
-    protected $precio_unidad;
-
-    /**
-     * The value for the codigo_catalogo field.
-     *
-     * @var        string
-     */
-    protected $codigo_catalogo;
-
-    /**
-     * The value for the objeto_gasto field.
-     *
-     * @var        string
-     */
-    protected $objeto_gasto;
-
-    /**
-     * The value for the status field.
-     *
-     * @var        string
-     */
-    protected $status;
-
-    /**
-     * The value for the creation_date field.
+     * The value for the date field.
      *
      * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
      * @var        DateTime
      */
-    protected $creation_date;
+    protected $date;
 
     /**
-     * The value for the modification_date field.
+     * The value for the message field.
      *
-     * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
-     * @var        DateTime
+     * @var        string
      */
-    protected $modification_date;
+    protected $message;
 
     /**
-     * @var        ChildJobSicoesConvocatoria
+     * The value for the details field.
+     *
+     * @var        string
      */
-    protected $aJobSicoesConvocatoria;
+    protected $details;
+
+    /**
+     * @var        ChildSysEvent
+     */
+    protected $aSysEvent;
+
+    /**
+     * @var        ChildSysUser
+     */
+    protected $aSysUser;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -173,7 +137,7 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
     }
 
     /**
-     * Initializes internal state of Base\JobSicoesDetalle object.
+     * Initializes internal state of Base\SysEventUser object.
      * @see applyDefaults()
      */
     public function __construct()
@@ -270,9 +234,9 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>JobSicoesDetalle</code> instance.  If
-     * <code>obj</code> is an instance of <code>JobSicoesDetalle</code>, delegates to
-     * <code>equals(JobSicoesDetalle)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>SysEventUser</code> instance.  If
+     * <code>obj</code> is an instance of <code>SysEventUser</code>, delegates to
+     * <code>equals(SysEventUser)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -338,7 +302,7 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return $this|JobSicoesDetalle The current object, for fluid interface
+     * @return $this|SysEventUser The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -410,97 +374,27 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
     }
 
     /**
-     * Get the [id_sicoes_convocatoria] column value.
+     * Get the [event_id] column value.
      *
      * @return int
      */
-    public function getIdSicoesConvocatoria()
+    public function getEventId()
     {
-        return $this->id_sicoes_convocatoria;
+        return $this->event_id;
     }
 
     /**
-     * Get the [numero] column value.
+     * Get the [user_id] column value.
      *
      * @return int
      */
-    public function getNumero()
+    public function getUserId()
     {
-        return $this->numero;
+        return $this->user_id;
     }
 
     /**
-     * Get the [descripcion] column value.
-     *
-     * @return string
-     */
-    public function getDescripcion()
-    {
-        return $this->descripcion;
-    }
-
-    /**
-     * Get the [unidad_medida] column value.
-     *
-     * @return string
-     */
-    public function getUnidadMedida()
-    {
-        return $this->unidad_medida;
-    }
-
-    /**
-     * Get the [cantidad] column value.
-     *
-     * @return int
-     */
-    public function getCantidad()
-    {
-        return $this->cantidad;
-    }
-
-    /**
-     * Get the [precio_unidad] column value.
-     *
-     * @return double
-     */
-    public function getPrecioUnidad()
-    {
-        return $this->precio_unidad;
-    }
-
-    /**
-     * Get the [codigo_catalogo] column value.
-     *
-     * @return string
-     */
-    public function getCodigoCatalogo()
-    {
-        return $this->codigo_catalogo;
-    }
-
-    /**
-     * Get the [objeto_gasto] column value.
-     *
-     * @return string
-     */
-    public function getObjetoGasto()
-    {
-        return $this->objeto_gasto;
-    }
-
-    /**
-     * Get the [status] column value.
-     *
-     * @return string
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
-     * Get the [optionally formatted] temporal [creation_date] column value.
+     * Get the [optionally formatted] temporal [date] column value.
      *
      *
      * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
@@ -510,40 +404,40 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
      *
      * @throws PropelException - if unable to parse/validate the date/time value.
      */
-    public function getCreationDate($format = NULL)
+    public function getDate($format = NULL)
     {
         if ($format === null) {
-            return $this->creation_date;
+            return $this->date;
         } else {
-            return $this->creation_date instanceof \DateTimeInterface ? $this->creation_date->format($format) : null;
+            return $this->date instanceof \DateTimeInterface ? $this->date->format($format) : null;
         }
     }
 
     /**
-     * Get the [optionally formatted] temporal [modification_date] column value.
+     * Get the [message] column value.
      *
-     *
-     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
-     *                            If format is NULL, then the raw DateTime object will be returned.
-     *
-     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
-     *
-     * @throws PropelException - if unable to parse/validate the date/time value.
+     * @return string
      */
-    public function getModificationDate($format = NULL)
+    public function getMessage()
     {
-        if ($format === null) {
-            return $this->modification_date;
-        } else {
-            return $this->modification_date instanceof \DateTimeInterface ? $this->modification_date->format($format) : null;
-        }
+        return $this->message;
+    }
+
+    /**
+     * Get the [details] column value.
+     *
+     * @return string
+     */
+    public function getDetails()
+    {
+        return $this->details;
     }
 
     /**
      * Set the value of [id] column.
      *
      * @param int $v new value
-     * @return $this|\JobSicoesDetalle The current object (for fluent API support)
+     * @return $this|\SysEventUser The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -553,235 +447,119 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[JobSicoesDetalleTableMap::COL_ID] = true;
+            $this->modifiedColumns[SysEventUserTableMap::COL_ID] = true;
         }
 
         return $this;
     } // setId()
 
     /**
-     * Set the value of [id_sicoes_convocatoria] column.
+     * Set the value of [event_id] column.
      *
      * @param int $v new value
-     * @return $this|\JobSicoesDetalle The current object (for fluent API support)
+     * @return $this|\SysEventUser The current object (for fluent API support)
      */
-    public function setIdSicoesConvocatoria($v)
+    public function setEventId($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->id_sicoes_convocatoria !== $v) {
-            $this->id_sicoes_convocatoria = $v;
-            $this->modifiedColumns[JobSicoesDetalleTableMap::COL_ID_SICOES_CONVOCATORIA] = true;
+        if ($this->event_id !== $v) {
+            $this->event_id = $v;
+            $this->modifiedColumns[SysEventUserTableMap::COL_EVENT_ID] = true;
         }
 
-        if ($this->aJobSicoesConvocatoria !== null && $this->aJobSicoesConvocatoria->getId() !== $v) {
-            $this->aJobSicoesConvocatoria = null;
+        if ($this->aSysEvent !== null && $this->aSysEvent->getId() !== $v) {
+            $this->aSysEvent = null;
         }
 
         return $this;
-    } // setIdSicoesConvocatoria()
+    } // setEventId()
 
     /**
-     * Set the value of [numero] column.
+     * Set the value of [user_id] column.
      *
      * @param int $v new value
-     * @return $this|\JobSicoesDetalle The current object (for fluent API support)
+     * @return $this|\SysEventUser The current object (for fluent API support)
      */
-    public function setNumero($v)
+    public function setUserId($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->numero !== $v) {
-            $this->numero = $v;
-            $this->modifiedColumns[JobSicoesDetalleTableMap::COL_NUMERO] = true;
+        if ($this->user_id !== $v) {
+            $this->user_id = $v;
+            $this->modifiedColumns[SysEventUserTableMap::COL_USER_ID] = true;
+        }
+
+        if ($this->aSysUser !== null && $this->aSysUser->getId() !== $v) {
+            $this->aSysUser = null;
         }
 
         return $this;
-    } // setNumero()
+    } // setUserId()
 
     /**
-     * Set the value of [descripcion] column.
-     *
-     * @param string $v new value
-     * @return $this|\JobSicoesDetalle The current object (for fluent API support)
-     */
-    public function setDescripcion($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->descripcion !== $v) {
-            $this->descripcion = $v;
-            $this->modifiedColumns[JobSicoesDetalleTableMap::COL_DESCRIPCION] = true;
-        }
-
-        return $this;
-    } // setDescripcion()
-
-    /**
-     * Set the value of [unidad_medida] column.
-     *
-     * @param string $v new value
-     * @return $this|\JobSicoesDetalle The current object (for fluent API support)
-     */
-    public function setUnidadMedida($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->unidad_medida !== $v) {
-            $this->unidad_medida = $v;
-            $this->modifiedColumns[JobSicoesDetalleTableMap::COL_UNIDAD_MEDIDA] = true;
-        }
-
-        return $this;
-    } // setUnidadMedida()
-
-    /**
-     * Set the value of [cantidad] column.
-     *
-     * @param int $v new value
-     * @return $this|\JobSicoesDetalle The current object (for fluent API support)
-     */
-    public function setCantidad($v)
-    {
-        if ($v !== null) {
-            $v = (int) $v;
-        }
-
-        if ($this->cantidad !== $v) {
-            $this->cantidad = $v;
-            $this->modifiedColumns[JobSicoesDetalleTableMap::COL_CANTIDAD] = true;
-        }
-
-        return $this;
-    } // setCantidad()
-
-    /**
-     * Set the value of [precio_unidad] column.
-     *
-     * @param double $v new value
-     * @return $this|\JobSicoesDetalle The current object (for fluent API support)
-     */
-    public function setPrecioUnidad($v)
-    {
-        if ($v !== null) {
-            $v = (double) $v;
-        }
-
-        if ($this->precio_unidad !== $v) {
-            $this->precio_unidad = $v;
-            $this->modifiedColumns[JobSicoesDetalleTableMap::COL_PRECIO_UNIDAD] = true;
-        }
-
-        return $this;
-    } // setPrecioUnidad()
-
-    /**
-     * Set the value of [codigo_catalogo] column.
-     *
-     * @param string $v new value
-     * @return $this|\JobSicoesDetalle The current object (for fluent API support)
-     */
-    public function setCodigoCatalogo($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->codigo_catalogo !== $v) {
-            $this->codigo_catalogo = $v;
-            $this->modifiedColumns[JobSicoesDetalleTableMap::COL_CODIGO_CATALOGO] = true;
-        }
-
-        return $this;
-    } // setCodigoCatalogo()
-
-    /**
-     * Set the value of [objeto_gasto] column.
-     *
-     * @param string $v new value
-     * @return $this|\JobSicoesDetalle The current object (for fluent API support)
-     */
-    public function setObjetoGasto($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->objeto_gasto !== $v) {
-            $this->objeto_gasto = $v;
-            $this->modifiedColumns[JobSicoesDetalleTableMap::COL_OBJETO_GASTO] = true;
-        }
-
-        return $this;
-    } // setObjetoGasto()
-
-    /**
-     * Set the value of [status] column.
-     *
-     * @param string $v new value
-     * @return $this|\JobSicoesDetalle The current object (for fluent API support)
-     */
-    public function setStatus($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->status !== $v) {
-            $this->status = $v;
-            $this->modifiedColumns[JobSicoesDetalleTableMap::COL_STATUS] = true;
-        }
-
-        return $this;
-    } // setStatus()
-
-    /**
-     * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
+     * Sets the value of [date] column to a normalized version of the date/time value specified.
      *
      * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
-     * @return $this|\JobSicoesDetalle The current object (for fluent API support)
+     * @return $this|\SysEventUser The current object (for fluent API support)
      */
-    public function setCreationDate($v)
+    public function setDate($v)
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
-        if ($this->creation_date !== null || $dt !== null) {
-            if ($this->creation_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->creation_date->format("Y-m-d H:i:s.u")) {
-                $this->creation_date = $dt === null ? null : clone $dt;
-                $this->modifiedColumns[JobSicoesDetalleTableMap::COL_CREATION_DATE] = true;
+        if ($this->date !== null || $dt !== null) {
+            if ($this->date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->date->format("Y-m-d H:i:s.u")) {
+                $this->date = $dt === null ? null : clone $dt;
+                $this->modifiedColumns[SysEventUserTableMap::COL_DATE] = true;
             }
         } // if either are not null
 
         return $this;
-    } // setCreationDate()
+    } // setDate()
 
     /**
-     * Sets the value of [modification_date] column to a normalized version of the date/time value specified.
+     * Set the value of [message] column.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
-     *               Empty strings are treated as NULL.
-     * @return $this|\JobSicoesDetalle The current object (for fluent API support)
+     * @param string $v new value
+     * @return $this|\SysEventUser The current object (for fluent API support)
      */
-    public function setModificationDate($v)
+    public function setMessage($v)
     {
-        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
-        if ($this->modification_date !== null || $dt !== null) {
-            if ($this->modification_date === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->modification_date->format("Y-m-d H:i:s.u")) {
-                $this->modification_date = $dt === null ? null : clone $dt;
-                $this->modifiedColumns[JobSicoesDetalleTableMap::COL_MODIFICATION_DATE] = true;
-            }
-        } // if either are not null
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->message !== $v) {
+            $this->message = $v;
+            $this->modifiedColumns[SysEventUserTableMap::COL_MESSAGE] = true;
+        }
 
         return $this;
-    } // setModificationDate()
+    } // setMessage()
+
+    /**
+     * Set the value of [details] column.
+     *
+     * @param string $v new value
+     * @return $this|\SysEventUser The current object (for fluent API support)
+     */
+    public function setDetails($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->details !== $v) {
+            $this->details = $v;
+            $this->modifiedColumns[SysEventUserTableMap::COL_DETAILS] = true;
+        }
+
+        return $this;
+    } // setDetails()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -819,47 +597,26 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : JobSicoesDetalleTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : SysEventUserTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : JobSicoesDetalleTableMap::translateFieldName('IdSicoesConvocatoria', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->id_sicoes_convocatoria = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : SysEventUserTableMap::translateFieldName('EventId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->event_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : JobSicoesDetalleTableMap::translateFieldName('Numero', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->numero = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : SysEventUserTableMap::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->user_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : JobSicoesDetalleTableMap::translateFieldName('Descripcion', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->descripcion = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : JobSicoesDetalleTableMap::translateFieldName('UnidadMedida', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->unidad_medida = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : JobSicoesDetalleTableMap::translateFieldName('Cantidad', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->cantidad = (null !== $col) ? (int) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : JobSicoesDetalleTableMap::translateFieldName('PrecioUnidad', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->precio_unidad = (null !== $col) ? (double) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : JobSicoesDetalleTableMap::translateFieldName('CodigoCatalogo', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->codigo_catalogo = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : JobSicoesDetalleTableMap::translateFieldName('ObjetoGasto', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->objeto_gasto = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : JobSicoesDetalleTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->status = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : JobSicoesDetalleTableMap::translateFieldName('CreationDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : SysEventUserTableMap::translateFieldName('Date', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
-            $this->creation_date = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+            $this->date = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : JobSicoesDetalleTableMap::translateFieldName('ModificationDate', TableMap::TYPE_PHPNAME, $indexType)];
-            if ($col === '0000-00-00 00:00:00') {
-                $col = null;
-            }
-            $this->modification_date = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : SysEventUserTableMap::translateFieldName('Message', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->message = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : SysEventUserTableMap::translateFieldName('Details', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->details = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -868,10 +625,10 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 12; // 12 = JobSicoesDetalleTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 6; // 6 = SysEventUserTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\JobSicoesDetalle'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\SysEventUser'), 0, $e);
         }
     }
 
@@ -890,8 +647,11 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
-        if ($this->aJobSicoesConvocatoria !== null && $this->id_sicoes_convocatoria !== $this->aJobSicoesConvocatoria->getId()) {
-            $this->aJobSicoesConvocatoria = null;
+        if ($this->aSysEvent !== null && $this->event_id !== $this->aSysEvent->getId()) {
+            $this->aSysEvent = null;
+        }
+        if ($this->aSysUser !== null && $this->user_id !== $this->aSysUser->getId()) {
+            $this->aSysUser = null;
         }
     } // ensureConsistency
 
@@ -916,13 +676,13 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(JobSicoesDetalleTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(SysEventUserTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildJobSicoesDetalleQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildSysEventUserQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -932,7 +692,8 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->aJobSicoesConvocatoria = null;
+            $this->aSysEvent = null;
+            $this->aSysUser = null;
         } // if (deep)
     }
 
@@ -942,8 +703,8 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see JobSicoesDetalle::setDeleted()
-     * @see JobSicoesDetalle::isDeleted()
+     * @see SysEventUser::setDeleted()
+     * @see SysEventUser::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -952,11 +713,11 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(JobSicoesDetalleTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(SysEventUserTableMap::DATABASE_NAME);
         }
 
         $con->transaction(function () use ($con) {
-            $deleteQuery = ChildJobSicoesDetalleQuery::create()
+            $deleteQuery = ChildSysEventUserQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -991,7 +752,7 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(JobSicoesDetalleTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(SysEventUserTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
@@ -1010,7 +771,7 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                JobSicoesDetalleTableMap::addInstanceToPool($this);
+                SysEventUserTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -1041,11 +802,18 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
-            if ($this->aJobSicoesConvocatoria !== null) {
-                if ($this->aJobSicoesConvocatoria->isModified() || $this->aJobSicoesConvocatoria->isNew()) {
-                    $affectedRows += $this->aJobSicoesConvocatoria->save($con);
+            if ($this->aSysEvent !== null) {
+                if ($this->aSysEvent->isModified() || $this->aSysEvent->isNew()) {
+                    $affectedRows += $this->aSysEvent->save($con);
                 }
-                $this->setJobSicoesConvocatoria($this->aJobSicoesConvocatoria);
+                $this->setSysEvent($this->aSysEvent);
+            }
+
+            if ($this->aSysUser !== null) {
+                if ($this->aSysUser->isModified() || $this->aSysUser->isNew()) {
+                    $affectedRows += $this->aSysUser->save($con);
+                }
+                $this->setSysUser($this->aSysUser);
             }
 
             if ($this->isNew() || $this->isModified()) {
@@ -1079,51 +847,33 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[JobSicoesDetalleTableMap::COL_ID] = true;
+        $this->modifiedColumns[SysEventUserTableMap::COL_ID] = true;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . JobSicoesDetalleTableMap::COL_ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . SysEventUserTableMap::COL_ID . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_ID)) {
+        if ($this->isColumnModified(SysEventUserTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'ID';
         }
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_ID_SICOES_CONVOCATORIA)) {
-            $modifiedColumns[':p' . $index++]  = 'ID_SICOES_CONVOCATORIA';
+        if ($this->isColumnModified(SysEventUserTableMap::COL_EVENT_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'EVENT_ID';
         }
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_NUMERO)) {
-            $modifiedColumns[':p' . $index++]  = 'NUMERO';
+        if ($this->isColumnModified(SysEventUserTableMap::COL_USER_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'USER_ID';
         }
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_DESCRIPCION)) {
-            $modifiedColumns[':p' . $index++]  = 'DESCRIPCION';
+        if ($this->isColumnModified(SysEventUserTableMap::COL_DATE)) {
+            $modifiedColumns[':p' . $index++]  = 'DATE';
         }
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_UNIDAD_MEDIDA)) {
-            $modifiedColumns[':p' . $index++]  = 'UNIDAD_MEDIDA';
+        if ($this->isColumnModified(SysEventUserTableMap::COL_MESSAGE)) {
+            $modifiedColumns[':p' . $index++]  = 'MESSAGE';
         }
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_CANTIDAD)) {
-            $modifiedColumns[':p' . $index++]  = 'CANTIDAD';
-        }
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_PRECIO_UNIDAD)) {
-            $modifiedColumns[':p' . $index++]  = 'PRECIO_UNIDAD';
-        }
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_CODIGO_CATALOGO)) {
-            $modifiedColumns[':p' . $index++]  = 'CODIGO_CATALOGO';
-        }
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_OBJETO_GASTO)) {
-            $modifiedColumns[':p' . $index++]  = 'OBJETO_GASTO';
-        }
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_STATUS)) {
-            $modifiedColumns[':p' . $index++]  = 'STATUS';
-        }
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_CREATION_DATE)) {
-            $modifiedColumns[':p' . $index++]  = 'CREATION_DATE';
-        }
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_MODIFICATION_DATE)) {
-            $modifiedColumns[':p' . $index++]  = 'MODIFICATION_DATE';
+        if ($this->isColumnModified(SysEventUserTableMap::COL_DETAILS)) {
+            $modifiedColumns[':p' . $index++]  = 'DETAILS';
         }
 
         $sql = sprintf(
-            'INSERT INTO job_sicoes_detalle (%s) VALUES (%s)',
+            'INSERT INTO sys_event_user (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -1135,38 +885,20 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
                     case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'ID_SICOES_CONVOCATORIA':
-                        $stmt->bindValue($identifier, $this->id_sicoes_convocatoria, PDO::PARAM_INT);
+                    case 'EVENT_ID':
+                        $stmt->bindValue($identifier, $this->event_id, PDO::PARAM_INT);
                         break;
-                    case 'NUMERO':
-                        $stmt->bindValue($identifier, $this->numero, PDO::PARAM_INT);
+                    case 'USER_ID':
+                        $stmt->bindValue($identifier, $this->user_id, PDO::PARAM_INT);
                         break;
-                    case 'DESCRIPCION':
-                        $stmt->bindValue($identifier, $this->descripcion, PDO::PARAM_STR);
+                    case 'DATE':
+                        $stmt->bindValue($identifier, $this->date ? $this->date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
-                    case 'UNIDAD_MEDIDA':
-                        $stmt->bindValue($identifier, $this->unidad_medida, PDO::PARAM_STR);
+                    case 'MESSAGE':
+                        $stmt->bindValue($identifier, $this->message, PDO::PARAM_STR);
                         break;
-                    case 'CANTIDAD':
-                        $stmt->bindValue($identifier, $this->cantidad, PDO::PARAM_INT);
-                        break;
-                    case 'PRECIO_UNIDAD':
-                        $stmt->bindValue($identifier, $this->precio_unidad, PDO::PARAM_STR);
-                        break;
-                    case 'CODIGO_CATALOGO':
-                        $stmt->bindValue($identifier, $this->codigo_catalogo, PDO::PARAM_STR);
-                        break;
-                    case 'OBJETO_GASTO':
-                        $stmt->bindValue($identifier, $this->objeto_gasto, PDO::PARAM_STR);
-                        break;
-                    case 'STATUS':
-                        $stmt->bindValue($identifier, $this->status, PDO::PARAM_STR);
-                        break;
-                    case 'CREATION_DATE':
-                        $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
-                        break;
-                    case 'MODIFICATION_DATE':
-                        $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
+                    case 'DETAILS':
+                        $stmt->bindValue($identifier, $this->details, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1214,7 +946,7 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = JobSicoesDetalleTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = SysEventUserTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -1234,37 +966,19 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getIdSicoesConvocatoria();
+                return $this->getEventId();
                 break;
             case 2:
-                return $this->getNumero();
+                return $this->getUserId();
                 break;
             case 3:
-                return $this->getDescripcion();
+                return $this->getDate();
                 break;
             case 4:
-                return $this->getUnidadMedida();
+                return $this->getMessage();
                 break;
             case 5:
-                return $this->getCantidad();
-                break;
-            case 6:
-                return $this->getPrecioUnidad();
-                break;
-            case 7:
-                return $this->getCodigoCatalogo();
-                break;
-            case 8:
-                return $this->getObjetoGasto();
-                break;
-            case 9:
-                return $this->getStatus();
-                break;
-            case 10:
-                return $this->getCreationDate();
-                break;
-            case 11:
-                return $this->getModificationDate();
+                return $this->getDetails();
                 break;
             default:
                 return null;
@@ -1290,31 +1004,21 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
     public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
 
-        if (isset($alreadyDumpedObjects['JobSicoesDetalle'][$this->hashCode()])) {
+        if (isset($alreadyDumpedObjects['SysEventUser'][$this->hashCode()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['JobSicoesDetalle'][$this->hashCode()] = true;
-        $keys = JobSicoesDetalleTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['SysEventUser'][$this->hashCode()] = true;
+        $keys = SysEventUserTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getIdSicoesConvocatoria(),
-            $keys[2] => $this->getNumero(),
-            $keys[3] => $this->getDescripcion(),
-            $keys[4] => $this->getUnidadMedida(),
-            $keys[5] => $this->getCantidad(),
-            $keys[6] => $this->getPrecioUnidad(),
-            $keys[7] => $this->getCodigoCatalogo(),
-            $keys[8] => $this->getObjetoGasto(),
-            $keys[9] => $this->getStatus(),
-            $keys[10] => $this->getCreationDate(),
-            $keys[11] => $this->getModificationDate(),
+            $keys[1] => $this->getEventId(),
+            $keys[2] => $this->getUserId(),
+            $keys[3] => $this->getDate(),
+            $keys[4] => $this->getMessage(),
+            $keys[5] => $this->getDetails(),
         );
-        if ($result[$keys[10]] instanceof \DateTimeInterface) {
-            $result[$keys[10]] = $result[$keys[10]]->format('c');
-        }
-
-        if ($result[$keys[11]] instanceof \DateTimeInterface) {
-            $result[$keys[11]] = $result[$keys[11]]->format('c');
+        if ($result[$keys[3]] instanceof \DateTimeInterface) {
+            $result[$keys[3]] = $result[$keys[3]]->format('c');
         }
 
         $virtualColumns = $this->virtualColumns;
@@ -1323,20 +1027,35 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->aJobSicoesConvocatoria) {
+            if (null !== $this->aSysEvent) {
 
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
-                        $key = 'jobSicoesConvocatoria';
+                        $key = 'sysEvent';
                         break;
                     case TableMap::TYPE_FIELDNAME:
-                        $key = 'job_sicoes_convocatoria';
+                        $key = 'sys_event';
                         break;
                     default:
-                        $key = 'JobSicoesConvocatoria';
+                        $key = 'SysEvent';
                 }
 
-                $result[$key] = $this->aJobSicoesConvocatoria->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+                $result[$key] = $this->aSysEvent->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->aSysUser) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'sysUser';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'sys_user';
+                        break;
+                    default:
+                        $key = 'SysUser';
+                }
+
+                $result[$key] = $this->aSysUser->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
 
@@ -1352,11 +1071,11 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\JobSicoesDetalle
+     * @return $this|\SysEventUser
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = JobSicoesDetalleTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = SysEventUserTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -1367,7 +1086,7 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\JobSicoesDetalle
+     * @return $this|\SysEventUser
      */
     public function setByPosition($pos, $value)
     {
@@ -1376,37 +1095,19 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setIdSicoesConvocatoria($value);
+                $this->setEventId($value);
                 break;
             case 2:
-                $this->setNumero($value);
+                $this->setUserId($value);
                 break;
             case 3:
-                $this->setDescripcion($value);
+                $this->setDate($value);
                 break;
             case 4:
-                $this->setUnidadMedida($value);
+                $this->setMessage($value);
                 break;
             case 5:
-                $this->setCantidad($value);
-                break;
-            case 6:
-                $this->setPrecioUnidad($value);
-                break;
-            case 7:
-                $this->setCodigoCatalogo($value);
-                break;
-            case 8:
-                $this->setObjetoGasto($value);
-                break;
-            case 9:
-                $this->setStatus($value);
-                break;
-            case 10:
-                $this->setCreationDate($value);
-                break;
-            case 11:
-                $this->setModificationDate($value);
+                $this->setDetails($value);
                 break;
         } // switch()
 
@@ -1432,43 +1133,25 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = JobSicoesDetalleTableMap::getFieldNames($keyType);
+        $keys = SysEventUserTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
             $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setIdSicoesConvocatoria($arr[$keys[1]]);
+            $this->setEventId($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setNumero($arr[$keys[2]]);
+            $this->setUserId($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setDescripcion($arr[$keys[3]]);
+            $this->setDate($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setUnidadMedida($arr[$keys[4]]);
+            $this->setMessage($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
-            $this->setCantidad($arr[$keys[5]]);
-        }
-        if (array_key_exists($keys[6], $arr)) {
-            $this->setPrecioUnidad($arr[$keys[6]]);
-        }
-        if (array_key_exists($keys[7], $arr)) {
-            $this->setCodigoCatalogo($arr[$keys[7]]);
-        }
-        if (array_key_exists($keys[8], $arr)) {
-            $this->setObjetoGasto($arr[$keys[8]]);
-        }
-        if (array_key_exists($keys[9], $arr)) {
-            $this->setStatus($arr[$keys[9]]);
-        }
-        if (array_key_exists($keys[10], $arr)) {
-            $this->setCreationDate($arr[$keys[10]]);
-        }
-        if (array_key_exists($keys[11], $arr)) {
-            $this->setModificationDate($arr[$keys[11]]);
+            $this->setDetails($arr[$keys[5]]);
         }
     }
 
@@ -1489,7 +1172,7 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\JobSicoesDetalle The current object, for fluid interface
+     * @return $this|\SysEventUser The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -1509,43 +1192,25 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(JobSicoesDetalleTableMap::DATABASE_NAME);
+        $criteria = new Criteria(SysEventUserTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_ID)) {
-            $criteria->add(JobSicoesDetalleTableMap::COL_ID, $this->id);
+        if ($this->isColumnModified(SysEventUserTableMap::COL_ID)) {
+            $criteria->add(SysEventUserTableMap::COL_ID, $this->id);
         }
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_ID_SICOES_CONVOCATORIA)) {
-            $criteria->add(JobSicoesDetalleTableMap::COL_ID_SICOES_CONVOCATORIA, $this->id_sicoes_convocatoria);
+        if ($this->isColumnModified(SysEventUserTableMap::COL_EVENT_ID)) {
+            $criteria->add(SysEventUserTableMap::COL_EVENT_ID, $this->event_id);
         }
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_NUMERO)) {
-            $criteria->add(JobSicoesDetalleTableMap::COL_NUMERO, $this->numero);
+        if ($this->isColumnModified(SysEventUserTableMap::COL_USER_ID)) {
+            $criteria->add(SysEventUserTableMap::COL_USER_ID, $this->user_id);
         }
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_DESCRIPCION)) {
-            $criteria->add(JobSicoesDetalleTableMap::COL_DESCRIPCION, $this->descripcion);
+        if ($this->isColumnModified(SysEventUserTableMap::COL_DATE)) {
+            $criteria->add(SysEventUserTableMap::COL_DATE, $this->date);
         }
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_UNIDAD_MEDIDA)) {
-            $criteria->add(JobSicoesDetalleTableMap::COL_UNIDAD_MEDIDA, $this->unidad_medida);
+        if ($this->isColumnModified(SysEventUserTableMap::COL_MESSAGE)) {
+            $criteria->add(SysEventUserTableMap::COL_MESSAGE, $this->message);
         }
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_CANTIDAD)) {
-            $criteria->add(JobSicoesDetalleTableMap::COL_CANTIDAD, $this->cantidad);
-        }
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_PRECIO_UNIDAD)) {
-            $criteria->add(JobSicoesDetalleTableMap::COL_PRECIO_UNIDAD, $this->precio_unidad);
-        }
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_CODIGO_CATALOGO)) {
-            $criteria->add(JobSicoesDetalleTableMap::COL_CODIGO_CATALOGO, $this->codigo_catalogo);
-        }
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_OBJETO_GASTO)) {
-            $criteria->add(JobSicoesDetalleTableMap::COL_OBJETO_GASTO, $this->objeto_gasto);
-        }
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_STATUS)) {
-            $criteria->add(JobSicoesDetalleTableMap::COL_STATUS, $this->status);
-        }
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_CREATION_DATE)) {
-            $criteria->add(JobSicoesDetalleTableMap::COL_CREATION_DATE, $this->creation_date);
-        }
-        if ($this->isColumnModified(JobSicoesDetalleTableMap::COL_MODIFICATION_DATE)) {
-            $criteria->add(JobSicoesDetalleTableMap::COL_MODIFICATION_DATE, $this->modification_date);
+        if ($this->isColumnModified(SysEventUserTableMap::COL_DETAILS)) {
+            $criteria->add(SysEventUserTableMap::COL_DETAILS, $this->details);
         }
 
         return $criteria;
@@ -1563,8 +1228,8 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = ChildJobSicoesDetalleQuery::create();
-        $criteria->add(JobSicoesDetalleTableMap::COL_ID, $this->id);
+        $criteria = ChildSysEventUserQuery::create();
+        $criteria->add(SysEventUserTableMap::COL_ID, $this->id);
 
         return $criteria;
     }
@@ -1626,24 +1291,18 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \JobSicoesDetalle (or compatible) type.
+     * @param      object $copyObj An object of \SysEventUser (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setIdSicoesConvocatoria($this->getIdSicoesConvocatoria());
-        $copyObj->setNumero($this->getNumero());
-        $copyObj->setDescripcion($this->getDescripcion());
-        $copyObj->setUnidadMedida($this->getUnidadMedida());
-        $copyObj->setCantidad($this->getCantidad());
-        $copyObj->setPrecioUnidad($this->getPrecioUnidad());
-        $copyObj->setCodigoCatalogo($this->getCodigoCatalogo());
-        $copyObj->setObjetoGasto($this->getObjetoGasto());
-        $copyObj->setStatus($this->getStatus());
-        $copyObj->setCreationDate($this->getCreationDate());
-        $copyObj->setModificationDate($this->getModificationDate());
+        $copyObj->setEventId($this->getEventId());
+        $copyObj->setUserId($this->getUserId());
+        $copyObj->setDate($this->getDate());
+        $copyObj->setMessage($this->getMessage());
+        $copyObj->setDetails($this->getDetails());
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1659,7 +1318,7 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \JobSicoesDetalle Clone of current object.
+     * @return \SysEventUser Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1673,26 +1332,26 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
     }
 
     /**
-     * Declares an association between this object and a ChildJobSicoesConvocatoria object.
+     * Declares an association between this object and a ChildSysEvent object.
      *
-     * @param  ChildJobSicoesConvocatoria $v
-     * @return $this|\JobSicoesDetalle The current object (for fluent API support)
+     * @param  ChildSysEvent $v
+     * @return $this|\SysEventUser The current object (for fluent API support)
      * @throws PropelException
      */
-    public function setJobSicoesConvocatoria(ChildJobSicoesConvocatoria $v = null)
+    public function setSysEvent(ChildSysEvent $v = null)
     {
         if ($v === null) {
-            $this->setIdSicoesConvocatoria(NULL);
+            $this->setEventId(NULL);
         } else {
-            $this->setIdSicoesConvocatoria($v->getId());
+            $this->setEventId($v->getId());
         }
 
-        $this->aJobSicoesConvocatoria = $v;
+        $this->aSysEvent = $v;
 
         // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the ChildJobSicoesConvocatoria object, it will not be re-added.
+        // If this object has already been added to the ChildSysEvent object, it will not be re-added.
         if ($v !== null) {
-            $v->addJobSicoesDetalle($this);
+            $v->addSysEventUser($this);
         }
 
 
@@ -1701,26 +1360,77 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
 
 
     /**
-     * Get the associated ChildJobSicoesConvocatoria object
+     * Get the associated ChildSysEvent object
      *
      * @param  ConnectionInterface $con Optional Connection object.
-     * @return ChildJobSicoesConvocatoria The associated ChildJobSicoesConvocatoria object.
+     * @return ChildSysEvent The associated ChildSysEvent object.
      * @throws PropelException
      */
-    public function getJobSicoesConvocatoria(ConnectionInterface $con = null)
+    public function getSysEvent(ConnectionInterface $con = null)
     {
-        if ($this->aJobSicoesConvocatoria === null && ($this->id_sicoes_convocatoria != 0)) {
-            $this->aJobSicoesConvocatoria = ChildJobSicoesConvocatoriaQuery::create()->findPk($this->id_sicoes_convocatoria, $con);
+        if ($this->aSysEvent === null && ($this->event_id != 0)) {
+            $this->aSysEvent = ChildSysEventQuery::create()->findPk($this->event_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
                 to this object.  This level of coupling may, however, be
                 undesirable since it could result in an only partially populated collection
                 in the referenced object.
-                $this->aJobSicoesConvocatoria->addJobSicoesDetalles($this);
+                $this->aSysEvent->addSysEventUsers($this);
              */
         }
 
-        return $this->aJobSicoesConvocatoria;
+        return $this->aSysEvent;
+    }
+
+    /**
+     * Declares an association between this object and a ChildSysUser object.
+     *
+     * @param  ChildSysUser $v
+     * @return $this|\SysEventUser The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setSysUser(ChildSysUser $v = null)
+    {
+        if ($v === null) {
+            $this->setUserId(NULL);
+        } else {
+            $this->setUserId($v->getId());
+        }
+
+        $this->aSysUser = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildSysUser object, it will not be re-added.
+        if ($v !== null) {
+            $v->addSysEventUser($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated ChildSysUser object
+     *
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildSysUser The associated ChildSysUser object.
+     * @throws PropelException
+     */
+    public function getSysUser(ConnectionInterface $con = null)
+    {
+        if ($this->aSysUser === null && ($this->user_id != 0)) {
+            $this->aSysUser = ChildSysUserQuery::create()->findPk($this->user_id, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aSysUser->addSysEventUsers($this);
+             */
+        }
+
+        return $this->aSysUser;
     }
 
     /**
@@ -1730,21 +1440,18 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
      */
     public function clear()
     {
-        if (null !== $this->aJobSicoesConvocatoria) {
-            $this->aJobSicoesConvocatoria->removeJobSicoesDetalle($this);
+        if (null !== $this->aSysEvent) {
+            $this->aSysEvent->removeSysEventUser($this);
+        }
+        if (null !== $this->aSysUser) {
+            $this->aSysUser->removeSysEventUser($this);
         }
         $this->id = null;
-        $this->id_sicoes_convocatoria = null;
-        $this->numero = null;
-        $this->descripcion = null;
-        $this->unidad_medida = null;
-        $this->cantidad = null;
-        $this->precio_unidad = null;
-        $this->codigo_catalogo = null;
-        $this->objeto_gasto = null;
-        $this->status = null;
-        $this->creation_date = null;
-        $this->modification_date = null;
+        $this->event_id = null;
+        $this->user_id = null;
+        $this->date = null;
+        $this->message = null;
+        $this->details = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->applyDefaultValues();
@@ -1766,7 +1473,8 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
         if ($deep) {
         } // if ($deep)
 
-        $this->aJobSicoesConvocatoria = null;
+        $this->aSysEvent = null;
+        $this->aSysUser = null;
     }
 
     /**
@@ -1776,7 +1484,7 @@ abstract class JobSicoesDetalle implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(JobSicoesDetalleTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(SysEventUserTableMap::DEFAULT_STRING_FORMAT);
     }
 
     /**

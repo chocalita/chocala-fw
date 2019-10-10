@@ -36,8 +36,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSicoesConvocatoriaQuery orderByFormaAdjudicacion($order = Criteria::ASC) Order by the FORMA_ADJUDICACION column
  * @method     ChildJobSicoesConvocatoriaQuery orderByTipoContratacion($order = Criteria::ASC) Order by the TIPO_CONTRATACION column
  * @method     ChildJobSicoesConvocatoriaQuery orderByGarantiasSolicitadas($order = Criteria::ASC) Order by the GARANTIAS_SOLICITADAS column
- * @method     ChildJobSicoesConvocatoriaQuery orderByNumeroConsultores($order = Criteria::ASC) Order by the NUMERO_CONSULTORES column
- * @method     ChildJobSicoesConvocatoriaQuery orderByPrecioUnitario($order = Criteria::ASC) Order by the PRECIO_UNITARIO column
  * @method     ChildJobSicoesConvocatoriaQuery orderByEnlace($order = Criteria::ASC) Order by the ENLACE column
  * @method     ChildJobSicoesConvocatoriaQuery orderByDepartamento($order = Criteria::ASC) Order by the DEPARTAMENTO column
  * @method     ChildJobSicoesConvocatoriaQuery orderByContacto($order = Criteria::ASC) Order by the CONTACTO column
@@ -61,8 +59,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSicoesConvocatoriaQuery groupByFormaAdjudicacion() Group by the FORMA_ADJUDICACION column
  * @method     ChildJobSicoesConvocatoriaQuery groupByTipoContratacion() Group by the TIPO_CONTRATACION column
  * @method     ChildJobSicoesConvocatoriaQuery groupByGarantiasSolicitadas() Group by the GARANTIAS_SOLICITADAS column
- * @method     ChildJobSicoesConvocatoriaQuery groupByNumeroConsultores() Group by the NUMERO_CONSULTORES column
- * @method     ChildJobSicoesConvocatoriaQuery groupByPrecioUnitario() Group by the PRECIO_UNITARIO column
  * @method     ChildJobSicoesConvocatoriaQuery groupByEnlace() Group by the ENLACE column
  * @method     ChildJobSicoesConvocatoriaQuery groupByDepartamento() Group by the DEPARTAMENTO column
  * @method     ChildJobSicoesConvocatoriaQuery groupByContacto() Group by the CONTACTO column
@@ -98,7 +94,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSicoesConvocatoria findOneByCodigoSisin(string $CODIGO_SISIN) Return the first ChildJobSicoesConvocatoria filtered by the CODIGO_SISIN column
  * @method     ChildJobSicoesConvocatoria findOneByObjetoLicitacion(string $OBJETO_LICITACION) Return the first ChildJobSicoesConvocatoria filtered by the OBJETO_LICITACION column
  * @method     ChildJobSicoesConvocatoria findOneByNombreEntidad(string $NOMBRE_ENTIDAD) Return the first ChildJobSicoesConvocatoria filtered by the NOMBRE_ENTIDAD column
- * @method     ChildJobSicoesConvocatoria findOneByCodigoEntidad(int $CODIGO_ENTIDAD) Return the first ChildJobSicoesConvocatoria filtered by the CODIGO_ENTIDAD column
+ * @method     ChildJobSicoesConvocatoria findOneByCodigoEntidad(string $CODIGO_ENTIDAD) Return the first ChildJobSicoesConvocatoria filtered by the CODIGO_ENTIDAD column
  * @method     ChildJobSicoesConvocatoria findOneByTelefonoEntidad(string $TELEFONO_ENTIDAD) Return the first ChildJobSicoesConvocatoria filtered by the TELEFONO_ENTIDAD column
  * @method     ChildJobSicoesConvocatoria findOneByFechaPublicacion(string $FECHA_PUBLICACION) Return the first ChildJobSicoesConvocatoria filtered by the FECHA_PUBLICACION column
  * @method     ChildJobSicoesConvocatoria findOneByFechaLimite(string $FECHA_LIMITE) Return the first ChildJobSicoesConvocatoria filtered by the FECHA_LIMITE column
@@ -109,8 +105,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSicoesConvocatoria findOneByFormaAdjudicacion(string $FORMA_ADJUDICACION) Return the first ChildJobSicoesConvocatoria filtered by the FORMA_ADJUDICACION column
  * @method     ChildJobSicoesConvocatoria findOneByTipoContratacion(string $TIPO_CONTRATACION) Return the first ChildJobSicoesConvocatoria filtered by the TIPO_CONTRATACION column
  * @method     ChildJobSicoesConvocatoria findOneByGarantiasSolicitadas(string $GARANTIAS_SOLICITADAS) Return the first ChildJobSicoesConvocatoria filtered by the GARANTIAS_SOLICITADAS column
- * @method     ChildJobSicoesConvocatoria findOneByNumeroConsultores(int $NUMERO_CONSULTORES) Return the first ChildJobSicoesConvocatoria filtered by the NUMERO_CONSULTORES column
- * @method     ChildJobSicoesConvocatoria findOneByPrecioUnitario(double $PRECIO_UNITARIO) Return the first ChildJobSicoesConvocatoria filtered by the PRECIO_UNITARIO column
  * @method     ChildJobSicoesConvocatoria findOneByEnlace(string $ENLACE) Return the first ChildJobSicoesConvocatoria filtered by the ENLACE column
  * @method     ChildJobSicoesConvocatoria findOneByDepartamento(string $DEPARTAMENTO) Return the first ChildJobSicoesConvocatoria filtered by the DEPARTAMENTO column
  * @method     ChildJobSicoesConvocatoria findOneByContacto(string $CONTACTO) Return the first ChildJobSicoesConvocatoria filtered by the CONTACTO column
@@ -126,7 +120,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSicoesConvocatoria requireOneByCodigoSisin(string $CODIGO_SISIN) Return the first ChildJobSicoesConvocatoria filtered by the CODIGO_SISIN column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSicoesConvocatoria requireOneByObjetoLicitacion(string $OBJETO_LICITACION) Return the first ChildJobSicoesConvocatoria filtered by the OBJETO_LICITACION column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSicoesConvocatoria requireOneByNombreEntidad(string $NOMBRE_ENTIDAD) Return the first ChildJobSicoesConvocatoria filtered by the NOMBRE_ENTIDAD column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildJobSicoesConvocatoria requireOneByCodigoEntidad(int $CODIGO_ENTIDAD) Return the first ChildJobSicoesConvocatoria filtered by the CODIGO_ENTIDAD column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobSicoesConvocatoria requireOneByCodigoEntidad(string $CODIGO_ENTIDAD) Return the first ChildJobSicoesConvocatoria filtered by the CODIGO_ENTIDAD column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSicoesConvocatoria requireOneByTelefonoEntidad(string $TELEFONO_ENTIDAD) Return the first ChildJobSicoesConvocatoria filtered by the TELEFONO_ENTIDAD column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSicoesConvocatoria requireOneByFechaPublicacion(string $FECHA_PUBLICACION) Return the first ChildJobSicoesConvocatoria filtered by the FECHA_PUBLICACION column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSicoesConvocatoria requireOneByFechaLimite(string $FECHA_LIMITE) Return the first ChildJobSicoesConvocatoria filtered by the FECHA_LIMITE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -137,8 +131,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSicoesConvocatoria requireOneByFormaAdjudicacion(string $FORMA_ADJUDICACION) Return the first ChildJobSicoesConvocatoria filtered by the FORMA_ADJUDICACION column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSicoesConvocatoria requireOneByTipoContratacion(string $TIPO_CONTRATACION) Return the first ChildJobSicoesConvocatoria filtered by the TIPO_CONTRATACION column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSicoesConvocatoria requireOneByGarantiasSolicitadas(string $GARANTIAS_SOLICITADAS) Return the first ChildJobSicoesConvocatoria filtered by the GARANTIAS_SOLICITADAS column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildJobSicoesConvocatoria requireOneByNumeroConsultores(int $NUMERO_CONSULTORES) Return the first ChildJobSicoesConvocatoria filtered by the NUMERO_CONSULTORES column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildJobSicoesConvocatoria requireOneByPrecioUnitario(double $PRECIO_UNITARIO) Return the first ChildJobSicoesConvocatoria filtered by the PRECIO_UNITARIO column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSicoesConvocatoria requireOneByEnlace(string $ENLACE) Return the first ChildJobSicoesConvocatoria filtered by the ENLACE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSicoesConvocatoria requireOneByDepartamento(string $DEPARTAMENTO) Return the first ChildJobSicoesConvocatoria filtered by the DEPARTAMENTO column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobSicoesConvocatoria requireOneByContacto(string $CONTACTO) Return the first ChildJobSicoesConvocatoria filtered by the CONTACTO column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -152,7 +144,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSicoesConvocatoria[]|ObjectCollection findByCodigoSisin(string $CODIGO_SISIN) Return ChildJobSicoesConvocatoria objects filtered by the CODIGO_SISIN column
  * @method     ChildJobSicoesConvocatoria[]|ObjectCollection findByObjetoLicitacion(string $OBJETO_LICITACION) Return ChildJobSicoesConvocatoria objects filtered by the OBJETO_LICITACION column
  * @method     ChildJobSicoesConvocatoria[]|ObjectCollection findByNombreEntidad(string $NOMBRE_ENTIDAD) Return ChildJobSicoesConvocatoria objects filtered by the NOMBRE_ENTIDAD column
- * @method     ChildJobSicoesConvocatoria[]|ObjectCollection findByCodigoEntidad(int $CODIGO_ENTIDAD) Return ChildJobSicoesConvocatoria objects filtered by the CODIGO_ENTIDAD column
+ * @method     ChildJobSicoesConvocatoria[]|ObjectCollection findByCodigoEntidad(string $CODIGO_ENTIDAD) Return ChildJobSicoesConvocatoria objects filtered by the CODIGO_ENTIDAD column
  * @method     ChildJobSicoesConvocatoria[]|ObjectCollection findByTelefonoEntidad(string $TELEFONO_ENTIDAD) Return ChildJobSicoesConvocatoria objects filtered by the TELEFONO_ENTIDAD column
  * @method     ChildJobSicoesConvocatoria[]|ObjectCollection findByFechaPublicacion(string $FECHA_PUBLICACION) Return ChildJobSicoesConvocatoria objects filtered by the FECHA_PUBLICACION column
  * @method     ChildJobSicoesConvocatoria[]|ObjectCollection findByFechaLimite(string $FECHA_LIMITE) Return ChildJobSicoesConvocatoria objects filtered by the FECHA_LIMITE column
@@ -163,8 +155,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobSicoesConvocatoria[]|ObjectCollection findByFormaAdjudicacion(string $FORMA_ADJUDICACION) Return ChildJobSicoesConvocatoria objects filtered by the FORMA_ADJUDICACION column
  * @method     ChildJobSicoesConvocatoria[]|ObjectCollection findByTipoContratacion(string $TIPO_CONTRATACION) Return ChildJobSicoesConvocatoria objects filtered by the TIPO_CONTRATACION column
  * @method     ChildJobSicoesConvocatoria[]|ObjectCollection findByGarantiasSolicitadas(string $GARANTIAS_SOLICITADAS) Return ChildJobSicoesConvocatoria objects filtered by the GARANTIAS_SOLICITADAS column
- * @method     ChildJobSicoesConvocatoria[]|ObjectCollection findByNumeroConsultores(int $NUMERO_CONSULTORES) Return ChildJobSicoesConvocatoria objects filtered by the NUMERO_CONSULTORES column
- * @method     ChildJobSicoesConvocatoria[]|ObjectCollection findByPrecioUnitario(double $PRECIO_UNITARIO) Return ChildJobSicoesConvocatoria objects filtered by the PRECIO_UNITARIO column
  * @method     ChildJobSicoesConvocatoria[]|ObjectCollection findByEnlace(string $ENLACE) Return ChildJobSicoesConvocatoria objects filtered by the ENLACE column
  * @method     ChildJobSicoesConvocatoria[]|ObjectCollection findByDepartamento(string $DEPARTAMENTO) Return ChildJobSicoesConvocatoria objects filtered by the DEPARTAMENTO column
  * @method     ChildJobSicoesConvocatoria[]|ObjectCollection findByContacto(string $CONTACTO) Return ChildJobSicoesConvocatoria objects filtered by the CONTACTO column
@@ -269,7 +259,7 @@ abstract class JobSicoesConvocatoriaQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT ID, CUCE, CODIGO_SISIN, OBJETO_LICITACION, NOMBRE_ENTIDAD, CODIGO_ENTIDAD, TELEFONO_ENTIDAD, FECHA_PUBLICACION, FECHA_LIMITE, ESTADO, MODALIDAD, TIPO_CONVOCATORIA, TIPO_CONSULTORIA, FORMA_ADJUDICACION, TIPO_CONTRATACION, GARANTIAS_SOLICITADAS, NUMERO_CONSULTORES, PRECIO_UNITARIO, ENLACE, DEPARTAMENTO, CONTACTO, STATUS, CREATION_DATE, MODIFICATION_DATE FROM job_sicoes_convocatoria WHERE ID = :p0';
+        $sql = 'SELECT ID, CUCE, CODIGO_SISIN, OBJETO_LICITACION, NOMBRE_ENTIDAD, CODIGO_ENTIDAD, TELEFONO_ENTIDAD, FECHA_PUBLICACION, FECHA_LIMITE, ESTADO, MODALIDAD, TIPO_CONVOCATORIA, TIPO_CONSULTORIA, FORMA_ADJUDICACION, TIPO_CONTRATACION, GARANTIAS_SOLICITADAS, ENLACE, DEPARTAMENTO, CONTACTO, STATUS, CREATION_DATE, MODIFICATION_DATE FROM job_sicoes_convocatoria WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -505,35 +495,19 @@ abstract class JobSicoesConvocatoriaQuery extends ModelCriteria
      *
      * Example usage:
      * <code>
-     * $query->filterByCodigoEntidad(1234); // WHERE CODIGO_ENTIDAD = 1234
-     * $query->filterByCodigoEntidad(array(12, 34)); // WHERE CODIGO_ENTIDAD IN (12, 34)
-     * $query->filterByCodigoEntidad(array('min' => 12)); // WHERE CODIGO_ENTIDAD > 12
+     * $query->filterByCodigoEntidad('fooValue');   // WHERE CODIGO_ENTIDAD = 'fooValue'
+     * $query->filterByCodigoEntidad('%fooValue%', Criteria::LIKE); // WHERE CODIGO_ENTIDAD LIKE '%fooValue%'
      * </code>
      *
-     * @param     mixed $codigoEntidad The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $codigoEntidad The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobSicoesConvocatoriaQuery The current query, for fluid interface
      */
     public function filterByCodigoEntidad($codigoEntidad = null, $comparison = null)
     {
-        if (is_array($codigoEntidad)) {
-            $useMinMax = false;
-            if (isset($codigoEntidad['min'])) {
-                $this->addUsingAlias(JobSicoesConvocatoriaTableMap::COL_CODIGO_ENTIDAD, $codigoEntidad['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($codigoEntidad['max'])) {
-                $this->addUsingAlias(JobSicoesConvocatoriaTableMap::COL_CODIGO_ENTIDAD, $codigoEntidad['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
+        if (null === $comparison) {
+            if (is_array($codigoEntidad)) {
                 $comparison = Criteria::IN;
             }
         }
@@ -825,88 +799,6 @@ abstract class JobSicoesConvocatoriaQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(JobSicoesConvocatoriaTableMap::COL_GARANTIAS_SOLICITADAS, $garantiasSolicitadas, $comparison);
-    }
-
-    /**
-     * Filter the query on the NUMERO_CONSULTORES column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByNumeroConsultores(1234); // WHERE NUMERO_CONSULTORES = 1234
-     * $query->filterByNumeroConsultores(array(12, 34)); // WHERE NUMERO_CONSULTORES IN (12, 34)
-     * $query->filterByNumeroConsultores(array('min' => 12)); // WHERE NUMERO_CONSULTORES > 12
-     * </code>
-     *
-     * @param     mixed $numeroConsultores The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildJobSicoesConvocatoriaQuery The current query, for fluid interface
-     */
-    public function filterByNumeroConsultores($numeroConsultores = null, $comparison = null)
-    {
-        if (is_array($numeroConsultores)) {
-            $useMinMax = false;
-            if (isset($numeroConsultores['min'])) {
-                $this->addUsingAlias(JobSicoesConvocatoriaTableMap::COL_NUMERO_CONSULTORES, $numeroConsultores['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($numeroConsultores['max'])) {
-                $this->addUsingAlias(JobSicoesConvocatoriaTableMap::COL_NUMERO_CONSULTORES, $numeroConsultores['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(JobSicoesConvocatoriaTableMap::COL_NUMERO_CONSULTORES, $numeroConsultores, $comparison);
-    }
-
-    /**
-     * Filter the query on the PRECIO_UNITARIO column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByPrecioUnitario(1234); // WHERE PRECIO_UNITARIO = 1234
-     * $query->filterByPrecioUnitario(array(12, 34)); // WHERE PRECIO_UNITARIO IN (12, 34)
-     * $query->filterByPrecioUnitario(array('min' => 12)); // WHERE PRECIO_UNITARIO > 12
-     * </code>
-     *
-     * @param     mixed $precioUnitario The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildJobSicoesConvocatoriaQuery The current query, for fluid interface
-     */
-    public function filterByPrecioUnitario($precioUnitario = null, $comparison = null)
-    {
-        if (is_array($precioUnitario)) {
-            $useMinMax = false;
-            if (isset($precioUnitario['min'])) {
-                $this->addUsingAlias(JobSicoesConvocatoriaTableMap::COL_PRECIO_UNITARIO, $precioUnitario['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($precioUnitario['max'])) {
-                $this->addUsingAlias(JobSicoesConvocatoriaTableMap::COL_PRECIO_UNITARIO, $precioUnitario['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(JobSicoesConvocatoriaTableMap::COL_PRECIO_UNITARIO, $precioUnitario, $comparison);
     }
 
     /**

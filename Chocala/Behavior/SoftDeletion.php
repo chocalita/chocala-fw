@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Created by PhpStorm.
+ *
  * User: Yecid
  * Date: 3/4/2016
  * Time: 11:53 p.m.

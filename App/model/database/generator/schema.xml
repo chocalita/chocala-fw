@@ -340,6 +340,56 @@
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
   </table>
+  <table name="job_persona" idMethod="native" phpName="JobPersona">
+    <column name="ID" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="USER_ID" phpName="UserId" type="INTEGER" required="true"/>
+    <column name="LOCATION_ID" phpName="LocationId" type="INTEGER"/>
+    <column name="FIRST_NAME" phpName="FirstName" type="VARCHAR" size="50" required="true"/>
+    <column name="MIDDLE_NAME" phpName="MiddleName" type="VARCHAR" size="50"/>
+    <column name="LAST_NAME" phpName="LastName" type="VARCHAR" size="50" required="true"/>
+    <column name="SECOND_LAST_NAME" phpName="SecondLastName" type="VARCHAR" size="50"/>
+    <column name="EMAIL" phpName="Email" type="VARCHAR" size="20" required="true"/>
+    <column name="ID_NUMBER" phpName="IdNumber" type="VARCHAR" size="20"/>
+    <column name="ID_EXTENSION" phpName="IdExtension" type="VARCHAR" size="10"/>
+    <column name="GENDER" phpName="Gender" type="VARCHAR" size="10"/>
+    <column name="DATE_OF_BIRTH" phpName="DateOfBirth" type="DATE"/>
+    <column name="PLACE_OF_BIRTH" phpName="PlaceOfBirth" type="VARCHAR" size="100"/>
+    <column name="ADDRESS" phpName="Address" type="VARCHAR" size="200"/>
+    <column name="CITY" phpName="City" type="VARCHAR" size="50"/>
+    <column name="POB" phpName="Pob" type="VARCHAR" size="20"/>
+    <column name="PHONE_HOME" phpName="PhoneHome" type="VARCHAR" size="30"/>
+    <column name="PHONE_WORK" phpName="PhoneWork" type="VARCHAR" size="30"/>
+    <column name="CELLPHONE_1" phpName="Cellphone1" type="VARCHAR" size="30"/>
+    <column name="CELLPHONE_2" phpName="Cellphone2" type="VARCHAR" size="30"/>
+    <column name="PHOTO_MIME" phpName="PhotoMime" type="VARCHAR" size="20"/>
+    <column name="LAST_USER_ID" phpName="LastUserId" type="INTEGER" required="true" defaultValue="0"/>
+    <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
+    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP" defaultValue="0000-00-00 00:00:00"/>
+    <foreign-key foreignTable="sys_user" name="sys_person_fk1_job">
+      <reference local="USER_ID" foreign="ID"/>
+    </foreign-key>
+    <index name="IDX_SYS_PERSON_ID_NUMBER_JOB">
+      <index-column name="ID_NUMBER"/>
+    </index>
+    <index name="IDX_SYS_PERSON_EMAIL_JOB">
+      <index-column name="EMAIL"/>
+    </index>
+    <unique name="UK_USER_ID_JOB">
+      <unique-column name="USER_ID"/>
+    </unique>
+    <unique name="UK_PERSON_EMAIL_JOB">
+      <unique-column name="EMAIL"/>
+      <unique-column name="ID_NUMBER"/>
+    </unique>
+    <unique name="UK_PERSON_NAMES_JOB">
+      <unique-column name="FIRST_NAME"/>
+      <unique-column name="LAST_NAME"/>
+      <unique-column name="ID_NUMBER"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
   <table name="job_postulante" idMethod="native" phpName="JobPostulante">
     <column name="ID" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="USER_ID" phpName="UserId" type="INTEGER" required="true"/>
@@ -425,7 +475,7 @@
     <column name="CODIGO_SISIN" phpName="CodigoSisin" type="VARCHAR" size="100"/>
     <column name="OBJETO_LICITACION" phpName="ObjetoLicitacion" type="VARCHAR" size="5000" required="true"/>
     <column name="NOMBRE_ENTIDAD" phpName="NombreEntidad" type="VARCHAR" size="2000" required="true"/>
-    <column name="CODIGO_ENTIDAD" phpName="CodigoEntidad" type="INTEGER" size="100" required="true"/>
+    <column name="CODIGO_ENTIDAD" phpName="CodigoEntidad" type="VARCHAR" size="50" required="true"/>
     <column name="TELEFONO_ENTIDAD" phpName="TelefonoEntidad" type="VARCHAR" size="100" required="true"/>
     <column name="FECHA_PUBLICACION" phpName="FechaPublicacion" type="DATE" required="true"/>
     <column name="FECHA_LIMITE" phpName="FechaLimite" type="DATE" required="true"/>
@@ -436,9 +486,7 @@
     <column name="FORMA_ADJUDICACION" phpName="FormaAdjudicacion" type="VARCHAR" size="200" required="true"/>
     <column name="TIPO_CONTRATACION" phpName="TipoContratacion" type="VARCHAR" size="200" required="true"/>
     <column name="GARANTIAS_SOLICITADAS" phpName="GarantiasSolicitadas" type="VARCHAR" size="2000" required="true"/>
-    <column name="NUMERO_CONSULTORES" phpName="NumeroConsultores" type="INTEGER" required="true"/>
-    <column name="PRECIO_UNITARIO" phpName="PrecioUnitario" type="FLOAT" size="9" scale="3" required="true"/>
-    <column name="ENLACE" phpName="Enlace" type="VARCHAR" size="5000" required="true"/>
+    <column name="ENLACE" phpName="Enlace" type="VARCHAR" size="5000"/>
     <column name="DEPARTAMENTO" phpName="Departamento" type="VARCHAR" size="50" required="true"/>
     <column name="CONTACTO" phpName="Contacto" type="VARCHAR" size="500" required="true"/>
     <column name="STATUS" phpName="Status" type="VARCHAR" size="30" required="true"/>
@@ -452,15 +500,18 @@
     </vendor>
   </table>
   <table name="job_sicoes_detalle" idMethod="native" phpName="JobSicoesDetalle">
-    <column name="ID" phpName="Id" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="ID" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="ID_SICOES_CONVOCATORIA" phpName="IdSicoesConvocatoria" type="INTEGER" required="true"/>
     <column name="NUMERO" phpName="Numero" type="INTEGER" required="true"/>
     <column name="DESCRIPCION" phpName="Descripcion" type="VARCHAR" size="5000" required="true"/>
     <column name="UNIDAD_MEDIDA" phpName="UnidadMedida" type="VARCHAR" size="100" required="true"/>
     <column name="CANTIDAD" phpName="Cantidad" type="INTEGER" required="true"/>
-    <column name="PRECIO_REFERENCIAL" phpName="PrecioReferencial" type="FLOAT" size="9" scale="3" required="true"/>
+    <column name="PRECIO_UNIDAD" phpName="PrecioUnidad" type="FLOAT" size="9" scale="3" required="true"/>
     <column name="CODIGO_CATALOGO" phpName="CodigoCatalogo" type="VARCHAR" size="30"/>
     <column name="OBJETO_GASTO" phpName="ObjetoGasto" type="VARCHAR" size="30"/>
+    <column name="STATUS" phpName="Status" type="VARCHAR" size="30" required="true"/>
+    <column name="CREATION_DATE" phpName="CreationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
+    <column name="MODIFICATION_DATE" phpName="ModificationDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
     <foreign-key foreignTable="job_sicoes_convocatoria" name="fk_job_sicoes_detalle_sicoes_convocatoria">
       <reference local="ID_SICOES_CONVOCATORIA" foreign="ID"/>
     </foreign-key>
@@ -857,6 +908,43 @@
       <unique-column name="ENTITY_ID"/>
       <unique-column name="ROL_ID"/>
     </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="sys_event" idMethod="native" phpName="SysEvent">
+    <column name="ID" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="CODE" phpName="Code" type="VARCHAR" size="30" required="true"/>
+    <column name="NAME" phpName="Name" type="VARCHAR" size="50" required="true"/>
+    <column name="TYPE" phpName="Type" type="VARCHAR" size="30" required="true"/>
+    <column name="LEVEL" phpName="Level" type="VARCHAR" size="30" required="true"/>
+    <column name="DESCRIPTION" phpName="Description" type="LONGVARCHAR"/>
+    <unique name="CODE_UNIQUE_new">
+      <unique-column name="CODE"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="sys_event_user" idMethod="native" phpName="SysEventUser">
+    <column name="ID" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="EVENT_ID" phpName="EventId" type="INTEGER" required="true"/>
+    <column name="USER_ID" phpName="UserId" type="INTEGER" required="true"/>
+    <column name="DATE" phpName="Date" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
+    <column name="MESSAGE" phpName="Message" type="VARCHAR" size="1000" required="true"/>
+    <column name="DETAILS" phpName="Details" type="LONGVARCHAR"/>
+    <foreign-key foreignTable="sys_event" name="FK_EVENT_USER_EVENT_new">
+      <reference local="EVENT_ID" foreign="ID"/>
+    </foreign-key>
+    <foreign-key foreignTable="sys_user" name="FK_EVENT_USER_USER_new">
+      <reference local="USER_ID" foreign="ID"/>
+    </foreign-key>
+    <index name="FK_EVENT_USER_EVENT_idx_new">
+      <index-column name="EVENT_ID"/>
+    </index>
+    <index name="FK_EVENT_USER_USER_idx_new">
+      <index-column name="USER_ID"/>
+    </index>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>

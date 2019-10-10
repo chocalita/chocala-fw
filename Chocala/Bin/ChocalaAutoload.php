@@ -48,6 +48,7 @@ class ChocalaAutoload
         'IFrontController'          =>  'Base/IFrontController',
         'ISingleton'                =>  'Base/ISingleton',
         'ISingletonRegistry'        =>  'Base/ISingletonRegistry',
+        'NotFoundException'         =>  'Base/NotFoundException',
         'Param'                     =>  'Base/Param',
         'Params'                    =>  'Base/Params',
         'SingletonRegistry'         =>  'Base/SingletonRegistry',
@@ -57,6 +58,8 @@ class ChocalaAutoload
 
         'Convertible'               =>  'Behavior/Convertible',
         'Criteria'                  =>  'Behavior/Criteria',
+        'Logger'                    =>  'Behavior/Logger',
+        'Logging'                   =>  'Behavior/Logging',
         'Relatable'                 =>  'Behavior/Relatable',
         'SoftQuery'                 =>  'Behavior/SoftQuery',
         'SoftDelete'                =>  'Behavior/SoftDelete',

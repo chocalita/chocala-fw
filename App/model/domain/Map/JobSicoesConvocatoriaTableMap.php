@@ -59,7 +59,7 @@ class JobSicoesConvocatoriaTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 24;
+    const NUM_COLUMNS = 22;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,7 @@ class JobSicoesConvocatoriaTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 24;
+    const NUM_HYDRATE_COLUMNS = 22;
 
     /**
      * the column name for the ID field
@@ -152,16 +152,6 @@ class JobSicoesConvocatoriaTableMap extends TableMap
     const COL_GARANTIAS_SOLICITADAS = 'job_sicoes_convocatoria.GARANTIAS_SOLICITADAS';
 
     /**
-     * the column name for the NUMERO_CONSULTORES field
-     */
-    const COL_NUMERO_CONSULTORES = 'job_sicoes_convocatoria.NUMERO_CONSULTORES';
-
-    /**
-     * the column name for the PRECIO_UNITARIO field
-     */
-    const COL_PRECIO_UNITARIO = 'job_sicoes_convocatoria.PRECIO_UNITARIO';
-
-    /**
      * the column name for the ENLACE field
      */
     const COL_ENLACE = 'job_sicoes_convocatoria.ENLACE';
@@ -203,11 +193,11 @@ class JobSicoesConvocatoriaTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Cuce', 'CodigoSisin', 'ObjetoLicitacion', 'NombreEntidad', 'CodigoEntidad', 'TelefonoEntidad', 'FechaPublicacion', 'FechaLimite', 'Estado', 'Modalidad', 'TipoConvocatoria', 'TipoConsultoria', 'FormaAdjudicacion', 'TipoContratacion', 'GarantiasSolicitadas', 'NumeroConsultores', 'PrecioUnitario', 'Enlace', 'Departamento', 'Contacto', 'Status', 'CreationDate', 'ModificationDate', ),
-        self::TYPE_CAMELNAME     => array('id', 'cuce', 'codigoSisin', 'objetoLicitacion', 'nombreEntidad', 'codigoEntidad', 'telefonoEntidad', 'fechaPublicacion', 'fechaLimite', 'estado', 'modalidad', 'tipoConvocatoria', 'tipoConsultoria', 'formaAdjudicacion', 'tipoContratacion', 'garantiasSolicitadas', 'numeroConsultores', 'precioUnitario', 'enlace', 'departamento', 'contacto', 'status', 'creationDate', 'modificationDate', ),
-        self::TYPE_COLNAME       => array(JobSicoesConvocatoriaTableMap::COL_ID, JobSicoesConvocatoriaTableMap::COL_CUCE, JobSicoesConvocatoriaTableMap::COL_CODIGO_SISIN, JobSicoesConvocatoriaTableMap::COL_OBJETO_LICITACION, JobSicoesConvocatoriaTableMap::COL_NOMBRE_ENTIDAD, JobSicoesConvocatoriaTableMap::COL_CODIGO_ENTIDAD, JobSicoesConvocatoriaTableMap::COL_TELEFONO_ENTIDAD, JobSicoesConvocatoriaTableMap::COL_FECHA_PUBLICACION, JobSicoesConvocatoriaTableMap::COL_FECHA_LIMITE, JobSicoesConvocatoriaTableMap::COL_ESTADO, JobSicoesConvocatoriaTableMap::COL_MODALIDAD, JobSicoesConvocatoriaTableMap::COL_TIPO_CONVOCATORIA, JobSicoesConvocatoriaTableMap::COL_TIPO_CONSULTORIA, JobSicoesConvocatoriaTableMap::COL_FORMA_ADJUDICACION, JobSicoesConvocatoriaTableMap::COL_TIPO_CONTRATACION, JobSicoesConvocatoriaTableMap::COL_GARANTIAS_SOLICITADAS, JobSicoesConvocatoriaTableMap::COL_NUMERO_CONSULTORES, JobSicoesConvocatoriaTableMap::COL_PRECIO_UNITARIO, JobSicoesConvocatoriaTableMap::COL_ENLACE, JobSicoesConvocatoriaTableMap::COL_DEPARTAMENTO, JobSicoesConvocatoriaTableMap::COL_CONTACTO, JobSicoesConvocatoriaTableMap::COL_STATUS, JobSicoesConvocatoriaTableMap::COL_CREATION_DATE, JobSicoesConvocatoriaTableMap::COL_MODIFICATION_DATE, ),
-        self::TYPE_FIELDNAME     => array('ID', 'CUCE', 'CODIGO_SISIN', 'OBJETO_LICITACION', 'NOMBRE_ENTIDAD', 'CODIGO_ENTIDAD', 'TELEFONO_ENTIDAD', 'FECHA_PUBLICACION', 'FECHA_LIMITE', 'ESTADO', 'MODALIDAD', 'TIPO_CONVOCATORIA', 'TIPO_CONSULTORIA', 'FORMA_ADJUDICACION', 'TIPO_CONTRATACION', 'GARANTIAS_SOLICITADAS', 'NUMERO_CONSULTORES', 'PRECIO_UNITARIO', 'ENLACE', 'DEPARTAMENTO', 'CONTACTO', 'STATUS', 'CREATION_DATE', 'MODIFICATION_DATE', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, )
+        self::TYPE_PHPNAME       => array('Id', 'Cuce', 'CodigoSisin', 'ObjetoLicitacion', 'NombreEntidad', 'CodigoEntidad', 'TelefonoEntidad', 'FechaPublicacion', 'FechaLimite', 'Estado', 'Modalidad', 'TipoConvocatoria', 'TipoConsultoria', 'FormaAdjudicacion', 'TipoContratacion', 'GarantiasSolicitadas', 'Enlace', 'Departamento', 'Contacto', 'Status', 'CreationDate', 'ModificationDate', ),
+        self::TYPE_CAMELNAME     => array('id', 'cuce', 'codigoSisin', 'objetoLicitacion', 'nombreEntidad', 'codigoEntidad', 'telefonoEntidad', 'fechaPublicacion', 'fechaLimite', 'estado', 'modalidad', 'tipoConvocatoria', 'tipoConsultoria', 'formaAdjudicacion', 'tipoContratacion', 'garantiasSolicitadas', 'enlace', 'departamento', 'contacto', 'status', 'creationDate', 'modificationDate', ),
+        self::TYPE_COLNAME       => array(JobSicoesConvocatoriaTableMap::COL_ID, JobSicoesConvocatoriaTableMap::COL_CUCE, JobSicoesConvocatoriaTableMap::COL_CODIGO_SISIN, JobSicoesConvocatoriaTableMap::COL_OBJETO_LICITACION, JobSicoesConvocatoriaTableMap::COL_NOMBRE_ENTIDAD, JobSicoesConvocatoriaTableMap::COL_CODIGO_ENTIDAD, JobSicoesConvocatoriaTableMap::COL_TELEFONO_ENTIDAD, JobSicoesConvocatoriaTableMap::COL_FECHA_PUBLICACION, JobSicoesConvocatoriaTableMap::COL_FECHA_LIMITE, JobSicoesConvocatoriaTableMap::COL_ESTADO, JobSicoesConvocatoriaTableMap::COL_MODALIDAD, JobSicoesConvocatoriaTableMap::COL_TIPO_CONVOCATORIA, JobSicoesConvocatoriaTableMap::COL_TIPO_CONSULTORIA, JobSicoesConvocatoriaTableMap::COL_FORMA_ADJUDICACION, JobSicoesConvocatoriaTableMap::COL_TIPO_CONTRATACION, JobSicoesConvocatoriaTableMap::COL_GARANTIAS_SOLICITADAS, JobSicoesConvocatoriaTableMap::COL_ENLACE, JobSicoesConvocatoriaTableMap::COL_DEPARTAMENTO, JobSicoesConvocatoriaTableMap::COL_CONTACTO, JobSicoesConvocatoriaTableMap::COL_STATUS, JobSicoesConvocatoriaTableMap::COL_CREATION_DATE, JobSicoesConvocatoriaTableMap::COL_MODIFICATION_DATE, ),
+        self::TYPE_FIELDNAME     => array('ID', 'CUCE', 'CODIGO_SISIN', 'OBJETO_LICITACION', 'NOMBRE_ENTIDAD', 'CODIGO_ENTIDAD', 'TELEFONO_ENTIDAD', 'FECHA_PUBLICACION', 'FECHA_LIMITE', 'ESTADO', 'MODALIDAD', 'TIPO_CONVOCATORIA', 'TIPO_CONSULTORIA', 'FORMA_ADJUDICACION', 'TIPO_CONTRATACION', 'GARANTIAS_SOLICITADAS', 'ENLACE', 'DEPARTAMENTO', 'CONTACTO', 'STATUS', 'CREATION_DATE', 'MODIFICATION_DATE', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, )
     );
 
     /**
@@ -217,11 +207,11 @@ class JobSicoesConvocatoriaTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Cuce' => 1, 'CodigoSisin' => 2, 'ObjetoLicitacion' => 3, 'NombreEntidad' => 4, 'CodigoEntidad' => 5, 'TelefonoEntidad' => 6, 'FechaPublicacion' => 7, 'FechaLimite' => 8, 'Estado' => 9, 'Modalidad' => 10, 'TipoConvocatoria' => 11, 'TipoConsultoria' => 12, 'FormaAdjudicacion' => 13, 'TipoContratacion' => 14, 'GarantiasSolicitadas' => 15, 'NumeroConsultores' => 16, 'PrecioUnitario' => 17, 'Enlace' => 18, 'Departamento' => 19, 'Contacto' => 20, 'Status' => 21, 'CreationDate' => 22, 'ModificationDate' => 23, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'cuce' => 1, 'codigoSisin' => 2, 'objetoLicitacion' => 3, 'nombreEntidad' => 4, 'codigoEntidad' => 5, 'telefonoEntidad' => 6, 'fechaPublicacion' => 7, 'fechaLimite' => 8, 'estado' => 9, 'modalidad' => 10, 'tipoConvocatoria' => 11, 'tipoConsultoria' => 12, 'formaAdjudicacion' => 13, 'tipoContratacion' => 14, 'garantiasSolicitadas' => 15, 'numeroConsultores' => 16, 'precioUnitario' => 17, 'enlace' => 18, 'departamento' => 19, 'contacto' => 20, 'status' => 21, 'creationDate' => 22, 'modificationDate' => 23, ),
-        self::TYPE_COLNAME       => array(JobSicoesConvocatoriaTableMap::COL_ID => 0, JobSicoesConvocatoriaTableMap::COL_CUCE => 1, JobSicoesConvocatoriaTableMap::COL_CODIGO_SISIN => 2, JobSicoesConvocatoriaTableMap::COL_OBJETO_LICITACION => 3, JobSicoesConvocatoriaTableMap::COL_NOMBRE_ENTIDAD => 4, JobSicoesConvocatoriaTableMap::COL_CODIGO_ENTIDAD => 5, JobSicoesConvocatoriaTableMap::COL_TELEFONO_ENTIDAD => 6, JobSicoesConvocatoriaTableMap::COL_FECHA_PUBLICACION => 7, JobSicoesConvocatoriaTableMap::COL_FECHA_LIMITE => 8, JobSicoesConvocatoriaTableMap::COL_ESTADO => 9, JobSicoesConvocatoriaTableMap::COL_MODALIDAD => 10, JobSicoesConvocatoriaTableMap::COL_TIPO_CONVOCATORIA => 11, JobSicoesConvocatoriaTableMap::COL_TIPO_CONSULTORIA => 12, JobSicoesConvocatoriaTableMap::COL_FORMA_ADJUDICACION => 13, JobSicoesConvocatoriaTableMap::COL_TIPO_CONTRATACION => 14, JobSicoesConvocatoriaTableMap::COL_GARANTIAS_SOLICITADAS => 15, JobSicoesConvocatoriaTableMap::COL_NUMERO_CONSULTORES => 16, JobSicoesConvocatoriaTableMap::COL_PRECIO_UNITARIO => 17, JobSicoesConvocatoriaTableMap::COL_ENLACE => 18, JobSicoesConvocatoriaTableMap::COL_DEPARTAMENTO => 19, JobSicoesConvocatoriaTableMap::COL_CONTACTO => 20, JobSicoesConvocatoriaTableMap::COL_STATUS => 21, JobSicoesConvocatoriaTableMap::COL_CREATION_DATE => 22, JobSicoesConvocatoriaTableMap::COL_MODIFICATION_DATE => 23, ),
-        self::TYPE_FIELDNAME     => array('ID' => 0, 'CUCE' => 1, 'CODIGO_SISIN' => 2, 'OBJETO_LICITACION' => 3, 'NOMBRE_ENTIDAD' => 4, 'CODIGO_ENTIDAD' => 5, 'TELEFONO_ENTIDAD' => 6, 'FECHA_PUBLICACION' => 7, 'FECHA_LIMITE' => 8, 'ESTADO' => 9, 'MODALIDAD' => 10, 'TIPO_CONVOCATORIA' => 11, 'TIPO_CONSULTORIA' => 12, 'FORMA_ADJUDICACION' => 13, 'TIPO_CONTRATACION' => 14, 'GARANTIAS_SOLICITADAS' => 15, 'NUMERO_CONSULTORES' => 16, 'PRECIO_UNITARIO' => 17, 'ENLACE' => 18, 'DEPARTAMENTO' => 19, 'CONTACTO' => 20, 'STATUS' => 21, 'CREATION_DATE' => 22, 'MODIFICATION_DATE' => 23, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Cuce' => 1, 'CodigoSisin' => 2, 'ObjetoLicitacion' => 3, 'NombreEntidad' => 4, 'CodigoEntidad' => 5, 'TelefonoEntidad' => 6, 'FechaPublicacion' => 7, 'FechaLimite' => 8, 'Estado' => 9, 'Modalidad' => 10, 'TipoConvocatoria' => 11, 'TipoConsultoria' => 12, 'FormaAdjudicacion' => 13, 'TipoContratacion' => 14, 'GarantiasSolicitadas' => 15, 'Enlace' => 16, 'Departamento' => 17, 'Contacto' => 18, 'Status' => 19, 'CreationDate' => 20, 'ModificationDate' => 21, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'cuce' => 1, 'codigoSisin' => 2, 'objetoLicitacion' => 3, 'nombreEntidad' => 4, 'codigoEntidad' => 5, 'telefonoEntidad' => 6, 'fechaPublicacion' => 7, 'fechaLimite' => 8, 'estado' => 9, 'modalidad' => 10, 'tipoConvocatoria' => 11, 'tipoConsultoria' => 12, 'formaAdjudicacion' => 13, 'tipoContratacion' => 14, 'garantiasSolicitadas' => 15, 'enlace' => 16, 'departamento' => 17, 'contacto' => 18, 'status' => 19, 'creationDate' => 20, 'modificationDate' => 21, ),
+        self::TYPE_COLNAME       => array(JobSicoesConvocatoriaTableMap::COL_ID => 0, JobSicoesConvocatoriaTableMap::COL_CUCE => 1, JobSicoesConvocatoriaTableMap::COL_CODIGO_SISIN => 2, JobSicoesConvocatoriaTableMap::COL_OBJETO_LICITACION => 3, JobSicoesConvocatoriaTableMap::COL_NOMBRE_ENTIDAD => 4, JobSicoesConvocatoriaTableMap::COL_CODIGO_ENTIDAD => 5, JobSicoesConvocatoriaTableMap::COL_TELEFONO_ENTIDAD => 6, JobSicoesConvocatoriaTableMap::COL_FECHA_PUBLICACION => 7, JobSicoesConvocatoriaTableMap::COL_FECHA_LIMITE => 8, JobSicoesConvocatoriaTableMap::COL_ESTADO => 9, JobSicoesConvocatoriaTableMap::COL_MODALIDAD => 10, JobSicoesConvocatoriaTableMap::COL_TIPO_CONVOCATORIA => 11, JobSicoesConvocatoriaTableMap::COL_TIPO_CONSULTORIA => 12, JobSicoesConvocatoriaTableMap::COL_FORMA_ADJUDICACION => 13, JobSicoesConvocatoriaTableMap::COL_TIPO_CONTRATACION => 14, JobSicoesConvocatoriaTableMap::COL_GARANTIAS_SOLICITADAS => 15, JobSicoesConvocatoriaTableMap::COL_ENLACE => 16, JobSicoesConvocatoriaTableMap::COL_DEPARTAMENTO => 17, JobSicoesConvocatoriaTableMap::COL_CONTACTO => 18, JobSicoesConvocatoriaTableMap::COL_STATUS => 19, JobSicoesConvocatoriaTableMap::COL_CREATION_DATE => 20, JobSicoesConvocatoriaTableMap::COL_MODIFICATION_DATE => 21, ),
+        self::TYPE_FIELDNAME     => array('ID' => 0, 'CUCE' => 1, 'CODIGO_SISIN' => 2, 'OBJETO_LICITACION' => 3, 'NOMBRE_ENTIDAD' => 4, 'CODIGO_ENTIDAD' => 5, 'TELEFONO_ENTIDAD' => 6, 'FECHA_PUBLICACION' => 7, 'FECHA_LIMITE' => 8, 'ESTADO' => 9, 'MODALIDAD' => 10, 'TIPO_CONVOCATORIA' => 11, 'TIPO_CONSULTORIA' => 12, 'FORMA_ADJUDICACION' => 13, 'TIPO_CONTRATACION' => 14, 'GARANTIAS_SOLICITADAS' => 15, 'ENLACE' => 16, 'DEPARTAMENTO' => 17, 'CONTACTO' => 18, 'STATUS' => 19, 'CREATION_DATE' => 20, 'MODIFICATION_DATE' => 21, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, )
     );
 
     /**
@@ -246,7 +236,7 @@ class JobSicoesConvocatoriaTableMap extends TableMap
         $this->addColumn('CODIGO_SISIN', 'CodigoSisin', 'VARCHAR', false, 100, null);
         $this->addColumn('OBJETO_LICITACION', 'ObjetoLicitacion', 'VARCHAR', true, 5000, null);
         $this->addColumn('NOMBRE_ENTIDAD', 'NombreEntidad', 'VARCHAR', true, 2000, null);
-        $this->addColumn('CODIGO_ENTIDAD', 'CodigoEntidad', 'INTEGER', true, 100, null);
+        $this->addColumn('CODIGO_ENTIDAD', 'CodigoEntidad', 'VARCHAR', true, 50, null);
         $this->addColumn('TELEFONO_ENTIDAD', 'TelefonoEntidad', 'VARCHAR', true, 100, null);
         $this->addColumn('FECHA_PUBLICACION', 'FechaPublicacion', 'DATE', true, null, null);
         $this->addColumn('FECHA_LIMITE', 'FechaLimite', 'DATE', true, null, null);
@@ -257,9 +247,7 @@ class JobSicoesConvocatoriaTableMap extends TableMap
         $this->addColumn('FORMA_ADJUDICACION', 'FormaAdjudicacion', 'VARCHAR', true, 200, null);
         $this->addColumn('TIPO_CONTRATACION', 'TipoContratacion', 'VARCHAR', true, 200, null);
         $this->addColumn('GARANTIAS_SOLICITADAS', 'GarantiasSolicitadas', 'VARCHAR', true, 2000, null);
-        $this->addColumn('NUMERO_CONSULTORES', 'NumeroConsultores', 'INTEGER', true, null, null);
-        $this->addColumn('PRECIO_UNITARIO', 'PrecioUnitario', 'FLOAT', true, 9, null);
-        $this->addColumn('ENLACE', 'Enlace', 'VARCHAR', true, 5000, null);
+        $this->addColumn('ENLACE', 'Enlace', 'VARCHAR', false, 5000, null);
         $this->addColumn('DEPARTAMENTO', 'Departamento', 'VARCHAR', true, 50, null);
         $this->addColumn('CONTACTO', 'Contacto', 'VARCHAR', true, 500, null);
         $this->addColumn('STATUS', 'Status', 'VARCHAR', true, 30, null);
@@ -438,8 +426,6 @@ class JobSicoesConvocatoriaTableMap extends TableMap
             $criteria->addSelectColumn(JobSicoesConvocatoriaTableMap::COL_FORMA_ADJUDICACION);
             $criteria->addSelectColumn(JobSicoesConvocatoriaTableMap::COL_TIPO_CONTRATACION);
             $criteria->addSelectColumn(JobSicoesConvocatoriaTableMap::COL_GARANTIAS_SOLICITADAS);
-            $criteria->addSelectColumn(JobSicoesConvocatoriaTableMap::COL_NUMERO_CONSULTORES);
-            $criteria->addSelectColumn(JobSicoesConvocatoriaTableMap::COL_PRECIO_UNITARIO);
             $criteria->addSelectColumn(JobSicoesConvocatoriaTableMap::COL_ENLACE);
             $criteria->addSelectColumn(JobSicoesConvocatoriaTableMap::COL_DEPARTAMENTO);
             $criteria->addSelectColumn(JobSicoesConvocatoriaTableMap::COL_CONTACTO);
@@ -463,8 +449,6 @@ class JobSicoesConvocatoriaTableMap extends TableMap
             $criteria->addSelectColumn($alias . '.FORMA_ADJUDICACION');
             $criteria->addSelectColumn($alias . '.TIPO_CONTRATACION');
             $criteria->addSelectColumn($alias . '.GARANTIAS_SOLICITADAS');
-            $criteria->addSelectColumn($alias . '.NUMERO_CONSULTORES');
-            $criteria->addSelectColumn($alias . '.PRECIO_UNITARIO');
             $criteria->addSelectColumn($alias . '.ENLACE');
             $criteria->addSelectColumn($alias . '.DEPARTAMENTO');
             $criteria->addSelectColumn($alias . '.CONTACTO');

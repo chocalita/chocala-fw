@@ -67,7 +67,7 @@ trait SoftQuery
      * @param bool|true $noDeletes
      * @param null $modelAlias
      * @param Criteria|null $criteria
-     * @return SoftDeletion
+     * @return SoftDeletion|$this
      */
     public static function createValids($noDeletes = true, $modelAlias = null, Criteria $criteria = null)
     {

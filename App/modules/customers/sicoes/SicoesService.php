@@ -241,14 +241,10 @@ class SicoesService extends AppSecureService
         $sicoesConvocatoria->setFormaAdjudicacion($data['FORMA_ADJUDICACION']);
         $sicoesConvocatoria->setTipoContratacion($data['TIPO_CONTRATACION']);
         $sicoesConvocatoria->setGarantiasSolicitadas($data['GARANTIAS_SOLICITADAS']);
-        $sicoesConvocatoria->setNumeroConsultores($data['NUMERO_CONSULTORES']);
-        $sicoesConvocatoria->setPrecioUnitario($data['PRECIO_UNITARIO']);
         $sicoesConvocatoria->setEnlace();
         $sicoesConvocatoria->setDepartamento($data['DEPARTAMENTO']);
         $sicoesConvocatoria->setContacto($data['CONTACTO']);
-        $sicoesConvocatoria->setStatus();
-//        $sicoesConvocatoria->save();
-
+        $sicoesConvocatoria->setStatus("ACTIVE");
 
         $tablePrecio = $tablesDetalles[4];
         $trsPrecio = $tablePrecio->find("table>tbody>tr");
@@ -256,33 +252,46 @@ class SicoesService extends AppSecureService
         foreach ($trsPrecio as $tr) {
             $tds = $tr->find("td");
             if (sizeof($tds) >= 8 && $tds[0]->plaintext != '#') {
-                $labelTd = strtoupper($tds[5]);
                 $numeroDetalle = str_replace(",", "", trim($tds[0]->plaintext)) * 1;
                 $codigoCatalogo = str_replace(",", "", trim($tds[1]->plaintext));
                 $objetoGasto = str_replace(",", "", trim($tds[2]->plaintext));
                 $descripcionDetalle = str_replace(",", "", trim($tds[3]->plaintext));
                 $unidadMedida = str_replace(",", "", trim($tds[4]->plaintext));
                 $cantidad = str_replace(",", "", trim($tds[5]->plaintext)) * 1;
-                $precioUnidad = str_replace(",", "", trim($tds[6]->plaintext)) * 1;
-                $data['NUMERO_CONSULTORES'] = $cantidad;
-                $data['NUMERO_CONSULTORES'] = $cantidad;
-                $data['PRECIO_UNITARIO'] = $precioUnidad;
+                $precioUnitario = str_replace(",", "", trim($tds[6]->plaintext)) * 1;
+                $data['NUMERO'] = $numeroDetalle;
+                $data['DESCRIPCION'] = $descripcionDetalle;
+                $data['UNIDAD_MEDIDA'] = $unidadMedida;
+                $data['CANTIDAD'] = $cantidad;
+                $data['PRECIO_UNIDAD'] = $precioUnitario;
+                $data['CODIGO_CATALOGO'] = $codigoCatalogo;
+                $data['OBJETO_GASTO'] = $objetoGasto;
 
                 $sicoesDetalle = new JobSicoesDetalle();
-                $sicoesDetalle->setNumero();
-                $sicoesDetalle->setDescripcion();
-                $sicoesDetalle->setUnidadMedida();
-                $sicoesDetalle->setCantidad();
-                $sicoesDetalle->setPrecioReferencial();
-                $sicoesDetalle->setCodigoCatalogo();
-                $sicoesDetalle->setObjetoGasto();
+                $sicoesDetalle->setNumero($data['NUMERO']);
+                $sicoesDetalle->setDescripcion($data['DESCRIPCION']);
+                $sicoesDetalle->setUnidadMedida($data['UNIDAD_MEDIDA']);
+                $sicoesDetalle->setCantidad($data['CANTIDAD']);
+                $sicoesDetalle->setPrecioUnidad($data['PRECIO_UNIDAD']);
+                $sicoesDetalle->setCodigoCatalogo($data['CODIGO_CATALOGO']);
+                $sicoesDetalle->setObjetoGasto($data['OBJETO_GASTO']);
+                $sicoesDetalle->setStatus("ACTIVE");
+                $sicoesConvocatoria->addJobSicoesDetalle($sicoesDetalle);
             }
+        }
+        $this->_logger()->info($sicoesConvocatoria->toJson());
+
+        if ($sicoesConvocatoria->validate()) {
+            $sicoesConvocatoria->save();
+        } else {
+            $this->_logger()->warning(json_encode($sicoesConvocatoria->getErrorsMap()));
         }
 
 
-        echo "" . $sicoesConvocatoria->toJson();
+//        echo "" . $sicoesConvocatoria->toJson();
 
         file_put_contents(PUBLIC_DIR . "test-sicoes.json", $sicoesConvocatoria->toJson());
+        file_put_contents(PUBLIC_DIR . "test-sicoes2.json", json_encode($sicoesConvocatoria->toArray()));
         exit();
     }
 

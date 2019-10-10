@@ -2,8 +2,8 @@
 
 namespace Map;
 
-use \JobSicoesDetalle;
-use \JobSicoesDetalleQuery;
+use \SysEvent;
+use \SysEventQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -16,7 +16,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'job_sicoes_detalle' table.
+ * This class defines the structure of the 'sys_event' table.
  *
  *
  *
@@ -26,7 +26,7 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class JobSicoesDetalleTableMap extends TableMap
+class SysEventTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
@@ -34,7 +34,7 @@ class JobSicoesDetalleTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.JobSicoesDetalleTableMap';
+    const CLASS_NAME = '.Map.SysEventTableMap';
 
     /**
      * The default database name for this class
@@ -44,22 +44,22 @@ class JobSicoesDetalleTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'job_sicoes_detalle';
+    const TABLE_NAME = 'sys_event';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\JobSicoesDetalle';
+    const OM_CLASS = '\\SysEvent';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'JobSicoesDetalle';
+    const CLASS_DEFAULT = 'SysEvent';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 12;
+    const NUM_COLUMNS = 6;
 
     /**
      * The number of lazy-loaded columns
@@ -69,67 +69,37 @@ class JobSicoesDetalleTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 12;
+    const NUM_HYDRATE_COLUMNS = 6;
 
     /**
      * the column name for the ID field
      */
-    const COL_ID = 'job_sicoes_detalle.ID';
+    const COL_ID = 'sys_event.ID';
 
     /**
-     * the column name for the ID_SICOES_CONVOCATORIA field
+     * the column name for the CODE field
      */
-    const COL_ID_SICOES_CONVOCATORIA = 'job_sicoes_detalle.ID_SICOES_CONVOCATORIA';
+    const COL_CODE = 'sys_event.CODE';
 
     /**
-     * the column name for the NUMERO field
+     * the column name for the NAME field
      */
-    const COL_NUMERO = 'job_sicoes_detalle.NUMERO';
+    const COL_NAME = 'sys_event.NAME';
 
     /**
-     * the column name for the DESCRIPCION field
+     * the column name for the TYPE field
      */
-    const COL_DESCRIPCION = 'job_sicoes_detalle.DESCRIPCION';
+    const COL_TYPE = 'sys_event.TYPE';
 
     /**
-     * the column name for the UNIDAD_MEDIDA field
+     * the column name for the LEVEL field
      */
-    const COL_UNIDAD_MEDIDA = 'job_sicoes_detalle.UNIDAD_MEDIDA';
+    const COL_LEVEL = 'sys_event.LEVEL';
 
     /**
-     * the column name for the CANTIDAD field
+     * the column name for the DESCRIPTION field
      */
-    const COL_CANTIDAD = 'job_sicoes_detalle.CANTIDAD';
-
-    /**
-     * the column name for the PRECIO_UNIDAD field
-     */
-    const COL_PRECIO_UNIDAD = 'job_sicoes_detalle.PRECIO_UNIDAD';
-
-    /**
-     * the column name for the CODIGO_CATALOGO field
-     */
-    const COL_CODIGO_CATALOGO = 'job_sicoes_detalle.CODIGO_CATALOGO';
-
-    /**
-     * the column name for the OBJETO_GASTO field
-     */
-    const COL_OBJETO_GASTO = 'job_sicoes_detalle.OBJETO_GASTO';
-
-    /**
-     * the column name for the STATUS field
-     */
-    const COL_STATUS = 'job_sicoes_detalle.STATUS';
-
-    /**
-     * the column name for the CREATION_DATE field
-     */
-    const COL_CREATION_DATE = 'job_sicoes_detalle.CREATION_DATE';
-
-    /**
-     * the column name for the MODIFICATION_DATE field
-     */
-    const COL_MODIFICATION_DATE = 'job_sicoes_detalle.MODIFICATION_DATE';
+    const COL_DESCRIPTION = 'sys_event.DESCRIPTION';
 
     /**
      * The default string format for model objects of the related table
@@ -143,11 +113,11 @@ class JobSicoesDetalleTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'IdSicoesConvocatoria', 'Numero', 'Descripcion', 'UnidadMedida', 'Cantidad', 'PrecioUnidad', 'CodigoCatalogo', 'ObjetoGasto', 'Status', 'CreationDate', 'ModificationDate', ),
-        self::TYPE_CAMELNAME     => array('id', 'idSicoesConvocatoria', 'numero', 'descripcion', 'unidadMedida', 'cantidad', 'precioUnidad', 'codigoCatalogo', 'objetoGasto', 'status', 'creationDate', 'modificationDate', ),
-        self::TYPE_COLNAME       => array(JobSicoesDetalleTableMap::COL_ID, JobSicoesDetalleTableMap::COL_ID_SICOES_CONVOCATORIA, JobSicoesDetalleTableMap::COL_NUMERO, JobSicoesDetalleTableMap::COL_DESCRIPCION, JobSicoesDetalleTableMap::COL_UNIDAD_MEDIDA, JobSicoesDetalleTableMap::COL_CANTIDAD, JobSicoesDetalleTableMap::COL_PRECIO_UNIDAD, JobSicoesDetalleTableMap::COL_CODIGO_CATALOGO, JobSicoesDetalleTableMap::COL_OBJETO_GASTO, JobSicoesDetalleTableMap::COL_STATUS, JobSicoesDetalleTableMap::COL_CREATION_DATE, JobSicoesDetalleTableMap::COL_MODIFICATION_DATE, ),
-        self::TYPE_FIELDNAME     => array('ID', 'ID_SICOES_CONVOCATORIA', 'NUMERO', 'DESCRIPCION', 'UNIDAD_MEDIDA', 'CANTIDAD', 'PRECIO_UNIDAD', 'CODIGO_CATALOGO', 'OBJETO_GASTO', 'STATUS', 'CREATION_DATE', 'MODIFICATION_DATE', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
+        self::TYPE_PHPNAME       => array('Id', 'Code', 'Name', 'Type', 'Level', 'Description', ),
+        self::TYPE_CAMELNAME     => array('id', 'code', 'name', 'type', 'level', 'description', ),
+        self::TYPE_COLNAME       => array(SysEventTableMap::COL_ID, SysEventTableMap::COL_CODE, SysEventTableMap::COL_NAME, SysEventTableMap::COL_TYPE, SysEventTableMap::COL_LEVEL, SysEventTableMap::COL_DESCRIPTION, ),
+        self::TYPE_FIELDNAME     => array('ID', 'CODE', 'NAME', 'TYPE', 'LEVEL', 'DESCRIPTION', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -157,11 +127,11 @@ class JobSicoesDetalleTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'IdSicoesConvocatoria' => 1, 'Numero' => 2, 'Descripcion' => 3, 'UnidadMedida' => 4, 'Cantidad' => 5, 'PrecioUnidad' => 6, 'CodigoCatalogo' => 7, 'ObjetoGasto' => 8, 'Status' => 9, 'CreationDate' => 10, 'ModificationDate' => 11, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'idSicoesConvocatoria' => 1, 'numero' => 2, 'descripcion' => 3, 'unidadMedida' => 4, 'cantidad' => 5, 'precioUnidad' => 6, 'codigoCatalogo' => 7, 'objetoGasto' => 8, 'status' => 9, 'creationDate' => 10, 'modificationDate' => 11, ),
-        self::TYPE_COLNAME       => array(JobSicoesDetalleTableMap::COL_ID => 0, JobSicoesDetalleTableMap::COL_ID_SICOES_CONVOCATORIA => 1, JobSicoesDetalleTableMap::COL_NUMERO => 2, JobSicoesDetalleTableMap::COL_DESCRIPCION => 3, JobSicoesDetalleTableMap::COL_UNIDAD_MEDIDA => 4, JobSicoesDetalleTableMap::COL_CANTIDAD => 5, JobSicoesDetalleTableMap::COL_PRECIO_UNIDAD => 6, JobSicoesDetalleTableMap::COL_CODIGO_CATALOGO => 7, JobSicoesDetalleTableMap::COL_OBJETO_GASTO => 8, JobSicoesDetalleTableMap::COL_STATUS => 9, JobSicoesDetalleTableMap::COL_CREATION_DATE => 10, JobSicoesDetalleTableMap::COL_MODIFICATION_DATE => 11, ),
-        self::TYPE_FIELDNAME     => array('ID' => 0, 'ID_SICOES_CONVOCATORIA' => 1, 'NUMERO' => 2, 'DESCRIPCION' => 3, 'UNIDAD_MEDIDA' => 4, 'CANTIDAD' => 5, 'PRECIO_UNIDAD' => 6, 'CODIGO_CATALOGO' => 7, 'OBJETO_GASTO' => 8, 'STATUS' => 9, 'CREATION_DATE' => 10, 'MODIFICATION_DATE' => 11, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Code' => 1, 'Name' => 2, 'Type' => 3, 'Level' => 4, 'Description' => 5, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'code' => 1, 'name' => 2, 'type' => 3, 'level' => 4, 'description' => 5, ),
+        self::TYPE_COLNAME       => array(SysEventTableMap::COL_ID => 0, SysEventTableMap::COL_CODE => 1, SysEventTableMap::COL_NAME => 2, SysEventTableMap::COL_TYPE => 3, SysEventTableMap::COL_LEVEL => 4, SysEventTableMap::COL_DESCRIPTION => 5, ),
+        self::TYPE_FIELDNAME     => array('ID' => 0, 'CODE' => 1, 'NAME' => 2, 'TYPE' => 3, 'LEVEL' => 4, 'DESCRIPTION' => 5, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -174,25 +144,19 @@ class JobSicoesDetalleTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('job_sicoes_detalle');
-        $this->setPhpName('JobSicoesDetalle');
+        $this->setName('sys_event');
+        $this->setPhpName('SysEvent');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\JobSicoesDetalle');
+        $this->setClassName('\\SysEvent');
         $this->setPackage('');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
-        $this->addForeignKey('ID_SICOES_CONVOCATORIA', 'IdSicoesConvocatoria', 'INTEGER', 'job_sicoes_convocatoria', 'ID', true, null, null);
-        $this->addColumn('NUMERO', 'Numero', 'INTEGER', true, null, null);
-        $this->addColumn('DESCRIPCION', 'Descripcion', 'VARCHAR', true, 5000, null);
-        $this->addColumn('UNIDAD_MEDIDA', 'UnidadMedida', 'VARCHAR', true, 100, null);
-        $this->addColumn('CANTIDAD', 'Cantidad', 'INTEGER', true, null, null);
-        $this->addColumn('PRECIO_UNIDAD', 'PrecioUnidad', 'FLOAT', true, 9, null);
-        $this->addColumn('CODIGO_CATALOGO', 'CodigoCatalogo', 'VARCHAR', false, 30, null);
-        $this->addColumn('OBJETO_GASTO', 'ObjetoGasto', 'VARCHAR', false, 30, null);
-        $this->addColumn('STATUS', 'Status', 'VARCHAR', true, 30, null);
-        $this->addColumn('CREATION_DATE', 'CreationDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');
-        $this->addColumn('MODIFICATION_DATE', 'ModificationDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');
+        $this->addColumn('CODE', 'Code', 'VARCHAR', true, 30, null);
+        $this->addColumn('NAME', 'Name', 'VARCHAR', true, 50, null);
+        $this->addColumn('TYPE', 'Type', 'VARCHAR', true, 30, null);
+        $this->addColumn('LEVEL', 'Level', 'VARCHAR', true, 30, null);
+        $this->addColumn('DESCRIPTION', 'Description', 'LONGVARCHAR', false, null, null);
     } // initialize()
 
     /**
@@ -200,13 +164,13 @@ class JobSicoesDetalleTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('JobSicoesConvocatoria', '\\JobSicoesConvocatoria', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('SysEventUser', '\\SysEventUser', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
-    0 => ':ID_SICOES_CONVOCATORIA',
+    0 => ':EVENT_ID',
     1 => ':ID',
   ),
-), null, null, null, false);
+), null, null, 'SysEventUsers', false);
     } // buildRelations()
 
     /**
@@ -266,7 +230,7 @@ class JobSicoesDetalleTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? JobSicoesDetalleTableMap::CLASS_DEFAULT : JobSicoesDetalleTableMap::OM_CLASS;
+        return $withPrefix ? SysEventTableMap::CLASS_DEFAULT : SysEventTableMap::OM_CLASS;
     }
 
     /**
@@ -280,22 +244,22 @@ class JobSicoesDetalleTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (JobSicoesDetalle object, last column rank)
+     * @return array           (SysEvent object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = JobSicoesDetalleTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = JobSicoesDetalleTableMap::getInstanceFromPool($key))) {
+        $key = SysEventTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = SysEventTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + JobSicoesDetalleTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + SysEventTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = JobSicoesDetalleTableMap::OM_CLASS;
-            /** @var JobSicoesDetalle $obj */
+            $cls = SysEventTableMap::OM_CLASS;
+            /** @var SysEvent $obj */
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            JobSicoesDetalleTableMap::addInstanceToPool($obj, $key);
+            SysEventTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -318,18 +282,18 @@ class JobSicoesDetalleTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = JobSicoesDetalleTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = JobSicoesDetalleTableMap::getInstanceFromPool($key))) {
+            $key = SysEventTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = SysEventTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
                 $results[] = $obj;
             } else {
-                /** @var JobSicoesDetalle $obj */
+                /** @var SysEvent $obj */
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                JobSicoesDetalleTableMap::addInstanceToPool($obj, $key);
+                SysEventTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -350,31 +314,19 @@ class JobSicoesDetalleTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(JobSicoesDetalleTableMap::COL_ID);
-            $criteria->addSelectColumn(JobSicoesDetalleTableMap::COL_ID_SICOES_CONVOCATORIA);
-            $criteria->addSelectColumn(JobSicoesDetalleTableMap::COL_NUMERO);
-            $criteria->addSelectColumn(JobSicoesDetalleTableMap::COL_DESCRIPCION);
-            $criteria->addSelectColumn(JobSicoesDetalleTableMap::COL_UNIDAD_MEDIDA);
-            $criteria->addSelectColumn(JobSicoesDetalleTableMap::COL_CANTIDAD);
-            $criteria->addSelectColumn(JobSicoesDetalleTableMap::COL_PRECIO_UNIDAD);
-            $criteria->addSelectColumn(JobSicoesDetalleTableMap::COL_CODIGO_CATALOGO);
-            $criteria->addSelectColumn(JobSicoesDetalleTableMap::COL_OBJETO_GASTO);
-            $criteria->addSelectColumn(JobSicoesDetalleTableMap::COL_STATUS);
-            $criteria->addSelectColumn(JobSicoesDetalleTableMap::COL_CREATION_DATE);
-            $criteria->addSelectColumn(JobSicoesDetalleTableMap::COL_MODIFICATION_DATE);
+            $criteria->addSelectColumn(SysEventTableMap::COL_ID);
+            $criteria->addSelectColumn(SysEventTableMap::COL_CODE);
+            $criteria->addSelectColumn(SysEventTableMap::COL_NAME);
+            $criteria->addSelectColumn(SysEventTableMap::COL_TYPE);
+            $criteria->addSelectColumn(SysEventTableMap::COL_LEVEL);
+            $criteria->addSelectColumn(SysEventTableMap::COL_DESCRIPTION);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
-            $criteria->addSelectColumn($alias . '.ID_SICOES_CONVOCATORIA');
-            $criteria->addSelectColumn($alias . '.NUMERO');
-            $criteria->addSelectColumn($alias . '.DESCRIPCION');
-            $criteria->addSelectColumn($alias . '.UNIDAD_MEDIDA');
-            $criteria->addSelectColumn($alias . '.CANTIDAD');
-            $criteria->addSelectColumn($alias . '.PRECIO_UNIDAD');
-            $criteria->addSelectColumn($alias . '.CODIGO_CATALOGO');
-            $criteria->addSelectColumn($alias . '.OBJETO_GASTO');
-            $criteria->addSelectColumn($alias . '.STATUS');
-            $criteria->addSelectColumn($alias . '.CREATION_DATE');
-            $criteria->addSelectColumn($alias . '.MODIFICATION_DATE');
+            $criteria->addSelectColumn($alias . '.CODE');
+            $criteria->addSelectColumn($alias . '.NAME');
+            $criteria->addSelectColumn($alias . '.TYPE');
+            $criteria->addSelectColumn($alias . '.LEVEL');
+            $criteria->addSelectColumn($alias . '.DESCRIPTION');
         }
     }
 
@@ -387,7 +339,7 @@ class JobSicoesDetalleTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(JobSicoesDetalleTableMap::DATABASE_NAME)->getTable(JobSicoesDetalleTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(SysEventTableMap::DATABASE_NAME)->getTable(SysEventTableMap::TABLE_NAME);
     }
 
     /**
@@ -395,16 +347,16 @@ class JobSicoesDetalleTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(JobSicoesDetalleTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(JobSicoesDetalleTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new JobSicoesDetalleTableMap());
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(SysEventTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(SysEventTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new SysEventTableMap());
         }
     }
 
     /**
-     * Performs a DELETE on the database, given a JobSicoesDetalle or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a SysEvent or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or JobSicoesDetalle object or primary key or array of primary keys
+     * @param mixed               $values Criteria or SysEvent object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param  ConnectionInterface $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -415,27 +367,27 @@ class JobSicoesDetalleTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(JobSicoesDetalleTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(SysEventTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \JobSicoesDetalle) { // it's a model object
+        } elseif ($values instanceof \SysEvent) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(JobSicoesDetalleTableMap::DATABASE_NAME);
-            $criteria->add(JobSicoesDetalleTableMap::COL_ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(SysEventTableMap::DATABASE_NAME);
+            $criteria->add(SysEventTableMap::COL_ID, (array) $values, Criteria::IN);
         }
 
-        $query = JobSicoesDetalleQuery::create()->mergeWith($criteria);
+        $query = SysEventQuery::create()->mergeWith($criteria);
 
         if ($values instanceof Criteria) {
-            JobSicoesDetalleTableMap::clearInstancePool();
+            SysEventTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
             foreach ((array) $values as $singleval) {
-                JobSicoesDetalleTableMap::removeInstanceFromPool($singleval);
+                SysEventTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -443,20 +395,20 @@ class JobSicoesDetalleTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the job_sicoes_detalle table.
+     * Deletes all rows from the sys_event table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return JobSicoesDetalleQuery::create()->doDeleteAll($con);
+        return SysEventQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a JobSicoesDetalle or Criteria object.
+     * Performs an INSERT on the database, given a SysEvent or Criteria object.
      *
-     * @param mixed               $criteria Criteria or JobSicoesDetalle object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or SysEvent object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -465,22 +417,22 @@ class JobSicoesDetalleTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(JobSicoesDetalleTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(SysEventTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from JobSicoesDetalle object
+            $criteria = $criteria->buildCriteria(); // build Criteria from SysEvent object
         }
 
-        if ($criteria->containsKey(JobSicoesDetalleTableMap::COL_ID) && $criteria->keyContainsValue(JobSicoesDetalleTableMap::COL_ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.JobSicoesDetalleTableMap::COL_ID.')');
+        if ($criteria->containsKey(SysEventTableMap::COL_ID) && $criteria->keyContainsValue(SysEventTableMap::COL_ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.SysEventTableMap::COL_ID.')');
         }
 
 
         // Set the correct dbName
-        $query = JobSicoesDetalleQuery::create()->mergeWith($criteria);
+        $query = SysEventQuery::create()->mergeWith($criteria);
 
         // use transaction because $criteria could contain info
         // for more than one table (I guess, conceivably)
@@ -489,7 +441,7 @@ class JobSicoesDetalleTableMap extends TableMap
         });
     }
 
-} // JobSicoesDetalleTableMap
+} // SysEventTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-JobSicoesDetalleTableMap::buildTableMap();
+SysEventTableMap::buildTableMap();

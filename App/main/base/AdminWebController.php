@@ -1,4 +1,5 @@
 <?php
+Chocala::import("Model.app.AuditLog");
 
 /**
  * Description of AdminWebController
@@ -7,16 +8,12 @@
  */
 abstract class AdminWebController extends WebController
 {
+    use AuditLog, Logging;
 
     /**
      * @var SysUser
      */
     protected $sessionUser = null;
-
-    /**
-     * @var SysEntity
-     */
-    protected $sessionEntity = null;
 
     public function _init()
     {

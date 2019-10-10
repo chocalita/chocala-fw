@@ -9,7 +9,7 @@ Chocala::import("Modules.system.email.EmailService");
  * Time: 4:48 PM
  *
  */
-class UserService extends GenericService
+class UserService extends AuditService
 {
 
     /**

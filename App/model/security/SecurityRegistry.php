@@ -1,6 +1,7 @@
 <?php
 require_once('PageControl.php');
 require_once('UserControl.php');
+
 /**
  * Description of SecurityRegistry
  *
@@ -14,6 +15,12 @@ class SecurityRegistry implements ISingletonRegistry
      * @var SecurityRegistry
      */
     private static $instance = null;
+
+    /**
+     * A single instance from Logger
+     * @var Logger
+     */
+    private $logger = null;
 
     /**
      * A single instance from PageControl
@@ -38,24 +45,28 @@ class SecurityRegistry implements ISingletonRegistry
         }
         return self::$instance;
     }
-    
+
     /**
      * Private construct for Singleton utility, init the main security controls
      */
     private function __construct()
     {
+        $this->logger = new Logger();
         $this->userControl = new UserControl();
         $this->pageControl = new PageControl();
     }
-    
+
     /**
-     * 
+     *
      * @param string $var
      * @param Object $object
      */
     public static function updateRegistry($var, $object)
     {
         switch ($var) {
+            case 'logger':
+                self::instance()->logger = $object;
+                break;
             case 'user':
                 self::instance()->userControl = $object;
                 break;
@@ -63,6 +74,15 @@ class SecurityRegistry implements ISingletonRegistry
                 self::instance()->pageControl = $object;
                 break;
         }
+    }
+
+    /**
+     * Return a single instance of PageControl class
+     * @return PageControl
+     */
+    public static function logger()
+    {
+        return self::instance()->logger;
     }
 
     /**

@@ -5,6 +5,17 @@
 
         <h1 class="text-success" itemprop="title"><?=$aviso->getCargo();?></h1>
 
+        <?php
+        if (!$aviso->isVigente()) {
+            ?>
+            <div class="alert alert-warning">
+                <span>El periodo de postulación de este requerimiento ya venció.
+                    Revisa nuevas oportunidades laborales en nuestra <a href="<?=WEB_ROOT;?>">página principal</a>.</span>
+            </div>
+            <?php
+        }
+        ?>
+
         <div class="col-md-3">
                 <div class="form-group" itemprop="hiringOrganization" itemscope itemtype="http://schema.org/Organization">
                     <label class="control-label">Empresa</label>
@@ -110,7 +121,7 @@
 
                 <div class="form-group">
                     <label class="control-label">Fecha de Vencimiento</label>
-                    <div itemprop="endDate"><?=$aviso->getFechaVencimiento("d/m/Y");?></div>
+                    <div itemprop="endDate" class="<?= $aviso->isVigente() ? "" : "text-danger"; ?>"><?=$aviso->getFechaVencimiento("d/m/Y");?></div>
                 </div>
 
                 <div class="row">

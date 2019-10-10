@@ -212,6 +212,13 @@ class SysUserTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('JobPersona', '\\JobPersona', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':USER_ID',
+    1 => ':ID',
+  ),
+), null, null, 'JobPersonas', false);
         $this->addRelation('JobUserEmpresaSuscrita', '\\JobUserEmpresaSuscrita', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
@@ -240,6 +247,13 @@ class SysUserTableMap extends TableMap
     1 => ':ID',
   ),
 ), null, null, 'SysEntityUsers', false);
+        $this->addRelation('SysEventUser', '\\SysEventUser', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':USER_ID',
+    1 => ':ID',
+  ),
+), null, null, 'SysEventUsers', false);
         $this->addRelation('SysImage', '\\SysImage', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (

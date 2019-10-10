@@ -6,7 +6,7 @@
  * Date: 2/10/2016
  * Time: 11:52 p.m.
  */
-abstract class AppSecureService extends GenericService
+abstract class AppSecureService extends AuditService
 {
     const LAST_CAPTCHA_GENERATED_TEXT = "LAST_CAPTCHA_GENERATED_TEXT";
     const LAST_CAPTCHA_GENERATED_PATH = "LAST_CAPTCHA_GENERATED_PATH";

@@ -104,7 +104,7 @@ abstract class JobSicoesConvocatoria implements ActiveRecordInterface
     /**
      * The value for the codigo_entidad field.
      *
-     * @var        int
+     * @var        string
      */
     protected $codigo_entidad;
 
@@ -177,20 +177,6 @@ abstract class JobSicoesConvocatoria implements ActiveRecordInterface
      * @var        string
      */
     protected $garantias_solicitadas;
-
-    /**
-     * The value for the numero_consultores field.
-     *
-     * @var        int
-     */
-    protected $numero_consultores;
-
-    /**
-     * The value for the precio_unitario field.
-     *
-     * @var        double
-     */
-    protected $precio_unitario;
 
     /**
      * The value for the enlace field.
@@ -546,7 +532,7 @@ abstract class JobSicoesConvocatoria implements ActiveRecordInterface
     /**
      * Get the [codigo_entidad] column value.
      *
-     * @return int
+     * @return string
      */
     public function getCodigoEntidad()
     {
@@ -671,26 +657,6 @@ abstract class JobSicoesConvocatoria implements ActiveRecordInterface
     public function getGarantiasSolicitadas()
     {
         return $this->garantias_solicitadas;
-    }
-
-    /**
-     * Get the [numero_consultores] column value.
-     *
-     * @return int
-     */
-    public function getNumeroConsultores()
-    {
-        return $this->numero_consultores;
-    }
-
-    /**
-     * Get the [precio_unitario] column value.
-     *
-     * @return double
-     */
-    public function getPrecioUnitario()
-    {
-        return $this->precio_unitario;
     }
 
     /**
@@ -876,13 +842,13 @@ abstract class JobSicoesConvocatoria implements ActiveRecordInterface
     /**
      * Set the value of [codigo_entidad] column.
      *
-     * @param int $v new value
+     * @param string $v new value
      * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
      */
     public function setCodigoEntidad($v)
     {
         if ($v !== null) {
-            $v = (int) $v;
+            $v = (string) $v;
         }
 
         if ($this->codigo_entidad !== $v) {
@@ -1094,46 +1060,6 @@ abstract class JobSicoesConvocatoria implements ActiveRecordInterface
     } // setGarantiasSolicitadas()
 
     /**
-     * Set the value of [numero_consultores] column.
-     *
-     * @param int $v new value
-     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
-     */
-    public function setNumeroConsultores($v)
-    {
-        if ($v !== null) {
-            $v = (int) $v;
-        }
-
-        if ($this->numero_consultores !== $v) {
-            $this->numero_consultores = $v;
-            $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_NUMERO_CONSULTORES] = true;
-        }
-
-        return $this;
-    } // setNumeroConsultores()
-
-    /**
-     * Set the value of [precio_unitario] column.
-     *
-     * @param double $v new value
-     * @return $this|\JobSicoesConvocatoria The current object (for fluent API support)
-     */
-    public function setPrecioUnitario($v)
-    {
-        if ($v !== null) {
-            $v = (double) $v;
-        }
-
-        if ($this->precio_unitario !== $v) {
-            $this->precio_unitario = $v;
-            $this->modifiedColumns[JobSicoesConvocatoriaTableMap::COL_PRECIO_UNITARIO] = true;
-        }
-
-        return $this;
-    } // setPrecioUnitario()
-
-    /**
      * Set the value of [enlace] column.
      *
      * @param string $v new value
@@ -1305,7 +1231,7 @@ abstract class JobSicoesConvocatoria implements ActiveRecordInterface
             $this->nombre_entidad = (null !== $col) ? (string) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('CodigoEntidad', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->codigo_entidad = (null !== $col) ? (int) $col : null;
+            $this->codigo_entidad = (null !== $col) ? (string) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('TelefonoEntidad', TableMap::TYPE_PHPNAME, $indexType)];
             $this->telefono_entidad = (null !== $col) ? (string) $col : null;
@@ -1343,31 +1269,25 @@ abstract class JobSicoesConvocatoria implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 15 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('GarantiasSolicitadas', TableMap::TYPE_PHPNAME, $indexType)];
             $this->garantias_solicitadas = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 16 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('NumeroConsultores', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->numero_consultores = (null !== $col) ? (int) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 17 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('PrecioUnitario', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->precio_unitario = (null !== $col) ? (double) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 18 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('Enlace', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 16 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('Enlace', TableMap::TYPE_PHPNAME, $indexType)];
             $this->enlace = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 19 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('Departamento', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 17 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('Departamento', TableMap::TYPE_PHPNAME, $indexType)];
             $this->departamento = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 20 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('Contacto', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 18 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('Contacto', TableMap::TYPE_PHPNAME, $indexType)];
             $this->contacto = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 21 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 19 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
             $this->status = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 22 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('CreationDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 20 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('CreationDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->creation_date = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 23 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('ModificationDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 21 + $startcol : JobSicoesConvocatoriaTableMap::translateFieldName('ModificationDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
@@ -1380,7 +1300,7 @@ abstract class JobSicoesConvocatoria implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 24; // 24 = JobSicoesConvocatoriaTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 22; // 22 = JobSicoesConvocatoriaTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\JobSicoesConvocatoria'), 0, $e);
@@ -1648,12 +1568,6 @@ abstract class JobSicoesConvocatoria implements ActiveRecordInterface
         if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_GARANTIAS_SOLICITADAS)) {
             $modifiedColumns[':p' . $index++]  = 'GARANTIAS_SOLICITADAS';
         }
-        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_NUMERO_CONSULTORES)) {
-            $modifiedColumns[':p' . $index++]  = 'NUMERO_CONSULTORES';
-        }
-        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_PRECIO_UNITARIO)) {
-            $modifiedColumns[':p' . $index++]  = 'PRECIO_UNITARIO';
-        }
         if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_ENLACE)) {
             $modifiedColumns[':p' . $index++]  = 'ENLACE';
         }
@@ -1699,7 +1613,7 @@ abstract class JobSicoesConvocatoria implements ActiveRecordInterface
                         $stmt->bindValue($identifier, $this->nombre_entidad, PDO::PARAM_STR);
                         break;
                     case 'CODIGO_ENTIDAD':
-                        $stmt->bindValue($identifier, $this->codigo_entidad, PDO::PARAM_INT);
+                        $stmt->bindValue($identifier, $this->codigo_entidad, PDO::PARAM_STR);
                         break;
                     case 'TELEFONO_ENTIDAD':
                         $stmt->bindValue($identifier, $this->telefono_entidad, PDO::PARAM_STR);
@@ -1730,12 +1644,6 @@ abstract class JobSicoesConvocatoria implements ActiveRecordInterface
                         break;
                     case 'GARANTIAS_SOLICITADAS':
                         $stmt->bindValue($identifier, $this->garantias_solicitadas, PDO::PARAM_STR);
-                        break;
-                    case 'NUMERO_CONSULTORES':
-                        $stmt->bindValue($identifier, $this->numero_consultores, PDO::PARAM_INT);
-                        break;
-                    case 'PRECIO_UNITARIO':
-                        $stmt->bindValue($identifier, $this->precio_unitario, PDO::PARAM_STR);
                         break;
                     case 'ENLACE':
                         $stmt->bindValue($identifier, $this->enlace, PDO::PARAM_STR);
@@ -1866,27 +1774,21 @@ abstract class JobSicoesConvocatoria implements ActiveRecordInterface
                 return $this->getGarantiasSolicitadas();
                 break;
             case 16:
-                return $this->getNumeroConsultores();
-                break;
-            case 17:
-                return $this->getPrecioUnitario();
-                break;
-            case 18:
                 return $this->getEnlace();
                 break;
-            case 19:
+            case 17:
                 return $this->getDepartamento();
                 break;
-            case 20:
+            case 18:
                 return $this->getContacto();
                 break;
-            case 21:
+            case 19:
                 return $this->getStatus();
                 break;
-            case 22:
+            case 20:
                 return $this->getCreationDate();
                 break;
-            case 23:
+            case 21:
                 return $this->getModificationDate();
                 break;
             default:
@@ -1935,14 +1837,12 @@ abstract class JobSicoesConvocatoria implements ActiveRecordInterface
             $keys[13] => $this->getFormaAdjudicacion(),
             $keys[14] => $this->getTipoContratacion(),
             $keys[15] => $this->getGarantiasSolicitadas(),
-            $keys[16] => $this->getNumeroConsultores(),
-            $keys[17] => $this->getPrecioUnitario(),
-            $keys[18] => $this->getEnlace(),
-            $keys[19] => $this->getDepartamento(),
-            $keys[20] => $this->getContacto(),
-            $keys[21] => $this->getStatus(),
-            $keys[22] => $this->getCreationDate(),
-            $keys[23] => $this->getModificationDate(),
+            $keys[16] => $this->getEnlace(),
+            $keys[17] => $this->getDepartamento(),
+            $keys[18] => $this->getContacto(),
+            $keys[19] => $this->getStatus(),
+            $keys[20] => $this->getCreationDate(),
+            $keys[21] => $this->getModificationDate(),
         );
         if ($result[$keys[7]] instanceof \DateTimeInterface) {
             $result[$keys[7]] = $result[$keys[7]]->format('c');
@@ -1952,12 +1852,12 @@ abstract class JobSicoesConvocatoria implements ActiveRecordInterface
             $result[$keys[8]] = $result[$keys[8]]->format('c');
         }
 
-        if ($result[$keys[22]] instanceof \DateTimeInterface) {
-            $result[$keys[22]] = $result[$keys[22]]->format('c');
+        if ($result[$keys[20]] instanceof \DateTimeInterface) {
+            $result[$keys[20]] = $result[$keys[20]]->format('c');
         }
 
-        if ($result[$keys[23]] instanceof \DateTimeInterface) {
-            $result[$keys[23]] = $result[$keys[23]]->format('c');
+        if ($result[$keys[21]] instanceof \DateTimeInterface) {
+            $result[$keys[21]] = $result[$keys[21]]->format('c');
         }
 
         $virtualColumns = $this->virtualColumns;
@@ -2064,27 +1964,21 @@ abstract class JobSicoesConvocatoria implements ActiveRecordInterface
                 $this->setGarantiasSolicitadas($value);
                 break;
             case 16:
-                $this->setNumeroConsultores($value);
-                break;
-            case 17:
-                $this->setPrecioUnitario($value);
-                break;
-            case 18:
                 $this->setEnlace($value);
                 break;
-            case 19:
+            case 17:
                 $this->setDepartamento($value);
                 break;
-            case 20:
+            case 18:
                 $this->setContacto($value);
                 break;
-            case 21:
+            case 19:
                 $this->setStatus($value);
                 break;
-            case 22:
+            case 20:
                 $this->setCreationDate($value);
                 break;
-            case 23:
+            case 21:
                 $this->setModificationDate($value);
                 break;
         } // switch()
@@ -2162,28 +2056,22 @@ abstract class JobSicoesConvocatoria implements ActiveRecordInterface
             $this->setGarantiasSolicitadas($arr[$keys[15]]);
         }
         if (array_key_exists($keys[16], $arr)) {
-            $this->setNumeroConsultores($arr[$keys[16]]);
+            $this->setEnlace($arr[$keys[16]]);
         }
         if (array_key_exists($keys[17], $arr)) {
-            $this->setPrecioUnitario($arr[$keys[17]]);
+            $this->setDepartamento($arr[$keys[17]]);
         }
         if (array_key_exists($keys[18], $arr)) {
-            $this->setEnlace($arr[$keys[18]]);
+            $this->setContacto($arr[$keys[18]]);
         }
         if (array_key_exists($keys[19], $arr)) {
-            $this->setDepartamento($arr[$keys[19]]);
+            $this->setStatus($arr[$keys[19]]);
         }
         if (array_key_exists($keys[20], $arr)) {
-            $this->setContacto($arr[$keys[20]]);
+            $this->setCreationDate($arr[$keys[20]]);
         }
         if (array_key_exists($keys[21], $arr)) {
-            $this->setStatus($arr[$keys[21]]);
-        }
-        if (array_key_exists($keys[22], $arr)) {
-            $this->setCreationDate($arr[$keys[22]]);
-        }
-        if (array_key_exists($keys[23], $arr)) {
-            $this->setModificationDate($arr[$keys[23]]);
+            $this->setModificationDate($arr[$keys[21]]);
         }
     }
 
@@ -2273,12 +2161,6 @@ abstract class JobSicoesConvocatoria implements ActiveRecordInterface
         }
         if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_GARANTIAS_SOLICITADAS)) {
             $criteria->add(JobSicoesConvocatoriaTableMap::COL_GARANTIAS_SOLICITADAS, $this->garantias_solicitadas);
-        }
-        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_NUMERO_CONSULTORES)) {
-            $criteria->add(JobSicoesConvocatoriaTableMap::COL_NUMERO_CONSULTORES, $this->numero_consultores);
-        }
-        if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_PRECIO_UNITARIO)) {
-            $criteria->add(JobSicoesConvocatoriaTableMap::COL_PRECIO_UNITARIO, $this->precio_unitario);
         }
         if ($this->isColumnModified(JobSicoesConvocatoriaTableMap::COL_ENLACE)) {
             $criteria->add(JobSicoesConvocatoriaTableMap::COL_ENLACE, $this->enlace);
@@ -2399,8 +2281,6 @@ abstract class JobSicoesConvocatoria implements ActiveRecordInterface
         $copyObj->setFormaAdjudicacion($this->getFormaAdjudicacion());
         $copyObj->setTipoContratacion($this->getTipoContratacion());
         $copyObj->setGarantiasSolicitadas($this->getGarantiasSolicitadas());
-        $copyObj->setNumeroConsultores($this->getNumeroConsultores());
-        $copyObj->setPrecioUnitario($this->getPrecioUnitario());
         $copyObj->setEnlace($this->getEnlace());
         $copyObj->setDepartamento($this->getDepartamento());
         $copyObj->setContacto($this->getContacto());
@@ -2714,8 +2594,6 @@ abstract class JobSicoesConvocatoria implements ActiveRecordInterface
         $this->forma_adjudicacion = null;
         $this->tipo_contratacion = null;
         $this->garantias_solicitadas = null;
-        $this->numero_consultores = null;
-        $this->precio_unitario = null;
         $this->enlace = null;
         $this->departamento = null;
         $this->contacto = null;
