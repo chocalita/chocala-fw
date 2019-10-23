@@ -3,7 +3,8 @@
     "require": {
         "monolog/monolog": "1.0.*",
         "propel/propel": "~2.0@dev",
-        "facebook/php-sdk-v4" : "~5.0"
+        "facebook/php-sdk-v4" : "~5.0",
+        "sendinblue/api-v3-sdk": "^6.1.0"
     },
     "autoload": {
         "classmap": ["App/model/domain/"]
