@@ -16,6 +16,9 @@ class DBConfig
             case 'test':
                 $conf = DataSources::$test;
                 break;
+            case 'testdocean':
+                $conf = DataSources::$testdocean;
+                break;
             case 'development':
             default :
                 $conf = DataSources::$development;
