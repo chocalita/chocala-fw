@@ -25,7 +25,7 @@ class DataSources
         'password'  =>  'Jobsterin.2017.pasS'
     );
 
-    static $testDOcean = array(
+    static $testdocean = array(
         'datasource'=>  'empleos_test',
         'host'      =>  '127.0.0.1',
         'port'      =>  '3306',
