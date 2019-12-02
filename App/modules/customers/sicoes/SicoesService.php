@@ -146,8 +146,24 @@ class SicoesService extends AppSecureService
 
     public function asas()
     {
+
+        $url = "https://www.infosicoes.com/descom-fi-const-sist-agua-potable-com-tierra-firme-san-ignacio-c-san-ignacio-de-vela--lct393781.html";
+        $handler = curl_init($url);
+        curl_setopt($handler, CURLOPT_POST, 1);
+        curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($handler,CURLOPT_SSL_VERIFYPEER, false);
+        $response = curl_exec($handler);
+//        echo $response; exit();
+        curl_close($handler);
+        file_put_contents(PUBLIC_DIR . 'page-02.html', $response);
+
+        $this->readFile();
+    }
+
+    public function readFile()
+    {
         $html = new simple_html_dom();
-        $html->load_file(PUBLIC_DIR . 'test_sicoes2.html');
+        $html->load_file(PUBLIC_DIR . 'page-02.html');
 
 //        $htmlPage = file_get_contents(PUBLIC_DIR . 'test_sicoes.html');
 //        $htmlDom = str_get_html($htmlPage);
@@ -258,25 +274,27 @@ class SicoesService extends AppSecureService
                 $descripcionDetalle = str_replace(",", "", trim($tds[3]->plaintext));
                 $unidadMedida = str_replace(",", "", trim($tds[4]->plaintext));
                 $cantidad = str_replace(",", "", trim($tds[5]->plaintext)) * 1;
-                $precioUnitario = str_replace(",", "", trim($tds[6]->plaintext)) * 1;
-                $data['NUMERO'] = $numeroDetalle;
-                $data['DESCRIPCION'] = $descripcionDetalle;
-                $data['UNIDAD_MEDIDA'] = $unidadMedida;
-                $data['CANTIDAD'] = $cantidad;
-                $data['PRECIO_UNIDAD'] = $precioUnitario;
-                $data['CODIGO_CATALOGO'] = $codigoCatalogo;
-                $data['OBJETO_GASTO'] = $objetoGasto;
+                if ($cantidad > 0) {
+                    $precioUnitario = str_replace(",", "", trim($tds[6]->plaintext)) * 1;
+                    $data['NUMERO'] = $numeroDetalle;
+                    $data['DESCRIPCION'] = $descripcionDetalle;
+                    $data['UNIDAD_MEDIDA'] = $unidadMedida;
+                    $data['CANTIDAD'] = $cantidad;
+                    $data['PRECIO_UNIDAD'] = $precioUnitario;
+                    $data['CODIGO_CATALOGO'] = $codigoCatalogo;
+                    $data['OBJETO_GASTO'] = $objetoGasto;
 
-                $sicoesDetalle = new JobSicoesDetalle();
-                $sicoesDetalle->setNumero($data['NUMERO']);
-                $sicoesDetalle->setDescripcion($data['DESCRIPCION']);
-                $sicoesDetalle->setUnidadMedida($data['UNIDAD_MEDIDA']);
-                $sicoesDetalle->setCantidad($data['CANTIDAD']);
-                $sicoesDetalle->setPrecioUnidad($data['PRECIO_UNIDAD']);
-                $sicoesDetalle->setCodigoCatalogo($data['CODIGO_CATALOGO']);
-                $sicoesDetalle->setObjetoGasto($data['OBJETO_GASTO']);
-                $sicoesDetalle->setStatus("ACTIVE");
-                $sicoesConvocatoria->addJobSicoesDetalle($sicoesDetalle);
+                    $sicoesDetalle = new JobSicoesDetalle();
+                    $sicoesDetalle->setNumero($data['NUMERO']);
+                    $sicoesDetalle->setDescripcion($data['DESCRIPCION']);
+                    $sicoesDetalle->setUnidadMedida($data['UNIDAD_MEDIDA']);
+                    $sicoesDetalle->setCantidad($data['CANTIDAD']);
+                    $sicoesDetalle->setPrecioUnidad($data['PRECIO_UNIDAD']);
+                    $sicoesDetalle->setCodigoCatalogo($data['CODIGO_CATALOGO']);
+                    $sicoesDetalle->setObjetoGasto($data['OBJETO_GASTO']);
+                    $sicoesDetalle->setStatus("ACTIVE");
+                    $sicoesConvocatoria->addJobSicoesDetalle($sicoesDetalle);
+                }
             }
         }
         $this->_logger()->info($sicoesConvocatoria->toJson());

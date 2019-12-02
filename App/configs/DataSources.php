@@ -9,11 +9,11 @@ class DataSources
 
     static $development = array(
         'datasource'=>  'system',
-        'host'      =>  '127.0.0.1',
-        'port'      =>  '3306',
-        'dbname'    =>  'empleos.click',
-        'user'      =>  'raul',
-        'password'  =>  'inventic@$'
+        'host'      =>  'localhost',
+        'port'      =>  '3307',
+        'dbname'    =>  'jobs',
+        'user'      =>  'root',
+        'password'  =>  'root'
     );
 
     static $test = array(
