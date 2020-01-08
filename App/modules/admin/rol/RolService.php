@@ -24,13 +24,13 @@ class RolService extends GenericService
     /**
      * @param $pk
      * @return array|mixed|SysRol
-     * @throws ChocalaException
+     * @throws NotFoundException
      */
     public function findPk($pk)
     {
         $rol = $this->validsQuery()->findPk($pk);
         if (!is_object($rol)) {
-            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+            throw new NotFoundException(ChocalaErrors::INVALID_RESOURCE);
         }
         return $rol;
     }

@@ -4,7 +4,7 @@
  *
  * @author ypra
  */
-class ChocalaException extends \Exception
+class ChocalaException extends \LogicException
 {
 
     public function __construct($message)

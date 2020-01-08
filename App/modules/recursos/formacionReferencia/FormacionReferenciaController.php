@@ -38,7 +38,7 @@ class FormacionReferenciaController extends AdminWebController
 
     public function show()
     {
-        $area = $this->objectIfExist();
+        $area = $this->formacionReferenciaService->findPk($this->id);
         $this->set('area', $area);
     }
 
@@ -69,7 +69,7 @@ class FormacionReferenciaController extends AdminWebController
     public function edit()
     {
         if (PageControl::canUpdate()) {
-            $formacionReferencia = $this->objectIfExist();
+            $formacionReferencia = $this->formacionReferenciaService->findPk($this->id);
             $areaReferenciaList = $this->areaReferenciaService->dataList();
             $formacionReferenciaList = $this->formacionReferenciaService->dataList();
             $this->set('formacionTmp', $formacionReferencia);
@@ -81,7 +81,7 @@ class FormacionReferenciaController extends AdminWebController
     public function update()
     {
         if (PageControl::canUpdate()) {
-            $formacionTmp = $this->objectIfExist();
+            $formacionTmp = $this->formacionReferenciaService->findPk($this->id);
             $data['AreasReferencia'] = Req::has('AreaReferencia') ?
                 implode(";", Req::_('AreaReferencia')) : '';
             $data['FormacionesReferencia'] = Req::has('FormacionReferencia') ?
@@ -94,19 +94,10 @@ class FormacionReferenciaController extends AdminWebController
         $this->renderAsJSON();
     }
 
-    public function objectIfExist()
-    {
-        try {
-            return $this->formacionReferenciaService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
-        }
-    }
-
     public function delete()
     {
         if (PageControl::canDelete()) {
-            $area = $this->objectIfExist();
+            $area = $this->formacionReferenciaService->findPk($this->id);
             $this->areaService->delete($area);
         }
         $this->redirectTo(['action' => 'dataList']);

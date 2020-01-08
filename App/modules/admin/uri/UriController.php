@@ -61,7 +61,7 @@ class UriController extends AdminWebController
     public function edit()
     {
         if(PageControl::canUpdate()){
-            $uri = $this->objectIfExist();
+            $uri = $this->uriService->findPk($this->id);
             $this->set('uri', $uri);
             $this->set('modules', $this->moduleService->dataList());
             $this->set('module', $uri->getSysModule());
@@ -72,7 +72,7 @@ class UriController extends AdminWebController
     public function update()
     {
         if(PageControl::canCreate()){
-            $uri = $this->objectIfExist();
+            $uri = $this->uriService->findPk($this->id);
             $results = $this->uriService->insertOrUpdate(Req::all(), $uri);
             $this->set('uri', $results['object']);
             $this->set('success', $results['success']);
@@ -85,15 +85,6 @@ class UriController extends AdminWebController
     {
         $uri = SysUriQuery::create()->findPk($this->id);
         $this->set('uri', $uri);
-    }
-
-    public function objectIfExist()
-    {
-        try {
-            return $this->uriService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
-        }
     }
 
     public function rolesAccess()

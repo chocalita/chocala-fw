@@ -28,7 +28,7 @@ class ParamController extends AdminWebController
 
     public function show()
     {
-        $param = $this->objectIfExist();
+        $param = $this->paramService->findPk($this->id);
         $this->set('param', $param);
     }
 
@@ -55,7 +55,7 @@ class ParamController extends AdminWebController
     public function edit()
     {
         if(PageControl::canUpdate()){
-            $param = $this->objectIfExist();
+            $param = $this->paramService->findPk($this->id);
             $this->set('param', $param);
         }
         $this->view->changeLayout('ajax');
@@ -64,7 +64,7 @@ class ParamController extends AdminWebController
     public function update()
     {
         if(PageControl::canUpdate()){
-            $param = $this->objectIfExist();
+            $param = $this->paramService->findPk($this->id);
             $results = $this->paramService->insertOrUpdate(Req::all(), $param);
             $this->set('param', $param);
             $this->set('success', $results['success']);
@@ -75,22 +75,13 @@ class ParamController extends AdminWebController
 
     public function delete()
     {
-        $param = $this->objectIfExist();
+        $param =$this->paramService->findPk($this->id);
         try {
             $param->delete();
             $this->redirectTo(['action' => 'dataList']);
         } catch (Exception $e) {
             $this->redirectTo(['action' => 'show',
                 'id' => $param->getPrimaryKey()]);
-        }
-    }
-
-    public function objectIfExist()
-    {
-        try {
-            return $this->paramService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
         }
     }
 

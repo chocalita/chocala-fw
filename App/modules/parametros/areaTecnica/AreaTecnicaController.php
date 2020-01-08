@@ -28,7 +28,7 @@ class AreaTecnicaController extends AdminWebController
 
     public function show()
     {
-        $areaTecnica = $this->objectIfExist();
+        $areaTecnica = $this->areaTecnicaService->findPk($this->id);
         $this->set('areaTecnica', $areaTecnica);
     }
 
@@ -55,7 +55,7 @@ class AreaTecnicaController extends AdminWebController
     public function edit()
     {
         if(PageControl::canUpdate()){
-            $areaTecnica = $this->objectIfExist();
+            $areaTecnica = $this->areaTecnicaService->findPk($this->id);
             $this->set('areaTecnica', $areaTecnica);
         }
         $this->view->changeLayout('ajax');
@@ -64,7 +64,7 @@ class AreaTecnicaController extends AdminWebController
     public function update()
     {
         if(PageControl::canUpdate()){
-            $areaTecnica = $this->objectIfExist();
+            $areaTecnica = $this->areaTecnicaService->findPk($this->id);
             $results = $this->areaTecnicaService->insertOrUpdate(Req::all(), $areaTecnica);
             $this->set('areaTecnica', $results['object']);
             $this->set('success', $results['success']);
@@ -73,19 +73,10 @@ class AreaTecnicaController extends AdminWebController
         $this->renderAsJSON();
     }
 
-    public function objectIfExist()
-    {
-        try {
-            return $this->areaTecnicaService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
-        }
-    }
-
     public function delete()
     {
         if(PageControl::canDelete()){
-            $areaTecnica = $this->objectIfExist();
+            $areaTecnica = $this->areaTecnicaService->findPk($this->id);
             $this->areaTecnicaService->delete($areaTecnica);
         }
         $this->redirectTo(['action'=>'dataList']);

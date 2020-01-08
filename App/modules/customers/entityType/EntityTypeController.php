@@ -28,7 +28,7 @@ class EntityTypeController extends AdminWebController
 
     public function show()
     {
-        $sysEntityType = $this->objectIfExist();
+        $sysEntityType = $this->entityTypeService->findPk($this->id);
         $this->set('sysEntityType', $sysEntityType);
     }
 
@@ -55,7 +55,7 @@ class EntityTypeController extends AdminWebController
     public function edit()
     {
         if(PageControl::canUpdate()){
-            $entityType = $this->objectIfExist();
+            $entityType = $this->entityTypeService->findPk($this->id);
             $this->set('entityType', $entityType);
         }
         $this->view->changeLayout('ajax');
@@ -64,7 +64,7 @@ class EntityTypeController extends AdminWebController
     public function update()
     {
         if(PageControl::canUpdate()){
-            $entityType = $this->objectIfExist();
+            $entityType = $this->entityTypeService->findPk($this->id);
             $results = $this->entityTypeService->insertOrUpdate(Req::all(), $entityType);
             $this->set('entityType', $results['object']);
             $this->set('success', $results['success']);
@@ -75,22 +75,13 @@ class EntityTypeController extends AdminWebController
 
     public function delete()
     {
-        $sysEntityType = $this->objectIfExist();
+        $sysEntityType = $this->entityTypeService->findPk($this->id);
         try {
             $sysEntityType->delete();
             $this->redirectTo(['action' => 'dataList']);
         } catch (Exception $e) {
             $this->redirectTo(['action' => 'show',
                 'id' => $sysEntityType->getPrimaryKey()]);
-        }
-    }
-
-    public function objectIfExist()
-    {
-        try {
-            return $this->entityTypeService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
         }
     }
 

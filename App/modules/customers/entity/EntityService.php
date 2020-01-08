@@ -24,13 +24,13 @@ class EntityService extends GenericService
     /**
      * @param $pk
      * @return array|mixed|SysEntity
-     * @throws ChocalaException
+     * @throws NotFoundException
      */
     public function findPk($pk)
     {
         $entity = $this->validsQuery()->findPk($pk);
         if (!is_object($entity)) {
-            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+            throw new NotFoundException(ChocalaErrors::INVALID_RESOURCE);
         }
         return $entity;
     }

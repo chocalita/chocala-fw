@@ -46,7 +46,7 @@ class AvisosController extends EmpresaAdminController
 
     public function show()
     {
-        $aviso = $this->objectIfExist();
+        $aviso = $this->avisoEmpresa($this->id);
         $this->set('aviso', $aviso);
     }
 
@@ -91,7 +91,7 @@ class AvisosController extends EmpresaAdminController
 
     public function edit()
     {
-        $aviso = $this->objectIfExist();
+        $aviso = $this->avisoEmpresa($this->id);
         $this->checkUpdate($aviso);
         $areaList = $this->areaService->dataList();
         $areaReferenciaList = $this->areaReferenciaService->dataList();
@@ -109,7 +109,7 @@ class AvisosController extends EmpresaAdminController
     public function update()
     {
         if (PageControl::canUpdate()) {
-            $aviso = $this->objectIfExist();
+            $aviso = $this->avisoEmpresa($this->id);
             $data = Req::all();
             $data['FechaPublicacion'] = Req::_asDate('FechaPublicacion');
             $data['FechaVencimiento'] = Req::_asDate('FechaVencimiento');
@@ -128,17 +128,13 @@ class AvisosController extends EmpresaAdminController
         $this->renderAsJSON();
     }
 
-    public function objectIfExist()
+    public function avisoEmpresa($id)
     {
-        try {
-            $aviso = $this->avisoService->findPk($this->id);
-            if ($aviso->getJobEmpresaSuscrita()->getId() != $this->sessionEmpresaSuscrita->getId()) {
-                $this->redirectTo(['action' => 'index']);
-            }
-            return $aviso;
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
+        $aviso = $this->avisoService->findPk($id);
+        if ($aviso->getJobEmpresaSuscrita()->getId() != $this->sessionEmpresaSuscrita->getId()) {
+            $this->redirectTo(['action' => 'index']);
         }
+        return $aviso;
     }
 
     public function historialAvisos()

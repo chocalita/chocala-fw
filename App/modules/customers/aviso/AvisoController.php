@@ -52,7 +52,7 @@ class AvisoController extends AdminWebController
 
     public function show()
     {
-        $aviso = $this->objectIfExist();
+        $aviso = $this->avisoService->findPk($this->id);
         $this->set('aviso', $aviso);
     }
 
@@ -96,7 +96,7 @@ class AvisoController extends AdminWebController
     public function edit()
     {
         if (PageControl::canUpdate()) {
-            $aviso = $this->objectIfExist();
+            $aviso = $this->avisoService->findPk($this->id);
             $areaList = $this->areaService->dataList();
             $areaReferenciaList = $this->areaReferenciaService->dataList();
             $formacionReferenciaList = $this->formacionReferenciaService->dataList(['activo' => true]);
@@ -114,7 +114,7 @@ class AvisoController extends AdminWebController
     public function update()
     {
         if (PageControl::canUpdate()) {
-            $aviso = $this->objectIfExist();
+            $aviso = $this->avisoService->findPk($this->id);
             $data = Req::all();
             $data['FechaPublicacion'] = Req::_asDate('FechaPublicacion');
             $data['FechaVencimiento'] = Req::_asDate('FechaVencimiento');
@@ -133,19 +133,10 @@ class AvisoController extends AdminWebController
         $this->renderAsJSON();
     }
 
-    public function objectIfExist()
-    {
-        try {
-            return $this->avisoService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
-        }
-    }
-
     public function delete()
     {
         if (PageControl::canDelete()) {
-            $aviso = $this->objectIfExist();
+            $aviso = $this->avisoService->findPk($this->id);
             $this->avisoService->delete($aviso);
         }
         $this->redirectTo(['action' => 'dataList']);

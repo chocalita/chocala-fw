@@ -28,13 +28,13 @@ class UserService extends AuditService
     /**
      * @param $pk
      * @return array|mixed|SysUser
-     * @throws ChocalaException
+     * @throws NotFoundException
      */
     public function findPk($pk)
     {
         $user = $this->validsQuery()->findPk($pk);
         if (!is_object($user)) {
-            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+            throw new NotFoundException(ChocalaErrors::INVALID_RESOURCE);
         }
         return $user;
     }

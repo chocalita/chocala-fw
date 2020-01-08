@@ -23,13 +23,13 @@ class EmailSentService extends GenericService
     /**
      * @param $pk
      * @return array|mixed|SysEmailSent
-     * @throws ChocalaException
+     * @throws NotFoundException
      */
     public function findPk($pk)
     {
         $emailSent = $this->validsQuery()->findPk($pk);
         if (!is_object($emailSent)) {
-            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+            throw new NotFoundException(ChocalaErrors::INVALID_RESOURCE);
         }
         return $emailSent;
     }

@@ -210,12 +210,14 @@ class FrontController implements IFrontController, ISingleton
      */
     public function route()
     {
-        try{
-            $class = $this->controller.self::SUFFIX_CONTROLLER;
+        try {
+            $class = $this->controller . self::SUFFIX_CONTROLLER;
             $module = $this->module;
             $action = $this->action;
             $this->controllerCall($module, $class, $action);
-        }catch(ChocalaException $che){
+        } catch (NotFoundException $che) {
+            HttpManager::responseAs404();
+        } catch (ChocalaException $che) {
             print_r($che);
             ChocalaErrorsManager::manage($che);
         }

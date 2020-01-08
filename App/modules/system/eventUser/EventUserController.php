@@ -31,7 +31,7 @@ class EventUserController extends AdminWebController
 
     public function show()
     {
-        $eventUser = $this->objectIfExist();
+        $eventUser = $this->eventUserService->findPk($this->id);
         $this->set('eventUser', $eventUser);
     }
 
@@ -77,15 +77,6 @@ class EventUserController extends AdminWebController
         if (PageControl::canDelete()) {
             $this->set('success', false);
             $this->set('errors', []);
-        }
-    }
-
-    public function objectIfExist()
-    {
-        try {
-            return $this->eventUserService->findPk($this->id);
-        } catch (NotFoundException $che) {
-            HttpManager::responseAs404();
         }
     }
 

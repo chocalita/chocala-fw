@@ -1,6 +1,7 @@
 <?php
 
 use Monolog\Logger as Monolog;
+use Monolog\Formatter\LineFormatter as LineFormatter;
 use Monolog\Handler\StreamHandler as StreamHandler;
 
 /**
@@ -29,7 +30,16 @@ class Logger implements \Psr\Log\LoggerInterface
     public function __construct()
     {
         $this->log = new Monolog('ChocalaLogger');
-        $this->log->pushHandler(new     StreamHandler(CONFIGS_DIR . 'logs\app.log', Monolog::WARNING));
+        $formatter = new LineFormatter(
+            "[%datetime%] %level_name% %message% %context% %extra%\n",
+            "Y-m-d H:i:s",
+            true,
+            true
+        );
+        $debugHandler = new StreamHandler(CONFIGS_DIR . 'logs\app.log', Monolog::WARNING);
+        $debugHandler->setFormatter($formatter);
+        $this->log->pushHandler($debugHandler);
+//        $this->log->pushHandler(new StreamHandler(CONFIGS_DIR . 'logs\app.log', Monolog::WARNING));
     }
 
 

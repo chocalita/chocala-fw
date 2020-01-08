@@ -23,13 +23,13 @@ class AreaReferenciaController extends AdminWebController
         $filters = Req::all();
         $filters['_page'] = $filters['_page']?: 1;
 //        $filters['_max'] = $filters['_max']?: 20;  //comment for all results
-        $areaPager = $this->areaService->dataList($filters);
+        $areaPager = $this->areaReferenciaService->dataList($filters);
         $this->set('areaPager', $areaPager);
     }
 
     public function show()
     {
-        $area = $this->objectIfExist();
+        $area = $this->areaReferenciaService->findPk($this->id);
         $this->set('area', $area);
     }
 
@@ -44,7 +44,7 @@ class AreaReferenciaController extends AdminWebController
     {
         if(PageControl::canCreate()){
             $data = Req::all();
-            $results = $this->areaService->insertOrUpdate($data);
+            $results = $this->areaReferenciaService->insertOrUpdate($data);
             $this->set('area', $results['object']);
             $this->set('success', $results['success']);
             $this->set('errors', $results['errors']);
@@ -55,7 +55,7 @@ class AreaReferenciaController extends AdminWebController
     public function edit()
     {
         if(PageControl::canUpdate()){
-            $area = $this->objectIfExist();
+            $area = $this->areaReferenciaService->findPk($this->id);
             $this->set('area', $area);
         }
         $this->view->changeLayout('ajax');
@@ -64,8 +64,8 @@ class AreaReferenciaController extends AdminWebController
     public function update()
     {
         if(PageControl::canUpdate()){
-            $area = $this->objectIfExist();
-            $results = $this->areaService->insertOrUpdate(Req::all(), $area);
+            $area = $this->areaReferenciaService->findPk($this->id);
+            $results = $this->areaReferenciaService->insertOrUpdate(Req::all(), $area);
             $this->set('area', $results['object']);
             $this->set('success', $results['success']);
             $this->set('errors', $results['errors']);
@@ -73,20 +73,11 @@ class AreaReferenciaController extends AdminWebController
         $this->renderAsJSON();
     }
 
-    public function objectIfExist()
-    {
-        try {
-            return $this->areaService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
-        }
-    }
-
     public function delete()
     {
         if(PageControl::canDelete()){
-            $area = $this->objectIfExist();
-            $this->areaService->delete($area);
+            $area = $this->areaReferenciaService->findPk($this->id);
+            $this->areaReferenciaService->delete($area);
         }
         $this->redirectTo(['action'=>'dataList']);
     }

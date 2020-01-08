@@ -25,13 +25,13 @@ class UriService extends GenericService
     /**
      * @param $pk
      * @return array|mixed|SysUri
-     * @throws ChocalaException
+     * @throws NotFoundException
      */
     public function findPk($pk)
     {
         $uri = $this->validsQuery()->findPk($pk);
         if (!is_object($uri)) {
-            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+            throw new NotFoundException(ChocalaErrors::INVALID_RESOURCE);
         }
         return $uri;
     }

@@ -23,13 +23,13 @@ class AreaReferenciaService extends GenericService
     /**
      * @param $pk
      * @return array|TmpArea|mixed
-     * @throws ChocalaException
+     * @throws NotFoundException
      */
     public function findPk($pk)
     {
         $area = $this->validsQuery()->findPk($pk);
         if (!is_object($area)) {
-            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+            throw new NotFoundException(ChocalaErrors::INVALID_RESOURCE);
         }
         return $area;
     }

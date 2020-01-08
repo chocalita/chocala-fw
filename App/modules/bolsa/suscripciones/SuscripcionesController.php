@@ -137,15 +137,6 @@ class SuscripcionesController extends PublicWebController
         $this->render("Se completo el registro");
     }
 
-    public function objectIfExist()
-    {
-        try {
-            return $this->empresaSuscritaService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
-        }
-    }
-
     public function loadArchivoImg()
     {
         $hoy = date('Y-m-d');

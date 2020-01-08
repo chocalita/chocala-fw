@@ -29,7 +29,7 @@ class ModuleController extends AdminWebController
 
     public function show()
     {
-        $module = $this->objectIfExist();
+        $module = $this->moduleService->findPk($this->id);
         $this->set('module', $module);
         $this->set('uris', $module->uris());
     }
@@ -55,7 +55,7 @@ class ModuleController extends AdminWebController
     public function edit()
     {
         if(PageControl::canUpdate()){
-            $module = $this->objectIfExist();
+            $module = $this->moduleService->findPk($this->id);
             $this->set('module', $module);
         }
         $this->view->changeLayout('ajax');
@@ -64,22 +64,13 @@ class ModuleController extends AdminWebController
     public function update()
     {
         if(PageControl::canUpdate()){
-            $module = $this->objectIfExist();
+            $module = $this->moduleService->findPk($this->id);
             $results = $this->moduleService->insertOrUpdate(Req::all(), $module);
             $this->set('module', $results['object']);
             $this->set('success', $results['success']);
             $this->set('errors', $results['errors']);
         }
         $this->renderAsJSON();
-    }
-
-    public function objectIfExist()
-    {
-        try {
-            return $this->moduleService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
-        }
     }
 
 }

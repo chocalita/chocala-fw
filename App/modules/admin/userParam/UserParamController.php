@@ -28,7 +28,7 @@ class UserParamController extends AdminWebController
 
     public function show()
     {
-        $userParam = $this->objectIfExist();
+        $userParam = $this->userParamService->findPk($this->id);
         $this->set('userParam', $userParam);
     }
 
@@ -56,7 +56,7 @@ class UserParamController extends AdminWebController
 
     public function edit()
     {
-        $userParam = $this->objectIfExist();
+        $userParam = $this->userParamService->findPk($this->id);
     $sysUserList = SysUserQuery::create()
                 ->orderById()->find();
         $this->set('sysUserList', $sysUserList);
@@ -69,7 +69,7 @@ class UserParamController extends AdminWebController
 
     public function update()
     {
-        $userParam = $this->objectIfExist();
+        $userParam = $this->userParamService->findPk($this->id);
         $results = $this->userParamService->insertOrUpdate(Req::all(), $userParam);
         $this->set('userParam', $userParam);
         $this->set('success', $results['success']);
@@ -79,22 +79,13 @@ class UserParamController extends AdminWebController
 
     public function delete()
     {
-        $userParam = $this->objectIfExist();
+        $userParam = $this->userParamService->findPk($this->id);
         try {
             $userParam->delete();
             $this->redirectTo(['action' => 'dataList']);
         } catch (Exception $e) {
             $this->redirectTo(['action' => 'show',
                 'id' => $userParam->getPrimaryKey()]);
-        }
-    }
-
-    public function objectIfExist()
-    {
-        try {
-            return $this->userParamService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
         }
     }
 

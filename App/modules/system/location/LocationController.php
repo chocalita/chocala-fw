@@ -28,7 +28,7 @@ class LocationController extends AdminWebController
 
     public function show()
     {
-        $location = $this->objectIfExist();
+        $location = $this->locationService->findPk($this->id);
         $this->set('location', $location);
     }
 
@@ -50,14 +50,14 @@ class LocationController extends AdminWebController
 
     public function edit()
     {
-        $location = $this->objectIfExist();
+        $location = $this->locationService->findPk($this->id);
         $this->set('location', $location);
         $this->view->changeLayout('ajax');
     }
 
     public function update()
     {
-        $location = $this->objectIfExist();
+        $location = $this->locationService->findPk($this->id);
         $results = $this->locationService->insertOrUpdate(Req::all(), $location);
         $this->set('location', $location);
         $this->set('success', $results['success']);
@@ -67,22 +67,13 @@ class LocationController extends AdminWebController
 
     public function delete()
     {
-        $location = $this->objectIfExist();
+        $location = $this->locationService->findPk($this->id);
         try {
             $location->delete();
             $this->redirectTo(['action' => 'dataList']);
         } catch (Exception $e) {
             $this->redirectTo(['action' => 'show',
                 'id' => $location->getPrimaryKey()]);
-        }
-    }
-
-    public function objectIfExist()
-    {
-        try {
-            return $this->locationService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
         }
     }
 

@@ -24,13 +24,13 @@ class AvisoService extends AppSecureService
     /**
      * @param $pk
      * @return array|mixed|JobAviso
-     * @throws ChocalaException
+     * @throws NotFoundException
      */
     public function findPk($pk)
     {
         $aviso = $this->validsQuery()->findPk($pk);
         if (!is_object($aviso)) {
-            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+            throw new NotFoundException(ChocalaErrors::INVALID_RESOURCE);
         }
         return $aviso;
     }

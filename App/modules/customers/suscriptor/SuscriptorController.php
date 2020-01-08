@@ -41,8 +41,8 @@ class SuscriptorController extends AdminWebController
 
     public function show()
     {
-        $area = $this->objectIfExist();
-        $this->set('area', $area);
+        $suscriptor = $this->suscriptorService->findPk($this->id);
+        $this->set('suscriptor', $suscriptor);
     }
 
     public function mailing()
@@ -175,7 +175,7 @@ class SuscriptorController extends AdminWebController
     public function edit()
     {
         if (PageControl::canUpdate()) {
-            $formacionReferencia = $this->objectIfExist();
+            $formacionReferencia = $this->formacionReferenciaService->findPk($this->id);
             $areaReferenciaList = $this->areaReferenciaService->dataList();
             $formacionReferenciaList = $this->formacionReferenciaService->dataList();
             $this->set('formacionTmp', $formacionReferencia);
@@ -187,7 +187,7 @@ class SuscriptorController extends AdminWebController
     public function update()
     {
         if (PageControl::canUpdate()) {
-            $formacionTmp = $this->objectIfExist();
+            $formacionTmp = $this->formacionReferenciaService->findPk($this->id);
             $data['AreasReferencia'] = Req::has('AreaReferencia') ?
                 implode(";", Req::_('AreaReferencia')) : '';
             $data['FormacionesReferencia'] = Req::has('FormacionReferencia') ?
@@ -200,20 +200,11 @@ class SuscriptorController extends AdminWebController
         $this->renderAsJSON();
     }
 
-    public function objectIfExist()
-    {
-        try {
-            return $this->formacionReferenciaService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
-        }
-    }
-
     public function delete()
     {
         if (PageControl::canDelete()) {
-            $area = $this->objectIfExist();
-            $this->areaService->delete($area);
+            $suscriptor = $this->suscriptorService->findPk($this->id);
+            $this->suscriptorService->delete($suscriptor);
         }
         $this->redirectTo(['action' => 'dataList']);
     }

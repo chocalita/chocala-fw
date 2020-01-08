@@ -47,7 +47,7 @@ class PostulacionController extends PublicWebController
             $this->view->changeLayout('ajax');
         }
         $this->set('__Menu', $this->authService->getMenu($this->view));
-        $aviso = $this->avisoIfExist();
+        $aviso = $this->postulacionService->findPk($this->id);
         $this->set('idPostulacion', $aviso->getId());
         $this->set('cargoAviso', $aviso->getCargo());
         $this->set('descripcionAviso', 'Para postular ingresa tus datos personales y curriculum vitae.');
@@ -130,15 +130,6 @@ class PostulacionController extends PublicWebController
             $this->set('message', $e->getMessage());
         }
         $this->renderAsJSON();
-    }
-
-    public function avisoIfExist()
-    {
-        try {
-            return JobAvisoQuery::create()->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
-        }
     }
 
     public function changeCaptcha()

@@ -20,11 +20,16 @@ class OficioService extends JobService
         return $areas;
     }
 
+    /**
+     * @param $pk
+     * @return array|JobOficio|mixed
+     * @throws NotFoundException
+     */
     public function findPk($pk)
     {
         $object = $this->validsQuery()->findPk($pk);
         if (!is_object($object)) {
-            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+            throw new NotFoundException(ChocalaErrors::INVALID_RESOURCE);
         }
         return $object;
     }

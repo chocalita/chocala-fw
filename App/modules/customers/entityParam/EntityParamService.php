@@ -23,13 +23,13 @@ class EntityParamService extends GenericService
     /**
      * @param $pk
      * @return array|mixed|SysEntityParam
-     * @throws ChocalaException
+     * @throws NotFoundException
      */
     public function findPk($pk)
     {
         $entityParam = $this->validsQuery()->findPk($pk);
         if (!is_object($entityParam)) {
-            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+            throw new NotFoundException(ChocalaErrors::INVALID_RESOURCE);
         }
         return $entityParam;
     }

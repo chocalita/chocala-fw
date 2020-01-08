@@ -29,13 +29,13 @@ class SuscriptorService extends GenericService
     /**
      * @param $pk
      * @return array|mixed|JobSuscriptor
-     * @throws ChocalaException
+     * @throws NotFoundException
      */
     public function findPk($pk)
     {
         $suscriptor = $this->validsQuery()->findPk($pk);
         if (!is_object($suscriptor)) {
-            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+            throw new NotFoundException(ChocalaErrors::INVALID_RESOURCE);
         }
         return $suscriptor;
     }

@@ -29,7 +29,7 @@ class AreaController extends AdminWebController
 
     public function show()
     {
-        $area = $this->objectIfExist();
+        $area = $this->areaService->findPk($this->id);
         $this->set('area', $area);
     }
 
@@ -55,7 +55,7 @@ class AreaController extends AdminWebController
     public function edit()
     {
         if(PageControl::canUpdate()){
-            $area = $this->objectIfExist();
+            $area = $this->areaService->findPk($this->id);
             $this->set('area', $area);
         }
         $this->view->changeLayout('ajax');
@@ -64,7 +64,7 @@ class AreaController extends AdminWebController
     public function update()
     {
         if(PageControl::canUpdate()){
-            $area = $this->objectIfExist();
+            $area = $this->areaService->findPk($this->id);
             $results = $this->areaService->insertOrUpdate(Req::all(), $area);
             $this->set('area', $results['object']);
             $this->set('success', $results['success']);
@@ -73,19 +73,10 @@ class AreaController extends AdminWebController
         $this->renderAsJSON();
     }
 
-    public function objectIfExist()
-    {
-        try {
-            return $this->areaService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
-        }
-    }
-
     public function delete()
     {
         if(PageControl::canDelete()){
-            $area = $this->objectIfExist();
+            $area = $this->areaService->findPk($this->id);
             $this->areaService->delete($area);
         }
         $this->redirectTo(['action'=>'dataList']);

@@ -25,13 +25,13 @@ class ModuleService extends GenericService
     /**
      * @param $pk
      * @return array|mixed|SysModule
-     * @throws ChocalaException
+     * @throws NotFoundException
      */
     public function findPk($pk)
     {
         $module = $this->validsQuery()->findPk($pk);
         if (!is_object($module)) {
-            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+            throw new NotFoundException(ChocalaErrors::INVALID_RESOURCE);
         }
         return $module;
     }

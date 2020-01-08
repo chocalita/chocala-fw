@@ -107,7 +107,7 @@ class TrabajoController extends PublicWebController
 
     public function empleo()
     {
-        $aviso = $this->avisoIfExist();
+        $aviso = $this->avisoService->findPk($this->id);
         $this->set('aviso', $aviso);
         Cookie::set("advertising", "no");
         if (HttpManager::isAJAXRequest()) {
@@ -120,15 +120,6 @@ class TrabajoController extends PublicWebController
                 ". " . $aviso->getRequisito());
             $this->view->renderView('trabajo.empleoSEO', "bolsa");
 //            $this->renderView('oportunidadSEO', "index");
-        }
-    }
-
-    public function avisoIfExist()
-    {
-        try {
-            return $this->avisoService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
         }
     }
 
@@ -146,7 +137,7 @@ class TrabajoController extends PublicWebController
 
     public function diselo()
     {
-        $aviso = $this->avisoIfExist();
+        $aviso = $this->avisoService->findPk($this->id);
         $this->set('aviso', $aviso);
         $this->set('captchaUrl', $this->avisoService->createCaptcha());
         //TODO: set captcha
@@ -168,7 +159,7 @@ class TrabajoController extends PublicWebController
     {
         $data = Req::all();
         $data['Ip'] = $_SERVER['REMOTE_ADDR'];
-        $aviso = $this->avisoIfExist();
+        $aviso = $this->avisoService->findPk($this->id);
         $results = $this->suscriptorService->enviarAmigo($data, $aviso);
         $this->set('success', $results['success']);
         $this->set('errors', $results['errors']);

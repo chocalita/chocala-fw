@@ -43,7 +43,7 @@ class EmpresaSuscritaController extends AdminWebController
 
     public function show()
     {
-        $entity = $this->objectIfExist();
+        $entity = $this->empresaSuscritaService->findPk($this->id);
         $this->set('entity', $entity);
         $this->set('mainBranch', $entity->mainBranch());
     }
@@ -75,7 +75,7 @@ class EmpresaSuscritaController extends AdminWebController
     public function edit()
     {
         if(PageControl::canUpdate()){
-            $entity = $this->objectIfExist();
+            $entity = $this->empresaSuscritaService->findPk($this->id);
             $entityTypeList = $this->entityTypeService->dataList();
             $locationList = $this->locationService->dataList();
             $this->set('entityTypeList', $entityTypeList);
@@ -88,22 +88,13 @@ class EmpresaSuscritaController extends AdminWebController
     public function update()
     {
         if(PageControl::canUpdate()){
-            $entity = $this->objectIfExist();
+            $entity = $this->empresaSuscritaService->findPk($this->id);
             $results = $this->empresaSuscritaService->insertOrUpdate(Req::all(), $entity);
             $this->set('entity', $results['object']);
             $this->set('success', $results['success']);
             $this->set('errors', $results['errors']);
         }
         $this->renderAsJSON();
-    }
-
-    public function objectIfExist()
-    {
-        try {
-            return $this->empresaSuscritaService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
-        }
     }
 
     public function loadArchivoImg()

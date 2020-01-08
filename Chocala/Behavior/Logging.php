@@ -28,7 +28,7 @@ trait Logging
     public function _logEmergency($message, array $context = array())
     {
 
-        $this->_logger()->emergency($message, $context);
+        $this->_logger()->emergency($this->formatedMessage($message), $context);
     }
 
     /**
@@ -44,7 +44,7 @@ trait Logging
      */
     public function _logAlert($message, array $context = array())
     {
-        $this->_logger()->alert($message, $context);
+        $this->_logger()->alert($this->formatedMessage($message), $context);
     }
 
     /**
@@ -59,7 +59,7 @@ trait Logging
      */
     public function _logCritical($message, array $context = array())
     {
-        $this->_logger()->critical($message, $context);
+        $this->_logger()->critical($this->formatedMessage($message), $context);
     }
 
     /**
@@ -73,7 +73,7 @@ trait Logging
      */
     public function _logError($message, array $context = array())
     {
-        $this->_logger()->error($message, $context);
+        $this->_logger()->error($this->formatedMessage($message), $context);
     }
 
     /**
@@ -89,7 +89,7 @@ trait Logging
      */
     public function _logWarning($message, array $context = array())
     {
-        $this->_logger()->warning($message, $context);
+        $this->_logger()->warning($this->formatedMessage($message), $context);
     }
 
     /**
@@ -102,7 +102,7 @@ trait Logging
      */
     public function _logNotice($message, array $context = array())
     {
-        $this->_logger()->notice($message, $context);
+        $this->_logger()->notice($this->formatedMessage($message), $context);
     }
 
     /**
@@ -117,7 +117,7 @@ trait Logging
      */
     public function _logInfo($message, array $context = array())
     {
-        $this->_logger()->info($message, $context);
+        $this->_logger()->info($this->formatedMessage($message), $context);
     }
 
     /**
@@ -130,7 +130,7 @@ trait Logging
      */
     public function _logDebug($message, array $context = array())
     {
-        $this->_logger()->debug($message, $context);
+        $this->_logger()->debug($this->formatedMessage($message), $context);
     }
 
     /**
@@ -144,7 +144,12 @@ trait Logging
      */
     public function _log($level, $message, array $context = array())
     {
-        $this->_logger()->log($level, $message, $context);
+        $this->_logger()->log($level, $this->formatedMessage($message), $context);
+    }
+
+    private function formatedMessage($message)
+    {
+        return "[" . get_called_class() . '] ' . $message;
     }
 
 }

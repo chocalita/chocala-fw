@@ -22,13 +22,13 @@ class LocationService extends GenericService
     /**
      * @param $pk
      * @return array|mixed|SysLocation
-     * @throws ChocalaException
+     * @throws NotFoundException
      */
     public function findPk($pk)
     {
         $location = $this->validsQuery()->findPk($pk);
         if (!is_object($location)) {
-            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+            throw new NotFoundException(ChocalaErrors::INVALID_RESOURCE);
         }
         return $location;
     }

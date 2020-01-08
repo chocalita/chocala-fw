@@ -28,7 +28,7 @@ class OficioController extends AdminWebController
 
     public function show()
     {
-        $jobOficio = $this->getObjectIfExist();
+        $jobOficio = $this->oficioService->findPk($this->id);
         $this->set('jobOficio', $jobOficio);
     }
 
@@ -54,14 +54,14 @@ class OficioController extends AdminWebController
 
     public function edit()
     {
-        $jobOficio = $this->getObjectIfExist();
+        $jobOficio = $this->oficioService->findPk($this->id);
         $this->set('jobOficio', $jobOficio);
         $this->view->changeLayout('ajax');
     }
 
     public function update()
     {
-        $jobOficio = $this->getObjectIfExist();
+        $jobOficio = $this->oficioService->findPk($this->id);
         $results = $this->oficioService->insertOrUpdate(Req::all(), $jobOficio);
         $this->set('jobOficio', $jobOficio);
         $this->set('success', $results['success']);
@@ -73,22 +73,13 @@ class OficioController extends AdminWebController
 
     public function delete()
     {
-        $jobOficio = $this->getObjectIfExist();
+        $jobOficio = $this->oficioService->findPk($this->id);
         try {
             $jobOficio->delete();
             $this->redirectTo(['action' => 'dataList']);
         } catch (Exception $e) {
             $this->redirectTo(['action' => 'show',
                 'id' => $jobOficio->getPrimaryKey()]);
-        }
-    }
-
-    public function getObjectIfExist()
-    {
-        try {
-            return $this->oficioService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
         }
     }
 

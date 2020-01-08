@@ -46,7 +46,7 @@ class EmailSentController extends AdminWebController
 
     public function show()
     {
-        $emailSent = $this->objectIfExist();
+        $emailSent = $this->emailSentService->findPk($this->id);
         $this->set('emailSent', $emailSent);
     }
 
@@ -74,7 +74,7 @@ class EmailSentController extends AdminWebController
 
     public function edit()
     {
-        $emailSent = $this->objectIfExist();
+        $emailSent = $this->emailSentService->findPk($this->id);
     $sysEmailList = SysEmailQuery::create()
                 ->orderBy()->find();
         $this->set('sysEmailList', $sysEmailList);
@@ -87,7 +87,7 @@ class EmailSentController extends AdminWebController
 
     public function update()
     {
-        $emailSent = $this->objectIfExist();
+        $emailSent = $this->emailSentService->findPk($this->id);
         $results = $this->emailSentService->insertOrUpdate(Req::all(), $emailSent);
         $this->set('emailSent', $emailSent);
         $this->set('success', $results['success']);
@@ -97,22 +97,13 @@ class EmailSentController extends AdminWebController
 
     public function delete()
     {
-        $emailSent = $this->objectIfExist();
+        $emailSent = $this->emailSentService->findPk($this->id);
         try {
             $emailSent->delete();
             $this->redirectTo(['action' => 'dataList']);
         } catch (Exception $e) {
             $this->redirectTo(['action' => 'show',
                 'id' => $emailSent->getPrimaryKey()]);
-        }
-    }
-
-    public function objectIfExist()
-    {
-        try {
-            return $this->emailSentService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
         }
     }
 

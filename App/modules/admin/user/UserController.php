@@ -29,7 +29,7 @@ class UserController extends AdminWebController
 
     public function show()
     {
-        $user = $this->objectIfExist();
+        $user = $this->userService->findPk($this->id);
         $this->set('user', $user);
         $this->set('person', $user->person());
     }
@@ -69,7 +69,7 @@ class UserController extends AdminWebController
     public function edit()
     {
         if(PageControl::canUpdate()){
-            $user = $this->objectIfExist();
+            $user = $this->userService->findPk($this->id);
             $this->set('user', $user);
             $this->set('person', $user->person());
         }
@@ -79,7 +79,7 @@ class UserController extends AdminWebController
     public function update()
     {
         if(PageControl::canUpdate()){
-            $user = $this->objectIfExist();
+            $user = $this->userService->findPk($this->id);
             $data = Req::all();
             $data['Location'] = Req::_('City');
             $data['DateOfBirth'] = Req::_asDate('DateOfBirth');
@@ -94,15 +94,6 @@ class UserController extends AdminWebController
             $this->set('user', $user);
         }
         $this->renderAsJSON();
-    }
-
-    public function objectIfExist()
-    {
-        try {
-            return $this->userService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
-        }
     }
 
     public function rolAdd()
@@ -188,7 +179,7 @@ class UserController extends AdminWebController
     public function saveStatus()
     {
         if(PageControl::canUpdate()){
-            $user = $this->objectIfExist();
+            $user = $this->userService->findPk($this->id);
             $data['Status'] = Req::_('Status');
             $results = $this->userService->insertOrUpdate($data, $user);
             $this->set('success', $results['success']);

@@ -23,13 +23,13 @@ class AreaTecnicaService extends GenericService
     /**
      * @param $pk
      * @return array|JobAreaTecnica|mixed
-     * @throws ChocalaException
+     * @throws NotFoundException
      */
     public function findPk($pk)
     {
         $areaTecnica = $this->validsQuery()->findPk($pk);
         if (!is_object($areaTecnica)) {
-            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+            throw new NotFoundException(ChocalaErrors::INVALID_RESOURCE);
         }
         return $areaTecnica;
     }

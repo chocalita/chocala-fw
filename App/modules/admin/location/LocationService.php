@@ -16,11 +16,16 @@ class LocationService extends GenericService
         return SysLocationQuery::create();
     }
 
+    /**
+     * @param $pk
+     * @return array|mixed|SysLocation
+     * @throws NotFoundException
+     */
     public function findPk($pk)
     {
         $location = $this->createQuery()->findPk($pk);
         if (!is_object($location)) {
-            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+            throw new NotFoundException(ChocalaErrors::INVALID_RESOURCE);
         }
         return $location;
     }

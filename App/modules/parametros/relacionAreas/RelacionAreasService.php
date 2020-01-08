@@ -16,11 +16,16 @@ class RelacionAreasService extends ChocalaSingleService
         return JobAreaRelacionadaQuery::create();
     }
 
+    /**
+     * @param $pk
+     * @return array|JobAreaRelacionada|mixed
+     * @throws NotFoundException
+     */
     public function findPk($pk)
     {
         $object = $this->createQuery()->findPk($pk);
         if (!is_object($object)) {
-            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+            throw new NotFoundException(ChocalaErrors::INVALID_RESOURCE);
         }
         return $object;
     }

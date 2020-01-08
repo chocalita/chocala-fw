@@ -28,7 +28,7 @@ class EmailController extends AdminWebController
 
     public function show()
     {
-        $email = $this->objectIfExist();
+        $email = $this->emailService->findPk($this->id);
         $this->set('email', $email);
     }
 
@@ -56,7 +56,7 @@ class EmailController extends AdminWebController
     public function edit()
     {
         if(PageControl::canUpdate()){
-            $email = $this->objectIfExist();
+            $email = $this->emailService->findPk($this->id);
             $this->set('email', $email);
             $this->set('templates', $this->emailService->emailTemplates());
         }
@@ -66,7 +66,7 @@ class EmailController extends AdminWebController
     public function update()
     {
         if(PageControl::canUpdate()){
-            $email = $this->objectIfExist();
+            $email = $this->emailService->findPk($this->id);
             $results = $this->emailService->insertOrUpdate(Req::all(), $email);
             $this->set('email', $email);
             $this->set('success', $results['success']);
@@ -78,14 +78,14 @@ class EmailController extends AdminWebController
     public function editMail()
     {
         if(PageControl::canUpdate()){
-            $email = $this->objectIfExist();
+            $email = $this->emailService->findPk($this->id);
             $this->set('email', $email);
         }
     }
 
     public function updateMail()
     {
-        $email = $this->objectIfExist();;
+        $email = $this->emailService->findPk($this->id);
         if(PageControl::canUpdate()){
             $results = $this->emailService->insertOrUpdate(Req::all(), $email);
             $this->set('email', $email);
@@ -97,22 +97,13 @@ class EmailController extends AdminWebController
 
     public function delete()
     {
-        $email = $this->objectIfExist();
+        $email = $this->emailService->findPk($this->id);
         try {
             $email->delete();
             $this->redirectTo(['action' => 'dataList']);
         } catch (Exception $e) {
             $this->redirectTo(['action' => 'show',
                 'id' => $email->getPrimaryKey()]);
-        }
-    }
-
-    public function objectIfExist()
-    {
-        try {
-            return $this->emailService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
         }
     }
 

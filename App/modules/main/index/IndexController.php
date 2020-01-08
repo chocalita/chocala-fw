@@ -25,7 +25,7 @@ class IndexController extends PublicWebController
 
     public function oportunidad()
     {
-        $aviso = $this->avisoIfExist();
+        $aviso = $this->avisoService->findPk($this->id);
         $this->set('aviso', $aviso);
         Cookie::set("advertising", "no");
         if (HttpManager::isAJAXRequest()) {
@@ -33,15 +33,6 @@ class IndexController extends PublicWebController
         } else {
             $this->view->renderView('index.oportunidadSEO', "main");
 //            $this->renderView('oportunidadSEO', "index");
-        }
-    }
-
-    public function avisoIfExist()
-    {
-        try {
-            return $this->avisoService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
         }
     }
 

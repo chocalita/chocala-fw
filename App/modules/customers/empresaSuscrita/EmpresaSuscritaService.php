@@ -28,13 +28,13 @@ class EmpresaSuscritaService extends GenericService
     /**
      * @param $pk
      * @return array|JobEmpresaSuscrita|mixed
-     * @throws ChocalaException
+     * @throws NotFoundException
      */
     public function findPk($pk)
     {
         $empresaSuscrita = $this->validsQuery()->findPk($pk);
         if (!is_object($empresaSuscrita)) {
-            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+            throw new NotFoundException(ChocalaErrors::INVALID_RESOURCE);
         }
         return $empresaSuscrita;
     }
@@ -42,13 +42,13 @@ class EmpresaSuscritaService extends GenericService
     /**
      * @param $hashCode
      * @return JobEmpresaSuscrita
-     * @throws ChocalaException
+     * @throws NotFoundException
      */
     public function findByHashCode($hashCode)
     {
         $empresaSuscrita = JobEmpresaSuscritaQuery::create()->findOneByHashCode($hashCode);
         if (!is_object($empresaSuscrita)) {
-            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+            throw new NotFoundException(ChocalaErrors::INVALID_RESOURCE);
         }
         return $empresaSuscrita;
     }

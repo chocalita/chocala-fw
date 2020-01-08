@@ -16,11 +16,16 @@ class UserParamService extends GenericService
         return SysUserParamQuery::create();
     }
 
+    /**
+     * @param $pk
+     * @return array|mixed|SysUserParam
+     * @throws NotFoundException
+     */
     public function findPk($pk)
     {
         $userParam = $this->createQuery()->findPk($pk);
         if (!is_object($userParam)) {
-            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+            throw new NotFoundException(ChocalaErrors::INVALID_RESOURCE);
         }
         return $userParam;
     }

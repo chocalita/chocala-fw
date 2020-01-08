@@ -52,7 +52,7 @@ class RolController extends AdminWebController
     public function edit()
     {
         if(PageControl::canUpdate()){
-            $rol = $this->objectIfExist();
+            $rol = $this->rolService->findPk($this->id);
             $this->set('rol', $rol);
         }
         $this->view->changeLayout('ajax');
@@ -61,7 +61,7 @@ class RolController extends AdminWebController
     public function update()
     {
         if(PageControl::canUpdate()){
-            $rol = $this->objectIfExist();
+            $rol = $this->rolService->findPk($this->id);
             $results = $this->rolService->insertOrUpdate(Req::all(), $rol);
             $this->set('rol', $results['object']);
             $this->set('success', $results['success']);
@@ -77,15 +77,6 @@ class RolController extends AdminWebController
             $rol->delete();
         }
         $this->redirectTo(['action' => 'index']);
-    }
-
-    public function objectIfExist()
-    {
-        try {
-            return $this->rolService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
-        }
     }
 
 }

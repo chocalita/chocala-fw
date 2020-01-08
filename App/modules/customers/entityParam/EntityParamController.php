@@ -54,7 +54,7 @@ class EntityParamController extends AdminWebController
 
     public function editParam()
     {
-        $param = $this->paramIfExist(Req::_('paramId'));
+        $param = $this->paramService->findPk(Req::_('paramId'));
         $entity = $this->entityService->findPk($this->id);
         $entityParam = $param->entityParam($entity);
         if(!is_object($entityParam)){
@@ -69,7 +69,7 @@ class EntityParamController extends AdminWebController
 
     public function updateParam()
     {
-        $param = $this->paramIfExist(Req::_('paramId'));
+        $param = $this->paramService->findPk(Req::_('paramId'));
         $entity = $this->entityService->findPk(Req::_('entityId'));
         $entityParam = $param->entityParam($entity);
         if(!is_object($entityParam)){
@@ -86,31 +86,13 @@ class EntityParamController extends AdminWebController
 
     public function delete()
     {
-        $entityParam = $this->objectIfExist();
+        $entityParam = $this->entityParamService->findPk($this->id);
         try {
             $entityParam->delete();
             $this->redirectTo(['action' => 'dataList']);
         } catch (Exception $e) {
             $this->redirectTo(['action' => 'show',
                 'id' => $entityParam->getPrimaryKey()]);
-        }
-    }
-
-    public function objectIfExist()
-    {
-        try {
-            return $this->entityParamService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
-        }
-    }
-
-    public function paramIfExist($id)
-    {
-        try {
-            return $this->paramService->findPk($id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
         }
     }
 

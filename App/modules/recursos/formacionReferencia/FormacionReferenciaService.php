@@ -24,13 +24,13 @@ class FormacionReferenciaService extends GenericService
     /**
      * @param $pk
      * @return array|TmpFormacion|mixed
-     * @throws ChocalaException
+     * @throws NotFoundException
      */
     public function findPk($pk)
     {
         $formacion = $this->validsQuery()->findPk($pk);
         if (!is_object($formacion)) {
-            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+            throw new NotFoundException(ChocalaErrors::INVALID_RESOURCE);
         }
         return $formacion;
     }

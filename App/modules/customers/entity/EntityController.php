@@ -41,7 +41,7 @@ class EntityController extends AdminWebController
 
     public function show()
     {
-        $entity = $this->objectIfExist();
+        $entity = $this->entityService->findPk($this->id);
         $this->set('entity', $entity);
         $this->set('mainBranch', $entity->mainBranch());
     }
@@ -73,7 +73,7 @@ class EntityController extends AdminWebController
     public function edit()
     {
         if(PageControl::canUpdate()){
-            $entity = $this->objectIfExist();
+            $entity = $this->entityService->findPk($this->id);
             $entityTypeList = $this->entityTypeService->dataList();
             $locationList = $this->locationService->dataList();
             $this->set('entityTypeList', $entityTypeList);
@@ -86,22 +86,13 @@ class EntityController extends AdminWebController
     public function update()
     {
         if(PageControl::canUpdate()){
-            $entity = $this->objectIfExist();
+            $entity = $this->entityService->findPk($this->id);
             $results = $this->entityService->insertOrUpdate(Req::all(), $entity);
             $this->set('entity', $results['object']);
             $this->set('success', $results['success']);
             $this->set('errors', $results['errors']);
         }
         $this->renderAsJSON();
-    }
-
-    public function objectIfExist()
-    {
-        try {
-            return $this->entityService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
-        }
     }
 
     public function loadArchivoImg()

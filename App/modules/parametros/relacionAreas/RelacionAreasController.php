@@ -28,7 +28,7 @@ class RelacionAreasController extends AdminWebController
 
     public function show()
     {
-        $jobAreaRelacionada = $this->objectIfExist();
+        $jobAreaRelacionada = $this->relacionAreasService->findPk($this->id);
         $this->set('jobAreaRelacionada', $jobAreaRelacionada);
     }
 
@@ -60,7 +60,7 @@ class RelacionAreasController extends AdminWebController
 
     public function edit()
     {
-        $jobAreaRelacionada = $this->objectIfExist();
+        $jobAreaRelacionada = $this->relacionAreasService->findPk($this->id);
     $jobAreaTecnicaList = JobAreaTecnicaQuery::create()
                 ->orderBy()->find();
         $this->set('jobAreaTecnicaList', $jobAreaTecnicaList);
@@ -72,7 +72,7 @@ class RelacionAreasController extends AdminWebController
 
     public function update()
     {
-        $jobAreaRelacionada = $this->objectIfExist();
+        $jobAreaRelacionada = $this->relacionAreasService->findPk($this->id);
         $results = $this->relacionAreasService->insertOrUpdate(Req::all(), $jobAreaRelacionada);
         if ($results['success']) {
             $this->redirectTo(array('action' => 'show',
@@ -86,22 +86,13 @@ class RelacionAreasController extends AdminWebController
 
     public function delete()
     {
-        $jobAreaRelacionada = $this->objectIfExist();
+        $jobAreaRelacionada = $this->relacionAreasService->findPk($this->id);
         try {
             $jobAreaRelacionada->delete();
             $this->redirectTo(array('action' => 'dataList'));
         } catch (Exception $e) {
             $this->redirectTo(array('action' => 'show',
                 'id' => $jobAreaRelacionada->getPrimaryKey()));
-        }
-    }
-
-    public function objectIfExist()
-    {
-        try {
-            return $this->relacionAreasService->findPk($this->id);
-        } catch (ChocalaException $che) {
-            HttpManager::responseAs404();
         }
     }
 

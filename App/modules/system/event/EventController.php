@@ -31,7 +31,7 @@ class EventController extends AdminWebController
 
     public function show()
     {
-        $event = $this->objectIfExist();
+        $event = $this->eventService->findPk($this->id);
         $this->set('event', $event);
     }
 
@@ -60,7 +60,7 @@ class EventController extends AdminWebController
     public function edit()
     {
         if (PageControl::canUpdate()) {
-            $event = $this->objectIfExist();
+            $event = $this->eventService->findPk($this->id);
             $this->set('event', $event);
             $this->set('types', $this->eventService->types());
             $this->set('levels', $this->eventService->levels());
@@ -71,7 +71,7 @@ class EventController extends AdminWebController
     public function update()
     {
         if (PageControl::canUpdate()) {
-            $event = $this->objectIfExist();
+            $event = $this->eventService->findPk($this->id);
             $results = $this->eventService->insertOrUpdate(Req::all(), $event);
             $this->set('event', $event);
             $this->set('success', $results['success']);
@@ -83,7 +83,7 @@ class EventController extends AdminWebController
     public function delete()
     {
         if (PageControl::canDelete()) {
-            $event = $this->objectIfExist();
+            $event = $this->eventService->findPk($this->id);
             try {
                 $event->delete();
                 $this->redirectTo(['action' => 'dataList']);
@@ -91,15 +91,6 @@ class EventController extends AdminWebController
                 $this->redirectTo(['action' => 'show',
                     'id' => $event->getPrimaryKey()]);
             }
-        }
-    }
-
-    public function objectIfExist()
-    {
-        try {
-            return $this->eventService->findPk($this->id);
-        } catch (NotFoundException $che) {
-            HttpManager::responseAs404();
         }
     }
 
