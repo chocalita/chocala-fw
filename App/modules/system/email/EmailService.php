@@ -38,13 +38,13 @@ class EmailService extends GenericService
     /**
      * @param $code
      * @return SysEmail
-     * @throws ChocalaException
+     * @throws NotFoundException
      */
     public function findByCode($code)
     {
         $email = $this->validsQuery()->findOneByCode($code);
         if (!is_object($email)) {
-            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+            throw new NotFoundException(ChocalaErrors::INVALID_RESOURCE);
         }
         return $email;
     }

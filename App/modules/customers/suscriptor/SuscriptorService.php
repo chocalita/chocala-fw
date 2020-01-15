@@ -87,6 +87,12 @@ class SuscriptorService extends GenericService
         $object->setStatus('INICIADO');
     }
 
+    /**
+     * @param array $data
+     * @return array
+     * @throws NotFoundException
+     * @throws \Propel\Runtime\Exception\PropelException
+     */
     public function insertAndNotify(array $data)
     {
         $results = $this->insertOrUpdate($data);
@@ -110,6 +116,12 @@ class SuscriptorService extends GenericService
         return $results;
     }
 
+    /**
+     * @param array $data
+     * @param JobAviso $aviso
+     * @return array
+     * @throws NotFoundException
+     */
     public function enviarAmigo(array $data, JobAviso $aviso)
     {
         $results = ['success' => true, 'errors' => []];
@@ -157,7 +169,7 @@ class SuscriptorService extends GenericService
                     '~NOMBRE_EMPRESA~' => htmlspecialchars($aviso->getNombreEmpresa()),
                     '~LINK_AVISO~' => $linkAviso,
                 ];
-                $emailSent = EmailSender::instanceFrom($email)->sendM($emailMap, $emailVars);
+                $emailSent = EmailSender::instanceFrom($email)->sendMail($emailMap, $emailVars);
                 $results['email'] = $emailSent->getToEmail();
             }
         }
@@ -165,9 +177,11 @@ class SuscriptorService extends GenericService
     }
 
     /**
-     * @param int $days
+     * @param $days
      * @param null $dateBase
      * @return \Propel\Runtime\Collection\ObjectCollection|SysEmailSent[]
+     * @throws NotFoundException
+     * @throws \Propel\Runtime\Exception\PropelException
      */
     public function notificacionesRecientes($days , $dateBase = null)
     {
@@ -187,9 +201,10 @@ class SuscriptorService extends GenericService
     }
 
     /**
-     * @param int $days
+     * @param $days
      * @param null $dateBase
      * @return JobSuscriptor[]|\Propel\Runtime\Collection\ObjectCollection
+     * @throws \Propel\Runtime\Exception\PropelException
      */
     public function suscriptoresNotificados($days, $dateBase = null)
     {
@@ -218,6 +233,10 @@ class SuscriptorService extends GenericService
         return $results;
     }
 
+    /**
+     * @throws \Propel\Runtime\Exception\PropelException
+     * @throws NotFoundException
+     */
     public function mailing()
     {
         $maxToSend = EmailSender::maxBatchSizeToSend();

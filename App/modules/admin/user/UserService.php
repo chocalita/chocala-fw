@@ -139,7 +139,8 @@ class UserService extends AuditService
     /**
      * @param SysUser $user
      * @return bool
-     * @throws ChocalaException
+     * @throws NotFoundException
+     * @throws \Propel\Runtime\Exception\PropelException
      */
     public function sendPassword(SysUser $user)
     {
@@ -166,7 +167,7 @@ class UserService extends AuditService
     /**
      * @param SysUser $user
      * @return bool
-     * @throws ChocalaException
+     * @throws NotFoundException
      * @throws \Propel\Runtime\Exception\PropelException
      */
     public function sendResetPassword(SysUser $user)

@@ -96,6 +96,12 @@ class EmpresaSuscritaService extends GenericService
     }
 
 
+    /**
+     * @param array $data
+     * @return array
+     * @throws \Propel\Runtime\Exception\PropelException
+     * @throws NotFoundException
+     */
     public function insertAndNotify(array $data)
     {
         // TODO: validate nombre completo de representante (por lo menos un espacio)

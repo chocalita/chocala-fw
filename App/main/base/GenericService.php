@@ -25,12 +25,12 @@ abstract class GenericService extends ChocalaSingleService
     /**
      * @param $object
      * @return mixed
-     * @throws ChocalaException
+     * @throws NotFoundException
      */
     protected function verifyObject($object)
     {
-        if(!is_object($object)){
-            throw new ChocalaException ("Invalid Object");
+        if (!is_object($object)) {
+            throw new NotFoundException ("Invalid Object");
         }
         return $object;
     }
@@ -38,19 +38,20 @@ abstract class GenericService extends ChocalaSingleService
     /**
      * @param $object
      * @return mixed
+     * @throws Exception
      */
     public function prepareInsert($object)
     {
-        if(method_exists($object, 'setStatus')){
+        if (method_exists($object, 'setStatus')) {
             $object->setStatus(SoftDelete::ACTIVE);
         }
-        if(method_exists($object, 'setLastUserId')){
-            $object->setLastUserId(UserControl::isLoggedIn()? UserControl::user()->getId(): 0);
+        if (method_exists($object, 'setLastUserId')) {
+            $object->setLastUserId(UserControl::isLoggedIn() ? UserControl::user()->getId() : 0);
         }
-        if(method_exists($object, 'setCreationDate')){
+        if (method_exists($object, 'setCreationDate')) {
             $object->setCreationDate(new DateTime());
         }
-        if(method_exists($object, 'setModificationDate')){
+        if (method_exists($object, 'setModificationDate')) {
             $object->setModificationDate(new DateTime());
         }
         return $object;
@@ -59,6 +60,7 @@ abstract class GenericService extends ChocalaSingleService
     /**
      * @param $object
      * @return mixed
+     * @throws Exception
      */
     public function prepareUpdate($object)
     {

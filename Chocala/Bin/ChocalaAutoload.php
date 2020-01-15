@@ -39,6 +39,7 @@ class ChocalaAutoload
         'Config'                    =>  'Base/Config',
         'ConfigBase'                =>  'Base/ConfigBase',
         'Configs'                   =>  'Base/Configs',
+        'ForbiddenException'        =>  'Base/ForbiddenException',
         'FrontController'           =>  'Base/FrontController',
         'GlobalVars'                =>  'Base/GlobalVars',
         'HttpManager'               =>  'Base/HttpManager',
@@ -53,6 +54,7 @@ class ChocalaAutoload
         'Params'                    =>  'Base/Params',
         'SingletonRegistry'         =>  'Base/SingletonRegistry',
         'URI'                       =>  'Base/URI',
+        'ValidationException'       =>  'Base/ValidationException',
         'WebAliasController'        =>  'Base/WebAliasController',
         'WebController'             =>  'Base/WebController',
 

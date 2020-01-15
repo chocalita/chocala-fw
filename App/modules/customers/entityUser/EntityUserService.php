@@ -23,13 +23,13 @@ class EntityUserService extends GenericService
     /**
      * @param $pk
      * @return array|mixed|SysEntityBranch
-     * @throws ChocalaException
+     * @throws NotFoundException
      */
     public function findPk($pk)
     {
         $entityBranch = $this->validsQuery()->findPk($pk);
         if (!is_object($entityBranch)) {
-            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+            throw new NotFoundException(ChocalaErrors::INVALID_RESOURCE);
         }
         return $entityBranch;
     }

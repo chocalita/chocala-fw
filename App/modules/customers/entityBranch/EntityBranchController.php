@@ -82,7 +82,7 @@ class EntityBranchController extends AdminWebController
     public function update()
     {
         if(PageControl::canUpdate()){
-            $entityBranch = $this->getObjectIfExist();
+            $entityBranch = $this->entityBranchService->findPk($this->id);
             $results = $this->entityBranchService->insertOrUpdate(Req::all(), $entityBranch);
             $this->set('entityBranch', $results['object']);
             $this->set('success', $results['success']);

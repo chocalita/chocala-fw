@@ -9,7 +9,7 @@ require_once 'ChocalaException.php';
 class NotFoundException extends ChocalaException
 {
 
-    public function __construct($message, $code = 0, Throwable $previous = null)
+    public function __construct($message, $code = 404, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }

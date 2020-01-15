@@ -36,7 +36,7 @@ abstract class EmpresaAdminController extends AdminWebController
     public function checkUpdate(JobAviso $object)
     {
         if(!PageControl::canUpdate() || !$this->isTenantOwner($object)){
-            throw new ChocalaException("Forbidden Exception");
+            throw new ForbiddenException("Forbidden Exception");
         }
     }
 

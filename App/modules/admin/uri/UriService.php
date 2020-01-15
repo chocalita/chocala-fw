@@ -105,13 +105,13 @@ class UriService extends GenericService
      * @param int $uriId
      * @param bool|true $strict
      * @return array|mixed|SysRolXUri
-     * @throws ChocalaException
+     * @throws NotFoundException
      */
     public function findRolUri($rolId, $uriId, $strict = true)
     {
         $rolXUri = SysRolXUriQuery::createValids()->findPk([$rolId, $uriId]);
         if ($strict && !is_object($rolXUri)) {
-            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+            throw new NotFoundException(ChocalaErrors::INVALID_RESOURCE);
         }
         return $rolXUri;
     }
@@ -120,7 +120,7 @@ class UriService extends GenericService
      * @param int $rolId
      * @param int $uriId
      * @return bool
-     * @throws \Propel\Runtime\Exception\PropelException
+     * @throws \Propel\Runtime\Exception\PropelException|NotFoundException
      */
     public function changeMainPermission($rolId, $uriId)
     {
@@ -136,14 +136,13 @@ class UriService extends GenericService
             return true;
         }
     }
-
     /**
      * @param $type
      * @param $rolId
      * @param $uriId
      * @return bool
-     * @throws ChocalaException
      * @throws \Propel\Runtime\Exception\PropelException
+     * @throws NotFoundException
      */
     public function changePermissionType($type, $rolId, $uriId)
     {

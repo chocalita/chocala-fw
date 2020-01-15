@@ -27,13 +27,13 @@ class SicoesService extends AppSecureService
     /**
      * @param $pk
      * @return array|mixed|JobSicoesConvocatoria
-     * @throws ChocalaException
+     * @throws NotFoundException
      */
     public function findPk($pk)
     {
         $sicoes = $this->validsQuery()->findPk($pk);
         if (!is_object($sicoes)) {
-            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+            throw new NotFoundException(ChocalaErrors::INVALID_RESOURCE);
         }
         return $sicoes;
     }

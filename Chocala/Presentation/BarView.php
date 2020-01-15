@@ -93,10 +93,10 @@ abstract class BarView implements IView
     }
 
     /**
-     * 
-     * @param string $name
-     * @param boolean $cached
-     * @return string
+     * @param $name
+     * @param bool $cached
+     * @return mixed
+     * @throws ReflectionException
      */
     static public function renderBar($name, $cached=false)
     {

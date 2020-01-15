@@ -37,13 +37,13 @@ class EmailSentService extends GenericService
     /**
      * @param $hashString
      * @return SysEmailSent
-     * @throws ChocalaException
+     * @throws NotFoundException
      */
     public function findByHashString($hashString)
     {
         $emailSent = $this->validsQuery()->findOneByHashString($hashString);
         if (!is_object($emailSent)) {
-            throw new ChocalaException(ChocalaErrors::INVALID_RESOURCE);
+            throw new NotFoundException(ChocalaErrors::INVALID_RESOURCE);
         }
         return $emailSent;
     }
@@ -93,7 +93,7 @@ class EmailSentService extends GenericService
     /**
      * @param $hashString
      * @return bool
-     * @throws ChocalaException
+     * @throws NotFoundException
      * @throws \Propel\Runtime\Exception\PropelException
      */
     public function hashTracking($hashString)

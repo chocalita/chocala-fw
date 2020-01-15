@@ -280,7 +280,7 @@ abstract class ValidationHelper
                         } elseif (self::isNumeric($max)) {
                             $validateResult = self::validateMaxValue($field, $value, $max, $className);
                         } else {
-                            throw new ChocalaException('INVALID RANGE VALIDATION DATA IN ' . $className);
+                            throw new ValidationException('INVALID RANGE VALIDATION DATA IN ' . $className);
                         }
                     }
                     break;
@@ -298,7 +298,7 @@ abstract class ValidationHelper
                         } elseif (is_integer($fix)) {
                             $validateResult = self::validateSizeFix($field, $value, $fix, $className);
                         } else {
-                            throw new ChocalaException('INVALID SIZE VALIDATION DATA IN ' . $className);
+                            throw new ValidationException('INVALID SIZE VALIDATION DATA IN ' . $className);
                         }
                     }
                     break;
@@ -312,7 +312,7 @@ abstract class ValidationHelper
                         if (is_array($option)) {
                             $validateResult = self::validateInList($field, $value, $option, $className);
                         } else {
-                            throw new ChocalaException('INVALID IN LIST VALIDATION DATA IN ' . $className);
+                            throw new ValidationException('INVALID IN LIST VALIDATION DATA IN ' . $className);
                         }
                     }
                     break;
@@ -321,7 +321,7 @@ abstract class ValidationHelper
                         if (is_array($option)) {
                             $validateResult = self::validateNotInList($field, $value, $option, $className);
                         } else {
-                            throw new ChocalaException('INVALID NOT IN LIST VALIDATION DATA IN ' . $className);
+                            throw new ValidationException('INVALID NOT IN LIST VALIDATION DATA IN ' . $className);
                         }
                     }
                     break;
@@ -350,7 +350,7 @@ abstract class ValidationHelper
                             $validateResult = self::validateUnique($field, $value, $queryClass, $className);
                         }
                     } catch (Exception $e) {
-                        throw new ChocalaException('INVALID UNIQUE VALIDATION DATA IN ' . $className);
+                        throw new ValidationException('INVALID UNIQUE VALIDATION DATA IN ' . $className);
                     }
                     break;
                 case 'validator':
@@ -364,7 +364,7 @@ abstract class ValidationHelper
                         if (method_exists($obj, $validator)) {
                             $validateResult = self::validateValidator($field, $value, $obj, $validator, $className);
                         } else {
-                            throw new ChocalaException('VALIDATOR METHOD \'' . $validator . '\' NOT EXIST in ' . $className);
+                            throw new ValidationException('VALIDATOR METHOD \'' . $validator . '\' DOES NOT EXISTS IN ' . $className);
                         }
                     }
                     break;
