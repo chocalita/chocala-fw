@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Description of ChocalaInitVars
  *
@@ -26,83 +27,89 @@ abstract class ChocalaInitVars
      */
     public static function frameworkInit()
     {
-        if(!self::$frameworkInitialized){
+        if (!self::$frameworkInitialized) {
+            // Framework directories
             define('SYSTEM_DIR', CHOCALA_DIR);
-            define('BIN_DIR', CHOCALA_DIR.'bin'.DIRECTORY_SEPARATOR);
-            define('LIB_DIR', CHOCALA_DIR.'lib'.DIRECTORY_SEPARATOR);
-            define('ORM_DIR', CHOCALA_DIR.'orm'.DIRECTORY_SEPARATOR);
-            define('ALIAS_DIR', CHOCALA_DIR.'alias'.DIRECTORY_SEPARATOR);
-            
-            define('PROTECTED_DIR', APP_DIR.'protected'.DIRECTORY_SEPARATOR);
-            define('PUBLIC_DIR', APP_DIR.'public'.DIRECTORY_SEPARATOR);
-            
-            define('CONFIGS_DIR', PROTECTED_DIR.'configs'.DIRECTORY_SEPARATOR);
-            define('CONTROL_DIR', PROTECTED_DIR.'control'.DIRECTORY_SEPARATOR);
-            define('MODEL_DIR', PROTECTED_DIR.'model'.DIRECTORY_SEPARATOR);
-            define('VIEW_DIR', PROTECTED_DIR.'view'.DIRECTORY_SEPARATOR);
-            define('I18N_DIR', PROTECTED_DIR.'i18n'.DIRECTORY_SEPARATOR);
-            define('MAPPING_DIR', CONFIGS_DIR.'mapping'.DIRECTORY_SEPARATOR);
-            define('DOMAIN_DIR', MODEL_DIR.'domain'.DIRECTORY_SEPARATOR);
-            define('SERVICES_DIR', MODEL_DIR.'services'.DIRECTORY_SEPARATOR);
+            define('BIN_DIR', CHOCALA_DIR . 'Bin' . DIRECTORY_SEPARATOR);
 
-            define('LAYOUTS_DIR', VIEW_DIR.'layouts'.DIRECTORY_SEPARATOR);
-            define('TEMPLATES_DIR', VIEW_DIR.'templates'.DIRECTORY_SEPARATOR);
-            define('BARS_DIR', VIEW_DIR.'bars'.DIRECTORY_SEPARATOR);
-            define('EMAILS_DIR', VIEW_DIR.'emails'.DIRECTORY_SEPARATOR);
-            define('RTC_DIR', VIEW_DIR.'rtcContents'.DIRECTORY_SEPARATOR);
+            define('LIB_DIR', CHOCALA_DIR . 'Lib' . DIRECTORY_SEPARATOR);
+            define('ALIAS_DIR', CHOCALA_DIR . 'Alias' . DIRECTORY_SEPARATOR);
 
-            define('IMG_DIR', PUBLIC_DIR.'images'.DIRECTORY_SEPARATOR);
+            // Framework directories
+            define('CONFIGS_DIR', APP_DIR . 'configs' . DIRECTORY_SEPARATOR);
+            define('I18N_DIR', APP_DIR . 'i18n' . DIRECTORY_SEPARATOR);
+            define('MAIN_DIR', APP_DIR . 'main' . DIRECTORY_SEPARATOR);
+            define('MODEL_DIR', APP_DIR . 'model' . DIRECTORY_SEPARATOR);
+            define('MODULES_DIR', APP_DIR . 'modules' . DIRECTORY_SEPARATOR);
+            define('BASE_DIR', MAIN_DIR . 'base' . DIRECTORY_SEPARATOR);
+            define('CONTENT_DIR', MAIN_DIR . 'content' . DIRECTORY_SEPARATOR);
+            define('MAPPING_DIR', CONFIGS_DIR . 'mapping' . DIRECTORY_SEPARATOR);
+            define('DATABASE_DIR', MODEL_DIR . 'database' . DIRECTORY_SEPARATOR);
+            define('DOMAIN_DIR', MODEL_DIR . 'domain' . DIRECTORY_SEPARATOR);
 
-            define('WEB_ROOT', 'http://'.$_SERVER['HTTP_HOST'].
-                    ($_SERVER['SCRIPT_NAME']!=''?
-                    (str_replace('index.php', '', $_SERVER['SCRIPT_NAME'])):
-                '/'));
-            define('CSS_WEB', WEB_ROOT.'css/');
-            define('JS_WEB', WEB_ROOT.'js/');
-            define('IMG_WEB', WEB_ROOT.'images/');
-            define('LIBS_WEB', WEB_ROOT.'libs/');
-            
-            define('CHAJAX_WEB', JS_WEB.'chajax/');
-            define('JQUERY_WEB', JS_WEB.'jquery/');
-            define('ICONS_WEB', IMG_WEB.'icons/');
-            
-            define('ICO_16', ICONS_WEB.'16/');
-            define('ICO_24', ICONS_WEB.'24/');
-            define('ICO_32', ICONS_WEB.'32/');
-            define('ICO_64', ICONS_WEB.'64/');
-            define('ICO_128', ICONS_WEB.'128/');
-            define('ICO_256', ICONS_WEB.'256/');
-            
-            require_once(CHOCALA_DIR.'base/Autoload.php');
-            
+            define('LAYOUTS_DIR', CONTENT_DIR . 'layouts' . DIRECTORY_SEPARATOR);
+            define('BARS_DIR', CONTENT_DIR . 'bars' . DIRECTORY_SEPARATOR);
+            define('EMAILS_DIR', CONTENT_DIR . 'emails' . DIRECTORY_SEPARATOR);
+
+            define('TEMPLATES_DIR', CONTENT_DIR . 'templates' . DIRECTORY_SEPARATOR);
+            define('RTC_DIR', CONTENT_DIR . 'rtcContents' . DIRECTORY_SEPARATOR);
+
+            // Resources directories (public access)
+            define('PUBLIC_DIR', APP_DIR . 'public' . DIRECTORY_SEPARATOR);
+            define('IMG_DIR', PUBLIC_DIR . 'images' . DIRECTORY_SEPARATOR);
+            define('FILES_DIR', PUBLIC_DIR . 'files' . DIRECTORY_SEPARATOR);
+
+            // URL paths for public Web access
+            define('WEB_ROOT',
+//                (isset($_SERVER['REQUEST_SCHEME']) ? $_SERVER['REQUEST_SCHEME'] : "https") .
+//                '://' . $_SERVER['HTTP_HOST'] .
+                'http://' . $_SERVER['HTTP_HOST'] .
+                ($_SERVER['SCRIPT_NAME'] != '' ?
+                    (str_replace('index.php', '', $_SERVER['SCRIPT_NAME'])) :
+                    '/'));
+
+            // URL resources
+            define('FONTS_WEB', WEB_ROOT . 'fonts/');
+            define('CSS_WEB', WEB_ROOT . 'css/');
+            define('JS_WEB', WEB_ROOT . 'js/');
+            define('IMG_WEB', WEB_ROOT . 'images/');
+            define('FILES_WEB', WEB_ROOT . 'files/');
+            define('LIBS_WEB', WEB_ROOT . 'libs/');
+
+            define('JQUERY_WEB', JS_WEB . 'jquery/');
+
+            define('ICONS_WEB', IMG_WEB . 'icons/');
+            define('ICO_16', ICONS_WEB . '16/');
+            define('ICO_24', ICONS_WEB . '24/');
+            define('ICO_32', ICONS_WEB . '32/');
+            define('ICO_64', ICONS_WEB . '64/');
+            define('ICO_128', ICONS_WEB . '128/');
+            define('ICO_256', ICONS_WEB . '256/');
+
+            // Autoloadings
+            require_once(VENDOR_DIR . 'autoload.php');
+            require_once('ChocalaAutoload.php');
+
             self::$frameworkInitialized = true;
         }
     }
-    
+
     public static function applicationInit()
     {
-        if(!self::$applicationInitialized){
-            //TODO: change the DBNAME source from Params to another conf
-            if(!defined('DOMAIN')){
-                $portlsW = explode('.', $_SERVER['HTTP_HOST']);
-                unset($portlsW[0]);
-                define('DOMAIN', implode('.', $portlsW));
-            }
-            try{
-                set_include_path(DOMAIN_DIR.PATH_SEPARATOR.get_include_path());
-                if(file_exists(MAPPING_DIR.'classmap-conf.php')){
-                    spl_autoload_unregister('Autoload::loading');
-                    require_once(ORM_DIR.'propel'.DIRECTORY_SEPARATOR.
-                            'runtime/'.DIRECTORY_SEPARATOR.'Propel.php');
-                    Autoload::initializePropelDomain(MAPPING_DIR.
-                            'classmap-conf.php');
-                    spl_autoload_register('Autoload::loading');
-                    Propel::init(ORM_DIR.'DBConfig.php');
-                }
-            }catch(Exception $e){
+        if (!self::$applicationInitialized) {
+            date_default_timezone_set(Configs::value('app.default.timezone'));
+            DBConfig::init();
+//            require_once(DATABASE_DIR.'generator/config.php');
+            try {
+//                set_include_path(BASE_DIR.PATH_SEPARATOR.get_include_path());
+//                set_include_path(DOMAIN_DIR.PATH_SEPARATOR.get_include_path());
+            } catch (\Exception $e) {
                 echo $e->getMessage();
             }
-            session_start();
+            //TODO: Apply an App Session customized settings (session id, session name)
+            //session_start();
+            Session::instance();
+            //TODO: Apply an App i18n customized settings (i18n dynamic)
             self::$applicationInitialized = true;
         }
     }

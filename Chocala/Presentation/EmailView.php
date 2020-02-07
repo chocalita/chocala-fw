@@ -1,5 +1,4 @@
 <?php
-require_once('IView.php');
 /**
  * Description of EmailView
  *
@@ -43,7 +42,7 @@ class EmailView implements IView
      * @param mixed $var
      * @return void
      */
-    public function setVar($nom, $var)
+    public function setVar($name, $var)
     {
         $this->vars[$name] = $var;
     }
@@ -54,10 +53,7 @@ class EmailView implements IView
      */
     public function renderTemplate()
     {
-        ob_start();
-        require_once(EMAILS_DIR.$this->template.Chocala::TEMPLATE_EXTENSION);
-        $emailContent = ob_get_contents();
-        ob_end_clean();
+        $emailContent = file_get_contents(EMAILS_DIR.$this->template.Chocala::TEMPLATE_EXTENSION);
         return $emailContent;
     }
 
@@ -67,7 +63,7 @@ class EmailView implements IView
      * @param string $module
      * @return string
      */
-    public function renderView($template, $module)
+    public function renderView($template, $module='')
     {
         $this->template = $template;
         return $this->renderTemplate();

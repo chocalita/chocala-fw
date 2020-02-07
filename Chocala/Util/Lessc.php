@@ -1,16 +1,4 @@
 <?php
-
-/**
- * lessphp v0.3.8
- * http://leafo.net/lessphp
- *
- * LESS css compiler, adapted from http://lesscss.org
- *
- * Copyright 2012, Leaf Corcoran <leafot@gmail.com>
- * Licensed under MIT or GPLv3, see LICENSE
- */
-
-
 /**
  * The less compiler and parser.
  *
@@ -37,7 +25,9 @@
  * The `lessc_formatter` takes a CSS tree, and dumps it to a formatted string,
  * handling things like indentation.
  */
-class lessc {
+class Lessc
+{
+
 	static public $VERSION = "v0.3.8";
 	static protected $TRUE = array("keyword", "true");
 	static protected $FALSE = array("keyword", "false");
@@ -2016,12 +2006,12 @@ class lessc_parser {
 
 		if (!self::$operatorString) {
 			self::$operatorString =
-				'('.implode('|', array_map(array('lessc', 'preg_quote'),
+				'('.implode('|', array_map(array('Lessc', 'preg_quote'),
 					array_keys(self::$precedence))).')';
 
-			$commentSingle = lessc::preg_quote(self::$commentSingle);
-			$commentMultiLeft = lessc::preg_quote(self::$commentMultiLeft);
-			$commentMultiRight = lessc::preg_quote(self::$commentMultiRight);
+			$commentSingle = Lessc::preg_quote(self::$commentSingle);
+			$commentMultiLeft = Lessc::preg_quote(self::$commentMultiLeft);
+			$commentMultiRight = Lessc::preg_quote(self::$commentMultiRight);
 
 			self::$commentMulti = $commentMultiLeft.'.*?'.$commentMultiRight;
 			self::$whitePattern = '/'.$commentSingle.'[^\n]*\s*|('.self::$commentMulti.')\s*|\s+/Ais';
@@ -2246,7 +2236,7 @@ class lessc_parser {
 	protected function isDirective($dirname, $directives) {
 		// TODO: cache pattern in parser
 		$pattern = implode("|",
-			array_map(array("lessc", "preg_quote"), $directives));
+			array_map(array("Lessc", "preg_quote"), $directives));
 		$pattern = '/^(-[a-z-]+-)?(' . $pattern . ')$/i';
 
 		return preg_match($pattern, $dirname);
@@ -2271,7 +2261,7 @@ class lessc_parser {
 
 		if (count($values) == 0) return false;
 
-		$exps = lessc::compressList($values, ' ');
+		$exps = Lessc::compressList($values, ' ');
 		return true;
 	}
 
@@ -2369,7 +2359,7 @@ class lessc_parser {
 
 		if (count($values) == 0) return false;
 
-		$value = lessc::compressList($values, ', ');
+		$value = Lessc::compressList($values, ', ');
 		return true;
 	}
 
@@ -2531,7 +2521,7 @@ class lessc_parser {
 		$this->eatWhiteDefault = false;
 
 		$stop = array("'", '"', "@{", $end);
-		$stop = array_map(array("lessc", "preg_quote"), $stop);
+		$stop = array_map(array("Lessc", "preg_quote"), $stop);
 		// $stop[] = self::$commentMulti;
 
 		if (!is_null($rejectStrs)) {
@@ -2609,7 +2599,7 @@ class lessc_parser {
 
 		// look for either ending delim , escape, or string interpolation
 		$patt = '([^\n]*?)(@\{|\\\\|' .
-			lessc::preg_quote($delim).')';
+			Lessc::preg_quote($delim).')';
 
 		$oldWhite = $this->eatWhiteDefault;
 		$this->eatWhiteDefault = false;
@@ -3031,7 +3021,7 @@ class lessc_parser {
 		}
 
 		if (!isset(self::$literalCache[$what])) {
-			self::$literalCache[$what] = lessc::preg_quote($what);
+			self::$literalCache[$what] = Lessc::preg_quote($what);
 		}
 
 		return $this->match(self::$literalCache[$what], $m, $eatWhitespace);
@@ -3071,7 +3061,7 @@ class lessc_parser {
 		} else {
 			$validChars = $allowNewline ? "." : "[^\n]";
 		}
-		if (!$this->match('('.$validChars.'*?)'.lessc::preg_quote($what), $m, !$until)) return false;
+		if (!$this->match('('.$validChars.'*?)'.Lessc::preg_quote($what), $m, !$until)) return false;
 		if ($until) $this->count -= strlen($what); // give back $what
 		$out = $m[1];
 		return true;

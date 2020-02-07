@@ -1,10 +1,8 @@
 <?php
-require_once('ISingleton.php');
-require_once('Param.php');
 /**
  * Params Class (Singleton)
  * SINGLETON Pattern
- * @author ctm
+ * @author ypra
  */
 class Params implements ISingleton
 {
@@ -62,7 +60,8 @@ class Params implements ISingleton
 
     private function __construct()
     {
-        $this->xmlObj = simplexml_load_file(BIN_DIR.self::PARAMS_FILE);
+        $paramsFile = self::getFileDir(self::PARAMS_FILE);
+        $this->xmlObj = simplexml_load_file($paramsFile);
         $params = $this->xmlObj->children();
         foreach($params as $param){
             $name = utf8_decode(trim($param['name']));
@@ -92,6 +91,19 @@ class Params implements ISingleton
             }
             $this->paramsList[$name] = new Param($name, $value, $type, $access,
                     $description, $options);
+        }
+    }
+
+    private static function getFileDir($paramsFile)
+    {
+        if(file_exists(realpath($paramsFile))){
+            return realpath($paramsFile);
+        } else if (file_exists(realpath(BIN_DIR.$paramsFile))) {
+            return realpath(BIN_DIR.$paramsFile);
+        } else {
+            throw new ChocalaException(
+                ChocalaErrors::CONFIGURATION_FILE_NOT_FOUND.": ".
+                $paramsFile);
         }
     }
 

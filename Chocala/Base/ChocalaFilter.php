@@ -4,7 +4,8 @@
  *
  * @author ypra
  */
-class ChocalaFilter implements IFilter{
+class ChocalaFilter implements IFilter
+{
 
     protected $moduleName = null;
 
@@ -21,6 +22,18 @@ class ChocalaFilter implements IFilter{
         $this->controllerName = $glbs->controller();
         $this->actionName = $glbs->action();
         $this->id = $glbs->id();
+    }
+
+    /**
+     * 
+     * @param array $arrayMap
+     * @param boolean $permanently
+     * @return void
+     */
+    final public function redirectTo($arrayMap, $permanently = false)
+    {
+        $URI = URI::createURLTo($arrayMap);
+        Headers::instance()->redirectTo($URI, $permanently);
     }
 
     public function beforeAction(){}

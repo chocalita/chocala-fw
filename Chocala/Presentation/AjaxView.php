@@ -1,5 +1,4 @@
 <?php
-require_once('IView.php');
 /**
  * Description of AjaxView
  *
@@ -87,7 +86,10 @@ class AjaxView implements IView
         return $htmlContent;
     }
 
-    public function renderView($template)
+    /**
+     * @param $template
+     */
+    public function renderView($template, $module)
     {
         Headers::instance()->changeContentTypeTo(ContentType
                 ::TYPE_JAVASCRIPT, ContentType::CHARSET_UTF8);

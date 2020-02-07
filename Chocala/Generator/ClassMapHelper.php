@@ -9,9 +9,30 @@ class ClassMapHelper
 
     const TABLE_MAP = 'TableMap';
 
-    const MAP_DIR = 'map';
+    const MAP_DIR = 'Map';
 
     const EXTENSION = '.php';
+
+    /**
+     *
+     * @param string $path
+     * @return array
+     */
+    static public function modules($path)
+    {
+        $modules = array();
+        if(is_dir($path)){
+            if($dh = opendir($path)){
+                while(($file = readdir($dh)) !== false){
+                    if(is_dir($path . $file) && $file!='.' && $file!='..'){
+                        array_push($modules, $file);
+                    }
+                }
+                closedir($dh);
+            }
+        }
+        return $modules;
+    }
 
     /**
      *
@@ -23,9 +44,9 @@ class ClassMapHelper
         $mapDirs = self::mapDirs($path);
         $files = array();
         foreach($mapDirs as $mapDir){
-            if($dh = opendir($mapDir)){ 
+            if($dh = opendir($mapDir)){
                 while(($file = readdir($dh)) !== false){
-                    if(!is_dir($mapDir . $file) && $file!='.' && $file!='..'){ 
+                    if(!is_dir($mapDir . $file) && $file!='.' && $file!='..'){
                         $files[self::className($file)] =
                                 self::packageName($mapDir.$file, $path);
                     }
@@ -47,7 +68,7 @@ class ClassMapHelper
         if(is_dir($path)){
             if($dh = opendir($path)){ 
                 while(($file = readdir($dh)) !== false){
-                    if(is_dir($path . $file) && $file!='.' && $file!='..'){ 
+                    if(is_dir($path . $file) && $file!='.' && $file!='..'){
                         if($file == self::MAP_DIR){
                             array_push($mapDirs, $path.$file.'/');
                         }
@@ -92,7 +113,7 @@ class ClassMapHelper
     static public function columnsFrom($className)
     {
         $columns = array();
-        $classTableMapName = $className.self::TABLE_MAP;
+        $classTableMapName = '\\Map\\'.$className.self::TABLE_MAP;
         $domain = new $className();
         $tableMap = new $classTableMapName();
         foreach($domain->toArray() as $phpName => $val){

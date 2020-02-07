@@ -1,7 +1,5 @@
 <?php
-require_once('IController.php');
-require_once('Configs.php');
-require_once('ChocalaVars.php');
+
 /**
  * Description of WebController
  * @author ypra
@@ -10,7 +8,7 @@ abstract class WebController implements IController
 {
 
     protected $allowedMethods = array();
-    
+
     /**
      *
      * @var boolean
@@ -33,7 +31,7 @@ abstract class WebController implements IController
      * The template file that will be used for generate the page
      * @var string
      */
-    protected $template = null;
+//    protected $template = null;
 
     /**
      * The ID that drive the page
@@ -42,7 +40,29 @@ abstract class WebController implements IController
     protected $id = null;
 
     /**
-     * 
+     * @param $name
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        if (property_exists($this, $name)) {
+            return $this->$name;
+        }
+    }
+
+    /**
+     * @param $name
+     * @param $value
+     */
+    public function __set($name, $value)
+    {
+        if (property_exists($this, $name)) {
+            $this->$name = $value;
+        }
+    }
+
+    /**
+     *
      */
     final public function __construct()
     {
@@ -52,7 +72,7 @@ abstract class WebController implements IController
     }
 
     /**
-     * Initialization of generic operations, configurations or steps for all 
+     * Initialization of generic operations, configurations or steps for all
      * methods of the controller class
      * @return void
      */
@@ -69,22 +89,26 @@ abstract class WebController implements IController
      * Set a variable to view
      * @param string $name
      * @param mixed $value
+     * @return WebController
      */
-    final public function setVar($name, $value)
+    final public function set($name, $value)
     {
         $this->view->setVar($name, $value);
+        return $this;
     }
 
     /**
      * Send directly the content as response from the request page
-     * 
+     *
      * @param string $content
      * @return void
      */
     final public function render($content)
     {
-        $this->view->render($content);
-        $this->rendered = true;
+        if (!$this->rendered) {
+            $this->view->render($content);
+            $this->rendered = true;
+        }
     }
 
     /**
@@ -92,52 +116,70 @@ abstract class WebController implements IController
      * controller and module properties using the layout and template on the
      * view engine
      * @param string $view
-     * @param string $module 
+     * @param string $module
      * @return void
      */
-    final public function renderView($view, $module=null)
+    final public function renderView($view, $module = null)
     {
-        $this->view->renderView(lcfirst($view), $module);
+        if (!$this->rendered) {
+            $this->view->renderView(lcfirst($view), $module);
+            $this->rendered = true;
+        }
+    }
+
+    /**
+     * Generate and display the html code from request page with action,
+     * controller and module properties using the layout and template on the
+     * view engine
+     * @param string $view
+     * @param string $module
+     * @return void
+     */
+    final public function renderViewWithoutLayout($view, $module=null)
+    {
+        $this->view->renderViewWithoutLayout(lcfirst($view), $module);
         $this->rendered = true;
     }
 
     /**
-     * Generate and send a json response encoding the controller's vars from 
+     * Generate and send a json response encoding the controller's vars from
      * request page with action, controller and module
-     * 
+     *
      * @return void
      */
     final public function renderAsJSON()
     {
-        $this->view->renderJSON();
-        $this->rendered = true;
+        if (!$this->rendered) {
+            $this->view->renderJSON();
+            $this->rendered = true;
+        }
     }
 
     /**
-     * 
-     * @param array $arrayMap
+     *
+     * @param array|string $target
      * @param boolean $permanently
      * @return void
      */
-    final public function redirectTo($arrayMap, $permanently = false)
+    final public function redirectTo($target, $permanently = false)
     {
-        $URI = URI::createURLTo($arrayMap);
-        Headers::instance()->redirectTo($URI, $permanently);
+        $urlTarget = is_string($target) ? $target : URI::createURLTo($target);
+        Headers::instance()->redirectTo($urlTarget, $permanently);
     }
 
     /**
      * Routing to default page for request to unexisting pages
-     * 
+     *
      * @return void
      */
     final public function noRoute()
     {
-        $this->setVar('__exceptions', ChocalaErrorsManager::exceptions());
+        $this->set('__exceptions', ChocalaErrorsManager::exceptions());
     }
 
     /**
      * Verify if the action is requested as a allowed method
-     * 
+     *
      * @param string $action
      * @param string $method
      * @return boolean
@@ -145,7 +187,7 @@ abstract class WebController implements IController
     final public function isAllowedMethod($action)
     {
         $method = HttpManager::requestMethod();
-        if(isset($this->allowedMethods[$action])){
+        if (isset($this->allowedMethods[$action])) {
             return strtoupper(trim($this->allowedMethods[$action])) == $method;
         }
         return true;

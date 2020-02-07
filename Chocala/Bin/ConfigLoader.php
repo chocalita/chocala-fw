@@ -7,9 +7,9 @@
 class ConfigLoader
 {
 
-    private $configCoreFiles = array("chocala.properties");
+    private $configCoreFiles = ['chocala.properties', 'default.properties'];
 
-    private $configAppFiles = array("app.properties", "custom.properties");
+    private $configAppFiles = ['app.properties', 'custom.properties'];
 
     /**
      * Single static instance from this class
@@ -45,7 +45,7 @@ class ConfigLoader
 
     private function loadAppConfigs()
     {
-        //TODO: agregar otros archovos de configuracion que sean de la app
+        //TODO: agregar otros archivos de configuracion que sean de la app
         foreach($this->configAppFiles as $configAppFile){
             Configs::readConfig($configAppFile);
         }

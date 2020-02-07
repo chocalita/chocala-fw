@@ -1,6 +1,4 @@
 <?php
-require_once('ChocalaException.php');
-require_once('ChocalaErrorsManager.php');
 /**
  * Represent the core class of Chocala framework
  *
@@ -48,10 +46,9 @@ abstract class ChocalaBase
      * List of packages alias of this framework (MAIN DIRECTORIES)
      * @var array
      */
-    private static $aliasesList = array('Control' => CONTROL_DIR,
-        'Model' => MODEL_DIR, 'View' => VIEW_DIR, 'Alias' => ALIAS_DIR,
-        'Component' => ALIAS_DIR, 'System' => SYSTEM_DIR);
-
+    private static $aliasesList = array('Model' => MODEL_DIR, 'View' => CONTENT_DIR,
+        'Alias' => ALIAS_DIR, 'Component' => ALIAS_DIR, 'System' => SYSTEM_DIR,
+        'Modules' => MODULES_DIR);
 
     /**
      * Import a file or directory by namespace correspondence
@@ -150,7 +147,7 @@ abstract class ChocalaBase
      */
     final public static function classImplements($class, $interface)
     {
-        $rc = new ReflectionClass($class);
+        $rc = new \ReflectionClass($class);
         return $rc->implementsInterface($interface);
     }
 
@@ -162,7 +159,7 @@ abstract class ChocalaBase
      */
     final public static function classHasMethod($class, $method)
     {
-        $rc = new ReflectionClass($class);
+        $rc = new \ReflectionClass($class);
         return $rc->hasMethod($method);
     }
 

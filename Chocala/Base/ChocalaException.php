@@ -1,11 +1,10 @@
 <?php
-require_once('ChocalaErrors.php');
 /**
  * Description of ChocalaException
  *
  * @author ypra
  */
-class ChocalaException extends Exception
+class ChocalaException extends \LogicException
 {
 
     public function __construct($message)

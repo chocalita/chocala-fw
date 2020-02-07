@@ -1,6 +1,4 @@
 <?php
-require_once('ConfigBase.php');
-require_once('Configs.php');
 /**
  * Description of Config
  *

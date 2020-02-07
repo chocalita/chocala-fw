@@ -1,6 +1,4 @@
 <?php
-require_once('ConfigBase.php');
-require_once('Params.php');
 /**
  * Description of Param
  *

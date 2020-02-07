@@ -14,7 +14,18 @@ class Validation
      */
     public static function isInteger($var)
     {
+//        return filter_var($var, FILTER_VALIDATE_INT) !== FALSE;
         return is_numeric($var) && is_integer($var*1);
+    }
+
+    /**
+     *
+     * @param mixed $var
+     * @return boolean
+     */
+    public static function isEmpty($var)
+    {
+        return (trim($var) == '');
     }
 
     /**

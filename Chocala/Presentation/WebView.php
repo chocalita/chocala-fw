@@ -1,5 +1,4 @@
 <?php
-require_once('IView.php');
 /**
  * Description of WebView
  *
@@ -85,6 +84,16 @@ class WebView implements IView
 
     /**
      *
+     * @param string $name
+     * @return mixed
+     */
+    public function getVar($name)
+    {
+        return isset($this->vars[$name]) ? $this->vars[$name] : false;
+    }
+
+    /**
+     *
      * @return string
      */
     protected function viewPath()
@@ -140,7 +149,7 @@ class WebView implements IView
             require(TEMPLATES_DIR_C.$this->tmp."_c".
                     Chocala::TEMPLATE_EXTENSION);
         }else{
-            require(TEMPLATES_DIR.$this->tmp.Chocala::TEMPLATE_EXTENSION);
+            require(MODULES_DIR.$this->tmp.Chocala::TEMPLATE_EXTENSION);
         }
         $htmlContent = ob_get_contents();
         ob_end_clean();
@@ -161,10 +170,32 @@ class WebView implements IView
         $this->renderLayout($this->renderTemplate());
     }
 
+    public function renderViewWithoutLayout($template, $module=null)
+    {
+        $this->module = $module;
+        $this->template = $this->templatePath().lcfirst($template);
+        Headers::instance()->sendHeaders();
+        echo $this->renderTemplate();
+        exit;
+    }
+
+    public function renderViewWithoutLayoutAsString($template, $module=null)
+    {
+        $this->module = $module;
+        $this->template = $this->templatePath().lcfirst($template);
+        return $this->renderTemplate();
+    }
+
     public function renderJSON()
     {
         Headers::instance()->changeContentTypeTo(ContentType::TYPE_JSON);
         Headers::instance()->sendHeaders();
+        foreach($this->vars as $kVar => $vVar){
+            if($vVar instanceof \Propel\Runtime\Util\PropelModelPager ||
+                $vVar instanceof \Propel\Runtime\Collection\ObjectCollection){
+                $this->vars[$kVar] = $vVar->toArray();
+            }
+        }
         echo json_encode($this->vars);
     }
 

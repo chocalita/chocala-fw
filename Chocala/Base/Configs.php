@@ -4,7 +4,7 @@
  * SINGLETON Pattern
  * @author ypra
  */
-class Configs
+class Configs implements ISingleton
 {
 
     /**

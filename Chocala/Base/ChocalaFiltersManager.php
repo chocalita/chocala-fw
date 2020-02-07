@@ -1,5 +1,4 @@
 <?php
-require_once('IFilter.php');
 /**
  * Description of ChocalaFilter
  *

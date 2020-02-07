@@ -4,7 +4,7 @@
  *
  * @author ypra
  */
-class BarView implements IView
+abstract class BarView implements IView
 {
 
     const BAR_SUFFIX = 'BarsHelper';
@@ -61,7 +61,8 @@ class BarView implements IView
     {
         if($module != ''){
             $path = ALIAS_DIR.str_replace('.', DIRECTORY_SEPARATOR,
-                    ChocalaAlias::aliasDir($module).'.view.bars.'.$template);
+                    (ChocalaAlias::aliasDir($module)?: $module).'.view.bars.'.
+                    $template);
         }else{
             $path = BARS_DIR.$template;
         }
@@ -81,10 +82,21 @@ class BarView implements IView
     }
 
     /**
-     * 
+     *
      * @param string $name
-     * @param boolean $cached
-     * @return string
+     * @param mixed $var
+     * @return void
+     */
+    final public function set($name, $var)
+    {
+        $this->setVar($name, $var);
+    }
+
+    /**
+     * @param $name
+     * @param bool $cached
+     * @return mixed
+     * @throws ReflectionException
      */
     static public function renderBar($name, $cached=false)
     {
@@ -100,13 +112,13 @@ class BarView implements IView
                 self::DEFAULT_BAR, $nReplacements).self::BAR_SUFFIX;
             $alias = '';
             if(sizeof($parts)<3){
-                ChocalaBase::import('View.bars.'.$class);
+                Chocala::import('View.bars.'.$class);
             }else{
                 $alias = $parts[sizeof($parts)-3];
-                ChocalaBase::import('Alias.'.ChocalaAlias::aliasDir($alias).
-                        '.view.bars.'.$class);
+                Chocala::import('Alias.'.(ChocalaAlias::aliasDir($alias)?:
+                        $alias).'.view.bars.'.$class);
             }
-            $rc = new ReflectionClass($class);
+            $rc = new \ReflectionClass($class);
             $bar = $rc->newInstance();
             if($rc->hasMethod($barName)){
                 $method = $rc->getMethod($barName);

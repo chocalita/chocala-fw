@@ -1,5 +1,4 @@
 <?php
-require_once('ISingleton.php');
 /**
  * Singleton Registry Interface as variation of Singleton pattern
  * SINGLETON Pattern (SINGLETON REFACTORIZED)
@@ -8,9 +7,7 @@ require_once('ISingleton.php');
  */
 interface ISingletonRegistry extends ISingleton
 {
-    public static function globalVars();
 
-    public static function pageControl();
+    public static function updateRegistry($var, $object);
 
-    public static function userControl();
 }

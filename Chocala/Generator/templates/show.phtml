@@ -4,16 +4,17 @@
 
     <div class="fRight">
         <a href="<?=CodeGenerator::TAG_OPEN_SHORT;?> URI::toPage().'dataList'; <?=CodeGenerator::TAG_CLOSE;?>" class="linkGoBack">Go to data list</a>
-        <a href="<?=CodeGenerator::TAG_OPEN_SHORT;?> URI::toPage().'edit/'.#CLASS_INSTANCE#->getPrimaryKey(); <?=CodeGenerator::TAG_CLOSE;?>" class="linkEdit">Edit #CLASS_NAME#</a>
-        <a href="<?=CodeGenerator::TAG_OPEN_SHORT;?> URI::toPage().'delete/'.#CLASS_INSTANCE#->getPrimaryKey(); <?=CodeGenerator::TAG_CLOSE;?>" class="linkDelete" onclick="return confirm('¿Do you sure to delete this record?');">Delete #CLASS_NAME#</a>
+        <a href="<?=CodeGenerator::TAG_OPEN_SHORT;?> URI::toPage().'edit/'.$#MODEL_NAME#->getPrimaryKey(); <?=CodeGenerator::TAG_CLOSE;?>" class="linkEdit">Edit #MODEL_CLASS_NAME#</a>
+        <a href="<?=CodeGenerator::TAG_OPEN_SHORT;?> URI::toPage().'delete/'.$#MODEL_NAME#->getPrimaryKey(); <?=CodeGenerator::TAG_CLOSE;?>" class="linkDelete" onclick="return confirm('¿Do you sure to delete this record?');">Delete #MODEL_CLASS_NAME#</a>
     </div>
-    <h1>#CLASS_NAME# Details</h1>
+    <h1>#MODEL_CLASS_NAME# Details</h1>
     <hr />
     
     <?php
     foreach($mapedColumns as $columnMap):
-        $camelName = SpecialStrings::camelCase($columnMap->getColumnName());
-        $pascalName = SpecialStrings::pascalCase($columnMap->getColumnName());
+        $camelName = SpecialStrings::camelCase($columnMap->getPhpName());
+        $pascalName = SpecialStrings::pascalCase($columnMap->getPhpName());
+        $capitalizedName = ucwords(strtolower(str_replace('_',' ', $columnMap->getName())));
         if($columnMap->isForeignKey()):
             $relatedClassName = SpecialStrings::camelCase($columnMap->getRelatedTableName());
             $relatedFieldName = SpecialStrings::camelCase($hashColumns[$columnMap->getName()]['field']);
@@ -24,7 +25,7 @@
     <div class="input">
         <label class="name"><?= $relatedClassName;?></label>
         <div class="value">
-            <a href="<?=CodeGenerator::TAG_OPEN_SHORT;?> WEB_ROOT.'<?=$pascalRelatedClassName;?>/show/'.#CLASS_INSTANCE#->get<?= $relatedClassName;?>()->get<?=$relatedColumnName;?>(); <?=CodeGenerator::TAG_CLOSE;?>"><?=CodeGenerator::TAG_OPEN_SHORT;?> #CLASS_INSTANCE#->get<?= $relatedClassName;?>()->get<?= $relatedFieldName;?>(); <?=CodeGenerator::TAG_CLOSE;?></a>
+            <a href="<?=CodeGenerator::TAG_OPEN_SHORT;?> WEB_ROOT.'<?=$pascalRelatedClassName;?>/show/'.$#MODEL_NAME#->get<?= $relatedClassName;?>()->get<?=$relatedColumnName;?>(); <?=CodeGenerator::TAG_CLOSE;?>"><?=CodeGenerator::TAG_OPEN_SHORT;?> $#MODEL_NAME#->get<?= $relatedClassName;?>()->get<?= $relatedFieldName;?>(); <?=CodeGenerator::TAG_CLOSE;?></a>
         </div>
     </div>
         <?php
@@ -32,9 +33,9 @@
         ?>
     
     <div class="input">
-        <label class="name"><?= $camelName;?></label>
+        <label class="name"><?= $capitalizedName;?></label>
         <div class="value">
-            <?=CodeGenerator::TAG_OPEN_SHORT;?> #CLASS_INSTANCE#->get<?= $camelName;?>(); <?=CodeGenerator::TAG_CLOSE;?>
+            <?=CodeGenerator::TAG_OPEN_SHORT;?> $#MODEL_NAME#->get<?= $camelName;?>(); <?=CodeGenerator::TAG_CLOSE;?>
 
         </div>
     </div>

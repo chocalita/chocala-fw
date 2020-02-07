@@ -1,6 +1,4 @@
 <?php
-require_once('IChocalaErrorsManager.php');
-require_once('ISingleton.php');
 /**
  * Description of ChocalaErrorManager
  *

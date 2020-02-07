@@ -1,13 +1,14 @@
 <?php
 require_once('IImage.php');
 require_once('ImageMimeTypes.php');
+
 /**
  *
  * @author ypra
  */
 class Image implements IImage
 {
-
+    const IMG_TMP_PATH = "files" . DIRECTORY_SEPARATOR . "tmp" . DIRECTORY_SEPARATOR;
     /**
      *
      * @var string
@@ -88,9 +89,9 @@ class Image implements IImage
         $this->fileExtension = self::fileExtensionFrom($this->name);
         define('NAMETHUMB', $this->tempName.'oimg');
         define('NAMERESIZE', $this->tempName.'oimg');
-        $tamanios = getimagesize($this->tempName);
-        $this->originalX = $tamanios[0];
-        $this->originalY = $tamanios[1];
+        $sizes = getimagesize($this->tempName);
+        $this->originalX = $sizes[0];
+        $this->originalY = $sizes[1];
     }
 
     /**
@@ -100,12 +101,7 @@ class Image implements IImage
      */
     public static function fileExtensionFrom($filename)
     {
-        $extension = '';
-        $partes = explode('.', $filename);
-        if(sizeof($partes) > 0){
-            $extension = $partes[sizeof($partes)-1];
-        }
-        return $extension;
+        return pathinfo($filename)['extension'];
     }
 
     /**
@@ -140,30 +136,23 @@ class Image implements IImage
      *
      * @param string $filename
      * @param resource $resource
-     * @return void
+     * @return bool
      */
     public function saveAs($filename, $resource = null)
     {
         if($resource === null){
             $resource = $this->image();
         }
-        //$filename.= '.'.$this->fileExtension();
         switch($this->mimeExtension){
             case ImageMimeTypes::BMP_EXTENSION:
-                imagewbmp($resource, $filename);
-                break;
-            case ImageMimeTypes::GIF_EXTENSION:
-                imagegif($resource, $filename);
-                break;
+                return imagewbmp($resource, $filename);
             case ImageMimeTypes::JPG_EXTENSION:
-                imagejpeg($resource, $filename);
-                break;
+                return imagejpeg($resource, $filename);
             case ImageMimeTypes::PNG_EXTENSION:
-                imagepng($resource, $filename);
-                break;
+                return imagepng($resource, $filename);
+            case ImageMimeTypes::GIF_EXTENSION:
             default:
-                imagegif($resource, $filename);
-                break;
+                return imagegif($resource, $filename);
         }
     }
 
@@ -171,32 +160,65 @@ class Image implements IImage
      *
      * @param string $filename
      * @param int $maxSize
-     * @return void
+     * @return bool
      */
     public function saveResizeMax($filename, $maxSize = 0)
     {
         $img = $this->image();
-        $imgSave = $img;
+        $imgResource = $img;
         if(($this->originalX > $maxSize || $this->originalY > $maxSize)
-                && $maxSize > 0){
+            && $maxSize > 0){
             $maxLOf = $maxSize;
-            $frOf = 1;
-            if($this->originalX > $this->originalY){
-                $frOf = $maxLOf / $this->originalX;
-            }else{
-                $frOf = $maxLOf / $this->originalY;
-            }
+            $frOf = $maxLOf / (($this->originalX > $this->originalY)?
+                    $this->originalX: $this->originalY);
             $xImgOf = $this->originalX * $frOf;
             $yImgOf = $this->originalY * $frOf;
-            $imgOf = imagecreatetruecolor($xImgOf, $yImgOf);
-            imagecopyresampled($imgOf, $img, 0, 0, 0, 0, $xImgOf, $yImgOf,
+            $newImg = imagecreatetruecolor($xImgOf, $yImgOf);
+            imagecopyresampled($newImg, $img, 0, 0, 0, 0, $xImgOf, $yImgOf,
             $this->originalX, $this->originalY);
-            $imgSave = $imgOf;
+            $imgResource = $newImg;
         }
-        $this->saveAs($filename, $imgSave);
+        return $this->saveAs($filename, $imgResource);
+    }
+
+    /**
+     * @param string $filename
+     * @param int $maxSize
+     * @return bool
+     */
+    public function saveCropSquare($filename, $maxSize = 0)
+    {
+        $img = $this->image();
+        $maxSize = $maxSize > 0? $maxSize: min($this->originalX, $this->originalY);
+        $fr = $maxSize / (($this->originalX < $this->originalY)?
+                $this->originalX: $this->originalY);
+        $xSig = $this->originalX * $fr;
+        $ySig = $this->originalY * $fr;
+        $xCrop = ($xSig > ($maxSize-1))? round(($xSig - $maxSize) / 2): 0;
+        $yCrop = ($ySig > ($maxSize-1))? round(($ySig - $maxSize) / 2): 0;
+        $xIni = $xCrop;
+        $yIni = $yCrop;
+        $xFin = $xSig-$xCrop;
+        $yFin = $ySig-$yCrop;
+        $xIniOri = $xIni/$fr;
+        $yIniOri = $yIni/$fr;
+        $xFinOri = $xFin/$fr;
+        $yFinOri = $yFin/$fr;
+        $newImg = imagecreatetruecolor($xFin-$xIni, $yFin-$yIni);
+        imagecopyresampled($newImg, $img, 0, 0, $xIniOri, $yIniOri,
+            $xFin, $yFin, $xFinOri,$yFinOri);
+        $imgResource = $newImg;
+        return $this->saveAs($filename, $imgResource);
+    }
+
+    public function saveCropTo($filename, $width = 0, $height = 0)
+    {
+        //TODO: Implements crop method
+        echo 'Implement crop method'; exit();
     }
 
     //TODO review the after code content
+    
     /**
      *
      * @param int $newSize
@@ -204,22 +226,13 @@ class Image implements IImage
      */
     public function cropTo($newSize)
     {
-        $img = $this->image();
+        $resource = $this->image();
         $maxSize = $newSize;
-        $fr = 1;
-        if($this->originalSizeX < $this->originalSizeY){
-            $fr = $maxSize/$this->originalSizeX;
-        }else{
-            $fr = $maxSize/$this->originalSizeY;
-        }
-        $xSig = $this->originalSizeX * $fr;
-        $ySig = $this->originalSizeY * $fr;
-        if($xSig > ($maxSize-1)){
-            $xCrop = round(($xSig - $maxSize) / 2);
-        }
-        if($ySig >($maxSize-1)){
-            $yCrop = round(($ySig - $maxSize) / 2);
-        }
+        $fr = $maxSize / (($this->originalX < $this->originalY)? $this->originalX: $this->originalY);
+        $xSig = $this->originalX * $fr;
+        $ySig = $this->originalY * $fr;
+        $xCrop = ($xSig > ($maxSize-1))? round(($xSig - $maxSize) / 2): 0;
+        $yCrop = ($ySig > ($maxSize-1))? round(($ySig - $maxSize) / 2): 0;
         $xIni = $xCrop;
         $yIni = $yCrop;
         $xFin = $xSig-$xCrop;
@@ -229,7 +242,7 @@ class Image implements IImage
         $xFinOri = $xFin/$fr;
         $yFinOri = $yFin/$fr;
         $thumb = imagecreatetruecolor($xFin-$xIni, $yFin-$yIni);
-        imagecopyresampled($thumb, $img, 0, 0, $xIniOri, $yIniOri, $xFin, $yFin, $xFinOri,$yFinOri);
+        imagecopyresampled($thumb, $resource, 0, 0, $xIniOri, $yIniOri, $xFin, $yFin, $xFinOri,$yFinOri);
         switch($this->mimeExtension){
             case ImageMimeTypes::BMP_EXTENSION:
                 imagewbmp($thumb, NAMETHUMB);
@@ -247,7 +260,7 @@ class Image implements IImage
                 imagegif($thumb, NAMETHUMB);
                 break;
         }
-        //todo simplyficate the get of image's content
+        //TODO: simplyficate the get of image's content
         $fp = fopen(NAMETHUMB, "rb");
         $tthumb = fread($fp, filesize(NAMETHUMB));
         fclose($fp);
@@ -331,6 +344,36 @@ class Image implements IImage
         }
         file_put_contents($dir.$fileName,file_get_contents(NAMERESIZE));
         @unlink(NAMERESIZE);
+    }
+
+    public static function createTmpImageFromText($text, $filePath)
+    {
+        try {
+            $image = imagecreatetruecolor(150, 30) or die("Cannot Initialize new GD image stream");
+            $backgroundColor = imagecolorallocate($image, 255, 255, 255);
+            $lineColor = imagecolorallocate($image, 64, 64, 64);
+            $pixelColor = imagecolorallocate($image, 244, 244, 244);
+            imagefilledrectangle($image, 0, 0, 150, 30, $backgroundColor);
+            for ($i = 0; $i < 1000; $i++) {
+                imagesetpixel($image, rand() % 150, rand() % 30, $pixelColor);
+            }
+            $textColor = imagecolorallocate($image, 0, 0, 0);
+            $n = strlen($text);
+            for ($i = 0; $i < $n; $i++) {
+                $letter = $text[$i];
+                imagestring($image, 9, 15 + ($i * 30), 7, $letter, $textColor);
+            }
+//            $filePath = PUBLIC_DIR . self::IMG_TMP_PATH . $filePath . ".png";
+            imagepng($image, $filePath);
+            return true; //WEB_ROOT . self::IMG_TMP_PATH . $filePath . ".png";
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public static function deleteTmpImage($filePath)
+    {
+        @unlink($filePath);
     }
 
 }

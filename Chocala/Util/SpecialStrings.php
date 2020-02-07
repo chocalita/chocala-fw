@@ -10,12 +10,12 @@ class SpecialStrings
     /**
      * Set of lowercase
      */
-    const LOWERCASE_SET = 'abcdefghijklmnñopqrstuvwxyz';
+    const LOWERCASE_SET = 'abcdefghijklmnopqrstuvwxyz';
 
     /**
      * Set of uppercase
      */
-    const UPPERCASE_SET = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ';
+    const UPPERCASE_SET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
     /**
      * Set of lowercase asn uppercaser letters from a generated password
@@ -42,29 +42,26 @@ class SpecialStrings
     }
 
     /**
-     *
+     * @param int $length
      * @return string
      */
-    public static function generatePassword()
+    public static function generateHash($length = 8)
     {
-        $str = str_shuffle(self::PASSWORD_SET);
-        $password = substr($str, 0, 8);
-        return $password;
+        $hash = '';
+        $set = str_shuffle(self::PASSWORD_SET);
+        for($i=0; $i<$length; $i++){
+            $hash.= $set[rand(0,30)];
+        }
+        return $hash;
     }
 
     /**
      *
      * @return string
      */
-    public static function generarUsername()
+    public static function generateUsername()
     {
-        do{
-            $username = rand(1100, 1299).rand(0,9).rand(0,9).rand(0,9).rand(0,9);
-            $c = new Criteria();
-            $c->add(ChoUserPeer::USERNAME, $username);
-            $existente = ChoUserPeer::doSelectOne($c);
-        }while(is_object($existente));
-        return $username;
+        return rand(1100, 1299).rand(0,9).rand(0,9).rand(0,9).rand(0,9);
     }
 
     /**
@@ -107,11 +104,16 @@ class SpecialStrings
         $newText= strtr($text, $table);
         $newText = trim($newText);
         $spacer = "-";
-        $newText = trim(ereg_replace("[^ A-Za-z0-9_]", " ", $newText));
-        $newText = ereg_replace("[ \t\n\r]+", $spacer, $newText);
+//        $newText = trim(ereg_replace("[^ A-Za-z0-9_]", " ", $newText));
+//        $newText = ereg_replace("[ \t\n\r]+", $spacer, $newText);
+
+        $clean_name = strtr($newText, array('Š' => 'S','Ž' => 'Z','š' => 's','ž' => 'z','Ÿ' => 'Y','À' => 'A','Á' => 'A','Â' => 'A','Ã' => 'A','Ä' => 'A','Å' => 'A','Ç' => 'C','È' => 'E','É' => 'E','Ê' => 'E','Ë' => 'E','Ì' => 'I','Í' => 'I','Î' => 'I','Ï' => 'I','Ñ' => 'N','Ò' => 'O','Ó' => 'O','Ô' => 'O','Õ' => 'O','Ö' => 'O','Ø' => 'O','Ù' => 'U','Ú' => 'U','Û' => 'U','Ü' => 'U','Ý' => 'Y','à' => 'a','á' => 'a','â' => 'a','ã' => 'a','ä' => 'a','å' => 'a','ç' => 'c','è' => 'e','é' => 'e','ê' => 'e','ë' => 'e','ì' => 'i','í' => 'i','î' => 'i','ï' => 'i','ñ' => 'n','ò' => 'o','ó' => 'o','ô' => 'o','õ' => 'o','ö' => 'o','ø' => 'o','ù' => 'u','ú' => 'u','û' => 'u','ü' => 'u','ý' => 'y','ÿ' => 'y'));
+        $clean_name = strtr($clean_name, array('Þ' => 'TH', 'þ' => 'th', 'Ð' => 'DH', 'ð' => 'dh', 'ß' => 'ss', 'Œ' => 'OE', 'œ' => 'oe', 'Æ' => 'AE', 'æ' => 'ae', 'µ' => 'u'));
+        $newText = preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $clean_name);
+
         $newText = str_replace(" ", $spacer, $newText);
-        $newText = ereg_replace("[ _]+", "-", $newText);
-        $newText = ereg_replace("[ -]+", "-", $newText);
+//        $newText = ereg_replace("[ _]+", "-", $newText);
+//        $newText = ereg_replace("[ -]+", "-", $newText);
         if($lowercase){
             $newText = strtolower($newText);
         }
@@ -148,5 +150,7 @@ class SpecialStrings
         //TODO: optimize underscore transformation
         return str_replace(' ', '_', $text);
     }
+
+
 
 }

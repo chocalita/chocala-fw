@@ -15,7 +15,11 @@ class CodeGenerator
 
     const MAIN_CLASS = 'index';
 
-    const SUFFIX_CLASS = 'Controller';
+    const SERVICE_SUFFIX = 'Service';
+
+    const SERVICE_EXTENSION = '.php';
+
+    const CONTROLLER_SUFFIX = 'Controller';
 
     const CONTROLLER_EXTENSION = '.php';
 
@@ -33,8 +37,16 @@ class CodeGenerator
 
     const VIEW_FILE_EDIT = 'edit';
 
+    const VIEW_FILE_FORM = 'form';
+
     const CODE_TEMPLATE_FILE = 'template.gen';
 
+    /**
+     *
+     * @var type 
+     */
+    public static $views = array('dataList', 'show', 'create', 'edit', 'form');
+            
     /**
      * 
      * @return string
@@ -67,9 +79,21 @@ class CodeGenerator
      * @param string $module
      * @return string
      */
-    public static function controllerPath($module='')
+    public static function modelPath($modelName, $module='')
     {
-        return CONTROL_DIR.($module!=''? $module.DIRECTORY_SEPARATOR: '');
+        return MODULES_DIR.($module!=''? $module.DIRECTORY_SEPARATOR: '').
+            lcfirst($modelName).DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     *
+     * @param string $module
+     * @return string
+     */
+    public static function controllerPath($controllerName, $module='')
+    {
+        return MODULES_DIR.($module!=''? $module.DIRECTORY_SEPARATOR: '').
+            lcfirst($controllerName).DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -80,8 +104,8 @@ class CodeGenerator
      */
     public static function viewsPath($className, $module='')
     {
-        return TEMPLATES_DIR.($module!=''? $module.DIRECTORY_SEPARATOR: '').
-                lcfirst($className).DIRECTORY_SEPARATOR;
+        return MODULES_DIR.($module!=''? $module.DIRECTORY_SEPARATOR: '').
+            lcfirst($className).DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -91,7 +115,7 @@ class CodeGenerator
      */
     public static function controllerName($name)
     {
-        return ucfirst($name).self::SUFFIX_CLASS;
+        return ucfirst($name).self::CONTROLLER_SUFFIX;
     }
 
     /**
@@ -116,32 +140,50 @@ class CodeGenerator
     /**
      * 
      * @param string $className
+     * @param string $modelName
      * @return array
      */
-    public static function generateReplacements($className)
+    public static function generateReplacements($className, $modelName='')
     {
         $classAsPreffix = lcfirst($className);
         return array(
             '#CLASS_NAME#' => ucfirst($className),
             '#CLASS_PAGER#' => "\${$classAsPreffix}Pager",
             '#CLASS_PAGER_TO_VIEW#' => "{$classAsPreffix}Pager",
-            '#CLASS_INSTANCE#' => "\${$classAsPreffix}Instance",
-            '#CLASS_INSTANCE_TO_VIEW#' => "{$classAsPreffix}Instance"
+            '#CLASS_INSTANCE#' => "\${$classAsPreffix}",
+            '#CLASS_INSTANCE_TO_VIEW#' => "{$classAsPreffix}",
+//            '#CLASS_INSTANCE#' => "\${$classAsPreffix}Instance",
+//            '#CLASS_INSTANCE_TO_VIEW#' => "{$classAsPreffix}Instance",
+            '#MODEL_CLASS_NAME#' => $modelName!=''? ucfirst($modelName): ucfirst($className),
+            '#MODEL_NAME#' => $modelName!=''? lcfirst($modelName): lcfirst($className)
         );
     }
 
     /**
      * 
+     * @param string $modelName
      * @param string $module
      * @return boolean
      */
-    public static function createControllerDirectory($module='')
+    public static function createModelDirectory($modelName, $module='')
     {
-        if($module != ''){
-            $moduleViewsPath = self::controllerPath($module);
-            if(!file_exists($moduleViewsPath)){
-                return mkdir($moduleViewsPath);
-            }
+        $modelPath = self::modelPath($modelName, $module);
+        if(!file_exists($modelPath)){
+            return mkdir($modelPath);
+        }
+        return true;
+    }
+
+    /**
+     *
+     * @param string $module
+     * @return boolean
+     */
+    public static function createControllerDirectory($controllerName, $module='')
+    {
+        $moduleControllerPath = self::controllerPath($controllerName, $module);
+        if(!file_exists($moduleControllerPath)){
+            return mkdir($moduleControllerPath);
         }
         return false;
     }
@@ -167,9 +209,10 @@ class CodeGenerator
      * @param string $module
      * @return boolean
      */
-    public static function generateController($mapedHash, $module='')
+    public static function generateService($mapedHash, $module='')
     {
         $className = $mapedHash['className'];
+        $modelName = $mapedHash['modelName'];
         $mapedColumns = isset($mapedHash['mapedColumns'])?
                 $mapedHash['mapedColumns']:
             ClassMapHelper::columnsFrom($className);
@@ -179,19 +222,62 @@ class CodeGenerator
                 }, array_filter($mapedColumns, function($obj){
                     return !$obj->isPrimaryKey() && !$obj->isForeignKey();
                 }));
+        $pkColumns = array_filter($mapedColumns, function($obj){
+            return $obj->isPrimaryKey();
+        });
         ob_start();
-        include_once self::templatesPath().self::SUFFIX_CLASS.
-                self::CONTROLLER_EXTENSION;
-        $contents = ob_get_contents();
+        include_once self::templatesPath().self::SERVICE_SUFFIX.
+            self::SERVICE_EXTENSION;
+        $content = ob_get_contents();
         ob_end_clean();
-        $replacements = self::generateReplacements($className);
+        $replacements = self::generateReplacements($className, $modelName);
         foreach ($replacements as $kRep => $vRep){
-            $contents = str_replace($kRep, $vRep, $contents);
+            $content = str_replace($kRep, $vRep, $content);
         }
-        $controllerPath = self::controllerPath($module).$className.
-                self::SUFFIX_CLASS.Chocala::CLASS_EXTENSION;
-        self::createControllerDirectory($module);
-        return file_put_contents($controllerPath, $contents);
+        $modelPath = self::modelPath($modelName, $module);
+        $servicePath = $modelPath.ucfirst($modelName).
+            self::SERVICE_SUFFIX.Chocala::CLASS_EXTENSION;
+//        echo $modelPath; exit();
+        self::createModelDirectory($modelName, $module);
+        return file_put_contents($servicePath, $content);
+    }
+
+    /**
+     *
+     * @param string $className
+     * @param string $module
+     * @return boolean
+     */
+    public static function generateController($mapedHash, $module='')
+    {
+        $className = $mapedHash['className'];
+        $modelName = $mapedHash['modelName'];
+        $mapedColumns = isset($mapedHash['mapedColumns'])?
+                $mapedHash['mapedColumns']:
+            ClassMapHelper::columnsFrom($className);
+        $hashColumns = isset($mapedHash['hashColumns'])?
+                $mapedHash['hashColumns']: array_map( function($obj){
+                    return array('maped' => $obj);
+                }, array_filter($mapedColumns, function($obj){
+                    return !$obj->isPrimaryKey() && !$obj->isForeignKey();
+                }));
+        $pkColumns = array_filter($mapedColumns, function($obj){
+            return $obj->isPrimaryKey();
+        });
+        ob_start();
+        include_once self::templatesPath().self::CONTROLLER_SUFFIX.
+                self::CONTROLLER_EXTENSION;
+        $content = ob_get_contents();
+        ob_end_clean();
+        $replacements = self::generateReplacements($className, $modelName);
+        foreach ($replacements as $kRep => $vRep){
+            $content = str_replace($kRep, $vRep, $content);
+        }
+        $modelPath = self::modelPath($modelName, $module);
+        $controllerPath = $modelPath.ucfirst($modelName).
+            self::CONTROLLER_SUFFIX.Chocala::CLASS_EXTENSION;
+        self::createModelDirectory($modelName, $module);
+        return file_put_contents($controllerPath, $content);
     }
 
     /**
@@ -204,6 +290,7 @@ class CodeGenerator
     public static function generateView($view, $mapedHash, $module='')
     {
         $className = $mapedHash['className'];
+        $modelName = $mapedHash['modelName'];
         $mapedColumns = isset($mapedHash['mapedColumns'])?
                 $mapedHash['mapedColumns']:
             ClassMapHelper::columnsFrom($className);
@@ -213,18 +300,21 @@ class CodeGenerator
                 }, array_filter($mapedColumns, function($obj){
                     return !$obj->isPrimaryKey() && !$obj->isForeignKey();
                 }));
+        $pkColumns = array_filter($mapedColumns, function($obj){
+                    return $obj->isPrimaryKey();
+                });
         ob_start();
         include_once self::templatesPath().$view.self::TEMPLATE_EXTENSION;
-        $contents = ob_get_contents();
+        $content = ob_get_contents();
         ob_end_clean();
-        $replacements = self::generateReplacements($className);
+        $replacements = self::generateReplacements($className, $modelName);
         foreach ($replacements as $kRep => $vRep){
-            $contents = str_replace($kRep, $vRep, $contents);
+            $content = str_replace($kRep, $vRep, $content);
         }
-        self::createViewsDirectory($className, $module);
-        $viewPath = self::viewsPath($className, $module).$view.
-                Chocala::TEMPLATE_EXTENSION;
-        return file_put_contents($viewPath, $contents);
+        $modelPath = self::modelPath($modelName, $module);
+        $viewPath = $modelPath.$view.Chocala::TEMPLATE_EXTENSION;
+        self::createModelDirectory($modelName, $module);
+        return file_put_contents($viewPath, $content);
     }
 
     /**
@@ -234,8 +324,7 @@ class CodeGenerator
      */
     public static function generateViews($mapedHash, $module='')
     {
-        $views = array('dataList', 'show', 'create', 'edit');
-        foreach ($views as $view){
+        foreach (self::$views as $view){
             self::generateView($view, $mapedHash, $module);
         }
     }
@@ -288,10 +377,10 @@ class CodeGenerator
 
     /**
      * 
-     * @param string $suffix
+     * @param string $filename
      * @param string $args
      */
-    public static function proccessPropelByPhing($suffix, $arguments=null)
+    public static function proccessPropelByPhing($filename, $arguments=null)
     {
         try {
             /* Setup Phing environment */
@@ -300,7 +389,7 @@ class CodeGenerator
             // this may be NULL, but that's not a big problem.
             Phing::setProperty('phing.home', getenv('PHING_HOME'));
             Phing::setOutputStream(new OutputStream(fopen(MAPPING_DIR.'output'.
-                    DIRECTORY_SEPARATOR.time().'-'.$suffix.'.log', "w")));
+                    DIRECTORY_SEPARATOR.$filename, "w")));
             $buildXmlArray = array('propel', 'generator', 'build.xml');
             $projectDirArray = array('generator', 'mapping');
             $args = array('', '-f',
@@ -328,22 +417,26 @@ class CodeGenerator
 
     /**
      * 
-     * @return void
+     * @return string
      */
     public static function generateSchema()
     {
-        self::proccessPropelByPhing('rev', 'reverse');
+        $filename = time().'-'.'rev.log';
+        self::proccessPropelByPhing($filename, 'reverse');
+        return $filename;
     }
 
     /**
      * 
-     * @return void
+     * @return string
      */
     public static function generateMapping()
     {
+        $filename = time().'-'.'gen.log';
         set_include_path(realpath(ORM_DIR.'propel/generator/lib/').
                 PATH_SEPARATOR.get_include_path());
-        self::proccessPropelByPhing('gen');
+        self::proccessPropelByPhing($filename);
+        return $filename;
     }
 
     
