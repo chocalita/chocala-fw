@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+  <propel>
+    <datasources default="jobs">
+      <datasource id="jobs">
+        <adapter>mysql</adapter>
+        <connection>
+          <dsn>mysql:host=localhost;port=3307;dbname=jobs;charset=UTF8</dsn>
+          <user>root</user>
+          <password></password>
+        </connection>
+      </datasource>
+    </datasources>
+  </propel>
+</config>

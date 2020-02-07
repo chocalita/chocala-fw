@@ -1,5 +1,6 @@
 <?php
-require_once('bin/ChocalaInitVars.php');
+require_once "Bin/ChocalaInitVars.php";
+
 /**
  * Description of ChocalaRunner
  *
@@ -14,6 +15,7 @@ abstract class ChocalaRunner
         ConfigLoader::loadConfigs();
         ChocalaInitVars::applicationInit();
         ChocalaI18N::mainInstance();
+        Flash::initialize();
         FrontController::instance()->route();
     }
 
