@@ -1,0 +1,89 @@
+<div class="sidebar-collapse">
+    <ul class="nav metismenu" id="side-menu">
+        <li class="nav-header">
+            <div class="dropdown profile-element">
+                <?php
+                if(UserControl::isLoggedIn()){
+                ?>
+                <span>
+                    <?php
+                    if($user->getImageMime()) {
+                        ?>
+                        <img alt="image" class="img-circle" src="<?= $user->imageWeb(SysUser::IMG_THUMBNAIL); ?>">
+                        <?php
+                    }else {
+                        ?>
+                        <img alt="image" class="img-circle" src="<?=IMG_WEB?>profile-small.png" />
+                        <?php
+                    }
+                    ?>
+                </span>
+                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                    <span class="clear">
+                        <span class="block m-t-xs"> <strong class="font-bold"><?=$user->person()->completeName(false);?></strong></span>
+                        <span class="text-muted text-xs block">Opciones <b class="caret"></b></span>
+                    </span>
+                </a>
+                <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                    <li><a href="<?=Uri::createURLTo(['uri' => 'admin/user/profile']);?>">Perfil</a></li>
+                    <?php
+                    /*
+                    ?>
+                    <li><a href="<?=Uri::createURLTo(['uri' => 'admin/user/configs']);?>">Configuraciones</a></li>
+                    <li><a href="<?=Uri::createURLTo(['uri' => 'admin/user/messages']);?>">Mensajes</a></li>
+                    <?php
+                    /* */
+                    ?>
+                    <li class="divider"></li>
+                    <li><a href="<?=Uri::createURLTo(['uri' => 'main/system/logout']);?>">Cerrar Sesión</a></li>
+                </ul>
+                <?php
+                }
+                ?>
+            </div>
+            <div class="logo-element">
+                IN+
+            </div>
+        </li>
+
+        <?php
+        $k = 0;
+        $kTotal = sizeof($userPages);
+        foreach($userPages as $userModule):
+            $k++;
+            //$startClass = $k==1? ' start': '';
+            //$lastClass = $k==$kTotal? ' last': '';
+            $openClass = sizeof(array_filter($userModule['uris'], function ($userUri) use (&$page) {
+                return is_object($page) && is_object($page->URIObject()) && $userUri->getId() == $page->URIObject()->getId();
+            }))>0? ' open': '';
+            $activeClass = $openClass!=''? ' active': '';
+            $selectedSpan = $openClass!=''? '<span class="selected"></span>': '';
+            $icon = $userModule['module']? $userModule['module']->getIconClass(): 'fa-th-large';
+            ?>
+            <li class="<?=$activeClass;?>">
+                <a href="javascript:;">
+                    <i class="fa <?=$icon;?>"></i> <span class="nav-label"><?=$userModule['module']->getName();?></span> <span class="fa arrow"></span>
+                </a>
+
+                <ul class="nav nav-second-level">
+                    <?php
+                    foreach($userModule['uris'] as $userUri):
+                        $activeSubmenuClass = is_object($page) && is_object($page->URIObject())? ($userUri->getId() == $page->URIObject()->getId()? 'active': ''): '';
+                        ?>
+                        <li class="<?=$activeSubmenuClass;?>">
+                            <a href="<?=URI::instance()->createURLTo(['module' => $userModule['module']->getUri(), 'uri' => $userUri->getUri()]);?>">
+                                <?=$userUri->getTitle().$openClass;?>
+                            </a>
+                        </li>
+                        <?php
+                    endforeach;
+                    ?>
+                </ul>
+
+            </li>
+        <?php
+        endforeach;
+        ?>
+    </ul>
+
+</div>
