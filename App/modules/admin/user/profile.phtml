@@ -1,0 +1,198 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Perfil</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a href="#">Mi Cuenta</a>
+            </li>
+            <li class="active">
+                <strong>Perfil</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <?= BarView::renderBar('messages'); ?>
+
+    <div class="row">
+
+        <div class="col-lg-5">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-title">
+                    <h5>Información Personal</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="ibox-content no-padding border-left-right">
+                    <div class="pull-right float-e-margins">
+                        <?php if(PageControl::canUpdate()){ ?>
+                            <br />
+                            <a href="<?= URI::toPage().'profileImageForm/'.$user->getId(); ?>" class="btn btn-sm btn-primary btn-rounded" data-toggle="modal" data-target="#ajax-modal-sm">
+                                <i class="fa fa-upload"></i> Subir imagen</a>
+                            &nbsp;
+                        <?php } ?>
+                    </div>
+                    <?php
+                    if($user->getImageMime()) {
+                        ?>
+                        <img alt="image" class="img-responsive" src="<?= $user->imageWeb(SysUser::IMG_MEDIUM); ?>">
+                        <?php
+                    }else {
+                        ?>
+                        <img alt="image" class="img-responsive" src="<?= IMG_WEB; ?>profile-big.png">
+                        <?php
+                    }
+                    ?>
+                </div>
+
+                <div class="ibox-content profile-content">
+
+                    <div class="btn-group">
+                        <?php if(PageControl::canUpdate()){ ?>
+                            <a href="<?= URI::toPage().'editProfile/'.$user->getId(); ?>" class="btn btn-sm btn-primary btn-rounded" data-toggle="modal" data-target="#ajax-modal-lg">
+                                <i class="fa fa-edit"></i> Editar Información Personal</a>
+                        <?php } ?>
+                    </div>
+
+                    <?php include_once('personData.phtml');?>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-title">
+                    <h5>Datos de Usuario</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="ibox-content">
+
+                    <div class="btn-group">
+                        <?php if(PageControl::canUpdate()){ ?>
+                            <a href="<?=URI::toPage().'resetPassword/'.$user->getId();;?>" class="btn btn-sm btn-success btn-rounded" data-toggle="modal" data-target="#ajax-modal-sm">
+                                <i class="fa fa-forward"></i> Enviar datos de acceso</a>
+                        <?php } ?>
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th class="col-md-4">Email:</th>
+                                    <td><?=$user->getEmail();?></td>
+                                </tr>
+                                <tr>
+                                    <th>Username:</th>
+                                    <td><?=$user->getUsername();?></td>
+                                </tr>
+                                <tr>
+                                    <th>Password:</th>
+                                    <td>
+                                        *****
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-title">
+                    <h5>Roles de Usuario</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="ibox-content">
+
+                    <div class="table-responsive">
+                        <?php
+                        $userRols = $user->inOrderRols();
+                        if($userRols->count()>0){
+                            ?>
+                            <table class="table">
+                                <tbody>
+                                <?php
+                                foreach ($userRols as $userRol){
+                                    ?>
+                                    <tr>
+                                        <td><?=$userRol->getName();?></td>
+                                    </tr>
+                                    <?php
+                                }
+                                ?>
+                                </tbody>
+                            </table>
+                            <?php
+                        } else {
+                            ?>
+                            <p class="text-center">
+                                * No se asignaron roles de usuario *
+                            </p>
+                            <?php
+                        }
+                        ?>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DROPZONE -->
+<link href="<?=CSS_WEB;?>plugins/dropzone/basic.css" rel="stylesheet" />
+<link href="<?=CSS_WEB;?>plugins/dropzone/dropzone.css" rel="stylesheet" />
+<script src="<?=JS_WEB;?>plugins/dropzone/dropzone.js"></script>
+<style>
+.dropzone{
+    min-height: 120px;
+}
+.dropzone .dz-default.dz-message{
+    background-image: none;
+    display: none;
+    margin-left: 0;;
+    margin-top: 0;;
+    position: static;
+}
+.dropzone .dz-preview .dz-image {
+    width: 120px;
+    height: 120px;
+}
+.dropzone .dz-default.dz-message{
+    width: 200px;
+}
+.dropzone .dz-preview .dz-details img, .dropzone-previews .dz-preview .dz-details img{
+    /*width: 120px;*/
+    /*height: 120px;*/
+}
+</style>

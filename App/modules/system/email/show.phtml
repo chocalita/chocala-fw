@@ -1,0 +1,158 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Correos Electrónicos</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a href="<?= URI::toPage() ?>">Correos Electrónicos</a>
+            </li>
+            <li class="active">
+                <strong>Correo Electrónico</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <?= BarView::renderBar('messages'); ?>
+
+    <div class="row">
+
+        <div class="col-lg-4">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <div class="btn-group pull-right">
+                        <?php if(PageControl::canUpdate()){ ?>
+                            <a href="<?= URI::toPage().'edit/'.$email->getId(); ?>" class="btn btn-sm btn-warning btn-rounded" data-toggle="modal" data-target="#ajax-modal">
+                                <i class="fa fa-edit"></i> Editar Datos</a>
+                        <?php } ?>
+                    </div>
+                    <h5>Correo Electrónico</h5>
+                    <br />&nbsp;
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+
+                        <div class="form-group">
+                            <label class="col-lg-12 control-label">Código</label>
+                            <div class="col-lg-12">
+                                <p class="form-control-static"><?=$email->getCode();?></p>
+                                <br />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-12 control-label">Nombre</label>
+                            <div class="col-lg-12">
+                                <p class="form-control-static"><?=$email->getName();?></p>
+                                <br />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-12 control-label">Asunto</label>
+                            <div class="col-lg-12">
+                                <p class="form-control-static"><?=$email->getSubject();?></p>
+                                <br />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-12 control-label">Plantilla</label>
+                            <div class="col-lg-12">
+                                <p class="form-control-static"><?=$email->getTemplate()?: "* Sin plantilla";?></p>
+                                <br />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-12 control-label">Descripción</label>
+                            <div class="col-lg-12">
+                                <p class="form-control-static"><?=$email->getDescription();?></p>
+                                <br />
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="ibox-footer text-right">
+                    <a href="<?=URI::toModule().'emailSent/email/'.$email->getId();;?>" class="btn btn-sm btn-success btn-rounded">
+                        <i class="fa fa-mail-forward"></i> Correos enviados</a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-lg-8 animated fadeInRight">
+            <div class="mail-box-header">
+                <div class="pull-right tooltip-demo">
+                    <?php if(PageControl::canUpdate()){ ?>
+                        <a href="<?= URI::toPage().'editMail/'.$email->getId(); ?>" class="btn btn-sm btn-warning btn-rounded">
+                            <i class="fa fa-edit"></i> Editar Correo</a>
+                    <?php } ?>
+                </div>
+
+                <h2>Correo: <?=$email->getName();?></h2>
+
+                <div class="mail-tools tooltip-demo m-t-md">
+                    <h3>
+                        <span class="font-noraml">Asunto: </span><?=$email->getSubject();?>
+                    </h3>
+                    <h5>
+                        <span class="font-normal">From: </span><?=$email->getFromName();?> &lt;<?=$email->getFromEmail();?>&gt;
+                    </h5>
+                    <br />
+                    <h5>
+                        <span class="font-normal">Cc: </span><?=$email->getCc();?>
+                    </h5>
+                    <h5>
+                        <span class="font-normal">Bcc: </span><?=$email->getBcc();?>
+                    </h5>
+                </div>
+            </div>
+            <div class="mail-box">
+
+                <div class="mail-body">
+                    <?=$email->getBody();?>
+                </div>
+
+                <div class="mail-attachment">
+                    <p>
+                        <span><i class="fa fa-paperclip"></i> <?=sizeof($email->getAttachments());?> attachments</span>
+                        <?php
+                        if(sizeof($email->getAttachments()) > 0){
+                        ?>
+                            -
+                            <a href="#" onclick="alert('No implementado')">Descargar todo</a>
+                        <?php
+                        }
+                        ?>
+                    </p>
+
+                    <div class="attachment">
+                        <div class="file-box">
+                            <div class="file">
+                                <a href="#" onclick="alert('No implementado')">
+                                    <span class="corner"></span>
+                                    <div class="file-name">
+                                        Document_2014.doc
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
