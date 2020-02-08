@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<config>
+    <propel>
+        <database>
+            <connections>
+                <connection id="default">
+                    <adapter>mysql</adapter>
+                    <classname>Propel\Runtime\Connection\ConnectionWrapper</classname>
+                    <dsn>mysql:host=localhost;port=3307;dbname=jobs</dsn>
+                    <user>root</user>
+                    <password></password>
+                    <settings>
+                        <charset>utf8</charset>
+                        <queries>
+                            <utf8>SET NAMES utf8 COLLATE utf8_unicode_ci, COLLATION_CONNECTION = utf8_unicode_ci, COLLATION_DATABASE = utf8_unicode_ci, COLLATION_SERVER = utf8_unicode_ci</utf8>
+                        </queries>
+                    </settings>
+                </connection>
+            </connections>
+        </database>
+        <runtime>
+            <defaultConnection>default</defaultConnection>
+            <connection>default</connection>
+        </runtime>
+        <generator>
+            <defaultConnection>default</defaultConnection>
+            <connection>default</connection>
+        </generator>
+    </propel>
+</config>
