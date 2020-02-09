@@ -2,10 +2,6 @@
 
 namespace Base;
 
-use \JobPersona as ChildJobPersona;
-use \JobPersonaQuery as ChildJobPersonaQuery;
-use \JobUserEmpresaSuscrita as ChildJobUserEmpresaSuscrita;
-use \JobUserEmpresaSuscritaQuery as ChildJobUserEmpresaSuscritaQuery;
 use \SysAuth as ChildSysAuth;
 use \SysAuthQuery as ChildSysAuthQuery;
 use \SysEmailSent as ChildSysEmailSent;
@@ -31,8 +27,6 @@ use \SysUserXRolQuery as ChildSysUserXRolQuery;
 use \DateTime;
 use \Exception;
 use \PDO;
-use Map\JobPersonaTableMap;
-use Map\JobUserEmpresaSuscritaTableMap;
 use Map\SysAuthTableMap;
 use Map\SysEmailSentTableMap;
 use Map\SysEntityUserTableMap;
@@ -203,18 +197,6 @@ abstract class SysUser implements ActiveRecordInterface
     protected $modification_date;
 
     /**
-     * @var        ObjectCollection|ChildJobPersona[] Collection to store aggregation of ChildJobPersona objects.
-     */
-    protected $collJobPersonas;
-    protected $collJobPersonasPartial;
-
-    /**
-     * @var        ObjectCollection|ChildJobUserEmpresaSuscrita[] Collection to store aggregation of ChildJobUserEmpresaSuscrita objects.
-     */
-    protected $collJobUserEmpresaSuscritas;
-    protected $collJobUserEmpresaSuscritasPartial;
-
-    /**
      * @var        ObjectCollection|ChildSysAuth[] Collection to store aggregation of ChildSysAuth objects.
      */
     protected $collSysAuths;
@@ -281,18 +263,6 @@ abstract class SysUser implements ActiveRecordInterface
      * @var boolean
      */
     protected $alreadyInSave = false;
-
-    /**
-     * An array of objects scheduled for deletion.
-     * @var ObjectCollection|ChildJobPersona[]
-     */
-    protected $jobPersonasScheduledForDeletion = null;
-
-    /**
-     * An array of objects scheduled for deletion.
-     * @var ObjectCollection|ChildJobUserEmpresaSuscrita[]
-     */
-    protected $jobUserEmpresaSuscritasScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
@@ -1224,10 +1194,6 @@ abstract class SysUser implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->collJobPersonas = null;
-
-            $this->collJobUserEmpresaSuscritas = null;
-
             $this->collSysAuths = null;
 
             $this->collSysEmailSents = null;
@@ -1360,40 +1326,6 @@ abstract class SysUser implements ActiveRecordInterface
                     $affectedRows += $this->doUpdate($con);
                 }
                 $this->resetModified();
-            }
-
-            if ($this->jobPersonasScheduledForDeletion !== null) {
-                if (!$this->jobPersonasScheduledForDeletion->isEmpty()) {
-                    \JobPersonaQuery::create()
-                        ->filterByPrimaryKeys($this->jobPersonasScheduledForDeletion->getPrimaryKeys(false))
-                        ->delete($con);
-                    $this->jobPersonasScheduledForDeletion = null;
-                }
-            }
-
-            if ($this->collJobPersonas !== null) {
-                foreach ($this->collJobPersonas as $referrerFK) {
-                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
-                        $affectedRows += $referrerFK->save($con);
-                    }
-                }
-            }
-
-            if ($this->jobUserEmpresaSuscritasScheduledForDeletion !== null) {
-                if (!$this->jobUserEmpresaSuscritasScheduledForDeletion->isEmpty()) {
-                    \JobUserEmpresaSuscritaQuery::create()
-                        ->filterByPrimaryKeys($this->jobUserEmpresaSuscritasScheduledForDeletion->getPrimaryKeys(false))
-                        ->delete($con);
-                    $this->jobUserEmpresaSuscritasScheduledForDeletion = null;
-                }
-            }
-
-            if ($this->collJobUserEmpresaSuscritas !== null) {
-                foreach ($this->collJobUserEmpresaSuscritas as $referrerFK) {
-                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
-                        $affectedRows += $referrerFK->save($con);
-                    }
-                }
             }
 
             if ($this->sysAuthsScheduledForDeletion !== null) {
@@ -1859,36 +1791,6 @@ abstract class SysUser implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->collJobPersonas) {
-
-                switch ($keyType) {
-                    case TableMap::TYPE_CAMELNAME:
-                        $key = 'jobPersonas';
-                        break;
-                    case TableMap::TYPE_FIELDNAME:
-                        $key = 'job_personas';
-                        break;
-                    default:
-                        $key = 'JobPersonas';
-                }
-
-                $result[$key] = $this->collJobPersonas->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
-            }
-            if (null !== $this->collJobUserEmpresaSuscritas) {
-
-                switch ($keyType) {
-                    case TableMap::TYPE_CAMELNAME:
-                        $key = 'jobUserEmpresaSuscritas';
-                        break;
-                    case TableMap::TYPE_FIELDNAME:
-                        $key = 'job_user_empresa_suscritas';
-                        break;
-                    default:
-                        $key = 'JobUserEmpresaSuscritas';
-                }
-
-                $result[$key] = $this->collJobUserEmpresaSuscritas->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
-            }
             if (null !== $this->collSysAuths) {
 
                 switch ($keyType) {
@@ -2371,18 +2273,6 @@ abstract class SysUser implements ActiveRecordInterface
             // the getter/setter methods for fkey referrer objects.
             $copyObj->setNew(false);
 
-            foreach ($this->getJobPersonas() as $relObj) {
-                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addJobPersona($relObj->copy($deepCopy));
-                }
-            }
-
-            foreach ($this->getJobUserEmpresaSuscritas() as $relObj) {
-                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addJobUserEmpresaSuscrita($relObj->copy($deepCopy));
-                }
-            }
-
             foreach ($this->getSysAuths() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
                     $copyObj->addSysAuth($relObj->copy($deepCopy));
@@ -2484,14 +2374,6 @@ abstract class SysUser implements ActiveRecordInterface
      */
     public function initRelation($relationName)
     {
-        if ('JobPersona' == $relationName) {
-            $this->initJobPersonas();
-            return;
-        }
-        if ('JobUserEmpresaSuscrita' == $relationName) {
-            $this->initJobUserEmpresaSuscritas();
-            return;
-        }
         if ('SysAuth' == $relationName) {
             $this->initSysAuths();
             return;
@@ -2532,506 +2414,6 @@ abstract class SysUser implements ActiveRecordInterface
             $this->initSysUserXRols();
             return;
         }
-    }
-
-    /**
-     * Clears out the collJobPersonas collection
-     *
-     * This does not modify the database; however, it will remove any associated objects, causing
-     * them to be refetched by subsequent calls to accessor method.
-     *
-     * @return void
-     * @see        addJobPersonas()
-     */
-    public function clearJobPersonas()
-    {
-        $this->collJobPersonas = null; // important to set this to NULL since that means it is uninitialized
-    }
-
-    /**
-     * Reset is the collJobPersonas collection loaded partially.
-     */
-    public function resetPartialJobPersonas($v = true)
-    {
-        $this->collJobPersonasPartial = $v;
-    }
-
-    /**
-     * Initializes the collJobPersonas collection.
-     *
-     * By default this just sets the collJobPersonas collection to an empty array (like clearcollJobPersonas());
-     * however, you may wish to override this method in your stub class to provide setting appropriate
-     * to your application -- for example, setting the initial array to the values stored in database.
-     *
-     * @param      boolean $overrideExisting If set to true, the method call initializes
-     *                                        the collection even if it is not empty
-     *
-     * @return void
-     */
-    public function initJobPersonas($overrideExisting = true)
-    {
-        if (null !== $this->collJobPersonas && !$overrideExisting) {
-            return;
-        }
-
-        $collectionClassName = JobPersonaTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collJobPersonas = new $collectionClassName;
-        $this->collJobPersonas->setModel('\JobPersona');
-    }
-
-    /**
-     * Gets an array of ChildJobPersona objects which contain a foreign key that references this object.
-     *
-     * If the $criteria is not null, it is used to always fetch the results from the database.
-     * Otherwise the results are fetched from the database the first time, then cached.
-     * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildSysUser is new, it will return
-     * an empty collection or the current collection; the criteria is ignored on a new object.
-     *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @return ObjectCollection|ChildJobPersona[] List of ChildJobPersona objects
-     * @throws PropelException
-     */
-    public function getJobPersonas(Criteria $criteria = null, ConnectionInterface $con = null)
-    {
-        $partial = $this->collJobPersonasPartial && !$this->isNew();
-        if (null === $this->collJobPersonas || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collJobPersonas) {
-                // return empty collection
-                $this->initJobPersonas();
-            } else {
-                $collJobPersonas = ChildJobPersonaQuery::create(null, $criteria)
-                    ->filterBySysUser($this)
-                    ->find($con);
-
-                if (null !== $criteria) {
-                    if (false !== $this->collJobPersonasPartial && count($collJobPersonas)) {
-                        $this->initJobPersonas(false);
-
-                        foreach ($collJobPersonas as $obj) {
-                            if (false == $this->collJobPersonas->contains($obj)) {
-                                $this->collJobPersonas->append($obj);
-                            }
-                        }
-
-                        $this->collJobPersonasPartial = true;
-                    }
-
-                    return $collJobPersonas;
-                }
-
-                if ($partial && $this->collJobPersonas) {
-                    foreach ($this->collJobPersonas as $obj) {
-                        if ($obj->isNew()) {
-                            $collJobPersonas[] = $obj;
-                        }
-                    }
-                }
-
-                $this->collJobPersonas = $collJobPersonas;
-                $this->collJobPersonasPartial = false;
-            }
-        }
-
-        return $this->collJobPersonas;
-    }
-
-    /**
-     * Sets a collection of ChildJobPersona objects related by a one-to-many relationship
-     * to the current object.
-     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
-     * and new objects from the given Propel collection.
-     *
-     * @param      Collection $jobPersonas A Propel collection.
-     * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildSysUser The current object (for fluent API support)
-     */
-    public function setJobPersonas(Collection $jobPersonas, ConnectionInterface $con = null)
-    {
-        /** @var ChildJobPersona[] $jobPersonasToDelete */
-        $jobPersonasToDelete = $this->getJobPersonas(new Criteria(), $con)->diff($jobPersonas);
-
-
-        $this->jobPersonasScheduledForDeletion = $jobPersonasToDelete;
-
-        foreach ($jobPersonasToDelete as $jobPersonaRemoved) {
-            $jobPersonaRemoved->setSysUser(null);
-        }
-
-        $this->collJobPersonas = null;
-        foreach ($jobPersonas as $jobPersona) {
-            $this->addJobPersona($jobPersona);
-        }
-
-        $this->collJobPersonas = $jobPersonas;
-        $this->collJobPersonasPartial = false;
-
-        return $this;
-    }
-
-    /**
-     * Returns the number of related JobPersona objects.
-     *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct
-     * @param      ConnectionInterface $con
-     * @return int             Count of related JobPersona objects.
-     * @throws PropelException
-     */
-    public function countJobPersonas(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
-    {
-        $partial = $this->collJobPersonasPartial && !$this->isNew();
-        if (null === $this->collJobPersonas || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collJobPersonas) {
-                return 0;
-            }
-
-            if ($partial && !$criteria) {
-                return count($this->getJobPersonas());
-            }
-
-            $query = ChildJobPersonaQuery::create(null, $criteria);
-            if ($distinct) {
-                $query->distinct();
-            }
-
-            return $query
-                ->filterBySysUser($this)
-                ->count($con);
-        }
-
-        return count($this->collJobPersonas);
-    }
-
-    /**
-     * Method called to associate a ChildJobPersona object to this object
-     * through the ChildJobPersona foreign key attribute.
-     *
-     * @param  ChildJobPersona $l ChildJobPersona
-     * @return $this|\SysUser The current object (for fluent API support)
-     */
-    public function addJobPersona(ChildJobPersona $l)
-    {
-        if ($this->collJobPersonas === null) {
-            $this->initJobPersonas();
-            $this->collJobPersonasPartial = true;
-        }
-
-        if (!$this->collJobPersonas->contains($l)) {
-            $this->doAddJobPersona($l);
-
-            if ($this->jobPersonasScheduledForDeletion and $this->jobPersonasScheduledForDeletion->contains($l)) {
-                $this->jobPersonasScheduledForDeletion->remove($this->jobPersonasScheduledForDeletion->search($l));
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param ChildJobPersona $jobPersona The ChildJobPersona object to add.
-     */
-    protected function doAddJobPersona(ChildJobPersona $jobPersona)
-    {
-        $this->collJobPersonas[]= $jobPersona;
-        $jobPersona->setSysUser($this);
-    }
-
-    /**
-     * @param  ChildJobPersona $jobPersona The ChildJobPersona object to remove.
-     * @return $this|ChildSysUser The current object (for fluent API support)
-     */
-    public function removeJobPersona(ChildJobPersona $jobPersona)
-    {
-        if ($this->getJobPersonas()->contains($jobPersona)) {
-            $pos = $this->collJobPersonas->search($jobPersona);
-            $this->collJobPersonas->remove($pos);
-            if (null === $this->jobPersonasScheduledForDeletion) {
-                $this->jobPersonasScheduledForDeletion = clone $this->collJobPersonas;
-                $this->jobPersonasScheduledForDeletion->clear();
-            }
-            $this->jobPersonasScheduledForDeletion[]= clone $jobPersona;
-            $jobPersona->setSysUser(null);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Clears out the collJobUserEmpresaSuscritas collection
-     *
-     * This does not modify the database; however, it will remove any associated objects, causing
-     * them to be refetched by subsequent calls to accessor method.
-     *
-     * @return void
-     * @see        addJobUserEmpresaSuscritas()
-     */
-    public function clearJobUserEmpresaSuscritas()
-    {
-        $this->collJobUserEmpresaSuscritas = null; // important to set this to NULL since that means it is uninitialized
-    }
-
-    /**
-     * Reset is the collJobUserEmpresaSuscritas collection loaded partially.
-     */
-    public function resetPartialJobUserEmpresaSuscritas($v = true)
-    {
-        $this->collJobUserEmpresaSuscritasPartial = $v;
-    }
-
-    /**
-     * Initializes the collJobUserEmpresaSuscritas collection.
-     *
-     * By default this just sets the collJobUserEmpresaSuscritas collection to an empty array (like clearcollJobUserEmpresaSuscritas());
-     * however, you may wish to override this method in your stub class to provide setting appropriate
-     * to your application -- for example, setting the initial array to the values stored in database.
-     *
-     * @param      boolean $overrideExisting If set to true, the method call initializes
-     *                                        the collection even if it is not empty
-     *
-     * @return void
-     */
-    public function initJobUserEmpresaSuscritas($overrideExisting = true)
-    {
-        if (null !== $this->collJobUserEmpresaSuscritas && !$overrideExisting) {
-            return;
-        }
-
-        $collectionClassName = JobUserEmpresaSuscritaTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collJobUserEmpresaSuscritas = new $collectionClassName;
-        $this->collJobUserEmpresaSuscritas->setModel('\JobUserEmpresaSuscrita');
-    }
-
-    /**
-     * Gets an array of ChildJobUserEmpresaSuscrita objects which contain a foreign key that references this object.
-     *
-     * If the $criteria is not null, it is used to always fetch the results from the database.
-     * Otherwise the results are fetched from the database the first time, then cached.
-     * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildSysUser is new, it will return
-     * an empty collection or the current collection; the criteria is ignored on a new object.
-     *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @return ObjectCollection|ChildJobUserEmpresaSuscrita[] List of ChildJobUserEmpresaSuscrita objects
-     * @throws PropelException
-     */
-    public function getJobUserEmpresaSuscritas(Criteria $criteria = null, ConnectionInterface $con = null)
-    {
-        $partial = $this->collJobUserEmpresaSuscritasPartial && !$this->isNew();
-        if (null === $this->collJobUserEmpresaSuscritas || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collJobUserEmpresaSuscritas) {
-                // return empty collection
-                $this->initJobUserEmpresaSuscritas();
-            } else {
-                $collJobUserEmpresaSuscritas = ChildJobUserEmpresaSuscritaQuery::create(null, $criteria)
-                    ->filterBySysUser($this)
-                    ->find($con);
-
-                if (null !== $criteria) {
-                    if (false !== $this->collJobUserEmpresaSuscritasPartial && count($collJobUserEmpresaSuscritas)) {
-                        $this->initJobUserEmpresaSuscritas(false);
-
-                        foreach ($collJobUserEmpresaSuscritas as $obj) {
-                            if (false == $this->collJobUserEmpresaSuscritas->contains($obj)) {
-                                $this->collJobUserEmpresaSuscritas->append($obj);
-                            }
-                        }
-
-                        $this->collJobUserEmpresaSuscritasPartial = true;
-                    }
-
-                    return $collJobUserEmpresaSuscritas;
-                }
-
-                if ($partial && $this->collJobUserEmpresaSuscritas) {
-                    foreach ($this->collJobUserEmpresaSuscritas as $obj) {
-                        if ($obj->isNew()) {
-                            $collJobUserEmpresaSuscritas[] = $obj;
-                        }
-                    }
-                }
-
-                $this->collJobUserEmpresaSuscritas = $collJobUserEmpresaSuscritas;
-                $this->collJobUserEmpresaSuscritasPartial = false;
-            }
-        }
-
-        return $this->collJobUserEmpresaSuscritas;
-    }
-
-    /**
-     * Sets a collection of ChildJobUserEmpresaSuscrita objects related by a one-to-many relationship
-     * to the current object.
-     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
-     * and new objects from the given Propel collection.
-     *
-     * @param      Collection $jobUserEmpresaSuscritas A Propel collection.
-     * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildSysUser The current object (for fluent API support)
-     */
-    public function setJobUserEmpresaSuscritas(Collection $jobUserEmpresaSuscritas, ConnectionInterface $con = null)
-    {
-        /** @var ChildJobUserEmpresaSuscrita[] $jobUserEmpresaSuscritasToDelete */
-        $jobUserEmpresaSuscritasToDelete = $this->getJobUserEmpresaSuscritas(new Criteria(), $con)->diff($jobUserEmpresaSuscritas);
-
-
-        $this->jobUserEmpresaSuscritasScheduledForDeletion = $jobUserEmpresaSuscritasToDelete;
-
-        foreach ($jobUserEmpresaSuscritasToDelete as $jobUserEmpresaSuscritaRemoved) {
-            $jobUserEmpresaSuscritaRemoved->setSysUser(null);
-        }
-
-        $this->collJobUserEmpresaSuscritas = null;
-        foreach ($jobUserEmpresaSuscritas as $jobUserEmpresaSuscrita) {
-            $this->addJobUserEmpresaSuscrita($jobUserEmpresaSuscrita);
-        }
-
-        $this->collJobUserEmpresaSuscritas = $jobUserEmpresaSuscritas;
-        $this->collJobUserEmpresaSuscritasPartial = false;
-
-        return $this;
-    }
-
-    /**
-     * Returns the number of related JobUserEmpresaSuscrita objects.
-     *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct
-     * @param      ConnectionInterface $con
-     * @return int             Count of related JobUserEmpresaSuscrita objects.
-     * @throws PropelException
-     */
-    public function countJobUserEmpresaSuscritas(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
-    {
-        $partial = $this->collJobUserEmpresaSuscritasPartial && !$this->isNew();
-        if (null === $this->collJobUserEmpresaSuscritas || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collJobUserEmpresaSuscritas) {
-                return 0;
-            }
-
-            if ($partial && !$criteria) {
-                return count($this->getJobUserEmpresaSuscritas());
-            }
-
-            $query = ChildJobUserEmpresaSuscritaQuery::create(null, $criteria);
-            if ($distinct) {
-                $query->distinct();
-            }
-
-            return $query
-                ->filterBySysUser($this)
-                ->count($con);
-        }
-
-        return count($this->collJobUserEmpresaSuscritas);
-    }
-
-    /**
-     * Method called to associate a ChildJobUserEmpresaSuscrita object to this object
-     * through the ChildJobUserEmpresaSuscrita foreign key attribute.
-     *
-     * @param  ChildJobUserEmpresaSuscrita $l ChildJobUserEmpresaSuscrita
-     * @return $this|\SysUser The current object (for fluent API support)
-     */
-    public function addJobUserEmpresaSuscrita(ChildJobUserEmpresaSuscrita $l)
-    {
-        if ($this->collJobUserEmpresaSuscritas === null) {
-            $this->initJobUserEmpresaSuscritas();
-            $this->collJobUserEmpresaSuscritasPartial = true;
-        }
-
-        if (!$this->collJobUserEmpresaSuscritas->contains($l)) {
-            $this->doAddJobUserEmpresaSuscrita($l);
-
-            if ($this->jobUserEmpresaSuscritasScheduledForDeletion and $this->jobUserEmpresaSuscritasScheduledForDeletion->contains($l)) {
-                $this->jobUserEmpresaSuscritasScheduledForDeletion->remove($this->jobUserEmpresaSuscritasScheduledForDeletion->search($l));
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param ChildJobUserEmpresaSuscrita $jobUserEmpresaSuscrita The ChildJobUserEmpresaSuscrita object to add.
-     */
-    protected function doAddJobUserEmpresaSuscrita(ChildJobUserEmpresaSuscrita $jobUserEmpresaSuscrita)
-    {
-        $this->collJobUserEmpresaSuscritas[]= $jobUserEmpresaSuscrita;
-        $jobUserEmpresaSuscrita->setSysUser($this);
-    }
-
-    /**
-     * @param  ChildJobUserEmpresaSuscrita $jobUserEmpresaSuscrita The ChildJobUserEmpresaSuscrita object to remove.
-     * @return $this|ChildSysUser The current object (for fluent API support)
-     */
-    public function removeJobUserEmpresaSuscrita(ChildJobUserEmpresaSuscrita $jobUserEmpresaSuscrita)
-    {
-        if ($this->getJobUserEmpresaSuscritas()->contains($jobUserEmpresaSuscrita)) {
-            $pos = $this->collJobUserEmpresaSuscritas->search($jobUserEmpresaSuscrita);
-            $this->collJobUserEmpresaSuscritas->remove($pos);
-            if (null === $this->jobUserEmpresaSuscritasScheduledForDeletion) {
-                $this->jobUserEmpresaSuscritasScheduledForDeletion = clone $this->collJobUserEmpresaSuscritas;
-                $this->jobUserEmpresaSuscritasScheduledForDeletion->clear();
-            }
-            $this->jobUserEmpresaSuscritasScheduledForDeletion[]= clone $jobUserEmpresaSuscrita;
-            $jobUserEmpresaSuscrita->setSysUser(null);
-        }
-
-        return $this;
-    }
-
-
-    /**
-     * If this collection has already been initialized with
-     * an identical criteria, it returns the collection.
-     * Otherwise if this SysUser is new, it will return
-     * an empty collection; or if this SysUser has previously
-     * been saved, it will retrieve related JobUserEmpresaSuscritas from storage.
-     *
-     * This method is protected by default in order to keep the public
-     * api reasonable.  You can provide public methods for those you
-     * actually need in SysUser.
-     *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-     * @return ObjectCollection|ChildJobUserEmpresaSuscrita[] List of ChildJobUserEmpresaSuscrita objects
-     */
-    public function getJobUserEmpresaSuscritasJoinJobEmpresaSuscrita(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
-    {
-        $query = ChildJobUserEmpresaSuscritaQuery::create(null, $criteria);
-        $query->joinWith('JobEmpresaSuscrita', $joinBehavior);
-
-        return $this->getJobUserEmpresaSuscritas($query, $con);
-    }
-
-
-    /**
-     * If this collection has already been initialized with
-     * an identical criteria, it returns the collection.
-     * Otherwise if this SysUser is new, it will return
-     * an empty collection; or if this SysUser has previously
-     * been saved, it will retrieve related JobUserEmpresaSuscritas from storage.
-     *
-     * This method is protected by default in order to keep the public
-     * api reasonable.  You can provide public methods for those you
-     * actually need in SysUser.
-     *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-     * @return ObjectCollection|ChildJobUserEmpresaSuscrita[] List of ChildJobUserEmpresaSuscrita objects
-     */
-    public function getJobUserEmpresaSuscritasJoinSysRol(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
-    {
-        $query = ChildJobUserEmpresaSuscritaQuery::create(null, $criteria);
-        $query->joinWith('SysRol', $joinBehavior);
-
-        return $this->getJobUserEmpresaSuscritas($query, $con);
     }
 
     /**
@@ -5502,16 +4884,6 @@ abstract class SysUser implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
-            if ($this->collJobPersonas) {
-                foreach ($this->collJobPersonas as $o) {
-                    $o->clearAllReferences($deep);
-                }
-            }
-            if ($this->collJobUserEmpresaSuscritas) {
-                foreach ($this->collJobUserEmpresaSuscritas as $o) {
-                    $o->clearAllReferences($deep);
-                }
-            }
             if ($this->collSysAuths) {
                 foreach ($this->collSysAuths as $o) {
                     $o->clearAllReferences($deep);
@@ -5564,8 +4936,6 @@ abstract class SysUser implements ActiveRecordInterface
             }
         } // if ($deep)
 
-        $this->collJobPersonas = null;
-        $this->collJobUserEmpresaSuscritas = null;
         $this->collSysAuths = null;
         $this->collSysEmailSents = null;
         $this->collSysEntityUsers = null;

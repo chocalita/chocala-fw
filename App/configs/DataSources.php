@@ -7,46 +7,46 @@
 class DataSources
 {
 
-    static $development = array(
+    static $development = [
         'datasource'=>  'system',
         'host'      =>  'localhost',
         'port'      =>  '3307',
-        'dbname'    =>  'jobs',
+        'dbname'    =>  'base',
         'user'      =>  'root',
         'password'  =>  'root'
-    );
+    ];
 
-    static $test = array(
-        'datasource'=>  'jobsterin',
-        'host'      =>  'mysql.empleos.click',
+    static $test = [
+        'datasource'=>  'system',
+        'host'      =>  'localhost',
         'port'      =>  '3306',
-        'dbname'    =>  'jobsterin',
-        'user'      =>  'jobsterin',
-        'password'  =>  'Jobsterin.2017.pasS'
-    );
+        'dbname'    =>  'base',
+        'user'      =>  'root',
+        'password'  =>  'root'
+    ];
 
-    static $testdocean = array(
-        'datasource'=>  'empleos_test',
-        'host'      =>  '127.0.0.1',
+    static $testdocean = [
+        'datasource'=>  'system',
+        'host'      =>  'localhost',
         'port'      =>  '3306',
-        'dbname'    =>  'empleos_test',
-        'user'      =>  'admin',
-        'password'  =>  'AppTics2015@#$'
-    );
+        'dbname'    =>  'base',
+        'user'      =>  'root',
+        'password'  =>  'root'
+    ];
 
-    static $production = array(
-        'datasource'=>  'jobsterin',
-        'host'      =>  'mysql.empleos.click',
+    static $production = [
+        'datasource'=>  'system',
+        'host'      =>  'localhost',
         'port'      =>  '3306',
-        'dbname'    =>  'jobsterin',
-        'user'      =>  'jobsterin',
-        'password'  =>  'Jobsterin.2017.pasS'
-    );
+        'dbname'    =>  'base',
+        'user'      =>  'root',
+        'password'  =>  'root'
+    ];
 
-    static $all = array(
+    static $all = [
         'adapter'   =>  'mysql',
         'driver'    =>  'mysql',
         'charset'   =>  'UTF8',
-    );
+    ];
 
 }
