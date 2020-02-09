@@ -1,0 +1,55 @@
+<?= BarView::renderBar('messages'); ?>
+<div class="dialog" style="padding: 0 250px">
+
+    <div class="fRight">
+        <a href="<?= URI::toPage().'dataList'; ?>" class="linkGoBack">Go to data list</a>
+        <a href="<?= URI::toPage().'edit/'.$param->getPrimaryKey(); ?>" class="linkEdit">Edit Param</a>
+        <a href="<?= URI::toPage().'delete/'.$param->getPrimaryKey(); ?>" class="linkDelete" onclick="return confirm('¿Do you sure to delete this record?');">Delete Param</a>
+    </div>
+    <h1>Param Details</h1>
+    <hr />
+    
+        
+    <div class="input">
+        <label class="name">Type</label>
+        <div class="value">
+            <?= $param->getType(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Code</label>
+        <div class="value">
+            <?= $param->getCode(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Name</label>
+        <div class="value">
+            <?= $param->getName(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Visibility</label>
+        <div class="value">
+            <?= $param->getVisibility(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Value</label>
+        <div class="value">
+            <?= $param->getValue(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Description</label>
+        <div class="value">
+            <?= $param->getDescription(); ?>
+        </div>
+    </div>
+            
+</div>

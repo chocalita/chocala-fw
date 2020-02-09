@@ -1,0 +1,150 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Usuarios del Sistema</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a>Usuarios del Sistema</a>
+            </li>
+            <li class="active">
+                <strong>Listado General</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <?= BarView::renderBar('messages'); ?>
+
+    <div class="row">
+
+        <div class="ibox float-e-margins">
+
+            <div class="ibox-title">
+                <h5>Lista de Usuarios del Sistema</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                        <i class="fa fa-wrench"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#">Opción 1</a>
+                        </li>
+                    </ul>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="ibox-content">
+
+                <div class="btn-group">
+                    <?php if(PageControl::canCreate()){ ?>
+                        <a href="<?= URI::toPage().'create'; ?>" class="btn btn-sm btn-primary btn-rounded pull-left" data-toggle="modal" data-target="#ajax-modal-lg">
+                            <span class="fa fa-plus-square"></span> Agregar Usuario</a>
+                    <?php } ?>
+                </div>
+
+                <div class="table-responsive">
+
+                    <table class="table table-striped table-bordered table-hover dataTables" >
+                        <thead>
+                            <tr>
+                                <th width="5%">Nº</th>
+                                <th>Primer Apellido</th>
+                                <th>Segundo Apellido</th>
+                                <th>Primer Nombre</th>
+                                <th>Segundo Nombre</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th width="15%">Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                        <?php
+                        $i = 0;
+                        $toShowLink = URI::toPage() . 'show/';
+                        $toEditLink = URI::toPage() . 'edit/';
+                        $toDeleteLink = URI::toPage() . 'delete/';
+                        foreach ($userPager as $user) {
+                            $i++;
+                            $pk = $user->getId();
+                            $person = $user->person();
+                            ?>
+                            <tr class="<?=($i%2==0)? 'odd': 'even';?>">
+                                <td class="text-center"><?= $i; ?></td>
+                                <td class="text-left"><?= $person->getLastName(); ?></td>
+                                <td class="text-left"><?= $person->getSecondLastName(); ?></td>
+                                <td class="text-left"><?= $person->getFirstName(); ?></td>
+                                <td class="text-left"><?= $person->getMiddleName(); ?></td>
+                                <td class="text-left"><?= $user->getUsername(); ?></td>
+                                <td class="text-left"><?= $user->getEmail(); ?></td>
+                                <td class="text-center">
+                                    <a href="<?= $toShowLink . $pk; ?>" class="btn btn-sm btn-info btn-circle"><i class="fa fa-eye"></i></a>
+                                    <?php
+                                    if(PageControl::canUpdate()){
+                                        ?>
+                                        <a href="<?= $toEditLink . $pk; ?>" class="btn btn-sm btn-warning btn-circle" data-toggle="modal" data-target="#ajax-modal-lg"><i class="fa fa-edit"></i></a>
+                                        <?php
+                                    }
+                                    if(PageControl::canDelete()){
+                                        ?>
+                                        <a href="<?= $toDeleteLink . $pk; ?>" class="btn btn-sm btn-danger btn-circle"><i class="fa fa-times"></i></a>
+                                        <?php
+                                    }
+                                    ?>
+                                </td>
+                            </tr>
+                            <?php
+                        }
+                        ?>
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- page script -->
+<script type="text/javascript">
+$().ready(function(){
+    $('.dataTables').DataTable({
+        "language": {
+            "emptyTable": "No se encontraron registros"
+        },
+        dom: '<"html5buttons"B>lTfgitp',
+        buttons: [
+            {extend: 'copy', title: 'Copiar'},
+            {extend: 'csv', title: 'Reporte CSV'},
+            {extend: 'excel', title: 'Reporte Excel'},
+            {extend: 'pdf', title: 'Reporte PDF'},
+            {extend: 'print',
+                customize: function (win){
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
+                }
+            }
+        ]
+    });
+});
+</script>

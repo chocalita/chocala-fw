@@ -1,0 +1,65 @@
+
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Code">Código</label>
+    <div class="col-sm-9">
+        
+        <input type="text" id="Code" name="Code" value="<?=$email? $email->getCode(): '';?>" placeholder="Code..."
+               class="form-control" maxlength="30" />
+        
+    </div>
+</div>
+    
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Name">Nombre</label>
+    <div class="col-sm-9">
+        
+        <input type="text" id="Name" name="Name" value="<?=$email? $email->getName(): '';?>" placeholder="Name..."
+               class="form-control" maxlength="100" />
+        
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Subject">Asunto</label>
+    <div class="col-sm-9">
+
+        <input type="text" id="Subject" name="Subject" value="<?=$email? $email->getSubject(): '';?>" placeholder="Asunto..."
+               class="form-control" maxlength="100" />
+
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Template">Plantilla</label>
+    <div class="col-sm-9">
+
+        <select id="Template" name="Template" class="form-control">
+            <option value="">* Sin plantilla</option>
+            <?php
+            foreach($templates as $template) {
+                $sel = ($email && $email->getTemplate()==$template)? 'selected="yes"': '';
+            ?>
+            <option value="<?=$template;?>" <?=$sel;?>><?=$template;?></option>
+            <?php
+            }
+            ?>
+        </select>
+
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Description">Descripción</label>
+    <div class="col-sm-9">
+        
+        <textarea id="Description"  name="Description" placeholder="Description..."
+                  class="form-control" rows="2" cols="25"><?=$email? $email->getDescription(): '';?></textarea>
+        
+    </div>
+</div>
+    
+<script type="text/javascript">
+$().ready(function(){
+    $('.ajaxPost').formAjaxPost();
+});
+</script>

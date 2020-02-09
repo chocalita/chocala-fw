@@ -1,0 +1,29 @@
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Code">Código</label>
+    <div class="col-sm-9">
+        <input type="text" id="Code" name="Code" value="<?=$rol? $rol->getCode(): '';?>"
+               size="30" maxlength="30" class="form-control" placeholder="Código..." autocomplete="off" />
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Name">Nombre</label>
+    <div class="col-sm-9">
+        <input type="text" id="Name" name="Name" value="<?=$rol? $rol->getName(): '';?>"
+               size="30" maxlength="30" class="form-control" placeholder="Nombre..." autocomplete="off" />
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Description">Descripción</label>
+    <div class="col-sm-9">
+        <textarea id="Description" name="Description" cols="30" rows="2" class="form-control"
+                  placeholder="Descripción..."><?=$rol? $rol->getDescription(): '';?></textarea>
+    </div>
+</div>
+
+<script type="text/javascript">
+$().ready(function(){
+    $('.ajaxPost').formAjaxPost();
+});
+</script>

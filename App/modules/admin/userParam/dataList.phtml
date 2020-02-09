@@ -1,0 +1,145 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>UserParams</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a>UserParams</a>
+            </li>
+            <li class="active">
+                <strong>Listado General</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <?= BarView::renderBar('messages'); ?>
+
+    <div class="row">
+
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>UserParams List</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                        <i class="fa fa-wrench"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#">Opción 1</a>
+                        </li>
+                    </ul>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+
+                <div class="fRight">
+                    <a href="<?= URI::toPage().'create'; ?>" class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#ajax-modal">
+                        <span class="fa fa-plus-square"></span> Create UserParam</a>
+                </div>
+
+                <div class="table-responsive">
+
+                    <table class="table table-striped table-bordered table-hover dataTables" >
+                        <thead>
+                            <tr>
+                                <th width="5%">Nº</th>
+                            
+                                <th>SysUser</th>
+                                
+                                <th>SysParam</th>
+                                
+                                <th>Value</th>
+                                
+                                <th>Description</th>
+                                
+                                <th width="15%">Actions</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $toDetailsLink = URI::toPage().'show/';
+                            $toEditLink = URI::toPage().'edit/';
+                            $toDeleteLink = URI::toPage().'delete/';
+                            $i = 0;
+                            foreach($userParamPager as $userParam):
+                            
+                                $pk = $userParam->getId();
+                            
+                            ?>
+                            <tr role="row">
+                                <td><?= $userParamPager->getFirstIndex() + $i; ?></td>
+                                
+                                <td><?= $userParam->getSysUser()->getID(); ?></td>
+                                
+                                <td><?= $userParam->getSysParam()->getID(); ?></td>
+                                
+                                <td><?= $userParam->getValue(); ?></td>
+                                
+                                <td><?= $userParam->getDescription(); ?></td>
+                                
+                                <td class="text-center">
+                                    <a href="<?= $toDetailsLink.$pk; ?>" class="btn btn-success btn-circle"><i class="fa fa-eye"></i></a>
+
+                                    <a href="<?= $toEditLink.$pk; ?>" class="btn btn-warning btn-circle" data-toggle="modal" data-target="#ajax-modal"><i class="fa fa-edit"></i></a>
+
+                                    <a href="<?= $toDeleteLink.$pk; ?>" class="btn btn-danger btn-circle"><i class="fa fa-times"></i></a>
+                                </td>
+                            </tr>
+                            <?php
+                            $i++;
+                            endforeach;
+                            ?>
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+$(document).ready(function(){
+    $('.dataTables').DataTable({
+        "language": {
+            "emptyTable": "No se encontraron registros"
+        },
+        dom: '<"html5buttons"B>lTfgitp',
+        buttons: [
+            {extend: 'copy', title: 'Copiar'},
+            {extend: 'csv', title: 'Reporte CSV'},
+            {extend: 'excel', title: 'Reporte Excel'},
+            {extend: 'pdf', title: 'Reporte PDF'},
+            {extend: 'print',
+                customize: function (win){
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
+                }
+            }
+        ]
+    });
+});
+</script>

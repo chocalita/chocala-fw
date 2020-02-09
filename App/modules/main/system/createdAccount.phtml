@@ -1,0 +1,60 @@
+<h1>Seguridad de su Nueva Cuenta de Usuario</h1>
+
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+
+        <div class="col-lg-6">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-title">
+                    <h5>Renovación de Contraseña</h5>
+                </div>
+
+                <form action="<?=URI::toPage().'changePassword';?>" method="post" role="form" class="ajaxPost form-horizontal">
+
+                    <div class="ibox-content">
+
+                        <small class="text-blue">Es recomedable usar caracteres mayúsculas, minúsculas, numerales y otros.</small>
+                        <br />
+                        <br />
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="Password"> Nueva Contraseña</label>
+                            <div class="col-sm-8">
+                                <input type="password" id="Password" name="Password" value=""
+                                       size="30" maxlength="30" class="form-control" placeholder="Nuevo password...." autocomplete="off" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="RPassword">Repetir Contraseña</label>
+                            <div class="col-sm-8">
+                                <input type="password" id="RPassword" name="RPassword" value=""
+                                       size="30" maxlength="30" class="form-control" placeholder="Repetir password...." autocomplete="off" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="ibox-footer">
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Aceptar</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+$().ready(function() {
+    $(".ajaxPost").formAjaxPost({
+        'onSuccess': function (data) {
+            alert("OPERACION EXITOSA: Se activó correctamente su cuenta de usuario y su nueva contraseña.");
+            window.location.replace("<?=URI::toPage().'main';?>");
+        },
+    });
+});
+</script>
