@@ -58,26 +58,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysUserQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
  * @method     ChildSysUserQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
- * @method     ChildSysUserQuery leftJoinJobPersona($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobPersona relation
- * @method     ChildSysUserQuery rightJoinJobPersona($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobPersona relation
- * @method     ChildSysUserQuery innerJoinJobPersona($relationAlias = null) Adds a INNER JOIN clause to the query using the JobPersona relation
- *
- * @method     ChildSysUserQuery joinWithJobPersona($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobPersona relation
- *
- * @method     ChildSysUserQuery leftJoinWithJobPersona() Adds a LEFT JOIN clause and with to the query using the JobPersona relation
- * @method     ChildSysUserQuery rightJoinWithJobPersona() Adds a RIGHT JOIN clause and with to the query using the JobPersona relation
- * @method     ChildSysUserQuery innerJoinWithJobPersona() Adds a INNER JOIN clause and with to the query using the JobPersona relation
- *
- * @method     ChildSysUserQuery leftJoinJobUserEmpresaSuscrita($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobUserEmpresaSuscrita relation
- * @method     ChildSysUserQuery rightJoinJobUserEmpresaSuscrita($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobUserEmpresaSuscrita relation
- * @method     ChildSysUserQuery innerJoinJobUserEmpresaSuscrita($relationAlias = null) Adds a INNER JOIN clause to the query using the JobUserEmpresaSuscrita relation
- *
- * @method     ChildSysUserQuery joinWithJobUserEmpresaSuscrita($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobUserEmpresaSuscrita relation
- *
- * @method     ChildSysUserQuery leftJoinWithJobUserEmpresaSuscrita() Adds a LEFT JOIN clause and with to the query using the JobUserEmpresaSuscrita relation
- * @method     ChildSysUserQuery rightJoinWithJobUserEmpresaSuscrita() Adds a RIGHT JOIN clause and with to the query using the JobUserEmpresaSuscrita relation
- * @method     ChildSysUserQuery innerJoinWithJobUserEmpresaSuscrita() Adds a INNER JOIN clause and with to the query using the JobUserEmpresaSuscrita relation
- *
  * @method     ChildSysUserQuery leftJoinSysAuth($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysAuth relation
  * @method     ChildSysUserQuery rightJoinSysAuth($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysAuth relation
  * @method     ChildSysUserQuery innerJoinSysAuth($relationAlias = null) Adds a INNER JOIN clause to the query using the SysAuth relation
@@ -178,7 +158,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysUserQuery rightJoinWithSysUserXRol() Adds a RIGHT JOIN clause and with to the query using the SysUserXRol relation
  * @method     ChildSysUserQuery innerJoinWithSysUserXRol() Adds a INNER JOIN clause and with to the query using the SysUserXRol relation
  *
- * @method     \JobPersonaQuery|\JobUserEmpresaSuscritaQuery|\SysAuthQuery|\SysEmailSentQuery|\SysEntityUserQuery|\SysEventUserQuery|\SysImageQuery|\SysPasswordQuery|\SysPasswordRequestQuery|\SysPersonQuery|\SysUserParamQuery|\SysUserXRolQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \SysAuthQuery|\SysEmailSentQuery|\SysEntityUserQuery|\SysEventUserQuery|\SysImageQuery|\SysPasswordQuery|\SysPasswordRequestQuery|\SysPersonQuery|\SysUserParamQuery|\SysUserXRolQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildSysUser findOne(ConnectionInterface $con = null) Return the first ChildSysUser matching the query
  * @method     ChildSysUser findOneOrCreate(ConnectionInterface $con = null) Return the first ChildSysUser matching the query, or a new ChildSysUser object populated from the query conditions when no match is found
@@ -887,152 +867,6 @@ abstract class SysUserQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(SysUserTableMap::COL_MODIFICATION_DATE, $modificationDate, $comparison);
-    }
-
-    /**
-     * Filter the query by a related \JobPersona object
-     *
-     * @param \JobPersona|ObjectCollection $jobPersona the related object to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ChildSysUserQuery The current query, for fluid interface
-     */
-    public function filterByJobPersona($jobPersona, $comparison = null)
-    {
-        if ($jobPersona instanceof \JobPersona) {
-            return $this
-                ->addUsingAlias(SysUserTableMap::COL_ID, $jobPersona->getUserId(), $comparison);
-        } elseif ($jobPersona instanceof ObjectCollection) {
-            return $this
-                ->useJobPersonaQuery()
-                ->filterByPrimaryKeys($jobPersona->getPrimaryKeys())
-                ->endUse();
-        } else {
-            throw new PropelException('filterByJobPersona() only accepts arguments of type \JobPersona or Collection');
-        }
-    }
-
-    /**
-     * Adds a JOIN clause to the query using the JobPersona relation
-     *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return $this|ChildSysUserQuery The current query, for fluid interface
-     */
-    public function joinJobPersona($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-    {
-        $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('JobPersona');
-
-        // create a ModelJoin object for this join
-        $join = new ModelJoin();
-        $join->setJoinType($joinType);
-        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-        if ($previousJoin = $this->getPreviousJoin()) {
-            $join->setPreviousJoin($previousJoin);
-        }
-
-        // add the ModelJoin to the current object
-        if ($relationAlias) {
-            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-            $this->addJoinObject($join, $relationAlias);
-        } else {
-            $this->addJoinObject($join, 'JobPersona');
-        }
-
-        return $this;
-    }
-
-    /**
-     * Use the JobPersona relation JobPersona object
-     *
-     * @see useQuery()
-     *
-     * @param     string $relationAlias optional alias for the relation,
-     *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return \JobPersonaQuery A secondary query class using the current class as primary query
-     */
-    public function useJobPersonaQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-    {
-        return $this
-            ->joinJobPersona($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'JobPersona', '\JobPersonaQuery');
-    }
-
-    /**
-     * Filter the query by a related \JobUserEmpresaSuscrita object
-     *
-     * @param \JobUserEmpresaSuscrita|ObjectCollection $jobUserEmpresaSuscrita the related object to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ChildSysUserQuery The current query, for fluid interface
-     */
-    public function filterByJobUserEmpresaSuscrita($jobUserEmpresaSuscrita, $comparison = null)
-    {
-        if ($jobUserEmpresaSuscrita instanceof \JobUserEmpresaSuscrita) {
-            return $this
-                ->addUsingAlias(SysUserTableMap::COL_ID, $jobUserEmpresaSuscrita->getUserId(), $comparison);
-        } elseif ($jobUserEmpresaSuscrita instanceof ObjectCollection) {
-            return $this
-                ->useJobUserEmpresaSuscritaQuery()
-                ->filterByPrimaryKeys($jobUserEmpresaSuscrita->getPrimaryKeys())
-                ->endUse();
-        } else {
-            throw new PropelException('filterByJobUserEmpresaSuscrita() only accepts arguments of type \JobUserEmpresaSuscrita or Collection');
-        }
-    }
-
-    /**
-     * Adds a JOIN clause to the query using the JobUserEmpresaSuscrita relation
-     *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return $this|ChildSysUserQuery The current query, for fluid interface
-     */
-    public function joinJobUserEmpresaSuscrita($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-    {
-        $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('JobUserEmpresaSuscrita');
-
-        // create a ModelJoin object for this join
-        $join = new ModelJoin();
-        $join->setJoinType($joinType);
-        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-        if ($previousJoin = $this->getPreviousJoin()) {
-            $join->setPreviousJoin($previousJoin);
-        }
-
-        // add the ModelJoin to the current object
-        if ($relationAlias) {
-            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-            $this->addJoinObject($join, $relationAlias);
-        } else {
-            $this->addJoinObject($join, 'JobUserEmpresaSuscrita');
-        }
-
-        return $this;
-    }
-
-    /**
-     * Use the JobUserEmpresaSuscrita relation JobUserEmpresaSuscrita object
-     *
-     * @see useQuery()
-     *
-     * @param     string $relationAlias optional alias for the relation,
-     *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return \JobUserEmpresaSuscritaQuery A secondary query class using the current class as primary query
-     */
-    public function useJobUserEmpresaSuscritaQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-    {
-        return $this
-            ->joinJobUserEmpresaSuscrita($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'JobUserEmpresaSuscrita', '\JobUserEmpresaSuscritaQuery');
     }
 
     /**

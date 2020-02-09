@@ -2,8 +2,6 @@
 
 namespace Base;
 
-use \JobEmpresaSuscrita as ChildJobEmpresaSuscrita;
-use \JobEmpresaSuscritaQuery as ChildJobEmpresaSuscritaQuery;
 use \SysEntity as ChildSysEntity;
 use \SysEntityBranch as ChildSysEntityBranch;
 use \SysEntityBranchQuery as ChildSysEntityBranchQuery;
@@ -13,7 +11,6 @@ use \SysLocationQuery as ChildSysLocationQuery;
 use \DateTime;
 use \Exception;
 use \PDO;
-use Map\JobEmpresaSuscritaTableMap;
 use Map\SysEntityBranchTableMap;
 use Map\SysEntityTableMap;
 use Map\SysLocationTableMap;
@@ -158,12 +155,6 @@ abstract class SysLocation implements ActiveRecordInterface
     protected $modification_date;
 
     /**
-     * @var        ObjectCollection|ChildJobEmpresaSuscrita[] Collection to store aggregation of ChildJobEmpresaSuscrita objects.
-     */
-    protected $collJobEmpresaSuscritas;
-    protected $collJobEmpresaSuscritasPartial;
-
-    /**
      * @var        ObjectCollection|ChildSysEntity[] Collection to store aggregation of ChildSysEntity objects.
      */
     protected $collSysEntities;
@@ -182,12 +173,6 @@ abstract class SysLocation implements ActiveRecordInterface
      * @var boolean
      */
     protected $alreadyInSave = false;
-
-    /**
-     * An array of objects scheduled for deletion.
-     * @var ObjectCollection|ChildJobEmpresaSuscrita[]
-     */
-    protected $jobEmpresaSuscritasScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
@@ -964,8 +949,6 @@ abstract class SysLocation implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->collJobEmpresaSuscritas = null;
-
             $this->collSysEntities = null;
 
             $this->collSysEntityBranches = null;
@@ -1082,24 +1065,6 @@ abstract class SysLocation implements ActiveRecordInterface
                     $affectedRows += $this->doUpdate($con);
                 }
                 $this->resetModified();
-            }
-
-            if ($this->jobEmpresaSuscritasScheduledForDeletion !== null) {
-                if (!$this->jobEmpresaSuscritasScheduledForDeletion->isEmpty()) {
-                    foreach ($this->jobEmpresaSuscritasScheduledForDeletion as $jobEmpresaSuscrita) {
-                        // need to save related object because we set the relation to null
-                        $jobEmpresaSuscrita->save($con);
-                    }
-                    $this->jobEmpresaSuscritasScheduledForDeletion = null;
-                }
-            }
-
-            if ($this->collJobEmpresaSuscritas !== null) {
-                foreach ($this->collJobEmpresaSuscritas as $referrerFK) {
-                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
-                        $affectedRows += $referrerFK->save($con);
-                    }
-                }
             }
 
             if ($this->sysEntitiesScheduledForDeletion !== null) {
@@ -1401,21 +1366,6 @@ abstract class SysLocation implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->collJobEmpresaSuscritas) {
-
-                switch ($keyType) {
-                    case TableMap::TYPE_CAMELNAME:
-                        $key = 'jobEmpresaSuscritas';
-                        break;
-                    case TableMap::TYPE_FIELDNAME:
-                        $key = 'job_empresa_suscritas';
-                        break;
-                    default:
-                        $key = 'JobEmpresaSuscritas';
-                }
-
-                $result[$key] = $this->collJobEmpresaSuscritas->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
-            }
             if (null !== $this->collSysEntities) {
 
                 switch ($keyType) {
@@ -1758,12 +1708,6 @@ abstract class SysLocation implements ActiveRecordInterface
             // the getter/setter methods for fkey referrer objects.
             $copyObj->setNew(false);
 
-            foreach ($this->getJobEmpresaSuscritas() as $relObj) {
-                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addJobEmpresaSuscrita($relObj->copy($deepCopy));
-                }
-            }
-
             foreach ($this->getSysEntities() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
                     $copyObj->addSysEntity($relObj->copy($deepCopy));
@@ -1817,10 +1761,6 @@ abstract class SysLocation implements ActiveRecordInterface
      */
     public function initRelation($relationName)
     {
-        if ('JobEmpresaSuscrita' == $relationName) {
-            $this->initJobEmpresaSuscritas();
-            return;
-        }
         if ('SysEntity' == $relationName) {
             $this->initSysEntities();
             return;
@@ -1829,256 +1769,6 @@ abstract class SysLocation implements ActiveRecordInterface
             $this->initSysEntityBranches();
             return;
         }
-    }
-
-    /**
-     * Clears out the collJobEmpresaSuscritas collection
-     *
-     * This does not modify the database; however, it will remove any associated objects, causing
-     * them to be refetched by subsequent calls to accessor method.
-     *
-     * @return void
-     * @see        addJobEmpresaSuscritas()
-     */
-    public function clearJobEmpresaSuscritas()
-    {
-        $this->collJobEmpresaSuscritas = null; // important to set this to NULL since that means it is uninitialized
-    }
-
-    /**
-     * Reset is the collJobEmpresaSuscritas collection loaded partially.
-     */
-    public function resetPartialJobEmpresaSuscritas($v = true)
-    {
-        $this->collJobEmpresaSuscritasPartial = $v;
-    }
-
-    /**
-     * Initializes the collJobEmpresaSuscritas collection.
-     *
-     * By default this just sets the collJobEmpresaSuscritas collection to an empty array (like clearcollJobEmpresaSuscritas());
-     * however, you may wish to override this method in your stub class to provide setting appropriate
-     * to your application -- for example, setting the initial array to the values stored in database.
-     *
-     * @param      boolean $overrideExisting If set to true, the method call initializes
-     *                                        the collection even if it is not empty
-     *
-     * @return void
-     */
-    public function initJobEmpresaSuscritas($overrideExisting = true)
-    {
-        if (null !== $this->collJobEmpresaSuscritas && !$overrideExisting) {
-            return;
-        }
-
-        $collectionClassName = JobEmpresaSuscritaTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collJobEmpresaSuscritas = new $collectionClassName;
-        $this->collJobEmpresaSuscritas->setModel('\JobEmpresaSuscrita');
-    }
-
-    /**
-     * Gets an array of ChildJobEmpresaSuscrita objects which contain a foreign key that references this object.
-     *
-     * If the $criteria is not null, it is used to always fetch the results from the database.
-     * Otherwise the results are fetched from the database the first time, then cached.
-     * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildSysLocation is new, it will return
-     * an empty collection or the current collection; the criteria is ignored on a new object.
-     *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @return ObjectCollection|ChildJobEmpresaSuscrita[] List of ChildJobEmpresaSuscrita objects
-     * @throws PropelException
-     */
-    public function getJobEmpresaSuscritas(Criteria $criteria = null, ConnectionInterface $con = null)
-    {
-        $partial = $this->collJobEmpresaSuscritasPartial && !$this->isNew();
-        if (null === $this->collJobEmpresaSuscritas || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collJobEmpresaSuscritas) {
-                // return empty collection
-                $this->initJobEmpresaSuscritas();
-            } else {
-                $collJobEmpresaSuscritas = ChildJobEmpresaSuscritaQuery::create(null, $criteria)
-                    ->filterBySysLocation($this)
-                    ->find($con);
-
-                if (null !== $criteria) {
-                    if (false !== $this->collJobEmpresaSuscritasPartial && count($collJobEmpresaSuscritas)) {
-                        $this->initJobEmpresaSuscritas(false);
-
-                        foreach ($collJobEmpresaSuscritas as $obj) {
-                            if (false == $this->collJobEmpresaSuscritas->contains($obj)) {
-                                $this->collJobEmpresaSuscritas->append($obj);
-                            }
-                        }
-
-                        $this->collJobEmpresaSuscritasPartial = true;
-                    }
-
-                    return $collJobEmpresaSuscritas;
-                }
-
-                if ($partial && $this->collJobEmpresaSuscritas) {
-                    foreach ($this->collJobEmpresaSuscritas as $obj) {
-                        if ($obj->isNew()) {
-                            $collJobEmpresaSuscritas[] = $obj;
-                        }
-                    }
-                }
-
-                $this->collJobEmpresaSuscritas = $collJobEmpresaSuscritas;
-                $this->collJobEmpresaSuscritasPartial = false;
-            }
-        }
-
-        return $this->collJobEmpresaSuscritas;
-    }
-
-    /**
-     * Sets a collection of ChildJobEmpresaSuscrita objects related by a one-to-many relationship
-     * to the current object.
-     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
-     * and new objects from the given Propel collection.
-     *
-     * @param      Collection $jobEmpresaSuscritas A Propel collection.
-     * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildSysLocation The current object (for fluent API support)
-     */
-    public function setJobEmpresaSuscritas(Collection $jobEmpresaSuscritas, ConnectionInterface $con = null)
-    {
-        /** @var ChildJobEmpresaSuscrita[] $jobEmpresaSuscritasToDelete */
-        $jobEmpresaSuscritasToDelete = $this->getJobEmpresaSuscritas(new Criteria(), $con)->diff($jobEmpresaSuscritas);
-
-
-        $this->jobEmpresaSuscritasScheduledForDeletion = $jobEmpresaSuscritasToDelete;
-
-        foreach ($jobEmpresaSuscritasToDelete as $jobEmpresaSuscritaRemoved) {
-            $jobEmpresaSuscritaRemoved->setSysLocation(null);
-        }
-
-        $this->collJobEmpresaSuscritas = null;
-        foreach ($jobEmpresaSuscritas as $jobEmpresaSuscrita) {
-            $this->addJobEmpresaSuscrita($jobEmpresaSuscrita);
-        }
-
-        $this->collJobEmpresaSuscritas = $jobEmpresaSuscritas;
-        $this->collJobEmpresaSuscritasPartial = false;
-
-        return $this;
-    }
-
-    /**
-     * Returns the number of related JobEmpresaSuscrita objects.
-     *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct
-     * @param      ConnectionInterface $con
-     * @return int             Count of related JobEmpresaSuscrita objects.
-     * @throws PropelException
-     */
-    public function countJobEmpresaSuscritas(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
-    {
-        $partial = $this->collJobEmpresaSuscritasPartial && !$this->isNew();
-        if (null === $this->collJobEmpresaSuscritas || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collJobEmpresaSuscritas) {
-                return 0;
-            }
-
-            if ($partial && !$criteria) {
-                return count($this->getJobEmpresaSuscritas());
-            }
-
-            $query = ChildJobEmpresaSuscritaQuery::create(null, $criteria);
-            if ($distinct) {
-                $query->distinct();
-            }
-
-            return $query
-                ->filterBySysLocation($this)
-                ->count($con);
-        }
-
-        return count($this->collJobEmpresaSuscritas);
-    }
-
-    /**
-     * Method called to associate a ChildJobEmpresaSuscrita object to this object
-     * through the ChildJobEmpresaSuscrita foreign key attribute.
-     *
-     * @param  ChildJobEmpresaSuscrita $l ChildJobEmpresaSuscrita
-     * @return $this|\SysLocation The current object (for fluent API support)
-     */
-    public function addJobEmpresaSuscrita(ChildJobEmpresaSuscrita $l)
-    {
-        if ($this->collJobEmpresaSuscritas === null) {
-            $this->initJobEmpresaSuscritas();
-            $this->collJobEmpresaSuscritasPartial = true;
-        }
-
-        if (!$this->collJobEmpresaSuscritas->contains($l)) {
-            $this->doAddJobEmpresaSuscrita($l);
-
-            if ($this->jobEmpresaSuscritasScheduledForDeletion and $this->jobEmpresaSuscritasScheduledForDeletion->contains($l)) {
-                $this->jobEmpresaSuscritasScheduledForDeletion->remove($this->jobEmpresaSuscritasScheduledForDeletion->search($l));
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param ChildJobEmpresaSuscrita $jobEmpresaSuscrita The ChildJobEmpresaSuscrita object to add.
-     */
-    protected function doAddJobEmpresaSuscrita(ChildJobEmpresaSuscrita $jobEmpresaSuscrita)
-    {
-        $this->collJobEmpresaSuscritas[]= $jobEmpresaSuscrita;
-        $jobEmpresaSuscrita->setSysLocation($this);
-    }
-
-    /**
-     * @param  ChildJobEmpresaSuscrita $jobEmpresaSuscrita The ChildJobEmpresaSuscrita object to remove.
-     * @return $this|ChildSysLocation The current object (for fluent API support)
-     */
-    public function removeJobEmpresaSuscrita(ChildJobEmpresaSuscrita $jobEmpresaSuscrita)
-    {
-        if ($this->getJobEmpresaSuscritas()->contains($jobEmpresaSuscrita)) {
-            $pos = $this->collJobEmpresaSuscritas->search($jobEmpresaSuscrita);
-            $this->collJobEmpresaSuscritas->remove($pos);
-            if (null === $this->jobEmpresaSuscritasScheduledForDeletion) {
-                $this->jobEmpresaSuscritasScheduledForDeletion = clone $this->collJobEmpresaSuscritas;
-                $this->jobEmpresaSuscritasScheduledForDeletion->clear();
-            }
-            $this->jobEmpresaSuscritasScheduledForDeletion[]= $jobEmpresaSuscrita;
-            $jobEmpresaSuscrita->setSysLocation(null);
-        }
-
-        return $this;
-    }
-
-
-    /**
-     * If this collection has already been initialized with
-     * an identical criteria, it returns the collection.
-     * Otherwise if this SysLocation is new, it will return
-     * an empty collection; or if this SysLocation has previously
-     * been saved, it will retrieve related JobEmpresaSuscritas from storage.
-     *
-     * This method is protected by default in order to keep the public
-     * api reasonable.  You can provide public methods for those you
-     * actually need in SysLocation.
-     *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-     * @return ObjectCollection|ChildJobEmpresaSuscrita[] List of ChildJobEmpresaSuscrita objects
-     */
-    public function getJobEmpresaSuscritasJoinSysEntityType(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
-    {
-        $query = ChildJobEmpresaSuscritaQuery::create(null, $criteria);
-        $query->joinWith('SysEntityType', $joinBehavior);
-
-        return $this->getJobEmpresaSuscritas($query, $con);
     }
 
     /**
@@ -2619,11 +2309,6 @@ abstract class SysLocation implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
-            if ($this->collJobEmpresaSuscritas) {
-                foreach ($this->collJobEmpresaSuscritas as $o) {
-                    $o->clearAllReferences($deep);
-                }
-            }
             if ($this->collSysEntities) {
                 foreach ($this->collSysEntities as $o) {
                     $o->clearAllReferences($deep);
@@ -2636,7 +2321,6 @@ abstract class SysLocation implements ActiveRecordInterface
             }
         } // if ($deep)
 
-        $this->collJobEmpresaSuscritas = null;
         $this->collSysEntities = null;
         $this->collSysEntityBranches = null;
     }

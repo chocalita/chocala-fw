@@ -212,20 +212,6 @@ class SysUserTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('JobPersona', '\\JobPersona', RelationMap::ONE_TO_MANY, array (
-  0 =>
-  array (
-    0 => ':USER_ID',
-    1 => ':ID',
-  ),
-), null, null, 'JobPersonas', false);
-        $this->addRelation('JobUserEmpresaSuscrita', '\\JobUserEmpresaSuscrita', RelationMap::ONE_TO_MANY, array (
-  0 =>
-  array (
-    0 => ':USER_ID',
-    1 => ':ID',
-  ),
-), null, null, 'JobUserEmpresaSuscritas', false);
         $this->addRelation('SysAuth', '\\SysAuth', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
