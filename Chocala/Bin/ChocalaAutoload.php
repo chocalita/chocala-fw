@@ -83,6 +83,8 @@ class ChocalaAutoload
         'WebAliasView'              =>  'Presentation/WebAliasView',
         'WebView'                   =>  'Presentation/WebView',
 
+        'User'                      =>  'Secure/User',
+
         'Cookie'                    =>  'System/Cookie',
         'DBConfig'                  =>  'System/DBConfig',
         'Delete'                    =>  'System/Delete',
