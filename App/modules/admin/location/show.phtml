@@ -1,0 +1,90 @@
+<?= BarView::renderBar('messages'); ?>
+<div class="dialog" style="padding: 0 250px">
+
+    <div class="fRight">
+        <a href="<?= URI::toPage().'dataList'; ?>" class="linkGoBack">Go to data list</a>
+        <a href="<?= URI::toPage().'edit/'.$location->getPrimaryKey(); ?>" class="linkEdit">Edit Location</a>
+        <a href="<?= URI::toPage().'delete/'.$location->getPrimaryKey(); ?>" class="linkDelete" onclick="return confirm('¿Do you sure to delete this record?');">Delete Location</a>
+    </div>
+    <h1>Location Details</h1>
+    <hr />
+    
+        
+    <div class="input">
+        <label class="name">Main Id</label>
+        <div class="value">
+            <?= $location->getMainId(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Code</label>
+        <div class="value">
+            <?= $location->getCode(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Status</label>
+        <div class="value">
+            <?= $location->getStatus(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Name</label>
+        <div class="value">
+            <?= $location->getName(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Type</label>
+        <div class="value">
+            <?= $location->getType(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Level</label>
+        <div class="value">
+            <?= $location->getLevel(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Lft</label>
+        <div class="value">
+            <?= $location->getLft(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Rgt</label>
+        <div class="value">
+            <?= $location->getRgt(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Last User Id</label>
+        <div class="value">
+            <?= $location->getLastUserId(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Creation Date</label>
+        <div class="value">
+            <?= $location->getCreationDate(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Modification Date</label>
+        <div class="value">
+            <?= $location->getModificationDate(); ?>
+        </div>
+    </div>
+            
+</div>

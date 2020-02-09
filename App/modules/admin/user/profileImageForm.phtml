@@ -1,0 +1,88 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title"><i class="fa fa-edit"></i> Subir Imagen de Perfil</h4>
+</div>
+
+<form id="my-awesome-dropzone" class="dropzone" action="<?=URI::toPage().'loadImage';?>">
+
+    <div class="modal-body">
+
+        <div id="myDropzone" class="dropzone">
+            <small>Arrastre la imagen aqui...</small>
+<!--            <input type="file" name="profilePicture" />-->
+        </div>
+
+    </div>
+
+    <div class="modal-footer clearfix">
+        <button type="submit" class="btn btn-primary" id="toServerButton"><i class="fa fa-check"></i> Aceptar</button>
+    </div>
+
+<!--    <div class="dropzone-previews"></div>-->
+<!--    <button type="submit" class="btn btn-sm btn-primary btn-rounded pull-right">Submit this form!</button>-->
+</form>
+
+<script type="text/javascript">
+$().ready(function(){
+/*
+    Dropzone.options.myAwesomeDropzone = {
+        url: "< ?=URI::toPage().'loadImage';?>",
+        autoProcessQueue: false,
+        uploadMultiple: false,
+//        parallelUploads: 100,
+//        maxFiles: 100,
+        // Dropzone settings
+        init: function() {
+            var myDropzone = this;
+
+            this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                myDropzone.processQueue();
+            });
+            this.on("sendingmultiple", function() {
+            });
+//            this.on("successmultiple", function(files, response) {
+//            });
+            this.on("errormultiple", function(files, response) {
+            });
+        }
+    }
+*/
+    Dropzone.autoDiscover = false;
+    var myDropzone = new Dropzone("div#myDropzone", {
+        url: "<?=URI::toPage().'loadImage';?>",
+        autoProcessQueue: false,
+        uploadMultiple: false,
+        maxFiles: 1,
+        maxFilesize: 2,
+        init: function() {
+            this.on("addedfile", function() {
+                if (this.files[1]!=null){
+                    this.removeFile(this.files[0]);
+                }
+            });
+        },
+        error: function(file, response) {
+            alert(response)
+        },
+        success: function(file, response){
+            if(response.success){
+                location.reload();
+            }else{
+                alert("Se produjo un error al cargar el archivo");
+            }
+        }
+    });
+    $('#toServerButton').on('click',function(e){
+        e.preventDefault();
+        if (myDropzone.files.length == 0){
+            alert("Debe seleccionar una imagen");
+        } else if(myDropzone.getRejectedFiles().length > 0) {
+            alert("El archivo no es válido");
+        } else {
+            myDropzone.processQueue();
+        }
+    });
+});
+</script>

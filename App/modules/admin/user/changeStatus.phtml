@@ -1,0 +1,61 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title"><i class="fa fa-mail-forward"></i> Cambio de Estado en Cuenta de Usuario</h4>
+</div>
+<form action="" method="post" role="form" class="form-horizontal ajaxPost">
+    <input type="hidden" id="action" name="action" value="saveStatus" />
+    <input type="hidden" id="id" name="id" value="<?=$user->getId();?>" />
+
+    <div class="modal-body">
+
+        <div class="form-group">
+            <label class="control-label col-sm-4" for="Email">Usuario</label>
+            <div class="col-sm-8">
+                <?=$user->getUsername();?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-4" for="Email">Email</label>
+            <div class="col-sm-8">
+                <?=$user->getEmail();?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-4" for="Email">Nombre Completo</label>
+            <div class="col-sm-8">
+                <?=$user->person()? $user->person()->formalName(): '';?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-4" for="Name">Estado</label>
+            <div class="col-sm-8">
+                <select id="Status" name="Status" class="form-control">
+                    <?php
+                    foreach($statusMap as $kStatus => $vStatus) {
+                        $sel = $user->getStatus()==$kStatus? 'selected="yes"': '';
+                    ?>
+                        <option value="<?=$kStatus;?>" <?=$sel;?>><?=SysUser::statusFrom($kStatus);?></option>
+                    <?php
+                    }
+                    ?>
+                </select>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-footer clearfix">
+        <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Aceptar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancelar</button>
+    </div>
+
+</form>
+
+<script type="text/javascript">
+$().ready(function() {
+    $(".ajaxPost").formAjaxPost();
+});
+</script>

@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /Chocala/
+Disallow: /Vendor/
+
+Sitemap: http://www.empleos.click/sitemap.xml
