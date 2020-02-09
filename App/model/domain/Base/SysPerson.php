@@ -2,23 +2,18 @@
 
 namespace Base;
 
-use \JobCurriculum as ChildJobCurriculum;
-use \JobCurriculumQuery as ChildJobCurriculumQuery;
-use \SysPerson as ChildSysPerson;
 use \SysPersonQuery as ChildSysPersonQuery;
 use \SysUser as ChildSysUser;
 use \SysUserQuery as ChildSysUserQuery;
 use \DateTime;
 use \Exception;
 use \PDO;
-use Map\JobCurriculumTableMap;
 use Map\SysPersonTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Collection\Collection;
-use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\BadMethodCallException;
 use Propel\Runtime\Exception\LogicException;
@@ -245,24 +240,12 @@ abstract class SysPerson implements ActiveRecordInterface
     protected $aSysUser;
 
     /**
-     * @var        ObjectCollection|ChildJobCurriculum[] Collection to store aggregation of ChildJobCurriculum objects.
-     */
-    protected $collJobCurriculums;
-    protected $collJobCurriculumsPartial;
-
-    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      *
      * @var boolean
      */
     protected $alreadyInSave = false;
-
-    /**
-     * An array of objects scheduled for deletion.
-     * @var ObjectCollection|ChildJobCurriculum[]
-     */
-    protected $jobCurriculumsScheduledForDeletion = null;
 
     /**
      * Applies default values to this object.
@@ -1456,8 +1439,6 @@ abstract class SysPerson implements ActiveRecordInterface
         if ($deep) {  // also de-associate any related objects?
 
             $this->aSysUser = null;
-            $this->collJobCurriculums = null;
-
         } // if (deep)
     }
 
@@ -1582,23 +1563,6 @@ abstract class SysPerson implements ActiveRecordInterface
                     $affectedRows += $this->doUpdate($con);
                 }
                 $this->resetModified();
-            }
-
-            if ($this->jobCurriculumsScheduledForDeletion !== null) {
-                if (!$this->jobCurriculumsScheduledForDeletion->isEmpty()) {
-                    \JobCurriculumQuery::create()
-                        ->filterByPrimaryKeys($this->jobCurriculumsScheduledForDeletion->getPrimaryKeys(false))
-                        ->delete($con);
-                    $this->jobCurriculumsScheduledForDeletion = null;
-                }
-            }
-
-            if ($this->collJobCurriculums !== null) {
-                foreach ($this->collJobCurriculums as $referrerFK) {
-                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
-                        $affectedRows += $referrerFK->save($con);
-                    }
-                }
             }
 
             $this->alreadyInSave = false;
@@ -2003,21 +1967,6 @@ abstract class SysPerson implements ActiveRecordInterface
                 }
 
                 $result[$key] = $this->aSysUser->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
-            }
-            if (null !== $this->collJobCurriculums) {
-
-                switch ($keyType) {
-                    case TableMap::TYPE_CAMELNAME:
-                        $key = 'jobCurriculums';
-                        break;
-                    case TableMap::TYPE_FIELDNAME:
-                        $key = 'job_curriculums';
-                        break;
-                    default:
-                        $key = 'JobCurriculums';
-                }
-
-                $result[$key] = $this->collJobCurriculums->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -2445,20 +2394,6 @@ abstract class SysPerson implements ActiveRecordInterface
         $copyObj->setLastUserId($this->getLastUserId());
         $copyObj->setCreationDate($this->getCreationDate());
         $copyObj->setModificationDate($this->getModificationDate());
-
-        if ($deepCopy) {
-            // important: temporarily setNew(false) because this affects the behavior of
-            // the getter/setter methods for fkey referrer objects.
-            $copyObj->setNew(false);
-
-            foreach ($this->getJobCurriculums() as $relObj) {
-                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addJobCurriculum($relObj->copy($deepCopy));
-                }
-            }
-
-        } // if ($deepCopy)
-
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -2538,248 +2473,6 @@ abstract class SysPerson implements ActiveRecordInterface
         return $this->aSysUser;
     }
 
-
-    /**
-     * Initializes a collection based on the name of a relation.
-     * Avoids crafting an 'init[$relationName]s' method name
-     * that wouldn't work when StandardEnglishPluralizer is used.
-     *
-     * @param      string $relationName The name of the relation to initialize
-     * @return void
-     */
-    public function initRelation($relationName)
-    {
-        if ('JobCurriculum' == $relationName) {
-            $this->initJobCurriculums();
-            return;
-        }
-    }
-
-    /**
-     * Clears out the collJobCurriculums collection
-     *
-     * This does not modify the database; however, it will remove any associated objects, causing
-     * them to be refetched by subsequent calls to accessor method.
-     *
-     * @return void
-     * @see        addJobCurriculums()
-     */
-    public function clearJobCurriculums()
-    {
-        $this->collJobCurriculums = null; // important to set this to NULL since that means it is uninitialized
-    }
-
-    /**
-     * Reset is the collJobCurriculums collection loaded partially.
-     */
-    public function resetPartialJobCurriculums($v = true)
-    {
-        $this->collJobCurriculumsPartial = $v;
-    }
-
-    /**
-     * Initializes the collJobCurriculums collection.
-     *
-     * By default this just sets the collJobCurriculums collection to an empty array (like clearcollJobCurriculums());
-     * however, you may wish to override this method in your stub class to provide setting appropriate
-     * to your application -- for example, setting the initial array to the values stored in database.
-     *
-     * @param      boolean $overrideExisting If set to true, the method call initializes
-     *                                        the collection even if it is not empty
-     *
-     * @return void
-     */
-    public function initJobCurriculums($overrideExisting = true)
-    {
-        if (null !== $this->collJobCurriculums && !$overrideExisting) {
-            return;
-        }
-
-        $collectionClassName = JobCurriculumTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collJobCurriculums = new $collectionClassName;
-        $this->collJobCurriculums->setModel('\JobCurriculum');
-    }
-
-    /**
-     * Gets an array of ChildJobCurriculum objects which contain a foreign key that references this object.
-     *
-     * If the $criteria is not null, it is used to always fetch the results from the database.
-     * Otherwise the results are fetched from the database the first time, then cached.
-     * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildSysPerson is new, it will return
-     * an empty collection or the current collection; the criteria is ignored on a new object.
-     *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @return ObjectCollection|ChildJobCurriculum[] List of ChildJobCurriculum objects
-     * @throws PropelException
-     */
-    public function getJobCurriculums(Criteria $criteria = null, ConnectionInterface $con = null)
-    {
-        $partial = $this->collJobCurriculumsPartial && !$this->isNew();
-        if (null === $this->collJobCurriculums || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collJobCurriculums) {
-                // return empty collection
-                $this->initJobCurriculums();
-            } else {
-                $collJobCurriculums = ChildJobCurriculumQuery::create(null, $criteria)
-                    ->filterBySysPerson($this)
-                    ->find($con);
-
-                if (null !== $criteria) {
-                    if (false !== $this->collJobCurriculumsPartial && count($collJobCurriculums)) {
-                        $this->initJobCurriculums(false);
-
-                        foreach ($collJobCurriculums as $obj) {
-                            if (false == $this->collJobCurriculums->contains($obj)) {
-                                $this->collJobCurriculums->append($obj);
-                            }
-                        }
-
-                        $this->collJobCurriculumsPartial = true;
-                    }
-
-                    return $collJobCurriculums;
-                }
-
-                if ($partial && $this->collJobCurriculums) {
-                    foreach ($this->collJobCurriculums as $obj) {
-                        if ($obj->isNew()) {
-                            $collJobCurriculums[] = $obj;
-                        }
-                    }
-                }
-
-                $this->collJobCurriculums = $collJobCurriculums;
-                $this->collJobCurriculumsPartial = false;
-            }
-        }
-
-        return $this->collJobCurriculums;
-    }
-
-    /**
-     * Sets a collection of ChildJobCurriculum objects related by a one-to-many relationship
-     * to the current object.
-     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
-     * and new objects from the given Propel collection.
-     *
-     * @param      Collection $jobCurriculums A Propel collection.
-     * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildSysPerson The current object (for fluent API support)
-     */
-    public function setJobCurriculums(Collection $jobCurriculums, ConnectionInterface $con = null)
-    {
-        /** @var ChildJobCurriculum[] $jobCurriculumsToDelete */
-        $jobCurriculumsToDelete = $this->getJobCurriculums(new Criteria(), $con)->diff($jobCurriculums);
-
-
-        $this->jobCurriculumsScheduledForDeletion = $jobCurriculumsToDelete;
-
-        foreach ($jobCurriculumsToDelete as $jobCurriculumRemoved) {
-            $jobCurriculumRemoved->setSysPerson(null);
-        }
-
-        $this->collJobCurriculums = null;
-        foreach ($jobCurriculums as $jobCurriculum) {
-            $this->addJobCurriculum($jobCurriculum);
-        }
-
-        $this->collJobCurriculums = $jobCurriculums;
-        $this->collJobCurriculumsPartial = false;
-
-        return $this;
-    }
-
-    /**
-     * Returns the number of related JobCurriculum objects.
-     *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct
-     * @param      ConnectionInterface $con
-     * @return int             Count of related JobCurriculum objects.
-     * @throws PropelException
-     */
-    public function countJobCurriculums(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
-    {
-        $partial = $this->collJobCurriculumsPartial && !$this->isNew();
-        if (null === $this->collJobCurriculums || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collJobCurriculums) {
-                return 0;
-            }
-
-            if ($partial && !$criteria) {
-                return count($this->getJobCurriculums());
-            }
-
-            $query = ChildJobCurriculumQuery::create(null, $criteria);
-            if ($distinct) {
-                $query->distinct();
-            }
-
-            return $query
-                ->filterBySysPerson($this)
-                ->count($con);
-        }
-
-        return count($this->collJobCurriculums);
-    }
-
-    /**
-     * Method called to associate a ChildJobCurriculum object to this object
-     * through the ChildJobCurriculum foreign key attribute.
-     *
-     * @param  ChildJobCurriculum $l ChildJobCurriculum
-     * @return $this|\SysPerson The current object (for fluent API support)
-     */
-    public function addJobCurriculum(ChildJobCurriculum $l)
-    {
-        if ($this->collJobCurriculums === null) {
-            $this->initJobCurriculums();
-            $this->collJobCurriculumsPartial = true;
-        }
-
-        if (!$this->collJobCurriculums->contains($l)) {
-            $this->doAddJobCurriculum($l);
-
-            if ($this->jobCurriculumsScheduledForDeletion and $this->jobCurriculumsScheduledForDeletion->contains($l)) {
-                $this->jobCurriculumsScheduledForDeletion->remove($this->jobCurriculumsScheduledForDeletion->search($l));
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param ChildJobCurriculum $jobCurriculum The ChildJobCurriculum object to add.
-     */
-    protected function doAddJobCurriculum(ChildJobCurriculum $jobCurriculum)
-    {
-        $this->collJobCurriculums[]= $jobCurriculum;
-        $jobCurriculum->setSysPerson($this);
-    }
-
-    /**
-     * @param  ChildJobCurriculum $jobCurriculum The ChildJobCurriculum object to remove.
-     * @return $this|ChildSysPerson The current object (for fluent API support)
-     */
-    public function removeJobCurriculum(ChildJobCurriculum $jobCurriculum)
-    {
-        if ($this->getJobCurriculums()->contains($jobCurriculum)) {
-            $pos = $this->collJobCurriculums->search($jobCurriculum);
-            $this->collJobCurriculums->remove($pos);
-            if (null === $this->jobCurriculumsScheduledForDeletion) {
-                $this->jobCurriculumsScheduledForDeletion = clone $this->collJobCurriculums;
-                $this->jobCurriculumsScheduledForDeletion->clear();
-            }
-            $this->jobCurriculumsScheduledForDeletion[]= clone $jobCurriculum;
-            $jobCurriculum->setSysPerson(null);
-        }
-
-        return $this;
-    }
-
     /**
      * Clears the current object, sets all attributes to their default values and removes
      * outgoing references as well as back-references (from other objects to this one. Results probably in a database
@@ -2833,14 +2526,8 @@ abstract class SysPerson implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
-            if ($this->collJobCurriculums) {
-                foreach ($this->collJobCurriculums as $o) {
-                    $o->clearAllReferences($deep);
-                }
-            }
         } // if ($deep)
 
-        $this->collJobCurriculums = null;
         $this->aSysUser = null;
     }
 

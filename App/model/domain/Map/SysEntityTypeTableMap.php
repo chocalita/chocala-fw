@@ -158,13 +158,6 @@ class SysEntityTypeTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('JobEmpresaSuscrita', '\\JobEmpresaSuscrita', RelationMap::ONE_TO_MANY, array (
-  0 =>
-  array (
-    0 => ':ENTITY_TYPE_ID',
-    1 => ':ID',
-  ),
-), null, null, 'JobEmpresaSuscritas', false);
         $this->addRelation('SysEntity', '\\SysEntity', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (

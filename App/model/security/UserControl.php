@@ -64,7 +64,7 @@ class UserControl implements ISingleton
         $sessionUser = Session::has($sessionVar)? Session::_($sessionVar): null;
         if(is_object($sessionUser)){
             //TODO: check it with new database (IMPORTANT)
-/*
+/**/
             self::$sysUser = $sessionUser;
             self::$sysUser->reload();
             self::$sysRols = SysRolQuery::create()
@@ -73,7 +73,7 @@ class UserControl implements ISingleton
                     ->endUse()
                 ->find();
             define("ID_USER", self::$sysUser->getId());
-*/
+/**/
             $entidad = Session::_('entidad');
 //            if(is_object($entidad)){
 //                define("ID_ENTITY", $entidad->getId());

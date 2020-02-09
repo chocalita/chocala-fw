@@ -6,9 +6,9 @@
                 <connection id="default">
                     <adapter>mysql</adapter>
                     <classname>Propel\Runtime\Connection\ConnectionWrapper</classname>
-                    <dsn>mysql:host=localhost;port=3307;dbname=jobs</dsn>
+                    <dsn>mysql:host=localhost;port=3307;dbname=base</dsn>
                     <user>root</user>
-                    <password></password>
+                    <password>root</password>
                     <settings>
                         <charset>utf8</charset>
                         <queries>

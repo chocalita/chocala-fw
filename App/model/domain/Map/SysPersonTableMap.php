@@ -279,13 +279,6 @@ class SysPersonTableMap extends TableMap
     1 => ':ID',
   ),
 ), null, null, null, false);
-        $this->addRelation('JobCurriculum', '\\JobCurriculum', RelationMap::ONE_TO_MANY, array (
-  0 =>
-  array (
-    0 => ':ID_PERSONA',
-    1 => ':ID',
-  ),
-), null, null, 'JobCurriculums', false);
     } // buildRelations()
 
     /**
