@@ -7,46 +7,46 @@
 class DataSources
 {
 
-    static $development = array(
+    static $development = [
         'datasource'=>  'system',
         'host'      =>  'localhost',
         'port'      =>  '3307',
         'dbname'    =>  'base',
         'user'      =>  'root',
         'password'  =>  'root'
-    );
+    ];
 
-    static $test = array(
+    static $test = [
         'datasource'=>  'system',
         'host'      =>  'localhost',
         'port'      =>  '3306',
         'dbname'    =>  'base',
         'user'      =>  'root',
         'password'  =>  'root'
-    );
+    ];
 
-    static $testdocean = array(
+    static $testdocean = [
         'datasource'=>  'system',
         'host'      =>  'localhost',
         'port'      =>  '3306',
         'dbname'    =>  'base',
         'user'      =>  'root',
         'password'  =>  'root'
-    );
+    ];
 
-    static $production = array(
+    static $production = [
         'datasource'=>  'system',
         'host'      =>  'localhost',
         'port'      =>  '3306',
         'dbname'    =>  'base',
         'user'      =>  'root',
         'password'  =>  'root'
-    );
+    ];
 
-    static $all = array(
+    static $all = [
         'adapter'   =>  'mysql',
         'driver'    =>  'mysql',
         'charset'   =>  'UTF8',
-    );
+    ];
 
 }
