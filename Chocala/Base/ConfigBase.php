@@ -130,10 +130,10 @@ abstract class ConfigBase
      */
     public static function enumAccess()
     {
-        return array(   self::PRIVATE_ACCESS => self::PRIVATE_ACCESS,
+        return [        self::PRIVATE_ACCESS => self::PRIVATE_ACCESS,
                         self::PROTECTED_ACCESS => self::PROTECTED_ACCESS,
                         self::PUBLIC_ACCESS => self::PUBLIC_ACCESS
-                );
+                ];
     }
 
 }
