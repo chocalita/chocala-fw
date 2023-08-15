@@ -96,7 +96,7 @@ class DBConfig
         $manager->setName('default');
         $serviceContainer->setConnectionManager($manager);
         $serviceContainer->setDefaultDatasource('default');
-//        require_once DATABASE_DIR . 'generator\loadDatabase.php';
+        require_once DATABASE_DIR . 'generator\generated-conf\loadDatabase.php';
     }
 
 }

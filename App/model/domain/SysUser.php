@@ -23,7 +23,7 @@ class SysUser extends BaseSysUser implements JsonSerializable
     const IMG_BIG = 'medium';
     const IMG_BIG_SIZE = 600;
 
-    static $imageSizes = [
+    static array $imageSizes = [
         self::IMG_THUMBNAIL => self::IMG_THUMBNAIL_SIZE,
         self::IMG_SMALL => self::IMG_SMALL_SIZE,
         self::IMG_MEDIUM => self::IMG_MEDIUM_SIZE,
@@ -62,7 +62,7 @@ class SysUser extends BaseSysUser implements JsonSerializable
         ],
     ];
 
-    static $validationRules = [
+    static array $validationRules = [
         'Username' => [
             'null' => false, 'blank' => false, 'unique' => true,
             'size'=> ['min' => 3, 'max' => 50],
@@ -95,7 +95,7 @@ class SysUser extends BaseSysUser implements JsonSerializable
      * @param string $lang |'default'|'es'
      * @return mixed
      */
-    public static function statusMap($lang = 'default')
+    public static function statusMap(string $lang = 'default')
     {
         $type = array_key_exists(strtolower($lang), static::$statusMap)?
             strtolower($lang): 'default';
@@ -116,12 +116,12 @@ class SysUser extends BaseSysUser implements JsonSerializable
     /**
      * @return array
      */
-    public static function inactives()
+    public static function inactives() : array
     {
         return [static::STATUS_BLOCKED, static::STATUS_CLOSED];
     }
 
-    public function preSave()
+    public function preSave() : bool
     {
         $this->username = strtolower(trim($this->username))?: null;
         $this->password = trim($this->password)?: null;
@@ -130,7 +130,7 @@ class SysUser extends BaseSysUser implements JsonSerializable
         return parent::preSave();
     }
 
-    public function preValidate()
+    public function preValidate() : bool
     {
         return $this->preSave();
     }
@@ -138,7 +138,7 @@ class SysUser extends BaseSysUser implements JsonSerializable
     /**
      * @return SysPerson
      */
-    public function person()
+    public function person(): SysPerson
     {
         return SysPersonQuery::findByUser($this);
     }
@@ -148,7 +148,7 @@ class SysUser extends BaseSysUser implements JsonSerializable
      * @param string $string
      * @return string
      */
-    public static function crypt($string)
+    public static function crypt(string $string): string
     {
         /* TODO implements a encryption method*/
         $hash = $string;
@@ -160,7 +160,7 @@ class SysUser extends BaseSysUser implements JsonSerializable
      * @param string $hash
      * @return string
      */
-    public static function decrypt($hash)
+    public static function decrypt($hash): string
     {
         /* TODO implements a decryption method*/
         $string = $hash;
@@ -172,8 +172,9 @@ class SysUser extends BaseSysUser implements JsonSerializable
      * @param string $oldPassword
      * @param string $newPassword
      * @return bool
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function changePassword($oldPassword, $newPassword)
+    public function changePassword(string $oldPassword, string $newPassword): bool
     {
         if (self::crypt($oldPassword) != $this->getPassword()) {
             $this->setPassword(self::crypt($newPassword));
@@ -187,37 +188,38 @@ class SysUser extends BaseSysUser implements JsonSerializable
     /**
      * @return bool
      */
-    public function hasCreatedStatus()
+    public function hasCreatedStatus(): bool
     {
         return $this->status == self::STATUS_CREATED;
     }
 
     /**
      * Return the complete normal name of this User
-     * @param boolean $long
+     * @param bool $long
      * @return string
      */
-    public function completeName($long = true)
+    public function completeName($long = true): string
     {
         return $this->person()->completeName($long);
     }
 
     /**
      * Return the complete formal name of this User
-     * @param boolean $long
+     * @param bool $long
      * @return string
      */
-    public function formalName($long = true)
+    public function formalName(bool $long = true): string
     {
         return $this->person()->formalName($long);
     }
 
     /**
      * Return the roles for the user
-     * @param bool|true $noDeletes
+     * @param bool $noDeletes
      * @return \Propel\Runtime\Collection\ObjectCollection|SysRol[]
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function inOrderRols($noDeletes=true)
+    public function inOrderRols(bool $noDeletes=true)
     {
         return SysRolQuery::findByUser($this, $noDeletes);
     }
@@ -237,17 +239,17 @@ class SysUser extends BaseSysUser implements JsonSerializable
         $this->save();
     }
 
-    public function imageName($size='')
+    public function imageName($size=''): string
     {
         return $this->id.($size != ''? '_'.$size: '').'.'.ImageMimeTypes::mimeExtensionFrom($this->image_mime);
     }
 
-    public function imageDir($size='')
+    public function imageDir($size=''): string
     {
         return FilesHelper::dirPath(self::PROFILE_DIR).$this->imageName($size);
     }
 
-    public function imageWeb($size='')
+    public function imageWeb($size=''): string
     {
         return FilesHelper::webPath(self::PROFILE_DIR).$this->imageName($size);
     }

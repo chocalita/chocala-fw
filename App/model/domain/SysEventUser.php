@@ -10,7 +10,7 @@ class SysEventUser extends BaseSysEventUser implements JsonSerializable
 {
     use Validatable, Convertible;
 
-    static $validationRules = [
+    static array $validationRules = [
         'EventId' => [
             'null' => false, 'blank' => false,
         ],
@@ -30,24 +30,24 @@ class SysEventUser extends BaseSysEventUser implements JsonSerializable
     ];
 
 
-    public function preSave()
+    public function preSave() : bool
     {
         $this->message = trim($this->message) != '' ? trim($this->message) : null;
         $this->details = trim($this->details) != '' ? trim($this->details) : null;
         return parent::preSave();
     }
 
-    public function preValidate()
+    public function preValidate() : bool
     {
         return $this->preSave();
     }
 
-    public function preInsert()
+    public function preInsert() : bool
     {
         return $this->preSave();
     }
 
-    public function preUpdate()
+    public function preUpdate() : bool
     {
         return $this->preSave();
     }

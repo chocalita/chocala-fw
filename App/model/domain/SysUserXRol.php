@@ -10,7 +10,7 @@ class SysUserXRol extends BaseSysUserXRol
 {
     use Validatable;
 
-    static $validationRules = array(
+    static array $validationRules = array(
         'UserId' => array(
 //            'null' => true, 'blank'=> false, unique => 'RolId',
         ),

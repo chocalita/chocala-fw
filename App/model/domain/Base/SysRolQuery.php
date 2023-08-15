@@ -11,14 +11,13 @@ use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveQuery\ModelJoin;
+use Propel\Runtime\Collection\Collection;
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
 
 /**
- * Base class that represents a query for the 'sys_rol' table.
- *
- *
+ * Base class that represents a query for the `sys_rol` table.
  *
  * @method     ChildSysRolQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysRolQuery orderByCode($order = Criteria::ASC) Order by the CODE column
@@ -70,29 +69,36 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     \SysEntityUserQuery|\SysRolXUriQuery|\SysUserXRolQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
- * @method     ChildSysRol findOne(ConnectionInterface $con = null) Return the first ChildSysRol matching the query
- * @method     ChildSysRol findOneOrCreate(ConnectionInterface $con = null) Return the first ChildSysRol matching the query, or a new ChildSysRol object populated from the query conditions when no match is found
+ * @method     ChildSysRol|null findOne(?ConnectionInterface $con = null) Return the first ChildSysRol matching the query
+ * @method     ChildSysRol findOneOrCreate(?ConnectionInterface $con = null) Return the first ChildSysRol matching the query, or a new ChildSysRol object populated from the query conditions when no match is found
  *
- * @method     ChildSysRol findOneById(int $ID) Return the first ChildSysRol filtered by the ID column
- * @method     ChildSysRol findOneByCode(string $CODE) Return the first ChildSysRol filtered by the CODE column
- * @method     ChildSysRol findOneByName(string $NAME) Return the first ChildSysRol filtered by the NAME column
- * @method     ChildSysRol findOneByDescription(string $DESCRIPTION) Return the first ChildSysRol filtered by the DESCRIPTION column *
-
- * @method     ChildSysRol requirePk($key, ConnectionInterface $con = null) Return the ChildSysRol by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildSysRol requireOne(ConnectionInterface $con = null) Return the first ChildSysRol matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildSysRol|null findOneById(int $ID) Return the first ChildSysRol filtered by the ID column
+ * @method     ChildSysRol|null findOneByCode(string $CODE) Return the first ChildSysRol filtered by the CODE column
+ * @method     ChildSysRol|null findOneByName(string $NAME) Return the first ChildSysRol filtered by the NAME column
+ * @method     ChildSysRol|null findOneByDescription(string $DESCRIPTION) Return the first ChildSysRol filtered by the DESCRIPTION column
+ *
+ * @method     ChildSysRol requirePk($key, ?ConnectionInterface $con = null) Return the ChildSysRol by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildSysRol requireOne(?ConnectionInterface $con = null) Return the first ChildSysRol matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildSysRol requireOneById(int $ID) Return the first ChildSysRol filtered by the ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSysRol requireOneByCode(string $CODE) Return the first ChildSysRol filtered by the CODE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSysRol requireOneByName(string $NAME) Return the first ChildSysRol filtered by the NAME column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSysRol requireOneByDescription(string $DESCRIPTION) Return the first ChildSysRol filtered by the DESCRIPTION column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildSysRol[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildSysRol objects based on current ModelCriteria
- * @method     ChildSysRol[]|ObjectCollection findById(int $ID) Return ChildSysRol objects filtered by the ID column
- * @method     ChildSysRol[]|ObjectCollection findByCode(string $CODE) Return ChildSysRol objects filtered by the CODE column
- * @method     ChildSysRol[]|ObjectCollection findByName(string $NAME) Return ChildSysRol objects filtered by the NAME column
- * @method     ChildSysRol[]|ObjectCollection findByDescription(string $DESCRIPTION) Return ChildSysRol objects filtered by the DESCRIPTION column
- * @method     ChildSysRol[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
+ * @method     ChildSysRol[]|Collection find(?ConnectionInterface $con = null) Return ChildSysRol objects based on current ModelCriteria
+ * @psalm-method Collection&\Traversable<ChildSysRol> find(?ConnectionInterface $con = null) Return ChildSysRol objects based on current ModelCriteria
  *
+ * @method     ChildSysRol[]|Collection findById(int|array<int> $ID) Return ChildSysRol objects filtered by the ID column
+ * @psalm-method Collection&\Traversable<ChildSysRol> findById(int|array<int> $ID) Return ChildSysRol objects filtered by the ID column
+ * @method     ChildSysRol[]|Collection findByCode(string|array<string> $CODE) Return ChildSysRol objects filtered by the CODE column
+ * @psalm-method Collection&\Traversable<ChildSysRol> findByCode(string|array<string> $CODE) Return ChildSysRol objects filtered by the CODE column
+ * @method     ChildSysRol[]|Collection findByName(string|array<string> $NAME) Return ChildSysRol objects filtered by the NAME column
+ * @psalm-method Collection&\Traversable<ChildSysRol> findByName(string|array<string> $NAME) Return ChildSysRol objects filtered by the NAME column
+ * @method     ChildSysRol[]|Collection findByDescription(string|array<string> $DESCRIPTION) Return ChildSysRol objects filtered by the DESCRIPTION column
+ * @psalm-method Collection&\Traversable<ChildSysRol> findByDescription(string|array<string> $DESCRIPTION) Return ChildSysRol objects filtered by the DESCRIPTION column
+ *
+ * @method     ChildSysRol[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ?ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
+ * @psalm-method \Propel\Runtime\Util\PropelModelPager&\Traversable<ChildSysRol> paginate($page = 1, $maxPerPage = 10, ?ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  */
 abstract class SysRolQuery extends ModelCriteria
 {
@@ -101,9 +107,9 @@ abstract class SysRolQuery extends ModelCriteria
     /**
      * Initializes internal state of \Base\SysRolQuery object.
      *
-     * @param     string $dbName The database name
-     * @param     string $modelName The phpName of a model, e.g. 'Book'
-     * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
+     * @param string $dbName The database name
+     * @param string $modelName The phpName of a model, e.g. 'Book'
+     * @param string $modelAlias The alias for the model in this query, e.g. 'b'
      */
     public function __construct($dbName = 'default', $modelName = '\\SysRol', $modelAlias = null)
     {
@@ -113,12 +119,12 @@ abstract class SysRolQuery extends ModelCriteria
     /**
      * Returns a new ChildSysRolQuery object.
      *
-     * @param     string $modelAlias The alias of a model in the query
-     * @param     Criteria $criteria Optional Criteria to build the query from
+     * @param string $modelAlias The alias of a model in the query
+     * @param Criteria $criteria Optional Criteria to build the query from
      *
      * @return ChildSysRolQuery
      */
-    public static function create($modelAlias = null, Criteria $criteria = null)
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
     {
         if ($criteria instanceof ChildSysRolQuery) {
             return $criteria;
@@ -148,7 +154,7 @@ abstract class SysRolQuery extends ModelCriteria
      *
      * @return ChildSysRol|array|mixed the result, formatted by the current formatter
      */
-    public function findPk($key, ConnectionInterface $con = null)
+    public function findPk($key, ?ConnectionInterface $con = null)
     {
         if ($key === null) {
             return null;
@@ -180,8 +186,8 @@ abstract class SysRolQuery extends ModelCriteria
      * Find object by primary key using raw SQL to go fast.
      * Bypass doSelect() and the object formatter by using generated code.
      *
-     * @param     mixed $key Primary key to use for the query
-     * @param     ConnectionInterface $con A connection object
+     * @param mixed $key Primary key to use for the query
+     * @param ConnectionInterface $con A connection object
      *
      * @throws \Propel\Runtime\Exception\PropelException
      *
@@ -213,8 +219,8 @@ abstract class SysRolQuery extends ModelCriteria
     /**
      * Find object by primary key.
      *
-     * @param     mixed $key Primary key to use for the query
-     * @param     ConnectionInterface $con A connection object
+     * @param mixed $key Primary key to use for the query
+     * @param ConnectionInterface $con A connection object
      *
      * @return ChildSysRol|array|mixed the result, formatted by the current formatter
      */
@@ -234,12 +240,12 @@ abstract class SysRolQuery extends ModelCriteria
      * <code>
      * $objs = $c->findPks(array(12, 56, 832), $con);
      * </code>
-     * @param     array $keys Primary keys to use for the query
-     * @param     ConnectionInterface $con an optional connection object
+     * @param array $keys Primary keys to use for the query
+     * @param ConnectionInterface $con an optional connection object
      *
-     * @return ObjectCollection|array|mixed the list of results, formatted by the current formatter
+     * @return Collection|array|mixed the list of results, formatted by the current formatter
      */
-    public function findPks($keys, ConnectionInterface $con = null)
+    public function findPks($keys, ?ConnectionInterface $con = null)
     {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getReadConnection($this->getDbName());
@@ -256,27 +262,31 @@ abstract class SysRolQuery extends ModelCriteria
     /**
      * Filter the query by primary key
      *
-     * @param     mixed $key Primary key to use for the query
+     * @param mixed $key Primary key to use for the query
      *
-     * @return $this|ChildSysRolQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
     public function filterByPrimaryKey($key)
     {
 
-        return $this->addUsingAlias(SysRolTableMap::COL_ID, $key, Criteria::EQUAL);
+        $this->addUsingAlias(SysRolTableMap::COL_ID, $key, Criteria::EQUAL);
+
+        return $this;
     }
 
     /**
      * Filter the query by a list of primary keys
      *
-     * @param     array $keys The list of primary key to use for the query
+     * @param array|int $keys The list of primary key to use for the query
      *
-     * @return $this|ChildSysRolQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
     public function filterByPrimaryKeys($keys)
     {
 
-        return $this->addUsingAlias(SysRolTableMap::COL_ID, $keys, Criteria::IN);
+        $this->addUsingAlias(SysRolTableMap::COL_ID, $keys, Criteria::IN);
+
+        return $this;
     }
 
     /**
@@ -289,15 +299,15 @@ abstract class SysRolQuery extends ModelCriteria
      * $query->filterById(array('min' => 12)); // WHERE ID > 12
      * </code>
      *
-     * @param     mixed $id The value to use as filter.
+     * @param mixed $id The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysRolQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterById($id = null, $comparison = null)
+    public function filterById($id = null, ?string $comparison = null)
     {
         if (is_array($id)) {
             $useMinMax = false;
@@ -317,7 +327,9 @@ abstract class SysRolQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysRolTableMap::COL_ID, $id, $comparison);
+        $this->addUsingAlias(SysRolTableMap::COL_ID, $id, $comparison);
+
+        return $this;
     }
 
     /**
@@ -327,14 +339,15 @@ abstract class SysRolQuery extends ModelCriteria
      * <code>
      * $query->filterByCode('fooValue');   // WHERE CODE = 'fooValue'
      * $query->filterByCode('%fooValue%', Criteria::LIKE); // WHERE CODE LIKE '%fooValue%'
+     * $query->filterByCode(['foo', 'bar']); // WHERE CODE IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $code The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $code The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysRolQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByCode($code = null, $comparison = null)
+    public function filterByCode($code = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($code)) {
@@ -342,7 +355,9 @@ abstract class SysRolQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysRolTableMap::COL_CODE, $code, $comparison);
+        $this->addUsingAlias(SysRolTableMap::COL_CODE, $code, $comparison);
+
+        return $this;
     }
 
     /**
@@ -352,14 +367,15 @@ abstract class SysRolQuery extends ModelCriteria
      * <code>
      * $query->filterByName('fooValue');   // WHERE NAME = 'fooValue'
      * $query->filterByName('%fooValue%', Criteria::LIKE); // WHERE NAME LIKE '%fooValue%'
+     * $query->filterByName(['foo', 'bar']); // WHERE NAME IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $name The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $name The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysRolQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByName($name = null, $comparison = null)
+    public function filterByName($name = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($name)) {
@@ -367,7 +383,9 @@ abstract class SysRolQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysRolTableMap::COL_NAME, $name, $comparison);
+        $this->addUsingAlias(SysRolTableMap::COL_NAME, $name, $comparison);
+
+        return $this;
     }
 
     /**
@@ -377,14 +395,15 @@ abstract class SysRolQuery extends ModelCriteria
      * <code>
      * $query->filterByDescription('fooValue');   // WHERE DESCRIPTION = 'fooValue'
      * $query->filterByDescription('%fooValue%', Criteria::LIKE); // WHERE DESCRIPTION LIKE '%fooValue%'
+     * $query->filterByDescription(['foo', 'bar']); // WHERE DESCRIPTION IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $description The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $description The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysRolQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByDescription($description = null, $comparison = null)
+    public function filterByDescription($description = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($description)) {
@@ -392,27 +411,33 @@ abstract class SysRolQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysRolTableMap::COL_DESCRIPTION, $description, $comparison);
+        $this->addUsingAlias(SysRolTableMap::COL_DESCRIPTION, $description, $comparison);
+
+        return $this;
     }
 
     /**
      * Filter the query by a related \SysEntityUser object
      *
      * @param \SysEntityUser|ObjectCollection $sysEntityUser the related object to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildSysRolQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterBySysEntityUser($sysEntityUser, $comparison = null)
+    public function filterBySysEntityUser($sysEntityUser, ?string $comparison = null)
     {
         if ($sysEntityUser instanceof \SysEntityUser) {
-            return $this
+            $this
                 ->addUsingAlias(SysRolTableMap::COL_ID, $sysEntityUser->getRolId(), $comparison);
+
+            return $this;
         } elseif ($sysEntityUser instanceof ObjectCollection) {
-            return $this
+            $this
                 ->useSysEntityUserQuery()
                 ->filterByPrimaryKeys($sysEntityUser->getPrimaryKeys())
                 ->endUse();
+
+            return $this;
         } else {
             throw new PropelException('filterBySysEntityUser() only accepts arguments of type \SysEntityUser or Collection');
         }
@@ -421,12 +446,12 @@ abstract class SysRolQuery extends ModelCriteria
     /**
      * Adds a JOIN clause to the query using the SysEntityUser relation
      *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string|null $relationAlias Optional alias for the relation
+     * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return $this|ChildSysRolQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function joinSysEntityUser($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinSysEntityUser(?string $relationAlias = null, ?string $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('SysEntityUser');
@@ -455,9 +480,9 @@ abstract class SysRolQuery extends ModelCriteria
      *
      * @see useQuery()
      *
-     * @param     string $relationAlias optional alias for the relation,
+     * @param string $relationAlias optional alias for the relation,
      *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return \SysEntityUserQuery A secondary query class using the current class as primary query
      */
@@ -469,23 +494,123 @@ abstract class SysRolQuery extends ModelCriteria
     }
 
     /**
+     * Use the SysEntityUser relation SysEntityUser object
+     *
+     * @param callable(\SysEntityUserQuery):\SysEntityUserQuery $callable A function working on the related query
+     *
+     * @param string|null $relationAlias optional alias for the relation
+     *
+     * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this
+     */
+    public function withSysEntityUserQuery(
+        callable $callable,
+        string $relationAlias = null,
+        ?string $joinType = Criteria::INNER_JOIN
+    ) {
+        $relatedQuery = $this->useSysEntityUserQuery(
+            $relationAlias,
+            $joinType
+        );
+        $callable($relatedQuery);
+        $relatedQuery->endUse();
+
+        return $this;
+    }
+
+    /**
+     * Use the relation to SysEntityUser table for an EXISTS query.
+     *
+     * @see \Propel\Runtime\ActiveQuery\ModelCriteria::useExistsQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the exists query, like ExtendedBookQuery::class
+     * @param string $typeOfExists Either ExistsQueryCriterion::TYPE_EXISTS or ExistsQueryCriterion::TYPE_NOT_EXISTS
+     *
+     * @return \SysEntityUserQuery The inner query object of the EXISTS statement
+     */
+    public function useSysEntityUserExistsQuery($modelAlias = null, $queryClass = null, $typeOfExists = 'EXISTS')
+    {
+        /** @var $q \SysEntityUserQuery */
+        $q = $this->useExistsQuery('SysEntityUser', $modelAlias, $queryClass, $typeOfExists);
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysEntityUser table for a NOT EXISTS query.
+     *
+     * @see useSysEntityUserExistsQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the exists query, like ExtendedBookQuery::class
+     *
+     * @return \SysEntityUserQuery The inner query object of the NOT EXISTS statement
+     */
+    public function useSysEntityUserNotExistsQuery($modelAlias = null, $queryClass = null)
+    {
+        /** @var $q \SysEntityUserQuery */
+        $q = $this->useExistsQuery('SysEntityUser', $modelAlias, $queryClass, 'NOT EXISTS');
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysEntityUser table for an IN query.
+     *
+     * @see \Propel\Runtime\ActiveQuery\ModelCriteria::useInQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the IN query, like ExtendedBookQuery::class
+     * @param string $typeOfIn Criteria::IN or Criteria::NOT_IN
+     *
+     * @return \SysEntityUserQuery The inner query object of the IN statement
+     */
+    public function useInSysEntityUserQuery($modelAlias = null, $queryClass = null, $typeOfIn = 'IN')
+    {
+        /** @var $q \SysEntityUserQuery */
+        $q = $this->useInQuery('SysEntityUser', $modelAlias, $queryClass, $typeOfIn);
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysEntityUser table for a NOT IN query.
+     *
+     * @see useSysEntityUserInQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the NOT IN query, like ExtendedBookQuery::class
+     *
+     * @return \SysEntityUserQuery The inner query object of the NOT IN statement
+     */
+    public function useNotInSysEntityUserQuery($modelAlias = null, $queryClass = null)
+    {
+        /** @var $q \SysEntityUserQuery */
+        $q = $this->useInQuery('SysEntityUser', $modelAlias, $queryClass, 'NOT IN');
+        return $q;
+    }
+
+    /**
      * Filter the query by a related \SysRolXUri object
      *
      * @param \SysRolXUri|ObjectCollection $sysRolXUri the related object to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildSysRolQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterBySysRolXUri($sysRolXUri, $comparison = null)
+    public function filterBySysRolXUri($sysRolXUri, ?string $comparison = null)
     {
         if ($sysRolXUri instanceof \SysRolXUri) {
-            return $this
+            $this
                 ->addUsingAlias(SysRolTableMap::COL_ID, $sysRolXUri->getRolId(), $comparison);
+
+            return $this;
         } elseif ($sysRolXUri instanceof ObjectCollection) {
-            return $this
+            $this
                 ->useSysRolXUriQuery()
                 ->filterByPrimaryKeys($sysRolXUri->getPrimaryKeys())
                 ->endUse();
+
+            return $this;
         } else {
             throw new PropelException('filterBySysRolXUri() only accepts arguments of type \SysRolXUri or Collection');
         }
@@ -494,12 +619,12 @@ abstract class SysRolQuery extends ModelCriteria
     /**
      * Adds a JOIN clause to the query using the SysRolXUri relation
      *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string|null $relationAlias Optional alias for the relation
+     * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return $this|ChildSysRolQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function joinSysRolXUri($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinSysRolXUri(?string $relationAlias = null, ?string $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('SysRolXUri');
@@ -528,9 +653,9 @@ abstract class SysRolQuery extends ModelCriteria
      *
      * @see useQuery()
      *
-     * @param     string $relationAlias optional alias for the relation,
+     * @param string $relationAlias optional alias for the relation,
      *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return \SysRolXUriQuery A secondary query class using the current class as primary query
      */
@@ -542,23 +667,123 @@ abstract class SysRolQuery extends ModelCriteria
     }
 
     /**
+     * Use the SysRolXUri relation SysRolXUri object
+     *
+     * @param callable(\SysRolXUriQuery):\SysRolXUriQuery $callable A function working on the related query
+     *
+     * @param string|null $relationAlias optional alias for the relation
+     *
+     * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this
+     */
+    public function withSysRolXUriQuery(
+        callable $callable,
+        string $relationAlias = null,
+        ?string $joinType = Criteria::INNER_JOIN
+    ) {
+        $relatedQuery = $this->useSysRolXUriQuery(
+            $relationAlias,
+            $joinType
+        );
+        $callable($relatedQuery);
+        $relatedQuery->endUse();
+
+        return $this;
+    }
+
+    /**
+     * Use the relation to SysRolXUri table for an EXISTS query.
+     *
+     * @see \Propel\Runtime\ActiveQuery\ModelCriteria::useExistsQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the exists query, like ExtendedBookQuery::class
+     * @param string $typeOfExists Either ExistsQueryCriterion::TYPE_EXISTS or ExistsQueryCriterion::TYPE_NOT_EXISTS
+     *
+     * @return \SysRolXUriQuery The inner query object of the EXISTS statement
+     */
+    public function useSysRolXUriExistsQuery($modelAlias = null, $queryClass = null, $typeOfExists = 'EXISTS')
+    {
+        /** @var $q \SysRolXUriQuery */
+        $q = $this->useExistsQuery('SysRolXUri', $modelAlias, $queryClass, $typeOfExists);
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysRolXUri table for a NOT EXISTS query.
+     *
+     * @see useSysRolXUriExistsQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the exists query, like ExtendedBookQuery::class
+     *
+     * @return \SysRolXUriQuery The inner query object of the NOT EXISTS statement
+     */
+    public function useSysRolXUriNotExistsQuery($modelAlias = null, $queryClass = null)
+    {
+        /** @var $q \SysRolXUriQuery */
+        $q = $this->useExistsQuery('SysRolXUri', $modelAlias, $queryClass, 'NOT EXISTS');
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysRolXUri table for an IN query.
+     *
+     * @see \Propel\Runtime\ActiveQuery\ModelCriteria::useInQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the IN query, like ExtendedBookQuery::class
+     * @param string $typeOfIn Criteria::IN or Criteria::NOT_IN
+     *
+     * @return \SysRolXUriQuery The inner query object of the IN statement
+     */
+    public function useInSysRolXUriQuery($modelAlias = null, $queryClass = null, $typeOfIn = 'IN')
+    {
+        /** @var $q \SysRolXUriQuery */
+        $q = $this->useInQuery('SysRolXUri', $modelAlias, $queryClass, $typeOfIn);
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysRolXUri table for a NOT IN query.
+     *
+     * @see useSysRolXUriInQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the NOT IN query, like ExtendedBookQuery::class
+     *
+     * @return \SysRolXUriQuery The inner query object of the NOT IN statement
+     */
+    public function useNotInSysRolXUriQuery($modelAlias = null, $queryClass = null)
+    {
+        /** @var $q \SysRolXUriQuery */
+        $q = $this->useInQuery('SysRolXUri', $modelAlias, $queryClass, 'NOT IN');
+        return $q;
+    }
+
+    /**
      * Filter the query by a related \SysUserXRol object
      *
      * @param \SysUserXRol|ObjectCollection $sysUserXRol the related object to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildSysRolQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterBySysUserXRol($sysUserXRol, $comparison = null)
+    public function filterBySysUserXRol($sysUserXRol, ?string $comparison = null)
     {
         if ($sysUserXRol instanceof \SysUserXRol) {
-            return $this
+            $this
                 ->addUsingAlias(SysRolTableMap::COL_ID, $sysUserXRol->getRolId(), $comparison);
+
+            return $this;
         } elseif ($sysUserXRol instanceof ObjectCollection) {
-            return $this
+            $this
                 ->useSysUserXRolQuery()
                 ->filterByPrimaryKeys($sysUserXRol->getPrimaryKeys())
                 ->endUse();
+
+            return $this;
         } else {
             throw new PropelException('filterBySysUserXRol() only accepts arguments of type \SysUserXRol or Collection');
         }
@@ -567,12 +792,12 @@ abstract class SysRolQuery extends ModelCriteria
     /**
      * Adds a JOIN clause to the query using the SysUserXRol relation
      *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string|null $relationAlias Optional alias for the relation
+     * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return $this|ChildSysRolQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function joinSysUserXRol($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinSysUserXRol(?string $relationAlias = null, ?string $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('SysUserXRol');
@@ -601,9 +826,9 @@ abstract class SysRolQuery extends ModelCriteria
      *
      * @see useQuery()
      *
-     * @param     string $relationAlias optional alias for the relation,
+     * @param string $relationAlias optional alias for the relation,
      *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return \SysUserXRolQuery A secondary query class using the current class as primary query
      */
@@ -615,11 +840,107 @@ abstract class SysRolQuery extends ModelCriteria
     }
 
     /**
+     * Use the SysUserXRol relation SysUserXRol object
+     *
+     * @param callable(\SysUserXRolQuery):\SysUserXRolQuery $callable A function working on the related query
+     *
+     * @param string|null $relationAlias optional alias for the relation
+     *
+     * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this
+     */
+    public function withSysUserXRolQuery(
+        callable $callable,
+        string $relationAlias = null,
+        ?string $joinType = Criteria::INNER_JOIN
+    ) {
+        $relatedQuery = $this->useSysUserXRolQuery(
+            $relationAlias,
+            $joinType
+        );
+        $callable($relatedQuery);
+        $relatedQuery->endUse();
+
+        return $this;
+    }
+
+    /**
+     * Use the relation to SysUserXRol table for an EXISTS query.
+     *
+     * @see \Propel\Runtime\ActiveQuery\ModelCriteria::useExistsQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the exists query, like ExtendedBookQuery::class
+     * @param string $typeOfExists Either ExistsQueryCriterion::TYPE_EXISTS or ExistsQueryCriterion::TYPE_NOT_EXISTS
+     *
+     * @return \SysUserXRolQuery The inner query object of the EXISTS statement
+     */
+    public function useSysUserXRolExistsQuery($modelAlias = null, $queryClass = null, $typeOfExists = 'EXISTS')
+    {
+        /** @var $q \SysUserXRolQuery */
+        $q = $this->useExistsQuery('SysUserXRol', $modelAlias, $queryClass, $typeOfExists);
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysUserXRol table for a NOT EXISTS query.
+     *
+     * @see useSysUserXRolExistsQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the exists query, like ExtendedBookQuery::class
+     *
+     * @return \SysUserXRolQuery The inner query object of the NOT EXISTS statement
+     */
+    public function useSysUserXRolNotExistsQuery($modelAlias = null, $queryClass = null)
+    {
+        /** @var $q \SysUserXRolQuery */
+        $q = $this->useExistsQuery('SysUserXRol', $modelAlias, $queryClass, 'NOT EXISTS');
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysUserXRol table for an IN query.
+     *
+     * @see \Propel\Runtime\ActiveQuery\ModelCriteria::useInQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the IN query, like ExtendedBookQuery::class
+     * @param string $typeOfIn Criteria::IN or Criteria::NOT_IN
+     *
+     * @return \SysUserXRolQuery The inner query object of the IN statement
+     */
+    public function useInSysUserXRolQuery($modelAlias = null, $queryClass = null, $typeOfIn = 'IN')
+    {
+        /** @var $q \SysUserXRolQuery */
+        $q = $this->useInQuery('SysUserXRol', $modelAlias, $queryClass, $typeOfIn);
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysUserXRol table for a NOT IN query.
+     *
+     * @see useSysUserXRolInQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the NOT IN query, like ExtendedBookQuery::class
+     *
+     * @return \SysUserXRolQuery The inner query object of the NOT IN statement
+     */
+    public function useNotInSysUserXRolQuery($modelAlias = null, $queryClass = null)
+    {
+        /** @var $q \SysUserXRolQuery */
+        $q = $this->useInQuery('SysUserXRol', $modelAlias, $queryClass, 'NOT IN');
+        return $q;
+    }
+
+    /**
      * Exclude object from result
      *
-     * @param   ChildSysRol $sysRol Object to remove from the list of results
+     * @param ChildSysRol $sysRol Object to remove from the list of results
      *
-     * @return $this|ChildSysRolQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
     public function prune($sysRol = null)
     {
@@ -636,7 +957,7 @@ abstract class SysRolQuery extends ModelCriteria
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
-    public function doDeleteAll(ConnectionInterface $con = null)
+    public function doDeleteAll(?ConnectionInterface $con = null): int
     {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysRolTableMap::DATABASE_NAME);
@@ -661,12 +982,12 @@ abstract class SysRolQuery extends ModelCriteria
      * Performs a DELETE on the database based on the current ModelCriteria
      *
      * @param ConnectionInterface $con the connection to use
-     * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
+     * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
      *                         if supported by native driver or if emulated using Propel.
-     * @throws PropelException Any exceptions caught during processing will be
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
      */
-    public function delete(ConnectionInterface $con = null)
+    public function delete(?ConnectionInterface $con = null): int
     {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysRolTableMap::DATABASE_NAME);
@@ -691,4 +1012,4 @@ abstract class SysRolQuery extends ModelCriteria
         });
     }
 
-} // SysRolQuery
+}

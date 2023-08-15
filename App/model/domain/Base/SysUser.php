@@ -63,19 +63,21 @@ abstract class SysUser implements ActiveRecordInterface
 {
     /**
      * TableMap class name
+     *
+     * @var string
      */
-    const TABLE_MAP = '\\Map\\SysUserTableMap';
+    public const TABLE_MAP = '\\Map\\SysUserTableMap';
 
 
     /**
      * attribute to determine if this object has previously been saved.
-     * @var boolean
+     * @var bool
      */
     protected $new = true;
 
     /**
      * attribute to determine whether this object has been deleted.
-     * @var boolean
+     * @var bool
      */
     protected $deleted = false;
 
@@ -84,14 +86,14 @@ abstract class SysUser implements ActiveRecordInterface
      * Tracking modified columns allows us to only update modified columns.
      * @var array
      */
-    protected $modifiedColumns = array();
+    protected $modifiedColumns = [];
 
     /**
      * The (virtual) columns that are added at runtime
      * The formatters can add supplementary columns based on a resultset
      * @var array
      */
-    protected $virtualColumns = array();
+    protected $virtualColumns = [];
 
     /**
      * The value for the id field.
@@ -132,35 +134,35 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * The value for the location field.
      *
-     * @var        string
+     * @var        string|null
      */
     protected $location;
 
     /**
      * The value for the address field.
      *
-     * @var        string
+     * @var        string|null
      */
     protected $address;
 
     /**
      * The value for the image_mime field.
      *
-     * @var        string
+     * @var        string|null
      */
     protected $image_mime;
 
     /**
      * The value for the actual_access field.
      *
-     * @var        DateTime
+     * @var        DateTime|null
      */
     protected $actual_access;
 
     /**
      * The value for the last_access field.
      *
-     * @var        DateTime
+     * @var        DateTime|null
      */
     protected $last_access;
 
@@ -198,60 +200,70 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * @var        ObjectCollection|ChildSysAuth[] Collection to store aggregation of ChildSysAuth objects.
+     * @phpstan-var ObjectCollection&\Traversable<ChildSysAuth> Collection to store aggregation of ChildSysAuth objects.
      */
     protected $collSysAuths;
     protected $collSysAuthsPartial;
 
     /**
      * @var        ObjectCollection|ChildSysEmailSent[] Collection to store aggregation of ChildSysEmailSent objects.
+     * @phpstan-var ObjectCollection&\Traversable<ChildSysEmailSent> Collection to store aggregation of ChildSysEmailSent objects.
      */
     protected $collSysEmailSents;
     protected $collSysEmailSentsPartial;
 
     /**
      * @var        ObjectCollection|ChildSysEntityUser[] Collection to store aggregation of ChildSysEntityUser objects.
+     * @phpstan-var ObjectCollection&\Traversable<ChildSysEntityUser> Collection to store aggregation of ChildSysEntityUser objects.
      */
     protected $collSysEntityUsers;
     protected $collSysEntityUsersPartial;
 
     /**
      * @var        ObjectCollection|ChildSysEventUser[] Collection to store aggregation of ChildSysEventUser objects.
+     * @phpstan-var ObjectCollection&\Traversable<ChildSysEventUser> Collection to store aggregation of ChildSysEventUser objects.
      */
     protected $collSysEventUsers;
     protected $collSysEventUsersPartial;
 
     /**
      * @var        ObjectCollection|ChildSysImage[] Collection to store aggregation of ChildSysImage objects.
+     * @phpstan-var ObjectCollection&\Traversable<ChildSysImage> Collection to store aggregation of ChildSysImage objects.
      */
     protected $collSysImages;
     protected $collSysImagesPartial;
 
     /**
      * @var        ObjectCollection|ChildSysPassword[] Collection to store aggregation of ChildSysPassword objects.
+     * @phpstan-var ObjectCollection&\Traversable<ChildSysPassword> Collection to store aggregation of ChildSysPassword objects.
      */
     protected $collSysPasswords;
     protected $collSysPasswordsPartial;
 
     /**
      * @var        ObjectCollection|ChildSysPasswordRequest[] Collection to store aggregation of ChildSysPasswordRequest objects.
+     * @phpstan-var ObjectCollection&\Traversable<ChildSysPasswordRequest> Collection to store aggregation of ChildSysPasswordRequest objects.
      */
     protected $collSysPasswordRequests;
     protected $collSysPasswordRequestsPartial;
 
     /**
      * @var        ObjectCollection|ChildSysPerson[] Collection to store aggregation of ChildSysPerson objects.
+     * @phpstan-var ObjectCollection&\Traversable<ChildSysPerson> Collection to store aggregation of ChildSysPerson objects.
      */
     protected $collSyspeople;
     protected $collSyspeoplePartial;
 
     /**
      * @var        ObjectCollection|ChildSysUserParam[] Collection to store aggregation of ChildSysUserParam objects.
+     * @phpstan-var ObjectCollection&\Traversable<ChildSysUserParam> Collection to store aggregation of ChildSysUserParam objects.
      */
     protected $collSysUserParams;
     protected $collSysUserParamsPartial;
 
     /**
      * @var        ObjectCollection|ChildSysUserXRol[] Collection to store aggregation of ChildSysUserXRol objects.
+     * @phpstan-var ObjectCollection&\Traversable<ChildSysUserXRol> Collection to store aggregation of ChildSysUserXRol objects.
      */
     protected $collSysUserXRols;
     protected $collSysUserXRolsPartial;
@@ -260,67 +272,77 @@ abstract class SysUser implements ActiveRecordInterface
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      *
-     * @var boolean
+     * @var bool
      */
     protected $alreadyInSave = false;
 
     /**
      * An array of objects scheduled for deletion.
      * @var ObjectCollection|ChildSysAuth[]
+     * @phpstan-var ObjectCollection&\Traversable<ChildSysAuth>
      */
     protected $sysAuthsScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
      * @var ObjectCollection|ChildSysEmailSent[]
+     * @phpstan-var ObjectCollection&\Traversable<ChildSysEmailSent>
      */
     protected $sysEmailSentsScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
      * @var ObjectCollection|ChildSysEntityUser[]
+     * @phpstan-var ObjectCollection&\Traversable<ChildSysEntityUser>
      */
     protected $sysEntityUsersScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
      * @var ObjectCollection|ChildSysEventUser[]
+     * @phpstan-var ObjectCollection&\Traversable<ChildSysEventUser>
      */
     protected $sysEventUsersScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
      * @var ObjectCollection|ChildSysImage[]
+     * @phpstan-var ObjectCollection&\Traversable<ChildSysImage>
      */
     protected $sysImagesScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
      * @var ObjectCollection|ChildSysPassword[]
+     * @phpstan-var ObjectCollection&\Traversable<ChildSysPassword>
      */
     protected $sysPasswordsScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
      * @var ObjectCollection|ChildSysPasswordRequest[]
+     * @phpstan-var ObjectCollection&\Traversable<ChildSysPasswordRequest>
      */
     protected $sysPasswordRequestsScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
      * @var ObjectCollection|ChildSysPerson[]
+     * @phpstan-var ObjectCollection&\Traversable<ChildSysPerson>
      */
     protected $syspeopleScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
      * @var ObjectCollection|ChildSysUserParam[]
+     * @phpstan-var ObjectCollection&\Traversable<ChildSysUserParam>
      */
     protected $sysUserParamsScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
      * @var ObjectCollection|ChildSysUserXRol[]
+     * @phpstan-var ObjectCollection&\Traversable<ChildSysUserXRol>
      */
     protected $sysUserXRolsScheduledForDeletion = null;
 
@@ -330,7 +352,7 @@ abstract class SysUser implements ActiveRecordInterface
      * equivalent initialization method).
      * @see __construct()
      */
-    public function applyDefaultValues()
+    public function applyDefaultValues(): void
     {
         $this->status = 'CREATED';
         $this->access_failures = 0;
@@ -349,9 +371,9 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Returns whether the object has been modified.
      *
-     * @return boolean True if the object has been modified.
+     * @return bool True if the object has been modified.
      */
-    public function isModified()
+    public function isModified(): bool
     {
         return !!$this->modifiedColumns;
     }
@@ -359,10 +381,10 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Has specified column been modified?
      *
-     * @param  string  $col column fully qualified name (TableMap::TYPE_COLNAME), e.g. Book::AUTHOR_ID
-     * @return boolean True if $col has been modified.
+     * @param string $col column fully qualified name (TableMap::TYPE_COLNAME), e.g. Book::AUTHOR_ID
+     * @return bool True if $col has been modified.
      */
-    public function isColumnModified($col)
+    public function isColumnModified(string $col): bool
     {
         return $this->modifiedColumns && isset($this->modifiedColumns[$col]);
     }
@@ -371,7 +393,7 @@ abstract class SysUser implements ActiveRecordInterface
      * Get the columns that have been modified in this object.
      * @return array A unique list of the modified column names for this object.
      */
-    public function getModifiedColumns()
+    public function getModifiedColumns(): array
     {
         return $this->modifiedColumns ? array_keys($this->modifiedColumns) : [];
     }
@@ -381,9 +403,9 @@ abstract class SysUser implements ActiveRecordInterface
      * be false, if the object was retrieved from storage or was created
      * and then saved.
      *
-     * @return boolean true, if the object has never been persisted.
+     * @return bool True, if the object has never been persisted.
      */
-    public function isNew()
+    public function isNew(): bool
     {
         return $this->new;
     }
@@ -392,45 +414,43 @@ abstract class SysUser implements ActiveRecordInterface
      * Setter for the isNew attribute.  This method will be called
      * by Propel-generated children and objects.
      *
-     * @param boolean $b the state of the object.
+     * @param bool $b the state of the object.
      */
-    public function setNew($b)
+    public function setNew(bool $b): void
     {
-        $this->new = (boolean) $b;
+        $this->new = $b;
     }
 
     /**
      * Whether this object has been deleted.
-     * @return boolean The deleted state of this object.
+     * @return bool The deleted state of this object.
      */
-    public function isDeleted()
+    public function isDeleted(): bool
     {
         return $this->deleted;
     }
 
     /**
      * Specify whether this object has been deleted.
-     * @param  boolean $b The deleted state of this object.
+     * @param bool $b The deleted state of this object.
      * @return void
      */
-    public function setDeleted($b)
+    public function setDeleted(bool $b): void
     {
-        $this->deleted = (boolean) $b;
+        $this->deleted = $b;
     }
 
     /**
      * Sets the modified state for the object to be false.
-     * @param  string $col If supplied, only the specified column is reset.
+     * @param string $col If supplied, only the specified column is reset.
      * @return void
      */
-    public function resetModified($col = null)
+    public function resetModified(?string $col = null): void
     {
         if (null !== $col) {
-            if (isset($this->modifiedColumns[$col])) {
-                unset($this->modifiedColumns[$col]);
-            }
+            unset($this->modifiedColumns[$col]);
         } else {
-            $this->modifiedColumns = array();
+            $this->modifiedColumns = [];
         }
     }
 
@@ -439,10 +459,10 @@ abstract class SysUser implements ActiveRecordInterface
      * <code>obj</code> is an instance of <code>SysUser</code>, delegates to
      * <code>equals(SysUser)</code>.  Otherwise, returns <code>false</code>.
      *
-     * @param  mixed   $obj The object to compare to.
-     * @return boolean Whether equal to the object specified.
+     * @param mixed $obj The object to compare to.
+     * @return bool Whether equal to the object specified.
      */
-    public function equals($obj)
+    public function equals($obj): bool
     {
         if (!$obj instanceof static) {
             return false;
@@ -464,7 +484,7 @@ abstract class SysUser implements ActiveRecordInterface
      *
      * @return array
      */
-    public function getVirtualColumns()
+    public function getVirtualColumns(): array
     {
         return $this->virtualColumns;
     }
@@ -472,10 +492,10 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Checks the existence of a virtual column in this object
      *
-     * @param  string  $name The virtual column name
-     * @return boolean
+     * @param string $name The virtual column name
+     * @return bool
      */
-    public function hasVirtualColumn($name)
+    public function hasVirtualColumn(string $name): bool
     {
         return array_key_exists($name, $this->virtualColumns);
     }
@@ -483,15 +503,15 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Get the value of a virtual column in this object
      *
-     * @param  string $name The virtual column name
+     * @param string $name The virtual column name
      * @return mixed
      *
-     * @throws PropelException
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getVirtualColumn($name)
+    public function getVirtualColumn(string $name)
     {
         if (!$this->hasVirtualColumn($name)) {
-            throw new PropelException(sprintf('Cannot get value of inexistent virtual column %s.', $name));
+            throw new PropelException(sprintf('Cannot get value of nonexistent virtual column `%s`.', $name));
         }
 
         return $this->virtualColumns[$name];
@@ -500,12 +520,12 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Set the value of a virtual column in this object
      *
-     * @param string $name  The virtual column name
-     * @param mixed  $value The value to give to the virtual column
+     * @param string $name The virtual column name
+     * @param mixed $value The value to give to the virtual column
      *
-     * @return $this|SysUser The current object, for fluid interface
+     * @return $this The current object, for fluid interface
      */
-    public function setVirtualColumn($name, $value)
+    public function setVirtualColumn(string $name, $value)
     {
         $this->virtualColumns[$name] = $value;
 
@@ -515,13 +535,13 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Logs a message using Propel::log().
      *
-     * @param  string  $msg
-     * @param  int     $priority One of the Propel::LOG_* logging levels
-     * @return boolean
+     * @param string $msg
+     * @param int $priority One of the Propel::LOG_* logging levels
+     * @return void
      */
-    protected function log($msg, $priority = Propel::LOG_INFO)
+    protected function log(string $msg, int $priority = Propel::LOG_INFO): void
     {
-        return Propel::log(get_class($this) . ': ' . $msg, $priority);
+        Propel::log(get_class($this) . ': ' . $msg, $priority);
     }
 
     /**
@@ -532,24 +552,27 @@ abstract class SysUser implements ActiveRecordInterface
      *  => {"Id":9012,"Title":"Don Juan","ISBN":"0140422161","Price":12.99,"PublisherId":1234,"AuthorId":5678}');
      * </code>
      *
-     * @param  mixed   $parser                 A AbstractParser instance, or a format name ('XML', 'YAML', 'JSON', 'CSV')
-     * @param  boolean $includeLazyLoadColumns (optional) Whether to include lazy load(ed) columns. Defaults to TRUE.
-     * @return string  The exported data
+     * @param \Propel\Runtime\Parser\AbstractParser|string $parser An AbstractParser instance, or a format name ('XML', 'YAML', 'JSON', 'CSV')
+     * @param bool $includeLazyLoadColumns (optional) Whether to include lazy load(ed) columns. Defaults to TRUE.
+     * @param string $keyType (optional) One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME, TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM. Defaults to TableMap::TYPE_PHPNAME.
+     * @return string The exported data
      */
-    public function exportTo($parser, $includeLazyLoadColumns = true)
+    public function exportTo($parser, bool $includeLazyLoadColumns = true, string $keyType = TableMap::TYPE_PHPNAME): string
     {
         if (!$parser instanceof AbstractParser) {
             $parser = AbstractParser::getParser($parser);
         }
 
-        return $parser->fromArray($this->toArray(TableMap::TYPE_PHPNAME, $includeLazyLoadColumns, array(), true));
+        return $parser->fromArray($this->toArray($keyType, $includeLazyLoadColumns, array(), true));
     }
 
     /**
      * Clean up internal collections prior to serializing
      * Avoids recursive loops that turn into segmentation faults when serializing
+     *
+     * @return array<string>
      */
-    public function __sleep()
+    public function __sleep(): array
     {
         $this->clearAllReferences();
 
@@ -617,7 +640,7 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Get the [location] column value.
      *
-     * @return string
+     * @return string|null
      */
     public function getLocation()
     {
@@ -627,7 +650,7 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Get the [address] column value.
      *
-     * @return string
+     * @return string|null
      */
     public function getAddress()
     {
@@ -637,7 +660,7 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Get the [image_mime] column value.
      *
-     * @return string
+     * @return string|null
      */
     public function getImageMime()
     {
@@ -648,14 +671,16 @@ abstract class SysUser implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [actual_access] column value.
      *
      *
-     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
-     *                            If format is NULL, then the raw DateTime object will be returned.
+     * @param string|null $format The date/time format string (either date()-style or strftime()-style).
+     *   If format is NULL, then the raw DateTime object will be returned.
      *
-     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
+     * @return string|DateTime|null Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00.
      *
-     * @throws PropelException - if unable to parse/validate the date/time value.
+     * @throws \Propel\Runtime\Exception\PropelException - if unable to parse/validate the date/time value.
+     *
+     * @psalm-return ($format is null ? DateTime|null : string|null)
      */
-    public function getActualAccess($format = NULL)
+    public function getActualAccess($format = null)
     {
         if ($format === null) {
             return $this->actual_access;
@@ -668,14 +693,16 @@ abstract class SysUser implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [last_access] column value.
      *
      *
-     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
-     *                            If format is NULL, then the raw DateTime object will be returned.
+     * @param string|null $format The date/time format string (either date()-style or strftime()-style).
+     *   If format is NULL, then the raw DateTime object will be returned.
      *
-     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
+     * @return string|DateTime|null Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00.
      *
-     * @throws PropelException - if unable to parse/validate the date/time value.
+     * @throws \Propel\Runtime\Exception\PropelException - if unable to parse/validate the date/time value.
+     *
+     * @psalm-return ($format is null ? DateTime|null : string|null)
      */
-    public function getLastAccess($format = NULL)
+    public function getLastAccess($format = null)
     {
         if ($format === null) {
             return $this->last_access;
@@ -708,14 +735,16 @@ abstract class SysUser implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [creation_date] column value.
      *
      *
-     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
-     *                            If format is NULL, then the raw DateTime object will be returned.
+     * @param string|null $format The date/time format string (either date()-style or strftime()-style).
+     *   If format is NULL, then the raw DateTime object will be returned.
      *
-     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
+     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), and 0 if column value is 0000-00-00 00:00:00.
      *
-     * @throws PropelException - if unable to parse/validate the date/time value.
+     * @throws \Propel\Runtime\Exception\PropelException - if unable to parse/validate the date/time value.
+     *
+     * @psalm-return ($format is null ? DateTime : string)
      */
-    public function getCreationDate($format = NULL)
+    public function getCreationDate($format = null)
     {
         if ($format === null) {
             return $this->creation_date;
@@ -728,14 +757,16 @@ abstract class SysUser implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [modification_date] column value.
      *
      *
-     * @param      string|null $format The date/time format string (either date()-style or strftime()-style).
-     *                            If format is NULL, then the raw DateTime object will be returned.
+     * @param string|null $format The date/time format string (either date()-style or strftime()-style).
+     *   If format is NULL, then the raw DateTime object will be returned.
      *
-     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
+     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), and 0 if column value is 0000-00-00 00:00:00.
      *
-     * @throws PropelException - if unable to parse/validate the date/time value.
+     * @throws \Propel\Runtime\Exception\PropelException - if unable to parse/validate the date/time value.
+     *
+     * @psalm-return ($format is null ? DateTime : string)
      */
-    public function getModificationDate($format = NULL)
+    public function getModificationDate($format = null)
     {
         if ($format === null) {
             return $this->modification_date;
@@ -747,8 +778,8 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Set the value of [id] column.
      *
-     * @param int $v new value
-     * @return $this|\SysUser The current object (for fluent API support)
+     * @param int $v New value
+     * @return $this The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -762,13 +793,13 @@ abstract class SysUser implements ActiveRecordInterface
         }
 
         return $this;
-    } // setId()
+    }
 
     /**
      * Set the value of [email] column.
      *
-     * @param string $v new value
-     * @return $this|\SysUser The current object (for fluent API support)
+     * @param string $v New value
+     * @return $this The current object (for fluent API support)
      */
     public function setEmail($v)
     {
@@ -782,13 +813,13 @@ abstract class SysUser implements ActiveRecordInterface
         }
 
         return $this;
-    } // setEmail()
+    }
 
     /**
      * Set the value of [username] column.
      *
-     * @param string $v new value
-     * @return $this|\SysUser The current object (for fluent API support)
+     * @param string $v New value
+     * @return $this The current object (for fluent API support)
      */
     public function setUsername($v)
     {
@@ -802,13 +833,13 @@ abstract class SysUser implements ActiveRecordInterface
         }
 
         return $this;
-    } // setUsername()
+    }
 
     /**
      * Set the value of [password] column.
      *
-     * @param string $v new value
-     * @return $this|\SysUser The current object (for fluent API support)
+     * @param string $v New value
+     * @return $this The current object (for fluent API support)
      */
     public function setPassword($v)
     {
@@ -822,13 +853,13 @@ abstract class SysUser implements ActiveRecordInterface
         }
 
         return $this;
-    } // setPassword()
+    }
 
     /**
      * Set the value of [status] column.
      *
-     * @param string $v new value
-     * @return $this|\SysUser The current object (for fluent API support)
+     * @param string $v New value
+     * @return $this The current object (for fluent API support)
      */
     public function setStatus($v)
     {
@@ -842,13 +873,13 @@ abstract class SysUser implements ActiveRecordInterface
         }
 
         return $this;
-    } // setStatus()
+    }
 
     /**
      * Set the value of [location] column.
      *
-     * @param string $v new value
-     * @return $this|\SysUser The current object (for fluent API support)
+     * @param string|null $v New value
+     * @return $this The current object (for fluent API support)
      */
     public function setLocation($v)
     {
@@ -862,13 +893,13 @@ abstract class SysUser implements ActiveRecordInterface
         }
 
         return $this;
-    } // setLocation()
+    }
 
     /**
      * Set the value of [address] column.
      *
-     * @param string $v new value
-     * @return $this|\SysUser The current object (for fluent API support)
+     * @param string|null $v New value
+     * @return $this The current object (for fluent API support)
      */
     public function setAddress($v)
     {
@@ -882,13 +913,13 @@ abstract class SysUser implements ActiveRecordInterface
         }
 
         return $this;
-    } // setAddress()
+    }
 
     /**
      * Set the value of [image_mime] column.
      *
-     * @param string $v new value
-     * @return $this|\SysUser The current object (for fluent API support)
+     * @param string|null $v New value
+     * @return $this The current object (for fluent API support)
      */
     public function setImageMime($v)
     {
@@ -902,14 +933,14 @@ abstract class SysUser implements ActiveRecordInterface
         }
 
         return $this;
-    } // setImageMime()
+    }
 
     /**
      * Sets the value of [actual_access] column to a normalized version of the date/time value specified.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
+     * @param string|integer|\DateTimeInterface|null $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
-     * @return $this|\SysUser The current object (for fluent API support)
+     * @return $this The current object (for fluent API support)
      */
     public function setActualAccess($v)
     {
@@ -922,14 +953,14 @@ abstract class SysUser implements ActiveRecordInterface
         } // if either are not null
 
         return $this;
-    } // setActualAccess()
+    }
 
     /**
      * Sets the value of [last_access] column to a normalized version of the date/time value specified.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
+     * @param string|integer|\DateTimeInterface|null $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
-     * @return $this|\SysUser The current object (for fluent API support)
+     * @return $this The current object (for fluent API support)
      */
     public function setLastAccess($v)
     {
@@ -942,13 +973,13 @@ abstract class SysUser implements ActiveRecordInterface
         } // if either are not null
 
         return $this;
-    } // setLastAccess()
+    }
 
     /**
      * Set the value of [access_failures] column.
      *
-     * @param int $v new value
-     * @return $this|\SysUser The current object (for fluent API support)
+     * @param int $v New value
+     * @return $this The current object (for fluent API support)
      */
     public function setAccessFailures($v)
     {
@@ -962,13 +993,13 @@ abstract class SysUser implements ActiveRecordInterface
         }
 
         return $this;
-    } // setAccessFailures()
+    }
 
     /**
      * Set the value of [last_user_id] column.
      *
-     * @param int $v new value
-     * @return $this|\SysUser The current object (for fluent API support)
+     * @param int $v New value
+     * @return $this The current object (for fluent API support)
      */
     public function setLastUserId($v)
     {
@@ -982,14 +1013,14 @@ abstract class SysUser implements ActiveRecordInterface
         }
 
         return $this;
-    } // setLastUserId()
+    }
 
     /**
      * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
+     * @param string|integer|\DateTimeInterface $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
-     * @return $this|\SysUser The current object (for fluent API support)
+     * @return $this The current object (for fluent API support)
      */
     public function setCreationDate($v)
     {
@@ -1002,14 +1033,14 @@ abstract class SysUser implements ActiveRecordInterface
         } // if either are not null
 
         return $this;
-    } // setCreationDate()
+    }
 
     /**
      * Sets the value of [modification_date] column to a normalized version of the date/time value specified.
      *
-     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
+     * @param string|integer|\DateTimeInterface $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
-     * @return $this|\SysUser The current object (for fluent API support)
+     * @return $this The current object (for fluent API support)
      */
     public function setModificationDate($v)
     {
@@ -1022,7 +1053,7 @@ abstract class SysUser implements ActiveRecordInterface
         } // if either are not null
 
         return $this;
-    } // setModificationDate()
+    }
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -1030,9 +1061,9 @@ abstract class SysUser implements ActiveRecordInterface
      * This method can be used in conjunction with isModified() to indicate whether an object is both
      * modified _and_ has some values set which are non-default.
      *
-     * @return boolean Whether the columns in this object are only been set with default values.
+     * @return bool Whether the columns in this object are only been set with default values.
      */
-    public function hasOnlyDefaultValues()
+    public function hasOnlyDefaultValues(): bool
     {
             if ($this->status !== 'CREATED') {
                 return false;
@@ -1048,7 +1079,7 @@ abstract class SysUser implements ActiveRecordInterface
 
         // otherwise, everything was equal, so return TRUE
         return true;
-    } // hasOnlyDefaultValues()
+    }
 
     /**
      * Hydrates (populates) the object variables with values from the database resultset.
@@ -1058,17 +1089,17 @@ abstract class SysUser implements ActiveRecordInterface
      * for results of JOIN queries where the resultset row includes columns from two or
      * more tables.
      *
-     * @param array   $row       The row returned by DataFetcher->fetch().
-     * @param int     $startcol  0-based offset column which indicates which restultset column to start with.
-     * @param boolean $rehydrate Whether this object is being re-hydrated from the database.
-     * @param string  $indexType The index type of $row. Mostly DataFetcher->getIndexType().
+     * @param array $row The row returned by DataFetcher->fetch().
+     * @param int $startcol 0-based offset column which indicates which resultset column to start with.
+     * @param bool $rehydrate Whether this object is being re-hydrated from the database.
+     * @param string $indexType The index type of $row. Mostly DataFetcher->getIndexType().
                                   One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                            TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *
-     * @return int             next starting column
-     * @throws PropelException - Any caught Exception will be rewrapped as a PropelException.
+     * @return int next starting column
+     * @throws \Propel\Runtime\Exception\PropelException - Any caught Exception will be rewrapped as a PropelException.
      */
-    public function hydrate($row, $startcol = 0, $rehydrate = false, $indexType = TableMap::TYPE_NUM)
+    public function hydrate(array $row, int $startcol = 0, bool $rehydrate = false, string $indexType = TableMap::TYPE_NUM): int
     {
         try {
 
@@ -1125,8 +1156,8 @@ abstract class SysUser implements ActiveRecordInterface
                 $col = null;
             }
             $this->modification_date = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
-            $this->resetModified();
 
+            $this->resetModified();
             $this->setNew(false);
 
             if ($rehydrate) {
@@ -1151,23 +1182,24 @@ abstract class SysUser implements ActiveRecordInterface
      * the base method from the overridden method (i.e. parent::ensureConsistency()),
      * in case your model changes.
      *
-     * @throws PropelException
+     * @throws \Propel\Runtime\Exception\PropelException
+     * @return void
      */
-    public function ensureConsistency()
+    public function ensureConsistency(): void
     {
-    } // ensureConsistency
+    }
 
     /**
      * Reloads this object from datastore based on primary key and (optionally) resets all associated objects.
      *
      * This will only work if the object has been saved and has a valid primary key set.
      *
-     * @param      boolean $deep (optional) Whether to also de-associated any related objects.
-     * @param      ConnectionInterface $con (optional) The ConnectionInterface connection to use.
+     * @param bool $deep (optional) Whether to also de-associated any related objects.
+     * @param ConnectionInterface $con (optional) The ConnectionInterface connection to use.
      * @return void
-     * @throws PropelException - if this object is deleted, unsaved or doesn't have pk match in db
+     * @throws \Propel\Runtime\Exception\PropelException - if this object is deleted, unsaved or doesn't have pk match in db
      */
-    public function reload($deep = false, ConnectionInterface $con = null)
+    public function reload(bool $deep = false, ?ConnectionInterface $con = null): void
     {
         if ($this->isDeleted()) {
             throw new PropelException("Cannot reload a deleted object.");
@@ -1220,13 +1252,13 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Removes this object from datastore and sets delete attribute.
      *
-     * @param      ConnectionInterface $con
+     * @param ConnectionInterface $con
      * @return void
-     * @throws PropelException
+     * @throws \Propel\Runtime\Exception\PropelException
      * @see SysUser::setDeleted()
      * @see SysUser::isDeleted()
      */
-    public function delete(ConnectionInterface $con = null)
+    public function delete(?ConnectionInterface $con = null): void
     {
         if ($this->isDeleted()) {
             throw new PropelException("This object has already been deleted.");
@@ -1256,12 +1288,12 @@ abstract class SysUser implements ActiveRecordInterface
      * method.  This method wraps all precipitate database operations in a
      * single transaction.
      *
-     * @param      ConnectionInterface $con
-     * @return int             The number of rows affected by this insert/update and any referring fk objects' save() operations.
-     * @throws PropelException
+     * @param ConnectionInterface $con
+     * @return int The number of rows affected by this insert/update and any referring fk objects' save() operations.
+     * @throws \Propel\Runtime\Exception\PropelException
      * @see doSave()
      */
-    public function save(ConnectionInterface $con = null)
+    public function save(?ConnectionInterface $con = null): int
     {
         if ($this->isDeleted()) {
             throw new PropelException("You cannot save an object that has been deleted.");
@@ -1306,12 +1338,12 @@ abstract class SysUser implements ActiveRecordInterface
      * If the object is new, it inserts it; otherwise an update is performed.
      * All related objects are also updated in this method.
      *
-     * @param      ConnectionInterface $con
-     * @return int             The number of rows affected by this insert/update and any referring fk objects' save() operations.
-     * @throws PropelException
+     * @param ConnectionInterface $con
+     * @return int The number of rows affected by this insert/update and any referring fk objects' save() operations.
+     * @throws \Propel\Runtime\Exception\PropelException
      * @see save()
      */
-    protected function doSave(ConnectionInterface $con)
+    protected function doSave(ConnectionInterface $con): int
     {
         $affectedRows = 0; // initialize var to track total num of affected rows
         if (!$this->alreadyInSave) {
@@ -1504,19 +1536,19 @@ abstract class SysUser implements ActiveRecordInterface
         }
 
         return $affectedRows;
-    } // doSave()
+    }
 
     /**
      * Insert the row in the database.
      *
-     * @param      ConnectionInterface $con
+     * @param ConnectionInterface $con
      *
-     * @throws PropelException
+     * @throws \Propel\Runtime\Exception\PropelException
      * @see doSave()
      */
-    protected function doInsert(ConnectionInterface $con)
+    protected function doInsert(ConnectionInterface $con): void
     {
-        $modifiedColumns = array();
+        $modifiedColumns = [];
         $index = 0;
 
         $this->modifiedColumns[SysUserTableMap::COL_ID] = true;
@@ -1580,45 +1612,59 @@ abstract class SysUser implements ActiveRecordInterface
                 switch ($columnName) {
                     case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+
                         break;
                     case 'EMAIL':
                         $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
+
                         break;
                     case 'USERNAME':
                         $stmt->bindValue($identifier, $this->username, PDO::PARAM_STR);
+
                         break;
                     case 'PASSWORD':
                         $stmt->bindValue($identifier, $this->password, PDO::PARAM_STR);
+
                         break;
                     case 'STATUS':
                         $stmt->bindValue($identifier, $this->status, PDO::PARAM_STR);
+
                         break;
                     case 'LOCATION':
                         $stmt->bindValue($identifier, $this->location, PDO::PARAM_STR);
+
                         break;
                     case 'ADDRESS':
                         $stmt->bindValue($identifier, $this->address, PDO::PARAM_STR);
+
                         break;
                     case 'IMAGE_MIME':
                         $stmt->bindValue($identifier, $this->image_mime, PDO::PARAM_STR);
+
                         break;
                     case 'ACTUAL_ACCESS':
                         $stmt->bindValue($identifier, $this->actual_access ? $this->actual_access->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
+
                         break;
                     case 'LAST_ACCESS':
                         $stmt->bindValue($identifier, $this->last_access ? $this->last_access->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
+
                         break;
                     case 'ACCESS_FAILURES':
                         $stmt->bindValue($identifier, $this->access_failures, PDO::PARAM_INT);
+
                         break;
                     case 'LAST_USER_ID':
                         $stmt->bindValue($identifier, $this->last_user_id, PDO::PARAM_INT);
+
                         break;
                     case 'CREATION_DATE':
                         $stmt->bindValue($identifier, $this->creation_date ? $this->creation_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
+
                         break;
                     case 'MODIFICATION_DATE':
                         $stmt->bindValue($identifier, $this->modification_date ? $this->modification_date->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
+
                         break;
                 }
             }
@@ -1641,12 +1687,12 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Update the row in the database.
      *
-     * @param      ConnectionInterface $con
+     * @param ConnectionInterface $con
      *
-     * @return Integer Number of updated rows
+     * @return int Number of updated rows
      * @see doSave()
      */
-    protected function doUpdate(ConnectionInterface $con)
+    protected function doUpdate(ConnectionInterface $con): int
     {
         $selectCriteria = $this->buildPkeyCriteria();
         $valuesCriteria = $this->buildCriteria();
@@ -1657,14 +1703,14 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Retrieves a field from the object by name passed in as a string.
      *
-     * @param      string $name name
-     * @param      string $type The type of fieldname the $name is of:
+     * @param string $name name
+     * @param string $type The type of fieldname the $name is of:
      *                     one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                     TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                     Defaults to TableMap::TYPE_PHPNAME.
      * @return mixed Value of field.
      */
-    public function getByName($name, $type = TableMap::TYPE_PHPNAME)
+    public function getByName(string $name, string $type = TableMap::TYPE_PHPNAME)
     {
         $pos = SysUserTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
@@ -1676,57 +1722,56 @@ abstract class SysUser implements ActiveRecordInterface
      * Retrieves a field from the object by Position as specified in the xml schema.
      * Zero-based.
      *
-     * @param      int $pos position in xml schema
+     * @param int $pos Position in XML schema
      * @return mixed Value of field at $pos
      */
-    public function getByPosition($pos)
+    public function getByPosition(int $pos)
     {
         switch ($pos) {
             case 0:
                 return $this->getId();
-                break;
+
             case 1:
                 return $this->getEmail();
-                break;
+
             case 2:
                 return $this->getUsername();
-                break;
+
             case 3:
                 return $this->getPassword();
-                break;
+
             case 4:
                 return $this->getStatus();
-                break;
+
             case 5:
                 return $this->getLocation();
-                break;
+
             case 6:
                 return $this->getAddress();
-                break;
+
             case 7:
                 return $this->getImageMime();
-                break;
+
             case 8:
                 return $this->getActualAccess();
-                break;
+
             case 9:
                 return $this->getLastAccess();
-                break;
+
             case 10:
                 return $this->getAccessFailures();
-                break;
+
             case 11:
                 return $this->getLastUserId();
-                break;
+
             case 12:
                 return $this->getCreationDate();
-                break;
+
             case 13:
                 return $this->getModificationDate();
-                break;
+
             default:
                 return null;
-                break;
         } // switch()
     }
 
@@ -1736,24 +1781,23 @@ abstract class SysUser implements ActiveRecordInterface
      * You can specify the key type of the array by passing one of the class
      * type constants.
      *
-     * @param     string  $keyType (optional) One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME,
+     * @param string $keyType (optional) One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME,
      *                    TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                    Defaults to TableMap::TYPE_PHPNAME.
-     * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
-     * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
-     * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
+     * @param bool $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
+     * @param array $alreadyDumpedObjects List of objects to skip to avoid recursion
+     * @param bool $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
      *
-     * @return array an associative array containing the field names (as keys) and field values
+     * @return array An associative array containing the field names (as keys) and field values
      */
-    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
+    public function toArray(string $keyType = TableMap::TYPE_PHPNAME, bool $includeLazyLoadColumns = true, array $alreadyDumpedObjects = [], bool $includeForeignObjects = false): array
     {
-
         if (isset($alreadyDumpedObjects['SysUser'][$this->hashCode()])) {
-            return '*RECURSION*';
+            return ['*RECURSION*'];
         }
         $alreadyDumpedObjects['SysUser'][$this->hashCode()] = true;
         $keys = SysUserTableMap::getFieldNames($keyType);
-        $result = array(
+        $result = [
             $keys[0] => $this->getId(),
             $keys[1] => $this->getEmail(),
             $keys[2] => $this->getUsername(),
@@ -1768,21 +1812,21 @@ abstract class SysUser implements ActiveRecordInterface
             $keys[11] => $this->getLastUserId(),
             $keys[12] => $this->getCreationDate(),
             $keys[13] => $this->getModificationDate(),
-        );
+        ];
         if ($result[$keys[8]] instanceof \DateTimeInterface) {
-            $result[$keys[8]] = $result[$keys[8]]->format('c');
+            $result[$keys[8]] = $result[$keys[8]]->format('Y-m-d H:i:s.u');
         }
 
         if ($result[$keys[9]] instanceof \DateTimeInterface) {
-            $result[$keys[9]] = $result[$keys[9]]->format('c');
+            $result[$keys[9]] = $result[$keys[9]]->format('Y-m-d H:i:s.u');
         }
 
         if ($result[$keys[12]] instanceof \DateTimeInterface) {
-            $result[$keys[12]] = $result[$keys[12]]->format('c');
+            $result[$keys[12]] = $result[$keys[12]]->format('Y-m-d H:i:s.u');
         }
 
         if ($result[$keys[13]] instanceof \DateTimeInterface) {
-            $result[$keys[13]] = $result[$keys[13]]->format('c');
+            $result[$keys[13]] = $result[$keys[13]]->format('Y-m-d H:i:s.u');
         }
 
         $virtualColumns = $this->virtualColumns;
@@ -1949,30 +1993,32 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Sets a field from the object by name passed in as a string.
      *
-     * @param  string $name
-     * @param  mixed  $value field value
-     * @param  string $type The type of fieldname the $name is of:
+     * @param string $name
+     * @param mixed $value field value
+     * @param string $type The type of fieldname the $name is of:
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\SysUser
+     * @return $this
      */
-    public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
+    public function setByName(string $name, $value, string $type = TableMap::TYPE_PHPNAME)
     {
         $pos = SysUserTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
-        return $this->setByPosition($pos, $value);
+        $this->setByPosition($pos, $value);
+
+        return $this;
     }
 
     /**
      * Sets a field from the object by Position as specified in the xml schema.
      * Zero-based.
      *
-     * @param  int $pos position in xml schema
-     * @param  mixed $value field value
-     * @return $this|\SysUser
+     * @param int $pos position in xml schema
+     * @param mixed $value field value
+     * @return $this
      */
-    public function setByPosition($pos, $value)
+    public function setByPosition(int $pos, $value)
     {
         switch ($pos) {
             case 0:
@@ -2035,11 +2081,11 @@ abstract class SysUser implements ActiveRecordInterface
      * TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      * The default key type is the column's TableMap::TYPE_PHPNAME.
      *
-     * @param      array  $arr     An array to populate the object from.
-     * @param      string $keyType The type of keys the array uses.
-     * @return void
+     * @param array $arr An array to populate the object from.
+     * @param string $keyType The type of keys the array uses.
+     * @return $this
      */
-    public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
+    public function fromArray(array $arr, string $keyType = TableMap::TYPE_PHPNAME)
     {
         $keys = SysUserTableMap::getFieldNames($keyType);
 
@@ -2085,6 +2131,8 @@ abstract class SysUser implements ActiveRecordInterface
         if (array_key_exists($keys[13], $arr)) {
             $this->setModificationDate($arr[$keys[13]]);
         }
+
+        return $this;
     }
 
      /**
@@ -2104,9 +2152,9 @@ abstract class SysUser implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\SysUser The current object, for fluid interface
+     * @return $this The current object, for fluid interface
      */
-    public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
+    public function importFrom($parser, string $data, string $keyType = TableMap::TYPE_PHPNAME)
     {
         if (!$parser instanceof AbstractParser) {
             $parser = AbstractParser::getParser($parser);
@@ -2120,9 +2168,9 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Build a Criteria object containing the values of all modified columns in this object.
      *
-     * @return Criteria The Criteria object containing all modified values.
+     * @return \Propel\Runtime\ActiveQuery\Criteria The Criteria object containing all modified values.
      */
-    public function buildCriteria()
+    public function buildCriteria(): Criteria
     {
         $criteria = new Criteria(SysUserTableMap::DATABASE_NAME);
 
@@ -2176,13 +2224,13 @@ abstract class SysUser implements ActiveRecordInterface
      * Builds a Criteria object containing the primary key for this object.
      *
      * Unlike buildCriteria() this method includes the primary key values regardless
-     * of whether or not they have been modified.
+     * of whether they have been modified.
      *
      * @throws LogicException if no primary key is defined
      *
-     * @return Criteria The Criteria object containing value(s) for primary key(s).
+     * @return \Propel\Runtime\ActiveQuery\Criteria The Criteria object containing value(s) for primary key(s).
      */
-    public function buildPkeyCriteria()
+    public function buildPkeyCriteria(): Criteria
     {
         $criteria = ChildSysUserQuery::create();
         $criteria->add(SysUserTableMap::COL_ID, $this->id);
@@ -2194,7 +2242,7 @@ abstract class SysUser implements ActiveRecordInterface
      * If the primary key is not null, return the hashcode of the
      * primary key. Otherwise, return the hash code of the object.
      *
-     * @return int Hashcode
+     * @return int|string Hashcode
      */
     public function hashCode()
     {
@@ -2224,19 +2272,20 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Generic method to set the primary key (id column).
      *
-     * @param       int $key Primary key.
+     * @param int|null $key Primary key.
      * @return void
      */
-    public function setPrimaryKey($key)
+    public function setPrimaryKey(?int $key = null): void
     {
         $this->setId($key);
     }
 
     /**
      * Returns true if the primary key for this object is null.
-     * @return boolean
+     *
+     * @return bool
      */
-    public function isPrimaryKeyNull()
+    public function isPrimaryKeyNull(): bool
     {
         return null === $this->getId();
     }
@@ -2247,12 +2296,13 @@ abstract class SysUser implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \SysUser (or compatible) type.
-     * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
-     * @throws PropelException
+     * @param object $copyObj An object of \SysUser (or compatible) type.
+     * @param bool $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
+     * @param bool $makeNew Whether to reset autoincrement PKs and make the object new.
+     * @throws \Propel\Runtime\Exception\PropelException
+     * @return void
      */
-    public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
+    public function copyInto(object $copyObj, bool $deepCopy = false, bool $makeNew = true): void
     {
         $copyObj->setEmail($this->getEmail());
         $copyObj->setUsername($this->getUsername());
@@ -2349,11 +2399,11 @@ abstract class SysUser implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
+     * @param bool $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @return \SysUser Clone of current object.
-     * @throws PropelException
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function copy($deepCopy = false)
+    public function copy(bool $deepCopy = false)
     {
         // we use get_class(), because this might be a subclass
         $clazz = get_class($this);
@@ -2369,48 +2419,48 @@ abstract class SysUser implements ActiveRecordInterface
      * Avoids crafting an 'init[$relationName]s' method name
      * that wouldn't work when StandardEnglishPluralizer is used.
      *
-     * @param      string $relationName The name of the relation to initialize
+     * @param string $relationName The name of the relation to initialize
      * @return void
      */
-    public function initRelation($relationName)
+    public function initRelation($relationName): void
     {
-        if ('SysAuth' == $relationName) {
+        if ('SysAuth' === $relationName) {
             $this->initSysAuths();
             return;
         }
-        if ('SysEmailSent' == $relationName) {
+        if ('SysEmailSent' === $relationName) {
             $this->initSysEmailSents();
             return;
         }
-        if ('SysEntityUser' == $relationName) {
+        if ('SysEntityUser' === $relationName) {
             $this->initSysEntityUsers();
             return;
         }
-        if ('SysEventUser' == $relationName) {
+        if ('SysEventUser' === $relationName) {
             $this->initSysEventUsers();
             return;
         }
-        if ('SysImage' == $relationName) {
+        if ('SysImage' === $relationName) {
             $this->initSysImages();
             return;
         }
-        if ('SysPassword' == $relationName) {
+        if ('SysPassword' === $relationName) {
             $this->initSysPasswords();
             return;
         }
-        if ('SysPasswordRequest' == $relationName) {
+        if ('SysPasswordRequest' === $relationName) {
             $this->initSysPasswordRequests();
             return;
         }
-        if ('SysPerson' == $relationName) {
+        if ('SysPerson' === $relationName) {
             $this->initSyspeople();
             return;
         }
-        if ('SysUserParam' == $relationName) {
+        if ('SysUserParam' === $relationName) {
             $this->initSysUserParams();
             return;
         }
-        if ('SysUserXRol' == $relationName) {
+        if ('SysUserXRol' === $relationName) {
             $this->initSysUserXRols();
             return;
         }
@@ -2422,18 +2472,22 @@ abstract class SysUser implements ActiveRecordInterface
      * This does not modify the database; however, it will remove any associated objects, causing
      * them to be refetched by subsequent calls to accessor method.
      *
-     * @return void
-     * @see        addSysAuths()
+     * @return $this
+     * @see addSysAuths()
      */
     public function clearSysAuths()
     {
         $this->collSysAuths = null; // important to set this to NULL since that means it is uninitialized
+
+        return $this;
     }
 
     /**
      * Reset is the collSysAuths collection loaded partially.
+     *
+     * @return void
      */
-    public function resetPartialSysAuths($v = true)
+    public function resetPartialSysAuths($v = true): void
     {
         $this->collSysAuthsPartial = $v;
     }
@@ -2445,12 +2499,12 @@ abstract class SysUser implements ActiveRecordInterface
      * however, you may wish to override this method in your stub class to provide setting appropriate
      * to your application -- for example, setting the initial array to the values stored in database.
      *
-     * @param      boolean $overrideExisting If set to true, the method call initializes
+     * @param bool $overrideExisting If set to true, the method call initializes
      *                                        the collection even if it is not empty
      *
      * @return void
      */
-    public function initSysAuths($overrideExisting = true)
+    public function initSysAuths(bool $overrideExisting = true): void
     {
         if (null !== $this->collSysAuths && !$overrideExisting) {
             return;
@@ -2471,18 +2525,28 @@ abstract class SysUser implements ActiveRecordInterface
      * If this ChildSysUser is new, it will return
      * an empty collection or the current collection; the criteria is ignored on a new object.
      *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param ConnectionInterface $con optional connection object
      * @return ObjectCollection|ChildSysAuth[] List of ChildSysAuth objects
-     * @throws PropelException
+     * @phpstan-return ObjectCollection&\Traversable<ChildSysAuth> List of ChildSysAuth objects
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getSysAuths(Criteria $criteria = null, ConnectionInterface $con = null)
+    public function getSysAuths(?Criteria $criteria = null, ?ConnectionInterface $con = null)
     {
         $partial = $this->collSysAuthsPartial && !$this->isNew();
-        if (null === $this->collSysAuths || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collSysAuths) {
+        if (null === $this->collSysAuths || null !== $criteria || $partial) {
+            if ($this->isNew()) {
                 // return empty collection
-                $this->initSysAuths();
+                if (null === $this->collSysAuths) {
+                    $this->initSysAuths();
+                } else {
+                    $collectionClassName = SysAuthTableMap::getTableMap()->getCollectionClassName();
+
+                    $collSysAuths = new $collectionClassName;
+                    $collSysAuths->setModel('\SysAuth');
+
+                    return $collSysAuths;
+                }
             } else {
                 $collSysAuths = ChildSysAuthQuery::create(null, $criteria)
                     ->filterBySysUser($this)
@@ -2526,11 +2590,11 @@ abstract class SysUser implements ActiveRecordInterface
      * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
      * and new objects from the given Propel collection.
      *
-     * @param      Collection $sysAuths A Propel collection.
-     * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildSysUser The current object (for fluent API support)
+     * @param Collection $sysAuths A Propel collection.
+     * @param ConnectionInterface $con Optional connection object
+     * @return $this The current object (for fluent API support)
      */
-    public function setSysAuths(Collection $sysAuths, ConnectionInterface $con = null)
+    public function setSysAuths(Collection $sysAuths, ?ConnectionInterface $con = null)
     {
         /** @var ChildSysAuth[] $sysAuthsToDelete */
         $sysAuthsToDelete = $this->getSysAuths(new Criteria(), $con)->diff($sysAuths);
@@ -2556,13 +2620,13 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Returns the number of related SysAuth objects.
      *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct
-     * @param      ConnectionInterface $con
-     * @return int             Count of related SysAuth objects.
-     * @throws PropelException
+     * @param Criteria $criteria
+     * @param bool $distinct
+     * @param ConnectionInterface $con
+     * @return int Count of related SysAuth objects.
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function countSysAuths(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    public function countSysAuths(?Criteria $criteria = null, bool $distinct = false, ?ConnectionInterface $con = null): int
     {
         $partial = $this->collSysAuthsPartial && !$this->isNew();
         if (null === $this->collSysAuths || null !== $criteria || $partial) {
@@ -2591,8 +2655,8 @@ abstract class SysUser implements ActiveRecordInterface
      * Method called to associate a ChildSysAuth object to this object
      * through the ChildSysAuth foreign key attribute.
      *
-     * @param  ChildSysAuth $l ChildSysAuth
-     * @return $this|\SysUser The current object (for fluent API support)
+     * @param ChildSysAuth $l ChildSysAuth
+     * @return $this The current object (for fluent API support)
      */
     public function addSysAuth(ChildSysAuth $l)
     {
@@ -2615,15 +2679,15 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * @param ChildSysAuth $sysAuth The ChildSysAuth object to add.
      */
-    protected function doAddSysAuth(ChildSysAuth $sysAuth)
+    protected function doAddSysAuth(ChildSysAuth $sysAuth): void
     {
         $this->collSysAuths[]= $sysAuth;
         $sysAuth->setSysUser($this);
     }
 
     /**
-     * @param  ChildSysAuth $sysAuth The ChildSysAuth object to remove.
-     * @return $this|ChildSysUser The current object (for fluent API support)
+     * @param ChildSysAuth $sysAuth The ChildSysAuth object to remove.
+     * @return $this The current object (for fluent API support)
      */
     public function removeSysAuth(ChildSysAuth $sysAuth)
     {
@@ -2647,18 +2711,22 @@ abstract class SysUser implements ActiveRecordInterface
      * This does not modify the database; however, it will remove any associated objects, causing
      * them to be refetched by subsequent calls to accessor method.
      *
-     * @return void
-     * @see        addSysEmailSents()
+     * @return $this
+     * @see addSysEmailSents()
      */
     public function clearSysEmailSents()
     {
         $this->collSysEmailSents = null; // important to set this to NULL since that means it is uninitialized
+
+        return $this;
     }
 
     /**
      * Reset is the collSysEmailSents collection loaded partially.
+     *
+     * @return void
      */
-    public function resetPartialSysEmailSents($v = true)
+    public function resetPartialSysEmailSents($v = true): void
     {
         $this->collSysEmailSentsPartial = $v;
     }
@@ -2670,12 +2738,12 @@ abstract class SysUser implements ActiveRecordInterface
      * however, you may wish to override this method in your stub class to provide setting appropriate
      * to your application -- for example, setting the initial array to the values stored in database.
      *
-     * @param      boolean $overrideExisting If set to true, the method call initializes
+     * @param bool $overrideExisting If set to true, the method call initializes
      *                                        the collection even if it is not empty
      *
      * @return void
      */
-    public function initSysEmailSents($overrideExisting = true)
+    public function initSysEmailSents(bool $overrideExisting = true): void
     {
         if (null !== $this->collSysEmailSents && !$overrideExisting) {
             return;
@@ -2696,18 +2764,28 @@ abstract class SysUser implements ActiveRecordInterface
      * If this ChildSysUser is new, it will return
      * an empty collection or the current collection; the criteria is ignored on a new object.
      *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param ConnectionInterface $con optional connection object
      * @return ObjectCollection|ChildSysEmailSent[] List of ChildSysEmailSent objects
-     * @throws PropelException
+     * @phpstan-return ObjectCollection&\Traversable<ChildSysEmailSent> List of ChildSysEmailSent objects
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getSysEmailSents(Criteria $criteria = null, ConnectionInterface $con = null)
+    public function getSysEmailSents(?Criteria $criteria = null, ?ConnectionInterface $con = null)
     {
         $partial = $this->collSysEmailSentsPartial && !$this->isNew();
-        if (null === $this->collSysEmailSents || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collSysEmailSents) {
+        if (null === $this->collSysEmailSents || null !== $criteria || $partial) {
+            if ($this->isNew()) {
                 // return empty collection
-                $this->initSysEmailSents();
+                if (null === $this->collSysEmailSents) {
+                    $this->initSysEmailSents();
+                } else {
+                    $collectionClassName = SysEmailSentTableMap::getTableMap()->getCollectionClassName();
+
+                    $collSysEmailSents = new $collectionClassName;
+                    $collSysEmailSents->setModel('\SysEmailSent');
+
+                    return $collSysEmailSents;
+                }
             } else {
                 $collSysEmailSents = ChildSysEmailSentQuery::create(null, $criteria)
                     ->filterBySysUser($this)
@@ -2751,11 +2829,11 @@ abstract class SysUser implements ActiveRecordInterface
      * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
      * and new objects from the given Propel collection.
      *
-     * @param      Collection $sysEmailSents A Propel collection.
-     * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildSysUser The current object (for fluent API support)
+     * @param Collection $sysEmailSents A Propel collection.
+     * @param ConnectionInterface $con Optional connection object
+     * @return $this The current object (for fluent API support)
      */
-    public function setSysEmailSents(Collection $sysEmailSents, ConnectionInterface $con = null)
+    public function setSysEmailSents(Collection $sysEmailSents, ?ConnectionInterface $con = null)
     {
         /** @var ChildSysEmailSent[] $sysEmailSentsToDelete */
         $sysEmailSentsToDelete = $this->getSysEmailSents(new Criteria(), $con)->diff($sysEmailSents);
@@ -2781,13 +2859,13 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Returns the number of related SysEmailSent objects.
      *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct
-     * @param      ConnectionInterface $con
-     * @return int             Count of related SysEmailSent objects.
-     * @throws PropelException
+     * @param Criteria $criteria
+     * @param bool $distinct
+     * @param ConnectionInterface $con
+     * @return int Count of related SysEmailSent objects.
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function countSysEmailSents(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    public function countSysEmailSents(?Criteria $criteria = null, bool $distinct = false, ?ConnectionInterface $con = null): int
     {
         $partial = $this->collSysEmailSentsPartial && !$this->isNew();
         if (null === $this->collSysEmailSents || null !== $criteria || $partial) {
@@ -2816,8 +2894,8 @@ abstract class SysUser implements ActiveRecordInterface
      * Method called to associate a ChildSysEmailSent object to this object
      * through the ChildSysEmailSent foreign key attribute.
      *
-     * @param  ChildSysEmailSent $l ChildSysEmailSent
-     * @return $this|\SysUser The current object (for fluent API support)
+     * @param ChildSysEmailSent $l ChildSysEmailSent
+     * @return $this The current object (for fluent API support)
      */
     public function addSysEmailSent(ChildSysEmailSent $l)
     {
@@ -2840,15 +2918,15 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * @param ChildSysEmailSent $sysEmailSent The ChildSysEmailSent object to add.
      */
-    protected function doAddSysEmailSent(ChildSysEmailSent $sysEmailSent)
+    protected function doAddSysEmailSent(ChildSysEmailSent $sysEmailSent): void
     {
         $this->collSysEmailSents[]= $sysEmailSent;
         $sysEmailSent->setSysUser($this);
     }
 
     /**
-     * @param  ChildSysEmailSent $sysEmailSent The ChildSysEmailSent object to remove.
-     * @return $this|ChildSysUser The current object (for fluent API support)
+     * @param ChildSysEmailSent $sysEmailSent The ChildSysEmailSent object to remove.
+     * @return $this The current object (for fluent API support)
      */
     public function removeSysEmailSent(ChildSysEmailSent $sysEmailSent)
     {
@@ -2878,12 +2956,13 @@ abstract class SysUser implements ActiveRecordInterface
      * api reasonable.  You can provide public methods for those you
      * actually need in SysUser.
      *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param ConnectionInterface $con optional connection object
+     * @param string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return ObjectCollection|ChildSysEmailSent[] List of ChildSysEmailSent objects
+     * @phpstan-return ObjectCollection&\Traversable<ChildSysEmailSent}> List of ChildSysEmailSent objects
      */
-    public function getSysEmailSentsJoinSysEmail(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    public function getSysEmailSentsJoinSysEmail(?Criteria $criteria = null, ?ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
     {
         $query = ChildSysEmailSentQuery::create(null, $criteria);
         $query->joinWith('SysEmail', $joinBehavior);
@@ -2897,18 +2976,22 @@ abstract class SysUser implements ActiveRecordInterface
      * This does not modify the database; however, it will remove any associated objects, causing
      * them to be refetched by subsequent calls to accessor method.
      *
-     * @return void
-     * @see        addSysEntityUsers()
+     * @return $this
+     * @see addSysEntityUsers()
      */
     public function clearSysEntityUsers()
     {
         $this->collSysEntityUsers = null; // important to set this to NULL since that means it is uninitialized
+
+        return $this;
     }
 
     /**
      * Reset is the collSysEntityUsers collection loaded partially.
+     *
+     * @return void
      */
-    public function resetPartialSysEntityUsers($v = true)
+    public function resetPartialSysEntityUsers($v = true): void
     {
         $this->collSysEntityUsersPartial = $v;
     }
@@ -2920,12 +3003,12 @@ abstract class SysUser implements ActiveRecordInterface
      * however, you may wish to override this method in your stub class to provide setting appropriate
      * to your application -- for example, setting the initial array to the values stored in database.
      *
-     * @param      boolean $overrideExisting If set to true, the method call initializes
+     * @param bool $overrideExisting If set to true, the method call initializes
      *                                        the collection even if it is not empty
      *
      * @return void
      */
-    public function initSysEntityUsers($overrideExisting = true)
+    public function initSysEntityUsers(bool $overrideExisting = true): void
     {
         if (null !== $this->collSysEntityUsers && !$overrideExisting) {
             return;
@@ -2946,18 +3029,28 @@ abstract class SysUser implements ActiveRecordInterface
      * If this ChildSysUser is new, it will return
      * an empty collection or the current collection; the criteria is ignored on a new object.
      *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param ConnectionInterface $con optional connection object
      * @return ObjectCollection|ChildSysEntityUser[] List of ChildSysEntityUser objects
-     * @throws PropelException
+     * @phpstan-return ObjectCollection&\Traversable<ChildSysEntityUser> List of ChildSysEntityUser objects
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getSysEntityUsers(Criteria $criteria = null, ConnectionInterface $con = null)
+    public function getSysEntityUsers(?Criteria $criteria = null, ?ConnectionInterface $con = null)
     {
         $partial = $this->collSysEntityUsersPartial && !$this->isNew();
-        if (null === $this->collSysEntityUsers || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collSysEntityUsers) {
+        if (null === $this->collSysEntityUsers || null !== $criteria || $partial) {
+            if ($this->isNew()) {
                 // return empty collection
-                $this->initSysEntityUsers();
+                if (null === $this->collSysEntityUsers) {
+                    $this->initSysEntityUsers();
+                } else {
+                    $collectionClassName = SysEntityUserTableMap::getTableMap()->getCollectionClassName();
+
+                    $collSysEntityUsers = new $collectionClassName;
+                    $collSysEntityUsers->setModel('\SysEntityUser');
+
+                    return $collSysEntityUsers;
+                }
             } else {
                 $collSysEntityUsers = ChildSysEntityUserQuery::create(null, $criteria)
                     ->filterBySysUser($this)
@@ -3001,11 +3094,11 @@ abstract class SysUser implements ActiveRecordInterface
      * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
      * and new objects from the given Propel collection.
      *
-     * @param      Collection $sysEntityUsers A Propel collection.
-     * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildSysUser The current object (for fluent API support)
+     * @param Collection $sysEntityUsers A Propel collection.
+     * @param ConnectionInterface $con Optional connection object
+     * @return $this The current object (for fluent API support)
      */
-    public function setSysEntityUsers(Collection $sysEntityUsers, ConnectionInterface $con = null)
+    public function setSysEntityUsers(Collection $sysEntityUsers, ?ConnectionInterface $con = null)
     {
         /** @var ChildSysEntityUser[] $sysEntityUsersToDelete */
         $sysEntityUsersToDelete = $this->getSysEntityUsers(new Criteria(), $con)->diff($sysEntityUsers);
@@ -3031,13 +3124,13 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Returns the number of related SysEntityUser objects.
      *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct
-     * @param      ConnectionInterface $con
-     * @return int             Count of related SysEntityUser objects.
-     * @throws PropelException
+     * @param Criteria $criteria
+     * @param bool $distinct
+     * @param ConnectionInterface $con
+     * @return int Count of related SysEntityUser objects.
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function countSysEntityUsers(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    public function countSysEntityUsers(?Criteria $criteria = null, bool $distinct = false, ?ConnectionInterface $con = null): int
     {
         $partial = $this->collSysEntityUsersPartial && !$this->isNew();
         if (null === $this->collSysEntityUsers || null !== $criteria || $partial) {
@@ -3066,8 +3159,8 @@ abstract class SysUser implements ActiveRecordInterface
      * Method called to associate a ChildSysEntityUser object to this object
      * through the ChildSysEntityUser foreign key attribute.
      *
-     * @param  ChildSysEntityUser $l ChildSysEntityUser
-     * @return $this|\SysUser The current object (for fluent API support)
+     * @param ChildSysEntityUser $l ChildSysEntityUser
+     * @return $this The current object (for fluent API support)
      */
     public function addSysEntityUser(ChildSysEntityUser $l)
     {
@@ -3090,15 +3183,15 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * @param ChildSysEntityUser $sysEntityUser The ChildSysEntityUser object to add.
      */
-    protected function doAddSysEntityUser(ChildSysEntityUser $sysEntityUser)
+    protected function doAddSysEntityUser(ChildSysEntityUser $sysEntityUser): void
     {
         $this->collSysEntityUsers[]= $sysEntityUser;
         $sysEntityUser->setSysUser($this);
     }
 
     /**
-     * @param  ChildSysEntityUser $sysEntityUser The ChildSysEntityUser object to remove.
-     * @return $this|ChildSysUser The current object (for fluent API support)
+     * @param ChildSysEntityUser $sysEntityUser The ChildSysEntityUser object to remove.
+     * @return $this The current object (for fluent API support)
      */
     public function removeSysEntityUser(ChildSysEntityUser $sysEntityUser)
     {
@@ -3128,12 +3221,13 @@ abstract class SysUser implements ActiveRecordInterface
      * api reasonable.  You can provide public methods for those you
      * actually need in SysUser.
      *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param ConnectionInterface $con optional connection object
+     * @param string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return ObjectCollection|ChildSysEntityUser[] List of ChildSysEntityUser objects
+     * @phpstan-return ObjectCollection&\Traversable<ChildSysEntityUser}> List of ChildSysEntityUser objects
      */
-    public function getSysEntityUsersJoinSysEntity(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    public function getSysEntityUsersJoinSysEntity(?Criteria $criteria = null, ?ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
     {
         $query = ChildSysEntityUserQuery::create(null, $criteria);
         $query->joinWith('SysEntity', $joinBehavior);
@@ -3153,12 +3247,13 @@ abstract class SysUser implements ActiveRecordInterface
      * api reasonable.  You can provide public methods for those you
      * actually need in SysUser.
      *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param ConnectionInterface $con optional connection object
+     * @param string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return ObjectCollection|ChildSysEntityUser[] List of ChildSysEntityUser objects
+     * @phpstan-return ObjectCollection&\Traversable<ChildSysEntityUser}> List of ChildSysEntityUser objects
      */
-    public function getSysEntityUsersJoinSysRol(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    public function getSysEntityUsersJoinSysRol(?Criteria $criteria = null, ?ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
     {
         $query = ChildSysEntityUserQuery::create(null, $criteria);
         $query->joinWith('SysRol', $joinBehavior);
@@ -3172,18 +3267,22 @@ abstract class SysUser implements ActiveRecordInterface
      * This does not modify the database; however, it will remove any associated objects, causing
      * them to be refetched by subsequent calls to accessor method.
      *
-     * @return void
-     * @see        addSysEventUsers()
+     * @return $this
+     * @see addSysEventUsers()
      */
     public function clearSysEventUsers()
     {
         $this->collSysEventUsers = null; // important to set this to NULL since that means it is uninitialized
+
+        return $this;
     }
 
     /**
      * Reset is the collSysEventUsers collection loaded partially.
+     *
+     * @return void
      */
-    public function resetPartialSysEventUsers($v = true)
+    public function resetPartialSysEventUsers($v = true): void
     {
         $this->collSysEventUsersPartial = $v;
     }
@@ -3195,12 +3294,12 @@ abstract class SysUser implements ActiveRecordInterface
      * however, you may wish to override this method in your stub class to provide setting appropriate
      * to your application -- for example, setting the initial array to the values stored in database.
      *
-     * @param      boolean $overrideExisting If set to true, the method call initializes
+     * @param bool $overrideExisting If set to true, the method call initializes
      *                                        the collection even if it is not empty
      *
      * @return void
      */
-    public function initSysEventUsers($overrideExisting = true)
+    public function initSysEventUsers(bool $overrideExisting = true): void
     {
         if (null !== $this->collSysEventUsers && !$overrideExisting) {
             return;
@@ -3221,18 +3320,28 @@ abstract class SysUser implements ActiveRecordInterface
      * If this ChildSysUser is new, it will return
      * an empty collection or the current collection; the criteria is ignored on a new object.
      *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param ConnectionInterface $con optional connection object
      * @return ObjectCollection|ChildSysEventUser[] List of ChildSysEventUser objects
-     * @throws PropelException
+     * @phpstan-return ObjectCollection&\Traversable<ChildSysEventUser> List of ChildSysEventUser objects
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getSysEventUsers(Criteria $criteria = null, ConnectionInterface $con = null)
+    public function getSysEventUsers(?Criteria $criteria = null, ?ConnectionInterface $con = null)
     {
         $partial = $this->collSysEventUsersPartial && !$this->isNew();
-        if (null === $this->collSysEventUsers || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collSysEventUsers) {
+        if (null === $this->collSysEventUsers || null !== $criteria || $partial) {
+            if ($this->isNew()) {
                 // return empty collection
-                $this->initSysEventUsers();
+                if (null === $this->collSysEventUsers) {
+                    $this->initSysEventUsers();
+                } else {
+                    $collectionClassName = SysEventUserTableMap::getTableMap()->getCollectionClassName();
+
+                    $collSysEventUsers = new $collectionClassName;
+                    $collSysEventUsers->setModel('\SysEventUser');
+
+                    return $collSysEventUsers;
+                }
             } else {
                 $collSysEventUsers = ChildSysEventUserQuery::create(null, $criteria)
                     ->filterBySysUser($this)
@@ -3276,11 +3385,11 @@ abstract class SysUser implements ActiveRecordInterface
      * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
      * and new objects from the given Propel collection.
      *
-     * @param      Collection $sysEventUsers A Propel collection.
-     * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildSysUser The current object (for fluent API support)
+     * @param Collection $sysEventUsers A Propel collection.
+     * @param ConnectionInterface $con Optional connection object
+     * @return $this The current object (for fluent API support)
      */
-    public function setSysEventUsers(Collection $sysEventUsers, ConnectionInterface $con = null)
+    public function setSysEventUsers(Collection $sysEventUsers, ?ConnectionInterface $con = null)
     {
         /** @var ChildSysEventUser[] $sysEventUsersToDelete */
         $sysEventUsersToDelete = $this->getSysEventUsers(new Criteria(), $con)->diff($sysEventUsers);
@@ -3306,13 +3415,13 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Returns the number of related SysEventUser objects.
      *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct
-     * @param      ConnectionInterface $con
-     * @return int             Count of related SysEventUser objects.
-     * @throws PropelException
+     * @param Criteria $criteria
+     * @param bool $distinct
+     * @param ConnectionInterface $con
+     * @return int Count of related SysEventUser objects.
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function countSysEventUsers(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    public function countSysEventUsers(?Criteria $criteria = null, bool $distinct = false, ?ConnectionInterface $con = null): int
     {
         $partial = $this->collSysEventUsersPartial && !$this->isNew();
         if (null === $this->collSysEventUsers || null !== $criteria || $partial) {
@@ -3341,8 +3450,8 @@ abstract class SysUser implements ActiveRecordInterface
      * Method called to associate a ChildSysEventUser object to this object
      * through the ChildSysEventUser foreign key attribute.
      *
-     * @param  ChildSysEventUser $l ChildSysEventUser
-     * @return $this|\SysUser The current object (for fluent API support)
+     * @param ChildSysEventUser $l ChildSysEventUser
+     * @return $this The current object (for fluent API support)
      */
     public function addSysEventUser(ChildSysEventUser $l)
     {
@@ -3365,15 +3474,15 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * @param ChildSysEventUser $sysEventUser The ChildSysEventUser object to add.
      */
-    protected function doAddSysEventUser(ChildSysEventUser $sysEventUser)
+    protected function doAddSysEventUser(ChildSysEventUser $sysEventUser): void
     {
         $this->collSysEventUsers[]= $sysEventUser;
         $sysEventUser->setSysUser($this);
     }
 
     /**
-     * @param  ChildSysEventUser $sysEventUser The ChildSysEventUser object to remove.
-     * @return $this|ChildSysUser The current object (for fluent API support)
+     * @param ChildSysEventUser $sysEventUser The ChildSysEventUser object to remove.
+     * @return $this The current object (for fluent API support)
      */
     public function removeSysEventUser(ChildSysEventUser $sysEventUser)
     {
@@ -3403,12 +3512,13 @@ abstract class SysUser implements ActiveRecordInterface
      * api reasonable.  You can provide public methods for those you
      * actually need in SysUser.
      *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param ConnectionInterface $con optional connection object
+     * @param string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return ObjectCollection|ChildSysEventUser[] List of ChildSysEventUser objects
+     * @phpstan-return ObjectCollection&\Traversable<ChildSysEventUser}> List of ChildSysEventUser objects
      */
-    public function getSysEventUsersJoinSysEvent(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    public function getSysEventUsersJoinSysEvent(?Criteria $criteria = null, ?ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
     {
         $query = ChildSysEventUserQuery::create(null, $criteria);
         $query->joinWith('SysEvent', $joinBehavior);
@@ -3422,18 +3532,22 @@ abstract class SysUser implements ActiveRecordInterface
      * This does not modify the database; however, it will remove any associated objects, causing
      * them to be refetched by subsequent calls to accessor method.
      *
-     * @return void
-     * @see        addSysImages()
+     * @return $this
+     * @see addSysImages()
      */
     public function clearSysImages()
     {
         $this->collSysImages = null; // important to set this to NULL since that means it is uninitialized
+
+        return $this;
     }
 
     /**
      * Reset is the collSysImages collection loaded partially.
+     *
+     * @return void
      */
-    public function resetPartialSysImages($v = true)
+    public function resetPartialSysImages($v = true): void
     {
         $this->collSysImagesPartial = $v;
     }
@@ -3445,12 +3559,12 @@ abstract class SysUser implements ActiveRecordInterface
      * however, you may wish to override this method in your stub class to provide setting appropriate
      * to your application -- for example, setting the initial array to the values stored in database.
      *
-     * @param      boolean $overrideExisting If set to true, the method call initializes
+     * @param bool $overrideExisting If set to true, the method call initializes
      *                                        the collection even if it is not empty
      *
      * @return void
      */
-    public function initSysImages($overrideExisting = true)
+    public function initSysImages(bool $overrideExisting = true): void
     {
         if (null !== $this->collSysImages && !$overrideExisting) {
             return;
@@ -3471,18 +3585,28 @@ abstract class SysUser implements ActiveRecordInterface
      * If this ChildSysUser is new, it will return
      * an empty collection or the current collection; the criteria is ignored on a new object.
      *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param ConnectionInterface $con optional connection object
      * @return ObjectCollection|ChildSysImage[] List of ChildSysImage objects
-     * @throws PropelException
+     * @phpstan-return ObjectCollection&\Traversable<ChildSysImage> List of ChildSysImage objects
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getSysImages(Criteria $criteria = null, ConnectionInterface $con = null)
+    public function getSysImages(?Criteria $criteria = null, ?ConnectionInterface $con = null)
     {
         $partial = $this->collSysImagesPartial && !$this->isNew();
-        if (null === $this->collSysImages || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collSysImages) {
+        if (null === $this->collSysImages || null !== $criteria || $partial) {
+            if ($this->isNew()) {
                 // return empty collection
-                $this->initSysImages();
+                if (null === $this->collSysImages) {
+                    $this->initSysImages();
+                } else {
+                    $collectionClassName = SysImageTableMap::getTableMap()->getCollectionClassName();
+
+                    $collSysImages = new $collectionClassName;
+                    $collSysImages->setModel('\SysImage');
+
+                    return $collSysImages;
+                }
             } else {
                 $collSysImages = ChildSysImageQuery::create(null, $criteria)
                     ->filterBySysUser($this)
@@ -3526,11 +3650,11 @@ abstract class SysUser implements ActiveRecordInterface
      * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
      * and new objects from the given Propel collection.
      *
-     * @param      Collection $sysImages A Propel collection.
-     * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildSysUser The current object (for fluent API support)
+     * @param Collection $sysImages A Propel collection.
+     * @param ConnectionInterface $con Optional connection object
+     * @return $this The current object (for fluent API support)
      */
-    public function setSysImages(Collection $sysImages, ConnectionInterface $con = null)
+    public function setSysImages(Collection $sysImages, ?ConnectionInterface $con = null)
     {
         /** @var ChildSysImage[] $sysImagesToDelete */
         $sysImagesToDelete = $this->getSysImages(new Criteria(), $con)->diff($sysImages);
@@ -3556,13 +3680,13 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Returns the number of related SysImage objects.
      *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct
-     * @param      ConnectionInterface $con
-     * @return int             Count of related SysImage objects.
-     * @throws PropelException
+     * @param Criteria $criteria
+     * @param bool $distinct
+     * @param ConnectionInterface $con
+     * @return int Count of related SysImage objects.
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function countSysImages(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    public function countSysImages(?Criteria $criteria = null, bool $distinct = false, ?ConnectionInterface $con = null): int
     {
         $partial = $this->collSysImagesPartial && !$this->isNew();
         if (null === $this->collSysImages || null !== $criteria || $partial) {
@@ -3591,8 +3715,8 @@ abstract class SysUser implements ActiveRecordInterface
      * Method called to associate a ChildSysImage object to this object
      * through the ChildSysImage foreign key attribute.
      *
-     * @param  ChildSysImage $l ChildSysImage
-     * @return $this|\SysUser The current object (for fluent API support)
+     * @param ChildSysImage $l ChildSysImage
+     * @return $this The current object (for fluent API support)
      */
     public function addSysImage(ChildSysImage $l)
     {
@@ -3615,15 +3739,15 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * @param ChildSysImage $sysImage The ChildSysImage object to add.
      */
-    protected function doAddSysImage(ChildSysImage $sysImage)
+    protected function doAddSysImage(ChildSysImage $sysImage): void
     {
         $this->collSysImages[]= $sysImage;
         $sysImage->setSysUser($this);
     }
 
     /**
-     * @param  ChildSysImage $sysImage The ChildSysImage object to remove.
-     * @return $this|ChildSysUser The current object (for fluent API support)
+     * @param ChildSysImage $sysImage The ChildSysImage object to remove.
+     * @return $this The current object (for fluent API support)
      */
     public function removeSysImage(ChildSysImage $sysImage)
     {
@@ -3647,18 +3771,22 @@ abstract class SysUser implements ActiveRecordInterface
      * This does not modify the database; however, it will remove any associated objects, causing
      * them to be refetched by subsequent calls to accessor method.
      *
-     * @return void
-     * @see        addSysPasswords()
+     * @return $this
+     * @see addSysPasswords()
      */
     public function clearSysPasswords()
     {
         $this->collSysPasswords = null; // important to set this to NULL since that means it is uninitialized
+
+        return $this;
     }
 
     /**
      * Reset is the collSysPasswords collection loaded partially.
+     *
+     * @return void
      */
-    public function resetPartialSysPasswords($v = true)
+    public function resetPartialSysPasswords($v = true): void
     {
         $this->collSysPasswordsPartial = $v;
     }
@@ -3670,12 +3798,12 @@ abstract class SysUser implements ActiveRecordInterface
      * however, you may wish to override this method in your stub class to provide setting appropriate
      * to your application -- for example, setting the initial array to the values stored in database.
      *
-     * @param      boolean $overrideExisting If set to true, the method call initializes
+     * @param bool $overrideExisting If set to true, the method call initializes
      *                                        the collection even if it is not empty
      *
      * @return void
      */
-    public function initSysPasswords($overrideExisting = true)
+    public function initSysPasswords(bool $overrideExisting = true): void
     {
         if (null !== $this->collSysPasswords && !$overrideExisting) {
             return;
@@ -3696,18 +3824,28 @@ abstract class SysUser implements ActiveRecordInterface
      * If this ChildSysUser is new, it will return
      * an empty collection or the current collection; the criteria is ignored on a new object.
      *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param ConnectionInterface $con optional connection object
      * @return ObjectCollection|ChildSysPassword[] List of ChildSysPassword objects
-     * @throws PropelException
+     * @phpstan-return ObjectCollection&\Traversable<ChildSysPassword> List of ChildSysPassword objects
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getSysPasswords(Criteria $criteria = null, ConnectionInterface $con = null)
+    public function getSysPasswords(?Criteria $criteria = null, ?ConnectionInterface $con = null)
     {
         $partial = $this->collSysPasswordsPartial && !$this->isNew();
-        if (null === $this->collSysPasswords || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collSysPasswords) {
+        if (null === $this->collSysPasswords || null !== $criteria || $partial) {
+            if ($this->isNew()) {
                 // return empty collection
-                $this->initSysPasswords();
+                if (null === $this->collSysPasswords) {
+                    $this->initSysPasswords();
+                } else {
+                    $collectionClassName = SysPasswordTableMap::getTableMap()->getCollectionClassName();
+
+                    $collSysPasswords = new $collectionClassName;
+                    $collSysPasswords->setModel('\SysPassword');
+
+                    return $collSysPasswords;
+                }
             } else {
                 $collSysPasswords = ChildSysPasswordQuery::create(null, $criteria)
                     ->filterBySysUser($this)
@@ -3751,11 +3889,11 @@ abstract class SysUser implements ActiveRecordInterface
      * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
      * and new objects from the given Propel collection.
      *
-     * @param      Collection $sysPasswords A Propel collection.
-     * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildSysUser The current object (for fluent API support)
+     * @param Collection $sysPasswords A Propel collection.
+     * @param ConnectionInterface $con Optional connection object
+     * @return $this The current object (for fluent API support)
      */
-    public function setSysPasswords(Collection $sysPasswords, ConnectionInterface $con = null)
+    public function setSysPasswords(Collection $sysPasswords, ?ConnectionInterface $con = null)
     {
         /** @var ChildSysPassword[] $sysPasswordsToDelete */
         $sysPasswordsToDelete = $this->getSysPasswords(new Criteria(), $con)->diff($sysPasswords);
@@ -3781,13 +3919,13 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Returns the number of related SysPassword objects.
      *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct
-     * @param      ConnectionInterface $con
-     * @return int             Count of related SysPassword objects.
-     * @throws PropelException
+     * @param Criteria $criteria
+     * @param bool $distinct
+     * @param ConnectionInterface $con
+     * @return int Count of related SysPassword objects.
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function countSysPasswords(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    public function countSysPasswords(?Criteria $criteria = null, bool $distinct = false, ?ConnectionInterface $con = null): int
     {
         $partial = $this->collSysPasswordsPartial && !$this->isNew();
         if (null === $this->collSysPasswords || null !== $criteria || $partial) {
@@ -3816,8 +3954,8 @@ abstract class SysUser implements ActiveRecordInterface
      * Method called to associate a ChildSysPassword object to this object
      * through the ChildSysPassword foreign key attribute.
      *
-     * @param  ChildSysPassword $l ChildSysPassword
-     * @return $this|\SysUser The current object (for fluent API support)
+     * @param ChildSysPassword $l ChildSysPassword
+     * @return $this The current object (for fluent API support)
      */
     public function addSysPassword(ChildSysPassword $l)
     {
@@ -3840,15 +3978,15 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * @param ChildSysPassword $sysPassword The ChildSysPassword object to add.
      */
-    protected function doAddSysPassword(ChildSysPassword $sysPassword)
+    protected function doAddSysPassword(ChildSysPassword $sysPassword): void
     {
         $this->collSysPasswords[]= $sysPassword;
         $sysPassword->setSysUser($this);
     }
 
     /**
-     * @param  ChildSysPassword $sysPassword The ChildSysPassword object to remove.
-     * @return $this|ChildSysUser The current object (for fluent API support)
+     * @param ChildSysPassword $sysPassword The ChildSysPassword object to remove.
+     * @return $this The current object (for fluent API support)
      */
     public function removeSysPassword(ChildSysPassword $sysPassword)
     {
@@ -3878,12 +4016,13 @@ abstract class SysUser implements ActiveRecordInterface
      * api reasonable.  You can provide public methods for those you
      * actually need in SysUser.
      *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param ConnectionInterface $con optional connection object
+     * @param string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return ObjectCollection|ChildSysPassword[] List of ChildSysPassword objects
+     * @phpstan-return ObjectCollection&\Traversable<ChildSysPassword}> List of ChildSysPassword objects
      */
-    public function getSysPasswordsJoinSysPasswordRequest(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    public function getSysPasswordsJoinSysPasswordRequest(?Criteria $criteria = null, ?ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
     {
         $query = ChildSysPasswordQuery::create(null, $criteria);
         $query->joinWith('SysPasswordRequest', $joinBehavior);
@@ -3897,18 +4036,22 @@ abstract class SysUser implements ActiveRecordInterface
      * This does not modify the database; however, it will remove any associated objects, causing
      * them to be refetched by subsequent calls to accessor method.
      *
-     * @return void
-     * @see        addSysPasswordRequests()
+     * @return $this
+     * @see addSysPasswordRequests()
      */
     public function clearSysPasswordRequests()
     {
         $this->collSysPasswordRequests = null; // important to set this to NULL since that means it is uninitialized
+
+        return $this;
     }
 
     /**
      * Reset is the collSysPasswordRequests collection loaded partially.
+     *
+     * @return void
      */
-    public function resetPartialSysPasswordRequests($v = true)
+    public function resetPartialSysPasswordRequests($v = true): void
     {
         $this->collSysPasswordRequestsPartial = $v;
     }
@@ -3920,12 +4063,12 @@ abstract class SysUser implements ActiveRecordInterface
      * however, you may wish to override this method in your stub class to provide setting appropriate
      * to your application -- for example, setting the initial array to the values stored in database.
      *
-     * @param      boolean $overrideExisting If set to true, the method call initializes
+     * @param bool $overrideExisting If set to true, the method call initializes
      *                                        the collection even if it is not empty
      *
      * @return void
      */
-    public function initSysPasswordRequests($overrideExisting = true)
+    public function initSysPasswordRequests(bool $overrideExisting = true): void
     {
         if (null !== $this->collSysPasswordRequests && !$overrideExisting) {
             return;
@@ -3946,18 +4089,28 @@ abstract class SysUser implements ActiveRecordInterface
      * If this ChildSysUser is new, it will return
      * an empty collection or the current collection; the criteria is ignored on a new object.
      *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param ConnectionInterface $con optional connection object
      * @return ObjectCollection|ChildSysPasswordRequest[] List of ChildSysPasswordRequest objects
-     * @throws PropelException
+     * @phpstan-return ObjectCollection&\Traversable<ChildSysPasswordRequest> List of ChildSysPasswordRequest objects
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getSysPasswordRequests(Criteria $criteria = null, ConnectionInterface $con = null)
+    public function getSysPasswordRequests(?Criteria $criteria = null, ?ConnectionInterface $con = null)
     {
         $partial = $this->collSysPasswordRequestsPartial && !$this->isNew();
-        if (null === $this->collSysPasswordRequests || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collSysPasswordRequests) {
+        if (null === $this->collSysPasswordRequests || null !== $criteria || $partial) {
+            if ($this->isNew()) {
                 // return empty collection
-                $this->initSysPasswordRequests();
+                if (null === $this->collSysPasswordRequests) {
+                    $this->initSysPasswordRequests();
+                } else {
+                    $collectionClassName = SysPasswordRequestTableMap::getTableMap()->getCollectionClassName();
+
+                    $collSysPasswordRequests = new $collectionClassName;
+                    $collSysPasswordRequests->setModel('\SysPasswordRequest');
+
+                    return $collSysPasswordRequests;
+                }
             } else {
                 $collSysPasswordRequests = ChildSysPasswordRequestQuery::create(null, $criteria)
                     ->filterBySysUser($this)
@@ -4001,11 +4154,11 @@ abstract class SysUser implements ActiveRecordInterface
      * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
      * and new objects from the given Propel collection.
      *
-     * @param      Collection $sysPasswordRequests A Propel collection.
-     * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildSysUser The current object (for fluent API support)
+     * @param Collection $sysPasswordRequests A Propel collection.
+     * @param ConnectionInterface $con Optional connection object
+     * @return $this The current object (for fluent API support)
      */
-    public function setSysPasswordRequests(Collection $sysPasswordRequests, ConnectionInterface $con = null)
+    public function setSysPasswordRequests(Collection $sysPasswordRequests, ?ConnectionInterface $con = null)
     {
         /** @var ChildSysPasswordRequest[] $sysPasswordRequestsToDelete */
         $sysPasswordRequestsToDelete = $this->getSysPasswordRequests(new Criteria(), $con)->diff($sysPasswordRequests);
@@ -4031,13 +4184,13 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Returns the number of related SysPasswordRequest objects.
      *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct
-     * @param      ConnectionInterface $con
-     * @return int             Count of related SysPasswordRequest objects.
-     * @throws PropelException
+     * @param Criteria $criteria
+     * @param bool $distinct
+     * @param ConnectionInterface $con
+     * @return int Count of related SysPasswordRequest objects.
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function countSysPasswordRequests(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    public function countSysPasswordRequests(?Criteria $criteria = null, bool $distinct = false, ?ConnectionInterface $con = null): int
     {
         $partial = $this->collSysPasswordRequestsPartial && !$this->isNew();
         if (null === $this->collSysPasswordRequests || null !== $criteria || $partial) {
@@ -4066,8 +4219,8 @@ abstract class SysUser implements ActiveRecordInterface
      * Method called to associate a ChildSysPasswordRequest object to this object
      * through the ChildSysPasswordRequest foreign key attribute.
      *
-     * @param  ChildSysPasswordRequest $l ChildSysPasswordRequest
-     * @return $this|\SysUser The current object (for fluent API support)
+     * @param ChildSysPasswordRequest $l ChildSysPasswordRequest
+     * @return $this The current object (for fluent API support)
      */
     public function addSysPasswordRequest(ChildSysPasswordRequest $l)
     {
@@ -4090,15 +4243,15 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * @param ChildSysPasswordRequest $sysPasswordRequest The ChildSysPasswordRequest object to add.
      */
-    protected function doAddSysPasswordRequest(ChildSysPasswordRequest $sysPasswordRequest)
+    protected function doAddSysPasswordRequest(ChildSysPasswordRequest $sysPasswordRequest): void
     {
         $this->collSysPasswordRequests[]= $sysPasswordRequest;
         $sysPasswordRequest->setSysUser($this);
     }
 
     /**
-     * @param  ChildSysPasswordRequest $sysPasswordRequest The ChildSysPasswordRequest object to remove.
-     * @return $this|ChildSysUser The current object (for fluent API support)
+     * @param ChildSysPasswordRequest $sysPasswordRequest The ChildSysPasswordRequest object to remove.
+     * @return $this The current object (for fluent API support)
      */
     public function removeSysPasswordRequest(ChildSysPasswordRequest $sysPasswordRequest)
     {
@@ -4122,18 +4275,22 @@ abstract class SysUser implements ActiveRecordInterface
      * This does not modify the database; however, it will remove any associated objects, causing
      * them to be refetched by subsequent calls to accessor method.
      *
-     * @return void
-     * @see        addSyspeople()
+     * @return $this
+     * @see addSyspeople()
      */
     public function clearSyspeople()
     {
         $this->collSyspeople = null; // important to set this to NULL since that means it is uninitialized
+
+        return $this;
     }
 
     /**
      * Reset is the collSyspeople collection loaded partially.
+     *
+     * @return void
      */
-    public function resetPartialSyspeople($v = true)
+    public function resetPartialSyspeople($v = true): void
     {
         $this->collSyspeoplePartial = $v;
     }
@@ -4145,12 +4302,12 @@ abstract class SysUser implements ActiveRecordInterface
      * however, you may wish to override this method in your stub class to provide setting appropriate
      * to your application -- for example, setting the initial array to the values stored in database.
      *
-     * @param      boolean $overrideExisting If set to true, the method call initializes
+     * @param bool $overrideExisting If set to true, the method call initializes
      *                                        the collection even if it is not empty
      *
      * @return void
      */
-    public function initSyspeople($overrideExisting = true)
+    public function initSyspeople(bool $overrideExisting = true): void
     {
         if (null !== $this->collSyspeople && !$overrideExisting) {
             return;
@@ -4171,18 +4328,28 @@ abstract class SysUser implements ActiveRecordInterface
      * If this ChildSysUser is new, it will return
      * an empty collection or the current collection; the criteria is ignored on a new object.
      *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param ConnectionInterface $con optional connection object
      * @return ObjectCollection|ChildSysPerson[] List of ChildSysPerson objects
-     * @throws PropelException
+     * @phpstan-return ObjectCollection&\Traversable<ChildSysPerson> List of ChildSysPerson objects
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getSyspeople(Criteria $criteria = null, ConnectionInterface $con = null)
+    public function getSyspeople(?Criteria $criteria = null, ?ConnectionInterface $con = null)
     {
         $partial = $this->collSyspeoplePartial && !$this->isNew();
-        if (null === $this->collSyspeople || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collSyspeople) {
+        if (null === $this->collSyspeople || null !== $criteria || $partial) {
+            if ($this->isNew()) {
                 // return empty collection
-                $this->initSyspeople();
+                if (null === $this->collSyspeople) {
+                    $this->initSyspeople();
+                } else {
+                    $collectionClassName = SysPersonTableMap::getTableMap()->getCollectionClassName();
+
+                    $collSyspeople = new $collectionClassName;
+                    $collSyspeople->setModel('\SysPerson');
+
+                    return $collSyspeople;
+                }
             } else {
                 $collSyspeople = ChildSysPersonQuery::create(null, $criteria)
                     ->filterBySysUser($this)
@@ -4226,11 +4393,11 @@ abstract class SysUser implements ActiveRecordInterface
      * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
      * and new objects from the given Propel collection.
      *
-     * @param      Collection $syspeople A Propel collection.
-     * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildSysUser The current object (for fluent API support)
+     * @param Collection $syspeople A Propel collection.
+     * @param ConnectionInterface $con Optional connection object
+     * @return $this The current object (for fluent API support)
      */
-    public function setSyspeople(Collection $syspeople, ConnectionInterface $con = null)
+    public function setSyspeople(Collection $syspeople, ?ConnectionInterface $con = null)
     {
         /** @var ChildSysPerson[] $syspeopleToDelete */
         $syspeopleToDelete = $this->getSyspeople(new Criteria(), $con)->diff($syspeople);
@@ -4256,13 +4423,13 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Returns the number of related SysPerson objects.
      *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct
-     * @param      ConnectionInterface $con
-     * @return int             Count of related SysPerson objects.
-     * @throws PropelException
+     * @param Criteria $criteria
+     * @param bool $distinct
+     * @param ConnectionInterface $con
+     * @return int Count of related SysPerson objects.
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function countSyspeople(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    public function countSyspeople(?Criteria $criteria = null, bool $distinct = false, ?ConnectionInterface $con = null): int
     {
         $partial = $this->collSyspeoplePartial && !$this->isNew();
         if (null === $this->collSyspeople || null !== $criteria || $partial) {
@@ -4291,8 +4458,8 @@ abstract class SysUser implements ActiveRecordInterface
      * Method called to associate a ChildSysPerson object to this object
      * through the ChildSysPerson foreign key attribute.
      *
-     * @param  ChildSysPerson $l ChildSysPerson
-     * @return $this|\SysUser The current object (for fluent API support)
+     * @param ChildSysPerson $l ChildSysPerson
+     * @return $this The current object (for fluent API support)
      */
     public function addSysPerson(ChildSysPerson $l)
     {
@@ -4315,15 +4482,15 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * @param ChildSysPerson $sysPerson The ChildSysPerson object to add.
      */
-    protected function doAddSysPerson(ChildSysPerson $sysPerson)
+    protected function doAddSysPerson(ChildSysPerson $sysPerson): void
     {
         $this->collSyspeople[]= $sysPerson;
         $sysPerson->setSysUser($this);
     }
 
     /**
-     * @param  ChildSysPerson $sysPerson The ChildSysPerson object to remove.
-     * @return $this|ChildSysUser The current object (for fluent API support)
+     * @param ChildSysPerson $sysPerson The ChildSysPerson object to remove.
+     * @return $this The current object (for fluent API support)
      */
     public function removeSysPerson(ChildSysPerson $sysPerson)
     {
@@ -4347,18 +4514,22 @@ abstract class SysUser implements ActiveRecordInterface
      * This does not modify the database; however, it will remove any associated objects, causing
      * them to be refetched by subsequent calls to accessor method.
      *
-     * @return void
-     * @see        addSysUserParams()
+     * @return $this
+     * @see addSysUserParams()
      */
     public function clearSysUserParams()
     {
         $this->collSysUserParams = null; // important to set this to NULL since that means it is uninitialized
+
+        return $this;
     }
 
     /**
      * Reset is the collSysUserParams collection loaded partially.
+     *
+     * @return void
      */
-    public function resetPartialSysUserParams($v = true)
+    public function resetPartialSysUserParams($v = true): void
     {
         $this->collSysUserParamsPartial = $v;
     }
@@ -4370,12 +4541,12 @@ abstract class SysUser implements ActiveRecordInterface
      * however, you may wish to override this method in your stub class to provide setting appropriate
      * to your application -- for example, setting the initial array to the values stored in database.
      *
-     * @param      boolean $overrideExisting If set to true, the method call initializes
+     * @param bool $overrideExisting If set to true, the method call initializes
      *                                        the collection even if it is not empty
      *
      * @return void
      */
-    public function initSysUserParams($overrideExisting = true)
+    public function initSysUserParams(bool $overrideExisting = true): void
     {
         if (null !== $this->collSysUserParams && !$overrideExisting) {
             return;
@@ -4396,18 +4567,28 @@ abstract class SysUser implements ActiveRecordInterface
      * If this ChildSysUser is new, it will return
      * an empty collection or the current collection; the criteria is ignored on a new object.
      *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param ConnectionInterface $con optional connection object
      * @return ObjectCollection|ChildSysUserParam[] List of ChildSysUserParam objects
-     * @throws PropelException
+     * @phpstan-return ObjectCollection&\Traversable<ChildSysUserParam> List of ChildSysUserParam objects
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getSysUserParams(Criteria $criteria = null, ConnectionInterface $con = null)
+    public function getSysUserParams(?Criteria $criteria = null, ?ConnectionInterface $con = null)
     {
         $partial = $this->collSysUserParamsPartial && !$this->isNew();
-        if (null === $this->collSysUserParams || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collSysUserParams) {
+        if (null === $this->collSysUserParams || null !== $criteria || $partial) {
+            if ($this->isNew()) {
                 // return empty collection
-                $this->initSysUserParams();
+                if (null === $this->collSysUserParams) {
+                    $this->initSysUserParams();
+                } else {
+                    $collectionClassName = SysUserParamTableMap::getTableMap()->getCollectionClassName();
+
+                    $collSysUserParams = new $collectionClassName;
+                    $collSysUserParams->setModel('\SysUserParam');
+
+                    return $collSysUserParams;
+                }
             } else {
                 $collSysUserParams = ChildSysUserParamQuery::create(null, $criteria)
                     ->filterBySysUser($this)
@@ -4451,11 +4632,11 @@ abstract class SysUser implements ActiveRecordInterface
      * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
      * and new objects from the given Propel collection.
      *
-     * @param      Collection $sysUserParams A Propel collection.
-     * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildSysUser The current object (for fluent API support)
+     * @param Collection $sysUserParams A Propel collection.
+     * @param ConnectionInterface $con Optional connection object
+     * @return $this The current object (for fluent API support)
      */
-    public function setSysUserParams(Collection $sysUserParams, ConnectionInterface $con = null)
+    public function setSysUserParams(Collection $sysUserParams, ?ConnectionInterface $con = null)
     {
         /** @var ChildSysUserParam[] $sysUserParamsToDelete */
         $sysUserParamsToDelete = $this->getSysUserParams(new Criteria(), $con)->diff($sysUserParams);
@@ -4481,13 +4662,13 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Returns the number of related SysUserParam objects.
      *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct
-     * @param      ConnectionInterface $con
-     * @return int             Count of related SysUserParam objects.
-     * @throws PropelException
+     * @param Criteria $criteria
+     * @param bool $distinct
+     * @param ConnectionInterface $con
+     * @return int Count of related SysUserParam objects.
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function countSysUserParams(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    public function countSysUserParams(?Criteria $criteria = null, bool $distinct = false, ?ConnectionInterface $con = null): int
     {
         $partial = $this->collSysUserParamsPartial && !$this->isNew();
         if (null === $this->collSysUserParams || null !== $criteria || $partial) {
@@ -4516,8 +4697,8 @@ abstract class SysUser implements ActiveRecordInterface
      * Method called to associate a ChildSysUserParam object to this object
      * through the ChildSysUserParam foreign key attribute.
      *
-     * @param  ChildSysUserParam $l ChildSysUserParam
-     * @return $this|\SysUser The current object (for fluent API support)
+     * @param ChildSysUserParam $l ChildSysUserParam
+     * @return $this The current object (for fluent API support)
      */
     public function addSysUserParam(ChildSysUserParam $l)
     {
@@ -4540,15 +4721,15 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * @param ChildSysUserParam $sysUserParam The ChildSysUserParam object to add.
      */
-    protected function doAddSysUserParam(ChildSysUserParam $sysUserParam)
+    protected function doAddSysUserParam(ChildSysUserParam $sysUserParam): void
     {
         $this->collSysUserParams[]= $sysUserParam;
         $sysUserParam->setSysUser($this);
     }
 
     /**
-     * @param  ChildSysUserParam $sysUserParam The ChildSysUserParam object to remove.
-     * @return $this|ChildSysUser The current object (for fluent API support)
+     * @param ChildSysUserParam $sysUserParam The ChildSysUserParam object to remove.
+     * @return $this The current object (for fluent API support)
      */
     public function removeSysUserParam(ChildSysUserParam $sysUserParam)
     {
@@ -4578,12 +4759,13 @@ abstract class SysUser implements ActiveRecordInterface
      * api reasonable.  You can provide public methods for those you
      * actually need in SysUser.
      *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param ConnectionInterface $con optional connection object
+     * @param string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return ObjectCollection|ChildSysUserParam[] List of ChildSysUserParam objects
+     * @phpstan-return ObjectCollection&\Traversable<ChildSysUserParam}> List of ChildSysUserParam objects
      */
-    public function getSysUserParamsJoinSysParam(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    public function getSysUserParamsJoinSysParam(?Criteria $criteria = null, ?ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
     {
         $query = ChildSysUserParamQuery::create(null, $criteria);
         $query->joinWith('SysParam', $joinBehavior);
@@ -4597,18 +4779,22 @@ abstract class SysUser implements ActiveRecordInterface
      * This does not modify the database; however, it will remove any associated objects, causing
      * them to be refetched by subsequent calls to accessor method.
      *
-     * @return void
-     * @see        addSysUserXRols()
+     * @return $this
+     * @see addSysUserXRols()
      */
     public function clearSysUserXRols()
     {
         $this->collSysUserXRols = null; // important to set this to NULL since that means it is uninitialized
+
+        return $this;
     }
 
     /**
      * Reset is the collSysUserXRols collection loaded partially.
+     *
+     * @return void
      */
-    public function resetPartialSysUserXRols($v = true)
+    public function resetPartialSysUserXRols($v = true): void
     {
         $this->collSysUserXRolsPartial = $v;
     }
@@ -4620,12 +4806,12 @@ abstract class SysUser implements ActiveRecordInterface
      * however, you may wish to override this method in your stub class to provide setting appropriate
      * to your application -- for example, setting the initial array to the values stored in database.
      *
-     * @param      boolean $overrideExisting If set to true, the method call initializes
+     * @param bool $overrideExisting If set to true, the method call initializes
      *                                        the collection even if it is not empty
      *
      * @return void
      */
-    public function initSysUserXRols($overrideExisting = true)
+    public function initSysUserXRols(bool $overrideExisting = true): void
     {
         if (null !== $this->collSysUserXRols && !$overrideExisting) {
             return;
@@ -4646,18 +4832,28 @@ abstract class SysUser implements ActiveRecordInterface
      * If this ChildSysUser is new, it will return
      * an empty collection or the current collection; the criteria is ignored on a new object.
      *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param ConnectionInterface $con optional connection object
      * @return ObjectCollection|ChildSysUserXRol[] List of ChildSysUserXRol objects
-     * @throws PropelException
+     * @phpstan-return ObjectCollection&\Traversable<ChildSysUserXRol> List of ChildSysUserXRol objects
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getSysUserXRols(Criteria $criteria = null, ConnectionInterface $con = null)
+    public function getSysUserXRols(?Criteria $criteria = null, ?ConnectionInterface $con = null)
     {
         $partial = $this->collSysUserXRolsPartial && !$this->isNew();
-        if (null === $this->collSysUserXRols || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collSysUserXRols) {
+        if (null === $this->collSysUserXRols || null !== $criteria || $partial) {
+            if ($this->isNew()) {
                 // return empty collection
-                $this->initSysUserXRols();
+                if (null === $this->collSysUserXRols) {
+                    $this->initSysUserXRols();
+                } else {
+                    $collectionClassName = SysUserXRolTableMap::getTableMap()->getCollectionClassName();
+
+                    $collSysUserXRols = new $collectionClassName;
+                    $collSysUserXRols->setModel('\SysUserXRol');
+
+                    return $collSysUserXRols;
+                }
             } else {
                 $collSysUserXRols = ChildSysUserXRolQuery::create(null, $criteria)
                     ->filterBySysUser($this)
@@ -4701,11 +4897,11 @@ abstract class SysUser implements ActiveRecordInterface
      * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
      * and new objects from the given Propel collection.
      *
-     * @param      Collection $sysUserXRols A Propel collection.
-     * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildSysUser The current object (for fluent API support)
+     * @param Collection $sysUserXRols A Propel collection.
+     * @param ConnectionInterface $con Optional connection object
+     * @return $this The current object (for fluent API support)
      */
-    public function setSysUserXRols(Collection $sysUserXRols, ConnectionInterface $con = null)
+    public function setSysUserXRols(Collection $sysUserXRols, ?ConnectionInterface $con = null)
     {
         /** @var ChildSysUserXRol[] $sysUserXRolsToDelete */
         $sysUserXRolsToDelete = $this->getSysUserXRols(new Criteria(), $con)->diff($sysUserXRols);
@@ -4734,13 +4930,13 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * Returns the number of related SysUserXRol objects.
      *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct
-     * @param      ConnectionInterface $con
-     * @return int             Count of related SysUserXRol objects.
-     * @throws PropelException
+     * @param Criteria $criteria
+     * @param bool $distinct
+     * @param ConnectionInterface $con
+     * @return int Count of related SysUserXRol objects.
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function countSysUserXRols(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    public function countSysUserXRols(?Criteria $criteria = null, bool $distinct = false, ?ConnectionInterface $con = null): int
     {
         $partial = $this->collSysUserXRolsPartial && !$this->isNew();
         if (null === $this->collSysUserXRols || null !== $criteria || $partial) {
@@ -4769,8 +4965,8 @@ abstract class SysUser implements ActiveRecordInterface
      * Method called to associate a ChildSysUserXRol object to this object
      * through the ChildSysUserXRol foreign key attribute.
      *
-     * @param  ChildSysUserXRol $l ChildSysUserXRol
-     * @return $this|\SysUser The current object (for fluent API support)
+     * @param ChildSysUserXRol $l ChildSysUserXRol
+     * @return $this The current object (for fluent API support)
      */
     public function addSysUserXRol(ChildSysUserXRol $l)
     {
@@ -4793,15 +4989,15 @@ abstract class SysUser implements ActiveRecordInterface
     /**
      * @param ChildSysUserXRol $sysUserXRol The ChildSysUserXRol object to add.
      */
-    protected function doAddSysUserXRol(ChildSysUserXRol $sysUserXRol)
+    protected function doAddSysUserXRol(ChildSysUserXRol $sysUserXRol): void
     {
         $this->collSysUserXRols[]= $sysUserXRol;
         $sysUserXRol->setSysUser($this);
     }
 
     /**
-     * @param  ChildSysUserXRol $sysUserXRol The ChildSysUserXRol object to remove.
-     * @return $this|ChildSysUser The current object (for fluent API support)
+     * @param ChildSysUserXRol $sysUserXRol The ChildSysUserXRol object to remove.
+     * @return $this The current object (for fluent API support)
      */
     public function removeSysUserXRol(ChildSysUserXRol $sysUserXRol)
     {
@@ -4831,12 +5027,13 @@ abstract class SysUser implements ActiveRecordInterface
      * api reasonable.  You can provide public methods for those you
      * actually need in SysUser.
      *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param ConnectionInterface $con optional connection object
+     * @param string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return ObjectCollection|ChildSysUserXRol[] List of ChildSysUserXRol objects
+     * @phpstan-return ObjectCollection&\Traversable<ChildSysUserXRol}> List of ChildSysUserXRol objects
      */
-    public function getSysUserXRolsJoinSysRol(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    public function getSysUserXRolsJoinSysRol(?Criteria $criteria = null, ?ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
     {
         $query = ChildSysUserXRolQuery::create(null, $criteria);
         $query->joinWith('SysRol', $joinBehavior);
@@ -4848,6 +5045,8 @@ abstract class SysUser implements ActiveRecordInterface
      * Clears the current object, sets all attributes to their default values and removes
      * outgoing references as well as back-references (from other objects to this one. Results probably in a database
      * change of those foreign objects when you call `save` there).
+     *
+     * @return $this
      */
     public function clear()
     {
@@ -4871,6 +5070,8 @@ abstract class SysUser implements ActiveRecordInterface
         $this->resetModified();
         $this->setNew(true);
         $this->setDeleted(false);
+
+        return $this;
     }
 
     /**
@@ -4879,9 +5080,10 @@ abstract class SysUser implements ActiveRecordInterface
      * This method is used to reset all php object references (not the actual reference in the database).
      * Necessary for object serialisation.
      *
-     * @param      boolean $deep Whether to also clear the references on all referrer objects.
+     * @param bool $deep Whether to also clear the references on all referrer objects.
+     * @return $this
      */
-    public function clearAllReferences($deep = false)
+    public function clearAllReferences(bool $deep = false)
     {
         if ($deep) {
             if ($this->collSysAuths) {
@@ -4946,6 +5148,7 @@ abstract class SysUser implements ActiveRecordInterface
         $this->collSyspeople = null;
         $this->collSysUserParams = null;
         $this->collSysUserXRols = null;
+        return $this;
     }
 
     /**
@@ -4960,99 +5163,79 @@ abstract class SysUser implements ActiveRecordInterface
 
     /**
      * Code to be run before persisting the object
-     * @param  ConnectionInterface $con
-     * @return boolean
+     * @param ConnectionInterface|null $con
+     * @return bool
      */
-    public function preSave(ConnectionInterface $con = null)
+    public function preSave(?ConnectionInterface $con = null): bool
     {
-        if (is_callable('parent::preSave')) {
-            return parent::preSave($con);
-        }
-        return true;
+                return true;
     }
 
     /**
      * Code to be run after persisting the object
-     * @param ConnectionInterface $con
+     * @param ConnectionInterface|null $con
+     * @return void
      */
-    public function postSave(ConnectionInterface $con = null)
+    public function postSave(?ConnectionInterface $con = null): void
     {
-        if (is_callable('parent::postSave')) {
-            parent::postSave($con);
-        }
-    }
+            }
 
     /**
      * Code to be run before inserting to database
-     * @param  ConnectionInterface $con
-     * @return boolean
+     * @param ConnectionInterface|null $con
+     * @return bool
      */
-    public function preInsert(ConnectionInterface $con = null)
+    public function preInsert(?ConnectionInterface $con = null): bool
     {
-        if (is_callable('parent::preInsert')) {
-            return parent::preInsert($con);
-        }
-        return true;
+                return true;
     }
 
     /**
      * Code to be run after inserting to database
-     * @param ConnectionInterface $con
+     * @param ConnectionInterface|null $con
+     * @return void
      */
-    public function postInsert(ConnectionInterface $con = null)
+    public function postInsert(?ConnectionInterface $con = null): void
     {
-        if (is_callable('parent::postInsert')) {
-            parent::postInsert($con);
-        }
-    }
+            }
 
     /**
      * Code to be run before updating the object in database
-     * @param  ConnectionInterface $con
-     * @return boolean
+     * @param ConnectionInterface|null $con
+     * @return bool
      */
-    public function preUpdate(ConnectionInterface $con = null)
+    public function preUpdate(?ConnectionInterface $con = null): bool
     {
-        if (is_callable('parent::preUpdate')) {
-            return parent::preUpdate($con);
-        }
-        return true;
+                return true;
     }
 
     /**
      * Code to be run after updating the object in database
-     * @param ConnectionInterface $con
+     * @param ConnectionInterface|null $con
+     * @return void
      */
-    public function postUpdate(ConnectionInterface $con = null)
+    public function postUpdate(?ConnectionInterface $con = null): void
     {
-        if (is_callable('parent::postUpdate')) {
-            parent::postUpdate($con);
-        }
-    }
+            }
 
     /**
      * Code to be run before deleting the object in database
-     * @param  ConnectionInterface $con
-     * @return boolean
+     * @param ConnectionInterface|null $con
+     * @return bool
      */
-    public function preDelete(ConnectionInterface $con = null)
+    public function preDelete(?ConnectionInterface $con = null): bool
     {
-        if (is_callable('parent::preDelete')) {
-            return parent::preDelete($con);
-        }
-        return true;
+                return true;
     }
 
     /**
      * Code to be run after deleting the object in database
-     * @param ConnectionInterface $con
+     * @param ConnectionInterface|null $con
+     * @return void
      */
-    public function postDelete(ConnectionInterface $con = null)
+    public function postDelete(?ConnectionInterface $con = null): void
     {
-        if (is_callable('parent::postDelete')) {
-            parent::postDelete($con);
-        }
-    }
+            }
 
 
     /**
@@ -5062,7 +5245,7 @@ abstract class SysUser implements ActiveRecordInterface
      * Allows to define default __call() behavior if you overwrite __call()
      *
      * @param string $name
-     * @param mixed  $params
+     * @param mixed $params
      *
      * @return array|string
      */
@@ -5082,15 +5265,18 @@ abstract class SysUser implements ActiveRecordInterface
 
         if (0 === strpos($name, 'from')) {
             $format = substr($name, 4);
+            $inputData = $params[0];
+            $keyType = $params[1] ?? TableMap::TYPE_PHPNAME;
 
-            return $this->importFrom($format, reset($params));
+            return $this->importFrom($format, $inputData, $keyType);
         }
 
         if (0 === strpos($name, 'to')) {
             $format = substr($name, 2);
-            $includeLazyLoadColumns = isset($params[0]) ? $params[0] : true;
+            $includeLazyLoadColumns = $params[0] ?? true;
+            $keyType = $params[1] ?? TableMap::TYPE_PHPNAME;
 
-            return $this->exportTo($format, $includeLazyLoadColumns);
+            return $this->exportTo($format, $includeLazyLoadColumns, $keyType);
         }
 
         throw new BadMethodCallException(sprintf('Call to undefined method: %s.', $name));

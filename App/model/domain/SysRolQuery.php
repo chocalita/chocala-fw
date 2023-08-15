@@ -15,11 +15,11 @@ class SysRolQuery extends BaseSysRolQuery //implements SoftDeletion
 
     /**
      * @param SysUser $user
-     * @param bool|true $noDeletes
+     * @param bool $noDeletes
      * @return \Propel\Runtime\Collection\ObjectCollection|SysRol[]
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public static function findByUser(SysUser $user, $noDeletes=true)
+    public static function findByUser(SysUser $user, bool $noDeletes=true)
     {
         return self::createValids($noDeletes)
                 ->useSysUserXRolQuery() // ->filterValids($noDeletes) //example anidated queries

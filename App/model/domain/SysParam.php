@@ -40,7 +40,7 @@ class SysParam extends BaseSysParam
     /**
      * @var array Status Map values
      */
-    protected static $visibilityMap = [
+    protected static array $visibilityMap = [
         'default'   => [
             self::VISIBILITY_GLOBAL => self::VISIBILITY_GLOBAL,
             self::VISIBILITY_ENTITY => self::VISIBILITY_ENTITY,
@@ -53,7 +53,7 @@ class SysParam extends BaseSysParam
         ],
     ];
 
-    static $validationRules = [
+    static array $validationRules = [
         'Visibility' => [
             'null' => false, 'blank' => false,
             'inList' => [self::VISIBILITY_GLOBAL, self::VISIBILITY_ENTITY,
@@ -91,7 +91,7 @@ class SysParam extends BaseSysParam
      * @param string $lang |'default'|'es'
      * @return mixed
      */
-    public static function visibilityMap($lang = 'default')
+    public static function visibilityMap(string $lang = 'default')
     {
         $type = array_key_exists(strtolower($lang), static::$visibilityMap)?
             strtolower($lang): 'default';
@@ -101,7 +101,7 @@ class SysParam extends BaseSysParam
     /**
      * @return array
      */
-    public static function typeList()
+    public static function typeList() : array
     {
         return [self::TYPE_BOOLEAN, self::TYPE_DATE, self::TYPE_INTEGER,
             self::TYPE_LIST, self::TYPE_NUMBER, self::TYPE_STRING];
@@ -133,7 +133,7 @@ class SysParam extends BaseSysParam
         }
     }
 
-    public function preSave()
+    public function preSave() : bool
     {
         $this->code = trim($this->code)!=''? strtoupper(trim($this->code)): null;
         $this->name = trim($this->name)!=''? trim($this->name): null;
@@ -143,17 +143,17 @@ class SysParam extends BaseSysParam
         return parent::preSave();
     }
 
-    public function preValidate()
+    public function preValidate() : bool
     {
         return $this->preSave();
     }
 
-    public function preInsert()
+    public function preInsert() : bool
     {
         return $this->preSave();
     }
 
-    public function preUpdate()
+    public function preUpdate() : bool
     {
         return $this->preSave();
     }
@@ -169,7 +169,7 @@ class SysParam extends BaseSysParam
     /**
      * @return array
      */
-    public function options()
+    public function options() : array
     {
         return explode(";", $this->getOptions());
     }
@@ -179,7 +179,7 @@ class SysParam extends BaseSysParam
      * @return SysEntityParam
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function entityParam(SysEntity $entity)
+    public function entityParam(SysEntity $entity): SysEntityParam
     {
         return SysEntityParamQuery::createForEntity($entity)->filterBySysParam($this)->findOne();
     }
@@ -189,7 +189,7 @@ class SysParam extends BaseSysParam
      * @return SysUserParam
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function userParam(SysUser $user)
+    public function userParam(SysUser $user): SysUserParam
     {
         return SysUserParamQuery::createForUser($user)->filterBySysParam($this)->findOne();
     }

@@ -24,7 +24,6 @@ use Propel\Runtime\Map\TableMapTrait;
  * For example, the createSelectSql() method checks the type of a given column used in an
  * ORDER BY clause to know whether it needs to apply SQL to make the ORDER BY case-insensitive
  * (i.e. if it's a text column type).
- *
  */
 class SysEmailTableMap extends TableMap
 {
@@ -34,159 +33,296 @@ class SysEmailTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.SysEmailTableMap';
+    public const CLASS_NAME = '.Map.SysEmailTableMap';
 
     /**
      * The default database name for this class
      */
-    const DATABASE_NAME = 'default';
+    public const DATABASE_NAME = 'default';
 
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'sys_email';
+    public const TABLE_NAME = 'sys_email';
+
+    /**
+     * The PHP name of this class (PascalCase)
+     */
+    public const TABLE_PHP_NAME = 'SysEmail';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\SysEmail';
+    public const OM_CLASS = '\\SysEmail';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'SysEmail';
+    public const CLASS_DEFAULT = 'SysEmail';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 15;
+    public const NUM_COLUMNS = 15;
 
     /**
      * The number of lazy-loaded columns
      */
-    const NUM_LAZY_LOAD_COLUMNS = 0;
+    public const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 15;
+    public const NUM_HYDRATE_COLUMNS = 15;
 
     /**
      * the column name for the ID field
      */
-    const COL_ID = 'sys_email.ID';
+    public const COL_ID = 'sys_email.ID';
 
     /**
      * the column name for the CODE field
      */
-    const COL_CODE = 'sys_email.CODE';
+    public const COL_CODE = 'sys_email.CODE';
 
     /**
      * the column name for the NAME field
      */
-    const COL_NAME = 'sys_email.NAME';
+    public const COL_NAME = 'sys_email.NAME';
 
     /**
      * the column name for the DESCRIPTION field
      */
-    const COL_DESCRIPTION = 'sys_email.DESCRIPTION';
+    public const COL_DESCRIPTION = 'sys_email.DESCRIPTION';
 
     /**
      * the column name for the FROM_EMAIL field
      */
-    const COL_FROM_EMAIL = 'sys_email.FROM_EMAIL';
+    public const COL_FROM_EMAIL = 'sys_email.FROM_EMAIL';
 
     /**
      * the column name for the FROM_NAME field
      */
-    const COL_FROM_NAME = 'sys_email.FROM_NAME';
+    public const COL_FROM_NAME = 'sys_email.FROM_NAME';
 
     /**
      * the column name for the CC field
      */
-    const COL_CC = 'sys_email.CC';
+    public const COL_CC = 'sys_email.CC';
 
     /**
      * the column name for the BCC field
      */
-    const COL_BCC = 'sys_email.BCC';
+    public const COL_BCC = 'sys_email.BCC';
 
     /**
      * the column name for the SUBJECT field
      */
-    const COL_SUBJECT = 'sys_email.SUBJECT';
+    public const COL_SUBJECT = 'sys_email.SUBJECT';
 
     /**
      * the column name for the BODY field
      */
-    const COL_BODY = 'sys_email.BODY';
+    public const COL_BODY = 'sys_email.BODY';
 
     /**
      * the column name for the ATTACHMENTS field
      */
-    const COL_ATTACHMENTS = 'sys_email.ATTACHMENTS';
+    public const COL_ATTACHMENTS = 'sys_email.ATTACHMENTS';
 
     /**
      * the column name for the TEMPLATE field
      */
-    const COL_TEMPLATE = 'sys_email.TEMPLATE';
+    public const COL_TEMPLATE = 'sys_email.TEMPLATE';
 
     /**
      * the column name for the LAST_USER_ID field
      */
-    const COL_LAST_USER_ID = 'sys_email.LAST_USER_ID';
+    public const COL_LAST_USER_ID = 'sys_email.LAST_USER_ID';
 
     /**
      * the column name for the CREATION_DATE field
      */
-    const COL_CREATION_DATE = 'sys_email.CREATION_DATE';
+    public const COL_CREATION_DATE = 'sys_email.CREATION_DATE';
 
     /**
      * the column name for the MODIFICATION_DATE field
      */
-    const COL_MODIFICATION_DATE = 'sys_email.MODIFICATION_DATE';
+    public const COL_MODIFICATION_DATE = 'sys_email.MODIFICATION_DATE';
 
     /**
      * The default string format for model objects of the related table
      */
-    const DEFAULT_STRING_FORMAT = 'YAML';
+    public const DEFAULT_STRING_FORMAT = 'YAML';
 
     /**
      * holds an array of fieldnames
      *
      * first dimension keys are the type constants
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
+     *
+     * @var array<string, mixed>
      */
-    protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Code', 'Name', 'Description', 'FromEmail', 'FromName', 'Cc', 'Bcc', 'Subject', 'Body', 'Attachments', 'Template', 'LastUserId', 'CreationDate', 'ModificationDate', ),
-        self::TYPE_CAMELNAME     => array('id', 'code', 'name', 'description', 'fromEmail', 'fromName', 'cc', 'bcc', 'subject', 'body', 'attachments', 'template', 'lastUserId', 'creationDate', 'modificationDate', ),
-        self::TYPE_COLNAME       => array(SysEmailTableMap::COL_ID, SysEmailTableMap::COL_CODE, SysEmailTableMap::COL_NAME, SysEmailTableMap::COL_DESCRIPTION, SysEmailTableMap::COL_FROM_EMAIL, SysEmailTableMap::COL_FROM_NAME, SysEmailTableMap::COL_CC, SysEmailTableMap::COL_BCC, SysEmailTableMap::COL_SUBJECT, SysEmailTableMap::COL_BODY, SysEmailTableMap::COL_ATTACHMENTS, SysEmailTableMap::COL_TEMPLATE, SysEmailTableMap::COL_LAST_USER_ID, SysEmailTableMap::COL_CREATION_DATE, SysEmailTableMap::COL_MODIFICATION_DATE, ),
-        self::TYPE_FIELDNAME     => array('ID', 'CODE', 'NAME', 'DESCRIPTION', 'FROM_EMAIL', 'FROM_NAME', 'CC', 'BCC', 'SUBJECT', 'BODY', 'ATTACHMENTS', 'TEMPLATE', 'LAST_USER_ID', 'CREATION_DATE', 'MODIFICATION_DATE', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
-    );
+    protected static $fieldNames = [
+        self::TYPE_PHPNAME       => ['Id', 'Code', 'Name', 'Description', 'FromEmail', 'FromName', 'Cc', 'Bcc', 'Subject', 'Body', 'Attachments', 'Template', 'LastUserId', 'CreationDate', 'ModificationDate', ],
+        self::TYPE_CAMELNAME     => ['id', 'code', 'name', 'description', 'fromEmail', 'fromName', 'cc', 'bcc', 'subject', 'body', 'attachments', 'template', 'lastUserId', 'creationDate', 'modificationDate', ],
+        self::TYPE_COLNAME       => [SysEmailTableMap::COL_ID, SysEmailTableMap::COL_CODE, SysEmailTableMap::COL_NAME, SysEmailTableMap::COL_DESCRIPTION, SysEmailTableMap::COL_FROM_EMAIL, SysEmailTableMap::COL_FROM_NAME, SysEmailTableMap::COL_CC, SysEmailTableMap::COL_BCC, SysEmailTableMap::COL_SUBJECT, SysEmailTableMap::COL_BODY, SysEmailTableMap::COL_ATTACHMENTS, SysEmailTableMap::COL_TEMPLATE, SysEmailTableMap::COL_LAST_USER_ID, SysEmailTableMap::COL_CREATION_DATE, SysEmailTableMap::COL_MODIFICATION_DATE, ],
+        self::TYPE_FIELDNAME     => ['ID', 'CODE', 'NAME', 'DESCRIPTION', 'FROM_EMAIL', 'FROM_NAME', 'CC', 'BCC', 'SUBJECT', 'BODY', 'ATTACHMENTS', 'TEMPLATE', 'LAST_USER_ID', 'CREATION_DATE', 'MODIFICATION_DATE', ],
+        self::TYPE_NUM           => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, ]
+    ];
 
     /**
      * holds an array of keys for quick access to the fieldnames array
      *
      * first dimension keys are the type constants
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
+     *
+     * @var array<string, mixed>
      */
-    protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Code' => 1, 'Name' => 2, 'Description' => 3, 'FromEmail' => 4, 'FromName' => 5, 'Cc' => 6, 'Bcc' => 7, 'Subject' => 8, 'Body' => 9, 'Attachments' => 10, 'Template' => 11, 'LastUserId' => 12, 'CreationDate' => 13, 'ModificationDate' => 14, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'code' => 1, 'name' => 2, 'description' => 3, 'fromEmail' => 4, 'fromName' => 5, 'cc' => 6, 'bcc' => 7, 'subject' => 8, 'body' => 9, 'attachments' => 10, 'template' => 11, 'lastUserId' => 12, 'creationDate' => 13, 'modificationDate' => 14, ),
-        self::TYPE_COLNAME       => array(SysEmailTableMap::COL_ID => 0, SysEmailTableMap::COL_CODE => 1, SysEmailTableMap::COL_NAME => 2, SysEmailTableMap::COL_DESCRIPTION => 3, SysEmailTableMap::COL_FROM_EMAIL => 4, SysEmailTableMap::COL_FROM_NAME => 5, SysEmailTableMap::COL_CC => 6, SysEmailTableMap::COL_BCC => 7, SysEmailTableMap::COL_SUBJECT => 8, SysEmailTableMap::COL_BODY => 9, SysEmailTableMap::COL_ATTACHMENTS => 10, SysEmailTableMap::COL_TEMPLATE => 11, SysEmailTableMap::COL_LAST_USER_ID => 12, SysEmailTableMap::COL_CREATION_DATE => 13, SysEmailTableMap::COL_MODIFICATION_DATE => 14, ),
-        self::TYPE_FIELDNAME     => array('ID' => 0, 'CODE' => 1, 'NAME' => 2, 'DESCRIPTION' => 3, 'FROM_EMAIL' => 4, 'FROM_NAME' => 5, 'CC' => 6, 'BCC' => 7, 'SUBJECT' => 8, 'BODY' => 9, 'ATTACHMENTS' => 10, 'TEMPLATE' => 11, 'LAST_USER_ID' => 12, 'CREATION_DATE' => 13, 'MODIFICATION_DATE' => 14, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
-    );
+    protected static $fieldKeys = [
+        self::TYPE_PHPNAME       => ['Id' => 0, 'Code' => 1, 'Name' => 2, 'Description' => 3, 'FromEmail' => 4, 'FromName' => 5, 'Cc' => 6, 'Bcc' => 7, 'Subject' => 8, 'Body' => 9, 'Attachments' => 10, 'Template' => 11, 'LastUserId' => 12, 'CreationDate' => 13, 'ModificationDate' => 14, ],
+        self::TYPE_CAMELNAME     => ['id' => 0, 'code' => 1, 'name' => 2, 'description' => 3, 'fromEmail' => 4, 'fromName' => 5, 'cc' => 6, 'bcc' => 7, 'subject' => 8, 'body' => 9, 'attachments' => 10, 'template' => 11, 'lastUserId' => 12, 'creationDate' => 13, 'modificationDate' => 14, ],
+        self::TYPE_COLNAME       => [SysEmailTableMap::COL_ID => 0, SysEmailTableMap::COL_CODE => 1, SysEmailTableMap::COL_NAME => 2, SysEmailTableMap::COL_DESCRIPTION => 3, SysEmailTableMap::COL_FROM_EMAIL => 4, SysEmailTableMap::COL_FROM_NAME => 5, SysEmailTableMap::COL_CC => 6, SysEmailTableMap::COL_BCC => 7, SysEmailTableMap::COL_SUBJECT => 8, SysEmailTableMap::COL_BODY => 9, SysEmailTableMap::COL_ATTACHMENTS => 10, SysEmailTableMap::COL_TEMPLATE => 11, SysEmailTableMap::COL_LAST_USER_ID => 12, SysEmailTableMap::COL_CREATION_DATE => 13, SysEmailTableMap::COL_MODIFICATION_DATE => 14, ],
+        self::TYPE_FIELDNAME     => ['ID' => 0, 'CODE' => 1, 'NAME' => 2, 'DESCRIPTION' => 3, 'FROM_EMAIL' => 4, 'FROM_NAME' => 5, 'CC' => 6, 'BCC' => 7, 'SUBJECT' => 8, 'BODY' => 9, 'ATTACHMENTS' => 10, 'TEMPLATE' => 11, 'LAST_USER_ID' => 12, 'CREATION_DATE' => 13, 'MODIFICATION_DATE' => 14, ],
+        self::TYPE_NUM           => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, ]
+    ];
+
+    /**
+     * Holds a list of column names and their normalized version.
+     *
+     * @var array<string>
+     */
+    protected $normalizedColumnNameMap = [
+        'Id' => 'ID',
+        'SysEmail.Id' => 'ID',
+        'id' => 'ID',
+        'sysEmail.id' => 'ID',
+        'SysEmailTableMap::COL_ID' => 'ID',
+        'COL_ID' => 'ID',
+        'ID' => 'ID',
+        'sys_email.ID' => 'ID',
+        'Code' => 'CODE',
+        'SysEmail.Code' => 'CODE',
+        'code' => 'CODE',
+        'sysEmail.code' => 'CODE',
+        'SysEmailTableMap::COL_CODE' => 'CODE',
+        'COL_CODE' => 'CODE',
+        'CODE' => 'CODE',
+        'sys_email.CODE' => 'CODE',
+        'Name' => 'NAME',
+        'SysEmail.Name' => 'NAME',
+        'name' => 'NAME',
+        'sysEmail.name' => 'NAME',
+        'SysEmailTableMap::COL_NAME' => 'NAME',
+        'COL_NAME' => 'NAME',
+        'NAME' => 'NAME',
+        'sys_email.NAME' => 'NAME',
+        'Description' => 'DESCRIPTION',
+        'SysEmail.Description' => 'DESCRIPTION',
+        'description' => 'DESCRIPTION',
+        'sysEmail.description' => 'DESCRIPTION',
+        'SysEmailTableMap::COL_DESCRIPTION' => 'DESCRIPTION',
+        'COL_DESCRIPTION' => 'DESCRIPTION',
+        'DESCRIPTION' => 'DESCRIPTION',
+        'sys_email.DESCRIPTION' => 'DESCRIPTION',
+        'FromEmail' => 'FROM_EMAIL',
+        'SysEmail.FromEmail' => 'FROM_EMAIL',
+        'fromEmail' => 'FROM_EMAIL',
+        'sysEmail.fromEmail' => 'FROM_EMAIL',
+        'SysEmailTableMap::COL_FROM_EMAIL' => 'FROM_EMAIL',
+        'COL_FROM_EMAIL' => 'FROM_EMAIL',
+        'FROM_EMAIL' => 'FROM_EMAIL',
+        'sys_email.FROM_EMAIL' => 'FROM_EMAIL',
+        'FromName' => 'FROM_NAME',
+        'SysEmail.FromName' => 'FROM_NAME',
+        'fromName' => 'FROM_NAME',
+        'sysEmail.fromName' => 'FROM_NAME',
+        'SysEmailTableMap::COL_FROM_NAME' => 'FROM_NAME',
+        'COL_FROM_NAME' => 'FROM_NAME',
+        'FROM_NAME' => 'FROM_NAME',
+        'sys_email.FROM_NAME' => 'FROM_NAME',
+        'Cc' => 'CC',
+        'SysEmail.Cc' => 'CC',
+        'cc' => 'CC',
+        'sysEmail.cc' => 'CC',
+        'SysEmailTableMap::COL_CC' => 'CC',
+        'COL_CC' => 'CC',
+        'CC' => 'CC',
+        'sys_email.CC' => 'CC',
+        'Bcc' => 'BCC',
+        'SysEmail.Bcc' => 'BCC',
+        'bcc' => 'BCC',
+        'sysEmail.bcc' => 'BCC',
+        'SysEmailTableMap::COL_BCC' => 'BCC',
+        'COL_BCC' => 'BCC',
+        'BCC' => 'BCC',
+        'sys_email.BCC' => 'BCC',
+        'Subject' => 'SUBJECT',
+        'SysEmail.Subject' => 'SUBJECT',
+        'subject' => 'SUBJECT',
+        'sysEmail.subject' => 'SUBJECT',
+        'SysEmailTableMap::COL_SUBJECT' => 'SUBJECT',
+        'COL_SUBJECT' => 'SUBJECT',
+        'SUBJECT' => 'SUBJECT',
+        'sys_email.SUBJECT' => 'SUBJECT',
+        'Body' => 'BODY',
+        'SysEmail.Body' => 'BODY',
+        'body' => 'BODY',
+        'sysEmail.body' => 'BODY',
+        'SysEmailTableMap::COL_BODY' => 'BODY',
+        'COL_BODY' => 'BODY',
+        'BODY' => 'BODY',
+        'sys_email.BODY' => 'BODY',
+        'Attachments' => 'ATTACHMENTS',
+        'SysEmail.Attachments' => 'ATTACHMENTS',
+        'attachments' => 'ATTACHMENTS',
+        'sysEmail.attachments' => 'ATTACHMENTS',
+        'SysEmailTableMap::COL_ATTACHMENTS' => 'ATTACHMENTS',
+        'COL_ATTACHMENTS' => 'ATTACHMENTS',
+        'ATTACHMENTS' => 'ATTACHMENTS',
+        'sys_email.ATTACHMENTS' => 'ATTACHMENTS',
+        'Template' => 'TEMPLATE',
+        'SysEmail.Template' => 'TEMPLATE',
+        'template' => 'TEMPLATE',
+        'sysEmail.template' => 'TEMPLATE',
+        'SysEmailTableMap::COL_TEMPLATE' => 'TEMPLATE',
+        'COL_TEMPLATE' => 'TEMPLATE',
+        'TEMPLATE' => 'TEMPLATE',
+        'sys_email.TEMPLATE' => 'TEMPLATE',
+        'LastUserId' => 'LAST_USER_ID',
+        'SysEmail.LastUserId' => 'LAST_USER_ID',
+        'lastUserId' => 'LAST_USER_ID',
+        'sysEmail.lastUserId' => 'LAST_USER_ID',
+        'SysEmailTableMap::COL_LAST_USER_ID' => 'LAST_USER_ID',
+        'COL_LAST_USER_ID' => 'LAST_USER_ID',
+        'LAST_USER_ID' => 'LAST_USER_ID',
+        'sys_email.LAST_USER_ID' => 'LAST_USER_ID',
+        'CreationDate' => 'CREATION_DATE',
+        'SysEmail.CreationDate' => 'CREATION_DATE',
+        'creationDate' => 'CREATION_DATE',
+        'sysEmail.creationDate' => 'CREATION_DATE',
+        'SysEmailTableMap::COL_CREATION_DATE' => 'CREATION_DATE',
+        'COL_CREATION_DATE' => 'CREATION_DATE',
+        'CREATION_DATE' => 'CREATION_DATE',
+        'sys_email.CREATION_DATE' => 'CREATION_DATE',
+        'ModificationDate' => 'MODIFICATION_DATE',
+        'SysEmail.ModificationDate' => 'MODIFICATION_DATE',
+        'modificationDate' => 'MODIFICATION_DATE',
+        'sysEmail.modificationDate' => 'MODIFICATION_DATE',
+        'SysEmailTableMap::COL_MODIFICATION_DATE' => 'MODIFICATION_DATE',
+        'COL_MODIFICATION_DATE' => 'MODIFICATION_DATE',
+        'MODIFICATION_DATE' => 'MODIFICATION_DATE',
+        'sys_email.MODIFICATION_DATE' => 'MODIFICATION_DATE',
+    ];
 
     /**
      * Initialize the table attributes and columns
      * Relations are not initialized by this method since they are lazy loaded
      *
      * @return void
-     * @throws PropelException
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function initialize()
+    public function initialize(): void
     {
         // attributes
         $this->setName('sys_email');
@@ -211,12 +347,14 @@ class SysEmailTableMap extends TableMap
         $this->addColumn('LAST_USER_ID', 'LastUserId', 'INTEGER', true, null, 0);
         $this->addColumn('CREATION_DATE', 'CreationDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');
         $this->addColumn('MODIFICATION_DATE', 'ModificationDate', 'TIMESTAMP', false, null, null);
-    } // initialize()
+    }
 
     /**
      * Build the RelationMap objects for this table relationships
+     *
+     * @return void
      */
-    public function buildRelations()
+    public function buildRelations(): void
     {
         $this->addRelation('SysEmailSent', '\\SysEmailSent', RelationMap::ONE_TO_MANY, array (
   0 =>
@@ -225,7 +363,7 @@ class SysEmailTableMap extends TableMap
     1 => ':ID',
   ),
 ), null, null, 'SysEmailSents', false);
-    } // buildRelations()
+    }
 
     /**
      * Retrieves a string version of the primary key from the DB resultset row that can be used to uniquely identify a row in this table.
@@ -233,14 +371,14 @@ class SysEmailTableMap extends TableMap
      * For tables with a single-column primary key, that simple pkey value will be returned.  For tables with
      * a multi-column primary key, a serialize()d version of the primary key will be returned.
      *
-     * @param array  $row       resultset row.
-     * @param int    $offset    The 0-based offset for reading from the resultset row.
+     * @param array $row Resultset row.
+     * @param int $offset The 0-based offset for reading from the resultset row.
      * @param string $indexType One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                           TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM
      *
-     * @return string The primary key hash of the row
+     * @return string|null The primary key hash of the row
      */
-    public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
+    public static function getPrimaryKeyHashFromRow(array $row, int $offset = 0, string $indexType = TableMap::TYPE_NUM): ?string
     {
         // If the PK cannot be derived from the row, return NULL.
         if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
@@ -255,14 +393,14 @@ class SysEmailTableMap extends TableMap
      * For tables with a single-column primary key, that simple pkey value will be returned.  For tables with
      * a multi-column primary key, an array of the primary key columns will be returned.
      *
-     * @param array  $row       resultset row.
-     * @param int    $offset    The 0-based offset for reading from the resultset row.
+     * @param array $row Resultset row.
+     * @param int $offset The 0-based offset for reading from the resultset row.
      * @param string $indexType One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                           TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM
      *
      * @return mixed The primary key of the row
      */
-    public static function getPrimaryKeyFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
+    public static function getPrimaryKeyFromRow(array $row, int $offset = 0, string $indexType = TableMap::TYPE_NUM)
     {
         return (int) $row[
             $indexType == TableMap::TYPE_NUM
@@ -279,10 +417,10 @@ class SysEmailTableMap extends TableMap
      * relative to a location on the PHP include_path.
      * (e.g. path.to.MyClass -> 'path/to/MyClass.php')
      *
-     * @param boolean $withPrefix Whether or not to return the path with the class name
+     * @param bool $withPrefix Whether to return the path with the class name
      * @return string path.to.ClassName
      */
-    public static function getOMClass($withPrefix = true)
+    public static function getOMClass(bool $withPrefix = true): string
     {
         return $withPrefix ? SysEmailTableMap::CLASS_DEFAULT : SysEmailTableMap::OM_CLASS;
     }
@@ -290,17 +428,17 @@ class SysEmailTableMap extends TableMap
     /**
      * Populates an object of the default type or an object that inherit from the default.
      *
-     * @param array  $row       row returned by DataFetcher->fetch().
-     * @param int    $offset    The 0-based offset for reading from the resultset row.
+     * @param array $row Row returned by DataFetcher->fetch().
+     * @param int $offset The 0-based offset for reading from the resultset row.
      * @param string $indexType The index type of $row. Mostly DataFetcher->getIndexType().
                                  One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                           TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *
-     * @throws PropelException Any exceptions caught during processing will be
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (SysEmail object, last column rank)
+     * @return array (SysEmail object, last column rank)
      */
-    public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
+    public static function populateObject(array $row, int $offset = 0, string $indexType = TableMap::TYPE_NUM): array
     {
         $key = SysEmailTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
         if (null !== ($obj = SysEmailTableMap::getInstanceFromPool($key))) {
@@ -316,7 +454,7 @@ class SysEmailTableMap extends TableMap
             SysEmailTableMap::addInstanceToPool($obj, $key);
         }
 
-        return array($obj, $col);
+        return [$obj, $col];
     }
 
     /**
@@ -324,13 +462,13 @@ class SysEmailTableMap extends TableMap
      * objects that inherit from the default.
      *
      * @param DataFetcherInterface $dataFetcher
-     * @return array
-     * @throws PropelException Any exceptions caught during processing will be
+     * @return array<object>
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
      */
-    public static function populateObjects(DataFetcherInterface $dataFetcher)
+    public static function populateObjects(DataFetcherInterface $dataFetcher): array
     {
-        $results = array();
+        $results = [];
 
         // set the class once to avoid overhead in the loop
         $cls = static::getOMClass(false);
@@ -360,12 +498,13 @@ class SysEmailTableMap extends TableMap
      * XML schema will not be added to the select list and only loaded
      * on demand.
      *
-     * @param Criteria $criteria object containing the columns to add.
-     * @param string   $alias    optional table alias
-     * @throws PropelException Any exceptions caught during processing will be
+     * @param Criteria $criteria Object containing the columns to add.
+     * @param string|null $alias Optional table alias
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
+     * @return void
      */
-    public static function addSelectColumns(Criteria $criteria, $alias = null)
+    public static function addSelectColumns(Criteria $criteria, ?string $alias = null): void
     {
         if (null === $alias) {
             $criteria->addSelectColumn(SysEmailTableMap::COL_ID);
@@ -403,40 +542,78 @@ class SysEmailTableMap extends TableMap
     }
 
     /**
+     * Remove all the columns needed to create a new object.
+     *
+     * Note: any columns that were marked with lazyLoad="true" in the
+     * XML schema will not be removed as they are only loaded on demand.
+     *
+     * @param Criteria $criteria Object containing the columns to remove.
+     * @param string|null $alias Optional table alias
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
+     *                         rethrown wrapped into a PropelException.
+     * @return void
+     */
+    public static function removeSelectColumns(Criteria $criteria, ?string $alias = null): void
+    {
+        if (null === $alias) {
+            $criteria->removeSelectColumn(SysEmailTableMap::COL_ID);
+            $criteria->removeSelectColumn(SysEmailTableMap::COL_CODE);
+            $criteria->removeSelectColumn(SysEmailTableMap::COL_NAME);
+            $criteria->removeSelectColumn(SysEmailTableMap::COL_DESCRIPTION);
+            $criteria->removeSelectColumn(SysEmailTableMap::COL_FROM_EMAIL);
+            $criteria->removeSelectColumn(SysEmailTableMap::COL_FROM_NAME);
+            $criteria->removeSelectColumn(SysEmailTableMap::COL_CC);
+            $criteria->removeSelectColumn(SysEmailTableMap::COL_BCC);
+            $criteria->removeSelectColumn(SysEmailTableMap::COL_SUBJECT);
+            $criteria->removeSelectColumn(SysEmailTableMap::COL_BODY);
+            $criteria->removeSelectColumn(SysEmailTableMap::COL_ATTACHMENTS);
+            $criteria->removeSelectColumn(SysEmailTableMap::COL_TEMPLATE);
+            $criteria->removeSelectColumn(SysEmailTableMap::COL_LAST_USER_ID);
+            $criteria->removeSelectColumn(SysEmailTableMap::COL_CREATION_DATE);
+            $criteria->removeSelectColumn(SysEmailTableMap::COL_MODIFICATION_DATE);
+        } else {
+            $criteria->removeSelectColumn($alias . '.ID');
+            $criteria->removeSelectColumn($alias . '.CODE');
+            $criteria->removeSelectColumn($alias . '.NAME');
+            $criteria->removeSelectColumn($alias . '.DESCRIPTION');
+            $criteria->removeSelectColumn($alias . '.FROM_EMAIL');
+            $criteria->removeSelectColumn($alias . '.FROM_NAME');
+            $criteria->removeSelectColumn($alias . '.CC');
+            $criteria->removeSelectColumn($alias . '.BCC');
+            $criteria->removeSelectColumn($alias . '.SUBJECT');
+            $criteria->removeSelectColumn($alias . '.BODY');
+            $criteria->removeSelectColumn($alias . '.ATTACHMENTS');
+            $criteria->removeSelectColumn($alias . '.TEMPLATE');
+            $criteria->removeSelectColumn($alias . '.LAST_USER_ID');
+            $criteria->removeSelectColumn($alias . '.CREATION_DATE');
+            $criteria->removeSelectColumn($alias . '.MODIFICATION_DATE');
+        }
+    }
+
+    /**
      * Returns the TableMap related to this object.
      * This method is not needed for general use but a specific application could have a need.
      * @return TableMap
-     * @throws PropelException Any exceptions caught during processing will be
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
      */
-    public static function getTableMap()
+    public static function getTableMap(): TableMap
     {
         return Propel::getServiceContainer()->getDatabaseMap(SysEmailTableMap::DATABASE_NAME)->getTable(SysEmailTableMap::TABLE_NAME);
     }
 
     /**
-     * Add a TableMap instance to the database for this tableMap class.
-     */
-    public static function buildTableMap()
-    {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(SysEmailTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(SysEmailTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new SysEmailTableMap());
-        }
-    }
-
-    /**
      * Performs a DELETE on the database, given a SysEmail or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or SysEmail object or primary key or array of primary keys
+     * @param mixed $values Criteria or SysEmail object or primary key or array of primary keys
      *              which is used to create the DELETE statement
-     * @param  ConnectionInterface $con the connection to use
-     * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
+     * @param ConnectionInterface $con the connection to use
+     * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
      *                         if supported by native driver or if emulated using Propel.
-     * @throws PropelException Any exceptions caught during processing will be
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
      */
-     public static function doDelete($values, ConnectionInterface $con = null)
+     public static function doDelete($values, ?ConnectionInterface $con = null): int
      {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysEmailTableMap::DATABASE_NAME);
@@ -472,7 +649,7 @@ class SysEmailTableMap extends TableMap
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
-    public static function doDeleteAll(ConnectionInterface $con = null)
+    public static function doDeleteAll(?ConnectionInterface $con = null): int
     {
         return SysEmailQuery::create()->doDeleteAll($con);
     }
@@ -480,13 +657,13 @@ class SysEmailTableMap extends TableMap
     /**
      * Performs an INSERT on the database, given a SysEmail or Criteria object.
      *
-     * @param mixed               $criteria Criteria or SysEmail object containing data that is used to create the INSERT statement.
+     * @param mixed $criteria Criteria or SysEmail object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
-     * @return mixed           The new primary key.
-     * @throws PropelException Any exceptions caught during processing will be
+     * @return mixed The new primary key.
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
      */
-    public static function doInsert($criteria, ConnectionInterface $con = null)
+    public static function doInsert($criteria, ?ConnectionInterface $con = null)
     {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysEmailTableMap::DATABASE_NAME);
@@ -513,7 +690,4 @@ class SysEmailTableMap extends TableMap
         });
     }
 
-} // SysEmailTableMap
-// This is the static code needed to register the TableMap for this table with the main Propel class.
-//
-SysEmailTableMap::buildTableMap();
+}

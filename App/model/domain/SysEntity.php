@@ -12,7 +12,7 @@ class SysEntity extends BaseSysEntity implements JsonSerializable
 
     protected $main_branch_id = 0;
 
-    static $validationRules = [
+    static array $validationRules = [
         'EntityTypeId' => [
             'null' => false, 'blank' => false,
         ],
@@ -65,7 +65,7 @@ class SysEntity extends BaseSysEntity implements JsonSerializable
         ],
     ];
 
-    public function preSave()
+    public function preSave() : bool
     {
         $this->entity_type_id = $this->entity_type_id?: null;
         $this->location_id = $this->location_id?: null;
@@ -82,22 +82,22 @@ class SysEntity extends BaseSysEntity implements JsonSerializable
         return parent::preSave();
     }
 
-    public function preValidate()
+    public function preValidate() : bool
     {
         return $this->preSave();
     }
 
-    public function preInsert()
+    public function preInsert() : bool
     {
         return $this->preSave();
     }
 
-    public function preUpdate()
+    public function preUpdate() : bool
     {
         return $this->preSave();
     }
 
-    public function postInsert()
+    public function postInsert() : void
     {
         if(!$this->getMainBranchId() && $this->branches()->count() > 0){
             $this->setMainBranchId($this->branches()[0]->getId());

@@ -10,7 +10,7 @@ class SysRol extends BaseSysRol
 {
     use Validatable;
 
-    static $validationRules = [
+    static array $validationRules = [
         'Code' => [
             'null' => false, 'blank'=> false,
             'size'=> ['min' => 3, 'max' => 30],
@@ -25,7 +25,7 @@ class SysRol extends BaseSysRol
         ],
     ];
 
-    public function preSave()
+    public function preSave() : bool
     {
         $this->code = trim(strtoupper($this->code))?: null;
         $this->name = trim($this->name)?: null;
@@ -33,7 +33,7 @@ class SysRol extends BaseSysRol
         return parent::preSave();
     }
 
-    public function preValidate()
+    public function preValidate() : bool
     {
         return $this->preSave();
     }
@@ -41,8 +41,9 @@ class SysRol extends BaseSysRol
     /**
      * @param bool|true $noDeletes
      * @return \Propel\Runtime\Collection\ObjectCollection|SysRolXUri[]
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function rolUris($noDeletes=true)
+    public function rolUris(bool $noDeletes=true)
     {
         return SysRolXUriQuery::findByRol($this, $noDeletes);
     }

@@ -11,14 +11,13 @@ use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveQuery\ModelJoin;
+use Propel\Runtime\Collection\Collection;
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
 
 /**
- * Base class that represents a query for the 'sys_module' table.
- *
- *
+ * Base class that represents a query for the `sys_module` table.
  *
  * @method     ChildSysModuleQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysModuleQuery orderByName($order = Criteria::ASC) Order by the NAME column
@@ -56,19 +55,19 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     \SysUriQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
- * @method     ChildSysModule findOne(ConnectionInterface $con = null) Return the first ChildSysModule matching the query
- * @method     ChildSysModule findOneOrCreate(ConnectionInterface $con = null) Return the first ChildSysModule matching the query, or a new ChildSysModule object populated from the query conditions when no match is found
+ * @method     ChildSysModule|null findOne(?ConnectionInterface $con = null) Return the first ChildSysModule matching the query
+ * @method     ChildSysModule findOneOrCreate(?ConnectionInterface $con = null) Return the first ChildSysModule matching the query, or a new ChildSysModule object populated from the query conditions when no match is found
  *
- * @method     ChildSysModule findOneById(int $ID) Return the first ChildSysModule filtered by the ID column
- * @method     ChildSysModule findOneByName(string $NAME) Return the first ChildSysModule filtered by the NAME column
- * @method     ChildSysModule findOneByUri(string $URI) Return the first ChildSysModule filtered by the URI column
- * @method     ChildSysModule findOneByAccess(string $ACCESS) Return the first ChildSysModule filtered by the ACCESS column
- * @method     ChildSysModule findOneByPosition(int $POSITION) Return the first ChildSysModule filtered by the POSITION column
- * @method     ChildSysModule findOneByDescription(string $DESCRIPTION) Return the first ChildSysModule filtered by the DESCRIPTION column
- * @method     ChildSysModule findOneByIconClass(string $ICON_CLASS) Return the first ChildSysModule filtered by the ICON_CLASS column *
-
- * @method     ChildSysModule requirePk($key, ConnectionInterface $con = null) Return the ChildSysModule by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildSysModule requireOne(ConnectionInterface $con = null) Return the first ChildSysModule matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildSysModule|null findOneById(int $ID) Return the first ChildSysModule filtered by the ID column
+ * @method     ChildSysModule|null findOneByName(string $NAME) Return the first ChildSysModule filtered by the NAME column
+ * @method     ChildSysModule|null findOneByUri(string $URI) Return the first ChildSysModule filtered by the URI column
+ * @method     ChildSysModule|null findOneByAccess(string $ACCESS) Return the first ChildSysModule filtered by the ACCESS column
+ * @method     ChildSysModule|null findOneByPosition(int $POSITION) Return the first ChildSysModule filtered by the POSITION column
+ * @method     ChildSysModule|null findOneByDescription(string $DESCRIPTION) Return the first ChildSysModule filtered by the DESCRIPTION column
+ * @method     ChildSysModule|null findOneByIconClass(string $ICON_CLASS) Return the first ChildSysModule filtered by the ICON_CLASS column
+ *
+ * @method     ChildSysModule requirePk($key, ?ConnectionInterface $con = null) Return the ChildSysModule by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildSysModule requireOne(?ConnectionInterface $con = null) Return the first ChildSysModule matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildSysModule requireOneById(int $ID) Return the first ChildSysModule filtered by the ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSysModule requireOneByName(string $NAME) Return the first ChildSysModule filtered by the NAME column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -78,16 +77,26 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysModule requireOneByDescription(string $DESCRIPTION) Return the first ChildSysModule filtered by the DESCRIPTION column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSysModule requireOneByIconClass(string $ICON_CLASS) Return the first ChildSysModule filtered by the ICON_CLASS column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildSysModule[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildSysModule objects based on current ModelCriteria
- * @method     ChildSysModule[]|ObjectCollection findById(int $ID) Return ChildSysModule objects filtered by the ID column
- * @method     ChildSysModule[]|ObjectCollection findByName(string $NAME) Return ChildSysModule objects filtered by the NAME column
- * @method     ChildSysModule[]|ObjectCollection findByUri(string $URI) Return ChildSysModule objects filtered by the URI column
- * @method     ChildSysModule[]|ObjectCollection findByAccess(string $ACCESS) Return ChildSysModule objects filtered by the ACCESS column
- * @method     ChildSysModule[]|ObjectCollection findByPosition(int $POSITION) Return ChildSysModule objects filtered by the POSITION column
- * @method     ChildSysModule[]|ObjectCollection findByDescription(string $DESCRIPTION) Return ChildSysModule objects filtered by the DESCRIPTION column
- * @method     ChildSysModule[]|ObjectCollection findByIconClass(string $ICON_CLASS) Return ChildSysModule objects filtered by the ICON_CLASS column
- * @method     ChildSysModule[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
+ * @method     ChildSysModule[]|Collection find(?ConnectionInterface $con = null) Return ChildSysModule objects based on current ModelCriteria
+ * @psalm-method Collection&\Traversable<ChildSysModule> find(?ConnectionInterface $con = null) Return ChildSysModule objects based on current ModelCriteria
  *
+ * @method     ChildSysModule[]|Collection findById(int|array<int> $ID) Return ChildSysModule objects filtered by the ID column
+ * @psalm-method Collection&\Traversable<ChildSysModule> findById(int|array<int> $ID) Return ChildSysModule objects filtered by the ID column
+ * @method     ChildSysModule[]|Collection findByName(string|array<string> $NAME) Return ChildSysModule objects filtered by the NAME column
+ * @psalm-method Collection&\Traversable<ChildSysModule> findByName(string|array<string> $NAME) Return ChildSysModule objects filtered by the NAME column
+ * @method     ChildSysModule[]|Collection findByUri(string|array<string> $URI) Return ChildSysModule objects filtered by the URI column
+ * @psalm-method Collection&\Traversable<ChildSysModule> findByUri(string|array<string> $URI) Return ChildSysModule objects filtered by the URI column
+ * @method     ChildSysModule[]|Collection findByAccess(string|array<string> $ACCESS) Return ChildSysModule objects filtered by the ACCESS column
+ * @psalm-method Collection&\Traversable<ChildSysModule> findByAccess(string|array<string> $ACCESS) Return ChildSysModule objects filtered by the ACCESS column
+ * @method     ChildSysModule[]|Collection findByPosition(int|array<int> $POSITION) Return ChildSysModule objects filtered by the POSITION column
+ * @psalm-method Collection&\Traversable<ChildSysModule> findByPosition(int|array<int> $POSITION) Return ChildSysModule objects filtered by the POSITION column
+ * @method     ChildSysModule[]|Collection findByDescription(string|array<string> $DESCRIPTION) Return ChildSysModule objects filtered by the DESCRIPTION column
+ * @psalm-method Collection&\Traversable<ChildSysModule> findByDescription(string|array<string> $DESCRIPTION) Return ChildSysModule objects filtered by the DESCRIPTION column
+ * @method     ChildSysModule[]|Collection findByIconClass(string|array<string> $ICON_CLASS) Return ChildSysModule objects filtered by the ICON_CLASS column
+ * @psalm-method Collection&\Traversable<ChildSysModule> findByIconClass(string|array<string> $ICON_CLASS) Return ChildSysModule objects filtered by the ICON_CLASS column
+ *
+ * @method     ChildSysModule[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ?ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
+ * @psalm-method \Propel\Runtime\Util\PropelModelPager&\Traversable<ChildSysModule> paginate($page = 1, $maxPerPage = 10, ?ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  */
 abstract class SysModuleQuery extends ModelCriteria
 {
@@ -96,9 +105,9 @@ abstract class SysModuleQuery extends ModelCriteria
     /**
      * Initializes internal state of \Base\SysModuleQuery object.
      *
-     * @param     string $dbName The database name
-     * @param     string $modelName The phpName of a model, e.g. 'Book'
-     * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
+     * @param string $dbName The database name
+     * @param string $modelName The phpName of a model, e.g. 'Book'
+     * @param string $modelAlias The alias for the model in this query, e.g. 'b'
      */
     public function __construct($dbName = 'default', $modelName = '\\SysModule', $modelAlias = null)
     {
@@ -108,12 +117,12 @@ abstract class SysModuleQuery extends ModelCriteria
     /**
      * Returns a new ChildSysModuleQuery object.
      *
-     * @param     string $modelAlias The alias of a model in the query
-     * @param     Criteria $criteria Optional Criteria to build the query from
+     * @param string $modelAlias The alias of a model in the query
+     * @param Criteria $criteria Optional Criteria to build the query from
      *
      * @return ChildSysModuleQuery
      */
-    public static function create($modelAlias = null, Criteria $criteria = null)
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
     {
         if ($criteria instanceof ChildSysModuleQuery) {
             return $criteria;
@@ -143,7 +152,7 @@ abstract class SysModuleQuery extends ModelCriteria
      *
      * @return ChildSysModule|array|mixed the result, formatted by the current formatter
      */
-    public function findPk($key, ConnectionInterface $con = null)
+    public function findPk($key, ?ConnectionInterface $con = null)
     {
         if ($key === null) {
             return null;
@@ -175,8 +184,8 @@ abstract class SysModuleQuery extends ModelCriteria
      * Find object by primary key using raw SQL to go fast.
      * Bypass doSelect() and the object formatter by using generated code.
      *
-     * @param     mixed $key Primary key to use for the query
-     * @param     ConnectionInterface $con A connection object
+     * @param mixed $key Primary key to use for the query
+     * @param ConnectionInterface $con A connection object
      *
      * @throws \Propel\Runtime\Exception\PropelException
      *
@@ -208,8 +217,8 @@ abstract class SysModuleQuery extends ModelCriteria
     /**
      * Find object by primary key.
      *
-     * @param     mixed $key Primary key to use for the query
-     * @param     ConnectionInterface $con A connection object
+     * @param mixed $key Primary key to use for the query
+     * @param ConnectionInterface $con A connection object
      *
      * @return ChildSysModule|array|mixed the result, formatted by the current formatter
      */
@@ -229,12 +238,12 @@ abstract class SysModuleQuery extends ModelCriteria
      * <code>
      * $objs = $c->findPks(array(12, 56, 832), $con);
      * </code>
-     * @param     array $keys Primary keys to use for the query
-     * @param     ConnectionInterface $con an optional connection object
+     * @param array $keys Primary keys to use for the query
+     * @param ConnectionInterface $con an optional connection object
      *
-     * @return ObjectCollection|array|mixed the list of results, formatted by the current formatter
+     * @return Collection|array|mixed the list of results, formatted by the current formatter
      */
-    public function findPks($keys, ConnectionInterface $con = null)
+    public function findPks($keys, ?ConnectionInterface $con = null)
     {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getReadConnection($this->getDbName());
@@ -251,27 +260,31 @@ abstract class SysModuleQuery extends ModelCriteria
     /**
      * Filter the query by primary key
      *
-     * @param     mixed $key Primary key to use for the query
+     * @param mixed $key Primary key to use for the query
      *
-     * @return $this|ChildSysModuleQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
     public function filterByPrimaryKey($key)
     {
 
-        return $this->addUsingAlias(SysModuleTableMap::COL_ID, $key, Criteria::EQUAL);
+        $this->addUsingAlias(SysModuleTableMap::COL_ID, $key, Criteria::EQUAL);
+
+        return $this;
     }
 
     /**
      * Filter the query by a list of primary keys
      *
-     * @param     array $keys The list of primary key to use for the query
+     * @param array|int $keys The list of primary key to use for the query
      *
-     * @return $this|ChildSysModuleQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
     public function filterByPrimaryKeys($keys)
     {
 
-        return $this->addUsingAlias(SysModuleTableMap::COL_ID, $keys, Criteria::IN);
+        $this->addUsingAlias(SysModuleTableMap::COL_ID, $keys, Criteria::IN);
+
+        return $this;
     }
 
     /**
@@ -284,15 +297,15 @@ abstract class SysModuleQuery extends ModelCriteria
      * $query->filterById(array('min' => 12)); // WHERE ID > 12
      * </code>
      *
-     * @param     mixed $id The value to use as filter.
+     * @param mixed $id The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysModuleQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterById($id = null, $comparison = null)
+    public function filterById($id = null, ?string $comparison = null)
     {
         if (is_array($id)) {
             $useMinMax = false;
@@ -312,7 +325,9 @@ abstract class SysModuleQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysModuleTableMap::COL_ID, $id, $comparison);
+        $this->addUsingAlias(SysModuleTableMap::COL_ID, $id, $comparison);
+
+        return $this;
     }
 
     /**
@@ -322,14 +337,15 @@ abstract class SysModuleQuery extends ModelCriteria
      * <code>
      * $query->filterByName('fooValue');   // WHERE NAME = 'fooValue'
      * $query->filterByName('%fooValue%', Criteria::LIKE); // WHERE NAME LIKE '%fooValue%'
+     * $query->filterByName(['foo', 'bar']); // WHERE NAME IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $name The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $name The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysModuleQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByName($name = null, $comparison = null)
+    public function filterByName($name = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($name)) {
@@ -337,7 +353,9 @@ abstract class SysModuleQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysModuleTableMap::COL_NAME, $name, $comparison);
+        $this->addUsingAlias(SysModuleTableMap::COL_NAME, $name, $comparison);
+
+        return $this;
     }
 
     /**
@@ -347,14 +365,15 @@ abstract class SysModuleQuery extends ModelCriteria
      * <code>
      * $query->filterByUri('fooValue');   // WHERE URI = 'fooValue'
      * $query->filterByUri('%fooValue%', Criteria::LIKE); // WHERE URI LIKE '%fooValue%'
+     * $query->filterByUri(['foo', 'bar']); // WHERE URI IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $uri The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $uri The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysModuleQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByUri($uri = null, $comparison = null)
+    public function filterByUri($uri = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($uri)) {
@@ -362,7 +381,9 @@ abstract class SysModuleQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysModuleTableMap::COL_URI, $uri, $comparison);
+        $this->addUsingAlias(SysModuleTableMap::COL_URI, $uri, $comparison);
+
+        return $this;
     }
 
     /**
@@ -372,14 +393,15 @@ abstract class SysModuleQuery extends ModelCriteria
      * <code>
      * $query->filterByAccess('fooValue');   // WHERE ACCESS = 'fooValue'
      * $query->filterByAccess('%fooValue%', Criteria::LIKE); // WHERE ACCESS LIKE '%fooValue%'
+     * $query->filterByAccess(['foo', 'bar']); // WHERE ACCESS IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $access The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $access The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysModuleQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByAccess($access = null, $comparison = null)
+    public function filterByAccess($access = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($access)) {
@@ -387,7 +409,9 @@ abstract class SysModuleQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysModuleTableMap::COL_ACCESS, $access, $comparison);
+        $this->addUsingAlias(SysModuleTableMap::COL_ACCESS, $access, $comparison);
+
+        return $this;
     }
 
     /**
@@ -400,15 +424,15 @@ abstract class SysModuleQuery extends ModelCriteria
      * $query->filterByPosition(array('min' => 12)); // WHERE POSITION > 12
      * </code>
      *
-     * @param     mixed $position The value to use as filter.
+     * @param mixed $position The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysModuleQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByPosition($position = null, $comparison = null)
+    public function filterByPosition($position = null, ?string $comparison = null)
     {
         if (is_array($position)) {
             $useMinMax = false;
@@ -428,7 +452,9 @@ abstract class SysModuleQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysModuleTableMap::COL_POSITION, $position, $comparison);
+        $this->addUsingAlias(SysModuleTableMap::COL_POSITION, $position, $comparison);
+
+        return $this;
     }
 
     /**
@@ -438,14 +464,15 @@ abstract class SysModuleQuery extends ModelCriteria
      * <code>
      * $query->filterByDescription('fooValue');   // WHERE DESCRIPTION = 'fooValue'
      * $query->filterByDescription('%fooValue%', Criteria::LIKE); // WHERE DESCRIPTION LIKE '%fooValue%'
+     * $query->filterByDescription(['foo', 'bar']); // WHERE DESCRIPTION IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $description The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $description The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysModuleQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByDescription($description = null, $comparison = null)
+    public function filterByDescription($description = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($description)) {
@@ -453,7 +480,9 @@ abstract class SysModuleQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysModuleTableMap::COL_DESCRIPTION, $description, $comparison);
+        $this->addUsingAlias(SysModuleTableMap::COL_DESCRIPTION, $description, $comparison);
+
+        return $this;
     }
 
     /**
@@ -463,14 +492,15 @@ abstract class SysModuleQuery extends ModelCriteria
      * <code>
      * $query->filterByIconClass('fooValue');   // WHERE ICON_CLASS = 'fooValue'
      * $query->filterByIconClass('%fooValue%', Criteria::LIKE); // WHERE ICON_CLASS LIKE '%fooValue%'
+     * $query->filterByIconClass(['foo', 'bar']); // WHERE ICON_CLASS IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $iconClass The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $iconClass The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysModuleQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByIconClass($iconClass = null, $comparison = null)
+    public function filterByIconClass($iconClass = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($iconClass)) {
@@ -478,27 +508,33 @@ abstract class SysModuleQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysModuleTableMap::COL_ICON_CLASS, $iconClass, $comparison);
+        $this->addUsingAlias(SysModuleTableMap::COL_ICON_CLASS, $iconClass, $comparison);
+
+        return $this;
     }
 
     /**
      * Filter the query by a related \SysUri object
      *
      * @param \SysUri|ObjectCollection $sysUri the related object to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildSysModuleQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterBySysUri($sysUri, $comparison = null)
+    public function filterBySysUri($sysUri, ?string $comparison = null)
     {
         if ($sysUri instanceof \SysUri) {
-            return $this
+            $this
                 ->addUsingAlias(SysModuleTableMap::COL_ID, $sysUri->getModuleId(), $comparison);
+
+            return $this;
         } elseif ($sysUri instanceof ObjectCollection) {
-            return $this
+            $this
                 ->useSysUriQuery()
                 ->filterByPrimaryKeys($sysUri->getPrimaryKeys())
                 ->endUse();
+
+            return $this;
         } else {
             throw new PropelException('filterBySysUri() only accepts arguments of type \SysUri or Collection');
         }
@@ -507,12 +543,12 @@ abstract class SysModuleQuery extends ModelCriteria
     /**
      * Adds a JOIN clause to the query using the SysUri relation
      *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string|null $relationAlias Optional alias for the relation
+     * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return $this|ChildSysModuleQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function joinSysUri($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinSysUri(?string $relationAlias = null, ?string $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('SysUri');
@@ -541,9 +577,9 @@ abstract class SysModuleQuery extends ModelCriteria
      *
      * @see useQuery()
      *
-     * @param     string $relationAlias optional alias for the relation,
+     * @param string $relationAlias optional alias for the relation,
      *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return \SysUriQuery A secondary query class using the current class as primary query
      */
@@ -555,11 +591,107 @@ abstract class SysModuleQuery extends ModelCriteria
     }
 
     /**
+     * Use the SysUri relation SysUri object
+     *
+     * @param callable(\SysUriQuery):\SysUriQuery $callable A function working on the related query
+     *
+     * @param string|null $relationAlias optional alias for the relation
+     *
+     * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this
+     */
+    public function withSysUriQuery(
+        callable $callable,
+        string $relationAlias = null,
+        ?string $joinType = Criteria::INNER_JOIN
+    ) {
+        $relatedQuery = $this->useSysUriQuery(
+            $relationAlias,
+            $joinType
+        );
+        $callable($relatedQuery);
+        $relatedQuery->endUse();
+
+        return $this;
+    }
+
+    /**
+     * Use the relation to SysUri table for an EXISTS query.
+     *
+     * @see \Propel\Runtime\ActiveQuery\ModelCriteria::useExistsQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the exists query, like ExtendedBookQuery::class
+     * @param string $typeOfExists Either ExistsQueryCriterion::TYPE_EXISTS or ExistsQueryCriterion::TYPE_NOT_EXISTS
+     *
+     * @return \SysUriQuery The inner query object of the EXISTS statement
+     */
+    public function useSysUriExistsQuery($modelAlias = null, $queryClass = null, $typeOfExists = 'EXISTS')
+    {
+        /** @var $q \SysUriQuery */
+        $q = $this->useExistsQuery('SysUri', $modelAlias, $queryClass, $typeOfExists);
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysUri table for a NOT EXISTS query.
+     *
+     * @see useSysUriExistsQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the exists query, like ExtendedBookQuery::class
+     *
+     * @return \SysUriQuery The inner query object of the NOT EXISTS statement
+     */
+    public function useSysUriNotExistsQuery($modelAlias = null, $queryClass = null)
+    {
+        /** @var $q \SysUriQuery */
+        $q = $this->useExistsQuery('SysUri', $modelAlias, $queryClass, 'NOT EXISTS');
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysUri table for an IN query.
+     *
+     * @see \Propel\Runtime\ActiveQuery\ModelCriteria::useInQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the IN query, like ExtendedBookQuery::class
+     * @param string $typeOfIn Criteria::IN or Criteria::NOT_IN
+     *
+     * @return \SysUriQuery The inner query object of the IN statement
+     */
+    public function useInSysUriQuery($modelAlias = null, $queryClass = null, $typeOfIn = 'IN')
+    {
+        /** @var $q \SysUriQuery */
+        $q = $this->useInQuery('SysUri', $modelAlias, $queryClass, $typeOfIn);
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysUri table for a NOT IN query.
+     *
+     * @see useSysUriInQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the NOT IN query, like ExtendedBookQuery::class
+     *
+     * @return \SysUriQuery The inner query object of the NOT IN statement
+     */
+    public function useNotInSysUriQuery($modelAlias = null, $queryClass = null)
+    {
+        /** @var $q \SysUriQuery */
+        $q = $this->useInQuery('SysUri', $modelAlias, $queryClass, 'NOT IN');
+        return $q;
+    }
+
+    /**
      * Exclude object from result
      *
-     * @param   ChildSysModule $sysModule Object to remove from the list of results
+     * @param ChildSysModule $sysModule Object to remove from the list of results
      *
-     * @return $this|ChildSysModuleQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
     public function prune($sysModule = null)
     {
@@ -576,7 +708,7 @@ abstract class SysModuleQuery extends ModelCriteria
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
-    public function doDeleteAll(ConnectionInterface $con = null)
+    public function doDeleteAll(?ConnectionInterface $con = null): int
     {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysModuleTableMap::DATABASE_NAME);
@@ -601,12 +733,12 @@ abstract class SysModuleQuery extends ModelCriteria
      * Performs a DELETE on the database based on the current ModelCriteria
      *
      * @param ConnectionInterface $con the connection to use
-     * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
+     * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
      *                         if supported by native driver or if emulated using Propel.
-     * @throws PropelException Any exceptions caught during processing will be
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
      */
-    public function delete(ConnectionInterface $con = null)
+    public function delete(?ConnectionInterface $con = null): int
     {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysModuleTableMap::DATABASE_NAME);
@@ -631,4 +763,4 @@ abstract class SysModuleQuery extends ModelCriteria
         });
     }
 
-} // SysModuleQuery
+}

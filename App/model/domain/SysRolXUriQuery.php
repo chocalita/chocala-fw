@@ -15,11 +15,11 @@ class SysRolXUriQuery extends BaseSysRolXUriQuery //implements SoftDeletion
 
     /**
      * @param SysRol $uri
-     * @param bool|true $noDeletes
+     * @param bool $noDeletes
      * @return \Propel\Runtime\Collection\ObjectCollection|SysRolXUri[]
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public static function findByRol(SysRol $uri, $noDeletes=true)
+    public static function findByRol(SysRol $uri, bool $noDeletes=true)
     {
         return self::createValids($noDeletes)
                 ->filterBySysRol($uri)
@@ -28,11 +28,11 @@ class SysRolXUriQuery extends BaseSysRolXUriQuery //implements SoftDeletion
 
     /**
      * @param SysUri $uri
-     * @param bool|true $noDeletes
+     * @param bool $noDeletes
      * @return \Propel\Runtime\Collection\ObjectCollection|SysRolXUri[]
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public static function findByUri(SysUri $uri, $noDeletes=true)
+    public static function findByUri(SysUri $uri, bool $noDeletes=true)
     {
         return self::createValids($noDeletes)
                 ->filterBySysUri($uri)

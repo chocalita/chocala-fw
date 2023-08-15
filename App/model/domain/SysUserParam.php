@@ -12,6 +12,7 @@ class SysUserParam extends BaseSysUserParam
 
     /**
      * @return bool|DateTime|float|string
+     * @throws \Propel\Runtime\Exception\PropelException
      */
     public function value()
     {

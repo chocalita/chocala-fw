@@ -11,14 +11,13 @@ use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveQuery\ModelJoin;
+use Propel\Runtime\Collection\Collection;
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
 
 /**
- * Base class that represents a query for the 'sys_location' table.
- *
- *
+ * Base class that represents a query for the `sys_location` table.
  *
  * @method     ChildSysLocationQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysLocationQuery orderByMainId($order = Criteria::ASC) Order by the MAIN_ID column
@@ -76,24 +75,24 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     \SysEntityQuery|\SysEntityBranchQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
- * @method     ChildSysLocation findOne(ConnectionInterface $con = null) Return the first ChildSysLocation matching the query
- * @method     ChildSysLocation findOneOrCreate(ConnectionInterface $con = null) Return the first ChildSysLocation matching the query, or a new ChildSysLocation object populated from the query conditions when no match is found
+ * @method     ChildSysLocation|null findOne(?ConnectionInterface $con = null) Return the first ChildSysLocation matching the query
+ * @method     ChildSysLocation findOneOrCreate(?ConnectionInterface $con = null) Return the first ChildSysLocation matching the query, or a new ChildSysLocation object populated from the query conditions when no match is found
  *
- * @method     ChildSysLocation findOneById(int $ID) Return the first ChildSysLocation filtered by the ID column
- * @method     ChildSysLocation findOneByMainId(int $MAIN_ID) Return the first ChildSysLocation filtered by the MAIN_ID column
- * @method     ChildSysLocation findOneByCode(string $CODE) Return the first ChildSysLocation filtered by the CODE column
- * @method     ChildSysLocation findOneByStatus(string $STATUS) Return the first ChildSysLocation filtered by the STATUS column
- * @method     ChildSysLocation findOneByName(string $NAME) Return the first ChildSysLocation filtered by the NAME column
- * @method     ChildSysLocation findOneByType(string $TYPE) Return the first ChildSysLocation filtered by the TYPE column
- * @method     ChildSysLocation findOneByLevel(int $LEVEL) Return the first ChildSysLocation filtered by the LEVEL column
- * @method     ChildSysLocation findOneByLft(int $LFT) Return the first ChildSysLocation filtered by the LFT column
- * @method     ChildSysLocation findOneByRgt(int $RGT) Return the first ChildSysLocation filtered by the RGT column
- * @method     ChildSysLocation findOneByLastUserId(int $LAST_USER_ID) Return the first ChildSysLocation filtered by the LAST_USER_ID column
- * @method     ChildSysLocation findOneByCreationDate(string $CREATION_DATE) Return the first ChildSysLocation filtered by the CREATION_DATE column
- * @method     ChildSysLocation findOneByModificationDate(string $MODIFICATION_DATE) Return the first ChildSysLocation filtered by the MODIFICATION_DATE column *
-
- * @method     ChildSysLocation requirePk($key, ConnectionInterface $con = null) Return the ChildSysLocation by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildSysLocation requireOne(ConnectionInterface $con = null) Return the first ChildSysLocation matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildSysLocation|null findOneById(int $ID) Return the first ChildSysLocation filtered by the ID column
+ * @method     ChildSysLocation|null findOneByMainId(int $MAIN_ID) Return the first ChildSysLocation filtered by the MAIN_ID column
+ * @method     ChildSysLocation|null findOneByCode(string $CODE) Return the first ChildSysLocation filtered by the CODE column
+ * @method     ChildSysLocation|null findOneByStatus(string $STATUS) Return the first ChildSysLocation filtered by the STATUS column
+ * @method     ChildSysLocation|null findOneByName(string $NAME) Return the first ChildSysLocation filtered by the NAME column
+ * @method     ChildSysLocation|null findOneByType(string $TYPE) Return the first ChildSysLocation filtered by the TYPE column
+ * @method     ChildSysLocation|null findOneByLevel(int $LEVEL) Return the first ChildSysLocation filtered by the LEVEL column
+ * @method     ChildSysLocation|null findOneByLft(int $LFT) Return the first ChildSysLocation filtered by the LFT column
+ * @method     ChildSysLocation|null findOneByRgt(int $RGT) Return the first ChildSysLocation filtered by the RGT column
+ * @method     ChildSysLocation|null findOneByLastUserId(int $LAST_USER_ID) Return the first ChildSysLocation filtered by the LAST_USER_ID column
+ * @method     ChildSysLocation|null findOneByCreationDate(string $CREATION_DATE) Return the first ChildSysLocation filtered by the CREATION_DATE column
+ * @method     ChildSysLocation|null findOneByModificationDate(string $MODIFICATION_DATE) Return the first ChildSysLocation filtered by the MODIFICATION_DATE column
+ *
+ * @method     ChildSysLocation requirePk($key, ?ConnectionInterface $con = null) Return the ChildSysLocation by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildSysLocation requireOne(?ConnectionInterface $con = null) Return the first ChildSysLocation matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildSysLocation requireOneById(int $ID) Return the first ChildSysLocation filtered by the ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSysLocation requireOneByMainId(int $MAIN_ID) Return the first ChildSysLocation filtered by the MAIN_ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -108,21 +107,36 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysLocation requireOneByCreationDate(string $CREATION_DATE) Return the first ChildSysLocation filtered by the CREATION_DATE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSysLocation requireOneByModificationDate(string $MODIFICATION_DATE) Return the first ChildSysLocation filtered by the MODIFICATION_DATE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildSysLocation[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildSysLocation objects based on current ModelCriteria
- * @method     ChildSysLocation[]|ObjectCollection findById(int $ID) Return ChildSysLocation objects filtered by the ID column
- * @method     ChildSysLocation[]|ObjectCollection findByMainId(int $MAIN_ID) Return ChildSysLocation objects filtered by the MAIN_ID column
- * @method     ChildSysLocation[]|ObjectCollection findByCode(string $CODE) Return ChildSysLocation objects filtered by the CODE column
- * @method     ChildSysLocation[]|ObjectCollection findByStatus(string $STATUS) Return ChildSysLocation objects filtered by the STATUS column
- * @method     ChildSysLocation[]|ObjectCollection findByName(string $NAME) Return ChildSysLocation objects filtered by the NAME column
- * @method     ChildSysLocation[]|ObjectCollection findByType(string $TYPE) Return ChildSysLocation objects filtered by the TYPE column
- * @method     ChildSysLocation[]|ObjectCollection findByLevel(int $LEVEL) Return ChildSysLocation objects filtered by the LEVEL column
- * @method     ChildSysLocation[]|ObjectCollection findByLft(int $LFT) Return ChildSysLocation objects filtered by the LFT column
- * @method     ChildSysLocation[]|ObjectCollection findByRgt(int $RGT) Return ChildSysLocation objects filtered by the RGT column
- * @method     ChildSysLocation[]|ObjectCollection findByLastUserId(int $LAST_USER_ID) Return ChildSysLocation objects filtered by the LAST_USER_ID column
- * @method     ChildSysLocation[]|ObjectCollection findByCreationDate(string $CREATION_DATE) Return ChildSysLocation objects filtered by the CREATION_DATE column
- * @method     ChildSysLocation[]|ObjectCollection findByModificationDate(string $MODIFICATION_DATE) Return ChildSysLocation objects filtered by the MODIFICATION_DATE column
- * @method     ChildSysLocation[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
+ * @method     ChildSysLocation[]|Collection find(?ConnectionInterface $con = null) Return ChildSysLocation objects based on current ModelCriteria
+ * @psalm-method Collection&\Traversable<ChildSysLocation> find(?ConnectionInterface $con = null) Return ChildSysLocation objects based on current ModelCriteria
  *
+ * @method     ChildSysLocation[]|Collection findById(int|array<int> $ID) Return ChildSysLocation objects filtered by the ID column
+ * @psalm-method Collection&\Traversable<ChildSysLocation> findById(int|array<int> $ID) Return ChildSysLocation objects filtered by the ID column
+ * @method     ChildSysLocation[]|Collection findByMainId(int|array<int> $MAIN_ID) Return ChildSysLocation objects filtered by the MAIN_ID column
+ * @psalm-method Collection&\Traversable<ChildSysLocation> findByMainId(int|array<int> $MAIN_ID) Return ChildSysLocation objects filtered by the MAIN_ID column
+ * @method     ChildSysLocation[]|Collection findByCode(string|array<string> $CODE) Return ChildSysLocation objects filtered by the CODE column
+ * @psalm-method Collection&\Traversable<ChildSysLocation> findByCode(string|array<string> $CODE) Return ChildSysLocation objects filtered by the CODE column
+ * @method     ChildSysLocation[]|Collection findByStatus(string|array<string> $STATUS) Return ChildSysLocation objects filtered by the STATUS column
+ * @psalm-method Collection&\Traversable<ChildSysLocation> findByStatus(string|array<string> $STATUS) Return ChildSysLocation objects filtered by the STATUS column
+ * @method     ChildSysLocation[]|Collection findByName(string|array<string> $NAME) Return ChildSysLocation objects filtered by the NAME column
+ * @psalm-method Collection&\Traversable<ChildSysLocation> findByName(string|array<string> $NAME) Return ChildSysLocation objects filtered by the NAME column
+ * @method     ChildSysLocation[]|Collection findByType(string|array<string> $TYPE) Return ChildSysLocation objects filtered by the TYPE column
+ * @psalm-method Collection&\Traversable<ChildSysLocation> findByType(string|array<string> $TYPE) Return ChildSysLocation objects filtered by the TYPE column
+ * @method     ChildSysLocation[]|Collection findByLevel(int|array<int> $LEVEL) Return ChildSysLocation objects filtered by the LEVEL column
+ * @psalm-method Collection&\Traversable<ChildSysLocation> findByLevel(int|array<int> $LEVEL) Return ChildSysLocation objects filtered by the LEVEL column
+ * @method     ChildSysLocation[]|Collection findByLft(int|array<int> $LFT) Return ChildSysLocation objects filtered by the LFT column
+ * @psalm-method Collection&\Traversable<ChildSysLocation> findByLft(int|array<int> $LFT) Return ChildSysLocation objects filtered by the LFT column
+ * @method     ChildSysLocation[]|Collection findByRgt(int|array<int> $RGT) Return ChildSysLocation objects filtered by the RGT column
+ * @psalm-method Collection&\Traversable<ChildSysLocation> findByRgt(int|array<int> $RGT) Return ChildSysLocation objects filtered by the RGT column
+ * @method     ChildSysLocation[]|Collection findByLastUserId(int|array<int> $LAST_USER_ID) Return ChildSysLocation objects filtered by the LAST_USER_ID column
+ * @psalm-method Collection&\Traversable<ChildSysLocation> findByLastUserId(int|array<int> $LAST_USER_ID) Return ChildSysLocation objects filtered by the LAST_USER_ID column
+ * @method     ChildSysLocation[]|Collection findByCreationDate(string|array<string> $CREATION_DATE) Return ChildSysLocation objects filtered by the CREATION_DATE column
+ * @psalm-method Collection&\Traversable<ChildSysLocation> findByCreationDate(string|array<string> $CREATION_DATE) Return ChildSysLocation objects filtered by the CREATION_DATE column
+ * @method     ChildSysLocation[]|Collection findByModificationDate(string|array<string> $MODIFICATION_DATE) Return ChildSysLocation objects filtered by the MODIFICATION_DATE column
+ * @psalm-method Collection&\Traversable<ChildSysLocation> findByModificationDate(string|array<string> $MODIFICATION_DATE) Return ChildSysLocation objects filtered by the MODIFICATION_DATE column
+ *
+ * @method     ChildSysLocation[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ?ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
+ * @psalm-method \Propel\Runtime\Util\PropelModelPager&\Traversable<ChildSysLocation> paginate($page = 1, $maxPerPage = 10, ?ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  */
 abstract class SysLocationQuery extends ModelCriteria
 {
@@ -131,9 +145,9 @@ abstract class SysLocationQuery extends ModelCriteria
     /**
      * Initializes internal state of \Base\SysLocationQuery object.
      *
-     * @param     string $dbName The database name
-     * @param     string $modelName The phpName of a model, e.g. 'Book'
-     * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
+     * @param string $dbName The database name
+     * @param string $modelName The phpName of a model, e.g. 'Book'
+     * @param string $modelAlias The alias for the model in this query, e.g. 'b'
      */
     public function __construct($dbName = 'default', $modelName = '\\SysLocation', $modelAlias = null)
     {
@@ -143,12 +157,12 @@ abstract class SysLocationQuery extends ModelCriteria
     /**
      * Returns a new ChildSysLocationQuery object.
      *
-     * @param     string $modelAlias The alias of a model in the query
-     * @param     Criteria $criteria Optional Criteria to build the query from
+     * @param string $modelAlias The alias of a model in the query
+     * @param Criteria $criteria Optional Criteria to build the query from
      *
      * @return ChildSysLocationQuery
      */
-    public static function create($modelAlias = null, Criteria $criteria = null)
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
     {
         if ($criteria instanceof ChildSysLocationQuery) {
             return $criteria;
@@ -178,7 +192,7 @@ abstract class SysLocationQuery extends ModelCriteria
      *
      * @return ChildSysLocation|array|mixed the result, formatted by the current formatter
      */
-    public function findPk($key, ConnectionInterface $con = null)
+    public function findPk($key, ?ConnectionInterface $con = null)
     {
         if ($key === null) {
             return null;
@@ -210,8 +224,8 @@ abstract class SysLocationQuery extends ModelCriteria
      * Find object by primary key using raw SQL to go fast.
      * Bypass doSelect() and the object formatter by using generated code.
      *
-     * @param     mixed $key Primary key to use for the query
-     * @param     ConnectionInterface $con A connection object
+     * @param mixed $key Primary key to use for the query
+     * @param ConnectionInterface $con A connection object
      *
      * @throws \Propel\Runtime\Exception\PropelException
      *
@@ -243,8 +257,8 @@ abstract class SysLocationQuery extends ModelCriteria
     /**
      * Find object by primary key.
      *
-     * @param     mixed $key Primary key to use for the query
-     * @param     ConnectionInterface $con A connection object
+     * @param mixed $key Primary key to use for the query
+     * @param ConnectionInterface $con A connection object
      *
      * @return ChildSysLocation|array|mixed the result, formatted by the current formatter
      */
@@ -264,12 +278,12 @@ abstract class SysLocationQuery extends ModelCriteria
      * <code>
      * $objs = $c->findPks(array(12, 56, 832), $con);
      * </code>
-     * @param     array $keys Primary keys to use for the query
-     * @param     ConnectionInterface $con an optional connection object
+     * @param array $keys Primary keys to use for the query
+     * @param ConnectionInterface $con an optional connection object
      *
-     * @return ObjectCollection|array|mixed the list of results, formatted by the current formatter
+     * @return Collection|array|mixed the list of results, formatted by the current formatter
      */
-    public function findPks($keys, ConnectionInterface $con = null)
+    public function findPks($keys, ?ConnectionInterface $con = null)
     {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getReadConnection($this->getDbName());
@@ -286,27 +300,31 @@ abstract class SysLocationQuery extends ModelCriteria
     /**
      * Filter the query by primary key
      *
-     * @param     mixed $key Primary key to use for the query
+     * @param mixed $key Primary key to use for the query
      *
-     * @return $this|ChildSysLocationQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
     public function filterByPrimaryKey($key)
     {
 
-        return $this->addUsingAlias(SysLocationTableMap::COL_ID, $key, Criteria::EQUAL);
+        $this->addUsingAlias(SysLocationTableMap::COL_ID, $key, Criteria::EQUAL);
+
+        return $this;
     }
 
     /**
      * Filter the query by a list of primary keys
      *
-     * @param     array $keys The list of primary key to use for the query
+     * @param array|int $keys The list of primary key to use for the query
      *
-     * @return $this|ChildSysLocationQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
     public function filterByPrimaryKeys($keys)
     {
 
-        return $this->addUsingAlias(SysLocationTableMap::COL_ID, $keys, Criteria::IN);
+        $this->addUsingAlias(SysLocationTableMap::COL_ID, $keys, Criteria::IN);
+
+        return $this;
     }
 
     /**
@@ -319,15 +337,15 @@ abstract class SysLocationQuery extends ModelCriteria
      * $query->filterById(array('min' => 12)); // WHERE ID > 12
      * </code>
      *
-     * @param     mixed $id The value to use as filter.
+     * @param mixed $id The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysLocationQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterById($id = null, $comparison = null)
+    public function filterById($id = null, ?string $comparison = null)
     {
         if (is_array($id)) {
             $useMinMax = false;
@@ -347,7 +365,9 @@ abstract class SysLocationQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysLocationTableMap::COL_ID, $id, $comparison);
+        $this->addUsingAlias(SysLocationTableMap::COL_ID, $id, $comparison);
+
+        return $this;
     }
 
     /**
@@ -360,15 +380,15 @@ abstract class SysLocationQuery extends ModelCriteria
      * $query->filterByMainId(array('min' => 12)); // WHERE MAIN_ID > 12
      * </code>
      *
-     * @param     mixed $mainId The value to use as filter.
+     * @param mixed $mainId The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysLocationQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByMainId($mainId = null, $comparison = null)
+    public function filterByMainId($mainId = null, ?string $comparison = null)
     {
         if (is_array($mainId)) {
             $useMinMax = false;
@@ -388,7 +408,9 @@ abstract class SysLocationQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysLocationTableMap::COL_MAIN_ID, $mainId, $comparison);
+        $this->addUsingAlias(SysLocationTableMap::COL_MAIN_ID, $mainId, $comparison);
+
+        return $this;
     }
 
     /**
@@ -398,14 +420,15 @@ abstract class SysLocationQuery extends ModelCriteria
      * <code>
      * $query->filterByCode('fooValue');   // WHERE CODE = 'fooValue'
      * $query->filterByCode('%fooValue%', Criteria::LIKE); // WHERE CODE LIKE '%fooValue%'
+     * $query->filterByCode(['foo', 'bar']); // WHERE CODE IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $code The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $code The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysLocationQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByCode($code = null, $comparison = null)
+    public function filterByCode($code = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($code)) {
@@ -413,7 +436,9 @@ abstract class SysLocationQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysLocationTableMap::COL_CODE, $code, $comparison);
+        $this->addUsingAlias(SysLocationTableMap::COL_CODE, $code, $comparison);
+
+        return $this;
     }
 
     /**
@@ -423,14 +448,15 @@ abstract class SysLocationQuery extends ModelCriteria
      * <code>
      * $query->filterByStatus('fooValue');   // WHERE STATUS = 'fooValue'
      * $query->filterByStatus('%fooValue%', Criteria::LIKE); // WHERE STATUS LIKE '%fooValue%'
+     * $query->filterByStatus(['foo', 'bar']); // WHERE STATUS IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $status The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $status The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysLocationQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByStatus($status = null, $comparison = null)
+    public function filterByStatus($status = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($status)) {
@@ -438,7 +464,9 @@ abstract class SysLocationQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysLocationTableMap::COL_STATUS, $status, $comparison);
+        $this->addUsingAlias(SysLocationTableMap::COL_STATUS, $status, $comparison);
+
+        return $this;
     }
 
     /**
@@ -448,14 +476,15 @@ abstract class SysLocationQuery extends ModelCriteria
      * <code>
      * $query->filterByName('fooValue');   // WHERE NAME = 'fooValue'
      * $query->filterByName('%fooValue%', Criteria::LIKE); // WHERE NAME LIKE '%fooValue%'
+     * $query->filterByName(['foo', 'bar']); // WHERE NAME IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $name The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $name The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysLocationQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByName($name = null, $comparison = null)
+    public function filterByName($name = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($name)) {
@@ -463,7 +492,9 @@ abstract class SysLocationQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysLocationTableMap::COL_NAME, $name, $comparison);
+        $this->addUsingAlias(SysLocationTableMap::COL_NAME, $name, $comparison);
+
+        return $this;
     }
 
     /**
@@ -473,14 +504,15 @@ abstract class SysLocationQuery extends ModelCriteria
      * <code>
      * $query->filterByType('fooValue');   // WHERE TYPE = 'fooValue'
      * $query->filterByType('%fooValue%', Criteria::LIKE); // WHERE TYPE LIKE '%fooValue%'
+     * $query->filterByType(['foo', 'bar']); // WHERE TYPE IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $type The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $type The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysLocationQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByType($type = null, $comparison = null)
+    public function filterByType($type = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($type)) {
@@ -488,7 +520,9 @@ abstract class SysLocationQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysLocationTableMap::COL_TYPE, $type, $comparison);
+        $this->addUsingAlias(SysLocationTableMap::COL_TYPE, $type, $comparison);
+
+        return $this;
     }
 
     /**
@@ -501,15 +535,15 @@ abstract class SysLocationQuery extends ModelCriteria
      * $query->filterByLevel(array('min' => 12)); // WHERE LEVEL > 12
      * </code>
      *
-     * @param     mixed $level The value to use as filter.
+     * @param mixed $level The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysLocationQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByLevel($level = null, $comparison = null)
+    public function filterByLevel($level = null, ?string $comparison = null)
     {
         if (is_array($level)) {
             $useMinMax = false;
@@ -529,7 +563,9 @@ abstract class SysLocationQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysLocationTableMap::COL_LEVEL, $level, $comparison);
+        $this->addUsingAlias(SysLocationTableMap::COL_LEVEL, $level, $comparison);
+
+        return $this;
     }
 
     /**
@@ -542,15 +578,15 @@ abstract class SysLocationQuery extends ModelCriteria
      * $query->filterByLft(array('min' => 12)); // WHERE LFT > 12
      * </code>
      *
-     * @param     mixed $lft The value to use as filter.
+     * @param mixed $lft The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysLocationQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByLft($lft = null, $comparison = null)
+    public function filterByLft($lft = null, ?string $comparison = null)
     {
         if (is_array($lft)) {
             $useMinMax = false;
@@ -570,7 +606,9 @@ abstract class SysLocationQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysLocationTableMap::COL_LFT, $lft, $comparison);
+        $this->addUsingAlias(SysLocationTableMap::COL_LFT, $lft, $comparison);
+
+        return $this;
     }
 
     /**
@@ -583,15 +621,15 @@ abstract class SysLocationQuery extends ModelCriteria
      * $query->filterByRgt(array('min' => 12)); // WHERE RGT > 12
      * </code>
      *
-     * @param     mixed $rgt The value to use as filter.
+     * @param mixed $rgt The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysLocationQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByRgt($rgt = null, $comparison = null)
+    public function filterByRgt($rgt = null, ?string $comparison = null)
     {
         if (is_array($rgt)) {
             $useMinMax = false;
@@ -611,7 +649,9 @@ abstract class SysLocationQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysLocationTableMap::COL_RGT, $rgt, $comparison);
+        $this->addUsingAlias(SysLocationTableMap::COL_RGT, $rgt, $comparison);
+
+        return $this;
     }
 
     /**
@@ -624,15 +664,15 @@ abstract class SysLocationQuery extends ModelCriteria
      * $query->filterByLastUserId(array('min' => 12)); // WHERE LAST_USER_ID > 12
      * </code>
      *
-     * @param     mixed $lastUserId The value to use as filter.
+     * @param mixed $lastUserId The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysLocationQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByLastUserId($lastUserId = null, $comparison = null)
+    public function filterByLastUserId($lastUserId = null, ?string $comparison = null)
     {
         if (is_array($lastUserId)) {
             $useMinMax = false;
@@ -652,7 +692,9 @@ abstract class SysLocationQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysLocationTableMap::COL_LAST_USER_ID, $lastUserId, $comparison);
+        $this->addUsingAlias(SysLocationTableMap::COL_LAST_USER_ID, $lastUserId, $comparison);
+
+        return $this;
     }
 
     /**
@@ -665,17 +707,17 @@ abstract class SysLocationQuery extends ModelCriteria
      * $query->filterByCreationDate(array('max' => 'yesterday')); // WHERE CREATION_DATE > '2011-03-13'
      * </code>
      *
-     * @param     mixed $creationDate The value to use as filter.
+     * @param mixed $creationDate The value to use as filter.
      *              Values can be integers (unix timestamps), DateTime objects, or strings.
      *              Empty strings are treated as NULL.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysLocationQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByCreationDate($creationDate = null, $comparison = null)
+    public function filterByCreationDate($creationDate = null, ?string $comparison = null)
     {
         if (is_array($creationDate)) {
             $useMinMax = false;
@@ -695,7 +737,9 @@ abstract class SysLocationQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysLocationTableMap::COL_CREATION_DATE, $creationDate, $comparison);
+        $this->addUsingAlias(SysLocationTableMap::COL_CREATION_DATE, $creationDate, $comparison);
+
+        return $this;
     }
 
     /**
@@ -708,17 +752,17 @@ abstract class SysLocationQuery extends ModelCriteria
      * $query->filterByModificationDate(array('max' => 'yesterday')); // WHERE MODIFICATION_DATE > '2011-03-13'
      * </code>
      *
-     * @param     mixed $modificationDate The value to use as filter.
+     * @param mixed $modificationDate The value to use as filter.
      *              Values can be integers (unix timestamps), DateTime objects, or strings.
      *              Empty strings are treated as NULL.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysLocationQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByModificationDate($modificationDate = null, $comparison = null)
+    public function filterByModificationDate($modificationDate = null, ?string $comparison = null)
     {
         if (is_array($modificationDate)) {
             $useMinMax = false;
@@ -738,27 +782,33 @@ abstract class SysLocationQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysLocationTableMap::COL_MODIFICATION_DATE, $modificationDate, $comparison);
+        $this->addUsingAlias(SysLocationTableMap::COL_MODIFICATION_DATE, $modificationDate, $comparison);
+
+        return $this;
     }
 
     /**
      * Filter the query by a related \SysEntity object
      *
      * @param \SysEntity|ObjectCollection $sysEntity the related object to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildSysLocationQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterBySysEntity($sysEntity, $comparison = null)
+    public function filterBySysEntity($sysEntity, ?string $comparison = null)
     {
         if ($sysEntity instanceof \SysEntity) {
-            return $this
+            $this
                 ->addUsingAlias(SysLocationTableMap::COL_ID, $sysEntity->getLocationId(), $comparison);
+
+            return $this;
         } elseif ($sysEntity instanceof ObjectCollection) {
-            return $this
+            $this
                 ->useSysEntityQuery()
                 ->filterByPrimaryKeys($sysEntity->getPrimaryKeys())
                 ->endUse();
+
+            return $this;
         } else {
             throw new PropelException('filterBySysEntity() only accepts arguments of type \SysEntity or Collection');
         }
@@ -767,12 +817,12 @@ abstract class SysLocationQuery extends ModelCriteria
     /**
      * Adds a JOIN clause to the query using the SysEntity relation
      *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string|null $relationAlias Optional alias for the relation
+     * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return $this|ChildSysLocationQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function joinSysEntity($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    public function joinSysEntity(?string $relationAlias = null, ?string $joinType = Criteria::LEFT_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('SysEntity');
@@ -801,9 +851,9 @@ abstract class SysLocationQuery extends ModelCriteria
      *
      * @see useQuery()
      *
-     * @param     string $relationAlias optional alias for the relation,
+     * @param string $relationAlias optional alias for the relation,
      *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return \SysEntityQuery A secondary query class using the current class as primary query
      */
@@ -815,23 +865,123 @@ abstract class SysLocationQuery extends ModelCriteria
     }
 
     /**
+     * Use the SysEntity relation SysEntity object
+     *
+     * @param callable(\SysEntityQuery):\SysEntityQuery $callable A function working on the related query
+     *
+     * @param string|null $relationAlias optional alias for the relation
+     *
+     * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this
+     */
+    public function withSysEntityQuery(
+        callable $callable,
+        string $relationAlias = null,
+        ?string $joinType = Criteria::LEFT_JOIN
+    ) {
+        $relatedQuery = $this->useSysEntityQuery(
+            $relationAlias,
+            $joinType
+        );
+        $callable($relatedQuery);
+        $relatedQuery->endUse();
+
+        return $this;
+    }
+
+    /**
+     * Use the relation to SysEntity table for an EXISTS query.
+     *
+     * @see \Propel\Runtime\ActiveQuery\ModelCriteria::useExistsQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the exists query, like ExtendedBookQuery::class
+     * @param string $typeOfExists Either ExistsQueryCriterion::TYPE_EXISTS or ExistsQueryCriterion::TYPE_NOT_EXISTS
+     *
+     * @return \SysEntityQuery The inner query object of the EXISTS statement
+     */
+    public function useSysEntityExistsQuery($modelAlias = null, $queryClass = null, $typeOfExists = 'EXISTS')
+    {
+        /** @var $q \SysEntityQuery */
+        $q = $this->useExistsQuery('SysEntity', $modelAlias, $queryClass, $typeOfExists);
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysEntity table for a NOT EXISTS query.
+     *
+     * @see useSysEntityExistsQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the exists query, like ExtendedBookQuery::class
+     *
+     * @return \SysEntityQuery The inner query object of the NOT EXISTS statement
+     */
+    public function useSysEntityNotExistsQuery($modelAlias = null, $queryClass = null)
+    {
+        /** @var $q \SysEntityQuery */
+        $q = $this->useExistsQuery('SysEntity', $modelAlias, $queryClass, 'NOT EXISTS');
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysEntity table for an IN query.
+     *
+     * @see \Propel\Runtime\ActiveQuery\ModelCriteria::useInQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the IN query, like ExtendedBookQuery::class
+     * @param string $typeOfIn Criteria::IN or Criteria::NOT_IN
+     *
+     * @return \SysEntityQuery The inner query object of the IN statement
+     */
+    public function useInSysEntityQuery($modelAlias = null, $queryClass = null, $typeOfIn = 'IN')
+    {
+        /** @var $q \SysEntityQuery */
+        $q = $this->useInQuery('SysEntity', $modelAlias, $queryClass, $typeOfIn);
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysEntity table for a NOT IN query.
+     *
+     * @see useSysEntityInQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the NOT IN query, like ExtendedBookQuery::class
+     *
+     * @return \SysEntityQuery The inner query object of the NOT IN statement
+     */
+    public function useNotInSysEntityQuery($modelAlias = null, $queryClass = null)
+    {
+        /** @var $q \SysEntityQuery */
+        $q = $this->useInQuery('SysEntity', $modelAlias, $queryClass, 'NOT IN');
+        return $q;
+    }
+
+    /**
      * Filter the query by a related \SysEntityBranch object
      *
      * @param \SysEntityBranch|ObjectCollection $sysEntityBranch the related object to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildSysLocationQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterBySysEntityBranch($sysEntityBranch, $comparison = null)
+    public function filterBySysEntityBranch($sysEntityBranch, ?string $comparison = null)
     {
         if ($sysEntityBranch instanceof \SysEntityBranch) {
-            return $this
+            $this
                 ->addUsingAlias(SysLocationTableMap::COL_ID, $sysEntityBranch->getLocationId(), $comparison);
+
+            return $this;
         } elseif ($sysEntityBranch instanceof ObjectCollection) {
-            return $this
+            $this
                 ->useSysEntityBranchQuery()
                 ->filterByPrimaryKeys($sysEntityBranch->getPrimaryKeys())
                 ->endUse();
+
+            return $this;
         } else {
             throw new PropelException('filterBySysEntityBranch() only accepts arguments of type \SysEntityBranch or Collection');
         }
@@ -840,12 +990,12 @@ abstract class SysLocationQuery extends ModelCriteria
     /**
      * Adds a JOIN clause to the query using the SysEntityBranch relation
      *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string|null $relationAlias Optional alias for the relation
+     * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return $this|ChildSysLocationQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function joinSysEntityBranch($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinSysEntityBranch(?string $relationAlias = null, ?string $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('SysEntityBranch');
@@ -874,9 +1024,9 @@ abstract class SysLocationQuery extends ModelCriteria
      *
      * @see useQuery()
      *
-     * @param     string $relationAlias optional alias for the relation,
+     * @param string $relationAlias optional alias for the relation,
      *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return \SysEntityBranchQuery A secondary query class using the current class as primary query
      */
@@ -888,11 +1038,107 @@ abstract class SysLocationQuery extends ModelCriteria
     }
 
     /**
+     * Use the SysEntityBranch relation SysEntityBranch object
+     *
+     * @param callable(\SysEntityBranchQuery):\SysEntityBranchQuery $callable A function working on the related query
+     *
+     * @param string|null $relationAlias optional alias for the relation
+     *
+     * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this
+     */
+    public function withSysEntityBranchQuery(
+        callable $callable,
+        string $relationAlias = null,
+        ?string $joinType = Criteria::INNER_JOIN
+    ) {
+        $relatedQuery = $this->useSysEntityBranchQuery(
+            $relationAlias,
+            $joinType
+        );
+        $callable($relatedQuery);
+        $relatedQuery->endUse();
+
+        return $this;
+    }
+
+    /**
+     * Use the relation to SysEntityBranch table for an EXISTS query.
+     *
+     * @see \Propel\Runtime\ActiveQuery\ModelCriteria::useExistsQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the exists query, like ExtendedBookQuery::class
+     * @param string $typeOfExists Either ExistsQueryCriterion::TYPE_EXISTS or ExistsQueryCriterion::TYPE_NOT_EXISTS
+     *
+     * @return \SysEntityBranchQuery The inner query object of the EXISTS statement
+     */
+    public function useSysEntityBranchExistsQuery($modelAlias = null, $queryClass = null, $typeOfExists = 'EXISTS')
+    {
+        /** @var $q \SysEntityBranchQuery */
+        $q = $this->useExistsQuery('SysEntityBranch', $modelAlias, $queryClass, $typeOfExists);
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysEntityBranch table for a NOT EXISTS query.
+     *
+     * @see useSysEntityBranchExistsQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the exists query, like ExtendedBookQuery::class
+     *
+     * @return \SysEntityBranchQuery The inner query object of the NOT EXISTS statement
+     */
+    public function useSysEntityBranchNotExistsQuery($modelAlias = null, $queryClass = null)
+    {
+        /** @var $q \SysEntityBranchQuery */
+        $q = $this->useExistsQuery('SysEntityBranch', $modelAlias, $queryClass, 'NOT EXISTS');
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysEntityBranch table for an IN query.
+     *
+     * @see \Propel\Runtime\ActiveQuery\ModelCriteria::useInQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the IN query, like ExtendedBookQuery::class
+     * @param string $typeOfIn Criteria::IN or Criteria::NOT_IN
+     *
+     * @return \SysEntityBranchQuery The inner query object of the IN statement
+     */
+    public function useInSysEntityBranchQuery($modelAlias = null, $queryClass = null, $typeOfIn = 'IN')
+    {
+        /** @var $q \SysEntityBranchQuery */
+        $q = $this->useInQuery('SysEntityBranch', $modelAlias, $queryClass, $typeOfIn);
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysEntityBranch table for a NOT IN query.
+     *
+     * @see useSysEntityBranchInQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the NOT IN query, like ExtendedBookQuery::class
+     *
+     * @return \SysEntityBranchQuery The inner query object of the NOT IN statement
+     */
+    public function useNotInSysEntityBranchQuery($modelAlias = null, $queryClass = null)
+    {
+        /** @var $q \SysEntityBranchQuery */
+        $q = $this->useInQuery('SysEntityBranch', $modelAlias, $queryClass, 'NOT IN');
+        return $q;
+    }
+
+    /**
      * Exclude object from result
      *
-     * @param   ChildSysLocation $sysLocation Object to remove from the list of results
+     * @param ChildSysLocation $sysLocation Object to remove from the list of results
      *
-     * @return $this|ChildSysLocationQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
     public function prune($sysLocation = null)
     {
@@ -909,7 +1155,7 @@ abstract class SysLocationQuery extends ModelCriteria
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
-    public function doDeleteAll(ConnectionInterface $con = null)
+    public function doDeleteAll(?ConnectionInterface $con = null): int
     {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysLocationTableMap::DATABASE_NAME);
@@ -934,12 +1180,12 @@ abstract class SysLocationQuery extends ModelCriteria
      * Performs a DELETE on the database based on the current ModelCriteria
      *
      * @param ConnectionInterface $con the connection to use
-     * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
+     * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
      *                         if supported by native driver or if emulated using Propel.
-     * @throws PropelException Any exceptions caught during processing will be
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
      */
-    public function delete(ConnectionInterface $con = null)
+    public function delete(?ConnectionInterface $con = null): int
     {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysLocationTableMap::DATABASE_NAME);
@@ -964,4 +1210,4 @@ abstract class SysLocationQuery extends ModelCriteria
         });
     }
 
-} // SysLocationQuery
+}

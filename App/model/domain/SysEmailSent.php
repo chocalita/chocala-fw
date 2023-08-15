@@ -10,34 +10,34 @@ class SysEmailSent extends BaseSysEmailSent implements JsonSerializable
 {
     use  Validatable, Convertible;
 
-    static $validationRules = [
+    static array $validationRules = [
         'ShippingDate' => [
             'null' => false,
         ],
     ];
 
-    public function preSave()
+    public function preSave() : bool
     {
         return parent::preSave();
     }
 
-    public function preValidate()
+    public function preValidate() : bool
     {
         return $this->preSave();
     }
 
-    public function preInsert()
+    public function preInsert() : bool
     {
         return $this->preSave();
     }
 
-    public function preUpdate()
+    public function preUpdate() : bool
     {
         return $this->preSave();
     }
 
 
-    public function emailOnly()
+    public function emailOnly() : string
     {
         $parts = explode("<", $this->to_email);
         return $parts[0];

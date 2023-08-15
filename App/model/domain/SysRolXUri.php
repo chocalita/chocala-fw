@@ -10,7 +10,7 @@ class SysRolXUri extends BaseSysRolXUri
 {
     use Validatable;
 
-    static $validationRules = [
+    static array $validationRules = [
         'RolId' => [
             'null' => false, 'blank'=> false,
             'unique' => 'UriId'

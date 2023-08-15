@@ -10,7 +10,7 @@ class SysUri extends BaseSysUri
 {
     use Validatable;
 
-    static $validationRules = [
+    static array $validationRules = [
         'ModuleId' => [
             'null' => false, 'blank'=> false,
         ],
@@ -42,7 +42,7 @@ class SysUri extends BaseSysUri
         ],
     ];
 
-    public function preSave()
+    public function preSave(): bool
     {
         $this->uri = trim($this->uri)?: null;
         $this->title = trim($this->title)?: null;
@@ -52,7 +52,7 @@ class SysUri extends BaseSysUri
         return parent::preSave();
     }
 
-    public function preValidate()
+    public function preValidate() : bool
     {
         return $this->preSave();
     }
@@ -60,8 +60,9 @@ class SysUri extends BaseSysUri
     /**
      * @param bool|true $noDeletes
      * @return \Propel\Runtime\Collection\ObjectCollection|SysRolXUri[]
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function rolUris($noDeletes=true)
+    public function rolUris(bool $noDeletes=true)
     {
         return SysRolXUriQuery::findByUri($this, $noDeletes);
     }

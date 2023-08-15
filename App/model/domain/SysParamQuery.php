@@ -16,10 +16,10 @@ class SysParamQuery extends BaseSysParamQuery //implements SoftDeletion
     /**
      * @param string $visibility
      * @param bool|null $customizables
-     * @param bool|true $noDeletes
+     * @param bool $noDeletes
      * @return $this|\Propel\Runtime\ActiveQuery\Criteria
      */
-    public static function createForVisibility($visibility, $customizables=null, $noDeletes=true)
+    public static function createForVisibility(string $visibility, bool $customizables=null, bool $noDeletes=true)
     {
         return self::createValids($noDeletes)
             ->filterByVisibility($visibility)
@@ -29,30 +29,30 @@ class SysParamQuery extends BaseSysParamQuery //implements SoftDeletion
     }
 
     /**
-     * @param bool|true $noDeletes
+     * @param bool $noDeletes
      * @return $this|\Propel\Runtime\ActiveQuery\Criteria|SysParamQuery
      */
-    public static function createForGlobal($noDeletes=true)
+    public static function createForGlobal(bool $noDeletes=true)
     {
         return self::createForVisibility(SysParam::VISIBILITY_GLOBAL, null, $noDeletes);
     }
 
     /**
      * @param bool|null $customizables
-     * @param bool|true $noDeletes
+     * @param bool $noDeletes
      * @return $this|\Propel\Runtime\ActiveQuery\Criteria|SysParamQuery
      */
-    public static function createForEntities($customizables=null, $noDeletes=true)
+    public static function createForEntities(bool $customizables=null, bool $noDeletes=true)
     {
         return self::createForVisibility(SysParam::VISIBILITY_ENTITY, $customizables, $noDeletes);
     }
 
     /**
      * @param bool|null $customizables
-     * @param bool|true $noDeletes
+     * @param bool $noDeletes
      * @return $this|\Propel\Runtime\ActiveQuery\Criteria|SysParamQuery
      */
-    public static function createForUsers($customizables=null, $noDeletes=true)
+    public static function createForUsers(bool $customizables=null, bool $noDeletes=true)
     {
         return self::createForVisibility(SysParam::VISIBILITY_USER, $customizables, $noDeletes);
     }

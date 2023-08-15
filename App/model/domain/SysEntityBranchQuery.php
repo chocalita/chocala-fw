@@ -24,10 +24,10 @@ class SysEntityBranchQuery extends BaseSysEntityBranchQuery implements SoftDelet
 
     /**
      * @param SysEntity $entity
-     * @param bool|true $noDeletes
+     * @param bool $noDeletes
      * @return mixed
      */
-    public static function findByEntity(SysEntity $entity, $noDeletes=true)
+    public static function findByEntity(SysEntity $entity, bool $noDeletes=true)
     {
         return self::createValids($noDeletes)
                 ->filterBySysEntity($entity)

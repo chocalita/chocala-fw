@@ -13,9 +13,9 @@ class SysPerson extends BaseSysPerson implements JsonSerializable
     const GENDER_MALE = 'MALE';
     const GENDER_FEMALE = 'FEMALE';
 
-    public static $genderList = [self::GENDER_MALE, self::GENDER_FEMALE];
+    public static array $genderList = [self::GENDER_MALE, self::GENDER_FEMALE];
 
-    protected static $validationRules = array(
+    protected static array $validationRules = array(
         'UserId' => [
             'null' => true, 'blank' => false,
             'unique' => true,
@@ -96,7 +96,7 @@ class SysPerson extends BaseSysPerson implements JsonSerializable
         ],
     );
 
-    public function preSave()
+    public function preSave() : bool
     {
         $this->first_name = trim($this->first_name)!=''? strtoupper(trim($this->first_name)): null;
         $this->middle_name = trim($this->middle_name)!=''? strtoupper(trim($this->middle_name)): null;
@@ -117,17 +117,17 @@ class SysPerson extends BaseSysPerson implements JsonSerializable
         return parent::preSave();
     }
 
-    public function preValidate()
+    public function preValidate() : bool
     {
         return $this->preSave();
     }
 
     /**
      * Return the complete normal name of this User
-     * @param boolean $long
+     * @param bool $long
      * @return string
      */
-    public function completeName($long = true)
+    public function completeName(bool $long = true) : string
     {
         return $this->getFirstName()
         .($long? ' '.$this->getMiddleName(): '')
@@ -140,7 +140,7 @@ class SysPerson extends BaseSysPerson implements JsonSerializable
      * @param boolean $long
      * @return string
      */
-    public function formalName($long = true)
+    public function formalName(bool $long = true) : string
     {
         return $this->getLastName()
         .($long? ' '.$this->getSecondLastName(): '')

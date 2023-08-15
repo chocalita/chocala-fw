@@ -11,14 +11,13 @@ use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveQuery\ModelJoin;
+use Propel\Runtime\Collection\Collection;
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
 
 /**
- * Base class that represents a query for the 'sys_event_user' table.
- *
- *
+ * Base class that represents a query for the `sys_event_user` table.
  *
  * @method     ChildSysEventUserQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysEventUserQuery orderByEventId($order = Criteria::ASC) Order by the EVENT_ID column
@@ -64,18 +63,18 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     \SysEventQuery|\SysUserQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
- * @method     ChildSysEventUser findOne(ConnectionInterface $con = null) Return the first ChildSysEventUser matching the query
- * @method     ChildSysEventUser findOneOrCreate(ConnectionInterface $con = null) Return the first ChildSysEventUser matching the query, or a new ChildSysEventUser object populated from the query conditions when no match is found
+ * @method     ChildSysEventUser|null findOne(?ConnectionInterface $con = null) Return the first ChildSysEventUser matching the query
+ * @method     ChildSysEventUser findOneOrCreate(?ConnectionInterface $con = null) Return the first ChildSysEventUser matching the query, or a new ChildSysEventUser object populated from the query conditions when no match is found
  *
- * @method     ChildSysEventUser findOneById(int $ID) Return the first ChildSysEventUser filtered by the ID column
- * @method     ChildSysEventUser findOneByEventId(int $EVENT_ID) Return the first ChildSysEventUser filtered by the EVENT_ID column
- * @method     ChildSysEventUser findOneByUserId(int $USER_ID) Return the first ChildSysEventUser filtered by the USER_ID column
- * @method     ChildSysEventUser findOneByDate(string $DATE) Return the first ChildSysEventUser filtered by the DATE column
- * @method     ChildSysEventUser findOneByMessage(string $MESSAGE) Return the first ChildSysEventUser filtered by the MESSAGE column
- * @method     ChildSysEventUser findOneByDetails(string $DETAILS) Return the first ChildSysEventUser filtered by the DETAILS column *
-
- * @method     ChildSysEventUser requirePk($key, ConnectionInterface $con = null) Return the ChildSysEventUser by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildSysEventUser requireOne(ConnectionInterface $con = null) Return the first ChildSysEventUser matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildSysEventUser|null findOneById(int $ID) Return the first ChildSysEventUser filtered by the ID column
+ * @method     ChildSysEventUser|null findOneByEventId(int $EVENT_ID) Return the first ChildSysEventUser filtered by the EVENT_ID column
+ * @method     ChildSysEventUser|null findOneByUserId(int $USER_ID) Return the first ChildSysEventUser filtered by the USER_ID column
+ * @method     ChildSysEventUser|null findOneByDate(string $DATE) Return the first ChildSysEventUser filtered by the DATE column
+ * @method     ChildSysEventUser|null findOneByMessage(string $MESSAGE) Return the first ChildSysEventUser filtered by the MESSAGE column
+ * @method     ChildSysEventUser|null findOneByDetails(string $DETAILS) Return the first ChildSysEventUser filtered by the DETAILS column
+ *
+ * @method     ChildSysEventUser requirePk($key, ?ConnectionInterface $con = null) Return the ChildSysEventUser by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildSysEventUser requireOne(?ConnectionInterface $con = null) Return the first ChildSysEventUser matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildSysEventUser requireOneById(int $ID) Return the first ChildSysEventUser filtered by the ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSysEventUser requireOneByEventId(int $EVENT_ID) Return the first ChildSysEventUser filtered by the EVENT_ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -84,15 +83,24 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysEventUser requireOneByMessage(string $MESSAGE) Return the first ChildSysEventUser filtered by the MESSAGE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSysEventUser requireOneByDetails(string $DETAILS) Return the first ChildSysEventUser filtered by the DETAILS column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildSysEventUser[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildSysEventUser objects based on current ModelCriteria
- * @method     ChildSysEventUser[]|ObjectCollection findById(int $ID) Return ChildSysEventUser objects filtered by the ID column
- * @method     ChildSysEventUser[]|ObjectCollection findByEventId(int $EVENT_ID) Return ChildSysEventUser objects filtered by the EVENT_ID column
- * @method     ChildSysEventUser[]|ObjectCollection findByUserId(int $USER_ID) Return ChildSysEventUser objects filtered by the USER_ID column
- * @method     ChildSysEventUser[]|ObjectCollection findByDate(string $DATE) Return ChildSysEventUser objects filtered by the DATE column
- * @method     ChildSysEventUser[]|ObjectCollection findByMessage(string $MESSAGE) Return ChildSysEventUser objects filtered by the MESSAGE column
- * @method     ChildSysEventUser[]|ObjectCollection findByDetails(string $DETAILS) Return ChildSysEventUser objects filtered by the DETAILS column
- * @method     ChildSysEventUser[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
+ * @method     ChildSysEventUser[]|Collection find(?ConnectionInterface $con = null) Return ChildSysEventUser objects based on current ModelCriteria
+ * @psalm-method Collection&\Traversable<ChildSysEventUser> find(?ConnectionInterface $con = null) Return ChildSysEventUser objects based on current ModelCriteria
  *
+ * @method     ChildSysEventUser[]|Collection findById(int|array<int> $ID) Return ChildSysEventUser objects filtered by the ID column
+ * @psalm-method Collection&\Traversable<ChildSysEventUser> findById(int|array<int> $ID) Return ChildSysEventUser objects filtered by the ID column
+ * @method     ChildSysEventUser[]|Collection findByEventId(int|array<int> $EVENT_ID) Return ChildSysEventUser objects filtered by the EVENT_ID column
+ * @psalm-method Collection&\Traversable<ChildSysEventUser> findByEventId(int|array<int> $EVENT_ID) Return ChildSysEventUser objects filtered by the EVENT_ID column
+ * @method     ChildSysEventUser[]|Collection findByUserId(int|array<int> $USER_ID) Return ChildSysEventUser objects filtered by the USER_ID column
+ * @psalm-method Collection&\Traversable<ChildSysEventUser> findByUserId(int|array<int> $USER_ID) Return ChildSysEventUser objects filtered by the USER_ID column
+ * @method     ChildSysEventUser[]|Collection findByDate(string|array<string> $DATE) Return ChildSysEventUser objects filtered by the DATE column
+ * @psalm-method Collection&\Traversable<ChildSysEventUser> findByDate(string|array<string> $DATE) Return ChildSysEventUser objects filtered by the DATE column
+ * @method     ChildSysEventUser[]|Collection findByMessage(string|array<string> $MESSAGE) Return ChildSysEventUser objects filtered by the MESSAGE column
+ * @psalm-method Collection&\Traversable<ChildSysEventUser> findByMessage(string|array<string> $MESSAGE) Return ChildSysEventUser objects filtered by the MESSAGE column
+ * @method     ChildSysEventUser[]|Collection findByDetails(string|array<string> $DETAILS) Return ChildSysEventUser objects filtered by the DETAILS column
+ * @psalm-method Collection&\Traversable<ChildSysEventUser> findByDetails(string|array<string> $DETAILS) Return ChildSysEventUser objects filtered by the DETAILS column
+ *
+ * @method     ChildSysEventUser[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ?ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
+ * @psalm-method \Propel\Runtime\Util\PropelModelPager&\Traversable<ChildSysEventUser> paginate($page = 1, $maxPerPage = 10, ?ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  */
 abstract class SysEventUserQuery extends ModelCriteria
 {
@@ -101,9 +109,9 @@ abstract class SysEventUserQuery extends ModelCriteria
     /**
      * Initializes internal state of \Base\SysEventUserQuery object.
      *
-     * @param     string $dbName The database name
-     * @param     string $modelName The phpName of a model, e.g. 'Book'
-     * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
+     * @param string $dbName The database name
+     * @param string $modelName The phpName of a model, e.g. 'Book'
+     * @param string $modelAlias The alias for the model in this query, e.g. 'b'
      */
     public function __construct($dbName = 'default', $modelName = '\\SysEventUser', $modelAlias = null)
     {
@@ -113,12 +121,12 @@ abstract class SysEventUserQuery extends ModelCriteria
     /**
      * Returns a new ChildSysEventUserQuery object.
      *
-     * @param     string $modelAlias The alias of a model in the query
-     * @param     Criteria $criteria Optional Criteria to build the query from
+     * @param string $modelAlias The alias of a model in the query
+     * @param Criteria $criteria Optional Criteria to build the query from
      *
      * @return ChildSysEventUserQuery
      */
-    public static function create($modelAlias = null, Criteria $criteria = null)
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
     {
         if ($criteria instanceof ChildSysEventUserQuery) {
             return $criteria;
@@ -148,7 +156,7 @@ abstract class SysEventUserQuery extends ModelCriteria
      *
      * @return ChildSysEventUser|array|mixed the result, formatted by the current formatter
      */
-    public function findPk($key, ConnectionInterface $con = null)
+    public function findPk($key, ?ConnectionInterface $con = null)
     {
         if ($key === null) {
             return null;
@@ -180,8 +188,8 @@ abstract class SysEventUserQuery extends ModelCriteria
      * Find object by primary key using raw SQL to go fast.
      * Bypass doSelect() and the object formatter by using generated code.
      *
-     * @param     mixed $key Primary key to use for the query
-     * @param     ConnectionInterface $con A connection object
+     * @param mixed $key Primary key to use for the query
+     * @param ConnectionInterface $con A connection object
      *
      * @throws \Propel\Runtime\Exception\PropelException
      *
@@ -213,8 +221,8 @@ abstract class SysEventUserQuery extends ModelCriteria
     /**
      * Find object by primary key.
      *
-     * @param     mixed $key Primary key to use for the query
-     * @param     ConnectionInterface $con A connection object
+     * @param mixed $key Primary key to use for the query
+     * @param ConnectionInterface $con A connection object
      *
      * @return ChildSysEventUser|array|mixed the result, formatted by the current formatter
      */
@@ -234,12 +242,12 @@ abstract class SysEventUserQuery extends ModelCriteria
      * <code>
      * $objs = $c->findPks(array(12, 56, 832), $con);
      * </code>
-     * @param     array $keys Primary keys to use for the query
-     * @param     ConnectionInterface $con an optional connection object
+     * @param array $keys Primary keys to use for the query
+     * @param ConnectionInterface $con an optional connection object
      *
-     * @return ObjectCollection|array|mixed the list of results, formatted by the current formatter
+     * @return Collection|array|mixed the list of results, formatted by the current formatter
      */
-    public function findPks($keys, ConnectionInterface $con = null)
+    public function findPks($keys, ?ConnectionInterface $con = null)
     {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getReadConnection($this->getDbName());
@@ -256,27 +264,31 @@ abstract class SysEventUserQuery extends ModelCriteria
     /**
      * Filter the query by primary key
      *
-     * @param     mixed $key Primary key to use for the query
+     * @param mixed $key Primary key to use for the query
      *
-     * @return $this|ChildSysEventUserQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
     public function filterByPrimaryKey($key)
     {
 
-        return $this->addUsingAlias(SysEventUserTableMap::COL_ID, $key, Criteria::EQUAL);
+        $this->addUsingAlias(SysEventUserTableMap::COL_ID, $key, Criteria::EQUAL);
+
+        return $this;
     }
 
     /**
      * Filter the query by a list of primary keys
      *
-     * @param     array $keys The list of primary key to use for the query
+     * @param array|int $keys The list of primary key to use for the query
      *
-     * @return $this|ChildSysEventUserQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
     public function filterByPrimaryKeys($keys)
     {
 
-        return $this->addUsingAlias(SysEventUserTableMap::COL_ID, $keys, Criteria::IN);
+        $this->addUsingAlias(SysEventUserTableMap::COL_ID, $keys, Criteria::IN);
+
+        return $this;
     }
 
     /**
@@ -289,15 +301,15 @@ abstract class SysEventUserQuery extends ModelCriteria
      * $query->filterById(array('min' => 12)); // WHERE ID > 12
      * </code>
      *
-     * @param     mixed $id The value to use as filter.
+     * @param mixed $id The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysEventUserQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterById($id = null, $comparison = null)
+    public function filterById($id = null, ?string $comparison = null)
     {
         if (is_array($id)) {
             $useMinMax = false;
@@ -317,7 +329,9 @@ abstract class SysEventUserQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysEventUserTableMap::COL_ID, $id, $comparison);
+        $this->addUsingAlias(SysEventUserTableMap::COL_ID, $id, $comparison);
+
+        return $this;
     }
 
     /**
@@ -332,15 +346,15 @@ abstract class SysEventUserQuery extends ModelCriteria
      *
      * @see       filterBySysEvent()
      *
-     * @param     mixed $eventId The value to use as filter.
+     * @param mixed $eventId The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysEventUserQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByEventId($eventId = null, $comparison = null)
+    public function filterByEventId($eventId = null, ?string $comparison = null)
     {
         if (is_array($eventId)) {
             $useMinMax = false;
@@ -360,7 +374,9 @@ abstract class SysEventUserQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysEventUserTableMap::COL_EVENT_ID, $eventId, $comparison);
+        $this->addUsingAlias(SysEventUserTableMap::COL_EVENT_ID, $eventId, $comparison);
+
+        return $this;
     }
 
     /**
@@ -375,15 +391,15 @@ abstract class SysEventUserQuery extends ModelCriteria
      *
      * @see       filterBySysUser()
      *
-     * @param     mixed $userId The value to use as filter.
+     * @param mixed $userId The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysEventUserQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByUserId($userId = null, $comparison = null)
+    public function filterByUserId($userId = null, ?string $comparison = null)
     {
         if (is_array($userId)) {
             $useMinMax = false;
@@ -403,7 +419,9 @@ abstract class SysEventUserQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysEventUserTableMap::COL_USER_ID, $userId, $comparison);
+        $this->addUsingAlias(SysEventUserTableMap::COL_USER_ID, $userId, $comparison);
+
+        return $this;
     }
 
     /**
@@ -416,17 +434,17 @@ abstract class SysEventUserQuery extends ModelCriteria
      * $query->filterByDate(array('max' => 'yesterday')); // WHERE DATE > '2011-03-13'
      * </code>
      *
-     * @param     mixed $date The value to use as filter.
+     * @param mixed $date The value to use as filter.
      *              Values can be integers (unix timestamps), DateTime objects, or strings.
      *              Empty strings are treated as NULL.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysEventUserQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByDate($date = null, $comparison = null)
+    public function filterByDate($date = null, ?string $comparison = null)
     {
         if (is_array($date)) {
             $useMinMax = false;
@@ -446,7 +464,9 @@ abstract class SysEventUserQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysEventUserTableMap::COL_DATE, $date, $comparison);
+        $this->addUsingAlias(SysEventUserTableMap::COL_DATE, $date, $comparison);
+
+        return $this;
     }
 
     /**
@@ -456,14 +476,15 @@ abstract class SysEventUserQuery extends ModelCriteria
      * <code>
      * $query->filterByMessage('fooValue');   // WHERE MESSAGE = 'fooValue'
      * $query->filterByMessage('%fooValue%', Criteria::LIKE); // WHERE MESSAGE LIKE '%fooValue%'
+     * $query->filterByMessage(['foo', 'bar']); // WHERE MESSAGE IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $message The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $message The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysEventUserQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByMessage($message = null, $comparison = null)
+    public function filterByMessage($message = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($message)) {
@@ -471,7 +492,9 @@ abstract class SysEventUserQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysEventUserTableMap::COL_MESSAGE, $message, $comparison);
+        $this->addUsingAlias(SysEventUserTableMap::COL_MESSAGE, $message, $comparison);
+
+        return $this;
     }
 
     /**
@@ -481,14 +504,15 @@ abstract class SysEventUserQuery extends ModelCriteria
      * <code>
      * $query->filterByDetails('fooValue');   // WHERE DETAILS = 'fooValue'
      * $query->filterByDetails('%fooValue%', Criteria::LIKE); // WHERE DETAILS LIKE '%fooValue%'
+     * $query->filterByDetails(['foo', 'bar']); // WHERE DETAILS IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $details The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $details The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysEventUserQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByDetails($details = null, $comparison = null)
+    public function filterByDetails($details = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($details)) {
@@ -496,20 +520,22 @@ abstract class SysEventUserQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysEventUserTableMap::COL_DETAILS, $details, $comparison);
+        $this->addUsingAlias(SysEventUserTableMap::COL_DETAILS, $details, $comparison);
+
+        return $this;
     }
 
     /**
      * Filter the query by a related \SysEvent object
      *
      * @param \SysEvent|ObjectCollection $sysEvent The related object(s) to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @throws \Propel\Runtime\Exception\PropelException
      *
-     * @return ChildSysEventUserQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterBySysEvent($sysEvent, $comparison = null)
+    public function filterBySysEvent($sysEvent, ?string $comparison = null)
     {
         if ($sysEvent instanceof \SysEvent) {
             return $this
@@ -519,8 +545,10 @@ abstract class SysEventUserQuery extends ModelCriteria
                 $comparison = Criteria::IN;
             }
 
-            return $this
+            $this
                 ->addUsingAlias(SysEventUserTableMap::COL_EVENT_ID, $sysEvent->toKeyValue('PrimaryKey', 'Id'), $comparison);
+
+            return $this;
         } else {
             throw new PropelException('filterBySysEvent() only accepts arguments of type \SysEvent or Collection');
         }
@@ -529,12 +557,12 @@ abstract class SysEventUserQuery extends ModelCriteria
     /**
      * Adds a JOIN clause to the query using the SysEvent relation
      *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string|null $relationAlias Optional alias for the relation
+     * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return $this|ChildSysEventUserQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function joinSysEvent($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinSysEvent(?string $relationAlias = null, ?string $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('SysEvent');
@@ -563,9 +591,9 @@ abstract class SysEventUserQuery extends ModelCriteria
      *
      * @see useQuery()
      *
-     * @param     string $relationAlias optional alias for the relation,
+     * @param string $relationAlias optional alias for the relation,
      *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return \SysEventQuery A secondary query class using the current class as primary query
      */
@@ -577,16 +605,112 @@ abstract class SysEventUserQuery extends ModelCriteria
     }
 
     /**
+     * Use the SysEvent relation SysEvent object
+     *
+     * @param callable(\SysEventQuery):\SysEventQuery $callable A function working on the related query
+     *
+     * @param string|null $relationAlias optional alias for the relation
+     *
+     * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this
+     */
+    public function withSysEventQuery(
+        callable $callable,
+        string $relationAlias = null,
+        ?string $joinType = Criteria::INNER_JOIN
+    ) {
+        $relatedQuery = $this->useSysEventQuery(
+            $relationAlias,
+            $joinType
+        );
+        $callable($relatedQuery);
+        $relatedQuery->endUse();
+
+        return $this;
+    }
+
+    /**
+     * Use the relation to SysEvent table for an EXISTS query.
+     *
+     * @see \Propel\Runtime\ActiveQuery\ModelCriteria::useExistsQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the exists query, like ExtendedBookQuery::class
+     * @param string $typeOfExists Either ExistsQueryCriterion::TYPE_EXISTS or ExistsQueryCriterion::TYPE_NOT_EXISTS
+     *
+     * @return \SysEventQuery The inner query object of the EXISTS statement
+     */
+    public function useSysEventExistsQuery($modelAlias = null, $queryClass = null, $typeOfExists = 'EXISTS')
+    {
+        /** @var $q \SysEventQuery */
+        $q = $this->useExistsQuery('SysEvent', $modelAlias, $queryClass, $typeOfExists);
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysEvent table for a NOT EXISTS query.
+     *
+     * @see useSysEventExistsQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the exists query, like ExtendedBookQuery::class
+     *
+     * @return \SysEventQuery The inner query object of the NOT EXISTS statement
+     */
+    public function useSysEventNotExistsQuery($modelAlias = null, $queryClass = null)
+    {
+        /** @var $q \SysEventQuery */
+        $q = $this->useExistsQuery('SysEvent', $modelAlias, $queryClass, 'NOT EXISTS');
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysEvent table for an IN query.
+     *
+     * @see \Propel\Runtime\ActiveQuery\ModelCriteria::useInQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the IN query, like ExtendedBookQuery::class
+     * @param string $typeOfIn Criteria::IN or Criteria::NOT_IN
+     *
+     * @return \SysEventQuery The inner query object of the IN statement
+     */
+    public function useInSysEventQuery($modelAlias = null, $queryClass = null, $typeOfIn = 'IN')
+    {
+        /** @var $q \SysEventQuery */
+        $q = $this->useInQuery('SysEvent', $modelAlias, $queryClass, $typeOfIn);
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysEvent table for a NOT IN query.
+     *
+     * @see useSysEventInQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the NOT IN query, like ExtendedBookQuery::class
+     *
+     * @return \SysEventQuery The inner query object of the NOT IN statement
+     */
+    public function useNotInSysEventQuery($modelAlias = null, $queryClass = null)
+    {
+        /** @var $q \SysEventQuery */
+        $q = $this->useInQuery('SysEvent', $modelAlias, $queryClass, 'NOT IN');
+        return $q;
+    }
+
+    /**
      * Filter the query by a related \SysUser object
      *
      * @param \SysUser|ObjectCollection $sysUser The related object(s) to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @throws \Propel\Runtime\Exception\PropelException
      *
-     * @return ChildSysEventUserQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterBySysUser($sysUser, $comparison = null)
+    public function filterBySysUser($sysUser, ?string $comparison = null)
     {
         if ($sysUser instanceof \SysUser) {
             return $this
@@ -596,8 +720,10 @@ abstract class SysEventUserQuery extends ModelCriteria
                 $comparison = Criteria::IN;
             }
 
-            return $this
+            $this
                 ->addUsingAlias(SysEventUserTableMap::COL_USER_ID, $sysUser->toKeyValue('PrimaryKey', 'Id'), $comparison);
+
+            return $this;
         } else {
             throw new PropelException('filterBySysUser() only accepts arguments of type \SysUser or Collection');
         }
@@ -606,12 +732,12 @@ abstract class SysEventUserQuery extends ModelCriteria
     /**
      * Adds a JOIN clause to the query using the SysUser relation
      *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string|null $relationAlias Optional alias for the relation
+     * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return $this|ChildSysEventUserQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function joinSysUser($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinSysUser(?string $relationAlias = null, ?string $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('SysUser');
@@ -640,9 +766,9 @@ abstract class SysEventUserQuery extends ModelCriteria
      *
      * @see useQuery()
      *
-     * @param     string $relationAlias optional alias for the relation,
+     * @param string $relationAlias optional alias for the relation,
      *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return \SysUserQuery A secondary query class using the current class as primary query
      */
@@ -654,11 +780,107 @@ abstract class SysEventUserQuery extends ModelCriteria
     }
 
     /**
+     * Use the SysUser relation SysUser object
+     *
+     * @param callable(\SysUserQuery):\SysUserQuery $callable A function working on the related query
+     *
+     * @param string|null $relationAlias optional alias for the relation
+     *
+     * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this
+     */
+    public function withSysUserQuery(
+        callable $callable,
+        string $relationAlias = null,
+        ?string $joinType = Criteria::INNER_JOIN
+    ) {
+        $relatedQuery = $this->useSysUserQuery(
+            $relationAlias,
+            $joinType
+        );
+        $callable($relatedQuery);
+        $relatedQuery->endUse();
+
+        return $this;
+    }
+
+    /**
+     * Use the relation to SysUser table for an EXISTS query.
+     *
+     * @see \Propel\Runtime\ActiveQuery\ModelCriteria::useExistsQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the exists query, like ExtendedBookQuery::class
+     * @param string $typeOfExists Either ExistsQueryCriterion::TYPE_EXISTS or ExistsQueryCriterion::TYPE_NOT_EXISTS
+     *
+     * @return \SysUserQuery The inner query object of the EXISTS statement
+     */
+    public function useSysUserExistsQuery($modelAlias = null, $queryClass = null, $typeOfExists = 'EXISTS')
+    {
+        /** @var $q \SysUserQuery */
+        $q = $this->useExistsQuery('SysUser', $modelAlias, $queryClass, $typeOfExists);
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysUser table for a NOT EXISTS query.
+     *
+     * @see useSysUserExistsQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the exists query, like ExtendedBookQuery::class
+     *
+     * @return \SysUserQuery The inner query object of the NOT EXISTS statement
+     */
+    public function useSysUserNotExistsQuery($modelAlias = null, $queryClass = null)
+    {
+        /** @var $q \SysUserQuery */
+        $q = $this->useExistsQuery('SysUser', $modelAlias, $queryClass, 'NOT EXISTS');
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysUser table for an IN query.
+     *
+     * @see \Propel\Runtime\ActiveQuery\ModelCriteria::useInQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the IN query, like ExtendedBookQuery::class
+     * @param string $typeOfIn Criteria::IN or Criteria::NOT_IN
+     *
+     * @return \SysUserQuery The inner query object of the IN statement
+     */
+    public function useInSysUserQuery($modelAlias = null, $queryClass = null, $typeOfIn = 'IN')
+    {
+        /** @var $q \SysUserQuery */
+        $q = $this->useInQuery('SysUser', $modelAlias, $queryClass, $typeOfIn);
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysUser table for a NOT IN query.
+     *
+     * @see useSysUserInQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the NOT IN query, like ExtendedBookQuery::class
+     *
+     * @return \SysUserQuery The inner query object of the NOT IN statement
+     */
+    public function useNotInSysUserQuery($modelAlias = null, $queryClass = null)
+    {
+        /** @var $q \SysUserQuery */
+        $q = $this->useInQuery('SysUser', $modelAlias, $queryClass, 'NOT IN');
+        return $q;
+    }
+
+    /**
      * Exclude object from result
      *
-     * @param   ChildSysEventUser $sysEventUser Object to remove from the list of results
+     * @param ChildSysEventUser $sysEventUser Object to remove from the list of results
      *
-     * @return $this|ChildSysEventUserQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
     public function prune($sysEventUser = null)
     {
@@ -675,7 +897,7 @@ abstract class SysEventUserQuery extends ModelCriteria
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
-    public function doDeleteAll(ConnectionInterface $con = null)
+    public function doDeleteAll(?ConnectionInterface $con = null): int
     {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysEventUserTableMap::DATABASE_NAME);
@@ -700,12 +922,12 @@ abstract class SysEventUserQuery extends ModelCriteria
      * Performs a DELETE on the database based on the current ModelCriteria
      *
      * @param ConnectionInterface $con the connection to use
-     * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
+     * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
      *                         if supported by native driver or if emulated using Propel.
-     * @throws PropelException Any exceptions caught during processing will be
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
      */
-    public function delete(ConnectionInterface $con = null)
+    public function delete(?ConnectionInterface $con = null): int
     {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysEventUserTableMap::DATABASE_NAME);
@@ -730,4 +952,4 @@ abstract class SysEventUserQuery extends ModelCriteria
         });
     }
 
-} // SysEventUserQuery
+}

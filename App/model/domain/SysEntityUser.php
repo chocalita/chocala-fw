@@ -9,7 +9,7 @@ class SysEntityUser extends BaseSysEntityUser implements JsonSerializable
 {
     use Validatable, Convertible;
 
-    static $validationRules = [
+    static array $validationRules = [
         'EntityId' => [
             'null' => false, 'blank' => false,
         ],
@@ -21,7 +21,7 @@ class SysEntityUser extends BaseSysEntityUser implements JsonSerializable
         ],
     ];
 
-    public function preSave()
+    public function preSave(): bool
     {
         $this->entity_id = $this->entity_id?: null;
         $this->user_id = $this->user_id?: null;
@@ -29,27 +29,27 @@ class SysEntityUser extends BaseSysEntityUser implements JsonSerializable
         return parent::preSave();
     }
 
-    public function preValidate()
+    public function preValidate(): bool
     {
         return $this->preSave();
     }
 
-    public function preInsert()
+    public function preInsert() : bool
     {
         return $this->preSave();
     }
 
-    public function preUpdate()
+    public function preUpdate() : bool
     {
         return $this->preSave();
     }
 
-    public function postInsert()
+    public function postInsert() : void
     {
         $this->updateUserRol();
     }
 
-    public function postUpdate()
+    public function postUpdate() : void
     {
         $this->updateUserRol();
     }
@@ -58,7 +58,7 @@ class SysEntityUser extends BaseSysEntityUser implements JsonSerializable
      * @return int
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function updateUserRol()
+    public function updateUserRol(): int
     {
         if(!is_object($this->userRol())){
             $userRol = new SysUserXRol();

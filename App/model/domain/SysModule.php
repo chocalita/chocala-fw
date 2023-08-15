@@ -10,7 +10,7 @@ class SysModule extends BaseSysModule
 {
     use Validatable;
 
-    static $validationRules = [
+    static array $validationRules = [
         'Uri' => [
             'null' => false, 'blank'=> false,
             'size'=> ['min' => 3, 'max' => 30],
@@ -31,14 +31,14 @@ class SysModule extends BaseSysModule
         ],
     ];
 
-    public function preSave()
+    public function preSave() : bool
     {
         $this->description = trim($this->description)?: null;
         $this->icon_class = trim($this->icon_class)?: null;
         return parent::preSave();
     }
 
-    public function preValidate()
+    public function preValidate() : bool
     {
         return $this->preSave();
     }

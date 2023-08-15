@@ -11,14 +11,13 @@ use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveQuery\ModelJoin;
+use Propel\Runtime\Collection\Collection;
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
 
 /**
- * Base class that represents a query for the 'sys_param' table.
- *
- *
+ * Base class that represents a query for the `sys_param` table.
  *
  * @method     ChildSysParamQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysParamQuery orderByVisibility($order = Criteria::ASC) Order by the VISIBILITY column
@@ -76,24 +75,24 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     \SysEntityParamQuery|\SysUserParamQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
- * @method     ChildSysParam findOne(ConnectionInterface $con = null) Return the first ChildSysParam matching the query
- * @method     ChildSysParam findOneOrCreate(ConnectionInterface $con = null) Return the first ChildSysParam matching the query, or a new ChildSysParam object populated from the query conditions when no match is found
+ * @method     ChildSysParam|null findOne(?ConnectionInterface $con = null) Return the first ChildSysParam matching the query
+ * @method     ChildSysParam findOneOrCreate(?ConnectionInterface $con = null) Return the first ChildSysParam matching the query, or a new ChildSysParam object populated from the query conditions when no match is found
  *
- * @method     ChildSysParam findOneById(int $ID) Return the first ChildSysParam filtered by the ID column
- * @method     ChildSysParam findOneByVisibility(string $VISIBILITY) Return the first ChildSysParam filtered by the VISIBILITY column
- * @method     ChildSysParam findOneByCode(string $CODE) Return the first ChildSysParam filtered by the CODE column
- * @method     ChildSysParam findOneByName(string $NAME) Return the first ChildSysParam filtered by the NAME column
- * @method     ChildSysParam findOneByType(string $TYPE) Return the first ChildSysParam filtered by the TYPE column
- * @method     ChildSysParam findOneByValue(string $VALUE) Return the first ChildSysParam filtered by the VALUE column
- * @method     ChildSysParam findOneByOptions(string $OPTIONS) Return the first ChildSysParam filtered by the OPTIONS column
- * @method     ChildSysParam findOneByDescription(string $DESCRIPTION) Return the first ChildSysParam filtered by the DESCRIPTION column
- * @method     ChildSysParam findOneByCustomizable(boolean $CUSTOMIZABLE) Return the first ChildSysParam filtered by the CUSTOMIZABLE column
- * @method     ChildSysParam findOneByLastUserId(int $LAST_USER_ID) Return the first ChildSysParam filtered by the LAST_USER_ID column
- * @method     ChildSysParam findOneByCreationDate(string $CREATION_DATE) Return the first ChildSysParam filtered by the CREATION_DATE column
- * @method     ChildSysParam findOneByModificationDate(string $MODIFICATION_DATE) Return the first ChildSysParam filtered by the MODIFICATION_DATE column *
-
- * @method     ChildSysParam requirePk($key, ConnectionInterface $con = null) Return the ChildSysParam by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildSysParam requireOne(ConnectionInterface $con = null) Return the first ChildSysParam matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildSysParam|null findOneById(int $ID) Return the first ChildSysParam filtered by the ID column
+ * @method     ChildSysParam|null findOneByVisibility(string $VISIBILITY) Return the first ChildSysParam filtered by the VISIBILITY column
+ * @method     ChildSysParam|null findOneByCode(string $CODE) Return the first ChildSysParam filtered by the CODE column
+ * @method     ChildSysParam|null findOneByName(string $NAME) Return the first ChildSysParam filtered by the NAME column
+ * @method     ChildSysParam|null findOneByType(string $TYPE) Return the first ChildSysParam filtered by the TYPE column
+ * @method     ChildSysParam|null findOneByValue(string $VALUE) Return the first ChildSysParam filtered by the VALUE column
+ * @method     ChildSysParam|null findOneByOptions(string $OPTIONS) Return the first ChildSysParam filtered by the OPTIONS column
+ * @method     ChildSysParam|null findOneByDescription(string $DESCRIPTION) Return the first ChildSysParam filtered by the DESCRIPTION column
+ * @method     ChildSysParam|null findOneByCustomizable(boolean $CUSTOMIZABLE) Return the first ChildSysParam filtered by the CUSTOMIZABLE column
+ * @method     ChildSysParam|null findOneByLastUserId(int $LAST_USER_ID) Return the first ChildSysParam filtered by the LAST_USER_ID column
+ * @method     ChildSysParam|null findOneByCreationDate(string $CREATION_DATE) Return the first ChildSysParam filtered by the CREATION_DATE column
+ * @method     ChildSysParam|null findOneByModificationDate(string $MODIFICATION_DATE) Return the first ChildSysParam filtered by the MODIFICATION_DATE column
+ *
+ * @method     ChildSysParam requirePk($key, ?ConnectionInterface $con = null) Return the ChildSysParam by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildSysParam requireOne(?ConnectionInterface $con = null) Return the first ChildSysParam matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildSysParam requireOneById(int $ID) Return the first ChildSysParam filtered by the ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSysParam requireOneByVisibility(string $VISIBILITY) Return the first ChildSysParam filtered by the VISIBILITY column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -108,21 +107,36 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysParam requireOneByCreationDate(string $CREATION_DATE) Return the first ChildSysParam filtered by the CREATION_DATE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSysParam requireOneByModificationDate(string $MODIFICATION_DATE) Return the first ChildSysParam filtered by the MODIFICATION_DATE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildSysParam[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildSysParam objects based on current ModelCriteria
- * @method     ChildSysParam[]|ObjectCollection findById(int $ID) Return ChildSysParam objects filtered by the ID column
- * @method     ChildSysParam[]|ObjectCollection findByVisibility(string $VISIBILITY) Return ChildSysParam objects filtered by the VISIBILITY column
- * @method     ChildSysParam[]|ObjectCollection findByCode(string $CODE) Return ChildSysParam objects filtered by the CODE column
- * @method     ChildSysParam[]|ObjectCollection findByName(string $NAME) Return ChildSysParam objects filtered by the NAME column
- * @method     ChildSysParam[]|ObjectCollection findByType(string $TYPE) Return ChildSysParam objects filtered by the TYPE column
- * @method     ChildSysParam[]|ObjectCollection findByValue(string $VALUE) Return ChildSysParam objects filtered by the VALUE column
- * @method     ChildSysParam[]|ObjectCollection findByOptions(string $OPTIONS) Return ChildSysParam objects filtered by the OPTIONS column
- * @method     ChildSysParam[]|ObjectCollection findByDescription(string $DESCRIPTION) Return ChildSysParam objects filtered by the DESCRIPTION column
- * @method     ChildSysParam[]|ObjectCollection findByCustomizable(boolean $CUSTOMIZABLE) Return ChildSysParam objects filtered by the CUSTOMIZABLE column
- * @method     ChildSysParam[]|ObjectCollection findByLastUserId(int $LAST_USER_ID) Return ChildSysParam objects filtered by the LAST_USER_ID column
- * @method     ChildSysParam[]|ObjectCollection findByCreationDate(string $CREATION_DATE) Return ChildSysParam objects filtered by the CREATION_DATE column
- * @method     ChildSysParam[]|ObjectCollection findByModificationDate(string $MODIFICATION_DATE) Return ChildSysParam objects filtered by the MODIFICATION_DATE column
- * @method     ChildSysParam[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
+ * @method     ChildSysParam[]|Collection find(?ConnectionInterface $con = null) Return ChildSysParam objects based on current ModelCriteria
+ * @psalm-method Collection&\Traversable<ChildSysParam> find(?ConnectionInterface $con = null) Return ChildSysParam objects based on current ModelCriteria
  *
+ * @method     ChildSysParam[]|Collection findById(int|array<int> $ID) Return ChildSysParam objects filtered by the ID column
+ * @psalm-method Collection&\Traversable<ChildSysParam> findById(int|array<int> $ID) Return ChildSysParam objects filtered by the ID column
+ * @method     ChildSysParam[]|Collection findByVisibility(string|array<string> $VISIBILITY) Return ChildSysParam objects filtered by the VISIBILITY column
+ * @psalm-method Collection&\Traversable<ChildSysParam> findByVisibility(string|array<string> $VISIBILITY) Return ChildSysParam objects filtered by the VISIBILITY column
+ * @method     ChildSysParam[]|Collection findByCode(string|array<string> $CODE) Return ChildSysParam objects filtered by the CODE column
+ * @psalm-method Collection&\Traversable<ChildSysParam> findByCode(string|array<string> $CODE) Return ChildSysParam objects filtered by the CODE column
+ * @method     ChildSysParam[]|Collection findByName(string|array<string> $NAME) Return ChildSysParam objects filtered by the NAME column
+ * @psalm-method Collection&\Traversable<ChildSysParam> findByName(string|array<string> $NAME) Return ChildSysParam objects filtered by the NAME column
+ * @method     ChildSysParam[]|Collection findByType(string|array<string> $TYPE) Return ChildSysParam objects filtered by the TYPE column
+ * @psalm-method Collection&\Traversable<ChildSysParam> findByType(string|array<string> $TYPE) Return ChildSysParam objects filtered by the TYPE column
+ * @method     ChildSysParam[]|Collection findByValue(string|array<string> $VALUE) Return ChildSysParam objects filtered by the VALUE column
+ * @psalm-method Collection&\Traversable<ChildSysParam> findByValue(string|array<string> $VALUE) Return ChildSysParam objects filtered by the VALUE column
+ * @method     ChildSysParam[]|Collection findByOptions(string|array<string> $OPTIONS) Return ChildSysParam objects filtered by the OPTIONS column
+ * @psalm-method Collection&\Traversable<ChildSysParam> findByOptions(string|array<string> $OPTIONS) Return ChildSysParam objects filtered by the OPTIONS column
+ * @method     ChildSysParam[]|Collection findByDescription(string|array<string> $DESCRIPTION) Return ChildSysParam objects filtered by the DESCRIPTION column
+ * @psalm-method Collection&\Traversable<ChildSysParam> findByDescription(string|array<string> $DESCRIPTION) Return ChildSysParam objects filtered by the DESCRIPTION column
+ * @method     ChildSysParam[]|Collection findByCustomizable(boolean|array<boolean> $CUSTOMIZABLE) Return ChildSysParam objects filtered by the CUSTOMIZABLE column
+ * @psalm-method Collection&\Traversable<ChildSysParam> findByCustomizable(boolean|array<boolean> $CUSTOMIZABLE) Return ChildSysParam objects filtered by the CUSTOMIZABLE column
+ * @method     ChildSysParam[]|Collection findByLastUserId(int|array<int> $LAST_USER_ID) Return ChildSysParam objects filtered by the LAST_USER_ID column
+ * @psalm-method Collection&\Traversable<ChildSysParam> findByLastUserId(int|array<int> $LAST_USER_ID) Return ChildSysParam objects filtered by the LAST_USER_ID column
+ * @method     ChildSysParam[]|Collection findByCreationDate(string|array<string> $CREATION_DATE) Return ChildSysParam objects filtered by the CREATION_DATE column
+ * @psalm-method Collection&\Traversable<ChildSysParam> findByCreationDate(string|array<string> $CREATION_DATE) Return ChildSysParam objects filtered by the CREATION_DATE column
+ * @method     ChildSysParam[]|Collection findByModificationDate(string|array<string> $MODIFICATION_DATE) Return ChildSysParam objects filtered by the MODIFICATION_DATE column
+ * @psalm-method Collection&\Traversable<ChildSysParam> findByModificationDate(string|array<string> $MODIFICATION_DATE) Return ChildSysParam objects filtered by the MODIFICATION_DATE column
+ *
+ * @method     ChildSysParam[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ?ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
+ * @psalm-method \Propel\Runtime\Util\PropelModelPager&\Traversable<ChildSysParam> paginate($page = 1, $maxPerPage = 10, ?ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  */
 abstract class SysParamQuery extends ModelCriteria
 {
@@ -131,9 +145,9 @@ abstract class SysParamQuery extends ModelCriteria
     /**
      * Initializes internal state of \Base\SysParamQuery object.
      *
-     * @param     string $dbName The database name
-     * @param     string $modelName The phpName of a model, e.g. 'Book'
-     * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
+     * @param string $dbName The database name
+     * @param string $modelName The phpName of a model, e.g. 'Book'
+     * @param string $modelAlias The alias for the model in this query, e.g. 'b'
      */
     public function __construct($dbName = 'default', $modelName = '\\SysParam', $modelAlias = null)
     {
@@ -143,12 +157,12 @@ abstract class SysParamQuery extends ModelCriteria
     /**
      * Returns a new ChildSysParamQuery object.
      *
-     * @param     string $modelAlias The alias of a model in the query
-     * @param     Criteria $criteria Optional Criteria to build the query from
+     * @param string $modelAlias The alias of a model in the query
+     * @param Criteria $criteria Optional Criteria to build the query from
      *
      * @return ChildSysParamQuery
      */
-    public static function create($modelAlias = null, Criteria $criteria = null)
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
     {
         if ($criteria instanceof ChildSysParamQuery) {
             return $criteria;
@@ -178,7 +192,7 @@ abstract class SysParamQuery extends ModelCriteria
      *
      * @return ChildSysParam|array|mixed the result, formatted by the current formatter
      */
-    public function findPk($key, ConnectionInterface $con = null)
+    public function findPk($key, ?ConnectionInterface $con = null)
     {
         if ($key === null) {
             return null;
@@ -210,8 +224,8 @@ abstract class SysParamQuery extends ModelCriteria
      * Find object by primary key using raw SQL to go fast.
      * Bypass doSelect() and the object formatter by using generated code.
      *
-     * @param     mixed $key Primary key to use for the query
-     * @param     ConnectionInterface $con A connection object
+     * @param mixed $key Primary key to use for the query
+     * @param ConnectionInterface $con A connection object
      *
      * @throws \Propel\Runtime\Exception\PropelException
      *
@@ -243,8 +257,8 @@ abstract class SysParamQuery extends ModelCriteria
     /**
      * Find object by primary key.
      *
-     * @param     mixed $key Primary key to use for the query
-     * @param     ConnectionInterface $con A connection object
+     * @param mixed $key Primary key to use for the query
+     * @param ConnectionInterface $con A connection object
      *
      * @return ChildSysParam|array|mixed the result, formatted by the current formatter
      */
@@ -264,12 +278,12 @@ abstract class SysParamQuery extends ModelCriteria
      * <code>
      * $objs = $c->findPks(array(12, 56, 832), $con);
      * </code>
-     * @param     array $keys Primary keys to use for the query
-     * @param     ConnectionInterface $con an optional connection object
+     * @param array $keys Primary keys to use for the query
+     * @param ConnectionInterface $con an optional connection object
      *
-     * @return ObjectCollection|array|mixed the list of results, formatted by the current formatter
+     * @return Collection|array|mixed the list of results, formatted by the current formatter
      */
-    public function findPks($keys, ConnectionInterface $con = null)
+    public function findPks($keys, ?ConnectionInterface $con = null)
     {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getReadConnection($this->getDbName());
@@ -286,27 +300,31 @@ abstract class SysParamQuery extends ModelCriteria
     /**
      * Filter the query by primary key
      *
-     * @param     mixed $key Primary key to use for the query
+     * @param mixed $key Primary key to use for the query
      *
-     * @return $this|ChildSysParamQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
     public function filterByPrimaryKey($key)
     {
 
-        return $this->addUsingAlias(SysParamTableMap::COL_ID, $key, Criteria::EQUAL);
+        $this->addUsingAlias(SysParamTableMap::COL_ID, $key, Criteria::EQUAL);
+
+        return $this;
     }
 
     /**
      * Filter the query by a list of primary keys
      *
-     * @param     array $keys The list of primary key to use for the query
+     * @param array|int $keys The list of primary key to use for the query
      *
-     * @return $this|ChildSysParamQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
     public function filterByPrimaryKeys($keys)
     {
 
-        return $this->addUsingAlias(SysParamTableMap::COL_ID, $keys, Criteria::IN);
+        $this->addUsingAlias(SysParamTableMap::COL_ID, $keys, Criteria::IN);
+
+        return $this;
     }
 
     /**
@@ -319,15 +337,15 @@ abstract class SysParamQuery extends ModelCriteria
      * $query->filterById(array('min' => 12)); // WHERE ID > 12
      * </code>
      *
-     * @param     mixed $id The value to use as filter.
+     * @param mixed $id The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysParamQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterById($id = null, $comparison = null)
+    public function filterById($id = null, ?string $comparison = null)
     {
         if (is_array($id)) {
             $useMinMax = false;
@@ -347,7 +365,9 @@ abstract class SysParamQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysParamTableMap::COL_ID, $id, $comparison);
+        $this->addUsingAlias(SysParamTableMap::COL_ID, $id, $comparison);
+
+        return $this;
     }
 
     /**
@@ -357,14 +377,15 @@ abstract class SysParamQuery extends ModelCriteria
      * <code>
      * $query->filterByVisibility('fooValue');   // WHERE VISIBILITY = 'fooValue'
      * $query->filterByVisibility('%fooValue%', Criteria::LIKE); // WHERE VISIBILITY LIKE '%fooValue%'
+     * $query->filterByVisibility(['foo', 'bar']); // WHERE VISIBILITY IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $visibility The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $visibility The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysParamQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByVisibility($visibility = null, $comparison = null)
+    public function filterByVisibility($visibility = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($visibility)) {
@@ -372,7 +393,9 @@ abstract class SysParamQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysParamTableMap::COL_VISIBILITY, $visibility, $comparison);
+        $this->addUsingAlias(SysParamTableMap::COL_VISIBILITY, $visibility, $comparison);
+
+        return $this;
     }
 
     /**
@@ -382,14 +405,15 @@ abstract class SysParamQuery extends ModelCriteria
      * <code>
      * $query->filterByCode('fooValue');   // WHERE CODE = 'fooValue'
      * $query->filterByCode('%fooValue%', Criteria::LIKE); // WHERE CODE LIKE '%fooValue%'
+     * $query->filterByCode(['foo', 'bar']); // WHERE CODE IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $code The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $code The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysParamQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByCode($code = null, $comparison = null)
+    public function filterByCode($code = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($code)) {
@@ -397,7 +421,9 @@ abstract class SysParamQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysParamTableMap::COL_CODE, $code, $comparison);
+        $this->addUsingAlias(SysParamTableMap::COL_CODE, $code, $comparison);
+
+        return $this;
     }
 
     /**
@@ -407,14 +433,15 @@ abstract class SysParamQuery extends ModelCriteria
      * <code>
      * $query->filterByName('fooValue');   // WHERE NAME = 'fooValue'
      * $query->filterByName('%fooValue%', Criteria::LIKE); // WHERE NAME LIKE '%fooValue%'
+     * $query->filterByName(['foo', 'bar']); // WHERE NAME IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $name The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $name The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysParamQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByName($name = null, $comparison = null)
+    public function filterByName($name = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($name)) {
@@ -422,7 +449,9 @@ abstract class SysParamQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysParamTableMap::COL_NAME, $name, $comparison);
+        $this->addUsingAlias(SysParamTableMap::COL_NAME, $name, $comparison);
+
+        return $this;
     }
 
     /**
@@ -432,14 +461,15 @@ abstract class SysParamQuery extends ModelCriteria
      * <code>
      * $query->filterByType('fooValue');   // WHERE TYPE = 'fooValue'
      * $query->filterByType('%fooValue%', Criteria::LIKE); // WHERE TYPE LIKE '%fooValue%'
+     * $query->filterByType(['foo', 'bar']); // WHERE TYPE IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $type The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $type The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysParamQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByType($type = null, $comparison = null)
+    public function filterByType($type = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($type)) {
@@ -447,7 +477,9 @@ abstract class SysParamQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysParamTableMap::COL_TYPE, $type, $comparison);
+        $this->addUsingAlias(SysParamTableMap::COL_TYPE, $type, $comparison);
+
+        return $this;
     }
 
     /**
@@ -457,14 +489,15 @@ abstract class SysParamQuery extends ModelCriteria
      * <code>
      * $query->filterByValue('fooValue');   // WHERE VALUE = 'fooValue'
      * $query->filterByValue('%fooValue%', Criteria::LIKE); // WHERE VALUE LIKE '%fooValue%'
+     * $query->filterByValue(['foo', 'bar']); // WHERE VALUE IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $value The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $value The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysParamQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByValue($value = null, $comparison = null)
+    public function filterByValue($value = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($value)) {
@@ -472,7 +505,9 @@ abstract class SysParamQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysParamTableMap::COL_VALUE, $value, $comparison);
+        $this->addUsingAlias(SysParamTableMap::COL_VALUE, $value, $comparison);
+
+        return $this;
     }
 
     /**
@@ -482,14 +517,15 @@ abstract class SysParamQuery extends ModelCriteria
      * <code>
      * $query->filterByOptions('fooValue');   // WHERE OPTIONS = 'fooValue'
      * $query->filterByOptions('%fooValue%', Criteria::LIKE); // WHERE OPTIONS LIKE '%fooValue%'
+     * $query->filterByOptions(['foo', 'bar']); // WHERE OPTIONS IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $options The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $options The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysParamQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByOptions($options = null, $comparison = null)
+    public function filterByOptions($options = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($options)) {
@@ -497,7 +533,9 @@ abstract class SysParamQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysParamTableMap::COL_OPTIONS, $options, $comparison);
+        $this->addUsingAlias(SysParamTableMap::COL_OPTIONS, $options, $comparison);
+
+        return $this;
     }
 
     /**
@@ -507,14 +545,15 @@ abstract class SysParamQuery extends ModelCriteria
      * <code>
      * $query->filterByDescription('fooValue');   // WHERE DESCRIPTION = 'fooValue'
      * $query->filterByDescription('%fooValue%', Criteria::LIKE); // WHERE DESCRIPTION LIKE '%fooValue%'
+     * $query->filterByDescription(['foo', 'bar']); // WHERE DESCRIPTION IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $description The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $description The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysParamQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByDescription($description = null, $comparison = null)
+    public function filterByDescription($description = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($description)) {
@@ -522,7 +561,9 @@ abstract class SysParamQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysParamTableMap::COL_DESCRIPTION, $description, $comparison);
+        $this->addUsingAlias(SysParamTableMap::COL_DESCRIPTION, $description, $comparison);
+
+        return $this;
     }
 
     /**
@@ -534,22 +575,24 @@ abstract class SysParamQuery extends ModelCriteria
      * $query->filterByCustomizable('yes'); // WHERE CUSTOMIZABLE = true
      * </code>
      *
-     * @param     boolean|string $customizable The value to use as filter.
+     * @param bool|string $customizable The value to use as filter.
      *              Non-boolean arguments are converted using the following rules:
      *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysParamQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByCustomizable($customizable = null, $comparison = null)
+    public function filterByCustomizable($customizable = null, ?string $comparison = null)
     {
         if (is_string($customizable)) {
-            $customizable = in_array(strtolower($customizable), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+            $customizable = in_array(strtolower($customizable), array('false', 'off', '-', 'no', 'n', '0', ''), true) ? false : true;
         }
 
-        return $this->addUsingAlias(SysParamTableMap::COL_CUSTOMIZABLE, $customizable, $comparison);
+        $this->addUsingAlias(SysParamTableMap::COL_CUSTOMIZABLE, $customizable, $comparison);
+
+        return $this;
     }
 
     /**
@@ -562,15 +605,15 @@ abstract class SysParamQuery extends ModelCriteria
      * $query->filterByLastUserId(array('min' => 12)); // WHERE LAST_USER_ID > 12
      * </code>
      *
-     * @param     mixed $lastUserId The value to use as filter.
+     * @param mixed $lastUserId The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysParamQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByLastUserId($lastUserId = null, $comparison = null)
+    public function filterByLastUserId($lastUserId = null, ?string $comparison = null)
     {
         if (is_array($lastUserId)) {
             $useMinMax = false;
@@ -590,7 +633,9 @@ abstract class SysParamQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysParamTableMap::COL_LAST_USER_ID, $lastUserId, $comparison);
+        $this->addUsingAlias(SysParamTableMap::COL_LAST_USER_ID, $lastUserId, $comparison);
+
+        return $this;
     }
 
     /**
@@ -603,17 +648,17 @@ abstract class SysParamQuery extends ModelCriteria
      * $query->filterByCreationDate(array('max' => 'yesterday')); // WHERE CREATION_DATE > '2011-03-13'
      * </code>
      *
-     * @param     mixed $creationDate The value to use as filter.
+     * @param mixed $creationDate The value to use as filter.
      *              Values can be integers (unix timestamps), DateTime objects, or strings.
      *              Empty strings are treated as NULL.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysParamQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByCreationDate($creationDate = null, $comparison = null)
+    public function filterByCreationDate($creationDate = null, ?string $comparison = null)
     {
         if (is_array($creationDate)) {
             $useMinMax = false;
@@ -633,7 +678,9 @@ abstract class SysParamQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysParamTableMap::COL_CREATION_DATE, $creationDate, $comparison);
+        $this->addUsingAlias(SysParamTableMap::COL_CREATION_DATE, $creationDate, $comparison);
+
+        return $this;
     }
 
     /**
@@ -646,17 +693,17 @@ abstract class SysParamQuery extends ModelCriteria
      * $query->filterByModificationDate(array('max' => 'yesterday')); // WHERE MODIFICATION_DATE > '2011-03-13'
      * </code>
      *
-     * @param     mixed $modificationDate The value to use as filter.
+     * @param mixed $modificationDate The value to use as filter.
      *              Values can be integers (unix timestamps), DateTime objects, or strings.
      *              Empty strings are treated as NULL.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysParamQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByModificationDate($modificationDate = null, $comparison = null)
+    public function filterByModificationDate($modificationDate = null, ?string $comparison = null)
     {
         if (is_array($modificationDate)) {
             $useMinMax = false;
@@ -676,27 +723,33 @@ abstract class SysParamQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysParamTableMap::COL_MODIFICATION_DATE, $modificationDate, $comparison);
+        $this->addUsingAlias(SysParamTableMap::COL_MODIFICATION_DATE, $modificationDate, $comparison);
+
+        return $this;
     }
 
     /**
      * Filter the query by a related \SysEntityParam object
      *
      * @param \SysEntityParam|ObjectCollection $sysEntityParam the related object to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildSysParamQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterBySysEntityParam($sysEntityParam, $comparison = null)
+    public function filterBySysEntityParam($sysEntityParam, ?string $comparison = null)
     {
         if ($sysEntityParam instanceof \SysEntityParam) {
-            return $this
+            $this
                 ->addUsingAlias(SysParamTableMap::COL_ID, $sysEntityParam->getParamId(), $comparison);
+
+            return $this;
         } elseif ($sysEntityParam instanceof ObjectCollection) {
-            return $this
+            $this
                 ->useSysEntityParamQuery()
                 ->filterByPrimaryKeys($sysEntityParam->getPrimaryKeys())
                 ->endUse();
+
+            return $this;
         } else {
             throw new PropelException('filterBySysEntityParam() only accepts arguments of type \SysEntityParam or Collection');
         }
@@ -705,12 +758,12 @@ abstract class SysParamQuery extends ModelCriteria
     /**
      * Adds a JOIN clause to the query using the SysEntityParam relation
      *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string|null $relationAlias Optional alias for the relation
+     * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return $this|ChildSysParamQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function joinSysEntityParam($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinSysEntityParam(?string $relationAlias = null, ?string $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('SysEntityParam');
@@ -739,9 +792,9 @@ abstract class SysParamQuery extends ModelCriteria
      *
      * @see useQuery()
      *
-     * @param     string $relationAlias optional alias for the relation,
+     * @param string $relationAlias optional alias for the relation,
      *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return \SysEntityParamQuery A secondary query class using the current class as primary query
      */
@@ -753,23 +806,123 @@ abstract class SysParamQuery extends ModelCriteria
     }
 
     /**
+     * Use the SysEntityParam relation SysEntityParam object
+     *
+     * @param callable(\SysEntityParamQuery):\SysEntityParamQuery $callable A function working on the related query
+     *
+     * @param string|null $relationAlias optional alias for the relation
+     *
+     * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this
+     */
+    public function withSysEntityParamQuery(
+        callable $callable,
+        string $relationAlias = null,
+        ?string $joinType = Criteria::INNER_JOIN
+    ) {
+        $relatedQuery = $this->useSysEntityParamQuery(
+            $relationAlias,
+            $joinType
+        );
+        $callable($relatedQuery);
+        $relatedQuery->endUse();
+
+        return $this;
+    }
+
+    /**
+     * Use the relation to SysEntityParam table for an EXISTS query.
+     *
+     * @see \Propel\Runtime\ActiveQuery\ModelCriteria::useExistsQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the exists query, like ExtendedBookQuery::class
+     * @param string $typeOfExists Either ExistsQueryCriterion::TYPE_EXISTS or ExistsQueryCriterion::TYPE_NOT_EXISTS
+     *
+     * @return \SysEntityParamQuery The inner query object of the EXISTS statement
+     */
+    public function useSysEntityParamExistsQuery($modelAlias = null, $queryClass = null, $typeOfExists = 'EXISTS')
+    {
+        /** @var $q \SysEntityParamQuery */
+        $q = $this->useExistsQuery('SysEntityParam', $modelAlias, $queryClass, $typeOfExists);
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysEntityParam table for a NOT EXISTS query.
+     *
+     * @see useSysEntityParamExistsQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the exists query, like ExtendedBookQuery::class
+     *
+     * @return \SysEntityParamQuery The inner query object of the NOT EXISTS statement
+     */
+    public function useSysEntityParamNotExistsQuery($modelAlias = null, $queryClass = null)
+    {
+        /** @var $q \SysEntityParamQuery */
+        $q = $this->useExistsQuery('SysEntityParam', $modelAlias, $queryClass, 'NOT EXISTS');
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysEntityParam table for an IN query.
+     *
+     * @see \Propel\Runtime\ActiveQuery\ModelCriteria::useInQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the IN query, like ExtendedBookQuery::class
+     * @param string $typeOfIn Criteria::IN or Criteria::NOT_IN
+     *
+     * @return \SysEntityParamQuery The inner query object of the IN statement
+     */
+    public function useInSysEntityParamQuery($modelAlias = null, $queryClass = null, $typeOfIn = 'IN')
+    {
+        /** @var $q \SysEntityParamQuery */
+        $q = $this->useInQuery('SysEntityParam', $modelAlias, $queryClass, $typeOfIn);
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysEntityParam table for a NOT IN query.
+     *
+     * @see useSysEntityParamInQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the NOT IN query, like ExtendedBookQuery::class
+     *
+     * @return \SysEntityParamQuery The inner query object of the NOT IN statement
+     */
+    public function useNotInSysEntityParamQuery($modelAlias = null, $queryClass = null)
+    {
+        /** @var $q \SysEntityParamQuery */
+        $q = $this->useInQuery('SysEntityParam', $modelAlias, $queryClass, 'NOT IN');
+        return $q;
+    }
+
+    /**
      * Filter the query by a related \SysUserParam object
      *
      * @param \SysUserParam|ObjectCollection $sysUserParam the related object to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildSysParamQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterBySysUserParam($sysUserParam, $comparison = null)
+    public function filterBySysUserParam($sysUserParam, ?string $comparison = null)
     {
         if ($sysUserParam instanceof \SysUserParam) {
-            return $this
+            $this
                 ->addUsingAlias(SysParamTableMap::COL_ID, $sysUserParam->getParamId(), $comparison);
+
+            return $this;
         } elseif ($sysUserParam instanceof ObjectCollection) {
-            return $this
+            $this
                 ->useSysUserParamQuery()
                 ->filterByPrimaryKeys($sysUserParam->getPrimaryKeys())
                 ->endUse();
+
+            return $this;
         } else {
             throw new PropelException('filterBySysUserParam() only accepts arguments of type \SysUserParam or Collection');
         }
@@ -778,12 +931,12 @@ abstract class SysParamQuery extends ModelCriteria
     /**
      * Adds a JOIN clause to the query using the SysUserParam relation
      *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string|null $relationAlias Optional alias for the relation
+     * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return $this|ChildSysParamQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function joinSysUserParam($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinSysUserParam(?string $relationAlias = null, ?string $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('SysUserParam');
@@ -812,9 +965,9 @@ abstract class SysParamQuery extends ModelCriteria
      *
      * @see useQuery()
      *
-     * @param     string $relationAlias optional alias for the relation,
+     * @param string $relationAlias optional alias for the relation,
      *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return \SysUserParamQuery A secondary query class using the current class as primary query
      */
@@ -826,11 +979,107 @@ abstract class SysParamQuery extends ModelCriteria
     }
 
     /**
+     * Use the SysUserParam relation SysUserParam object
+     *
+     * @param callable(\SysUserParamQuery):\SysUserParamQuery $callable A function working on the related query
+     *
+     * @param string|null $relationAlias optional alias for the relation
+     *
+     * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this
+     */
+    public function withSysUserParamQuery(
+        callable $callable,
+        string $relationAlias = null,
+        ?string $joinType = Criteria::INNER_JOIN
+    ) {
+        $relatedQuery = $this->useSysUserParamQuery(
+            $relationAlias,
+            $joinType
+        );
+        $callable($relatedQuery);
+        $relatedQuery->endUse();
+
+        return $this;
+    }
+
+    /**
+     * Use the relation to SysUserParam table for an EXISTS query.
+     *
+     * @see \Propel\Runtime\ActiveQuery\ModelCriteria::useExistsQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the exists query, like ExtendedBookQuery::class
+     * @param string $typeOfExists Either ExistsQueryCriterion::TYPE_EXISTS or ExistsQueryCriterion::TYPE_NOT_EXISTS
+     *
+     * @return \SysUserParamQuery The inner query object of the EXISTS statement
+     */
+    public function useSysUserParamExistsQuery($modelAlias = null, $queryClass = null, $typeOfExists = 'EXISTS')
+    {
+        /** @var $q \SysUserParamQuery */
+        $q = $this->useExistsQuery('SysUserParam', $modelAlias, $queryClass, $typeOfExists);
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysUserParam table for a NOT EXISTS query.
+     *
+     * @see useSysUserParamExistsQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the exists query, like ExtendedBookQuery::class
+     *
+     * @return \SysUserParamQuery The inner query object of the NOT EXISTS statement
+     */
+    public function useSysUserParamNotExistsQuery($modelAlias = null, $queryClass = null)
+    {
+        /** @var $q \SysUserParamQuery */
+        $q = $this->useExistsQuery('SysUserParam', $modelAlias, $queryClass, 'NOT EXISTS');
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysUserParam table for an IN query.
+     *
+     * @see \Propel\Runtime\ActiveQuery\ModelCriteria::useInQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the IN query, like ExtendedBookQuery::class
+     * @param string $typeOfIn Criteria::IN or Criteria::NOT_IN
+     *
+     * @return \SysUserParamQuery The inner query object of the IN statement
+     */
+    public function useInSysUserParamQuery($modelAlias = null, $queryClass = null, $typeOfIn = 'IN')
+    {
+        /** @var $q \SysUserParamQuery */
+        $q = $this->useInQuery('SysUserParam', $modelAlias, $queryClass, $typeOfIn);
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysUserParam table for a NOT IN query.
+     *
+     * @see useSysUserParamInQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the NOT IN query, like ExtendedBookQuery::class
+     *
+     * @return \SysUserParamQuery The inner query object of the NOT IN statement
+     */
+    public function useNotInSysUserParamQuery($modelAlias = null, $queryClass = null)
+    {
+        /** @var $q \SysUserParamQuery */
+        $q = $this->useInQuery('SysUserParam', $modelAlias, $queryClass, 'NOT IN');
+        return $q;
+    }
+
+    /**
      * Exclude object from result
      *
-     * @param   ChildSysParam $sysParam Object to remove from the list of results
+     * @param ChildSysParam $sysParam Object to remove from the list of results
      *
-     * @return $this|ChildSysParamQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
     public function prune($sysParam = null)
     {
@@ -847,7 +1096,7 @@ abstract class SysParamQuery extends ModelCriteria
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
-    public function doDeleteAll(ConnectionInterface $con = null)
+    public function doDeleteAll(?ConnectionInterface $con = null): int
     {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysParamTableMap::DATABASE_NAME);
@@ -872,12 +1121,12 @@ abstract class SysParamQuery extends ModelCriteria
      * Performs a DELETE on the database based on the current ModelCriteria
      *
      * @param ConnectionInterface $con the connection to use
-     * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
+     * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
      *                         if supported by native driver or if emulated using Propel.
-     * @throws PropelException Any exceptions caught during processing will be
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
      */
-    public function delete(ConnectionInterface $con = null)
+    public function delete(?ConnectionInterface $con = null): int
     {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysParamTableMap::DATABASE_NAME);
@@ -902,4 +1151,4 @@ abstract class SysParamQuery extends ModelCriteria
         });
     }
 
-} // SysParamQuery
+}

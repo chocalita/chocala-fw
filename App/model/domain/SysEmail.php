@@ -9,7 +9,7 @@ class SysEmail extends BaseSysEmail
 {
     use Validatable;
 
-    static $validationRules = [
+    static array $validationRules = [
         'Code' => [
             'null' => false, 'blank'=> false,
             'size'=> ['min' => 3, 'max' => 30],
@@ -54,7 +54,7 @@ class SysEmail extends BaseSysEmail
         ],
     ];
 
-    public function preSave()
+    public function preSave() : bool
     {
         $this->code = trim($this->code)!=''? strtoupper(trim($this->code)): null;
         $this->name = trim($this->name)!=''? trim($this->name): null;
@@ -67,17 +67,17 @@ class SysEmail extends BaseSysEmail
         return parent::preSave();
     }
 
-    public function preValidate()
+    public function preValidate() : bool
     {
         return $this->preSave();
     }
 
-    public function preInsert()
+    public function preInsert() : bool
     {
         return $this->preSave();
     }
 
-    public function preUpdate()
+    public function preUpdate() : bool
     {
         return $this->preSave();
     }
@@ -85,7 +85,7 @@ class SysEmail extends BaseSysEmail
     /**
      * @return array
      */
-    public function attachmentsList()
+    public function attachmentsList(): array
     {
         //TODO: manage attachments
         return [];

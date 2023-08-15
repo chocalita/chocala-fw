@@ -20,20 +20,20 @@ class SysEvent extends BaseSysEvent implements JsonSerializable
     const LEVEL_ADMIN = 'ADMIN';
     const LEVEL_APP = 'APP';
 
-    static $types = [
+    static array $types = [
         self::TYPE_SYSTEM => self::TYPE_SYSTEM,
         self::TYPE_SECURITY => self::TYPE_SECURITY,
         self::TYPE_APP => self::TYPE_APP,
         self::TYPE_AUDIT_PROCESS => self::TYPE_AUDIT_PROCESS,
     ];
 
-    static $levels = [
+    static array $levels = [
         self::LEVEL_SYSTEM => self::LEVEL_SYSTEM,
         self::LEVEL_ADMIN => self::LEVEL_ADMIN,
         self::LEVEL_APP => self::LEVEL_APP,
     ];
 
-    static $validationRules = [
+    static array $validationRules = [
         'Code' => [
             'null' => false, 'blank'=> false,
             'size'=> ['min' => 3, 'max' => 30],
@@ -55,7 +55,7 @@ class SysEvent extends BaseSysEvent implements JsonSerializable
         ],
     ];
 
-    public function preSave()
+    public function preSave() : bool
     {
         $this->code = trim($this->code)!=''? strtoupper(trim($this->code)): null;
         $this->name = trim($this->name)!=''? trim($this->name): null;
@@ -65,17 +65,17 @@ class SysEvent extends BaseSysEvent implements JsonSerializable
         return parent::preSave();
     }
 
-    public function preValidate()
+    public function preValidate() : bool
     {
         return $this->preSave();
     }
 
-    public function preInsert()
+    public function preInsert() : bool
     {
         return $this->preSave();
     }
 
-    public function preUpdate()
+    public function preUpdate() : bool
     {
         return $this->preSave();
     }

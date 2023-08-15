@@ -15,11 +15,11 @@ class SysUserParamQuery extends BaseSysUserParamQuery //implements SoftDeletion
 
     /**
      * @param SysUser $user
-     * @param bool|true $noDeletes
+     * @param bool $noDeletes
      * @return SysUserParamQuery
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public static function createForUser(SysUser $user, $noDeletes=true)
+    public static function createForUser(SysUser $user, bool $noDeletes=true): SysUserParamQuery
     {
         return self::createValids($noDeletes)
             ->filterBySysUser($user)

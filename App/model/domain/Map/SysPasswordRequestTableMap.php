@@ -24,7 +24,6 @@ use Propel\Runtime\Map\TableMapTrait;
  * For example, the createSelectSql() method checks the type of a given column used in an
  * ORDER BY clause to know whether it needs to apply SQL to make the ORDER BY case-insensitive
  * (i.e. if it's a text column type).
- *
  */
 class SysPasswordRequestTableMap extends TableMap
 {
@@ -34,139 +33,244 @@ class SysPasswordRequestTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.SysPasswordRequestTableMap';
+    public const CLASS_NAME = '.Map.SysPasswordRequestTableMap';
 
     /**
      * The default database name for this class
      */
-    const DATABASE_NAME = 'default';
+    public const DATABASE_NAME = 'default';
 
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'sys_password_request';
+    public const TABLE_NAME = 'sys_password_request';
+
+    /**
+     * The PHP name of this class (PascalCase)
+     */
+    public const TABLE_PHP_NAME = 'SysPasswordRequest';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\SysPasswordRequest';
+    public const OM_CLASS = '\\SysPasswordRequest';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'SysPasswordRequest';
+    public const CLASS_DEFAULT = 'SysPasswordRequest';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 11;
+    public const NUM_COLUMNS = 11;
 
     /**
      * The number of lazy-loaded columns
      */
-    const NUM_LAZY_LOAD_COLUMNS = 0;
+    public const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 11;
+    public const NUM_HYDRATE_COLUMNS = 11;
 
     /**
      * the column name for the ID field
      */
-    const COL_ID = 'sys_password_request.ID';
+    public const COL_ID = 'sys_password_request.ID';
 
     /**
      * the column name for the USER_ID field
      */
-    const COL_USER_ID = 'sys_password_request.USER_ID';
+    public const COL_USER_ID = 'sys_password_request.USER_ID';
 
     /**
      * the column name for the EMAIL field
      */
-    const COL_EMAIL = 'sys_password_request.EMAIL';
+    public const COL_EMAIL = 'sys_password_request.EMAIL';
 
     /**
      * the column name for the HASH_STRING field
      */
-    const COL_HASH_STRING = 'sys_password_request.HASH_STRING';
+    public const COL_HASH_STRING = 'sys_password_request.HASH_STRING';
 
     /**
      * the column name for the ACTIVE field
      */
-    const COL_ACTIVE = 'sys_password_request.ACTIVE';
+    public const COL_ACTIVE = 'sys_password_request.ACTIVE';
 
     /**
      * the column name for the LIFE_TIME field
      */
-    const COL_LIFE_TIME = 'sys_password_request.LIFE_TIME';
+    public const COL_LIFE_TIME = 'sys_password_request.LIFE_TIME';
 
     /**
      * the column name for the REQUEST_IP field
      */
-    const COL_REQUEST_IP = 'sys_password_request.REQUEST_IP';
+    public const COL_REQUEST_IP = 'sys_password_request.REQUEST_IP';
 
     /**
      * the column name for the RESTORED_IP field
      */
-    const COL_RESTORED_IP = 'sys_password_request.RESTORED_IP';
+    public const COL_RESTORED_IP = 'sys_password_request.RESTORED_IP';
 
     /**
      * the column name for the ACCEDED_TIMES field
      */
-    const COL_ACCEDED_TIMES = 'sys_password_request.ACCEDED_TIMES';
+    public const COL_ACCEDED_TIMES = 'sys_password_request.ACCEDED_TIMES';
 
     /**
      * the column name for the REQUESTED_DATE field
      */
-    const COL_REQUESTED_DATE = 'sys_password_request.REQUESTED_DATE';
+    public const COL_REQUESTED_DATE = 'sys_password_request.REQUESTED_DATE';
 
     /**
      * the column name for the RESTORED_DATE field
      */
-    const COL_RESTORED_DATE = 'sys_password_request.RESTORED_DATE';
+    public const COL_RESTORED_DATE = 'sys_password_request.RESTORED_DATE';
 
     /**
      * The default string format for model objects of the related table
      */
-    const DEFAULT_STRING_FORMAT = 'YAML';
+    public const DEFAULT_STRING_FORMAT = 'YAML';
 
     /**
      * holds an array of fieldnames
      *
      * first dimension keys are the type constants
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
+     *
+     * @var array<string, mixed>
      */
-    protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'UserId', 'Email', 'HashString', 'Active', 'LifeTime', 'RequestIp', 'RestoredIp', 'AccededTimes', 'RequestedDate', 'RestoredDate', ),
-        self::TYPE_CAMELNAME     => array('id', 'userId', 'email', 'hashString', 'active', 'lifeTime', 'requestIp', 'restoredIp', 'accededTimes', 'requestedDate', 'restoredDate', ),
-        self::TYPE_COLNAME       => array(SysPasswordRequestTableMap::COL_ID, SysPasswordRequestTableMap::COL_USER_ID, SysPasswordRequestTableMap::COL_EMAIL, SysPasswordRequestTableMap::COL_HASH_STRING, SysPasswordRequestTableMap::COL_ACTIVE, SysPasswordRequestTableMap::COL_LIFE_TIME, SysPasswordRequestTableMap::COL_REQUEST_IP, SysPasswordRequestTableMap::COL_RESTORED_IP, SysPasswordRequestTableMap::COL_ACCEDED_TIMES, SysPasswordRequestTableMap::COL_REQUESTED_DATE, SysPasswordRequestTableMap::COL_RESTORED_DATE, ),
-        self::TYPE_FIELDNAME     => array('ID', 'USER_ID', 'EMAIL', 'HASH_STRING', 'ACTIVE', 'LIFE_TIME', 'REQUEST_IP', 'RESTORED_IP', 'ACCEDED_TIMES', 'REQUESTED_DATE', 'RESTORED_DATE', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
-    );
+    protected static $fieldNames = [
+        self::TYPE_PHPNAME       => ['Id', 'UserId', 'Email', 'HashString', 'Active', 'LifeTime', 'RequestIp', 'RestoredIp', 'AccededTimes', 'RequestedDate', 'RestoredDate', ],
+        self::TYPE_CAMELNAME     => ['id', 'userId', 'email', 'hashString', 'active', 'lifeTime', 'requestIp', 'restoredIp', 'accededTimes', 'requestedDate', 'restoredDate', ],
+        self::TYPE_COLNAME       => [SysPasswordRequestTableMap::COL_ID, SysPasswordRequestTableMap::COL_USER_ID, SysPasswordRequestTableMap::COL_EMAIL, SysPasswordRequestTableMap::COL_HASH_STRING, SysPasswordRequestTableMap::COL_ACTIVE, SysPasswordRequestTableMap::COL_LIFE_TIME, SysPasswordRequestTableMap::COL_REQUEST_IP, SysPasswordRequestTableMap::COL_RESTORED_IP, SysPasswordRequestTableMap::COL_ACCEDED_TIMES, SysPasswordRequestTableMap::COL_REQUESTED_DATE, SysPasswordRequestTableMap::COL_RESTORED_DATE, ],
+        self::TYPE_FIELDNAME     => ['ID', 'USER_ID', 'EMAIL', 'HASH_STRING', 'ACTIVE', 'LIFE_TIME', 'REQUEST_IP', 'RESTORED_IP', 'ACCEDED_TIMES', 'REQUESTED_DATE', 'RESTORED_DATE', ],
+        self::TYPE_NUM           => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, ]
+    ];
 
     /**
      * holds an array of keys for quick access to the fieldnames array
      *
      * first dimension keys are the type constants
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
+     *
+     * @var array<string, mixed>
      */
-    protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'UserId' => 1, 'Email' => 2, 'HashString' => 3, 'Active' => 4, 'LifeTime' => 5, 'RequestIp' => 6, 'RestoredIp' => 7, 'AccededTimes' => 8, 'RequestedDate' => 9, 'RestoredDate' => 10, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'userId' => 1, 'email' => 2, 'hashString' => 3, 'active' => 4, 'lifeTime' => 5, 'requestIp' => 6, 'restoredIp' => 7, 'accededTimes' => 8, 'requestedDate' => 9, 'restoredDate' => 10, ),
-        self::TYPE_COLNAME       => array(SysPasswordRequestTableMap::COL_ID => 0, SysPasswordRequestTableMap::COL_USER_ID => 1, SysPasswordRequestTableMap::COL_EMAIL => 2, SysPasswordRequestTableMap::COL_HASH_STRING => 3, SysPasswordRequestTableMap::COL_ACTIVE => 4, SysPasswordRequestTableMap::COL_LIFE_TIME => 5, SysPasswordRequestTableMap::COL_REQUEST_IP => 6, SysPasswordRequestTableMap::COL_RESTORED_IP => 7, SysPasswordRequestTableMap::COL_ACCEDED_TIMES => 8, SysPasswordRequestTableMap::COL_REQUESTED_DATE => 9, SysPasswordRequestTableMap::COL_RESTORED_DATE => 10, ),
-        self::TYPE_FIELDNAME     => array('ID' => 0, 'USER_ID' => 1, 'EMAIL' => 2, 'HASH_STRING' => 3, 'ACTIVE' => 4, 'LIFE_TIME' => 5, 'REQUEST_IP' => 6, 'RESTORED_IP' => 7, 'ACCEDED_TIMES' => 8, 'REQUESTED_DATE' => 9, 'RESTORED_DATE' => 10, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
-    );
+    protected static $fieldKeys = [
+        self::TYPE_PHPNAME       => ['Id' => 0, 'UserId' => 1, 'Email' => 2, 'HashString' => 3, 'Active' => 4, 'LifeTime' => 5, 'RequestIp' => 6, 'RestoredIp' => 7, 'AccededTimes' => 8, 'RequestedDate' => 9, 'RestoredDate' => 10, ],
+        self::TYPE_CAMELNAME     => ['id' => 0, 'userId' => 1, 'email' => 2, 'hashString' => 3, 'active' => 4, 'lifeTime' => 5, 'requestIp' => 6, 'restoredIp' => 7, 'accededTimes' => 8, 'requestedDate' => 9, 'restoredDate' => 10, ],
+        self::TYPE_COLNAME       => [SysPasswordRequestTableMap::COL_ID => 0, SysPasswordRequestTableMap::COL_USER_ID => 1, SysPasswordRequestTableMap::COL_EMAIL => 2, SysPasswordRequestTableMap::COL_HASH_STRING => 3, SysPasswordRequestTableMap::COL_ACTIVE => 4, SysPasswordRequestTableMap::COL_LIFE_TIME => 5, SysPasswordRequestTableMap::COL_REQUEST_IP => 6, SysPasswordRequestTableMap::COL_RESTORED_IP => 7, SysPasswordRequestTableMap::COL_ACCEDED_TIMES => 8, SysPasswordRequestTableMap::COL_REQUESTED_DATE => 9, SysPasswordRequestTableMap::COL_RESTORED_DATE => 10, ],
+        self::TYPE_FIELDNAME     => ['ID' => 0, 'USER_ID' => 1, 'EMAIL' => 2, 'HASH_STRING' => 3, 'ACTIVE' => 4, 'LIFE_TIME' => 5, 'REQUEST_IP' => 6, 'RESTORED_IP' => 7, 'ACCEDED_TIMES' => 8, 'REQUESTED_DATE' => 9, 'RESTORED_DATE' => 10, ],
+        self::TYPE_NUM           => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, ]
+    ];
+
+    /**
+     * Holds a list of column names and their normalized version.
+     *
+     * @var array<string>
+     */
+    protected $normalizedColumnNameMap = [
+        'Id' => 'ID',
+        'SysPasswordRequest.Id' => 'ID',
+        'id' => 'ID',
+        'sysPasswordRequest.id' => 'ID',
+        'SysPasswordRequestTableMap::COL_ID' => 'ID',
+        'COL_ID' => 'ID',
+        'ID' => 'ID',
+        'sys_password_request.ID' => 'ID',
+        'UserId' => 'USER_ID',
+        'SysPasswordRequest.UserId' => 'USER_ID',
+        'userId' => 'USER_ID',
+        'sysPasswordRequest.userId' => 'USER_ID',
+        'SysPasswordRequestTableMap::COL_USER_ID' => 'USER_ID',
+        'COL_USER_ID' => 'USER_ID',
+        'USER_ID' => 'USER_ID',
+        'sys_password_request.USER_ID' => 'USER_ID',
+        'Email' => 'EMAIL',
+        'SysPasswordRequest.Email' => 'EMAIL',
+        'email' => 'EMAIL',
+        'sysPasswordRequest.email' => 'EMAIL',
+        'SysPasswordRequestTableMap::COL_EMAIL' => 'EMAIL',
+        'COL_EMAIL' => 'EMAIL',
+        'EMAIL' => 'EMAIL',
+        'sys_password_request.EMAIL' => 'EMAIL',
+        'HashString' => 'HASH_STRING',
+        'SysPasswordRequest.HashString' => 'HASH_STRING',
+        'hashString' => 'HASH_STRING',
+        'sysPasswordRequest.hashString' => 'HASH_STRING',
+        'SysPasswordRequestTableMap::COL_HASH_STRING' => 'HASH_STRING',
+        'COL_HASH_STRING' => 'HASH_STRING',
+        'HASH_STRING' => 'HASH_STRING',
+        'sys_password_request.HASH_STRING' => 'HASH_STRING',
+        'Active' => 'ACTIVE',
+        'SysPasswordRequest.Active' => 'ACTIVE',
+        'active' => 'ACTIVE',
+        'sysPasswordRequest.active' => 'ACTIVE',
+        'SysPasswordRequestTableMap::COL_ACTIVE' => 'ACTIVE',
+        'COL_ACTIVE' => 'ACTIVE',
+        'ACTIVE' => 'ACTIVE',
+        'sys_password_request.ACTIVE' => 'ACTIVE',
+        'LifeTime' => 'LIFE_TIME',
+        'SysPasswordRequest.LifeTime' => 'LIFE_TIME',
+        'lifeTime' => 'LIFE_TIME',
+        'sysPasswordRequest.lifeTime' => 'LIFE_TIME',
+        'SysPasswordRequestTableMap::COL_LIFE_TIME' => 'LIFE_TIME',
+        'COL_LIFE_TIME' => 'LIFE_TIME',
+        'LIFE_TIME' => 'LIFE_TIME',
+        'sys_password_request.LIFE_TIME' => 'LIFE_TIME',
+        'RequestIp' => 'REQUEST_IP',
+        'SysPasswordRequest.RequestIp' => 'REQUEST_IP',
+        'requestIp' => 'REQUEST_IP',
+        'sysPasswordRequest.requestIp' => 'REQUEST_IP',
+        'SysPasswordRequestTableMap::COL_REQUEST_IP' => 'REQUEST_IP',
+        'COL_REQUEST_IP' => 'REQUEST_IP',
+        'REQUEST_IP' => 'REQUEST_IP',
+        'sys_password_request.REQUEST_IP' => 'REQUEST_IP',
+        'RestoredIp' => 'RESTORED_IP',
+        'SysPasswordRequest.RestoredIp' => 'RESTORED_IP',
+        'restoredIp' => 'RESTORED_IP',
+        'sysPasswordRequest.restoredIp' => 'RESTORED_IP',
+        'SysPasswordRequestTableMap::COL_RESTORED_IP' => 'RESTORED_IP',
+        'COL_RESTORED_IP' => 'RESTORED_IP',
+        'RESTORED_IP' => 'RESTORED_IP',
+        'sys_password_request.RESTORED_IP' => 'RESTORED_IP',
+        'AccededTimes' => 'ACCEDED_TIMES',
+        'SysPasswordRequest.AccededTimes' => 'ACCEDED_TIMES',
+        'accededTimes' => 'ACCEDED_TIMES',
+        'sysPasswordRequest.accededTimes' => 'ACCEDED_TIMES',
+        'SysPasswordRequestTableMap::COL_ACCEDED_TIMES' => 'ACCEDED_TIMES',
+        'COL_ACCEDED_TIMES' => 'ACCEDED_TIMES',
+        'ACCEDED_TIMES' => 'ACCEDED_TIMES',
+        'sys_password_request.ACCEDED_TIMES' => 'ACCEDED_TIMES',
+        'RequestedDate' => 'REQUESTED_DATE',
+        'SysPasswordRequest.RequestedDate' => 'REQUESTED_DATE',
+        'requestedDate' => 'REQUESTED_DATE',
+        'sysPasswordRequest.requestedDate' => 'REQUESTED_DATE',
+        'SysPasswordRequestTableMap::COL_REQUESTED_DATE' => 'REQUESTED_DATE',
+        'COL_REQUESTED_DATE' => 'REQUESTED_DATE',
+        'REQUESTED_DATE' => 'REQUESTED_DATE',
+        'sys_password_request.REQUESTED_DATE' => 'REQUESTED_DATE',
+        'RestoredDate' => 'RESTORED_DATE',
+        'SysPasswordRequest.RestoredDate' => 'RESTORED_DATE',
+        'restoredDate' => 'RESTORED_DATE',
+        'sysPasswordRequest.restoredDate' => 'RESTORED_DATE',
+        'SysPasswordRequestTableMap::COL_RESTORED_DATE' => 'RESTORED_DATE',
+        'COL_RESTORED_DATE' => 'RESTORED_DATE',
+        'RESTORED_DATE' => 'RESTORED_DATE',
+        'sys_password_request.RESTORED_DATE' => 'RESTORED_DATE',
+    ];
 
     /**
      * Initialize the table attributes and columns
      * Relations are not initialized by this method since they are lazy loaded
      *
      * @return void
-     * @throws PropelException
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function initialize()
+    public function initialize(): void
     {
         // attributes
         $this->setName('sys_password_request');
@@ -187,12 +291,14 @@ class SysPasswordRequestTableMap extends TableMap
         $this->addColumn('ACCEDED_TIMES', 'AccededTimes', 'INTEGER', true, null, 0);
         $this->addColumn('REQUESTED_DATE', 'RequestedDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');
         $this->addColumn('RESTORED_DATE', 'RestoredDate', 'TIMESTAMP', false, null, null);
-    } // initialize()
+    }
 
     /**
      * Build the RelationMap objects for this table relationships
+     *
+     * @return void
      */
-    public function buildRelations()
+    public function buildRelations(): void
     {
         $this->addRelation('SysUser', '\\SysUser', RelationMap::MANY_TO_ONE, array (
   0 =>
@@ -208,7 +314,7 @@ class SysPasswordRequestTableMap extends TableMap
     1 => ':ID',
   ),
 ), null, null, 'SysPasswords', false);
-    } // buildRelations()
+    }
 
     /**
      * Retrieves a string version of the primary key from the DB resultset row that can be used to uniquely identify a row in this table.
@@ -216,14 +322,14 @@ class SysPasswordRequestTableMap extends TableMap
      * For tables with a single-column primary key, that simple pkey value will be returned.  For tables with
      * a multi-column primary key, a serialize()d version of the primary key will be returned.
      *
-     * @param array  $row       resultset row.
-     * @param int    $offset    The 0-based offset for reading from the resultset row.
+     * @param array $row Resultset row.
+     * @param int $offset The 0-based offset for reading from the resultset row.
      * @param string $indexType One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                           TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM
      *
-     * @return string The primary key hash of the row
+     * @return string|null The primary key hash of the row
      */
-    public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
+    public static function getPrimaryKeyHashFromRow(array $row, int $offset = 0, string $indexType = TableMap::TYPE_NUM): ?string
     {
         // If the PK cannot be derived from the row, return NULL.
         if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
@@ -238,14 +344,14 @@ class SysPasswordRequestTableMap extends TableMap
      * For tables with a single-column primary key, that simple pkey value will be returned.  For tables with
      * a multi-column primary key, an array of the primary key columns will be returned.
      *
-     * @param array  $row       resultset row.
-     * @param int    $offset    The 0-based offset for reading from the resultset row.
+     * @param array $row Resultset row.
+     * @param int $offset The 0-based offset for reading from the resultset row.
      * @param string $indexType One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                           TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM
      *
      * @return mixed The primary key of the row
      */
-    public static function getPrimaryKeyFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
+    public static function getPrimaryKeyFromRow(array $row, int $offset = 0, string $indexType = TableMap::TYPE_NUM)
     {
         return (int) $row[
             $indexType == TableMap::TYPE_NUM
@@ -262,10 +368,10 @@ class SysPasswordRequestTableMap extends TableMap
      * relative to a location on the PHP include_path.
      * (e.g. path.to.MyClass -> 'path/to/MyClass.php')
      *
-     * @param boolean $withPrefix Whether or not to return the path with the class name
+     * @param bool $withPrefix Whether to return the path with the class name
      * @return string path.to.ClassName
      */
-    public static function getOMClass($withPrefix = true)
+    public static function getOMClass(bool $withPrefix = true): string
     {
         return $withPrefix ? SysPasswordRequestTableMap::CLASS_DEFAULT : SysPasswordRequestTableMap::OM_CLASS;
     }
@@ -273,17 +379,17 @@ class SysPasswordRequestTableMap extends TableMap
     /**
      * Populates an object of the default type or an object that inherit from the default.
      *
-     * @param array  $row       row returned by DataFetcher->fetch().
-     * @param int    $offset    The 0-based offset for reading from the resultset row.
+     * @param array $row Row returned by DataFetcher->fetch().
+     * @param int $offset The 0-based offset for reading from the resultset row.
      * @param string $indexType The index type of $row. Mostly DataFetcher->getIndexType().
                                  One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                           TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *
-     * @throws PropelException Any exceptions caught during processing will be
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (SysPasswordRequest object, last column rank)
+     * @return array (SysPasswordRequest object, last column rank)
      */
-    public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
+    public static function populateObject(array $row, int $offset = 0, string $indexType = TableMap::TYPE_NUM): array
     {
         $key = SysPasswordRequestTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
         if (null !== ($obj = SysPasswordRequestTableMap::getInstanceFromPool($key))) {
@@ -299,7 +405,7 @@ class SysPasswordRequestTableMap extends TableMap
             SysPasswordRequestTableMap::addInstanceToPool($obj, $key);
         }
 
-        return array($obj, $col);
+        return [$obj, $col];
     }
 
     /**
@@ -307,13 +413,13 @@ class SysPasswordRequestTableMap extends TableMap
      * objects that inherit from the default.
      *
      * @param DataFetcherInterface $dataFetcher
-     * @return array
-     * @throws PropelException Any exceptions caught during processing will be
+     * @return array<object>
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
      */
-    public static function populateObjects(DataFetcherInterface $dataFetcher)
+    public static function populateObjects(DataFetcherInterface $dataFetcher): array
     {
-        $results = array();
+        $results = [];
 
         // set the class once to avoid overhead in the loop
         $cls = static::getOMClass(false);
@@ -343,12 +449,13 @@ class SysPasswordRequestTableMap extends TableMap
      * XML schema will not be added to the select list and only loaded
      * on demand.
      *
-     * @param Criteria $criteria object containing the columns to add.
-     * @param string   $alias    optional table alias
-     * @throws PropelException Any exceptions caught during processing will be
+     * @param Criteria $criteria Object containing the columns to add.
+     * @param string|null $alias Optional table alias
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
+     * @return void
      */
-    public static function addSelectColumns(Criteria $criteria, $alias = null)
+    public static function addSelectColumns(Criteria $criteria, ?string $alias = null): void
     {
         if (null === $alias) {
             $criteria->addSelectColumn(SysPasswordRequestTableMap::COL_ID);
@@ -378,40 +485,70 @@ class SysPasswordRequestTableMap extends TableMap
     }
 
     /**
+     * Remove all the columns needed to create a new object.
+     *
+     * Note: any columns that were marked with lazyLoad="true" in the
+     * XML schema will not be removed as they are only loaded on demand.
+     *
+     * @param Criteria $criteria Object containing the columns to remove.
+     * @param string|null $alias Optional table alias
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
+     *                         rethrown wrapped into a PropelException.
+     * @return void
+     */
+    public static function removeSelectColumns(Criteria $criteria, ?string $alias = null): void
+    {
+        if (null === $alias) {
+            $criteria->removeSelectColumn(SysPasswordRequestTableMap::COL_ID);
+            $criteria->removeSelectColumn(SysPasswordRequestTableMap::COL_USER_ID);
+            $criteria->removeSelectColumn(SysPasswordRequestTableMap::COL_EMAIL);
+            $criteria->removeSelectColumn(SysPasswordRequestTableMap::COL_HASH_STRING);
+            $criteria->removeSelectColumn(SysPasswordRequestTableMap::COL_ACTIVE);
+            $criteria->removeSelectColumn(SysPasswordRequestTableMap::COL_LIFE_TIME);
+            $criteria->removeSelectColumn(SysPasswordRequestTableMap::COL_REQUEST_IP);
+            $criteria->removeSelectColumn(SysPasswordRequestTableMap::COL_RESTORED_IP);
+            $criteria->removeSelectColumn(SysPasswordRequestTableMap::COL_ACCEDED_TIMES);
+            $criteria->removeSelectColumn(SysPasswordRequestTableMap::COL_REQUESTED_DATE);
+            $criteria->removeSelectColumn(SysPasswordRequestTableMap::COL_RESTORED_DATE);
+        } else {
+            $criteria->removeSelectColumn($alias . '.ID');
+            $criteria->removeSelectColumn($alias . '.USER_ID');
+            $criteria->removeSelectColumn($alias . '.EMAIL');
+            $criteria->removeSelectColumn($alias . '.HASH_STRING');
+            $criteria->removeSelectColumn($alias . '.ACTIVE');
+            $criteria->removeSelectColumn($alias . '.LIFE_TIME');
+            $criteria->removeSelectColumn($alias . '.REQUEST_IP');
+            $criteria->removeSelectColumn($alias . '.RESTORED_IP');
+            $criteria->removeSelectColumn($alias . '.ACCEDED_TIMES');
+            $criteria->removeSelectColumn($alias . '.REQUESTED_DATE');
+            $criteria->removeSelectColumn($alias . '.RESTORED_DATE');
+        }
+    }
+
+    /**
      * Returns the TableMap related to this object.
      * This method is not needed for general use but a specific application could have a need.
      * @return TableMap
-     * @throws PropelException Any exceptions caught during processing will be
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
      */
-    public static function getTableMap()
+    public static function getTableMap(): TableMap
     {
         return Propel::getServiceContainer()->getDatabaseMap(SysPasswordRequestTableMap::DATABASE_NAME)->getTable(SysPasswordRequestTableMap::TABLE_NAME);
     }
 
     /**
-     * Add a TableMap instance to the database for this tableMap class.
-     */
-    public static function buildTableMap()
-    {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(SysPasswordRequestTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(SysPasswordRequestTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new SysPasswordRequestTableMap());
-        }
-    }
-
-    /**
      * Performs a DELETE on the database, given a SysPasswordRequest or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or SysPasswordRequest object or primary key or array of primary keys
+     * @param mixed $values Criteria or SysPasswordRequest object or primary key or array of primary keys
      *              which is used to create the DELETE statement
-     * @param  ConnectionInterface $con the connection to use
-     * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
+     * @param ConnectionInterface $con the connection to use
+     * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
      *                         if supported by native driver or if emulated using Propel.
-     * @throws PropelException Any exceptions caught during processing will be
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
      */
-     public static function doDelete($values, ConnectionInterface $con = null)
+     public static function doDelete($values, ?ConnectionInterface $con = null): int
      {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysPasswordRequestTableMap::DATABASE_NAME);
@@ -447,7 +584,7 @@ class SysPasswordRequestTableMap extends TableMap
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
-    public static function doDeleteAll(ConnectionInterface $con = null)
+    public static function doDeleteAll(?ConnectionInterface $con = null): int
     {
         return SysPasswordRequestQuery::create()->doDeleteAll($con);
     }
@@ -455,13 +592,13 @@ class SysPasswordRequestTableMap extends TableMap
     /**
      * Performs an INSERT on the database, given a SysPasswordRequest or Criteria object.
      *
-     * @param mixed               $criteria Criteria or SysPasswordRequest object containing data that is used to create the INSERT statement.
+     * @param mixed $criteria Criteria or SysPasswordRequest object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
-     * @return mixed           The new primary key.
-     * @throws PropelException Any exceptions caught during processing will be
+     * @return mixed The new primary key.
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
      */
-    public static function doInsert($criteria, ConnectionInterface $con = null)
+    public static function doInsert($criteria, ?ConnectionInterface $con = null)
     {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysPasswordRequestTableMap::DATABASE_NAME);
@@ -488,7 +625,4 @@ class SysPasswordRequestTableMap extends TableMap
         });
     }
 
-} // SysPasswordRequestTableMap
-// This is the static code needed to register the TableMap for this table with the main Propel class.
-//
-SysPasswordRequestTableMap::buildTableMap();
+}

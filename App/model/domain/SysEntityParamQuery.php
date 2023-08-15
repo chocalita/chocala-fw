@@ -15,11 +15,11 @@ class SysEntityParamQuery extends BaseSysEntityParamQuery //implements SoftDelet
 
     /**
      * @param SysEntity $entity
-     * @param bool|true $noDeletes
+     * @param bool $noDeletes
      * @return SysEntityParamQuery
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public static function createForEntity(SysEntity $entity, $noDeletes=true)
+    public static function createForEntity(SysEntity $entity, bool $noDeletes=true): SysEntityParamQuery
     {
         return self::createValids($noDeletes)
             ->filterBySysEntity($entity)

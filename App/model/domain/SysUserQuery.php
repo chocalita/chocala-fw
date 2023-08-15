@@ -32,7 +32,7 @@ class SysUserQuery extends BaseSysUserQuery implements SoftDeletion
      * @param string $order
      * @return JobCurriculumQuery|SysUserQuery
      */
-    public function orderByCompleteName($order = Criteria::ASC)
+    public function orderByCompleteName(string $order = Criteria::ASC)
     {
         return $this->useSysPersonQuery()
             ->orderByCompleteName($order)
@@ -53,7 +53,7 @@ class SysUserQuery extends BaseSysUserQuery implements SoftDeletion
      * @param string $order
      * @return JobCurriculumQuery|SysUserQuery
      */
-    public function orderByFormalName($order = Criteria::ASC)
+    public function orderByFormalName(string $order = Criteria::ASC)
     {
         return $this->useSysPersonQuery()
                 ->orderByFormalName($order)

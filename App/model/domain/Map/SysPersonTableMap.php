@@ -24,7 +24,6 @@ use Propel\Runtime\Map\TableMapTrait;
  * For example, the createSelectSql() method checks the type of a given column used in an
  * ORDER BY clause to know whether it needs to apply SQL to make the ORDER BY case-insensitive
  * (i.e. if it's a text column type).
- *
  */
 class SysPersonTableMap extends TableMap
 {
@@ -34,204 +33,413 @@ class SysPersonTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.SysPersonTableMap';
+    public const CLASS_NAME = '.Map.SysPersonTableMap';
 
     /**
      * The default database name for this class
      */
-    const DATABASE_NAME = 'default';
+    public const DATABASE_NAME = 'default';
 
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'sys_person';
+    public const TABLE_NAME = 'sys_person';
+
+    /**
+     * The PHP name of this class (PascalCase)
+     */
+    public const TABLE_PHP_NAME = 'SysPerson';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\SysPerson';
+    public const OM_CLASS = '\\SysPerson';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'SysPerson';
+    public const CLASS_DEFAULT = 'SysPerson';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 24;
+    public const NUM_COLUMNS = 24;
 
     /**
      * The number of lazy-loaded columns
      */
-    const NUM_LAZY_LOAD_COLUMNS = 0;
+    public const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 24;
+    public const NUM_HYDRATE_COLUMNS = 24;
 
     /**
      * the column name for the ID field
      */
-    const COL_ID = 'sys_person.ID';
+    public const COL_ID = 'sys_person.ID';
 
     /**
      * the column name for the USER_ID field
      */
-    const COL_USER_ID = 'sys_person.USER_ID';
+    public const COL_USER_ID = 'sys_person.USER_ID';
 
     /**
      * the column name for the LOCATION_ID field
      */
-    const COL_LOCATION_ID = 'sys_person.LOCATION_ID';
+    public const COL_LOCATION_ID = 'sys_person.LOCATION_ID';
 
     /**
      * the column name for the FIRST_NAME field
      */
-    const COL_FIRST_NAME = 'sys_person.FIRST_NAME';
+    public const COL_FIRST_NAME = 'sys_person.FIRST_NAME';
 
     /**
      * the column name for the MIDDLE_NAME field
      */
-    const COL_MIDDLE_NAME = 'sys_person.MIDDLE_NAME';
+    public const COL_MIDDLE_NAME = 'sys_person.MIDDLE_NAME';
 
     /**
      * the column name for the LAST_NAME field
      */
-    const COL_LAST_NAME = 'sys_person.LAST_NAME';
+    public const COL_LAST_NAME = 'sys_person.LAST_NAME';
 
     /**
      * the column name for the SECOND_LAST_NAME field
      */
-    const COL_SECOND_LAST_NAME = 'sys_person.SECOND_LAST_NAME';
+    public const COL_SECOND_LAST_NAME = 'sys_person.SECOND_LAST_NAME';
 
     /**
      * the column name for the EMAIL field
      */
-    const COL_EMAIL = 'sys_person.EMAIL';
+    public const COL_EMAIL = 'sys_person.EMAIL';
 
     /**
      * the column name for the ID_NUMBER field
      */
-    const COL_ID_NUMBER = 'sys_person.ID_NUMBER';
+    public const COL_ID_NUMBER = 'sys_person.ID_NUMBER';
 
     /**
      * the column name for the ID_EXTENSION field
      */
-    const COL_ID_EXTENSION = 'sys_person.ID_EXTENSION';
+    public const COL_ID_EXTENSION = 'sys_person.ID_EXTENSION';
 
     /**
      * the column name for the GENDER field
      */
-    const COL_GENDER = 'sys_person.GENDER';
+    public const COL_GENDER = 'sys_person.GENDER';
 
     /**
      * the column name for the DATE_OF_BIRTH field
      */
-    const COL_DATE_OF_BIRTH = 'sys_person.DATE_OF_BIRTH';
+    public const COL_DATE_OF_BIRTH = 'sys_person.DATE_OF_BIRTH';
 
     /**
      * the column name for the PLACE_OF_BIRTH field
      */
-    const COL_PLACE_OF_BIRTH = 'sys_person.PLACE_OF_BIRTH';
+    public const COL_PLACE_OF_BIRTH = 'sys_person.PLACE_OF_BIRTH';
 
     /**
      * the column name for the ADDRESS field
      */
-    const COL_ADDRESS = 'sys_person.ADDRESS';
+    public const COL_ADDRESS = 'sys_person.ADDRESS';
 
     /**
      * the column name for the CITY field
      */
-    const COL_CITY = 'sys_person.CITY';
+    public const COL_CITY = 'sys_person.CITY';
 
     /**
      * the column name for the POB field
      */
-    const COL_POB = 'sys_person.POB';
+    public const COL_POB = 'sys_person.POB';
 
     /**
      * the column name for the PHONE_HOME field
      */
-    const COL_PHONE_HOME = 'sys_person.PHONE_HOME';
+    public const COL_PHONE_HOME = 'sys_person.PHONE_HOME';
 
     /**
      * the column name for the PHONE_WORK field
      */
-    const COL_PHONE_WORK = 'sys_person.PHONE_WORK';
+    public const COL_PHONE_WORK = 'sys_person.PHONE_WORK';
 
     /**
      * the column name for the CELLPHONE_1 field
      */
-    const COL_CELLPHONE_1 = 'sys_person.CELLPHONE_1';
+    public const COL_CELLPHONE_1 = 'sys_person.CELLPHONE_1';
 
     /**
      * the column name for the CELLPHONE_2 field
      */
-    const COL_CELLPHONE_2 = 'sys_person.CELLPHONE_2';
+    public const COL_CELLPHONE_2 = 'sys_person.CELLPHONE_2';
 
     /**
      * the column name for the PHOTO_MIME field
      */
-    const COL_PHOTO_MIME = 'sys_person.PHOTO_MIME';
+    public const COL_PHOTO_MIME = 'sys_person.PHOTO_MIME';
 
     /**
      * the column name for the LAST_USER_ID field
      */
-    const COL_LAST_USER_ID = 'sys_person.LAST_USER_ID';
+    public const COL_LAST_USER_ID = 'sys_person.LAST_USER_ID';
 
     /**
      * the column name for the CREATION_DATE field
      */
-    const COL_CREATION_DATE = 'sys_person.CREATION_DATE';
+    public const COL_CREATION_DATE = 'sys_person.CREATION_DATE';
 
     /**
      * the column name for the MODIFICATION_DATE field
      */
-    const COL_MODIFICATION_DATE = 'sys_person.MODIFICATION_DATE';
+    public const COL_MODIFICATION_DATE = 'sys_person.MODIFICATION_DATE';
 
     /**
      * The default string format for model objects of the related table
      */
-    const DEFAULT_STRING_FORMAT = 'YAML';
+    public const DEFAULT_STRING_FORMAT = 'YAML';
 
     /**
      * holds an array of fieldnames
      *
      * first dimension keys are the type constants
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
+     *
+     * @var array<string, mixed>
      */
-    protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'UserId', 'LocationId', 'FirstName', 'MiddleName', 'LastName', 'SecondLastName', 'Email', 'IdNumber', 'IdExtension', 'Gender', 'DateOfBirth', 'PlaceOfBirth', 'Address', 'City', 'Pob', 'PhoneHome', 'PhoneWork', 'Cellphone1', 'Cellphone2', 'PhotoMime', 'LastUserId', 'CreationDate', 'ModificationDate', ),
-        self::TYPE_CAMELNAME     => array('id', 'userId', 'locationId', 'firstName', 'middleName', 'lastName', 'secondLastName', 'email', 'idNumber', 'idExtension', 'gender', 'dateOfBirth', 'placeOfBirth', 'address', 'city', 'pob', 'phoneHome', 'phoneWork', 'cellphone1', 'cellphone2', 'photoMime', 'lastUserId', 'creationDate', 'modificationDate', ),
-        self::TYPE_COLNAME       => array(SysPersonTableMap::COL_ID, SysPersonTableMap::COL_USER_ID, SysPersonTableMap::COL_LOCATION_ID, SysPersonTableMap::COL_FIRST_NAME, SysPersonTableMap::COL_MIDDLE_NAME, SysPersonTableMap::COL_LAST_NAME, SysPersonTableMap::COL_SECOND_LAST_NAME, SysPersonTableMap::COL_EMAIL, SysPersonTableMap::COL_ID_NUMBER, SysPersonTableMap::COL_ID_EXTENSION, SysPersonTableMap::COL_GENDER, SysPersonTableMap::COL_DATE_OF_BIRTH, SysPersonTableMap::COL_PLACE_OF_BIRTH, SysPersonTableMap::COL_ADDRESS, SysPersonTableMap::COL_CITY, SysPersonTableMap::COL_POB, SysPersonTableMap::COL_PHONE_HOME, SysPersonTableMap::COL_PHONE_WORK, SysPersonTableMap::COL_CELLPHONE_1, SysPersonTableMap::COL_CELLPHONE_2, SysPersonTableMap::COL_PHOTO_MIME, SysPersonTableMap::COL_LAST_USER_ID, SysPersonTableMap::COL_CREATION_DATE, SysPersonTableMap::COL_MODIFICATION_DATE, ),
-        self::TYPE_FIELDNAME     => array('ID', 'USER_ID', 'LOCATION_ID', 'FIRST_NAME', 'MIDDLE_NAME', 'LAST_NAME', 'SECOND_LAST_NAME', 'EMAIL', 'ID_NUMBER', 'ID_EXTENSION', 'GENDER', 'DATE_OF_BIRTH', 'PLACE_OF_BIRTH', 'ADDRESS', 'CITY', 'POB', 'PHONE_HOME', 'PHONE_WORK', 'CELLPHONE_1', 'CELLPHONE_2', 'PHOTO_MIME', 'LAST_USER_ID', 'CREATION_DATE', 'MODIFICATION_DATE', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, )
-    );
+    protected static $fieldNames = [
+        self::TYPE_PHPNAME       => ['Id', 'UserId', 'LocationId', 'FirstName', 'MiddleName', 'LastName', 'SecondLastName', 'Email', 'IdNumber', 'IdExtension', 'Gender', 'DateOfBirth', 'PlaceOfBirth', 'Address', 'City', 'Pob', 'PhoneHome', 'PhoneWork', 'Cellphone1', 'Cellphone2', 'PhotoMime', 'LastUserId', 'CreationDate', 'ModificationDate', ],
+        self::TYPE_CAMELNAME     => ['id', 'userId', 'locationId', 'firstName', 'middleName', 'lastName', 'secondLastName', 'email', 'idNumber', 'idExtension', 'gender', 'dateOfBirth', 'placeOfBirth', 'address', 'city', 'pob', 'phoneHome', 'phoneWork', 'cellphone1', 'cellphone2', 'photoMime', 'lastUserId', 'creationDate', 'modificationDate', ],
+        self::TYPE_COLNAME       => [SysPersonTableMap::COL_ID, SysPersonTableMap::COL_USER_ID, SysPersonTableMap::COL_LOCATION_ID, SysPersonTableMap::COL_FIRST_NAME, SysPersonTableMap::COL_MIDDLE_NAME, SysPersonTableMap::COL_LAST_NAME, SysPersonTableMap::COL_SECOND_LAST_NAME, SysPersonTableMap::COL_EMAIL, SysPersonTableMap::COL_ID_NUMBER, SysPersonTableMap::COL_ID_EXTENSION, SysPersonTableMap::COL_GENDER, SysPersonTableMap::COL_DATE_OF_BIRTH, SysPersonTableMap::COL_PLACE_OF_BIRTH, SysPersonTableMap::COL_ADDRESS, SysPersonTableMap::COL_CITY, SysPersonTableMap::COL_POB, SysPersonTableMap::COL_PHONE_HOME, SysPersonTableMap::COL_PHONE_WORK, SysPersonTableMap::COL_CELLPHONE_1, SysPersonTableMap::COL_CELLPHONE_2, SysPersonTableMap::COL_PHOTO_MIME, SysPersonTableMap::COL_LAST_USER_ID, SysPersonTableMap::COL_CREATION_DATE, SysPersonTableMap::COL_MODIFICATION_DATE, ],
+        self::TYPE_FIELDNAME     => ['ID', 'USER_ID', 'LOCATION_ID', 'FIRST_NAME', 'MIDDLE_NAME', 'LAST_NAME', 'SECOND_LAST_NAME', 'EMAIL', 'ID_NUMBER', 'ID_EXTENSION', 'GENDER', 'DATE_OF_BIRTH', 'PLACE_OF_BIRTH', 'ADDRESS', 'CITY', 'POB', 'PHONE_HOME', 'PHONE_WORK', 'CELLPHONE_1', 'CELLPHONE_2', 'PHOTO_MIME', 'LAST_USER_ID', 'CREATION_DATE', 'MODIFICATION_DATE', ],
+        self::TYPE_NUM           => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, ]
+    ];
 
     /**
      * holds an array of keys for quick access to the fieldnames array
      *
      * first dimension keys are the type constants
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
+     *
+     * @var array<string, mixed>
      */
-    protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'UserId' => 1, 'LocationId' => 2, 'FirstName' => 3, 'MiddleName' => 4, 'LastName' => 5, 'SecondLastName' => 6, 'Email' => 7, 'IdNumber' => 8, 'IdExtension' => 9, 'Gender' => 10, 'DateOfBirth' => 11, 'PlaceOfBirth' => 12, 'Address' => 13, 'City' => 14, 'Pob' => 15, 'PhoneHome' => 16, 'PhoneWork' => 17, 'Cellphone1' => 18, 'Cellphone2' => 19, 'PhotoMime' => 20, 'LastUserId' => 21, 'CreationDate' => 22, 'ModificationDate' => 23, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'userId' => 1, 'locationId' => 2, 'firstName' => 3, 'middleName' => 4, 'lastName' => 5, 'secondLastName' => 6, 'email' => 7, 'idNumber' => 8, 'idExtension' => 9, 'gender' => 10, 'dateOfBirth' => 11, 'placeOfBirth' => 12, 'address' => 13, 'city' => 14, 'pob' => 15, 'phoneHome' => 16, 'phoneWork' => 17, 'cellphone1' => 18, 'cellphone2' => 19, 'photoMime' => 20, 'lastUserId' => 21, 'creationDate' => 22, 'modificationDate' => 23, ),
-        self::TYPE_COLNAME       => array(SysPersonTableMap::COL_ID => 0, SysPersonTableMap::COL_USER_ID => 1, SysPersonTableMap::COL_LOCATION_ID => 2, SysPersonTableMap::COL_FIRST_NAME => 3, SysPersonTableMap::COL_MIDDLE_NAME => 4, SysPersonTableMap::COL_LAST_NAME => 5, SysPersonTableMap::COL_SECOND_LAST_NAME => 6, SysPersonTableMap::COL_EMAIL => 7, SysPersonTableMap::COL_ID_NUMBER => 8, SysPersonTableMap::COL_ID_EXTENSION => 9, SysPersonTableMap::COL_GENDER => 10, SysPersonTableMap::COL_DATE_OF_BIRTH => 11, SysPersonTableMap::COL_PLACE_OF_BIRTH => 12, SysPersonTableMap::COL_ADDRESS => 13, SysPersonTableMap::COL_CITY => 14, SysPersonTableMap::COL_POB => 15, SysPersonTableMap::COL_PHONE_HOME => 16, SysPersonTableMap::COL_PHONE_WORK => 17, SysPersonTableMap::COL_CELLPHONE_1 => 18, SysPersonTableMap::COL_CELLPHONE_2 => 19, SysPersonTableMap::COL_PHOTO_MIME => 20, SysPersonTableMap::COL_LAST_USER_ID => 21, SysPersonTableMap::COL_CREATION_DATE => 22, SysPersonTableMap::COL_MODIFICATION_DATE => 23, ),
-        self::TYPE_FIELDNAME     => array('ID' => 0, 'USER_ID' => 1, 'LOCATION_ID' => 2, 'FIRST_NAME' => 3, 'MIDDLE_NAME' => 4, 'LAST_NAME' => 5, 'SECOND_LAST_NAME' => 6, 'EMAIL' => 7, 'ID_NUMBER' => 8, 'ID_EXTENSION' => 9, 'GENDER' => 10, 'DATE_OF_BIRTH' => 11, 'PLACE_OF_BIRTH' => 12, 'ADDRESS' => 13, 'CITY' => 14, 'POB' => 15, 'PHONE_HOME' => 16, 'PHONE_WORK' => 17, 'CELLPHONE_1' => 18, 'CELLPHONE_2' => 19, 'PHOTO_MIME' => 20, 'LAST_USER_ID' => 21, 'CREATION_DATE' => 22, 'MODIFICATION_DATE' => 23, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, )
-    );
+    protected static $fieldKeys = [
+        self::TYPE_PHPNAME       => ['Id' => 0, 'UserId' => 1, 'LocationId' => 2, 'FirstName' => 3, 'MiddleName' => 4, 'LastName' => 5, 'SecondLastName' => 6, 'Email' => 7, 'IdNumber' => 8, 'IdExtension' => 9, 'Gender' => 10, 'DateOfBirth' => 11, 'PlaceOfBirth' => 12, 'Address' => 13, 'City' => 14, 'Pob' => 15, 'PhoneHome' => 16, 'PhoneWork' => 17, 'Cellphone1' => 18, 'Cellphone2' => 19, 'PhotoMime' => 20, 'LastUserId' => 21, 'CreationDate' => 22, 'ModificationDate' => 23, ],
+        self::TYPE_CAMELNAME     => ['id' => 0, 'userId' => 1, 'locationId' => 2, 'firstName' => 3, 'middleName' => 4, 'lastName' => 5, 'secondLastName' => 6, 'email' => 7, 'idNumber' => 8, 'idExtension' => 9, 'gender' => 10, 'dateOfBirth' => 11, 'placeOfBirth' => 12, 'address' => 13, 'city' => 14, 'pob' => 15, 'phoneHome' => 16, 'phoneWork' => 17, 'cellphone1' => 18, 'cellphone2' => 19, 'photoMime' => 20, 'lastUserId' => 21, 'creationDate' => 22, 'modificationDate' => 23, ],
+        self::TYPE_COLNAME       => [SysPersonTableMap::COL_ID => 0, SysPersonTableMap::COL_USER_ID => 1, SysPersonTableMap::COL_LOCATION_ID => 2, SysPersonTableMap::COL_FIRST_NAME => 3, SysPersonTableMap::COL_MIDDLE_NAME => 4, SysPersonTableMap::COL_LAST_NAME => 5, SysPersonTableMap::COL_SECOND_LAST_NAME => 6, SysPersonTableMap::COL_EMAIL => 7, SysPersonTableMap::COL_ID_NUMBER => 8, SysPersonTableMap::COL_ID_EXTENSION => 9, SysPersonTableMap::COL_GENDER => 10, SysPersonTableMap::COL_DATE_OF_BIRTH => 11, SysPersonTableMap::COL_PLACE_OF_BIRTH => 12, SysPersonTableMap::COL_ADDRESS => 13, SysPersonTableMap::COL_CITY => 14, SysPersonTableMap::COL_POB => 15, SysPersonTableMap::COL_PHONE_HOME => 16, SysPersonTableMap::COL_PHONE_WORK => 17, SysPersonTableMap::COL_CELLPHONE_1 => 18, SysPersonTableMap::COL_CELLPHONE_2 => 19, SysPersonTableMap::COL_PHOTO_MIME => 20, SysPersonTableMap::COL_LAST_USER_ID => 21, SysPersonTableMap::COL_CREATION_DATE => 22, SysPersonTableMap::COL_MODIFICATION_DATE => 23, ],
+        self::TYPE_FIELDNAME     => ['ID' => 0, 'USER_ID' => 1, 'LOCATION_ID' => 2, 'FIRST_NAME' => 3, 'MIDDLE_NAME' => 4, 'LAST_NAME' => 5, 'SECOND_LAST_NAME' => 6, 'EMAIL' => 7, 'ID_NUMBER' => 8, 'ID_EXTENSION' => 9, 'GENDER' => 10, 'DATE_OF_BIRTH' => 11, 'PLACE_OF_BIRTH' => 12, 'ADDRESS' => 13, 'CITY' => 14, 'POB' => 15, 'PHONE_HOME' => 16, 'PHONE_WORK' => 17, 'CELLPHONE_1' => 18, 'CELLPHONE_2' => 19, 'PHOTO_MIME' => 20, 'LAST_USER_ID' => 21, 'CREATION_DATE' => 22, 'MODIFICATION_DATE' => 23, ],
+        self::TYPE_NUM           => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, ]
+    ];
+
+    /**
+     * Holds a list of column names and their normalized version.
+     *
+     * @var array<string>
+     */
+    protected $normalizedColumnNameMap = [
+        'Id' => 'ID',
+        'SysPerson.Id' => 'ID',
+        'id' => 'ID',
+        'sysPerson.id' => 'ID',
+        'SysPersonTableMap::COL_ID' => 'ID',
+        'COL_ID' => 'ID',
+        'ID' => 'ID',
+        'sys_person.ID' => 'ID',
+        'UserId' => 'USER_ID',
+        'SysPerson.UserId' => 'USER_ID',
+        'userId' => 'USER_ID',
+        'sysPerson.userId' => 'USER_ID',
+        'SysPersonTableMap::COL_USER_ID' => 'USER_ID',
+        'COL_USER_ID' => 'USER_ID',
+        'USER_ID' => 'USER_ID',
+        'sys_person.USER_ID' => 'USER_ID',
+        'LocationId' => 'LOCATION_ID',
+        'SysPerson.LocationId' => 'LOCATION_ID',
+        'locationId' => 'LOCATION_ID',
+        'sysPerson.locationId' => 'LOCATION_ID',
+        'SysPersonTableMap::COL_LOCATION_ID' => 'LOCATION_ID',
+        'COL_LOCATION_ID' => 'LOCATION_ID',
+        'LOCATION_ID' => 'LOCATION_ID',
+        'sys_person.LOCATION_ID' => 'LOCATION_ID',
+        'FirstName' => 'FIRST_NAME',
+        'SysPerson.FirstName' => 'FIRST_NAME',
+        'firstName' => 'FIRST_NAME',
+        'sysPerson.firstName' => 'FIRST_NAME',
+        'SysPersonTableMap::COL_FIRST_NAME' => 'FIRST_NAME',
+        'COL_FIRST_NAME' => 'FIRST_NAME',
+        'FIRST_NAME' => 'FIRST_NAME',
+        'sys_person.FIRST_NAME' => 'FIRST_NAME',
+        'MiddleName' => 'MIDDLE_NAME',
+        'SysPerson.MiddleName' => 'MIDDLE_NAME',
+        'middleName' => 'MIDDLE_NAME',
+        'sysPerson.middleName' => 'MIDDLE_NAME',
+        'SysPersonTableMap::COL_MIDDLE_NAME' => 'MIDDLE_NAME',
+        'COL_MIDDLE_NAME' => 'MIDDLE_NAME',
+        'MIDDLE_NAME' => 'MIDDLE_NAME',
+        'sys_person.MIDDLE_NAME' => 'MIDDLE_NAME',
+        'LastName' => 'LAST_NAME',
+        'SysPerson.LastName' => 'LAST_NAME',
+        'lastName' => 'LAST_NAME',
+        'sysPerson.lastName' => 'LAST_NAME',
+        'SysPersonTableMap::COL_LAST_NAME' => 'LAST_NAME',
+        'COL_LAST_NAME' => 'LAST_NAME',
+        'LAST_NAME' => 'LAST_NAME',
+        'sys_person.LAST_NAME' => 'LAST_NAME',
+        'SecondLastName' => 'SECOND_LAST_NAME',
+        'SysPerson.SecondLastName' => 'SECOND_LAST_NAME',
+        'secondLastName' => 'SECOND_LAST_NAME',
+        'sysPerson.secondLastName' => 'SECOND_LAST_NAME',
+        'SysPersonTableMap::COL_SECOND_LAST_NAME' => 'SECOND_LAST_NAME',
+        'COL_SECOND_LAST_NAME' => 'SECOND_LAST_NAME',
+        'SECOND_LAST_NAME' => 'SECOND_LAST_NAME',
+        'sys_person.SECOND_LAST_NAME' => 'SECOND_LAST_NAME',
+        'Email' => 'EMAIL',
+        'SysPerson.Email' => 'EMAIL',
+        'email' => 'EMAIL',
+        'sysPerson.email' => 'EMAIL',
+        'SysPersonTableMap::COL_EMAIL' => 'EMAIL',
+        'COL_EMAIL' => 'EMAIL',
+        'EMAIL' => 'EMAIL',
+        'sys_person.EMAIL' => 'EMAIL',
+        'IdNumber' => 'ID_NUMBER',
+        'SysPerson.IdNumber' => 'ID_NUMBER',
+        'idNumber' => 'ID_NUMBER',
+        'sysPerson.idNumber' => 'ID_NUMBER',
+        'SysPersonTableMap::COL_ID_NUMBER' => 'ID_NUMBER',
+        'COL_ID_NUMBER' => 'ID_NUMBER',
+        'ID_NUMBER' => 'ID_NUMBER',
+        'sys_person.ID_NUMBER' => 'ID_NUMBER',
+        'IdExtension' => 'ID_EXTENSION',
+        'SysPerson.IdExtension' => 'ID_EXTENSION',
+        'idExtension' => 'ID_EXTENSION',
+        'sysPerson.idExtension' => 'ID_EXTENSION',
+        'SysPersonTableMap::COL_ID_EXTENSION' => 'ID_EXTENSION',
+        'COL_ID_EXTENSION' => 'ID_EXTENSION',
+        'ID_EXTENSION' => 'ID_EXTENSION',
+        'sys_person.ID_EXTENSION' => 'ID_EXTENSION',
+        'Gender' => 'GENDER',
+        'SysPerson.Gender' => 'GENDER',
+        'gender' => 'GENDER',
+        'sysPerson.gender' => 'GENDER',
+        'SysPersonTableMap::COL_GENDER' => 'GENDER',
+        'COL_GENDER' => 'GENDER',
+        'GENDER' => 'GENDER',
+        'sys_person.GENDER' => 'GENDER',
+        'DateOfBirth' => 'DATE_OF_BIRTH',
+        'SysPerson.DateOfBirth' => 'DATE_OF_BIRTH',
+        'dateOfBirth' => 'DATE_OF_BIRTH',
+        'sysPerson.dateOfBirth' => 'DATE_OF_BIRTH',
+        'SysPersonTableMap::COL_DATE_OF_BIRTH' => 'DATE_OF_BIRTH',
+        'COL_DATE_OF_BIRTH' => 'DATE_OF_BIRTH',
+        'DATE_OF_BIRTH' => 'DATE_OF_BIRTH',
+        'sys_person.DATE_OF_BIRTH' => 'DATE_OF_BIRTH',
+        'PlaceOfBirth' => 'PLACE_OF_BIRTH',
+        'SysPerson.PlaceOfBirth' => 'PLACE_OF_BIRTH',
+        'placeOfBirth' => 'PLACE_OF_BIRTH',
+        'sysPerson.placeOfBirth' => 'PLACE_OF_BIRTH',
+        'SysPersonTableMap::COL_PLACE_OF_BIRTH' => 'PLACE_OF_BIRTH',
+        'COL_PLACE_OF_BIRTH' => 'PLACE_OF_BIRTH',
+        'PLACE_OF_BIRTH' => 'PLACE_OF_BIRTH',
+        'sys_person.PLACE_OF_BIRTH' => 'PLACE_OF_BIRTH',
+        'Address' => 'ADDRESS',
+        'SysPerson.Address' => 'ADDRESS',
+        'address' => 'ADDRESS',
+        'sysPerson.address' => 'ADDRESS',
+        'SysPersonTableMap::COL_ADDRESS' => 'ADDRESS',
+        'COL_ADDRESS' => 'ADDRESS',
+        'ADDRESS' => 'ADDRESS',
+        'sys_person.ADDRESS' => 'ADDRESS',
+        'City' => 'CITY',
+        'SysPerson.City' => 'CITY',
+        'city' => 'CITY',
+        'sysPerson.city' => 'CITY',
+        'SysPersonTableMap::COL_CITY' => 'CITY',
+        'COL_CITY' => 'CITY',
+        'CITY' => 'CITY',
+        'sys_person.CITY' => 'CITY',
+        'Pob' => 'POB',
+        'SysPerson.Pob' => 'POB',
+        'pob' => 'POB',
+        'sysPerson.pob' => 'POB',
+        'SysPersonTableMap::COL_POB' => 'POB',
+        'COL_POB' => 'POB',
+        'POB' => 'POB',
+        'sys_person.POB' => 'POB',
+        'PhoneHome' => 'PHONE_HOME',
+        'SysPerson.PhoneHome' => 'PHONE_HOME',
+        'phoneHome' => 'PHONE_HOME',
+        'sysPerson.phoneHome' => 'PHONE_HOME',
+        'SysPersonTableMap::COL_PHONE_HOME' => 'PHONE_HOME',
+        'COL_PHONE_HOME' => 'PHONE_HOME',
+        'PHONE_HOME' => 'PHONE_HOME',
+        'sys_person.PHONE_HOME' => 'PHONE_HOME',
+        'PhoneWork' => 'PHONE_WORK',
+        'SysPerson.PhoneWork' => 'PHONE_WORK',
+        'phoneWork' => 'PHONE_WORK',
+        'sysPerson.phoneWork' => 'PHONE_WORK',
+        'SysPersonTableMap::COL_PHONE_WORK' => 'PHONE_WORK',
+        'COL_PHONE_WORK' => 'PHONE_WORK',
+        'PHONE_WORK' => 'PHONE_WORK',
+        'sys_person.PHONE_WORK' => 'PHONE_WORK',
+        'Cellphone1' => 'CELLPHONE_1',
+        'SysPerson.Cellphone1' => 'CELLPHONE_1',
+        'cellphone1' => 'CELLPHONE_1',
+        'sysPerson.cellphone1' => 'CELLPHONE_1',
+        'SysPersonTableMap::COL_CELLPHONE_1' => 'CELLPHONE_1',
+        'COL_CELLPHONE_1' => 'CELLPHONE_1',
+        'CELLPHONE_1' => 'CELLPHONE_1',
+        'sys_person.CELLPHONE_1' => 'CELLPHONE_1',
+        'Cellphone2' => 'CELLPHONE_2',
+        'SysPerson.Cellphone2' => 'CELLPHONE_2',
+        'cellphone2' => 'CELLPHONE_2',
+        'sysPerson.cellphone2' => 'CELLPHONE_2',
+        'SysPersonTableMap::COL_CELLPHONE_2' => 'CELLPHONE_2',
+        'COL_CELLPHONE_2' => 'CELLPHONE_2',
+        'CELLPHONE_2' => 'CELLPHONE_2',
+        'sys_person.CELLPHONE_2' => 'CELLPHONE_2',
+        'PhotoMime' => 'PHOTO_MIME',
+        'SysPerson.PhotoMime' => 'PHOTO_MIME',
+        'photoMime' => 'PHOTO_MIME',
+        'sysPerson.photoMime' => 'PHOTO_MIME',
+        'SysPersonTableMap::COL_PHOTO_MIME' => 'PHOTO_MIME',
+        'COL_PHOTO_MIME' => 'PHOTO_MIME',
+        'PHOTO_MIME' => 'PHOTO_MIME',
+        'sys_person.PHOTO_MIME' => 'PHOTO_MIME',
+        'LastUserId' => 'LAST_USER_ID',
+        'SysPerson.LastUserId' => 'LAST_USER_ID',
+        'lastUserId' => 'LAST_USER_ID',
+        'sysPerson.lastUserId' => 'LAST_USER_ID',
+        'SysPersonTableMap::COL_LAST_USER_ID' => 'LAST_USER_ID',
+        'COL_LAST_USER_ID' => 'LAST_USER_ID',
+        'LAST_USER_ID' => 'LAST_USER_ID',
+        'sys_person.LAST_USER_ID' => 'LAST_USER_ID',
+        'CreationDate' => 'CREATION_DATE',
+        'SysPerson.CreationDate' => 'CREATION_DATE',
+        'creationDate' => 'CREATION_DATE',
+        'sysPerson.creationDate' => 'CREATION_DATE',
+        'SysPersonTableMap::COL_CREATION_DATE' => 'CREATION_DATE',
+        'COL_CREATION_DATE' => 'CREATION_DATE',
+        'CREATION_DATE' => 'CREATION_DATE',
+        'sys_person.CREATION_DATE' => 'CREATION_DATE',
+        'ModificationDate' => 'MODIFICATION_DATE',
+        'SysPerson.ModificationDate' => 'MODIFICATION_DATE',
+        'modificationDate' => 'MODIFICATION_DATE',
+        'sysPerson.modificationDate' => 'MODIFICATION_DATE',
+        'SysPersonTableMap::COL_MODIFICATION_DATE' => 'MODIFICATION_DATE',
+        'COL_MODIFICATION_DATE' => 'MODIFICATION_DATE',
+        'MODIFICATION_DATE' => 'MODIFICATION_DATE',
+        'sys_person.MODIFICATION_DATE' => 'MODIFICATION_DATE',
+    ];
 
     /**
      * Initialize the table attributes and columns
      * Relations are not initialized by this method since they are lazy loaded
      *
      * @return void
-     * @throws PropelException
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function initialize()
+    public function initialize(): void
     {
         // attributes
         $this->setName('sys_person');
@@ -265,12 +473,14 @@ class SysPersonTableMap extends TableMap
         $this->addColumn('LAST_USER_ID', 'LastUserId', 'INTEGER', true, null, 0);
         $this->addColumn('CREATION_DATE', 'CreationDate', 'TIMESTAMP', true, null, 'CURRENT_TIMESTAMP');
         $this->addColumn('MODIFICATION_DATE', 'ModificationDate', 'TIMESTAMP', false, null, '0000-00-00 00:00:00');
-    } // initialize()
+    }
 
     /**
      * Build the RelationMap objects for this table relationships
+     *
+     * @return void
      */
-    public function buildRelations()
+    public function buildRelations(): void
     {
         $this->addRelation('SysUser', '\\SysUser', RelationMap::MANY_TO_ONE, array (
   0 =>
@@ -279,7 +489,7 @@ class SysPersonTableMap extends TableMap
     1 => ':ID',
   ),
 ), null, null, null, false);
-    } // buildRelations()
+    }
 
     /**
      * Retrieves a string version of the primary key from the DB resultset row that can be used to uniquely identify a row in this table.
@@ -287,14 +497,14 @@ class SysPersonTableMap extends TableMap
      * For tables with a single-column primary key, that simple pkey value will be returned.  For tables with
      * a multi-column primary key, a serialize()d version of the primary key will be returned.
      *
-     * @param array  $row       resultset row.
-     * @param int    $offset    The 0-based offset for reading from the resultset row.
+     * @param array $row Resultset row.
+     * @param int $offset The 0-based offset for reading from the resultset row.
      * @param string $indexType One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                           TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM
      *
-     * @return string The primary key hash of the row
+     * @return string|null The primary key hash of the row
      */
-    public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
+    public static function getPrimaryKeyHashFromRow(array $row, int $offset = 0, string $indexType = TableMap::TYPE_NUM): ?string
     {
         // If the PK cannot be derived from the row, return NULL.
         if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
@@ -309,14 +519,14 @@ class SysPersonTableMap extends TableMap
      * For tables with a single-column primary key, that simple pkey value will be returned.  For tables with
      * a multi-column primary key, an array of the primary key columns will be returned.
      *
-     * @param array  $row       resultset row.
-     * @param int    $offset    The 0-based offset for reading from the resultset row.
+     * @param array $row Resultset row.
+     * @param int $offset The 0-based offset for reading from the resultset row.
      * @param string $indexType One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                           TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM
      *
      * @return mixed The primary key of the row
      */
-    public static function getPrimaryKeyFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
+    public static function getPrimaryKeyFromRow(array $row, int $offset = 0, string $indexType = TableMap::TYPE_NUM)
     {
         return (int) $row[
             $indexType == TableMap::TYPE_NUM
@@ -333,10 +543,10 @@ class SysPersonTableMap extends TableMap
      * relative to a location on the PHP include_path.
      * (e.g. path.to.MyClass -> 'path/to/MyClass.php')
      *
-     * @param boolean $withPrefix Whether or not to return the path with the class name
+     * @param bool $withPrefix Whether to return the path with the class name
      * @return string path.to.ClassName
      */
-    public static function getOMClass($withPrefix = true)
+    public static function getOMClass(bool $withPrefix = true): string
     {
         return $withPrefix ? SysPersonTableMap::CLASS_DEFAULT : SysPersonTableMap::OM_CLASS;
     }
@@ -344,17 +554,17 @@ class SysPersonTableMap extends TableMap
     /**
      * Populates an object of the default type or an object that inherit from the default.
      *
-     * @param array  $row       row returned by DataFetcher->fetch().
-     * @param int    $offset    The 0-based offset for reading from the resultset row.
+     * @param array $row Row returned by DataFetcher->fetch().
+     * @param int $offset The 0-based offset for reading from the resultset row.
      * @param string $indexType The index type of $row. Mostly DataFetcher->getIndexType().
                                  One of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                           TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *
-     * @throws PropelException Any exceptions caught during processing will be
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (SysPerson object, last column rank)
+     * @return array (SysPerson object, last column rank)
      */
-    public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
+    public static function populateObject(array $row, int $offset = 0, string $indexType = TableMap::TYPE_NUM): array
     {
         $key = SysPersonTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
         if (null !== ($obj = SysPersonTableMap::getInstanceFromPool($key))) {
@@ -370,7 +580,7 @@ class SysPersonTableMap extends TableMap
             SysPersonTableMap::addInstanceToPool($obj, $key);
         }
 
-        return array($obj, $col);
+        return [$obj, $col];
     }
 
     /**
@@ -378,13 +588,13 @@ class SysPersonTableMap extends TableMap
      * objects that inherit from the default.
      *
      * @param DataFetcherInterface $dataFetcher
-     * @return array
-     * @throws PropelException Any exceptions caught during processing will be
+     * @return array<object>
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
      */
-    public static function populateObjects(DataFetcherInterface $dataFetcher)
+    public static function populateObjects(DataFetcherInterface $dataFetcher): array
     {
-        $results = array();
+        $results = [];
 
         // set the class once to avoid overhead in the loop
         $cls = static::getOMClass(false);
@@ -414,12 +624,13 @@ class SysPersonTableMap extends TableMap
      * XML schema will not be added to the select list and only loaded
      * on demand.
      *
-     * @param Criteria $criteria object containing the columns to add.
-     * @param string   $alias    optional table alias
-     * @throws PropelException Any exceptions caught during processing will be
+     * @param Criteria $criteria Object containing the columns to add.
+     * @param string|null $alias Optional table alias
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
+     * @return void
      */
-    public static function addSelectColumns(Criteria $criteria, $alias = null)
+    public static function addSelectColumns(Criteria $criteria, ?string $alias = null): void
     {
         if (null === $alias) {
             $criteria->addSelectColumn(SysPersonTableMap::COL_ID);
@@ -475,40 +686,96 @@ class SysPersonTableMap extends TableMap
     }
 
     /**
+     * Remove all the columns needed to create a new object.
+     *
+     * Note: any columns that were marked with lazyLoad="true" in the
+     * XML schema will not be removed as they are only loaded on demand.
+     *
+     * @param Criteria $criteria Object containing the columns to remove.
+     * @param string|null $alias Optional table alias
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
+     *                         rethrown wrapped into a PropelException.
+     * @return void
+     */
+    public static function removeSelectColumns(Criteria $criteria, ?string $alias = null): void
+    {
+        if (null === $alias) {
+            $criteria->removeSelectColumn(SysPersonTableMap::COL_ID);
+            $criteria->removeSelectColumn(SysPersonTableMap::COL_USER_ID);
+            $criteria->removeSelectColumn(SysPersonTableMap::COL_LOCATION_ID);
+            $criteria->removeSelectColumn(SysPersonTableMap::COL_FIRST_NAME);
+            $criteria->removeSelectColumn(SysPersonTableMap::COL_MIDDLE_NAME);
+            $criteria->removeSelectColumn(SysPersonTableMap::COL_LAST_NAME);
+            $criteria->removeSelectColumn(SysPersonTableMap::COL_SECOND_LAST_NAME);
+            $criteria->removeSelectColumn(SysPersonTableMap::COL_EMAIL);
+            $criteria->removeSelectColumn(SysPersonTableMap::COL_ID_NUMBER);
+            $criteria->removeSelectColumn(SysPersonTableMap::COL_ID_EXTENSION);
+            $criteria->removeSelectColumn(SysPersonTableMap::COL_GENDER);
+            $criteria->removeSelectColumn(SysPersonTableMap::COL_DATE_OF_BIRTH);
+            $criteria->removeSelectColumn(SysPersonTableMap::COL_PLACE_OF_BIRTH);
+            $criteria->removeSelectColumn(SysPersonTableMap::COL_ADDRESS);
+            $criteria->removeSelectColumn(SysPersonTableMap::COL_CITY);
+            $criteria->removeSelectColumn(SysPersonTableMap::COL_POB);
+            $criteria->removeSelectColumn(SysPersonTableMap::COL_PHONE_HOME);
+            $criteria->removeSelectColumn(SysPersonTableMap::COL_PHONE_WORK);
+            $criteria->removeSelectColumn(SysPersonTableMap::COL_CELLPHONE_1);
+            $criteria->removeSelectColumn(SysPersonTableMap::COL_CELLPHONE_2);
+            $criteria->removeSelectColumn(SysPersonTableMap::COL_PHOTO_MIME);
+            $criteria->removeSelectColumn(SysPersonTableMap::COL_LAST_USER_ID);
+            $criteria->removeSelectColumn(SysPersonTableMap::COL_CREATION_DATE);
+            $criteria->removeSelectColumn(SysPersonTableMap::COL_MODIFICATION_DATE);
+        } else {
+            $criteria->removeSelectColumn($alias . '.ID');
+            $criteria->removeSelectColumn($alias . '.USER_ID');
+            $criteria->removeSelectColumn($alias . '.LOCATION_ID');
+            $criteria->removeSelectColumn($alias . '.FIRST_NAME');
+            $criteria->removeSelectColumn($alias . '.MIDDLE_NAME');
+            $criteria->removeSelectColumn($alias . '.LAST_NAME');
+            $criteria->removeSelectColumn($alias . '.SECOND_LAST_NAME');
+            $criteria->removeSelectColumn($alias . '.EMAIL');
+            $criteria->removeSelectColumn($alias . '.ID_NUMBER');
+            $criteria->removeSelectColumn($alias . '.ID_EXTENSION');
+            $criteria->removeSelectColumn($alias . '.GENDER');
+            $criteria->removeSelectColumn($alias . '.DATE_OF_BIRTH');
+            $criteria->removeSelectColumn($alias . '.PLACE_OF_BIRTH');
+            $criteria->removeSelectColumn($alias . '.ADDRESS');
+            $criteria->removeSelectColumn($alias . '.CITY');
+            $criteria->removeSelectColumn($alias . '.POB');
+            $criteria->removeSelectColumn($alias . '.PHONE_HOME');
+            $criteria->removeSelectColumn($alias . '.PHONE_WORK');
+            $criteria->removeSelectColumn($alias . '.CELLPHONE_1');
+            $criteria->removeSelectColumn($alias . '.CELLPHONE_2');
+            $criteria->removeSelectColumn($alias . '.PHOTO_MIME');
+            $criteria->removeSelectColumn($alias . '.LAST_USER_ID');
+            $criteria->removeSelectColumn($alias . '.CREATION_DATE');
+            $criteria->removeSelectColumn($alias . '.MODIFICATION_DATE');
+        }
+    }
+
+    /**
      * Returns the TableMap related to this object.
      * This method is not needed for general use but a specific application could have a need.
      * @return TableMap
-     * @throws PropelException Any exceptions caught during processing will be
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
      */
-    public static function getTableMap()
+    public static function getTableMap(): TableMap
     {
         return Propel::getServiceContainer()->getDatabaseMap(SysPersonTableMap::DATABASE_NAME)->getTable(SysPersonTableMap::TABLE_NAME);
     }
 
     /**
-     * Add a TableMap instance to the database for this tableMap class.
-     */
-    public static function buildTableMap()
-    {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(SysPersonTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(SysPersonTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new SysPersonTableMap());
-        }
-    }
-
-    /**
      * Performs a DELETE on the database, given a SysPerson or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or SysPerson object or primary key or array of primary keys
+     * @param mixed $values Criteria or SysPerson object or primary key or array of primary keys
      *              which is used to create the DELETE statement
-     * @param  ConnectionInterface $con the connection to use
-     * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
+     * @param ConnectionInterface $con the connection to use
+     * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
      *                         if supported by native driver or if emulated using Propel.
-     * @throws PropelException Any exceptions caught during processing will be
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
      */
-     public static function doDelete($values, ConnectionInterface $con = null)
+     public static function doDelete($values, ?ConnectionInterface $con = null): int
      {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysPersonTableMap::DATABASE_NAME);
@@ -544,7 +811,7 @@ class SysPersonTableMap extends TableMap
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
-    public static function doDeleteAll(ConnectionInterface $con = null)
+    public static function doDeleteAll(?ConnectionInterface $con = null): int
     {
         return SysPersonQuery::create()->doDeleteAll($con);
     }
@@ -552,13 +819,13 @@ class SysPersonTableMap extends TableMap
     /**
      * Performs an INSERT on the database, given a SysPerson or Criteria object.
      *
-     * @param mixed               $criteria Criteria or SysPerson object containing data that is used to create the INSERT statement.
+     * @param mixed $criteria Criteria or SysPerson object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
-     * @return mixed           The new primary key.
-     * @throws PropelException Any exceptions caught during processing will be
+     * @return mixed The new primary key.
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
      */
-    public static function doInsert($criteria, ConnectionInterface $con = null)
+    public static function doInsert($criteria, ?ConnectionInterface $con = null)
     {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysPersonTableMap::DATABASE_NAME);
@@ -585,7 +852,4 @@ class SysPersonTableMap extends TableMap
         });
     }
 
-} // SysPersonTableMap
-// This is the static code needed to register the TableMap for this table with the main Propel class.
-//
-SysPersonTableMap::buildTableMap();
+}

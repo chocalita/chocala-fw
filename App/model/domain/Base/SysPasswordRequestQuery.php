@@ -11,14 +11,13 @@ use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveQuery\ModelJoin;
+use Propel\Runtime\Collection\Collection;
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
 
 /**
- * Base class that represents a query for the 'sys_password_request' table.
- *
- *
+ * Base class that represents a query for the `sys_password_request` table.
  *
  * @method     ChildSysPasswordRequestQuery orderById($order = Criteria::ASC) Order by the ID column
  * @method     ChildSysPasswordRequestQuery orderByUserId($order = Criteria::ASC) Order by the USER_ID column
@@ -74,23 +73,23 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     \SysUserQuery|\SysPasswordQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
- * @method     ChildSysPasswordRequest findOne(ConnectionInterface $con = null) Return the first ChildSysPasswordRequest matching the query
- * @method     ChildSysPasswordRequest findOneOrCreate(ConnectionInterface $con = null) Return the first ChildSysPasswordRequest matching the query, or a new ChildSysPasswordRequest object populated from the query conditions when no match is found
+ * @method     ChildSysPasswordRequest|null findOne(?ConnectionInterface $con = null) Return the first ChildSysPasswordRequest matching the query
+ * @method     ChildSysPasswordRequest findOneOrCreate(?ConnectionInterface $con = null) Return the first ChildSysPasswordRequest matching the query, or a new ChildSysPasswordRequest object populated from the query conditions when no match is found
  *
- * @method     ChildSysPasswordRequest findOneById(int $ID) Return the first ChildSysPasswordRequest filtered by the ID column
- * @method     ChildSysPasswordRequest findOneByUserId(int $USER_ID) Return the first ChildSysPasswordRequest filtered by the USER_ID column
- * @method     ChildSysPasswordRequest findOneByEmail(string $EMAIL) Return the first ChildSysPasswordRequest filtered by the EMAIL column
- * @method     ChildSysPasswordRequest findOneByHashString(string $HASH_STRING) Return the first ChildSysPasswordRequest filtered by the HASH_STRING column
- * @method     ChildSysPasswordRequest findOneByActive(boolean $ACTIVE) Return the first ChildSysPasswordRequest filtered by the ACTIVE column
- * @method     ChildSysPasswordRequest findOneByLifeTime(int $LIFE_TIME) Return the first ChildSysPasswordRequest filtered by the LIFE_TIME column
- * @method     ChildSysPasswordRequest findOneByRequestIp(string $REQUEST_IP) Return the first ChildSysPasswordRequest filtered by the REQUEST_IP column
- * @method     ChildSysPasswordRequest findOneByRestoredIp(string $RESTORED_IP) Return the first ChildSysPasswordRequest filtered by the RESTORED_IP column
- * @method     ChildSysPasswordRequest findOneByAccededTimes(int $ACCEDED_TIMES) Return the first ChildSysPasswordRequest filtered by the ACCEDED_TIMES column
- * @method     ChildSysPasswordRequest findOneByRequestedDate(string $REQUESTED_DATE) Return the first ChildSysPasswordRequest filtered by the REQUESTED_DATE column
- * @method     ChildSysPasswordRequest findOneByRestoredDate(string $RESTORED_DATE) Return the first ChildSysPasswordRequest filtered by the RESTORED_DATE column *
-
- * @method     ChildSysPasswordRequest requirePk($key, ConnectionInterface $con = null) Return the ChildSysPasswordRequest by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildSysPasswordRequest requireOne(ConnectionInterface $con = null) Return the first ChildSysPasswordRequest matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildSysPasswordRequest|null findOneById(int $ID) Return the first ChildSysPasswordRequest filtered by the ID column
+ * @method     ChildSysPasswordRequest|null findOneByUserId(int $USER_ID) Return the first ChildSysPasswordRequest filtered by the USER_ID column
+ * @method     ChildSysPasswordRequest|null findOneByEmail(string $EMAIL) Return the first ChildSysPasswordRequest filtered by the EMAIL column
+ * @method     ChildSysPasswordRequest|null findOneByHashString(string $HASH_STRING) Return the first ChildSysPasswordRequest filtered by the HASH_STRING column
+ * @method     ChildSysPasswordRequest|null findOneByActive(boolean $ACTIVE) Return the first ChildSysPasswordRequest filtered by the ACTIVE column
+ * @method     ChildSysPasswordRequest|null findOneByLifeTime(int $LIFE_TIME) Return the first ChildSysPasswordRequest filtered by the LIFE_TIME column
+ * @method     ChildSysPasswordRequest|null findOneByRequestIp(string $REQUEST_IP) Return the first ChildSysPasswordRequest filtered by the REQUEST_IP column
+ * @method     ChildSysPasswordRequest|null findOneByRestoredIp(string $RESTORED_IP) Return the first ChildSysPasswordRequest filtered by the RESTORED_IP column
+ * @method     ChildSysPasswordRequest|null findOneByAccededTimes(int $ACCEDED_TIMES) Return the first ChildSysPasswordRequest filtered by the ACCEDED_TIMES column
+ * @method     ChildSysPasswordRequest|null findOneByRequestedDate(string $REQUESTED_DATE) Return the first ChildSysPasswordRequest filtered by the REQUESTED_DATE column
+ * @method     ChildSysPasswordRequest|null findOneByRestoredDate(string $RESTORED_DATE) Return the first ChildSysPasswordRequest filtered by the RESTORED_DATE column
+ *
+ * @method     ChildSysPasswordRequest requirePk($key, ?ConnectionInterface $con = null) Return the ChildSysPasswordRequest by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildSysPasswordRequest requireOne(?ConnectionInterface $con = null) Return the first ChildSysPasswordRequest matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildSysPasswordRequest requireOneById(int $ID) Return the first ChildSysPasswordRequest filtered by the ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSysPasswordRequest requireOneByUserId(int $USER_ID) Return the first ChildSysPasswordRequest filtered by the USER_ID column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -104,20 +103,34 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSysPasswordRequest requireOneByRequestedDate(string $REQUESTED_DATE) Return the first ChildSysPasswordRequest filtered by the REQUESTED_DATE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSysPasswordRequest requireOneByRestoredDate(string $RESTORED_DATE) Return the first ChildSysPasswordRequest filtered by the RESTORED_DATE column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildSysPasswordRequest[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildSysPasswordRequest objects based on current ModelCriteria
- * @method     ChildSysPasswordRequest[]|ObjectCollection findById(int $ID) Return ChildSysPasswordRequest objects filtered by the ID column
- * @method     ChildSysPasswordRequest[]|ObjectCollection findByUserId(int $USER_ID) Return ChildSysPasswordRequest objects filtered by the USER_ID column
- * @method     ChildSysPasswordRequest[]|ObjectCollection findByEmail(string $EMAIL) Return ChildSysPasswordRequest objects filtered by the EMAIL column
- * @method     ChildSysPasswordRequest[]|ObjectCollection findByHashString(string $HASH_STRING) Return ChildSysPasswordRequest objects filtered by the HASH_STRING column
- * @method     ChildSysPasswordRequest[]|ObjectCollection findByActive(boolean $ACTIVE) Return ChildSysPasswordRequest objects filtered by the ACTIVE column
- * @method     ChildSysPasswordRequest[]|ObjectCollection findByLifeTime(int $LIFE_TIME) Return ChildSysPasswordRequest objects filtered by the LIFE_TIME column
- * @method     ChildSysPasswordRequest[]|ObjectCollection findByRequestIp(string $REQUEST_IP) Return ChildSysPasswordRequest objects filtered by the REQUEST_IP column
- * @method     ChildSysPasswordRequest[]|ObjectCollection findByRestoredIp(string $RESTORED_IP) Return ChildSysPasswordRequest objects filtered by the RESTORED_IP column
- * @method     ChildSysPasswordRequest[]|ObjectCollection findByAccededTimes(int $ACCEDED_TIMES) Return ChildSysPasswordRequest objects filtered by the ACCEDED_TIMES column
- * @method     ChildSysPasswordRequest[]|ObjectCollection findByRequestedDate(string $REQUESTED_DATE) Return ChildSysPasswordRequest objects filtered by the REQUESTED_DATE column
- * @method     ChildSysPasswordRequest[]|ObjectCollection findByRestoredDate(string $RESTORED_DATE) Return ChildSysPasswordRequest objects filtered by the RESTORED_DATE column
- * @method     ChildSysPasswordRequest[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
+ * @method     ChildSysPasswordRequest[]|Collection find(?ConnectionInterface $con = null) Return ChildSysPasswordRequest objects based on current ModelCriteria
+ * @psalm-method Collection&\Traversable<ChildSysPasswordRequest> find(?ConnectionInterface $con = null) Return ChildSysPasswordRequest objects based on current ModelCriteria
  *
+ * @method     ChildSysPasswordRequest[]|Collection findById(int|array<int> $ID) Return ChildSysPasswordRequest objects filtered by the ID column
+ * @psalm-method Collection&\Traversable<ChildSysPasswordRequest> findById(int|array<int> $ID) Return ChildSysPasswordRequest objects filtered by the ID column
+ * @method     ChildSysPasswordRequest[]|Collection findByUserId(int|array<int> $USER_ID) Return ChildSysPasswordRequest objects filtered by the USER_ID column
+ * @psalm-method Collection&\Traversable<ChildSysPasswordRequest> findByUserId(int|array<int> $USER_ID) Return ChildSysPasswordRequest objects filtered by the USER_ID column
+ * @method     ChildSysPasswordRequest[]|Collection findByEmail(string|array<string> $EMAIL) Return ChildSysPasswordRequest objects filtered by the EMAIL column
+ * @psalm-method Collection&\Traversable<ChildSysPasswordRequest> findByEmail(string|array<string> $EMAIL) Return ChildSysPasswordRequest objects filtered by the EMAIL column
+ * @method     ChildSysPasswordRequest[]|Collection findByHashString(string|array<string> $HASH_STRING) Return ChildSysPasswordRequest objects filtered by the HASH_STRING column
+ * @psalm-method Collection&\Traversable<ChildSysPasswordRequest> findByHashString(string|array<string> $HASH_STRING) Return ChildSysPasswordRequest objects filtered by the HASH_STRING column
+ * @method     ChildSysPasswordRequest[]|Collection findByActive(boolean|array<boolean> $ACTIVE) Return ChildSysPasswordRequest objects filtered by the ACTIVE column
+ * @psalm-method Collection&\Traversable<ChildSysPasswordRequest> findByActive(boolean|array<boolean> $ACTIVE) Return ChildSysPasswordRequest objects filtered by the ACTIVE column
+ * @method     ChildSysPasswordRequest[]|Collection findByLifeTime(int|array<int> $LIFE_TIME) Return ChildSysPasswordRequest objects filtered by the LIFE_TIME column
+ * @psalm-method Collection&\Traversable<ChildSysPasswordRequest> findByLifeTime(int|array<int> $LIFE_TIME) Return ChildSysPasswordRequest objects filtered by the LIFE_TIME column
+ * @method     ChildSysPasswordRequest[]|Collection findByRequestIp(string|array<string> $REQUEST_IP) Return ChildSysPasswordRequest objects filtered by the REQUEST_IP column
+ * @psalm-method Collection&\Traversable<ChildSysPasswordRequest> findByRequestIp(string|array<string> $REQUEST_IP) Return ChildSysPasswordRequest objects filtered by the REQUEST_IP column
+ * @method     ChildSysPasswordRequest[]|Collection findByRestoredIp(string|array<string> $RESTORED_IP) Return ChildSysPasswordRequest objects filtered by the RESTORED_IP column
+ * @psalm-method Collection&\Traversable<ChildSysPasswordRequest> findByRestoredIp(string|array<string> $RESTORED_IP) Return ChildSysPasswordRequest objects filtered by the RESTORED_IP column
+ * @method     ChildSysPasswordRequest[]|Collection findByAccededTimes(int|array<int> $ACCEDED_TIMES) Return ChildSysPasswordRequest objects filtered by the ACCEDED_TIMES column
+ * @psalm-method Collection&\Traversable<ChildSysPasswordRequest> findByAccededTimes(int|array<int> $ACCEDED_TIMES) Return ChildSysPasswordRequest objects filtered by the ACCEDED_TIMES column
+ * @method     ChildSysPasswordRequest[]|Collection findByRequestedDate(string|array<string> $REQUESTED_DATE) Return ChildSysPasswordRequest objects filtered by the REQUESTED_DATE column
+ * @psalm-method Collection&\Traversable<ChildSysPasswordRequest> findByRequestedDate(string|array<string> $REQUESTED_DATE) Return ChildSysPasswordRequest objects filtered by the REQUESTED_DATE column
+ * @method     ChildSysPasswordRequest[]|Collection findByRestoredDate(string|array<string> $RESTORED_DATE) Return ChildSysPasswordRequest objects filtered by the RESTORED_DATE column
+ * @psalm-method Collection&\Traversable<ChildSysPasswordRequest> findByRestoredDate(string|array<string> $RESTORED_DATE) Return ChildSysPasswordRequest objects filtered by the RESTORED_DATE column
+ *
+ * @method     ChildSysPasswordRequest[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ?ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
+ * @psalm-method \Propel\Runtime\Util\PropelModelPager&\Traversable<ChildSysPasswordRequest> paginate($page = 1, $maxPerPage = 10, ?ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  */
 abstract class SysPasswordRequestQuery extends ModelCriteria
 {
@@ -126,9 +139,9 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
     /**
      * Initializes internal state of \Base\SysPasswordRequestQuery object.
      *
-     * @param     string $dbName The database name
-     * @param     string $modelName The phpName of a model, e.g. 'Book'
-     * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
+     * @param string $dbName The database name
+     * @param string $modelName The phpName of a model, e.g. 'Book'
+     * @param string $modelAlias The alias for the model in this query, e.g. 'b'
      */
     public function __construct($dbName = 'default', $modelName = '\\SysPasswordRequest', $modelAlias = null)
     {
@@ -138,12 +151,12 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
     /**
      * Returns a new ChildSysPasswordRequestQuery object.
      *
-     * @param     string $modelAlias The alias of a model in the query
-     * @param     Criteria $criteria Optional Criteria to build the query from
+     * @param string $modelAlias The alias of a model in the query
+     * @param Criteria $criteria Optional Criteria to build the query from
      *
      * @return ChildSysPasswordRequestQuery
      */
-    public static function create($modelAlias = null, Criteria $criteria = null)
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
     {
         if ($criteria instanceof ChildSysPasswordRequestQuery) {
             return $criteria;
@@ -173,7 +186,7 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
      *
      * @return ChildSysPasswordRequest|array|mixed the result, formatted by the current formatter
      */
-    public function findPk($key, ConnectionInterface $con = null)
+    public function findPk($key, ?ConnectionInterface $con = null)
     {
         if ($key === null) {
             return null;
@@ -205,8 +218,8 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
      * Find object by primary key using raw SQL to go fast.
      * Bypass doSelect() and the object formatter by using generated code.
      *
-     * @param     mixed $key Primary key to use for the query
-     * @param     ConnectionInterface $con A connection object
+     * @param mixed $key Primary key to use for the query
+     * @param ConnectionInterface $con A connection object
      *
      * @throws \Propel\Runtime\Exception\PropelException
      *
@@ -238,8 +251,8 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
     /**
      * Find object by primary key.
      *
-     * @param     mixed $key Primary key to use for the query
-     * @param     ConnectionInterface $con A connection object
+     * @param mixed $key Primary key to use for the query
+     * @param ConnectionInterface $con A connection object
      *
      * @return ChildSysPasswordRequest|array|mixed the result, formatted by the current formatter
      */
@@ -259,12 +272,12 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
      * <code>
      * $objs = $c->findPks(array(12, 56, 832), $con);
      * </code>
-     * @param     array $keys Primary keys to use for the query
-     * @param     ConnectionInterface $con an optional connection object
+     * @param array $keys Primary keys to use for the query
+     * @param ConnectionInterface $con an optional connection object
      *
-     * @return ObjectCollection|array|mixed the list of results, formatted by the current formatter
+     * @return Collection|array|mixed the list of results, formatted by the current formatter
      */
-    public function findPks($keys, ConnectionInterface $con = null)
+    public function findPks($keys, ?ConnectionInterface $con = null)
     {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getReadConnection($this->getDbName());
@@ -281,27 +294,31 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
     /**
      * Filter the query by primary key
      *
-     * @param     mixed $key Primary key to use for the query
+     * @param mixed $key Primary key to use for the query
      *
-     * @return $this|ChildSysPasswordRequestQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
     public function filterByPrimaryKey($key)
     {
 
-        return $this->addUsingAlias(SysPasswordRequestTableMap::COL_ID, $key, Criteria::EQUAL);
+        $this->addUsingAlias(SysPasswordRequestTableMap::COL_ID, $key, Criteria::EQUAL);
+
+        return $this;
     }
 
     /**
      * Filter the query by a list of primary keys
      *
-     * @param     array $keys The list of primary key to use for the query
+     * @param array|int $keys The list of primary key to use for the query
      *
-     * @return $this|ChildSysPasswordRequestQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
     public function filterByPrimaryKeys($keys)
     {
 
-        return $this->addUsingAlias(SysPasswordRequestTableMap::COL_ID, $keys, Criteria::IN);
+        $this->addUsingAlias(SysPasswordRequestTableMap::COL_ID, $keys, Criteria::IN);
+
+        return $this;
     }
 
     /**
@@ -314,15 +331,15 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
      * $query->filterById(array('min' => 12)); // WHERE ID > 12
      * </code>
      *
-     * @param     mixed $id The value to use as filter.
+     * @param mixed $id The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysPasswordRequestQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterById($id = null, $comparison = null)
+    public function filterById($id = null, ?string $comparison = null)
     {
         if (is_array($id)) {
             $useMinMax = false;
@@ -342,7 +359,9 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysPasswordRequestTableMap::COL_ID, $id, $comparison);
+        $this->addUsingAlias(SysPasswordRequestTableMap::COL_ID, $id, $comparison);
+
+        return $this;
     }
 
     /**
@@ -357,15 +376,15 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
      *
      * @see       filterBySysUser()
      *
-     * @param     mixed $userId The value to use as filter.
+     * @param mixed $userId The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysPasswordRequestQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByUserId($userId = null, $comparison = null)
+    public function filterByUserId($userId = null, ?string $comparison = null)
     {
         if (is_array($userId)) {
             $useMinMax = false;
@@ -385,7 +404,9 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysPasswordRequestTableMap::COL_USER_ID, $userId, $comparison);
+        $this->addUsingAlias(SysPasswordRequestTableMap::COL_USER_ID, $userId, $comparison);
+
+        return $this;
     }
 
     /**
@@ -395,14 +416,15 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
      * <code>
      * $query->filterByEmail('fooValue');   // WHERE EMAIL = 'fooValue'
      * $query->filterByEmail('%fooValue%', Criteria::LIKE); // WHERE EMAIL LIKE '%fooValue%'
+     * $query->filterByEmail(['foo', 'bar']); // WHERE EMAIL IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $email The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $email The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysPasswordRequestQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByEmail($email = null, $comparison = null)
+    public function filterByEmail($email = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($email)) {
@@ -410,7 +432,9 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysPasswordRequestTableMap::COL_EMAIL, $email, $comparison);
+        $this->addUsingAlias(SysPasswordRequestTableMap::COL_EMAIL, $email, $comparison);
+
+        return $this;
     }
 
     /**
@@ -420,14 +444,15 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
      * <code>
      * $query->filterByHashString('fooValue');   // WHERE HASH_STRING = 'fooValue'
      * $query->filterByHashString('%fooValue%', Criteria::LIKE); // WHERE HASH_STRING LIKE '%fooValue%'
+     * $query->filterByHashString(['foo', 'bar']); // WHERE HASH_STRING IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $hashString The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $hashString The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysPasswordRequestQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByHashString($hashString = null, $comparison = null)
+    public function filterByHashString($hashString = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($hashString)) {
@@ -435,7 +460,9 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysPasswordRequestTableMap::COL_HASH_STRING, $hashString, $comparison);
+        $this->addUsingAlias(SysPasswordRequestTableMap::COL_HASH_STRING, $hashString, $comparison);
+
+        return $this;
     }
 
     /**
@@ -447,22 +474,24 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
      * $query->filterByActive('yes'); // WHERE ACTIVE = true
      * </code>
      *
-     * @param     boolean|string $active The value to use as filter.
+     * @param bool|string $active The value to use as filter.
      *              Non-boolean arguments are converted using the following rules:
      *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysPasswordRequestQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByActive($active = null, $comparison = null)
+    public function filterByActive($active = null, ?string $comparison = null)
     {
         if (is_string($active)) {
-            $active = in_array(strtolower($active), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+            $active = in_array(strtolower($active), array('false', 'off', '-', 'no', 'n', '0', ''), true) ? false : true;
         }
 
-        return $this->addUsingAlias(SysPasswordRequestTableMap::COL_ACTIVE, $active, $comparison);
+        $this->addUsingAlias(SysPasswordRequestTableMap::COL_ACTIVE, $active, $comparison);
+
+        return $this;
     }
 
     /**
@@ -475,15 +504,15 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
      * $query->filterByLifeTime(array('min' => 12)); // WHERE LIFE_TIME > 12
      * </code>
      *
-     * @param     mixed $lifeTime The value to use as filter.
+     * @param mixed $lifeTime The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysPasswordRequestQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByLifeTime($lifeTime = null, $comparison = null)
+    public function filterByLifeTime($lifeTime = null, ?string $comparison = null)
     {
         if (is_array($lifeTime)) {
             $useMinMax = false;
@@ -503,7 +532,9 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysPasswordRequestTableMap::COL_LIFE_TIME, $lifeTime, $comparison);
+        $this->addUsingAlias(SysPasswordRequestTableMap::COL_LIFE_TIME, $lifeTime, $comparison);
+
+        return $this;
     }
 
     /**
@@ -513,14 +544,15 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
      * <code>
      * $query->filterByRequestIp('fooValue');   // WHERE REQUEST_IP = 'fooValue'
      * $query->filterByRequestIp('%fooValue%', Criteria::LIKE); // WHERE REQUEST_IP LIKE '%fooValue%'
+     * $query->filterByRequestIp(['foo', 'bar']); // WHERE REQUEST_IP IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $requestIp The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $requestIp The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysPasswordRequestQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByRequestIp($requestIp = null, $comparison = null)
+    public function filterByRequestIp($requestIp = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($requestIp)) {
@@ -528,7 +560,9 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysPasswordRequestTableMap::COL_REQUEST_IP, $requestIp, $comparison);
+        $this->addUsingAlias(SysPasswordRequestTableMap::COL_REQUEST_IP, $requestIp, $comparison);
+
+        return $this;
     }
 
     /**
@@ -538,14 +572,15 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
      * <code>
      * $query->filterByRestoredIp('fooValue');   // WHERE RESTORED_IP = 'fooValue'
      * $query->filterByRestoredIp('%fooValue%', Criteria::LIKE); // WHERE RESTORED_IP LIKE '%fooValue%'
+     * $query->filterByRestoredIp(['foo', 'bar']); // WHERE RESTORED_IP IN ('foo', 'bar')
      * </code>
      *
-     * @param     string $restoredIp The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|string[] $restoredIp The value to use as filter.
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysPasswordRequestQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByRestoredIp($restoredIp = null, $comparison = null)
+    public function filterByRestoredIp($restoredIp = null, ?string $comparison = null)
     {
         if (null === $comparison) {
             if (is_array($restoredIp)) {
@@ -553,7 +588,9 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysPasswordRequestTableMap::COL_RESTORED_IP, $restoredIp, $comparison);
+        $this->addUsingAlias(SysPasswordRequestTableMap::COL_RESTORED_IP, $restoredIp, $comparison);
+
+        return $this;
     }
 
     /**
@@ -566,15 +603,15 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
      * $query->filterByAccededTimes(array('min' => 12)); // WHERE ACCEDED_TIMES > 12
      * </code>
      *
-     * @param     mixed $accededTimes The value to use as filter.
+     * @param mixed $accededTimes The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysPasswordRequestQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByAccededTimes($accededTimes = null, $comparison = null)
+    public function filterByAccededTimes($accededTimes = null, ?string $comparison = null)
     {
         if (is_array($accededTimes)) {
             $useMinMax = false;
@@ -594,7 +631,9 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysPasswordRequestTableMap::COL_ACCEDED_TIMES, $accededTimes, $comparison);
+        $this->addUsingAlias(SysPasswordRequestTableMap::COL_ACCEDED_TIMES, $accededTimes, $comparison);
+
+        return $this;
     }
 
     /**
@@ -607,17 +646,17 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
      * $query->filterByRequestedDate(array('max' => 'yesterday')); // WHERE REQUESTED_DATE > '2011-03-13'
      * </code>
      *
-     * @param     mixed $requestedDate The value to use as filter.
+     * @param mixed $requestedDate The value to use as filter.
      *              Values can be integers (unix timestamps), DateTime objects, or strings.
      *              Empty strings are treated as NULL.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysPasswordRequestQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByRequestedDate($requestedDate = null, $comparison = null)
+    public function filterByRequestedDate($requestedDate = null, ?string $comparison = null)
     {
         if (is_array($requestedDate)) {
             $useMinMax = false;
@@ -637,7 +676,9 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysPasswordRequestTableMap::COL_REQUESTED_DATE, $requestedDate, $comparison);
+        $this->addUsingAlias(SysPasswordRequestTableMap::COL_REQUESTED_DATE, $requestedDate, $comparison);
+
+        return $this;
     }
 
     /**
@@ -650,17 +691,17 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
      * $query->filterByRestoredDate(array('max' => 'yesterday')); // WHERE RESTORED_DATE > '2011-03-13'
      * </code>
      *
-     * @param     mixed $restoredDate The value to use as filter.
+     * @param mixed $restoredDate The value to use as filter.
      *              Values can be integers (unix timestamps), DateTime objects, or strings.
      *              Empty strings are treated as NULL.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildSysPasswordRequestQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterByRestoredDate($restoredDate = null, $comparison = null)
+    public function filterByRestoredDate($restoredDate = null, ?string $comparison = null)
     {
         if (is_array($restoredDate)) {
             $useMinMax = false;
@@ -680,20 +721,22 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysPasswordRequestTableMap::COL_RESTORED_DATE, $restoredDate, $comparison);
+        $this->addUsingAlias(SysPasswordRequestTableMap::COL_RESTORED_DATE, $restoredDate, $comparison);
+
+        return $this;
     }
 
     /**
      * Filter the query by a related \SysUser object
      *
      * @param \SysUser|ObjectCollection $sysUser The related object(s) to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @throws \Propel\Runtime\Exception\PropelException
      *
-     * @return ChildSysPasswordRequestQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterBySysUser($sysUser, $comparison = null)
+    public function filterBySysUser($sysUser, ?string $comparison = null)
     {
         if ($sysUser instanceof \SysUser) {
             return $this
@@ -703,8 +746,10 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
                 $comparison = Criteria::IN;
             }
 
-            return $this
+            $this
                 ->addUsingAlias(SysPasswordRequestTableMap::COL_USER_ID, $sysUser->toKeyValue('PrimaryKey', 'Id'), $comparison);
+
+            return $this;
         } else {
             throw new PropelException('filterBySysUser() only accepts arguments of type \SysUser or Collection');
         }
@@ -713,12 +758,12 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
     /**
      * Adds a JOIN clause to the query using the SysUser relation
      *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string|null $relationAlias Optional alias for the relation
+     * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return $this|ChildSysPasswordRequestQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function joinSysUser($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinSysUser(?string $relationAlias = null, ?string $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('SysUser');
@@ -747,9 +792,9 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
      *
      * @see useQuery()
      *
-     * @param     string $relationAlias optional alias for the relation,
+     * @param string $relationAlias optional alias for the relation,
      *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return \SysUserQuery A secondary query class using the current class as primary query
      */
@@ -761,23 +806,123 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
     }
 
     /**
+     * Use the SysUser relation SysUser object
+     *
+     * @param callable(\SysUserQuery):\SysUserQuery $callable A function working on the related query
+     *
+     * @param string|null $relationAlias optional alias for the relation
+     *
+     * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this
+     */
+    public function withSysUserQuery(
+        callable $callable,
+        string $relationAlias = null,
+        ?string $joinType = Criteria::INNER_JOIN
+    ) {
+        $relatedQuery = $this->useSysUserQuery(
+            $relationAlias,
+            $joinType
+        );
+        $callable($relatedQuery);
+        $relatedQuery->endUse();
+
+        return $this;
+    }
+
+    /**
+     * Use the relation to SysUser table for an EXISTS query.
+     *
+     * @see \Propel\Runtime\ActiveQuery\ModelCriteria::useExistsQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the exists query, like ExtendedBookQuery::class
+     * @param string $typeOfExists Either ExistsQueryCriterion::TYPE_EXISTS or ExistsQueryCriterion::TYPE_NOT_EXISTS
+     *
+     * @return \SysUserQuery The inner query object of the EXISTS statement
+     */
+    public function useSysUserExistsQuery($modelAlias = null, $queryClass = null, $typeOfExists = 'EXISTS')
+    {
+        /** @var $q \SysUserQuery */
+        $q = $this->useExistsQuery('SysUser', $modelAlias, $queryClass, $typeOfExists);
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysUser table for a NOT EXISTS query.
+     *
+     * @see useSysUserExistsQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the exists query, like ExtendedBookQuery::class
+     *
+     * @return \SysUserQuery The inner query object of the NOT EXISTS statement
+     */
+    public function useSysUserNotExistsQuery($modelAlias = null, $queryClass = null)
+    {
+        /** @var $q \SysUserQuery */
+        $q = $this->useExistsQuery('SysUser', $modelAlias, $queryClass, 'NOT EXISTS');
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysUser table for an IN query.
+     *
+     * @see \Propel\Runtime\ActiveQuery\ModelCriteria::useInQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the IN query, like ExtendedBookQuery::class
+     * @param string $typeOfIn Criteria::IN or Criteria::NOT_IN
+     *
+     * @return \SysUserQuery The inner query object of the IN statement
+     */
+    public function useInSysUserQuery($modelAlias = null, $queryClass = null, $typeOfIn = 'IN')
+    {
+        /** @var $q \SysUserQuery */
+        $q = $this->useInQuery('SysUser', $modelAlias, $queryClass, $typeOfIn);
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysUser table for a NOT IN query.
+     *
+     * @see useSysUserInQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the NOT IN query, like ExtendedBookQuery::class
+     *
+     * @return \SysUserQuery The inner query object of the NOT IN statement
+     */
+    public function useNotInSysUserQuery($modelAlias = null, $queryClass = null)
+    {
+        /** @var $q \SysUserQuery */
+        $q = $this->useInQuery('SysUser', $modelAlias, $queryClass, 'NOT IN');
+        return $q;
+    }
+
+    /**
      * Filter the query by a related \SysPassword object
      *
      * @param \SysPassword|ObjectCollection $sysPassword the related object to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildSysPasswordRequestQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function filterBySysPassword($sysPassword, $comparison = null)
+    public function filterBySysPassword($sysPassword, ?string $comparison = null)
     {
         if ($sysPassword instanceof \SysPassword) {
-            return $this
+            $this
                 ->addUsingAlias(SysPasswordRequestTableMap::COL_ID, $sysPassword->getPasswordRequestId(), $comparison);
+
+            return $this;
         } elseif ($sysPassword instanceof ObjectCollection) {
-            return $this
+            $this
                 ->useSysPasswordQuery()
                 ->filterByPrimaryKeys($sysPassword->getPrimaryKeys())
                 ->endUse();
+
+            return $this;
         } else {
             throw new PropelException('filterBySysPassword() only accepts arguments of type \SysPassword or Collection');
         }
@@ -786,12 +931,12 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
     /**
      * Adds a JOIN clause to the query using the SysPassword relation
      *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string|null $relationAlias Optional alias for the relation
+     * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return $this|ChildSysPasswordRequestQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
-    public function joinSysPassword($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    public function joinSysPassword(?string $relationAlias = null, ?string $joinType = Criteria::LEFT_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('SysPassword');
@@ -820,9 +965,9 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
      *
      * @see useQuery()
      *
-     * @param     string $relationAlias optional alias for the relation,
+     * @param string $relationAlias optional alias for the relation,
      *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return \SysPasswordQuery A secondary query class using the current class as primary query
      */
@@ -834,11 +979,107 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
     }
 
     /**
+     * Use the SysPassword relation SysPassword object
+     *
+     * @param callable(\SysPasswordQuery):\SysPasswordQuery $callable A function working on the related query
+     *
+     * @param string|null $relationAlias optional alias for the relation
+     *
+     * @param string|null $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this
+     */
+    public function withSysPasswordQuery(
+        callable $callable,
+        string $relationAlias = null,
+        ?string $joinType = Criteria::LEFT_JOIN
+    ) {
+        $relatedQuery = $this->useSysPasswordQuery(
+            $relationAlias,
+            $joinType
+        );
+        $callable($relatedQuery);
+        $relatedQuery->endUse();
+
+        return $this;
+    }
+
+    /**
+     * Use the relation to SysPassword table for an EXISTS query.
+     *
+     * @see \Propel\Runtime\ActiveQuery\ModelCriteria::useExistsQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the exists query, like ExtendedBookQuery::class
+     * @param string $typeOfExists Either ExistsQueryCriterion::TYPE_EXISTS or ExistsQueryCriterion::TYPE_NOT_EXISTS
+     *
+     * @return \SysPasswordQuery The inner query object of the EXISTS statement
+     */
+    public function useSysPasswordExistsQuery($modelAlias = null, $queryClass = null, $typeOfExists = 'EXISTS')
+    {
+        /** @var $q \SysPasswordQuery */
+        $q = $this->useExistsQuery('SysPassword', $modelAlias, $queryClass, $typeOfExists);
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysPassword table for a NOT EXISTS query.
+     *
+     * @see useSysPasswordExistsQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the exists query, like ExtendedBookQuery::class
+     *
+     * @return \SysPasswordQuery The inner query object of the NOT EXISTS statement
+     */
+    public function useSysPasswordNotExistsQuery($modelAlias = null, $queryClass = null)
+    {
+        /** @var $q \SysPasswordQuery */
+        $q = $this->useExistsQuery('SysPassword', $modelAlias, $queryClass, 'NOT EXISTS');
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysPassword table for an IN query.
+     *
+     * @see \Propel\Runtime\ActiveQuery\ModelCriteria::useInQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the IN query, like ExtendedBookQuery::class
+     * @param string $typeOfIn Criteria::IN or Criteria::NOT_IN
+     *
+     * @return \SysPasswordQuery The inner query object of the IN statement
+     */
+    public function useInSysPasswordQuery($modelAlias = null, $queryClass = null, $typeOfIn = 'IN')
+    {
+        /** @var $q \SysPasswordQuery */
+        $q = $this->useInQuery('SysPassword', $modelAlias, $queryClass, $typeOfIn);
+        return $q;
+    }
+
+    /**
+     * Use the relation to SysPassword table for a NOT IN query.
+     *
+     * @see useSysPasswordInQuery()
+     *
+     * @param string|null $modelAlias sets an alias for the nested query
+     * @param string|null $queryClass Allows to use a custom query class for the NOT IN query, like ExtendedBookQuery::class
+     *
+     * @return \SysPasswordQuery The inner query object of the NOT IN statement
+     */
+    public function useNotInSysPasswordQuery($modelAlias = null, $queryClass = null)
+    {
+        /** @var $q \SysPasswordQuery */
+        $q = $this->useInQuery('SysPassword', $modelAlias, $queryClass, 'NOT IN');
+        return $q;
+    }
+
+    /**
      * Exclude object from result
      *
-     * @param   ChildSysPasswordRequest $sysPasswordRequest Object to remove from the list of results
+     * @param ChildSysPasswordRequest $sysPasswordRequest Object to remove from the list of results
      *
-     * @return $this|ChildSysPasswordRequestQuery The current query, for fluid interface
+     * @return $this The current query, for fluid interface
      */
     public function prune($sysPasswordRequest = null)
     {
@@ -855,7 +1096,7 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
-    public function doDeleteAll(ConnectionInterface $con = null)
+    public function doDeleteAll(?ConnectionInterface $con = null): int
     {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysPasswordRequestTableMap::DATABASE_NAME);
@@ -880,12 +1121,12 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
      * Performs a DELETE on the database based on the current ModelCriteria
      *
      * @param ConnectionInterface $con the connection to use
-     * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
+     * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
      *                         if supported by native driver or if emulated using Propel.
-     * @throws PropelException Any exceptions caught during processing will be
+     * @throws \Propel\Runtime\Exception\PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
      */
-    public function delete(ConnectionInterface $con = null)
+    public function delete(?ConnectionInterface $con = null): int
     {
         if (null === $con) {
             $con = Propel::getServiceContainer()->getWriteConnection(SysPasswordRequestTableMap::DATABASE_NAME);
@@ -910,4 +1151,4 @@ abstract class SysPasswordRequestQuery extends ModelCriteria
         });
     }
 
-} // SysPasswordRequestQuery
+}

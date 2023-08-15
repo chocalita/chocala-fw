@@ -29,7 +29,7 @@ class SysEntityType extends BaseSysEntityType implements JsonSerializable
     /**
      * @var array Group Types Map values
      */
-    protected static $groupsMap = [
+    protected static array $groupsMap = [
         'default' => [
             self::GROUP_SMALL_COMPANY => self::GROUP_SMALL_COMPANY,
             self::GROUP_FORMAL_COMPANY => self::GROUP_FORMAL_COMPANY,
@@ -46,7 +46,7 @@ class SysEntityType extends BaseSysEntityType implements JsonSerializable
         ],
     ];
 
-    static $validationRules = [
+    static array $validationRules = [
         'GroupCode' => [
             'null' => false, 'blank' => false,
             'inList' => [self::GROUP_SMALL_COMPANY, self::GROUP_FORMAL_COMPANY,
@@ -85,13 +85,13 @@ class SysEntityType extends BaseSysEntityType implements JsonSerializable
      * @param string $lang |'default'|'es'
      * @return mixed
      */
-    public static function groupFrom($status, $lang = 'es')
+    public static function groupFrom(string $status, string $lang = 'es')
     {
         return static::groupsMap($lang)[$status];
     }
 
 
-    public function preSave()
+    public function preSave() : bool
     {
         $this->code = strtoupper(trim($this->code)) ?: null;
         $this->name = trim($this->name) ?: null;
@@ -99,17 +99,17 @@ class SysEntityType extends BaseSysEntityType implements JsonSerializable
         return parent::preSave();
     }
 
-    public function preValidate()
+    public function preValidate(): bool
     {
         return $this->preSave();
     }
 
-    public function esEmpresaFormal()
+    public function esEmpresaFormal(): bool
     {
         return $this->group_code == self::GROUP_FORMAL_COMPANY;
     }
 
-    public function tipoEntidadFormal()
+    public function tipoEntidadFormal(): string
     {
         return $this->esEmpresaFormal() ? 'Empresa' : 'Negocio';
     }

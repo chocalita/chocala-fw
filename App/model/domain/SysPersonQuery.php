@@ -25,7 +25,7 @@ class SysPersonQuery extends BaseSysPersonQuery //implements SoftDeletion
      * @param string $order
      * @return $this|mixed
      */
-    public function orderByCompleteName($order = Criteria::ASC)
+    public function orderByCompleteName(string $order = Criteria::ASC)
     {
         return $this->withCompleteName()->orderBy("CompleteName", $order);
     }
@@ -43,17 +43,17 @@ class SysPersonQuery extends BaseSysPersonQuery //implements SoftDeletion
      * @param string $order
      * @return $this|\Propel\Runtime\ActiveQuery\ModelCriteria
      */
-    public function orderByFormalName($order = Criteria::ASC)
+    public function orderByFormalName(string $order = Criteria::ASC)
     {
         return $this->withFormalName()->orderBy("FormalName", $order);
     }
 
     /**
      * @param SysUser $user
-     * @param bool|true $noDeletes
+     * @param bool $noDeletes
      * @return SysPerson
      */
-    public static function findByUser(SysUser $user, $noDeletes=true)
+    public static function findByUser(SysUser $user, bool $noDeletes=true): SysPerson
     {
         return self::createValids($noDeletes)->findOneByUserId($user->getId());
     }
