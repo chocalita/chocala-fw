@@ -1,5 +1,7 @@
 <?php
 
+use Propel\Runtime\Map\TableMap;
+
 /**
  * @author: ypra
  * Date: 2/8/2016
@@ -9,9 +11,9 @@ trait Relatable
 {
 
     /**
-     * @return \Propel\Runtime\Map\TableMap
+     * @return TableMap
      */
-    public function tableMap()
+    public function tableMap(): TableMap
     {
         $tableMapClass = self::TABLE_MAP;
         return $tableMapClass::getTableMap();
@@ -20,7 +22,7 @@ trait Relatable
     /**
      * @return \Propel\Runtime\Map\RelationMap[]
      */
-    public function relationMaps()
+    public function relationMaps(): array
     {
         return $this->tableMap()->getRelations();
     }
@@ -29,7 +31,7 @@ trait Relatable
      * @param int $type
      * @return \Propel\Runtime\Map\RelationMap[]
      */
-    private function relationsFilter($type)
+    private function relationsFilter($type) : array
     {
         return array_filter($this->relationMaps(), function($relation) use ($type){
             return $relation->getType() == $type;
@@ -39,7 +41,7 @@ trait Relatable
     /**
      * @return \Propel\Runtime\Map\RelationMap[]
      */
-    public function relationsManyToOne()
+    public function relationsManyToOne() : array
     {
         return $this->relationsFilter(\Propel\Runtime\Map\RelationMap::MANY_TO_ONE);
     }
@@ -47,7 +49,7 @@ trait Relatable
     /**
      * @return \Propel\Runtime\Map\RelationMap[]
      */
-    public function relationsOneToMany()
+    public function relationsOneToMany() : array
     {
         return $this->relationsFilter(\Propel\Runtime\Map\RelationMap::ONE_TO_MANY);
     }
@@ -55,7 +57,7 @@ trait Relatable
     /**
      * @return \Propel\Runtime\Map\RelationMap[]
      */
-    public function relationsOneToOne()
+    public function relationsOneToOne() : array
     {
         return $this->relationsFilter(\Propel\Runtime\Map\RelationMap::ONE_TO_ONE);
     }
@@ -63,7 +65,7 @@ trait Relatable
     /**
      * @return \Propel\Runtime\Map\RelationMap[]
      */
-    public function relationsManyToMany()
+    public function relationsManyToMany() : array
     {
         return $this->relationsFilter(\Propel\Runtime\Map\RelationMap::MANY_TO_MANY);
     }

@@ -42,7 +42,7 @@ class ValidationFailed
      * @param string $entityName    Entity name.
      * @param object $validator     The Validator that caused this column to fail.
      */
-    public function __construct($message, $colname, $entityName = null, $validator = null)
+    public function __construct(string $message, $colname, $entityName = null, $validator = null)
     {
         $this->message = $message;
         $this->colname = $colname;
@@ -55,7 +55,7 @@ class ValidationFailed
      *
      * @param string $v
      */
-    public function setMessage($v)
+    public function setMessage(string $v)
     {
         $this->message = $v;
     }
@@ -65,7 +65,7 @@ class ValidationFailed
      *
      * @return string
      */
-    public function getMessage()
+    public function getMessage() : string
     {
         return $this->message;
     }
@@ -75,7 +75,7 @@ class ValidationFailed
      *
      * @param string $v
      */
-    public function setColumn($v)
+    public function setColumn(string $v)
     {
         $this->colname = $v;
     }
@@ -85,7 +85,7 @@ class ValidationFailed
      *
      * @return string Qualified column name (tablename.COLUMN_NAME)
      */
-    public function getColumn()
+    public function getColumn() : string
     {
         return $this->colname;
     }
@@ -105,7 +105,7 @@ class ValidationFailed
      *
      * @return string
      */
-    public function getEntityName()
+    public function getEntityName() : string
     {
         return $this->entityName;
     }
@@ -137,7 +137,7 @@ class ValidationFailed
      *
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->getMessage();
     }

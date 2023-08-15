@@ -14,19 +14,19 @@ trait Validatable
      * by another object which falls in this transaction.
      * @var boolean
      */
-    protected $alreadyInValidation = false;
+    protected bool $alreadyInValidation = false;
 
     /**
      * The array for validation rules
      * @var array
      */
-//    protected static $validationRules = array();
+//    protected static array $validationRules = array();
 
     /**
      * Array of ValidationFailed objects.
      * @var array ValidationFailed[]
      */
-    protected $validationFailures = array();
+    protected array $validationFailures = array();
 
     /**
      * Gets any ValidationFailed objects that resulted from last call to validate().
@@ -35,7 +35,7 @@ trait Validatable
      * @return array ValidationFailed[]
      * @see   validate()
      */
-    public function getValidationFailures()
+    public function getValidationFailures() : array
     {
         return $this->validationFailures;
     }
@@ -45,7 +45,7 @@ trait Validatable
      * @param mixed $columns Column name or an array of column names.
      * @return boolean
      */
-    public function preValidate($columns = null)
+    public function preValidate($columns = null) : bool
     {
         return true;
     }
@@ -54,7 +54,7 @@ trait Validatable
      * Code to be run after validating the object
      * @param mixed $columns Column name or an array of column names.
      */
-    public function postValidate($columns = null)
+    public function postValidate($columns = null) : void
     {
     }
 
@@ -69,7 +69,7 @@ trait Validatable
      * @see        doValidate()
      * @see        getValidationFailures()
      */
-    public function validate($columns = null)
+    public function validate($columns = null) : bool
     {
         if($this->preValidate($columns)){
             $res =  $this->doValidate($columns);
@@ -93,10 +93,10 @@ trait Validatable
      * also be validated.  If all pass then <code>true</code> is returned; otherwise
      * an aggreagated array of ValidationFailed objects will be returned.
      *
-     * @param array $columns Array of column names to validate.
+     * @param array|null $columns Array of column names to validate.
      * @return mixed <code>true</code> if all validations pass; array of <code>ValidationFailed</code> objets otherwise.
      */
-    protected function doValidate($columns = null)
+    protected function doValidate(array $columns = null)
     {
         if (!$this->alreadyInValidation) {
             $this->alreadyInValidation = true;
@@ -150,7 +150,7 @@ trait Validatable
      *
      * @return array Array of <code>ValidationFailed</code> objets.
      */
-    public function getErrorsMap()
+    public function getErrorsMap() : array
     {
         return ValidationHelper::failuresMap($this->validationFailures);
     }

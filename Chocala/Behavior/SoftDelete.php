@@ -16,9 +16,9 @@ abstract class SoftDelete
     /**
      * @var array Status Map values
      */
-    protected static $statusMap = null;
+    protected static ?array $statusMap = null;
 
-    public static function statusMap()
+    public static function statusMap(): ?array
     {
         if(static::$statusMap == null){
             static::$statusMap = array(

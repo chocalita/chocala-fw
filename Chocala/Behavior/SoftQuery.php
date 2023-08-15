@@ -1,5 +1,7 @@
 <?php
 
+use Propel\Runtime\ActiveQuery\Criteria;
+
 /**
  *
  * @author ypra
@@ -9,7 +11,7 @@
 trait SoftQuery
 {
 
-    public static function statusMap()
+    public static function statusMap(): ?array
     {
         return SoftDelete::statusMap();
     }
@@ -17,7 +19,7 @@ trait SoftQuery
     /**
      * @return array
      */
-    public static function excludedStatus()
+    public static function excludedStatus(): array
     {
         return [SoftDelete::DELETED];
     }
@@ -25,7 +27,7 @@ trait SoftQuery
     /**
      * @return array
      */
-    public static function validStatusMap()
+    public static function validStatusMap(): array
     {
         return array_diff_key(static::statusMap(), array_flip(static::excludedStatus()));
 //        $excludes = static::excludedStatus();
@@ -38,18 +40,18 @@ trait SoftQuery
     /**
      * @return array
      */
-    public static function validStatusList()
+    public static function validStatusList(): array
     {
         return array_keys(static::validStatusMap());
     }
 
 
     /**
-     * @param null $modelAlias
+     * @param $modelAlias
      * @param Criteria|null $criteria
-     * @return SoftDeletion
+     * @return Criteria|null
      */
-    public static function createQuery($modelAlias = null, Criteria $criteria = null)
+    public static function createQuery($modelAlias = null, ?Criteria $criteria = null) : ?Criteria
     {
         return static::create($modelAlias, $criteria);
     }
@@ -69,7 +71,7 @@ trait SoftQuery
      * @param Criteria|null $criteria
      * @return SoftDeletion|$this
      */
-    public static function createValids($noDeletes = true, $modelAlias = null, Criteria $criteria = null)
+    public static function createValids($noDeletes = true, $modelAlias = null, ?Criteria $criteria = null)
     {
         $query = static::createQuery($modelAlias, $criteria);
         return ($noDeletes && ($query instanceof SoftDeletion))? $query->filterValids(): $query;
@@ -93,10 +95,10 @@ trait SoftQuery
      * @param $order
      * @return string
      */
-    protected static function resolveOrder($order)
+    protected static function resolveOrder($order): string
     {
         if (Validation::isInteger($order)) {
-            return ($order * 1) == -1 ?: Criteria::ASC;
+            return ($order * 1) == -1 ? Criteria::DESC: Criteria::ASC;
         } else {
             return strtoupper($order) == Criteria::DESC ? Criteria::DESC : Criteria::ASC;
         }
