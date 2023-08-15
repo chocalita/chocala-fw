@@ -3,7 +3,7 @@
   <table name="sys_auth" idMethod="native" phpName="SysAuth">
     <column name="ID" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="USER_ID" phpName="UserId" type="INTEGER" required="true"/>
-    <column name="TYPE" phpName="Type" type="VARCHAR" size="50" required="true" defaultValue=""/>
+    <column name="TYPE" phpName="Type" type="VARCHAR" size="50" description="FACEBOOK|GOOGLE|TWITTER" required="true" defaultValue=""/>
     <column name="ACCESS_TOKEN" phpName="AccessToken" type="VARCHAR" size="50" required="true" defaultValue=""/>
     <column name="JSON" phpName="Json" type="LONGVARCHAR"/>
     <column name="STATUS" phpName="Status" type="VARCHAR" size="20" required="true" defaultValue="CREATED"/>
@@ -56,7 +56,7 @@
     <column name="SUBJECT" phpName="Subject" type="VARCHAR" size="500" required="true"/>
     <column name="CONTENT" phpName="Content" type="LONGVARCHAR" required="true"/>
     <column name="IS_SUCCESS" phpName="IsSuccess" type="BOOLEAN" size="1" required="true"/>
-    <column name="SHIPPING_DATE" phpName="ShippingDate" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
+    <column name="SHIPPING_DATE" phpName="ShippingDate" type="TIMESTAMP" required="true"/>
     <column name="OPENING_DATE" phpName="OpeningDate" type="TIMESTAMP"/>
     <foreign-key foreignTable="sys_email" name="fk_sys_email_sent_email">
       <reference local="EMAIL_ID" foreign="ID"/>
@@ -240,7 +240,7 @@
     <column name="TYPE" phpName="Type" type="VARCHAR" size="30" required="true"/>
     <column name="LEVEL" phpName="Level" type="VARCHAR" size="30" required="true"/>
     <column name="DESCRIPTION" phpName="Description" type="LONGVARCHAR"/>
-    <unique name="CODE_UNIQUE_new">
+    <unique name="CODE_UNIQUE_new_new">
       <unique-column name="CODE"/>
     </unique>
     <vendor type="mysql">
@@ -254,16 +254,16 @@
     <column name="DATE" phpName="Date" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
     <column name="MESSAGE" phpName="Message" type="VARCHAR" size="1000" required="true"/>
     <column name="DETAILS" phpName="Details" type="LONGVARCHAR"/>
-    <foreign-key foreignTable="sys_event" name="FK_EVENT_USER_EVENT_new">
+    <foreign-key foreignTable="sys_event" name="FK_EVENT_USER_EVENT_new_new">
       <reference local="EVENT_ID" foreign="ID"/>
     </foreign-key>
-    <foreign-key foreignTable="sys_user" name="FK_EVENT_USER_USER_new">
+    <foreign-key foreignTable="sys_user" name="FK_EVENT_USER_USER_new_new">
       <reference local="USER_ID" foreign="ID"/>
     </foreign-key>
-    <index name="FK_EVENT_USER_EVENT_idx_new">
+    <index name="FK_EVENT_USER_EVENT_idx_new_new">
       <index-column name="EVENT_ID"/>
     </index>
-    <index name="FK_EVENT_USER_USER_idx_new">
+    <index name="FK_EVENT_USER_USER_idx_new_new">
       <index-column name="USER_ID"/>
     </index>
     <vendor type="mysql">
@@ -588,58 +588,6 @@
     </index>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
-    </vendor>
-  </table>
-  <table name="tmp_area" idMethod="native" phpName="TmpArea">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="nombre" phpName="Nombre" type="VARCHAR" size="200"/>
-    <vendor type="mysql">
-      <parameter name="Engine" value="InnoDB"/>
-    </vendor>
-  </table>
-  <table name="tmp_formacion" idMethod="native" phpName="TmpFormacion">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="nombre" phpName="Nombre" type="VARCHAR" size="200" required="true"/>
-    <column name="keywords" phpName="Keywords" type="LONGVARCHAR"/>
-    <column name="areas_referencia" phpName="AreasReferencia" type="VARCHAR" size="2000"/>
-    <column name="formaciones_referencia" phpName="FormacionesReferencia" type="VARCHAR" size="2000"/>
-    <column name="activo" phpName="Activo" type="BOOLEAN" size="1" required="true" defaultValue="true"/>
-    <vendor type="mysql">
-      <parameter name="Engine" value="InnoDB"/>
-    </vendor>
-  </table>
-  <table name="tmp_mailing" idMethod="native" phpName="TmpMailing">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="id_prospecto" phpName="IdProspecto" type="INTEGER" required="true"/>
-    <column name="email" phpName="Email" type="VARCHAR" size="200" required="true"/>
-    <column name="avisos" phpName="Avisos" type="VARCHAR" size="500" required="true"/>
-    <column name="fecha_interes" phpName="FechaInteres" type="DATE" required="true"/>
-    <column name="fecha_hora_envio" phpName="FechaHoraEnvio" type="TIMESTAMP"/>
-    <column name="enviado" phpName="Enviado" type="BOOLEAN" size="1"/>
-    <column name="abierto" phpName="Abierto" type="BOOLEAN" size="1"/>
-    <vendor type="mysql">
-      <parameter name="Engine" value="MyISAM"/>
-    </vendor>
-  </table>
-  <table name="tmp_prospecto" idMethod="native" phpName="TmpProspecto">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="primer_apellido" phpName="PrimerApellido" type="VARCHAR" size="30" required="true"/>
-    <column name="segundo_apellido" phpName="SegundoApellido" type="VARCHAR" size="30" required="true"/>
-    <column name="nombres" phpName="Nombres" type="VARCHAR" size="50" required="true"/>
-    <column name="fecha_nacimiento" phpName="FechaNacimiento" type="DATE" required="true"/>
-    <column name="ci" phpName="Ci" type="VARCHAR" size="20" required="true"/>
-    <column name="extension_ci" phpName="ExtensionCi" type="VARCHAR" size="3" required="true"/>
-    <column name="sexo" phpName="Sexo" type="VARCHAR" size="10" required="true"/>
-    <column name="pais" phpName="Pais" type="VARCHAR" size="50" required="true"/>
-    <column name="residencia" phpName="Residencia" type="VARCHAR" size="50" required="true"/>
-    <column name="direccion" phpName="Direccion" type="VARCHAR" size="500" required="true"/>
-    <column name="celular" phpName="Celular" type="VARCHAR" size="50" required="true"/>
-    <column name="email" phpName="Email" type="VARCHAR" size="200" required="true"/>
-    <column name="salario" phpName="Salario" type="INTEGER" required="true"/>
-    <column name="areas" phpName="Areas" type="VARCHAR" size="2000" required="true"/>
-    <column name="formaciones" phpName="Formaciones" type="VARCHAR" size="2000" required="true"/>
-    <vendor type="mysql">
-      <parameter name="Engine" value="MyISAM"/>
     </vendor>
   </table>
 </database>

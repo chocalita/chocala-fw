@@ -89,13 +89,14 @@ class DBConfig
     public static function init()
     {
         $serviceContainer = \Propel\Runtime\Propel::getServiceContainer();
-        $serviceContainer->checkVersion('2.0.0-dev');
+        $serviceContainer->checkVersion(2);
         $serviceContainer->setAdapterClass('default', 'mysql');
-        $manager = new \Propel\Runtime\Connection\ConnectionManagerSingle();
+        $manager = new \Propel\Runtime\Connection\ConnectionManagerSingle('default');
         $manager->setConfiguration(self::configs());
         $manager->setName('default');
-        $serviceContainer->setConnectionManager('default', $manager);
+        $serviceContainer->setConnectionManager($manager);
         $serviceContainer->setDefaultDatasource('default');
+//        require_once DATABASE_DIR . 'generator\loadDatabase.php';
     }
 
 }

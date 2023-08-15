@@ -10,10 +10,10 @@ class DataSources
     static $development = [
         'datasource'=>  'system',
         'host'      =>  'localhost',
-        'port'      =>  '3307',
-        'dbname'    =>  'base',
+        'port'      =>  '3306',
+        'dbname'    =>  'chocalaFW',
         'user'      =>  'root',
-        'password'  =>  'root'
+        'password'  =>  ''
     ];
 
     static $test = [

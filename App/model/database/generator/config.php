@@ -1,10 +1,11 @@
 <?php
 $serviceContainer = \Propel\Runtime\Propel::getServiceContainer();
-$serviceContainer->checkVersion('2.0.0-dev');
+$serviceContainer->checkVersion(2);
 $serviceContainer->setAdapterClass('default', 'mysql');
-$manager = new \Propel\Runtime\Connection\ConnectionManagerSingle();
+$manager = new \Propel\Runtime\Connection\ConnectionManagerSingle('default');
 $manager->setConfiguration(array (
-  'dsn' => 'mysql:host=127.0.0.1;port=3307dbname=base;port=3306;charset=UTF8',
+  'classname' => 'Propel\\Runtime\\Connection\\ConnectionWrapper',
+  'dsn' => 'mysql:host=localhost;port=3306;dbname=chocalaFW',
   'user' => 'root',
   'password' => '',
   'settings' =>
@@ -12,10 +13,15 @@ $manager->setConfiguration(array (
     'charset' => 'utf8',
     'queries' =>
     array (
+      'utf8' => 'SET NAMES utf8 COLLATE utf8_unicode_ci, COLLATION_CONNECTION = utf8_unicode_ci, COLLATION_DATABASE = utf8_unicode_ci, COLLATION_SERVER = utf8_unicode_ci',
     ),
   ),
-  'classname' => 'Propel\\Runtime\\Connection\\DebugPDO',
+  'model_paths' =>
+  array (
+    0 => 'src',
+    1 => 'vendor',
+  ),
 ));
-$manager->setName('default');
-$serviceContainer->setConnectionManager('default', $manager);
+$serviceContainer->setConnectionManager($manager);
 $serviceContainer->setDefaultDatasource('default');
+require_once __DIR__ . '\generated-conf/loadDatabase.php';
