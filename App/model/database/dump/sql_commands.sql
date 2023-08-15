@@ -8,6 +8,9 @@ CREATE DATABASE jobs CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- mysql -u jobsterin -p -h mysql.empleos.click directorio_empresas
 
+-- Dump database
+-- mysqldump -p -u root chocalaFW > D:/repo/chocalaFW/App/model/database/dump/base-db.sqlql
+
 -- mysqldump -p -u root jobs job_empresa_directorio > D:/host/empleos.click/App/job_empresa_directorio.sql
 
 -- mysqldump -h mysql.empleos.click -p -u jobsterin jobsterin > D:/host/empleos.click/App/jobs_prod.sql
