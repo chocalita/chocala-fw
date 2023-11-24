@@ -1,0 +1,12 @@
+<params>
+    <param name="INTEGER_PARAM" value="5" type="INTEGER" access="PUBLIC">
+        <description>Integer description</description>
+        <options>
+        </options>
+    </param>
+    <param name="STRING_PARAM" value="text" type="STRING" access="PROTECTED">
+        <description>String description</description>
+        <options>
+        </options>
+    </param>
+</params>
