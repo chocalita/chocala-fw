@@ -1,4 +1,7 @@
 <?php
+
+use \Chocala\Base\Chocala;
+
 Chocala::import("Model.utils.EmailSender");
 //TODO: implements service injectons for another services
 Chocala::import("Modules.system.email.EmailService");
@@ -178,8 +181,8 @@ class UserService extends AuditService
         $email = $emailService->findByCode(SysPasswordRequest::EMAIL_PASSWORD_REQUEST);
         $emailMap = [
             'TrackingHash' => $hash,
-//            'From' => Configs::value('email.info.address'),
-//            'FromName' => Configs::value('email.info.fromName'),
+//            'From' => Config::_('email.info.address'),
+//            'FromName' => Config::_('email.info.fromName'),
             'To' => [
                 ['Email' => $user->getEmail(), 'Name' => $user->person()->getFirstName()],
             ],

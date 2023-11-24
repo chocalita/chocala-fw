@@ -1,4 +1,10 @@
 <?php
+
+use App\model\security\UserControl;
+
+use Chocala\System\Flash;
+use Chocala\System\Req;
+
 /**
  * Description of SystemController
  *

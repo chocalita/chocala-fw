@@ -293,7 +293,7 @@
 </div>
 
 <?php
-if(strtoupper(Configs::value('app.run.environment')) != 'DEVELOPMENT') {
+if(strtoupper(Config::_('app.run.environment')) != 'DEVELOPMENT') {
 ?>
 <script type="text/javascript">
 $().ready(function () {

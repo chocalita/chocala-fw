@@ -76,8 +76,8 @@ class EmailService extends GenericService
     {
         if(!is_object($email)){
             $email = new SysEmail();
-            $email->setFromName(Configs::value('email.info.fromName'));
-            $email->setFromEmail(Configs::value('email.info.address'));
+            $email->setFromName(Config::_('email.info.fromName'));
+            $email->setFromEmail(Config::_('email.info.address'));
             $email->setBody($data['Description']);
         }
         $email->fromArray($data);

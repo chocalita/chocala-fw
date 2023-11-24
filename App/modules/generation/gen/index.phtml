@@ -24,7 +24,7 @@
                 </thead>
                 <tbody>
                     <?php
-                    foreach (Configs::configsList() as $configObj):
+                    foreach (Configs::list() as $configObj):
                     ?>
                     <tr>
                         <td class="left bold"><?=$configObj->getName();?></td>

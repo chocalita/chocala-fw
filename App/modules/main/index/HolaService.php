@@ -1,5 +1,7 @@
 <?php
 
+use Chocala\Base\ChocalaService;
+
 /**
  * Created by PhpStorm.
  * User: Yecid

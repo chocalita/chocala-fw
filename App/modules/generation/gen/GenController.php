@@ -13,7 +13,7 @@ class GenController extends WebController
 
     public function dbConfigs()
     {
-        $env = Configs::value('app.run.environment');
+        $env = Config::_('app.run.environment');
         $conf = DBConfig::envConfigs($env);
         $this->set('env', $env);
         $this->set('conf', $conf);
@@ -21,7 +21,7 @@ class GenController extends WebController
 
     public function classes()
     {
-        $env = Configs::value('app.run.environment');
+        $env = Config::_('app.run.environment');
         $conf = DBConfig::envConfigs($env);
         $this->set('env', $env);
         $this->set('conf', $conf);
@@ -42,7 +42,7 @@ class GenController extends WebController
         /**
         // Bash generation way
         $result = '';
-        $phpinfo = Configs::phpinfo();
+        $phpinfo = Config::phpinfo();
         $PHP_COMMAND = $phpinfo['Environment']['PHP_COMMANDS'];
         $dirs = ['generator', 'mapping', 'gen'];
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'){
@@ -62,7 +62,7 @@ class GenController extends WebController
             echo "Linux Bash";
         }
         /**/
-        $env = Configs::value('app.run.environment');
+        $env = Config::_('app.run.environment');
         $conf = DBConfig::envConfigs($env);
         $this->set('env', $env);
         $this->set('conf', $conf);
@@ -80,7 +80,7 @@ class GenController extends WebController
 
     public function domainClass()
     {
-        $isModularMode = ChocalaVars::asBoolean(Configs::value('app.run.modular'));
+        $isModularMode = ChocalaVars::asBoolean(Config::_('app.run.modular'));
         $mapedClasses = ClassMapHelper::mapDirRead(DOMAIN_DIR);
         if(isset($mapedClasses[$this->id])){
             $mapedClass = $this->id;
@@ -103,7 +103,7 @@ class GenController extends WebController
 
     public function scaffolding()
     {
-        $isModularMode = ChocalaVars::asBoolean(Configs::value('app.run.modular'));
+        $isModularMode = ChocalaVars::asBoolean(Config::_('app.run.modular'));
         $mapedClasses = ClassMapHelper::mapDirRead(DOMAIN_DIR);
         $modelName = Req::_('_model_name');
         $module = Req::_('_module');

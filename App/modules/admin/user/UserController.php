@@ -171,7 +171,7 @@ class UserController extends AdminWebController
         if(PageControl::canUpdate()) {
             $user = $this->userService->findPk($this->id);
             $this->set('user', $user);
-            $this->set('statusMap', SysUser::statusMap(Configs::value('app.run.lang')));
+            $this->set('statusMap', SysUser::statusMap(Config::_('app.run.lang')));
         }
         $this->view->changeLayout('ajax');
     }

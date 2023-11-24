@@ -1,11 +1,12 @@
 <?php
 
+
 /**
  * Description of IndexController
  *
  * @author ypra
  */
-class IndexController extends PublicWebController
+class IndexController extends \Chocala\Base\WebController
 {
 
     public function index()
@@ -24,7 +25,6 @@ class IndexController extends PublicWebController
             $this->view->changeLayout('ajax');
         } else {
             $this->view->renderView('index.oportunidadSEO', "main");
-//            $this->renderView('oportunidadSEO', "index");
         }
     }
 
