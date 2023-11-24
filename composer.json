@@ -8,10 +8,16 @@
     "league/plates": "3.*",
     "latte/latte": "2.*"
   },
+  "require-dev": {
+    "phpunit/phpunit": "^7"
+  },
   "autoload": {
     "classmap": [
       "App/model/domain/"
-    ]
+    ],
+    "psr-4": {
+      "Chocala\\": "src/Chocala"
+    }
   },
   "repositories": [
     {
