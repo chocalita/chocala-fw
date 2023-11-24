@@ -1,0 +1,25 @@
+<?=CodeGenerator::TAG_OPEN_SHORT;?> BarView::renderBar('messages'); <?=CodeGenerator::TAG_CLOSE;?>
+
+<div class="dialog" style="padding: 0 250px">
+    
+    <div class="fRight">
+        <a href="<?=CodeGenerator::TAG_OPEN_SHORT;?> URI::toPage(); <?=CodeGenerator::TAG_CLOSE;?>" class="linkGoBack">Cancel creation</a>
+    </div>
+
+    <h1>Create #MODEL_CLASS_NAME#</h1>
+    <hr />
+    
+    <form method="POST" action="<?=CodeGenerator::TAG_OPEN_SHORT;?> URI::toPage(); <?=CodeGenerator::TAG_CLOSE;?>save">
+
+        <?=CodeGenerator::TAG_OPEN;?> include('form.phtml');<?=CodeGenerator::TAG_CLOSE;?>
+
+
+        <div class="input">
+            <div class="value">
+                <input type="submit" name="create" value="Create" />
+            </div>
+        </div>
+
+    </form>
+    
+</div>
