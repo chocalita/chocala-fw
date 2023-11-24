@@ -1,4 +1,8 @@
 <?php
+
+use Chocala\Base\IllegalStateException;
+use Chocala\I18N\DefaultTranslation;
+
 error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING);
 
 ini_set('memory_limit', '512M');
@@ -7,7 +11,7 @@ $rootDir = '';
 
 $applicationDir = 'App';
 
-$frameworkDir = 'Chocala';
+$frameworkDir = 'src/Chocala';
 
 $vendorDir = 'Vendor';
 
@@ -70,5 +74,14 @@ if($_REQUEST['url'] == ''){
     exit();
 }
 
-require_once(CHOCALA_DIR.'ChocalaRunner.php');
-ChocalaRunner::run();
+require_once(VENDOR_DIR . 'autoload.php');
+
+if (!function_exists('__()')) {
+    function __(string $text, array $args = [])
+    {
+        return DefaultTranslation::mainInstance()->translate($text, $args);
+    }
+} else {
+    throw new IllegalStateException('It\'s not possible to register \'__()\' translation function.');
+}
+\Chocala\ChocalaRunner::run();
