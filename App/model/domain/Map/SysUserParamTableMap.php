@@ -1,9 +1,9 @@
 <?php
 
-namespace Map;
+namespace App\model\domain\Map;
 
-use \SysUserParam;
-use \SysUserParamQuery;
+use App\model\domain\SysUserParam;
+use App\model\domain\SysUserParamQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -34,7 +34,7 @@ class SysUserParamTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.SysUserParamTableMap';
+    const CLASS_NAME = 'App.model.domain.Map.SysUserParamTableMap';
 
     /**
      * The default database name for this class
@@ -49,12 +49,12 @@ class SysUserParamTableMap extends TableMap
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\SysUserParam';
+    const OM_CLASS = '\\App\\model\\domain\\SysUserParam';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'SysUserParam';
+    const CLASS_DEFAULT = 'App.model.domain.SysUserParam';
 
     /**
      * The total number of columns
@@ -157,8 +157,8 @@ class SysUserParamTableMap extends TableMap
         $this->setName('sys_user_param');
         $this->setPhpName('SysUserParam');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\SysUserParam');
-        $this->setPackage('');
+        $this->setClassName('\\App\\model\\domain\\SysUserParam');
+        $this->setPackage('App.model.domain');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
@@ -176,14 +176,14 @@ class SysUserParamTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('SysParam', '\\SysParam', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('SysParam', '\\App\\model\\domain\\SysParam', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':PARAM_ID',
     1 => ':ID',
   ),
 ), null, null, null, false);
-        $this->addRelation('SysUser', '\\SysUser', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('SysUser', '\\App\\model\\domain\\SysUser', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':USER_ID',
@@ -396,7 +396,7 @@ class SysUserParamTableMap extends TableMap
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \SysUserParam) { // it's a model object
+        } elseif ($values instanceof \App\model\domain\SysUserParam) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks

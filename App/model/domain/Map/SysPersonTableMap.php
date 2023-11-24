@@ -1,9 +1,9 @@
 <?php
 
-namespace Map;
+namespace App\model\domain\Map;
 
-use \SysPerson;
-use \SysPersonQuery;
+use App\model\domain\SysPerson;
+use App\model\domain\SysPersonQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -34,7 +34,7 @@ class SysPersonTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.SysPersonTableMap';
+    const CLASS_NAME = 'App.model.domain.Map.SysPersonTableMap';
 
     /**
      * The default database name for this class
@@ -49,12 +49,12 @@ class SysPersonTableMap extends TableMap
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\SysPerson';
+    const OM_CLASS = '\\App\\model\\domain\\SysPerson';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'SysPerson';
+    const CLASS_DEFAULT = 'App.model.domain.SysPerson';
 
     /**
      * The total number of columns
@@ -237,8 +237,8 @@ class SysPersonTableMap extends TableMap
         $this->setName('sys_person');
         $this->setPhpName('SysPerson');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\SysPerson');
-        $this->setPackage('');
+        $this->setClassName('\\App\\model\\domain\\SysPerson');
+        $this->setPackage('App.model.domain');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
@@ -272,7 +272,7 @@ class SysPersonTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('SysUser', '\\SysUser', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('SysUser', '\\App\\model\\domain\\SysUser', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':USER_ID',
@@ -517,7 +517,7 @@ class SysPersonTableMap extends TableMap
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \SysPerson) { // it's a model object
+        } elseif ($values instanceof \App\model\domain\SysPerson) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks

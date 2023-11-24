@@ -1,6 +1,11 @@
 <?php
 
-use Base\SysUserQuery as BaseSysUserQuery;
+namespace App\model\domain;
+
+use Chocala\Behavior\SoftDeletion;
+use Chocala\Behavior\SoftQuery;
+
+use App\model\domain\Base\SysUserQuery as BaseSysUserQuery;
 
 /**
  *

@@ -1,9 +1,9 @@
 <?php
 
-namespace Map;
+namespace App\model\domain\Map;
 
-use \SysPasswordRequest;
-use \SysPasswordRequestQuery;
+use App\model\domain\SysPasswordRequest;
+use App\model\domain\SysPasswordRequestQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -34,7 +34,7 @@ class SysPasswordRequestTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.SysPasswordRequestTableMap';
+    const CLASS_NAME = 'App.model.domain.Map.SysPasswordRequestTableMap';
 
     /**
      * The default database name for this class
@@ -49,12 +49,12 @@ class SysPasswordRequestTableMap extends TableMap
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\SysPasswordRequest';
+    const OM_CLASS = '\\App\\model\\domain\\SysPasswordRequest';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'SysPasswordRequest';
+    const CLASS_DEFAULT = 'App.model.domain.SysPasswordRequest';
 
     /**
      * The total number of columns
@@ -172,8 +172,8 @@ class SysPasswordRequestTableMap extends TableMap
         $this->setName('sys_password_request');
         $this->setPhpName('SysPasswordRequest');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\SysPasswordRequest');
-        $this->setPackage('');
+        $this->setClassName('\\App\\model\\domain\\SysPasswordRequest');
+        $this->setPackage('App.model.domain');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
@@ -194,14 +194,14 @@ class SysPasswordRequestTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('SysUser', '\\SysUser', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('SysUser', '\\App\\model\\domain\\SysUser', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':USER_ID',
     1 => ':ID',
   ),
 ), null, null, null, false);
-        $this->addRelation('SysPassword', '\\SysPassword', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('SysPassword', '\\App\\model\\domain\\SysPassword', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':PASSWORD_REQUEST_ID',
@@ -420,7 +420,7 @@ class SysPasswordRequestTableMap extends TableMap
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \SysPasswordRequest) { // it's a model object
+        } elseif ($values instanceof \App\model\domain\SysPasswordRequest) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks

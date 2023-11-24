@@ -1,9 +1,9 @@
 <?php
 
-namespace Map;
+namespace App\model\domain\Map;
 
-use \SysModule;
-use \SysModuleQuery;
+use App\model\domain\SysModule;
+use App\model\domain\SysModuleQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -34,7 +34,7 @@ class SysModuleTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.SysModuleTableMap';
+    const CLASS_NAME = 'App.model.domain.Map.SysModuleTableMap';
 
     /**
      * The default database name for this class
@@ -49,12 +49,12 @@ class SysModuleTableMap extends TableMap
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\SysModule';
+    const OM_CLASS = '\\App\\model\\domain\\SysModule';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'SysModule';
+    const CLASS_DEFAULT = 'App.model.domain.SysModule';
 
     /**
      * The total number of columns
@@ -152,8 +152,8 @@ class SysModuleTableMap extends TableMap
         $this->setName('sys_module');
         $this->setPhpName('SysModule');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\SysModule');
-        $this->setPackage('');
+        $this->setClassName('\\App\\model\\domain\\SysModule');
+        $this->setPackage('App.model.domain');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
@@ -170,7 +170,7 @@ class SysModuleTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('SysUri', '\\SysUri', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('SysUri', '\\App\\model\\domain\\SysUri', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':MODULE_ID',
@@ -381,7 +381,7 @@ class SysModuleTableMap extends TableMap
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \SysModule) { // it's a model object
+        } elseif ($values instanceof \App\model\domain\SysModule) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks

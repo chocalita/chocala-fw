@@ -1,9 +1,9 @@
 <?php
 
-namespace Map;
+namespace App\model\domain\Map;
 
-use \SysUser;
-use \SysUserQuery;
+use App\model\domain\SysUser;
+use App\model\domain\SysUserQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -34,7 +34,7 @@ class SysUserTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.SysUserTableMap';
+    const CLASS_NAME = 'App.model.domain.Map.SysUserTableMap';
 
     /**
      * The default database name for this class
@@ -49,12 +49,12 @@ class SysUserTableMap extends TableMap
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\SysUser';
+    const OM_CLASS = '\\App\\model\\domain\\SysUser';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'SysUser';
+    const CLASS_DEFAULT = 'App.model.domain.SysUser';
 
     /**
      * The total number of columns
@@ -187,8 +187,8 @@ class SysUserTableMap extends TableMap
         $this->setName('sys_user');
         $this->setPhpName('SysUser');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\SysUser');
-        $this->setPackage('');
+        $this->setClassName('\\App\\model\\domain\\SysUser');
+        $this->setPackage('App.model.domain');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
@@ -212,70 +212,70 @@ class SysUserTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('SysAuth', '\\SysAuth', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('SysAuth', '\\App\\model\\domain\\SysAuth', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':USER_ID',
     1 => ':ID',
   ),
 ), null, null, 'SysAuths', false);
-        $this->addRelation('SysEmailSent', '\\SysEmailSent', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('SysEmailSent', '\\App\\model\\domain\\SysEmailSent', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':USER_ID',
     1 => ':ID',
   ),
 ), null, null, 'SysEmailSents', false);
-        $this->addRelation('SysEntityUser', '\\SysEntityUser', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('SysEntityUser', '\\App\\model\\domain\\SysEntityUser', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':USER_ID',
     1 => ':ID',
   ),
 ), null, null, 'SysEntityUsers', false);
-        $this->addRelation('SysEventUser', '\\SysEventUser', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('SysEventUser', '\\App\\model\\domain\\SysEventUser', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':USER_ID',
     1 => ':ID',
   ),
 ), null, null, 'SysEventUsers', false);
-        $this->addRelation('SysImage', '\\SysImage', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('SysImage', '\\App\\model\\domain\\SysImage', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':USER_ID',
     1 => ':ID',
   ),
 ), null, null, 'SysImages', false);
-        $this->addRelation('SysPassword', '\\SysPassword', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('SysPassword', '\\App\\model\\domain\\SysPassword', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':USER_ID',
     1 => ':ID',
   ),
 ), null, null, 'SysPasswords', false);
-        $this->addRelation('SysPasswordRequest', '\\SysPasswordRequest', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('SysPasswordRequest', '\\App\\model\\domain\\SysPasswordRequest', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':USER_ID',
     1 => ':ID',
   ),
 ), null, null, 'SysPasswordRequests', false);
-        $this->addRelation('SysPerson', '\\SysPerson', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('SysPerson', '\\App\\model\\domain\\SysPerson', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':USER_ID',
     1 => ':ID',
   ),
 ), null, null, 'Syspeople', false);
-        $this->addRelation('SysUserParam', '\\SysUserParam', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('SysUserParam', '\\App\\model\\domain\\SysUserParam', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':USER_ID',
     1 => ':ID',
   ),
 ), null, null, 'SysUserParams', false);
-        $this->addRelation('SysUserXRol', '\\SysUserXRol', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('SysUserXRol', '\\App\\model\\domain\\SysUserXRol', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':USER_ID',
@@ -500,7 +500,7 @@ class SysUserTableMap extends TableMap
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \SysUser) { // it's a model object
+        } elseif ($values instanceof \App\model\domain\SysUser) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks

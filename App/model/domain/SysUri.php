@@ -1,6 +1,10 @@
 <?php
 
-use Base\SysUri as BaseSysUri;
+namespace App\model\domain;
+
+use Chocala\Behavior\Validatable;
+
+use App\model\domain\Base\SysUri as BaseSysUri;
 
 /**
  *

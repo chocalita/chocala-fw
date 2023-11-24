@@ -1,9 +1,9 @@
 <?php
 
-namespace Map;
+namespace App\model\domain\Map;
 
-use \SysEvent;
-use \SysEventQuery;
+use App\model\domain\SysEvent;
+use App\model\domain\SysEventQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -34,7 +34,7 @@ class SysEventTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.SysEventTableMap';
+    const CLASS_NAME = 'App.model.domain.Map.SysEventTableMap';
 
     /**
      * The default database name for this class
@@ -49,12 +49,12 @@ class SysEventTableMap extends TableMap
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\SysEvent';
+    const OM_CLASS = '\\App\\model\\domain\\SysEvent';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'SysEvent';
+    const CLASS_DEFAULT = 'App.model.domain.SysEvent';
 
     /**
      * The total number of columns
@@ -147,8 +147,8 @@ class SysEventTableMap extends TableMap
         $this->setName('sys_event');
         $this->setPhpName('SysEvent');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\SysEvent');
-        $this->setPackage('');
+        $this->setClassName('\\App\\model\\domain\\SysEvent');
+        $this->setPackage('App.model.domain');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
@@ -164,7 +164,7 @@ class SysEventTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('SysEventUser', '\\SysEventUser', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('SysEventUser', '\\App\\model\\domain\\SysEventUser', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':EVENT_ID',
@@ -373,7 +373,7 @@ class SysEventTableMap extends TableMap
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \SysEvent) { // it's a model object
+        } elseif ($values instanceof \App\model\domain\SysEvent) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks

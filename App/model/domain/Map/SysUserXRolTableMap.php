@@ -1,9 +1,9 @@
 <?php
 
-namespace Map;
+namespace App\model\domain\Map;
 
-use \SysUserXRol;
-use \SysUserXRolQuery;
+use App\model\domain\SysUserXRol;
+use App\model\domain\SysUserXRolQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -34,7 +34,7 @@ class SysUserXRolTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.SysUserXRolTableMap';
+    const CLASS_NAME = 'App.model.domain.Map.SysUserXRolTableMap';
 
     /**
      * The default database name for this class
@@ -49,12 +49,12 @@ class SysUserXRolTableMap extends TableMap
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\SysUserXRol';
+    const OM_CLASS = '\\App\\model\\domain\\SysUserXRol';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'SysUserXRol';
+    const CLASS_DEFAULT = 'App.model.domain.SysUserXRol';
 
     /**
      * The total number of columns
@@ -127,8 +127,8 @@ class SysUserXRolTableMap extends TableMap
         $this->setName('sys_user_x_rol');
         $this->setPhpName('SysUserXRol');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\SysUserXRol');
-        $this->setPackage('');
+        $this->setClassName('\\App\\model\\domain\\SysUserXRol');
+        $this->setPackage('App.model.domain');
         $this->setUseIdGenerator(false);
         // columns
         $this->addForeignPrimaryKey('USER_ID', 'UserId', 'INTEGER' , 'sys_user', 'ID', true, null, null);
@@ -140,14 +140,14 @@ class SysUserXRolTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('SysUser', '\\SysUser', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('SysUser', '\\App\\model\\domain\\SysUser', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':USER_ID',
     1 => ':ID',
   ),
 ), null, null, null, false);
-        $this->addRelation('SysRol', '\\SysRol', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('SysRol', '\\App\\model\\domain\\SysRol', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':ROL_ID',
@@ -164,7 +164,7 @@ class SysUserXRolTableMap extends TableMap
      * to the cache in order to ensure that the same objects are always returned by find*()
      * and findPk*() calls.
      *
-     * @param \SysUserXRol $obj A \SysUserXRol object.
+     * @param \App\model\domain\SysUserXRol $obj A \App\model\domain\SysUserXRol object.
      * @param string $key             (optional) key to use for instance map (for performance boost if key was already calculated externally).
      */
     public static function addInstanceToPool($obj, $key = null)
@@ -185,12 +185,12 @@ class SysUserXRolTableMap extends TableMap
      * methods in your stub classes -- you may need to explicitly remove objects
      * from the cache in order to prevent returning objects that no longer exist.
      *
-     * @param mixed $value A \SysUserXRol object or a primary key value.
+     * @param mixed $value A \App\model\domain\SysUserXRol object or a primary key value.
      */
     public static function removeInstanceFromPool($value)
     {
         if (Propel::isInstancePoolingEnabled() && null !== $value) {
-            if (is_object($value) && $value instanceof \SysUserXRol) {
+            if (is_object($value) && $value instanceof \App\model\domain\SysUserXRol) {
                 $key = serialize([(null === $value->getUserId() || is_scalar($value->getUserId()) || is_callable([$value->getUserId(), '__toString']) ? (string) $value->getUserId() : $value->getUserId()), (null === $value->getRolId() || is_scalar($value->getRolId()) || is_callable([$value->getRolId(), '__toString']) ? (string) $value->getRolId() : $value->getRolId())]);
 
             } elseif (is_array($value) && count($value) === 2) {
@@ -201,7 +201,7 @@ class SysUserXRolTableMap extends TableMap
 
                 return;
             } else {
-                $e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or \SysUserXRol object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value, true)));
+                $e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or \App\model\domain\SysUserXRol object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value, true)));
                 throw $e;
             }
 
@@ -410,7 +410,7 @@ class SysUserXRolTableMap extends TableMap
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \SysUserXRol) { // it's a model object
+        } elseif ($values instanceof \App\model\domain\SysUserXRol) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks

@@ -1,9 +1,9 @@
 <?php
 
-namespace Map;
+namespace App\model\domain\Map;
 
-use \SysLocation;
-use \SysLocationQuery;
+use App\model\domain\SysLocation;
+use App\model\domain\SysLocationQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -34,7 +34,7 @@ class SysLocationTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.SysLocationTableMap';
+    const CLASS_NAME = 'App.model.domain.Map.SysLocationTableMap';
 
     /**
      * The default database name for this class
@@ -49,12 +49,12 @@ class SysLocationTableMap extends TableMap
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\SysLocation';
+    const OM_CLASS = '\\App\\model\\domain\\SysLocation';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'SysLocation';
+    const CLASS_DEFAULT = 'App.model.domain.SysLocation';
 
     /**
      * The total number of columns
@@ -177,8 +177,8 @@ class SysLocationTableMap extends TableMap
         $this->setName('sys_location');
         $this->setPhpName('SysLocation');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\SysLocation');
-        $this->setPackage('');
+        $this->setClassName('\\App\\model\\domain\\SysLocation');
+        $this->setPackage('App.model.domain');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
@@ -200,14 +200,14 @@ class SysLocationTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('SysEntity', '\\SysEntity', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('SysEntity', '\\App\\model\\domain\\SysEntity', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':LOCATION_ID',
     1 => ':ID',
   ),
 ), null, null, 'SysEntities', false);
-        $this->addRelation('SysEntityBranch', '\\SysEntityBranch', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('SysEntityBranch', '\\App\\model\\domain\\SysEntityBranch', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':LOCATION_ID',
@@ -428,7 +428,7 @@ class SysLocationTableMap extends TableMap
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \SysLocation) { // it's a model object
+        } elseif ($values instanceof \App\model\domain\SysLocation) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks

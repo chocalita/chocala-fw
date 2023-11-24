@@ -1,9 +1,9 @@
 <?php
 
-namespace Map;
+namespace App\model\domain\Map;
 
-use \SysRol;
-use \SysRolQuery;
+use App\model\domain\SysRol;
+use App\model\domain\SysRolQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -34,7 +34,7 @@ class SysRolTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.SysRolTableMap';
+    const CLASS_NAME = 'App.model.domain.Map.SysRolTableMap';
 
     /**
      * The default database name for this class
@@ -49,12 +49,12 @@ class SysRolTableMap extends TableMap
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\SysRol';
+    const OM_CLASS = '\\App\\model\\domain\\SysRol';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'SysRol';
+    const CLASS_DEFAULT = 'App.model.domain.SysRol';
 
     /**
      * The total number of columns
@@ -137,8 +137,8 @@ class SysRolTableMap extends TableMap
         $this->setName('sys_rol');
         $this->setPhpName('SysRol');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\SysRol');
-        $this->setPackage('');
+        $this->setClassName('\\App\\model\\domain\\SysRol');
+        $this->setPackage('App.model.domain');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
@@ -152,21 +152,21 @@ class SysRolTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('SysEntityUser', '\\SysEntityUser', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('SysEntityUser', '\\App\\model\\domain\\SysEntityUser', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':ROL_ID',
     1 => ':ID',
   ),
 ), null, null, 'SysEntityUsers', false);
-        $this->addRelation('SysRolXUri', '\\SysRolXUri', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('SysRolXUri', '\\App\\model\\domain\\SysRolXUri', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':ROL_ID',
     1 => ':ID',
   ),
 ), null, null, 'SysRolXUris', false);
-        $this->addRelation('SysUserXRol', '\\SysUserXRol', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('SysUserXRol', '\\App\\model\\domain\\SysUserXRol', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':ROL_ID',
@@ -371,7 +371,7 @@ class SysRolTableMap extends TableMap
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \SysRol) { // it's a model object
+        } elseif ($values instanceof \App\model\domain\SysRol) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks

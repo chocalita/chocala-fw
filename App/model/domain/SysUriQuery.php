@@ -1,6 +1,10 @@
 <?php
 
-use Base\SysUriQuery as BaseSysUriQuery;
+namespace App\model\domain;
+
+use Chocala\Behavior\SoftQuery;
+
+use App\model\domain\Base\SysUriQuery as BaseSysUriQuery;
 
 /**
  *

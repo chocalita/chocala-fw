@@ -1,9 +1,9 @@
 <?php
 
-namespace Map;
+namespace App\model\domain\Map;
 
-use \SysEntityParam;
-use \SysEntityParamQuery;
+use App\model\domain\SysEntityParam;
+use App\model\domain\SysEntityParamQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -34,7 +34,7 @@ class SysEntityParamTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.SysEntityParamTableMap';
+    const CLASS_NAME = 'App.model.domain.Map.SysEntityParamTableMap';
 
     /**
      * The default database name for this class
@@ -49,12 +49,12 @@ class SysEntityParamTableMap extends TableMap
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\SysEntityParam';
+    const OM_CLASS = '\\App\\model\\domain\\SysEntityParam';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'SysEntityParam';
+    const CLASS_DEFAULT = 'App.model.domain.SysEntityParam';
 
     /**
      * The total number of columns
@@ -157,8 +157,8 @@ class SysEntityParamTableMap extends TableMap
         $this->setName('sys_entity_param');
         $this->setPhpName('SysEntityParam');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\SysEntityParam');
-        $this->setPackage('');
+        $this->setClassName('\\App\\model\\domain\\SysEntityParam');
+        $this->setPackage('App.model.domain');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
@@ -176,14 +176,14 @@ class SysEntityParamTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('SysEntity', '\\SysEntity', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('SysEntity', '\\App\\model\\domain\\SysEntity', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':ENTITY_ID',
     1 => ':ID',
   ),
 ), null, null, null, false);
-        $this->addRelation('SysParam', '\\SysParam', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('SysParam', '\\App\\model\\domain\\SysParam', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':PARAM_ID',
@@ -396,7 +396,7 @@ class SysEntityParamTableMap extends TableMap
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \SysEntityParam) { // it's a model object
+        } elseif ($values instanceof \App\model\domain\SysEntityParam) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks

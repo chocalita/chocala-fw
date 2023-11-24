@@ -1,9 +1,9 @@
 <?php
 
-namespace Map;
+namespace App\model\domain\Map;
 
-use \SysEmailSent;
-use \SysEmailSentQuery;
+use App\model\domain\SysEmailSent;
+use App\model\domain\SysEmailSentQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -34,7 +34,7 @@ class SysEmailSentTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.SysEmailSentTableMap';
+    const CLASS_NAME = 'App.model.domain.Map.SysEmailSentTableMap';
 
     /**
      * The default database name for this class
@@ -49,12 +49,12 @@ class SysEmailSentTableMap extends TableMap
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\SysEmailSent';
+    const OM_CLASS = '\\App\\model\\domain\\SysEmailSent';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'SysEmailSent';
+    const CLASS_DEFAULT = 'App.model.domain.SysEmailSent';
 
     /**
      * The total number of columns
@@ -192,8 +192,8 @@ class SysEmailSentTableMap extends TableMap
         $this->setName('sys_email_sent');
         $this->setPhpName('SysEmailSent');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\SysEmailSent');
-        $this->setPackage('');
+        $this->setClassName('\\App\\model\\domain\\SysEmailSent');
+        $this->setPackage('App.model.domain');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
@@ -218,14 +218,14 @@ class SysEmailSentTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('SysEmail', '\\SysEmail', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('SysEmail', '\\App\\model\\domain\\SysEmail', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':EMAIL_ID',
     1 => ':ID',
   ),
 ), null, null, null, false);
-        $this->addRelation('SysUser', '\\SysUser', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('SysUser', '\\App\\model\\domain\\SysUser', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':USER_ID',
@@ -452,7 +452,7 @@ class SysEmailSentTableMap extends TableMap
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \SysEmailSent) { // it's a model object
+        } elseif ($values instanceof \App\model\domain\SysEmailSent) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks

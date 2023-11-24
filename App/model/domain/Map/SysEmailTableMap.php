@@ -1,9 +1,9 @@
 <?php
 
-namespace Map;
+namespace App\model\domain\Map;
 
-use \SysEmail;
-use \SysEmailQuery;
+use App\model\domain\SysEmail;
+use App\model\domain\SysEmailQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -34,7 +34,7 @@ class SysEmailTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.SysEmailTableMap';
+    const CLASS_NAME = 'App.model.domain.Map.SysEmailTableMap';
 
     /**
      * The default database name for this class
@@ -49,12 +49,12 @@ class SysEmailTableMap extends TableMap
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\SysEmail';
+    const OM_CLASS = '\\App\\model\\domain\\SysEmail';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'SysEmail';
+    const CLASS_DEFAULT = 'App.model.domain.SysEmail';
 
     /**
      * The total number of columns
@@ -192,8 +192,8 @@ class SysEmailTableMap extends TableMap
         $this->setName('sys_email');
         $this->setPhpName('SysEmail');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\SysEmail');
-        $this->setPackage('');
+        $this->setClassName('\\App\\model\\domain\\SysEmail');
+        $this->setPackage('App.model.domain');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
@@ -218,7 +218,7 @@ class SysEmailTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('SysEmailSent', '\\SysEmailSent', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('SysEmailSent', '\\App\\model\\domain\\SysEmailSent', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':EMAIL_ID',
@@ -445,7 +445,7 @@ class SysEmailTableMap extends TableMap
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \SysEmail) { // it's a model object
+        } elseif ($values instanceof \App\model\domain\SysEmail) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks

@@ -1,6 +1,10 @@
 <?php
 
-use Base\SysUserXRol as BaseSysUserXRol;
+namespace App\model\domain;
+
+use Chocala\Behavior\Validatable;
+
+use App\model\domain\Base\SysUserXRol as BaseSysUserXRol;
 
 /**
  *

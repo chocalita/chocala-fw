@@ -1,9 +1,9 @@
 <?php
 
-namespace Map;
+namespace App\model\domain\Map;
 
-use \SysEntityType;
-use \SysEntityTypeQuery;
+use App\model\domain\SysEntityType;
+use App\model\domain\SysEntityTypeQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -34,7 +34,7 @@ class SysEntityTypeTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.SysEntityTypeTableMap';
+    const CLASS_NAME = 'App.model.domain.Map.SysEntityTypeTableMap';
 
     /**
      * The default database name for this class
@@ -49,12 +49,12 @@ class SysEntityTypeTableMap extends TableMap
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\SysEntityType';
+    const OM_CLASS = '\\App\\model\\domain\\SysEntityType';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'SysEntityType';
+    const CLASS_DEFAULT = 'App.model.domain.SysEntityType';
 
     /**
      * The total number of columns
@@ -142,8 +142,8 @@ class SysEntityTypeTableMap extends TableMap
         $this->setName('sys_entity_type');
         $this->setPhpName('SysEntityType');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\SysEntityType');
-        $this->setPackage('');
+        $this->setClassName('\\App\\model\\domain\\SysEntityType');
+        $this->setPackage('App.model.domain');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
@@ -158,7 +158,7 @@ class SysEntityTypeTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('SysEntity', '\\SysEntity', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('SysEntity', '\\App\\model\\domain\\SysEntity', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':ENTITY_TYPE_ID',
@@ -365,7 +365,7 @@ class SysEntityTypeTableMap extends TableMap
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \SysEntityType) { // it's a model object
+        } elseif ($values instanceof \App\model\domain\SysEntityType) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks

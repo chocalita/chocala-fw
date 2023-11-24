@@ -1,6 +1,10 @@
 <?php
 
-use Base\SysRolQuery as BaseSysRolQuery;
+namespace App\model\domain;
+
+use Chocala\Behavior\SoftQuery;
+
+use App\model\domain\Base\SysRolQuery as BaseSysRolQuery;
 
 /**
  *

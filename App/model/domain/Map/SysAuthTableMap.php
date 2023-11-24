@@ -1,9 +1,9 @@
 <?php
 
-namespace Map;
+namespace App\model\domain\Map;
 
-use \SysAuth;
-use \SysAuthQuery;
+use App\model\domain\SysAuth;
+use App\model\domain\SysAuthQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -34,7 +34,7 @@ class SysAuthTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.SysAuthTableMap';
+    const CLASS_NAME = 'App.model.domain.Map.SysAuthTableMap';
 
     /**
      * The default database name for this class
@@ -49,12 +49,12 @@ class SysAuthTableMap extends TableMap
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\SysAuth';
+    const OM_CLASS = '\\App\\model\\domain\\SysAuth';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'SysAuth';
+    const CLASS_DEFAULT = 'App.model.domain.SysAuth';
 
     /**
      * The total number of columns
@@ -157,8 +157,8 @@ class SysAuthTableMap extends TableMap
         $this->setName('sys_auth');
         $this->setPhpName('SysAuth');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\SysAuth');
-        $this->setPackage('');
+        $this->setClassName('\\App\\model\\domain\\SysAuth');
+        $this->setPackage('App.model.domain');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
@@ -176,7 +176,7 @@ class SysAuthTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('SysUser', '\\SysUser', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('SysUser', '\\App\\model\\domain\\SysUser', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':USER_ID',
@@ -389,7 +389,7 @@ class SysAuthTableMap extends TableMap
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \SysAuth) { // it's a model object
+        } elseif ($values instanceof \App\model\domain\SysAuth) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks

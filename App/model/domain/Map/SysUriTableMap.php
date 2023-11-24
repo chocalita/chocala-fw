@@ -1,9 +1,9 @@
 <?php
 
-namespace Map;
+namespace App\model\domain\Map;
 
-use \SysUri;
-use \SysUriQuery;
+use App\model\domain\SysUri;
+use App\model\domain\SysUriQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -34,7 +34,7 @@ class SysUriTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.SysUriTableMap';
+    const CLASS_NAME = 'App.model.domain.Map.SysUriTableMap';
 
     /**
      * The default database name for this class
@@ -49,12 +49,12 @@ class SysUriTableMap extends TableMap
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\SysUri';
+    const OM_CLASS = '\\App\\model\\domain\\SysUri';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'SysUri';
+    const CLASS_DEFAULT = 'App.model.domain.SysUri';
 
     /**
      * The total number of columns
@@ -172,8 +172,8 @@ class SysUriTableMap extends TableMap
         $this->setName('sys_uri');
         $this->setPhpName('SysUri');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\SysUri');
-        $this->setPackage('');
+        $this->setClassName('\\App\\model\\domain\\SysUri');
+        $this->setPackage('App.model.domain');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
@@ -194,14 +194,14 @@ class SysUriTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('SysModule', '\\SysModule', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('SysModule', '\\App\\model\\domain\\SysModule', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':MODULE_ID',
     1 => ':ID',
   ),
 ), null, null, null, false);
-        $this->addRelation('SysRolXUri', '\\SysRolXUri', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('SysRolXUri', '\\App\\model\\domain\\SysRolXUri', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':URI_ID',
@@ -420,7 +420,7 @@ class SysUriTableMap extends TableMap
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \SysUri) { // it's a model object
+        } elseif ($values instanceof \App\model\domain\SysUri) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks

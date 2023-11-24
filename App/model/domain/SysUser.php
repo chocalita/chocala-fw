@@ -1,12 +1,17 @@
 <?php
 
-use Base\SysUser as BaseSysUser;
+namespace App\model\domain;
+
+use App\model\domain\Base\SysUser as BaseSysUser;
+
+use Chocala\Behavior\Convertible;
+use Chocala\Behavior\Validatable;
 
 /**
  *
  * @author: ypra
  */
-class SysUser extends BaseSysUser implements JsonSerializable
+class SysUser extends BaseSysUser implements \JsonSerializable
 {
     use Validatable, Convertible;
 

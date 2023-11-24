@@ -1,9 +1,9 @@
 <?php
 
-namespace Map;
+namespace App\model\domain\Map;
 
-use \SysEventUser;
-use \SysEventUserQuery;
+use App\model\domain\SysEventUser;
+use App\model\domain\SysEventUserQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -34,7 +34,7 @@ class SysEventUserTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.SysEventUserTableMap';
+    const CLASS_NAME = 'App.model.domain.Map.SysEventUserTableMap';
 
     /**
      * The default database name for this class
@@ -49,12 +49,12 @@ class SysEventUserTableMap extends TableMap
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\SysEventUser';
+    const OM_CLASS = '\\App\\model\\domain\\SysEventUser';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'SysEventUser';
+    const CLASS_DEFAULT = 'App.model.domain.SysEventUser';
 
     /**
      * The total number of columns
@@ -147,8 +147,8 @@ class SysEventUserTableMap extends TableMap
         $this->setName('sys_event_user');
         $this->setPhpName('SysEventUser');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\SysEventUser');
-        $this->setPackage('');
+        $this->setClassName('\\App\\model\\domain\\SysEventUser');
+        $this->setPackage('App.model.domain');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
@@ -164,14 +164,14 @@ class SysEventUserTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('SysEvent', '\\SysEvent', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('SysEvent', '\\App\\model\\domain\\SysEvent', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':EVENT_ID',
     1 => ':ID',
   ),
 ), null, null, null, false);
-        $this->addRelation('SysUser', '\\SysUser', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('SysUser', '\\App\\model\\domain\\SysUser', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':USER_ID',
@@ -380,7 +380,7 @@ class SysEventUserTableMap extends TableMap
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \SysEventUser) { // it's a model object
+        } elseif ($values instanceof \App\model\domain\SysEventUser) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
