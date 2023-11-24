@@ -1,6 +1,6 @@
 <?php
-Chocala::import("Modules.system.event.EventService");
-Chocala::import("Modules.system.eventUser.EventUserService");
+
+namespace App\model\app;
 
 /**
  *

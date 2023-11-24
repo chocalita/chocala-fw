@@ -1,5 +1,7 @@
 <?php
 
+use Chocala\Util\PHPMailer;
+
 /**
  * @author ypra
  * Date: 4/4/2016

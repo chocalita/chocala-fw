@@ -1,4 +1,11 @@
 <?php
+
+namespace App\model\security;
+
+use App\model\domain\SysUriQuery;
+use App\model\domain\SysUser;
+use Chocala\Behavior\Criteria;
+
 /**
  * Final node of Modules (PAGE)
  * COMPOSITE Pattern
@@ -346,7 +353,7 @@ class Page
         $uris = is_array($uri)? $uri: array(is_string($uri)? $uri: null);
         $sysUri = SysUriQuery::create()
                 /*
-                ->_if(ChocalaVars::asBoolean(Configs::value('app.run.modular')))
+                ->_if(ChocalaVars::asBoolean(Config::_('app.run.modular')))
                 ->_else()
                     ->filterByUri($uris, Criterio::IN)
                     ->withColumn("LENGTH(SysUri.uri)", "UriLenght")

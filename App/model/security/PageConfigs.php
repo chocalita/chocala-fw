@@ -1,4 +1,7 @@
 <?php
+
+namespace App\model\security;
+
 /**
  * Description of PageConfigs
  *

@@ -10,12 +10,12 @@ class ClientPageControl extends PageControl
     public static function hasAccess()
     {
         if(parent::hasAccess()){
-            $_SESSION[Params::value('SYSTEM_CODE').'Cliente'] = serialize(
+            $_SESSION[Param::_('SYSTEM_CODE').'Cliente'] = serialize(
             SycClientePeer::retrieveByPK(1));
-            if(isset($_SESSION[Params::value('SYSTEM_CODE').'Cliente'])
-                && is_object(unserialize($_SESSION[Params::value('SYSTEM_CODE')
+            if(isset($_SESSION[Param::_('SYSTEM_CODE').'Cliente'])
+                && is_object(unserialize($_SESSION[Param::_('SYSTEM_CODE')
                             .'Cliente']))){
-                $sycCliente = unserialize($_SESSION[Params::value('SYSTEM_CODE')
+                $sycCliente = unserialize($_SESSION[Param::_('SYSTEM_CODE')
                         .'Cliente']);
                 define("ID_CLIENTE", $sycCliente->getClienteId());
                 self::$user = User::createUser($sycCliente);

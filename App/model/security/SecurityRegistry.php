@@ -1,4 +1,10 @@
 <?php
+
+namespace App\model\security;
+
+use Chocala\Base\ISingletonRegistry;
+use Chocala\Behavior\Logger;
+
 require_once('PageControl.php');
 require_once('UserControl.php');
 

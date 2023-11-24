@@ -1,5 +1,15 @@
 <?php
-require_once('SecurityRegistry.php');
+
+namespace App\model\security;
+
+use App\model\domain\SysRolQuery;
+use App\model\domain\SysUser;
+use App\model\domain\SysUserQuery;
+
+use Chocala\Configuration\Config;
+use Chocala\Base\Singleton;
+use Chocala\Behavior\Criteria;
+use Chocala\System\Session;
 
 /**
  * UserControlClass (Singleton Registered)
@@ -7,7 +17,7 @@ require_once('SecurityRegistry.php');
  *
  * @author ypra
  */
-class UserControl implements ISingleton
+class UserControl implements Singleton
 {
 
     /**
@@ -55,7 +65,7 @@ class UserControl implements ISingleton
      */
     public static function sessionVar()
     {
-        return Configs::value('app.code').'_USER';
+        return Config::_('app.code').'_USER';
     }
 
     public function __construct()

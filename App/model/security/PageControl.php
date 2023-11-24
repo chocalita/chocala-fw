@@ -1,14 +1,23 @@
 <?php
+
+namespace App\model\security;
+
 require_once('Page.php');
 require_once('PageConfigs.php');
 require_once('UserControl.php');
+
+use Chocala\Base\Singleton;
+use Chocala\Base\URI;
+
+use App\model\security\Page;
+
 /**
  * PageControl class (Singleton Registered)
  * SINGLETON Pattern (SINGLETON REFACTORIZED)
  *
  * @author ypra
  */
-class PageControl implements ISingleton
+class PageControl implements Singleton
 {
 
     /**
