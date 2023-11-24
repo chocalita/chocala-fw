@@ -1,5 +1,8 @@
 <?php
-Chocala::import("Model.app.AuditLog");
+
+use \App\model\app\AuditLog;
+use \Chocala\Base\WebController;
+use \Chocala\Behavior\Logging;
 
 /**
  * Description of AdminWebController

@@ -25,6 +25,9 @@
         <generator>
             <defaultConnection>default</defaultConnection>
             <connection>default</connection>
+            <schema>
+                <autoPackage>false</autoPackage>
+            </schema>
         </generator>
     </propel>
 </config>

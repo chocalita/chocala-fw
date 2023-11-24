@@ -1,4 +1,7 @@
 <?php
+
+use Chocala\Base\ChocalaSingleService;
+
 /**
  *
  * @author ypra

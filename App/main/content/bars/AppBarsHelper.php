@@ -1,4 +1,11 @@
 <?php
+
+use Chocala\Presentation\BarView;
+
+use App\model\security\PageControl;
+use App\model\security\UserControl;
+
+
 /**
  * This class is a helper that scope the variables for the bar renderization
  *

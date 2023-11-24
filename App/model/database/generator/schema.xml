@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<database name="default" defaultIdMethod="native" defaultPhpNamingMethod="underscore">
+<database name="default" defaultIdMethod="native" defaultPhpNamingMethod="underscore" namespace="App\model\domain">
   <table name="sys_auth" idMethod="native" phpName="SysAuth">
     <column name="ID" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="USER_ID" phpName="UserId" type="INTEGER" required="true"/>

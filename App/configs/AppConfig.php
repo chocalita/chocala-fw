@@ -1,4 +1,7 @@
 <?php
+
+namespace App\configs;
+
 class AppConfig
 {
 

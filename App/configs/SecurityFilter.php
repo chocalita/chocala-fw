@@ -1,4 +1,9 @@
 <?php
+
+namespace App\configs;
+
+use Chocala\Base\Chocala;
+
 Chocala::import('Model.security.SecurityRegistry');
 
 /**
@@ -6,7 +11,7 @@ Chocala::import('Model.security.SecurityRegistry');
  *
  * @author ypra
  */
-class SecurityFilter extends ChocalaFilter
+class SecurityFilter extends \Chocala\Base\ChocalaFilter
 {
 
     private static $noControls = ['system' => '*'];

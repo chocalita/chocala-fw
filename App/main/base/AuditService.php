@@ -1,5 +1,7 @@
 <?php
 
+use Chocala\Behavior\Logging;
+
 /**
  *
  * @author: ypra

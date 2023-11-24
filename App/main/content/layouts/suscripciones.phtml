@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title><?=Configs::value('app.name');?></title>
+    <title><?=Config::_('app.name');?></title>
 
     <link href="<?=CSS_WEB;?>bootstrap.min.css" rel="stylesheet" />
 
@@ -132,7 +132,7 @@
                     El <strong>Portal de Empleos</strong> de Bolivia.
                 </div>
                 <div>
-                    <strong>Derechos Reservados</strong> <?=Configs::value('app.company');?> &copy; <?=date('Y');?>
+                    <strong>Derechos Reservados</strong> <?=Config::_('app.company');?> &copy; <?=date('Y');?>
                 </div>
             </div>
 
