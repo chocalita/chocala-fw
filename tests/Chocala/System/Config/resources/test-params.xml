@@ -1,0 +1,22 @@
+<params>
+    <param name="SWITCH_PARAM" value="true" type="SWITCH" access="PUBLIC">
+        <description>Switch description</description>
+        <options>
+        </options>
+    </param>
+    <param name="INTEGER_PARAM" value="5" type="INTEGER" access="PUBLIC">
+        <description>Integer description</description>
+        <options>
+        </options>
+    </param>
+    <param name="NUMBER_PARAM" value="99.99" type="NUMBER" access="PUBLIC">
+        <description>Number description</description>
+        <options>
+        </options>
+    </param>
+    <param name="STRING_PARAM" value="text" type="STRING" access="PROTECTED">
+        <description>String description</description>
+        <options>
+        </options>
+    </param>
+</params>
