@@ -8,7 +8,7 @@ use Chocala\Http\Parts\HeadersInterface;
 class FakeHeaders implements HeadersInterface
 {
 
-    private $header;
+    private Headers $header;
 
     public function __construct()
     {

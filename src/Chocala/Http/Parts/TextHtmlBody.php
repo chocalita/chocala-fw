@@ -13,7 +13,7 @@ class TextHtmlBody implements MessageBodyInterface
     /**
      * @var MessageBody
      */
-    private $messageBody;
+    private MessageBody $messageBody;
 
     /**
      * FormUrlencodedData constructor.

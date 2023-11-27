@@ -13,22 +13,22 @@ class RequestTest extends TestCase
     /**
      * @var FakeRequestLine
      */
-    private $fakeRequestLine;
+    private FakeRequestLine $fakeRequestLine;
 
     /**
      * @var FakeHeaders
      */
-    private $fakeHeaders;
+    private FakeHeaders $fakeHeaders;
 
     /**
      * @var FakeMessageBody
      */
-    private $fakeMessageBody;
+    private FakeMessageBody $fakeMessageBody;
 
     /**
      * @var Request
      */
-    private $commonRequest;
+    private Request $commonRequest;
 
     public function setUp()
     {

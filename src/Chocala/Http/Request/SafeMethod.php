@@ -14,7 +14,7 @@ class SafeMethod implements RequestInterface
     /**
      * @var RequestInterface
      */
-    private $request;
+    private RequestInterface $request;
 
     public function __construct(RequestInterface $request)
     {

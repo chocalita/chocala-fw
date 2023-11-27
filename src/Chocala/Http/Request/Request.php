@@ -13,17 +13,17 @@ class Request implements RequestInterface
     /**
      * @var RequestLineInterface
      */
-    private $requestLine;
+    private RequestLineInterface $requestLine;
 
     /**
      * @var HeadersInterface
      */
-    private $headers;
+    private HeadersInterface $headers;
 
     /**
      * @var MessageBodyInterface
      */
-    private $messageBody;
+    private MessageBodyInterface $messageBody;
 
     /**
      * Request constructor.

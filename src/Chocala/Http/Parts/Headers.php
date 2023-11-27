@@ -137,27 +137,27 @@ class Headers implements HeadersInterface
     /**
      * @var array All headers list
      */
-    protected $headers;
+    protected array $headers;
 
     /**
      * @var array
      */
-    protected $officialKeyList;
+    protected array $officialKeyList;
 
     /**
      * @var array Map of headers by types
      */
-    protected $headerTypes;
+    protected array $headerTypes;
 
     /**
      * @var array
      */
-    protected $upperHeaders;
+    protected array $upperHeaders;
 
     /**
      * Headers constructor.
      * @param array $headersList
-     * @param array $officialKeyList [OPTIONAL]
+     * @param array|null $officialKeyList [OPTIONAL]
      */
     public function __construct(array $headersList, array $officialKeyList = null)
     {
@@ -240,7 +240,7 @@ class Headers implements HeadersInterface
     /**
      * @return array
      */
-    protected function upperHeaders()
+    protected function upperHeaders(): array
     {
         if (empty($this->upperHeaders)) {
             foreach ($this->headerList() as $k => $v) {

@@ -15,12 +15,15 @@ class PatternMap implements PatternMapInterface
 
     public const URI_STANDARD_PARTS = [self::MODULE, self::CONTROLLER, self::ACTION, self::ID];
 
-    private $pattern;
+    /**
+     * @var string
+     */
+    private string $pattern;
 
     /**
-     * @var array
+     * @var array|null
      */
-    private $map;
+    private ?array $map = null;
 
     public function __construct()
     {
@@ -38,7 +41,7 @@ class PatternMap implements PatternMapInterface
         $this->pattern = $pattern;
     }
 
-    public function pattern()
+    public function pattern(): string
     {
         return $this->pattern;
     }
@@ -46,7 +49,7 @@ class PatternMap implements PatternMapInterface
     /**
      * @return array
      */
-    public function map()
+    public function map(): array
     {
         if ($this->map === null) {
             foreach (self::URI_STANDARD_PARTS as $uriPart) {

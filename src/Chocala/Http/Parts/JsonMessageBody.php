@@ -11,7 +11,7 @@ class JsonMessageBody implements MessageBodyInterface
     /**
      * @var MessageBody
      */
-    private $messageBody;
+    private MessageBody $messageBody;
 
     /**
      * JsonMessageBody constructor.

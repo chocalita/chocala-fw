@@ -11,7 +11,7 @@ class UriPatternMap implements UriPatternMapInterface
     /**
      * @var RoutesInterface
      */
-    private $routes;
+    private RoutesInterface $routes;
 
     /**
      * UriMapping constructor.

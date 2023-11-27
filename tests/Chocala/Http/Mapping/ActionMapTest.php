@@ -7,11 +7,11 @@ use PHPUnit\Framework\TestCase;
 class ActionMapTest extends TestCase
 {
 
-    private $module = "testModule";
-    private $controller = "testController";
-    private $action = "testAction";
-    private $id = 1000;
-    private $params = ['paramA', 'paramB'];
+    private string $module = "testModule";
+    private string $controller = "testController";
+    private string $action = "testAction";
+    private int $id = 1000;
+    private array $params = ['paramA', 'paramB'];
 
     public function testCreations()
     {

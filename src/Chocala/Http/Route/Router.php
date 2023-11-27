@@ -19,13 +19,13 @@ class Router
     /**
      * @var string
      */
-    private $uri;
+    private string $uri;
 
     /**
      * @var string
      *
      */
-    private $method;
+    private string $method;
 
     public function __construct(RoutesInterface $routing, string $uri, string $method)
     {
@@ -35,10 +35,10 @@ class Router
     }
 
     /**
-     * @return ActionMapInterface
+     * @return ActionMap|null
      * @throws \Exception
      */
-    public function resolvedUri(string $realUri)
+    public function resolvedUri() : ?ActionMap
     {
         $uri = $this->realUri();
         $matchCase = $this->matchCase($uri);
@@ -115,7 +115,7 @@ class Router
      * @return mixed|string
      * @throws \Exception
      */
-/*    private function matchCase(string $uri)
+    private function matchCase(string $uri)
     {
         $mapping = $this->routes->mapping();
         if (array_key_exists($uri, $mapping)) {
@@ -145,6 +145,6 @@ class Router
             return array_shift($matches);
         }
         return [];
-    }*/
+    }
 
 }

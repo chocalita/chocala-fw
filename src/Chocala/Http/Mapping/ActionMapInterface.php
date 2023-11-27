@@ -8,17 +8,17 @@ interface ActionMapInterface
     /**
      * @return string
      */
-    public function module();
+    public function module(): string;
 
     /**
      * @return string
      */
-    public function controller();
+    public function controller(): string;
 
     /**
      * @return string
      */
-    public function action();
+    public function action(): string;
 
     /**
      * @return mixed
@@ -28,6 +28,6 @@ interface ActionMapInterface
     /**
      * @return array
      */
-    public function params();
+    public function params(): array;
 
 }

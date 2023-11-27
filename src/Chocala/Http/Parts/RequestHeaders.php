@@ -9,7 +9,8 @@ use Chocala\Base\IllegalArgumentException;
  * @package Chocala\Http
  *
  *
- * In addition, CORS defines a subset of request headers as simple headers, request headers that are always considered authorized and are not explicitly listed in responses to preflight requests.
+ * In addition, CORS defines a subset of request headers as simple headers, request headers that are
+ * always considered authorized and are not explicitly listed in responses to preflight requests.
  * https://developer.mozilla.org/en-US/docs/Glossary/CORS
  */
 class RequestHeaders implements HeadersInterface

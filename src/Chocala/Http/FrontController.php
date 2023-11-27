@@ -11,7 +11,7 @@ class FrontController implements HttpManagement
     /**
      * @var ServerInterface
      */
-    private $server;
+    private ServerInterface $server;
 
     public function __construct(ServerInterface $server)
     {

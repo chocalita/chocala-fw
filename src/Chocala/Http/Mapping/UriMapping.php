@@ -12,7 +12,7 @@ class UriMapping implements UriMappingInterface
     /**
      * @var RoutesInterface
      */
-    private $routes;
+    private RoutesInterface $routes;
 
     /**
      * UriMapping constructor.

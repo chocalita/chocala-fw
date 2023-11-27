@@ -9,9 +9,9 @@ class FakeRoutes implements RoutesInterface
 {
     use Routing;
 
-    protected $urlPattern = '/{module}/{controller}/{action}/{id}';
+    protected string $urlPattern = '/{module}/{controller}/{action}/{id}';
 
-    protected $mapping = [
+    protected array $mapping = [
         '/X{module}/{controller}/{action}' => 'threeParam',
         '/my{controller}/{action}' => 'twoParam',
         '/view/{action}' => '/moduleX/controllerX/{action}',
@@ -20,7 +20,7 @@ class FakeRoutes implements RoutesInterface
         'x' => 'y'
     ];
 
-    protected $routes = [
+    protected array $routes = [
         '/context-path/index' => '/moduleDef/controllerDef/actionDef/idDef',
         '/context-path/mod/ctrl' => '/moduleTest/controllerTest/actionTest/idTest',
         '/context-path/entity/{id}' => '/moduleTest/controllerTest/actionTest/{id}',

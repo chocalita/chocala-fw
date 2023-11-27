@@ -15,22 +15,23 @@ class MappedRequest implements RequestInterface
     /**
      * @var RequestInterface
      */
-    private $originalRequest;
+    private RequestInterface $originalRequest;
 
     /**
      * @var UriMappingInterface
      */
-    private $uriMapping;
+    private UriMappingInterface $uriMapping;
 
     /**
-     * @var RequestLineInterface
+     * @var RequestLineInterface|null
      */
-    private $requestLine;
+    private ?RequestLineInterface $requestLine;
 
     public function __construct(RequestInterface $request, UriMappingInterface $uriMapping)
     {
         $this->originalRequest = &$request;
         $this->uriMapping = &$uriMapping;
+        $this->requestLine = null;
     }
 
     /**

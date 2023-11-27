@@ -8,16 +8,16 @@ interface RoutesInterface
     /**
      * @return string
      */
-    public function urlPattern();
+    public function urlPattern(): string;
 
     /**
      * @return array
      */
-    public function mapping();
+    public function mapping(): array;
 
     /**
      * @return array
      */
-    public function routes();
+    public function routes(): array;
 
 }

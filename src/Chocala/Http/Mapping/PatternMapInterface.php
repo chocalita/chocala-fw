@@ -8,11 +8,11 @@ interface PatternMapInterface
     /**
      * @return string
      */
-    public function pattern();
+    public function pattern(): string;
 
     /**
      * @return array
      */
-    public function map();
+    public function map(): array;
 
 }

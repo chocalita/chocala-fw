@@ -15,13 +15,13 @@ class Dispatch implements ServerInterface
     /**
      * @var RequestInterface
      */
-    private $request;
+    private RequestInterface $request;
 
 
     /**
      * @var ActionMappingInterface
      */
-    private $actionMapping;
+    private ActionMappingInterface $actionMapping;
 
     public function __construct(RequestInterface $request, ActionMappingInterface $actionMapping)
     {

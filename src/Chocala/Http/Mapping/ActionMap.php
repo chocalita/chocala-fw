@@ -8,17 +8,17 @@ class ActionMap implements ActionMapInterface
     /**
      * @var string
      */
-    private $module;
+    private string $module;
 
     /**
      * @var string
      */
-    private $controller;
+    private string $controller;
 
     /**
      * @var string
      */
-    private $action;
+    private string $action;
 
     /**
      * @var mixed
@@ -28,7 +28,7 @@ class ActionMap implements ActionMapInterface
     /**
      * @var array
      */
-    private $params;
+    private array $params;
 
     public function __construct()
     {
@@ -48,7 +48,7 @@ class ActionMap implements ActionMapInterface
         $this->action = $action;
         $this->id = $id;
         // TODO: change to ->  !is_array($this->params)
-        if (is_array($this->params)) {
+        if (!is_array($params)) {
             throw new \InvalidArgumentException('\'params\' value should be an array');
         }
         $this->params = $params;
@@ -72,7 +72,7 @@ class ActionMap implements ActionMapInterface
     /**
      * @return string
      */
-    public function module()
+    public function module(): string
     {
         return $this->module;
     }
@@ -80,7 +80,7 @@ class ActionMap implements ActionMapInterface
     /**
      * @return string
      */
-    public function controller()
+    public function controller(): string
     {
         return $this->controller;
     }
@@ -88,7 +88,7 @@ class ActionMap implements ActionMapInterface
     /**+
      * @return string
      */
-    public function action()
+    public function action(): string
     {
         return $this->action;
     }
@@ -104,7 +104,7 @@ class ActionMap implements ActionMapInterface
     /**
      * @return array
      */
-    public function params()
+    public function params(): array
     {
         return $this->params;
     }

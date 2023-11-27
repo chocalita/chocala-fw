@@ -11,17 +11,17 @@ class RequestLine implements RequestLineInterface
     /**
      * @var string
      */
-    private $method;
+    private string $method;
 
     /**
      * @var string
      */
-    private $requestUri;
+    private string $requestUri;
 
     /**
      * @var string
      */
-    private $httpVersion;
+    private string $httpVersion;
 
     /**
      * RequestLine constructor.

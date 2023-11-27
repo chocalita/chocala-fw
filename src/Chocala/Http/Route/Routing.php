@@ -5,7 +5,7 @@ namespace Chocala\Http\Route;
 trait Routing
 {
 
-    public function urlPattern()
+    public function urlPattern(): string
     {
         if (!property_exists($this, 'urlPattern') || $this->urlPattern == '') {
             throw new \InvalidArgumentException('Invalid \'urlPattern\' attribute in routing class -> ' .
@@ -18,7 +18,7 @@ trait Routing
         return $this->urlPattern;
     }
 
-    public function mapping()
+    public function mapping(): array
     {
         if (!property_exists($this, 'mapping') || !is_array($this->mapping)) {
             throw new \InvalidArgumentException('Invalid \'mapping\' attribute in routing class -> ' .
@@ -27,7 +27,7 @@ trait Routing
         return $this->mapping;
     }
 
-    public function routes()
+    public function routes(): array
     {
         if (!property_exists($this, 'routes') || !is_array($this->routes)) {
             throw new \InvalidArgumentException('Invalid \'routes\' attribute in routing class -> ' .

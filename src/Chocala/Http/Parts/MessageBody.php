@@ -10,7 +10,7 @@ class MessageBody implements MessageBodyInterface
     /**
      * @var string
      */
-    private $type;
+    private string $type;
 
     /**
      * @var mixed

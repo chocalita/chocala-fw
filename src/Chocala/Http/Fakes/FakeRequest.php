@@ -13,9 +13,9 @@ use Chocala\Http\RequestInterface;
 class FakeRequest implements RequestInterface
 {
 
-    private $fakeRequestLine;
-    private $fakeHeaders;
-    private $fakeMessageBody;
+    private RequestLineInterface $fakeRequestLine;
+    private HeadersInterface $fakeHeaders;
+    private MessageBodyInterface $fakeMessageBody;
 
     public function __construct()
     {
