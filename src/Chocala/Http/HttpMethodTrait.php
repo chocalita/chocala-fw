@@ -2,34 +2,26 @@
 
 namespace Chocala\Http;
 
-use http\Env\Request;
+use Exception;
 
 trait HttpMethodTrait
 {
 
-//    public const GET = 'GET';
-//    public const POST = 'POST';
-//    public const PUT = 'PUT';
-//    public const PATCH = 'PATCH';
-//    public const DELETE = 'DELETE';
-//    public const OPTIONS = 'OPTIONS';
-//    public const HEAD = 'HEAD';
+    /**
+     * @var string
+     */
+    protected string $name;
 
     /**
      * @var string
      */
-    protected $name;
-
-    /**
-     * @var string
-     */
-    protected $id;
+    protected string $id;
 
     /**
      * Method data
      * @var array
      */
-    protected $data = [];
+    protected array $data = [];
 
     /**
      * @return string
@@ -80,9 +72,9 @@ trait HttpMethodTrait
     /**
      * Removes a variable in the data array.
      * @param string $key
-     * @return $this
+     * @return HttpMethodInterface
      */
-    public function delete($key)
+    public function delete($key): HttpMethodInterface
     {
         unset($this->data[$key]);
         return $this;
@@ -121,9 +113,9 @@ trait HttpMethodTrait
 
     /**
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
-    protected function generateId()
+    protected function generateId(): string
     {
         return time() . '-' . random_int(100000000, 999999999);
     }

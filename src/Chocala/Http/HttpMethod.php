@@ -2,6 +2,8 @@
 
 namespace Chocala\Http;
 
+use Exception;
+
 abstract class HttpMethod
 {
 
@@ -23,18 +25,18 @@ abstract class HttpMethod
     /**
      * @var string
      */
-    protected $name;
+    protected string $name;
 
     /**
      * @var string
      */
-    protected $id;
+    protected string $id;
 
     /**
      * Method data
      * @var array
      */
-    protected $data = [];
+    protected array $data = [];
 
     /**
      * @return string
@@ -66,7 +68,7 @@ abstract class HttpMethod
      * @param string $key
      * @return bool
      */
-    public function has($key): bool
+    public function has(string $key): bool
     {
         return array_key_exists($key, $this->data);
     }
@@ -77,7 +79,7 @@ abstract class HttpMethod
      * @param mixed $default
      * @return mixed
      */
-    public function get($key, $default = null)
+    public function get(string $key, $default = null)
     {
         return $this->has($key) ? $this->data[$key] : $default;
     }
@@ -87,7 +89,7 @@ abstract class HttpMethod
      * @param string $key
      * @return $this
      */
-    public function delete($key)
+    public function delete($key): HttpMethod
     {
         unset($this->data[$key]);
         return $this;
@@ -126,9 +128,9 @@ abstract class HttpMethod
 
     /**
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
-    protected function generateId()
+    protected function generateId(): string
     {
         return time() . '-' . random_int(100000000, 999999999);
     }

@@ -14,16 +14,16 @@ class Put implements HttpMethodInterface
     /**
      * Represents a unique instance for the class in the system
      * @deprecated Deprecated since version 3.0
-     * @var Put
+     * @var Put|null
      */
-    private static $instance = null;
+    private static ?Put $instance = null;
 
     /**
      * A single class instance from this
      * @return Put
      * @deprecated Deprecated since version 3.0
      */
-    public static function instance()
+    public static function instance(): Put
     {
         if (!is_object(static::$instance)) {
             static::$instance = new self();
@@ -31,6 +31,9 @@ class Put implements HttpMethodInterface
         return static::$instance;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function __construct()
     {
         $this->name = HttpMethod::PUT;

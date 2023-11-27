@@ -2,6 +2,8 @@
 
 namespace Chocala\Base;
 
+use Throwable;
+
 define('IO_EXCEPTION', 21);
 define('ILLEGAL_STATE_EXCEPTION', 23);
 define('DUPLICATE_ELEMENT_EXCEPTION', 24);
@@ -24,7 +26,7 @@ ChocalaException extends \LogicException
      * Construct a Chocala framework exception.
      * @param string $message The Exception message to throw (message is NOT binary safe).
      * @param int $code The Exception code.
-     * @param Throwable $previous [optional] The previous throwable used for the exception chaining.
+     * @param Throwable|null $previous [optional] The previous throwable used for the exception chaining.
      * @since 3.0
      */
     public function __construct(string $message, int $code, Throwable $previous = null)

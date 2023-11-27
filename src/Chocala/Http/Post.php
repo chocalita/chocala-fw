@@ -16,14 +16,14 @@ class Post implements HttpMethodInterface
      * @deprecated Deprecated since version 3.0
      * @var Post
      */
-    private static $instance = null;
+    private static ?Post $instance = null;
 
     /**
      * A single class instance from this
      * @return Post
      * @deprecated Deprecated since version 3.0
      */
-    public static function instance()
+    public static function instance(): Post
     {
         if (!is_object(static::$instance)) {
             static::$instance = new self();
@@ -31,6 +31,9 @@ class Post implements HttpMethodInterface
         return static::$instance;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function __construct()
     {
         $this->name = HttpMethod::POST;

@@ -38,7 +38,7 @@ interface HttpMethodInterface
      * @param $key
      * @return $this
      */
-    public function delete($key);
+    public function delete($key): HttpMethodInterface;
 
     /**
      * @param $key

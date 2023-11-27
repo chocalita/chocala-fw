@@ -2,6 +2,8 @@
 
 namespace Chocala\Http;
 
+use Exception;
+
 /**
  * Description of Get
  *
@@ -16,14 +18,14 @@ class Get implements HttpMethodInterface
      * @deprecated Deprecated since version 3.0
      * @var Get
      */
-    private static $instance = null;
+    private static ?Get $instance = null;
 
     /**
      * A single class instance from this
      * @deprecated Deprecated since version 3.0
      * @return Get
      */
-    public static function instance()
+    public static function instance(): Get
     {
         if (!is_object(static::$instance)) {
             static::$instance = new self();
@@ -31,6 +33,9 @@ class Get implements HttpMethodInterface
         return static::$instance;
     }
 
+    /**
+     * @throws Exception
+     */
     public function __construct()
     {
         $this->name = HttpMethod::GET;
@@ -40,11 +45,11 @@ class Get implements HttpMethodInterface
 
     /**
      * @return mixed|void
-     * @throws \Exception
+     * @throws Exception
      */
     public function body()
     {
-        throw new \Exception('GET method has not a body');
+        throw new Exception('GET method has not a body');
     }
 
 }
