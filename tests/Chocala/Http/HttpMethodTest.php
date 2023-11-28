@@ -2,10 +2,50 @@
 
 namespace Chocala\Http;
 
+require_once __DIR__ . '/Parts/QueryParamsTest.php';
+
+use Chocala\Http\Parts\QueryParamsTest;
 use PHPUnit\Framework\TestCase;
 
 class HttpMethodTest extends TestCase
 {
+
+    protected function arrayQueryParams(): array
+    {
+        return QueryParamsTest::ARRAY_VALUES;
+    }
+
+    protected function arrayFormData(): array
+    {
+        return [
+            'var0' => 'zero',
+            'arrayKey' => [],
+            'nullKey' => null,
+            'toRemoveKey' => 'toRemoveValue',
+            'extractedKey' => 'extractedValue',
+            'lastKey' => 'last'
+        ];
+    }
+
+    /**
+     * @param array $input
+     * @return string
+     * Source: https://stackoverflow.com/a/11427592
+     */
+    protected function arrayToQueryString(array $input) : string
+    {
+        return implode('&', array_map(
+            function ($v, $k) {
+                if(is_array($v)){
+                    return $k.'[]='.implode('&'.$k.'[]=', $v);
+                }else{
+                    return $k.'='.$v;
+                }
+            },
+            $input,
+            array_keys($input)
+        ));
+    }
 
     public function testName()
     {
@@ -24,7 +64,7 @@ class HttpMethodTest extends TestCase
     public function testData()
     {
         $httpMethod = $this->httpMethodCustomClass();
-        $size = sizeof($this->arrayValue());
+        $size = sizeof($this->arrayQueryParams());
         self::assertNotEmpty($httpMethod->data());
         self::assertCount($size, $httpMethod->data());
         $_REQUEST['123'] = 123;
@@ -57,9 +97,9 @@ class HttpMethodTest extends TestCase
     public function testDelete()
     {
         $httpMethod = $this->httpMethodCustomClass();
-        $size = sizeof($this->arrayValue());
+        $size = sizeof($this->arrayQueryParams());
         self::assertCount($size, $httpMethod->data());
-        $httpMethod->delete('removedKey');
+        $httpMethod->delete('toRemoveKey');
         self::assertCount($size - 1, $httpMethod->data());
         self::assertEquals($httpMethod, $httpMethod->delete('INVALID_KEY'));
         self::assertCount($size - 1, $httpMethod->data());
@@ -68,7 +108,7 @@ class HttpMethodTest extends TestCase
     public function testExtract()
     {
         $httpMethod = $this->httpMethodCustomClass();
-        $size = sizeof($this->arrayValue());
+        $size = sizeof($this->arrayQueryParams());
         self::assertCount($size, $httpMethod->data());
         self::assertEquals('extractedValue', $httpMethod->extract('extractedKey'));
         self::assertCount($size - 1, $httpMethod->data());
@@ -96,21 +136,8 @@ class HttpMethodTest extends TestCase
             }
 
         };
-        $_REQUEST = $this->arrayValue();
+        $_REQUEST = $this->arrayQueryParams();
         return new $httpMethod();
-    }
-
-    public function arrayValue(): array
-    {
-        return [
-            'var0' => 'zero',
-            'numericKey' => 789,
-            'arrayKey' => [],
-            'nullKey' => null,
-            'removedKey' => 'removedValue',
-            'extractedKey' => 'extractedValue',
-            'lastKey' => 'last'
-        ];
     }
 
 }

@@ -2,6 +2,12 @@
 
 namespace Chocala\Http;
 
+use Chocala\Http\Parts\MessageContent;
+use Chocala\Http\Parts\MessageContentInterface;
+use Chocala\Http\Parts\QueryParams;
+use Chocala\Http\Parts\QueryParamsInterface;
+use Exception;
+
 /**
  * Description of Post
  *
@@ -10,6 +16,11 @@ namespace Chocala\Http;
 class Post implements HttpMethodInterface
 {
     use HttpMethodTrait;
+
+    /**
+     * @var MessageContentInterface
+     */
+    private MessageContentInterface $messageContent;
 
     /**
      * Represents a unique instance for the class in the system
@@ -31,14 +42,50 @@ class Post implements HttpMethodInterface
         return static::$instance;
     }
 
-    /**
-     * @throws \Exception
-     */
     public function __construct()
+    {
+        $get_arguments = func_get_args();
+        $number_of_arguments = func_num_args();
+        if (method_exists($this, $method_name = '__construct' . $number_of_arguments)) {
+            call_user_func_array([$this, $method_name], $get_arguments);
+        } else {
+            throw new \InvalidArgumentException('Invalid arguments to create object ' . __CLASS__);
+        }
+    }
+
+    private function __constructor(QueryParamsInterface $queryParams, MessageContentInterface $messageContent)
     {
         $this->name = HttpMethod::POST;
         $this->id = $this->generateId();
-        $this->data = &$_POST;
+        $this->queryParams = $queryParams;
+        $this->messageContent = $messageContent;
     }
+
+    private function __construct1(MessageContentInterface $messageContent)
+    {
+        return $this->__constructor(new QueryParams(), $messageContent);
+    }
+
+    private function __construct2(QueryParamsInterface $queryParams, MessageContentInterface $messageContent)
+    {
+        return $this->__constructor($queryParams, $messageContent);
+    }
+
+    /**
+     * @return MessageContentInterface
+     */
+    public function content() : MessageContentInterface
+    {
+        return $this->messageContent;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function data()
+    {
+        return $this->messageContent->data();
+    }
+
 
 }

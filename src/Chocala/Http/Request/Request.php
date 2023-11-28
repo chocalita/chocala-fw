@@ -3,7 +3,7 @@
 namespace Chocala\Http\Request;
 
 use Chocala\Http\Parts\HeadersInterface;
-use Chocala\Http\Parts\MessageBodyInterface;
+use Chocala\Http\Parts\MessageContentInterface;
 use Chocala\Http\Parts\RequestLineInterface;
 use Chocala\Http\RequestInterface;
 
@@ -21,17 +21,17 @@ class Request implements RequestInterface
     private HeadersInterface $headers;
 
     /**
-     * @var MessageBodyInterface
+     * @var MessageContentInterface
      */
-    private MessageBodyInterface $messageBody;
+    private MessageContentInterface $messageBody;
 
     /**
      * Request constructor.
      * @param RequestLineInterface $requestLine
      * @param HeadersInterface $headers
-     * @param MessageBodyInterface $messageBody
+     * @param MessageContentInterface $messageBody
      */
-    public function __construct(RequestLineInterface $requestLine, HeadersInterface $headers, MessageBodyInterface $messageBody)
+    public function __construct(RequestLineInterface $requestLine, HeadersInterface $headers, MessageContentInterface $messageBody)
     {
         $this->requestLine = $requestLine;
         $this->headers = $headers;
@@ -55,9 +55,9 @@ class Request implements RequestInterface
     }
 
     /**
-     * @return MessageBodyInterface
+     * @return MessageContentInterface
      */
-    public function messageBody(): MessageBodyInterface
+    public function messageBody(): MessageContentInterface
     {
         return $this->messageBody;
     }

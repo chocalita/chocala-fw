@@ -20,27 +20,25 @@ class DefaultTranslation implements TranslationInterface
 
     /**
      *
-     * @var DefaultTranslation
+     * @var DefaultTranslation|null
      */
-    private static $mainInstance = null;
+    private static ?DefaultTranslation $mainInstance = null;
 
     /**
-     *
-     * @var array
+     * @var array|null
      */
-    private $defaultMessages = null;
+    private ?array $defaultMessages = null;
 
     /**
-     *
-     * @var array
+     * @var array|null
      */
-    private $langMessages = null;
+    private ?array $langMessages = null;
 
     /**
      *
      * @return DefaultTranslation
      */
-    public static function mainInstance()
+    public static function mainInstance(): DefaultTranslation
     {
         if (self::$mainInstance == null) {
             self::$mainInstance = new self();
@@ -52,7 +50,7 @@ class DefaultTranslation implements TranslationInterface
      * @return array
      * @throws NotFoundException
      */
-    public function defaultMessages()
+    public function defaultMessages(): ?array
     {
         if ($this->defaultMessages === null) {
             $this->loadDefaultMessages();
@@ -67,9 +65,10 @@ class DefaultTranslation implements TranslationInterface
 
     /**
      *
+     * @return void
      * @throws NotFoundException
      */
-    public function loadDefaultMessages()
+    private function loadDefaultMessages() : void
     {
         $langFile = new File(I18N_DIR . self::DEFAULT_LANG_FILE . self::EXTENSION);
         if ($langFile->exists()) {
@@ -83,8 +82,8 @@ class DefaultTranslation implements TranslationInterface
     }
 
     /**
-     * @param string null $lang
-     * @throws NotFoundException
+     * @param string|null $lang
+     * @return void
      */
     public function loadLangMessages(string $lang = null)
     {
@@ -103,10 +102,10 @@ class DefaultTranslation implements TranslationInterface
     /**
      *
      * @param string $message
-     * @param array $args
+     * @param array|null $args
      * @return string
      */
-    public function proccessMessage($message, $args = null)
+    private function proccessMessage(string $message, array $args = null): string
     {
         if (empty($args)) {
             return $message;

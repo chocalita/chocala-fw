@@ -42,49 +42,49 @@ class FormUrlencodedDataTest extends TestCase
     {
         $body = ' ';
         $formUrlencodedData = new FormUrlencodedData($body);
-        self::assertNotNull($formUrlencodedData->body());
-        self::assertEmpty($formUrlencodedData->body());
-        self::assertIsArray($formUrlencodedData->body());
-        self::assertCount(0, $formUrlencodedData->body());
+        self::assertNotNull($formUrlencodedData->data());
+        self::assertEmpty($formUrlencodedData->data());
+        self::assertIsArray($formUrlencodedData->data());
+        self::assertCount(0, $formUrlencodedData->data());
 
         $body = ' key1=value1 & empty';
         $formUrlencodedData = new FormUrlencodedData($body);
-        self::assertNotNull($formUrlencodedData->body());
-        self::assertNotEmpty($formUrlencodedData->body());
-        self::assertIsArray($formUrlencodedData->body());
-        self::assertCount(2, $formUrlencodedData->body());
-        self::assertEquals('value1 ', $formUrlencodedData->body()['key1']);
-        self::assertEquals('', $formUrlencodedData->body()['empty']);
+        self::assertNotNull($formUrlencodedData->data());
+        self::assertNotEmpty($formUrlencodedData->data());
+        self::assertIsArray($formUrlencodedData->data());
+        self::assertCount(2, $formUrlencodedData->data());
+        self::assertEquals('value1 ', $formUrlencodedData->data()['key1']);
+        self::assertEquals('', $formUrlencodedData->data()['empty']);
 
         $body = 'key1=value1&key2=value2 & ';
         $formUrlencodedData = new FormUrlencodedData($body);
-        self::assertNotNull($formUrlencodedData->body());
-        self::assertNotEmpty($formUrlencodedData->body());
-        self::assertIsArray($formUrlencodedData->body());
-        self::assertCount(2, $formUrlencodedData->body());
-        self::assertEquals('value1', $formUrlencodedData->body()['key1']);
-        self::assertEquals('value2 ', $formUrlencodedData->body()['key2']);
+        self::assertNotNull($formUrlencodedData->data());
+        self::assertNotEmpty($formUrlencodedData->data());
+        self::assertIsArray($formUrlencodedData->data());
+        self::assertCount(2, $formUrlencodedData->data());
+        self::assertEquals('value1', $formUrlencodedData->data()['key1']);
+        self::assertEquals('value2 ', $formUrlencodedData->data()['key2']);
 
         $body = 'age=2020&testResult=9.9& ';
         $formUrlencodedData = new FormUrlencodedData($body);
-        self::assertNotNull($formUrlencodedData->body());
-        self::assertNotEmpty($formUrlencodedData->body());
-        self::assertIsArray($formUrlencodedData->body());
-        self::assertCount(2, $formUrlencodedData->body());
-        self::assertEquals(2020, $formUrlencodedData->body()['age']);
-        self::assertEquals('2020', $formUrlencodedData->body()['age']);
-        self::assertEquals(9.9, $formUrlencodedData->body()['testResult']);
-        self::assertEquals('9.9', $formUrlencodedData->body()['testResult']);
+        self::assertNotNull($formUrlencodedData->data());
+        self::assertNotEmpty($formUrlencodedData->data());
+        self::assertIsArray($formUrlencodedData->data());
+        self::assertCount(2, $formUrlencodedData->data());
+        self::assertEquals(2020, $formUrlencodedData->data()['age']);
+        self::assertEquals('2020', $formUrlencodedData->data()['age']);
+        self::assertEquals(9.9, $formUrlencodedData->data()['testResult']);
+        self::assertEquals('9.9', $formUrlencodedData->data()['testResult']);
 
         $body = 'testK=testV&oneKey=OneValue&%2Aparsed%28key%29%24=%5B1%2C2%2C3%5D';
         $formUrlencodedData = new FormUrlencodedData($body);
-        self::assertNotNull($formUrlencodedData->body());
-        self::assertNotEmpty($formUrlencodedData->body());
-        self::assertIsArray($formUrlencodedData->body());
-        self::assertCount(3, $formUrlencodedData->body());
-        self::assertEquals('testV', $formUrlencodedData->body()['testK']);
-        self::assertEquals('OneValue', $formUrlencodedData->body()['oneKey']);
-        self::assertEquals('[1,2,3]', $formUrlencodedData->body()['*parsed(key)$']);
+        self::assertNotNull($formUrlencodedData->data());
+        self::assertNotEmpty($formUrlencodedData->data());
+        self::assertIsArray($formUrlencodedData->data());
+        self::assertCount(3, $formUrlencodedData->data());
+        self::assertEquals('testV', $formUrlencodedData->data()['testK']);
+        self::assertEquals('OneValue', $formUrlencodedData->data()['oneKey']);
+        self::assertEquals('[1,2,3]', $formUrlencodedData->data()['*parsed(key)$']);
     }
 
     public function testNumericBody()

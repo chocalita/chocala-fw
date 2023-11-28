@@ -5,15 +5,15 @@ namespace Chocala\Http\Parts;
 use Chocala\Base\IllegalArgumentException;
 use Chocala\System\ContentType;
 
-class TextHtmlBody implements MessageBodyInterface
+class TextHtmlContent implements MessageContentInterface
 {
 
     const HTML_TAG_PATTERN = "#(?<=<)\w+(?=[^<]*?>)#";
 
     /**
-     * @var MessageBody
+     * @var MessageContent
      */
-    private MessageBody $messageBody;
+    private MessageContent $messageBody;
 
     /**
      * FormUrlencodedData constructor.
@@ -25,7 +25,7 @@ class TextHtmlBody implements MessageBodyInterface
         if (!empty($body) && !preg_match(self::HTML_TAG_PATTERN, $body)) {
             throw new IllegalArgumentException('Invalid text html body');
         }
-        $this->messageBody = new MessageBody(ContentType::TEXT_HTML, $body);
+        $this->messageBody = new MessageContent(ContentType::TEXT_HTML, $body);
     }
 
     /**
@@ -39,9 +39,9 @@ class TextHtmlBody implements MessageBodyInterface
     /**
      * @return mixed
      */
-    public function body()
+    public function data()
     {
-        return $this->messageBody->body();
+        return $this->messageBody->data();
     }
 
 }

@@ -2,6 +2,9 @@
 
 namespace Chocala\Http;
 
+use Chocala\Http\Parts\MessageContentInterface;
+use Chocala\Http\Parts\QueryParamsInterface;
+
 interface HttpMethodInterface
 {
 
@@ -16,40 +19,18 @@ interface HttpMethodInterface
     public function id(): string;
 
     /**
-     *
-     * @return array
+     * @return QueryParamsInterface
      */
-    public function data(): array;
+    public function queryParams(): QueryParamsInterface;
 
     /**
-     * @param $key
-     * @return bool
+     * @return MessageContentInterface
      */
-    public function has($key): bool;
-
-    /**
-     * @param $key
-     * @param $default
-     * @return mixed
-     */
-    public function get($key, $default);
-
-    /**
-     * @param $key
-     * @return $this
-     */
-    public function delete($key): HttpMethodInterface;
-
-    /**
-     * @param $key
-     * @param $default
-     * @return mixed
-     */
-    public function extract($key, $default);
+    public function content() : MessageContentInterface;
 
     /**
      * @return mixed
      */
-    public function body();
+    public function data();
 
 }

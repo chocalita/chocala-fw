@@ -4,7 +4,7 @@ namespace Chocala\Http\Parts;
 
 use Chocala\Base\IllegalArgumentException;
 
-class MessageBody implements MessageBodyInterface
+class MessageContent implements MessageContentInterface
 {
 
     /**
@@ -42,7 +42,7 @@ class MessageBody implements MessageBodyInterface
     /**
      * @return mixed
      */
-    public function body()
+    public function data()
     {
         return $this->body;
     }

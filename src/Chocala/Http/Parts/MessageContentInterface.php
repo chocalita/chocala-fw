@@ -2,7 +2,7 @@
 
 namespace Chocala\Http\Parts;
 
-interface MessageBodyInterface
+interface MessageContentInterface
 {
 
     /**
@@ -13,6 +13,6 @@ interface MessageBodyInterface
     /**
      * @return mixed
      */
-    public function body();
+    public function data();
 
 }

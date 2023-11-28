@@ -7,7 +7,7 @@ use Chocala\Http\Fakes\FakeRequest;
 use Chocala\Http\Mapping\Fakes\FakeUriMapping;
 use Chocala\Http\Mapping\UriMapping;
 use Chocala\Http\Parts\Fakes\FakeHeaders;
-use Chocala\Http\Parts\Fakes\FakeMessageBody;
+use Chocala\Http\Parts\Fakes\FakeMessageContent;
 use Chocala\Http\Parts\RequestLine;
 use Chocala\Http\RequestInterface;
 use Chocala\Http\Route\DefaultRoutes;
@@ -23,7 +23,7 @@ class MappedRequestTest extends TestCase
     private $fakeHeaders;
 
     /**
-     * @var FakeMessageBody
+     * @var FakeMessageContent
      */
     private $fakeMessageBody;
 
@@ -40,7 +40,7 @@ class MappedRequestTest extends TestCase
     public function setUp()
     {
         $this->fakeHeaders = new FakeHeaders();
-        $this->fakeMessageBody = new FakeMessageBody();
+        $this->fakeMessageBody = new FakeMessageContent();
         $this->defaultRoutes = new DefaultRoutes();
         $this->fakeRoutes = new FakeRoutes();
     }

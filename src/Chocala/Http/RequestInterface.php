@@ -3,7 +3,7 @@
 namespace Chocala\Http;
 
 use Chocala\Http\Parts\HeadersInterface;
-use Chocala\Http\Parts\MessageBodyInterface;
+use Chocala\Http\Parts\MessageContentInterface;
 use Chocala\Http\Parts\RequestLineInterface;
 
 interface RequestInterface
@@ -13,6 +13,6 @@ interface RequestInterface
 
     public function headers(): HeadersInterface;
 
-    public function messageBody(): MessageBodyInterface;
+    public function messageBody(): MessageContentInterface;
 
 }

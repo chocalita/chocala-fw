@@ -2,10 +2,10 @@
 
 namespace Chocala\Http\Parts\Fakes;
 
-use Chocala\Http\Parts\MessageBodyInterface;
+use Chocala\Http\Parts\MessageContentInterface;
 use Chocala\System\ContentType;
 
-class FakeMessageBody implements MessageBodyInterface
+class FakeMessageContent implements MessageContentInterface
 {
 
     /**
@@ -19,7 +19,7 @@ class FakeMessageBody implements MessageBodyInterface
     /**
      * @inheritDoc
      */
-    public function body()
+    public function data()
     {
         return '';
     }

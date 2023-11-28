@@ -2,6 +2,7 @@
 
 namespace Chocala\Http;
 
+use Chocala\Http\Parts\QueryParamsInterface;
 use Exception;
 
 trait HttpMethodTrait
@@ -18,10 +19,9 @@ trait HttpMethodTrait
     protected string $id;
 
     /**
-     * Method data
-     * @var array
+     * @var QueryParamsInterface
      */
-    protected array $data = [];
+    protected QueryParamsInterface $queryParams;
 
     /**
      * @return string
@@ -40,63 +40,17 @@ trait HttpMethodTrait
     }
 
     /**
-     *
-     * @return array
+     * @return QueryParamsInterface
      */
-    public function data(): array
+    public function queryParams(): QueryParamsInterface
     {
-        return $this->data;
-    }
-
-    /**
-     *
-     * @param string $key
-     * @return bool
-     */
-    public function has($key): bool
-    {
-        return array_key_exists($key, $this->data);
-    }
-
-    /**
-     * Get a variable from the global var array.
-     * @param string $key
-     * @param mixed $default
-     * @return mixed
-     */
-    public function get($key, $default = null)
-    {
-        return $this->has($key) ? $this->data[$key] : $default;
-    }
-
-    /**
-     * Removes a variable in the data array.
-     * @param string $key
-     * @return HttpMethodInterface
-     */
-    public function delete($key): HttpMethodInterface
-    {
-        unset($this->data[$key]);
-        return $this;
-    }
-
-    /**
-     * Get and delete a variable from array data.
-     * @param string $key
-     * @param mixed $default
-     * @return mixed
-     */
-    public function extract($key, $default = null)
-    {
-        $value = $this->get($key, $default);
-        $this->delete($key);
-        return $value;
+        return $this->queryParams;
     }
 
     /**
      * @return mixed
      */
-    public function body()
+    public function content()
     {
 //        $rawInput = fopen('php://input', 'r');
 //        $tempStream = fopen('php://temp', 'r+');
