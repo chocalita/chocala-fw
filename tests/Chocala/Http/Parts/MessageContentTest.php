@@ -26,7 +26,7 @@ class MessageContentTest extends TestCase
         }
     }
 
-    public function testBody()
+    public function testData()
     {
         foreach (ContentType::CONTENT_TYPE_LIST as $body) {
             $messageContent = new MessageContent(ContentType::TEXT_PLAIN, $body);

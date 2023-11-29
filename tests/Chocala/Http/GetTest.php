@@ -4,6 +4,8 @@ namespace Chocala\Http;
 
 require_once 'HttpMethodTest.php';
 
+use Chocala\Http\Parts\QueryParams;
+use Chocala\Http\Parts\QueryParamsInterface;
 use \Exception;
 class GetTest extends HttpMethodTest
 {
@@ -34,6 +36,7 @@ class GetTest extends HttpMethodTest
         $size = sizeof($this->arrayQueryParams());
         self::assertNotNull($get->queryParams());
         self::assertIsObject($get->queryParams());
+        self::assertInstanceOf(QueryParamsInterface::class, $get->queryParams());
         self::assertCount($size, $get->queryParams()->data());
         unset($_GET['lastKey']);
         self::assertCount($size-1, $get->queryParams()->data());

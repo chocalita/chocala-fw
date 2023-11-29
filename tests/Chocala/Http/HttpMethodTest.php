@@ -15,6 +15,23 @@ class HttpMethodTest extends TestCase
         return QueryParamsTest::ARRAY_VALUES;
     }
 
+    protected function textContent(): string
+    {
+        return 'Text plain content...';
+    }
+
+    protected function htmlContent(): string
+    {
+        return '<h1>Title</h1><p>You got your HTML content for your test...</p>';
+    }
+
+    protected function jsonContent(): string
+    {
+        return '{
+            "key": "value"
+        }';
+    }
+
     protected function arrayFormData(): array
     {
         return [

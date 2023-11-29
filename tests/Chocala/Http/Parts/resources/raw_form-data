@@ -1,0 +1,21 @@
+----------------------------852526859393702478530519
+Content-Disposition: form-data; name="fruit"
+
+lemon
+----------------------------852526859393702478530519
+Content-Disposition: form-data; name="quantity"
+
+10
+----------------------------852526859393702478530519
+Content-Disposition: form-data; name="otherKey"
+
+Other value
+----------------------------852526859393702478530519
+Content-Disposition: form-data; name="has[0]"
+
+2
+----------------------------852526859393702478530519
+Content-Disposition: form-data; name="has[10]"
+
+56
+----------------------------852526859393702478530519--

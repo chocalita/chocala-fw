@@ -11,15 +11,15 @@ class TextHtmlBodyTest extends TestCase
 
     public function test__construct()
     {
-        $textHtmlBody = new TextHtmlContent(null);
-        self::assertIsObject($textHtmlBody);
-        $textHtmlBody = new TextHtmlContent('');
-        self::assertIsObject($textHtmlBody);
-        self::assertIsObject($textHtmlBody);
-        $textHtmlBody = new TextHtmlContent('<h1>54</h1>');
-        self::assertIsObject($textHtmlBody);
-        $textHtmlBody = new TextHtmlContent('<html><head>Header part 8</head><body>Body part</body></html>');
-        self::assertIsObject($textHtmlBody);
+        $textHtmlContent = new TextHtmlContent(null);
+        self::assertIsObject($textHtmlContent);
+        $textHtmlContent = new TextHtmlContent('');
+        self::assertIsObject($textHtmlContent);
+        self::assertIsObject($textHtmlContent);
+        $textHtmlContent = new TextHtmlContent('<h1>54</h1>');
+        self::assertIsObject($textHtmlContent);
+        $textHtmlContent = new TextHtmlContent('<html><head>Header part 8</head><body>Body part</body></html>');
+        self::assertIsObject($textHtmlContent);
         $this->expectException(IllegalArgumentException::class);
         new TextHtmlContent('simpleWord');
     }
@@ -37,7 +37,7 @@ class TextHtmlBodyTest extends TestCase
         self::assertEquals(ContentType::TEXT_HTML, $textHtmlBody->type());
     }
 
-    public function testBody()
+    public function testData()
     {
         $body = ' ';
         $textHtmlBody = new TextHtmlContent($body);

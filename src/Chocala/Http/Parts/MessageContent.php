@@ -15,20 +15,20 @@ class MessageContent implements MessageContentInterface
     /**
      * @var mixed
      */
-    private $body;
+    private $data;
 
     /**
      * MessageBody constructor.
      * @param string $type
-     * @param $body
+     * @param $data
      */
-    public function __construct(string $type, $body)
+    public function __construct(string $type, $data)
     {
-        if ($body === null) {
-            throw new IllegalArgumentException('Invalid \'body\' parameter');
+        if ($data === null) {
+            throw new IllegalArgumentException('Invalid \'body\' parameter, value can\'t be null');
         }
         $this->type = $type;
-        $this->body = $body;
+        $this->data = $data;
     }
 
     /**
@@ -44,7 +44,7 @@ class MessageContent implements MessageContentInterface
      */
     public function data()
     {
-        return $this->body;
+        return $this->data;
     }
 
 }

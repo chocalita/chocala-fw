@@ -5,7 +5,7 @@ namespace Chocala\Http\Parts;
 use Chocala\Base\IllegalArgumentException;
 use Chocala\System\ContentType;
 
-class JsonMessageContent implements MessageContentInterface
+class FormDataContent implements MessageContentInterface
 {
 
     /**
@@ -19,11 +19,11 @@ class JsonMessageContent implements MessageContentInterface
      */
     public function __construct($body)
     {
-        $decodedBody = trim($body) === '' ? '' : json_decode($body, false);
-        if ($decodedBody === null || is_numeric($decodedBody)) {
-            throw new IllegalArgumentException('Invalid json body');
-        }
-        $this->messageContent = new MessageContent(ContentType::APPLICATION_JSON, $decodedBody);
+//        $decodedBody = trim($body) === '' ? '' : json_decode($body, false);
+//        if ($decodedBody === null || is_numeric($decodedBody)) {
+//            throw new IllegalArgumentException('Invalid json body');
+//        }
+//        $this->messageBody = new MessageContent(ContentType::APPLICATION_JSON, $decodedBody);
     }
 
     /**
@@ -31,7 +31,7 @@ class JsonMessageContent implements MessageContentInterface
      */
     public function type(): string
     {
-        return $this->messageContent->type();
+        return $this->messageBody->type();
     }
 
     /**
@@ -39,7 +39,7 @@ class JsonMessageContent implements MessageContentInterface
      */
     public function data()
     {
-        return $this->messageContent->data();
+        return $this->messageBody->data();
     }
 
 }

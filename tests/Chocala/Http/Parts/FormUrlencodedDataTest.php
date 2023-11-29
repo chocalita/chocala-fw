@@ -13,14 +13,19 @@ class FormUrlencodedDataTest extends TestCase
     {
         $jsonMessageBody = new FormUrlencodedData(null);
         self::assertIsObject($jsonMessageBody);
+
         $jsonMessageBody = new FormUrlencodedData('');
         self::assertIsObject($jsonMessageBody);
+
         $jsonMessageBody = new FormUrlencodedData('k=v');
         self::assertIsObject($jsonMessageBody);
+
         $jsonMessageBody = new FormUrlencodedData('key1=value1&key2=value2 & ');
         self::assertIsObject($jsonMessageBody);
+
         $jsonMessageBody = new FormUrlencodedData('testK=testV&oneKey=OneValue&%2Aparsed%28key%29%24=%5B1%2C2%2C3%5D');
         self::assertIsObject($jsonMessageBody);
+
         $this->expectException(IllegalArgumentException::class);
         new FormUrlencodedData('simpleWord');
     }
@@ -38,7 +43,7 @@ class FormUrlencodedDataTest extends TestCase
         self::assertEquals(ContentType::APPLICATION_FORM_URLENCODED, $formUrlencodedData->type());
     }
 
-    public function testBody()
+    public function testData()
     {
         $body = ' ';
         $formUrlencodedData = new FormUrlencodedData($body);

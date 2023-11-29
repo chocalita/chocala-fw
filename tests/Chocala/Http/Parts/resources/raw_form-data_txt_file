@@ -1,0 +1,26 @@
+----------------------------738248700975810852557521
+Content-Disposition: form-data; name="fruit"
+
+lemon
+----------------------------738248700975810852557521
+Content-Disposition: form-data; name="quantity"
+
+10
+----------------------------738248700975810852557521
+Content-Disposition: form-data; name="fileX"; filename="small-file.txt"
+Content-Type: text/plain
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+----------------------------738248700975810852557521
+Content-Disposition: form-data; name="otherKey"
+
+Other value
+----------------------------738248700975810852557521
+Content-Disposition: form-data; name="has[0]"
+
+2
+----------------------------738248700975810852557521
+Content-Disposition: form-data; name="has[10]"
+
+56
+----------------------------738248700975810852557521--
