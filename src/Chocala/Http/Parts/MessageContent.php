@@ -10,12 +10,12 @@ class MessageContent implements MessageContentInterface
     /**
      * @var string
      */
-    private string $type;
+    protected string $type;
 
     /**
      * @var mixed
      */
-    private $data;
+    protected $data;
 
     /**
      * MessageBody constructor.

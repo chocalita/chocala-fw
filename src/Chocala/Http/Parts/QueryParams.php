@@ -8,10 +8,13 @@ class QueryParams implements QueryParamsInterface
     /**
      * @var array
      */
-    protected array $data = [];
+    protected array $data;
 
     public function __construct()
     {
+        if (func_num_args() > 0) {
+            throw new \InvalidArgumentException('Too many arguments to create object ' . __CLASS__);
+        }
         $this->data = &$_GET;
     }
 

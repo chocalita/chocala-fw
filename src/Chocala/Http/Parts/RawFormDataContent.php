@@ -5,18 +5,13 @@ namespace Chocala\Http\Parts;
 use Chocala\Base\IllegalArgumentException;
 use Chocala\System\ContentType;
 
-class RawFormDataContent implements MessageContentInterface
+class RawFormDataContent extends MessageContent implements MessageContentInterface
 {
-
-    /**
-     * @var MessageContent
-     */
-    private MessageContent $messageContent;
 
     public function __construct(string $contentType, string $rawData)
     {
-        $parsedFormData = $this->parseFormData($contentType, $rawData);
-        $this->messageContent = new MessageContent(ContentType::MULTIPART_FORM_DATA, $parsedFormData);
+        $this->type = ContentType::MULTIPART_FORM_DATA;
+        $this->data = $this->parseFormData($contentType, $rawData);
     }
 
     /**
@@ -79,15 +74,15 @@ class RawFormDataContent implements MessageContentInterface
      */
     public function type(): string
     {
-        return $this->messageContent->type();
+        return $this->type;
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function data()
+    public function data() : array
     {
-        return $this->messageContent->data();
+        return $this->data;
     }
 
 }

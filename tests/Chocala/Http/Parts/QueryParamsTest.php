@@ -2,7 +2,9 @@
 
 namespace Chocala\Http\Parts;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use TypeError;
 
 class QueryParamsTest extends TestCase
 {
@@ -23,12 +25,25 @@ class QueryParamsTest extends TestCase
         return new QueryParams();
     }
 
+    public function test__construct()
+    {
+        $queryParams = new QueryParams();
+        self::assertIsObject($queryParams);
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageRegExp('/Too many arguments/');
+        new QueryParams([100]);
+    }
+
     public function testData()
     {
         $queryParams = $this->newObject();
         $size = sizeof(self::ARRAY_VALUES);
+        self::assertNotNull($queryParams->data());
         self::assertNotEmpty($queryParams->data());
+        self::assertIsArray($queryParams->data());
         self::assertCount($size, $queryParams->data());
+        self::assertArrayHasKey('nullKey', $queryParams->data());
         $_GET['123'] = 123;
         self::assertCount($size + 1, $queryParams->data());
         self::assertEquals(123, $queryParams->get('123'));
@@ -38,44 +53,61 @@ class QueryParamsTest extends TestCase
 
     public function testHas()
     {
-        $get = $this->newObject();
-        self::assertIsBool($get->has('var0'));
-        self::assertIsBool($get->has('INVALID_KEY'));
-        self::assertTrue($get->has('var0'));
-        self::assertFalse($get->has('INVALID_KEY'));
+        $queryParams = $this->newObject();
+        self::assertIsBool($queryParams->has('var0'));
+        self::assertIsBool($queryParams->has('INVALID_KEY'));
+        self::assertTrue($queryParams->has('var0'));
+        self::assertFalse($queryParams->has('INVALID_KEY'));
     }
 
     public function testGet()
     {
-        $get = $this->newObject();
-        self::assertNull($get->get('INVALID_KEY'));
-        self::assertEquals('zero', $get->get('var0'));
-        self::assertIsNumeric($get->get('numericKey'));
-        self::assertIsArray($get->get('arrayKey'));
-        self::assertNull($get->get('nullKey'));
-        self::assertEquals('DEFAULT_VALUE', $get->get('DEFAULT_01234XYZ', 'DEFAULT_VALUE'));
+        $queryParams = $this->newObject();
+        self::assertNull($queryParams->get('INVALID_KEY'));
+        self::assertEquals('zero', $queryParams->get('var0'));
+        self::assertIsNumeric($queryParams->get('numericKey'));
+        self::assertIsArray($queryParams->get('arrayKey'));
+        self::assertNull($queryParams->get('nullKey'));
+        self::assertEquals('DEFAULT_VALUE', $queryParams->get('DEFAULT_01234XYZ', 'DEFAULT_VALUE'));
     }
 
     public function testDelete()
     {
-        $get = $this->newObject();
+        $queryParams = $this->newObject();
         $size = sizeof(self::ARRAY_VALUES);
-        self::assertCount($size, $get->data());
-        $get->delete('toRemoveKey');
-        self::assertCount($size - 1, $get->data());
-        self::assertEquals($get, $get->delete('INVALID_KEY'));
-        self::assertCount($size - 1, $get->data());
+        self::assertCount($size, $queryParams->data());
+        $queryParams->delete('toRemoveKey');
+        self::assertCount($size - 1, $queryParams->data());
+        self::assertEquals($queryParams, $queryParams->delete('INVALID_KEY'));
+        self::assertCount($size - 1, $queryParams->data());
     }
 
     public function testExtract()
     {
-        $get = $this->newObject();
+        $queryParams = $this->newObject();
         $size = sizeof(self::ARRAY_VALUES);
-        self::assertCount($size, $get->data());
-        self::assertEquals('extractedValue', $get->extract('extractedKey'));
-        self::assertCount($size - 1, $get->data());
-        self::assertNull($get->extract('INVALID_KEY'));
-        self::assertCount($size - 1, $get->data());
+        self::assertCount($size, $queryParams->data());
+        self::assertEquals('extractedValue', $queryParams->extract('extractedKey'));
+        self::assertCount($size - 1, $queryParams->data());
+        self::assertNull($queryParams->extract('INVALID_KEY'));
+        self::assertCount($size - 1, $queryParams->data());
+    }
+
+    public function testGETNullValue() {
+        // Setting $_GET value to null before object creation
+        $_GET = null;
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessageRegExp('/must be array/');
+        new QueryParams();
+    }
+
+    public function testGETSetToNullValue() {
+        // Setting $_GET value to null after object creation
+        $queryParams = $this->newObject();
+        self::assertIsObject($queryParams);
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessageRegExp('/Cannot assign null to reference held by property/');
+        $_GET = null;
     }
 
 }
