@@ -17,7 +17,7 @@ class InputStream implements InputStreamInterface
         if (method_exists($this, $method_name = '__construct' . $number_of_arguments)) {
             call_user_func_array([$this, $method_name], $get_arguments);
         } else {
-            throw new \InvalidArgumentException('Invalid arguments to create object ' . __CLASS__);
+            throw new \InvalidArgumentException('Invalid number of arguments to create object ' . __CLASS__);
         }
     }
 
@@ -28,15 +28,15 @@ class InputStream implements InputStreamInterface
 
     private function __construct0()
     {
-        return $this->__constructor(file_get_contents('php://input'));
+        $this->__constructor(file_get_contents('php://input'));
     }
 
     private function __construct1($content)
     {
         if (!is_string($content)) {
-            throw new \InvalidArgumentException('Invalid arguments to create object ' . __CLASS__);
+            throw new \InvalidArgumentException('Invalid number of arguments to create object ' . __CLASS__);
         }
-        return $this->__constructor($content);
+        $this->__constructor($content);
     }
 
     /**

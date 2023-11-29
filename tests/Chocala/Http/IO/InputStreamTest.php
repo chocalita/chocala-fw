@@ -21,10 +21,15 @@ class InputStreamTest extends TestCase
     {
         $inputStream = new InputStream();
         self::assertIsObject($inputStream);
+
         $inputStream = new InputStream('content');
         self::assertIsObject($inputStream);
+
+        // Invalid construct, too many arguments
         $this->expectException(\InvalidArgumentException::class);
         new InputStream('content', '');
+
+        // These cases are not running, move to other test methods
         $this->expectException(\InvalidArgumentException::class);
         new InputStream(null);
         $this->expectException(\InvalidArgumentException::class);

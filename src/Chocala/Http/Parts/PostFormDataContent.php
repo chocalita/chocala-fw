@@ -4,6 +4,7 @@ namespace Chocala\Http\Parts;
 
 use Chocala\Base\IllegalStateException;
 use Chocala\System\ContentType;
+use InvalidArgumentException;
 
 class PostFormDataContent extends MessageContent implements MessageContentInterface
 {
@@ -11,22 +12,15 @@ class PostFormDataContent extends MessageContent implements MessageContentInterf
     public function __construct()
     {
         if (func_num_args() > 0) {
-            throw new \InvalidArgumentException('Too many arguments to create object ' . __CLASS__);
+            throw new InvalidArgumentException('Too many arguments to create object ' . __CLASS__);
         }
         $this->type = ContentType::MULTIPART_FORM_DATA;
         $this->data = &$_POST;
     }
 
     /**
-     * @return string
-     */
-    public function type(): string
-    {
-        return $this->type;
-    }
-
-    /**
      * @return array
+     * @throws IllegalStateException
      */
     public function data() : array
     {
