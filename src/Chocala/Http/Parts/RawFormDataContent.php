@@ -11,17 +11,25 @@ class RawFormDataContent extends MessageContent implements MessageContentInterfa
     public function __construct(string $contentType, string $rawData)
     {
         $this->type = ContentType::MULTIPART_FORM_DATA;
-        $this->data = $this->parseFormData($contentType, $rawData);
+        $this->data = $this->parseData($contentType, $rawData);
     }
 
     /**
-     * Based in this strategy: https://stackoverflow.com/a/72747444
+     * @return array
+     */
+    public function data() : array
+    {
+        return $this->data;
+    }
+
+    /**
+     * Parse method based in this strategy: https://stackoverflow.com/a/72747444
      *
      * @param string $contentType
      * @param string $rawData
      * @return array
      */
-    public function parseFormData(string $contentType, string $rawData) : array
+    private function parseData(string $contentType, string $rawData) : array
     {
         if (preg_match('/^multipart\/form-data; boundary=.*$/ui', $contentType) !== 1) {
             throw new IllegalArgumentException('Invalid multipart/form-data, Content-Type is not matching with the required.');
@@ -67,22 +75,6 @@ class RawFormDataContent extends MessageContent implements MessageContentInterfa
         }
         #Return the raw parsed data into an array
         return $parsedData;
-    }
-
-    /**
-     * @return string
-     */
-    public function type(): string
-    {
-        return $this->type;
-    }
-
-    /**
-     * @return array
-     */
-    public function data() : array
-    {
-        return $this->data;
     }
 
 }

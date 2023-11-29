@@ -48,7 +48,7 @@ class PostFormDataContentTest extends TestCase
 
     public function testData()
     {
-        // $_POST empty (with space case)
+        // $_POST empty array
         $_POST = [];
         $postFormDataContent = new PostFormDataContent();
         self::assertNotNull($postFormDataContent->data());
@@ -87,7 +87,7 @@ class PostFormDataContentTest extends TestCase
 
     public function testPOSTSetToNullValue() {
         // Setting $_POST value to null after object creation
-        $postFormDataContent = $this->newObject();
+        $postFormDataContent = new PostFormDataContent();
         $this->expectException(IllegalStateException::class);
         $this->expectExceptionMessageRegExp('/resource is null/');
         $_POST = null;
