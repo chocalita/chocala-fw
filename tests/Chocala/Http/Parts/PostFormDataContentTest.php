@@ -11,16 +11,6 @@ use PHPUnit\Framework\TestCase;
 class PostFormDataContentTest extends TestCase
 {
 
-    public const ARRAY_VALUES = [
-        'var0' => 'zero',
-        'numericKey' => 789,
-        'arrayKey' => [],
-        'nullKey' => null,
-        'toRemoveKey' => 'toRemoveValue',
-        'extractedKey' => 'extractedValue',
-        'lastKey' => 'last'
-    ];
-
     public function test__construct()
     {
         $postFormDataContent = new PostFormDataContent();
@@ -56,7 +46,7 @@ class PostFormDataContentTest extends TestCase
 
         // $_POST with test data
         $postFormDataContent = new FakePostFormDataContent();
-        $size = sizeof(self::ARRAY_VALUES);
+        $size = sizeof(FakePostFormDataContent::ARRAY_DATA);
         self::assertNotNull($postFormDataContent->data());
         self::assertNotEmpty($postFormDataContent->data());
         self::assertIsArray($postFormDataContent->data());
