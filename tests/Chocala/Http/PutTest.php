@@ -4,6 +4,7 @@ namespace Chocala\Http;
 
 use Chocala\Http\Parts\Fakes\FakeMessageContent;
 use Chocala\Http\Parts\FormUrlencodedData;
+use InvalidArgumentException;
 
 require_once 'HttpMethodTest.php';
 
@@ -37,5 +38,12 @@ class PutTest extends HttpMethodTest
         self::assertEmpty($put->body());
     }
 */
+
+    public function testConstructWithoutArgs()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageRegExp('/Invalid number of arguments/');
+        new Put();
+    }
 
 }

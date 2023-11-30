@@ -46,6 +46,8 @@ class GetTest extends HttpMethodTest
     {
         $get = $this->newObject();
         $this->expectException(Exception::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessageRegExp('/does not have body content/');
         $get->content();
     }
 

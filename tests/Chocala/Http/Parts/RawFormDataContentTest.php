@@ -3,6 +3,7 @@
 namespace Chocala\Http\Parts;
 
 use Chocala\Base\IllegalArgumentException;
+use Chocala\Http\Parts\Fakes\FakeRawFormDataContent;
 use Chocala\System\ContentType;
 use PHPUnit\Framework\TestCase;
 
@@ -19,46 +20,12 @@ class RawFormDataContentTest extends TestCase
     /**
      * @var string
      */
-    private string $contentTypeTxtFile;
-
-    /**
-     * @var string
-     */
-    private string $contentTypeZipFile;
-
-    /**
-     * @var string
-     */
     private string $rawData;
-
-    /**
-     * @var string
-     */
-    private string $rawDataTxtFile;
-
-    /**
-     * @var string
-     */
-    private string $rawDataZipFile;
-
-    public static function contentType() : string
-    {
-        return 'multipart/form-data; boundary=--------------------------852526859393702478530519';
-    }
-
-    public static function rawData() : string
-    {
-        return file_get_contents(self::RESOURCES_DIR . 'raw_form-data');
-    }
 
     public function setUp()
     {
-        $this->contentType = self::contentType();
-        $this->contentTypeTxtFile = 'multipart/form-data; boundary=--------------------------738248700975810852557521';
-        $this->contentTypeZipFile = 'multipart/form-data; boundary=--------------------------365774502836687403390313';
-        $this->rawData = self::rawData();
-        $this->rawDataTxtFile = file_get_contents(self::RESOURCES_DIR . 'raw_form-data_txt_file');
-        $this->rawDataZipFile = file_get_contents(self::RESOURCES_DIR . 'raw_form-data_zip_file');
+        $this->contentType = FakeRawFormDataContent::contentType();
+        $this->rawData = FakeRawFormDataContent::rawData();
     }
 
     public function test__construct()
@@ -94,7 +61,7 @@ class RawFormDataContentTest extends TestCase
         self::assertEquals(ContentType::MULTIPART_FORM_DATA, $rawFormDataContent->type());
         self::assertNotEquals(ContentType::TEXT_PLAIN, $rawFormDataContent->type());
 
-        $rawFormDataContent = new RawFormDataContent($this->contentType, $this->rawData);
+        $rawFormDataContent = new FakeRawFormDataContent();
         self::assertIsObject($rawFormDataContent);
         self::assertNotEmpty($rawFormDataContent->type());
         self::assertEquals(ContentType::MULTIPART_FORM_DATA, $rawFormDataContent->type());
@@ -111,7 +78,7 @@ class RawFormDataContentTest extends TestCase
         self::assertCount(0, $rawFormDataContent->data());
 
         // Raw data from 'raw_form-data' resource
-        $rawFormDataContent = new RawFormDataContent($this->contentType, $this->rawData);
+        $rawFormDataContent = new FakeRawFormDataContent();
         self::assertNotNull($rawFormDataContent->data());
         self::assertNotEmpty($rawFormDataContent->data());
         self::assertIsArray($rawFormDataContent->data());
@@ -153,27 +120,30 @@ class RawFormDataContentTest extends TestCase
         new RawFormDataContent($this->contentType, ' - ');
     }
 
-    // Invalid case: content has a txt file
-    public function testInvalidFormDataTxtFile()
+    // Content has a txt file
+    public function testFormDataWithTxtFile()
     {
-        $this->expectException(IllegalArgumentException::class);
-        $this->expectExceptionCode(31);
-        $this->expectExceptionMessageRegExp('/Invalid multipart\/form-data/');
-        new RawFormDataContent($this->contentType, $this->rawDataTxtFile);
+        $rawFormDataContent = new FakeRawFormDataContent('738248700975810852557521', 'raw_form-data_txt_file');
+        self::assertIsObject($rawFormDataContent);
+        self::assertEquals(ContentType::MULTIPART_FORM_DATA, $rawFormDataContent->type());
+        self::assertIsArray($rawFormDataContent->data());
+        self::assertNotEmpty($rawFormDataContent->data());
     }
 
-    // Invalid case: content has a zip file
-    public function testInvalidFormDataZipFile()
+    // Content has a zip file
+    public function testFormDataWithZipFile()
     {
-        $this->expectException(IllegalArgumentException::class);
-        $this->expectExceptionCode(31);
-        $this->expectExceptionMessageRegExp('/Invalid multipart\/form-data/');
-        new RawFormDataContent($this->contentType, $this->rawDataZipFile);
+        $rawFormDataContent = new FakeRawFormDataContent('365774502836687403390313', 'raw_form-data_zip_file');
+        self::assertIsObject($rawFormDataContent);
+        self::assertEquals(ContentType::MULTIPART_FORM_DATA, $rawFormDataContent->type());
+        self::assertIsArray($rawFormDataContent->data());
+        self::assertNotEmpty($rawFormDataContent->data());
     }
 
     public function testInvalidNumericBody()
     {
         $this->expectException(IllegalArgumentException::class);
+        $this->expectExceptionMessageRegExp('/Invalid multipart\/form-data raw data/');
         new RawFormDataContent($this->contentType, 123);
     }
 

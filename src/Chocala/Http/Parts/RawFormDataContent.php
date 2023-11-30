@@ -5,12 +5,17 @@ namespace Chocala\Http\Parts;
 use Chocala\Base\IllegalArgumentException;
 use Chocala\System\ContentType;
 
-class RawFormDataContent extends MessageContent implements MessageContentInterface
+class RawFormDataContent extends FormDataContent implements MessageContentInterface
 {
 
+    /**
+     * @param string $contentType - Request header 'Content-Type' , contains a boundary key that should be
+     * present in the 'rawData' too
+     * @param string $rawData - Request message body content that arrives with multipart/form-data
+     */
     public function __construct(string $contentType, string $rawData)
     {
-        $this->type = ContentType::MULTIPART_FORM_DATA;
+        parent::__construct();
         $this->data = $this->parseData($contentType, $rawData);
     }
 

@@ -51,6 +51,9 @@ class Get implements HttpMethodInterface
         }
     }
 
+    /**
+     * @throws Exception
+     */
     private function __constructor(QueryParamsInterface $queryParams)
     {
         $this->name = HttpMethod::GET;
@@ -69,11 +72,12 @@ class Get implements HttpMethodInterface
     }
 
     /**
+     * @return MessageContentInterface
      * @throws Exception
      */
     public function content() : MessageContentInterface
     {
-        throw new Exception('GET method has not a body');
+        throw new Exception('GET method does not have body content');
     }
 
     /**

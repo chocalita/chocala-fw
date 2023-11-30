@@ -2,9 +2,11 @@
 
 namespace Chocala\Http;
 
+use Chocala\Base\IllegalArgumentException;
 use Chocala\Http\Parts\MessageContentInterface;
 use Chocala\Http\Parts\QueryParams;
 use Chocala\Http\Parts\QueryParamsInterface;
+use Chocala\Http\Parts\RawFormDataContent;
 
 /**
  * Description of Post
@@ -14,11 +16,6 @@ use Chocala\Http\Parts\QueryParamsInterface;
 class Post implements HttpMethodInterface
 {
     use HttpMethodTrait;
-
-    /**
-     * @var MessageContentInterface
-     */
-    private MessageContentInterface $messageContent;
 
     /**
      * Represents a unique instance for the class in the system
@@ -56,25 +53,20 @@ class Post implements HttpMethodInterface
         $this->name = HttpMethod::POST;
         $this->id = $this->generateId();
         $this->queryParams = $queryParams;
+        if ($messageContent instanceof RawFormDataContent) {
+            throw new IllegalArgumentException('POST method does not support raw-data body');
+        }
         $this->messageContent = $messageContent;
     }
 
     private function __construct1(MessageContentInterface $messageContent)
     {
-        return $this->__constructor(new QueryParams(), $messageContent);
+        $this->__constructor(new QueryParams(), $messageContent);
     }
 
     private function __construct2(QueryParamsInterface $queryParams, MessageContentInterface $messageContent)
     {
-        return $this->__constructor($queryParams, $messageContent);
-    }
-
-    /**
-     * @return MessageContentInterface
-     */
-    public function content() : MessageContentInterface
-    {
-        return $this->messageContent;
+        $this->__constructor($queryParams, $messageContent);
     }
 
     /**

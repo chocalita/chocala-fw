@@ -2,24 +2,32 @@
 
 namespace Chocala\Http;
 
+use Chocala\Base\IllegalArgumentException;
 use Chocala\Http\Parts\Fakes\FakeMessageContent;
+use Chocala\Http\Parts\Fakes\FakeQueryParams;
+use Chocala\Http\Parts\Fakes\FakeRawFormDataContent;
 use Chocala\Http\Parts\FormUrlencodedData;
 use Chocala\Http\Parts\JsonMessageContent;
 use Chocala\Http\Parts\MessageContent;
 use Chocala\Http\Parts\MessageContentInterface;
+use Chocala\Http\Parts\PostFormDataContent;
 use Chocala\Http\Parts\QueryParamsInterface;
+use Chocala\Http\Parts\RawFormDataContent;
+use Chocala\Http\Parts\RawFormDataContentTest;
 use Chocala\Http\Parts\TextHtmlContent;
 use Chocala\System\ContentType;
+use InvalidArgumentException;
 
 require_once 'HttpMethodTest.php';
+require_once __DIR__ . '/Parts/PostFormDataContentTest.php';
+require_once __DIR__ . '/Parts/RawFormDataContentTest.php';
 
 class PostTest extends HttpMethodTest
 {
 
-    private function initParams()
+    private function initQueryParams()
     {
         $_GET = $this->arrayQueryParams();
-        $_POST = $this->arrayFormData();
     }
 
     private function newObject(): Post
@@ -29,13 +37,13 @@ class PostTest extends HttpMethodTest
 
     private function newObjectFakeContent(): Post
     {
-        $this->initParams();
+        $this->initQueryParams();
         return new Post(new FakeMessageContent());
     }
 
     private function newObjectCustomMessageContent($bodyContent): Post
     {
-        $this->initParams();
+        $this->initQueryParams();
         return new Post(new MessageContent(ContentType::TEXT_PLAIN, $bodyContent));
     }
 
@@ -46,25 +54,44 @@ class PostTest extends HttpMethodTest
 
     private function newObjectTextHtmlContent(): Post
     {
-        $this->initParams();
+        $this->initQueryParams();
         $bodyContent = $this->htmlContent();
         return new Post(new TextHtmlContent($bodyContent));
     }
 
-    private function newObjectJsonMessageContent(): Post
+    private function newObjectFormData(): Post
     {
-        $this->initParams();
-        $bodyContent = $this->jsonContent();
-        return new Post(new JsonMessageContent($bodyContent));
+        $this->initQueryParams();
+        $_POST = $this->arrayFormData();
+        return new Post(new PostFormDataContent());
     }
 
     private function newObjectFormUrlEncoded(): Post
     {
-        $this->initParams();
+        $this->initQueryParams();
         $bodyContent = $this->arrayToQueryString($this->arrayFormData());
         return new Post(new FormUrlencodedData($bodyContent));
     }
 
+    private function newObjectJsonMessageContent(): Post
+    {
+        $this->initQueryParams();
+        $bodyContent = $this->jsonContent();
+        return new Post(new JsonMessageContent($bodyContent));
+    }
+
+    public function test__construct()
+    {
+        $post = new Post(new FakeMessageContent());
+        self::assertIsObject($post);
+
+        $post = new Post(new FakeQueryParams(), new FakeMessageContent());
+        self::assertIsObject($post);
+
+        $this->expectException(IllegalArgumentException::class);
+//        $this->expectExceptionMessageRegExp('/does not support raw-data body/');
+        new Post(new FakeRawFormDataContent());
+    }
 
     public function testName()
     {
@@ -82,14 +109,14 @@ class PostTest extends HttpMethodTest
 
     public function testQueryParams()
     {
-        $get = $this->newObject();
+        $post = $this->newObject();
         $size = sizeof($this->arrayQueryParams());
-        self::assertNotNull($get->queryParams());
-        self::assertIsObject($get->queryParams());
-        self::assertInstanceOf(QueryParamsInterface::class, $get->queryParams());
-        self::assertCount($size, $get->queryParams()->data());
+        self::assertNotNull($post->queryParams());
+        self::assertIsObject($post->queryParams());
+        self::assertInstanceOf(QueryParamsInterface::class, $post->queryParams());
+        self::assertCount($size, $post->queryParams()->data());
         unset($_GET['lastKey']);
-        self::assertCount($size-1, $get->queryParams()->data());
+        self::assertCount($size-1, $post->queryParams()->data());
     }
 
     public function testContent()
@@ -110,13 +137,17 @@ class PostTest extends HttpMethodTest
         self::assertInstanceOf(MessageContentInterface::class, $post->content());
         self::assertInstanceOf(TextHtmlContent::class, $post->content());
 
-        $post = $this->newObjectJsonMessageContent();
+        $post = $this->newObjectFormData();
         self::assertInstanceOf(MessageContentInterface::class, $post->content());
-        self::assertInstanceOf(JsonMessageContent::class, $post->content());
+        self::assertInstanceOf(PostFormDataContent::class, $post->content());
 
         $post = $this->newObjectFormUrlEncoded();
         self::assertInstanceOf(MessageContentInterface::class, $post->content());
         self::assertInstanceOf(FormUrlencodedData::class, $post->content());
+
+        $post = $this->newObjectJsonMessageContent();
+        self::assertInstanceOf(MessageContentInterface::class, $post->content());
+        self::assertInstanceOf(JsonMessageContent::class, $post->content());
 
         $post = $this->newObjectCustomMessageContent(new \ArrayIterator([1,10]));
         self::assertInstanceOf(MessageContentInterface::class, $post->content());
@@ -145,13 +176,13 @@ class PostTest extends HttpMethodTest
         self::assertIsString($post->data());
         self::assertContains('<h1>Title</h1>', $post->data());
 
-        // Using JsonMessageContent as messageContent
-        $post = $this->newObjectJsonMessageContent();
+        // Using FormDataContent as messageContent (only allowed $_POST source)
+        $post = $this->newObjectFormData();
+        $size = sizeof($this->arrayFormData());
         self::assertNotNull($post->data());
         self::assertNotEmpty($post->data());
-        self::assertIsObject($post->data());
-        self::assertInstanceOf(\stdClass::class, $post->data());
-        self::assertObjectHasAttribute('key', $post->data());
+        self::assertIsArray($post->data());
+        self::assertCount($size, $post->data());
 
         // Using FormUrlEncodedData as messageContent
         $post = $this->newObjectFormUrlEncoded();
@@ -160,6 +191,14 @@ class PostTest extends HttpMethodTest
         self::assertNotEmpty($post->data());
         self::assertIsArray($post->data());
         self::assertCount($size, $post->data());
+
+        // Using JsonMessageContent as messageContent
+        $post = $this->newObjectJsonMessageContent();
+        self::assertNotNull($post->data());
+        self::assertNotEmpty($post->data());
+        self::assertIsObject($post->data());
+        self::assertInstanceOf(\stdClass::class, $post->data());
+        self::assertObjectHasAttribute('key', $post->data());
 
         // Using a custom MessageContent as messageContent
         $arrayBase = [1, 2, 3];
@@ -173,7 +212,13 @@ class PostTest extends HttpMethodTest
         self::assertEquals(1, $post->data()->offsetGet(0));
         self::assertEquals(2, $post->data()->offsetGet(1));
         self::assertEquals(3, $post->data()->offsetGet(2));
+    }
 
+    public function testConstructWithoutArgs()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageRegExp('/Invalid number of arguments/');
+        new Post();
     }
 
 }

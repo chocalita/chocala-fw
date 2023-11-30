@@ -2,6 +2,7 @@
 
 namespace Chocala\Http\Parts;
 
+use Chocala\Http\Parts\Fakes\FakeQueryParams;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TypeError;
@@ -9,19 +10,9 @@ use TypeError;
 class QueryParamsTest extends TestCase
 {
 
-    public const ARRAY_VALUES = [
-            'var0' => 'zero',
-            'numericKey' => 789,
-            'arrayKey' => [],
-            'nullKey' => null,
-            'toRemoveKey' => 'toRemoveValue',
-            'extractedKey' => 'extractedValue',
-            'lastKey' => 'last'
-        ];
-
     private function newObject(): QueryParams
     {
-        $_GET = self::ARRAY_VALUES;
+        $_GET = FakeQueryParams::ARRAY_DATA;
         return new QueryParams();
     }
 
@@ -38,7 +29,7 @@ class QueryParamsTest extends TestCase
     public function testData()
     {
         $queryParams = $this->newObject();
-        $size = sizeof(self::ARRAY_VALUES);
+        $size = sizeof(FakeQueryParams::ARRAY_DATA);
         self::assertNotNull($queryParams->data());
         self::assertNotEmpty($queryParams->data());
         self::assertIsArray($queryParams->data());
@@ -74,7 +65,7 @@ class QueryParamsTest extends TestCase
     public function testDelete()
     {
         $queryParams = $this->newObject();
-        $size = sizeof(self::ARRAY_VALUES);
+        $size = sizeof(FakeQueryParams::ARRAY_DATA);
         self::assertCount($size, $queryParams->data());
         $queryParams->delete('toRemoveKey');
         self::assertCount($size - 1, $queryParams->data());
@@ -85,7 +76,7 @@ class QueryParamsTest extends TestCase
     public function testExtract()
     {
         $queryParams = $this->newObject();
-        $size = sizeof(self::ARRAY_VALUES);
+        $size = sizeof(FakeQueryParams::ARRAY_DATA);
         self::assertCount($size, $queryParams->data());
         self::assertEquals('extractedValue', $queryParams->extract('extractedKey'));
         self::assertCount($size - 1, $queryParams->data());

@@ -2,6 +2,8 @@
 
 namespace Chocala\Http\Parts;
 
+use InvalidArgumentException;
+
 class QueryParams implements QueryParamsInterface
 {
 
@@ -10,10 +12,13 @@ class QueryParams implements QueryParamsInterface
      */
     protected array $data;
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function __construct()
     {
         if (func_num_args() > 0) {
-            throw new \InvalidArgumentException('Too many arguments to create object ' . __CLASS__);
+            throw new InvalidArgumentException('Too many arguments to create object ' . __CLASS__);
         }
         $this->data = &$_GET;
     }

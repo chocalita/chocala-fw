@@ -2,6 +2,7 @@
 
 namespace Chocala\Http;
 
+use Chocala\Http\Parts\MessageContentInterface;
 use Chocala\Http\Parts\QueryParamsInterface;
 use Exception;
 
@@ -22,6 +23,11 @@ trait HttpMethodTrait
      * @var QueryParamsInterface
      */
     protected QueryParamsInterface $queryParams;
+
+    /**
+     * @var MessageContentInterface
+     */
+    private MessageContentInterface $messageContent;
 
     /**
      * @return string
@@ -48,9 +54,17 @@ trait HttpMethodTrait
     }
 
     /**
+     * @return MessageContentInterface
+     */
+    public function content() : MessageContentInterface
+    {
+        return $this->messageContent;
+    }
+
+    /**
      * @return mixed
      */
-    public function content()
+    public function contentsss() : MessageContentInterface
     {
 //        $rawInput = fopen('php://input', 'r');
 //        $tempStream = fopen('php://temp', 'r+');
