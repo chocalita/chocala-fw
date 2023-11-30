@@ -4,6 +4,8 @@ namespace Chocala\Http;
 
 require_once __DIR__ . '/Parts/QueryParamsTest.php';
 
+use Chocala\Http\Parts\Fakes\FakeFormDataContent;
+use Chocala\Http\Parts\Fakes\FakePostFormDataContent;
 use Chocala\Http\Parts\Fakes\FakeQueryParams;
 use Chocala\Http\Parts\QueryParams;
 use Chocala\Http\Parts\QueryParamsInterface;
@@ -38,15 +40,7 @@ class HttpMethodTest extends TestCase
 
     protected function arrayFormData(): array
     {
-        return [
-            'var0' => 'zero',
-            'numericKey' => 789,
-            'arrayKey' => [],
-            'nullKey' => null,
-            'toRemoveKey' => 'toRemoveValue',
-            'extractedKey' => 'extractedValue',
-            'lastKey' => 'last'
-        ];
+        return FakeFormDataContent::ARRAY_DATA;
     }
 
     /**

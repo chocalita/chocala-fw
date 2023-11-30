@@ -2,22 +2,26 @@
 
 namespace Chocala\Http\Parts;
 
+use Chocala\Http\Parts\Fakes\FakeFormDataContent;
 use Chocala\System\ContentType;
 use PHPUnit\Framework\TestCase;
 
 class FormDataContentTest extends TestCase
 {
 
-
     public function test__construct()
     {
+        $formDataContent = new FakeFormDataContent();
+        self::assertIsObject($formDataContent);
+
+        // Another implementation (ase class is abstract)
         $formDataContent = $this->newFormDataContentCustomClass();
         self::assertIsObject($formDataContent);
     }
 
     public function testType()
     {
-        $formDataContent = $this->newFormDataContentCustomClass();
+        $formDataContent = new FakeFormDataContent();
         self::assertIsObject($formDataContent);
         self::assertNotEmpty($formDataContent->type());
         self::assertEquals(ContentType::MULTIPART_FORM_DATA, $formDataContent->type());
@@ -26,11 +30,12 @@ class FormDataContentTest extends TestCase
 
     public function testData()
     {
-        $formDataContent = $this->newFormDataContentCustomClass();
+        $formDataContent = new FakeFormDataContent();
+        $size = sizeof(FakeFormDataContent::ARRAY_DATA);
         self::assertNotNull($formDataContent->data());
-        self::assertEmpty($formDataContent->data());
+        self::assertNotEmpty($formDataContent->data());
         self::assertIsArray($formDataContent->data());
-        self::assertCount(0, $formDataContent->data());
+        self::assertCount($size, $formDataContent->data());
     }
 
     private function newFormDataContentCustomClass(): FormDataContent

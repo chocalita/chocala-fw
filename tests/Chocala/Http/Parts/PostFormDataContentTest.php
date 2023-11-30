@@ -3,6 +3,7 @@
 namespace Chocala\Http\Parts;
 
 use Chocala\Base\IllegalStateException;
+use Chocala\Http\Parts\Fakes\FakeFormDataContent;
 use Chocala\Http\Parts\Fakes\FakePostFormDataContent;
 use Chocala\System\ContentType;
 use InvalidArgumentException;
@@ -46,7 +47,7 @@ class PostFormDataContentTest extends TestCase
 
         // $_POST with test data
         $postFormDataContent = new FakePostFormDataContent();
-        $size = sizeof(FakePostFormDataContent::ARRAY_DATA);
+        $size = sizeof(FakeFormDataContent::ARRAY_DATA);
         self::assertNotNull($postFormDataContent->data());
         self::assertNotEmpty($postFormDataContent->data());
         self::assertIsArray($postFormDataContent->data());

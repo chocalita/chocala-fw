@@ -3,6 +3,7 @@
 namespace Chocala\Http;
 
 use Chocala\Base\IllegalArgumentException;
+use Chocala\Http\Parts\Fakes\FakeFormDataContent;
 use Chocala\Http\Parts\Fakes\FakeMessageContent;
 use Chocala\Http\Parts\Fakes\FakePostFormDataContent;
 use Chocala\Http\Parts\Fakes\FakeQueryParams;
@@ -61,7 +62,6 @@ class PostTest extends HttpMethodTest
     private function newObjectFormData(): Post
     {
         $this->initQueryParams();
-        $_POST = $this->arrayFormData();
         return new Post(new FakePostFormDataContent());
     }
 
@@ -177,7 +177,7 @@ class PostTest extends HttpMethodTest
 
         // Using FormDataContent as messageContent (only allowed $_POST source)
         $post = $this->newObjectFormData();
-        $size = sizeof($this->arrayFormData());
+        $size = sizeof(FakeFormDataContent::ARRAY_DATA);
         self::assertNotNull($post->data());
         self::assertNotEmpty($post->data());
         self::assertIsArray($post->data());

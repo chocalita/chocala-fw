@@ -2,6 +2,7 @@
 
 namespace Chocala\Http;
 
+use Chocala\Http\Parts\Fakes\FakeFormDataContent;
 use Chocala\Http\Parts\Fakes\FakeMessageContent;
 use Chocala\Http\Parts\FormUrlencodedData;
 use InvalidArgumentException;
@@ -14,7 +15,7 @@ class PutTest extends HttpMethodTest
     private function initParams()
     {
         $_GET = $this->arrayQueryParams();
-        $_POST = $this->arrayFormData();
+        $_POST = FakeFormDataContent::ARRAY_DATA;
     }
 
     private function newObject(): Put
