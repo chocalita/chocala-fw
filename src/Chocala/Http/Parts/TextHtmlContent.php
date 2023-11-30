@@ -19,7 +19,7 @@ class TextHtmlContent implements MessageContentInterface
      * FormUrlencodedData constructor.
      * @param $body mixed
      */
-    public function __construct($body)
+    public function __construct(?string $body)
     {
         $body = is_null($body) ? '' : (is_string($body) ? trim($body) : $body);
         if (!empty($body) && !preg_match(self::HTML_TAG_PATTERN, $body)) {

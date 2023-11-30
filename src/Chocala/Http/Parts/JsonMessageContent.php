@@ -17,7 +17,7 @@ class JsonMessageContent implements MessageContentInterface
      * JsonMessageBody constructor.
      * @param $body mixed
      */
-    public function __construct($body)
+    public function __construct(?string $body)
     {
         $decodedBody = trim($body) === '' ? '' : json_decode($body, false);
         if ($decodedBody === null || is_numeric($decodedBody)) {

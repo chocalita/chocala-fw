@@ -7,7 +7,6 @@ use Chocala\Http\Parts\MessageContentInterface;
 use Chocala\Http\Parts\PostFormDataContent;
 use Chocala\Http\Parts\QueryParams;
 use Chocala\Http\Parts\QueryParamsInterface;
-use Chocala\Http\Parts\RawFormDataContent;
 
 /**
  * Description of Put
@@ -22,26 +21,6 @@ class Put implements HttpMethodInterface
      * @var MessageContentInterface
      */
     private MessageContentInterface $messageContent;
-
-    /**
-     * Represents a unique instance for the class in the system
-     * @deprecated Deprecated since version 3.0
-     * @var Put|null
-     */
-    private static ?Put $instance = null;
-
-    /**
-     * A single class instance from this
-     * @return Put
-     * @deprecated Deprecated since version 3.0
-     */
-    public static function instance(): Put
-    {
-        if (!is_object(static::$instance)) {
-            static::$instance = new self();
-        }
-        return static::$instance;
-    }
 
     public function __construct()
     {

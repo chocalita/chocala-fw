@@ -4,8 +4,6 @@ namespace Chocala\Http;
 
 require_once __DIR__ . '/Parts/QueryParamsTest.php';
 
-use Chocala\Http\Parts\Fakes\FakeFormDataContent;
-use Chocala\Http\Parts\Fakes\FakePostFormDataContent;
 use Chocala\Http\Parts\Fakes\FakeQueryParams;
 use Chocala\Http\Parts\QueryParams;
 use Chocala\Http\Parts\QueryParamsInterface;
@@ -21,26 +19,14 @@ class HttpMethodTest extends TestCase
         return FakeQueryParams::ARRAY_DATA;
     }
 
+    protected function initQueryParams()
+    {
+        $_GET = $this->arrayQueryParams();
+    }
+
     protected function textContent(): string
     {
         return 'Text plain content...';
-    }
-
-    protected function htmlContent(): string
-    {
-        return '<h1>Title</h1><p>You got your HTML content for your test...</p>';
-    }
-
-    protected function jsonContent(): string
-    {
-        return '{
-            "key": "value"
-        }';
-    }
-
-    protected function arrayFormData(): array
-    {
-        return FakeFormDataContent::ARRAY_DATA;
     }
 
     /**
@@ -95,6 +81,7 @@ class HttpMethodTest extends TestCase
         // Using $_REQUEST as the data source
         $httpMethod = $this->httpMethodCustomClass();
         //print_r($httpMethod);
+        print_r("Printed object in " . __CLASS__ . "\n");
         print_r($httpMethod->content());
         $size = sizeof($this->arrayQueryParams());
         self::assertIsObject($httpMethod->content());

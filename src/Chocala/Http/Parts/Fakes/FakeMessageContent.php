@@ -2,26 +2,20 @@
 
 namespace Chocala\Http\Parts\Fakes;
 
-use Chocala\Http\Parts\MessageContentInterface;
+use Chocala\Http\Parts\MessageContent;
 use Chocala\System\ContentType;
 
-class FakeMessageContent implements MessageContentInterface
+class FakeMessageContent extends MessageContent
 {
 
-    /**
-     * @inheritDoc
-     */
-    public function type(): string
-    {
-        return ContentType::TEXT_PLAIN;
-    }
+    public const DEFAULT_DATA = '';
 
     /**
-     * @inheritDoc
+     * @param mixed $dataContent
      */
-    public function data()
+    public function __construct($dataContent = self::DEFAULT_DATA)
     {
-        return '';
+        parent::__construct(ContentType::TEXT_PLAIN, $dataContent);
     }
 
 }

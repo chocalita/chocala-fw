@@ -4,10 +4,13 @@ namespace Chocala\Http;
 
 use Chocala\Base\IllegalArgumentException;
 use Chocala\Http\Parts\Fakes\FakeFormDataContent;
+use Chocala\Http\Parts\Fakes\FakeFormUrlencodedData;
+use Chocala\Http\Parts\Fakes\FakeJsonMessageContent;
 use Chocala\Http\Parts\Fakes\FakeMessageContent;
 use Chocala\Http\Parts\Fakes\FakePostFormDataContent;
 use Chocala\Http\Parts\Fakes\FakeQueryParams;
 use Chocala\Http\Parts\Fakes\FakeRawFormDataContent;
+use Chocala\Http\Parts\Fakes\FakeTextHtmlContent;
 use Chocala\Http\Parts\FormUrlencodedData;
 use Chocala\Http\Parts\JsonMessageContent;
 use Chocala\Http\Parts\MessageContent;
@@ -15,20 +18,12 @@ use Chocala\Http\Parts\MessageContentInterface;
 use Chocala\Http\Parts\PostFormDataContent;
 use Chocala\Http\Parts\QueryParamsInterface;
 use Chocala\Http\Parts\TextHtmlContent;
-use Chocala\System\ContentType;
 use InvalidArgumentException;
 
 require_once 'HttpMethodTest.php';
-require_once __DIR__ . '/Parts/PostFormDataContentTest.php';
-require_once __DIR__ . '/Parts/RawFormDataContentTest.php';
 
 class PostTest extends HttpMethodTest
 {
-
-    private function initQueryParams()
-    {
-        $_GET = $this->arrayQueryParams();
-    }
 
     private function newObject(): Post
     {
@@ -44,7 +39,7 @@ class PostTest extends HttpMethodTest
     private function newObjectCustomMessageContent($bodyContent): Post
     {
         $this->initQueryParams();
-        return new Post(new MessageContent(ContentType::TEXT_PLAIN, $bodyContent));
+        return new Post(new FakeMessageContent($bodyContent));
     }
 
     private function newObjectTextMessageContent(): Post
@@ -55,8 +50,7 @@ class PostTest extends HttpMethodTest
     private function newObjectTextHtmlContent(): Post
     {
         $this->initQueryParams();
-        $bodyContent = $this->htmlContent();
-        return new Post(new TextHtmlContent($bodyContent));
+        return new Post(new FakeTextHtmlContent());
     }
 
     private function newObjectFormData(): Post
@@ -68,15 +62,13 @@ class PostTest extends HttpMethodTest
     private function newObjectFormUrlEncoded(): Post
     {
         $this->initQueryParams();
-        $bodyContent = $this->arrayToQueryString($this->arrayFormData());
-        return new Post(new FormUrlencodedData($bodyContent));
+        return new Post(new FakeFormUrlencodedData());
     }
 
     private function newObjectJsonMessageContent(): Post
     {
         $this->initQueryParams();
-        $bodyContent = $this->jsonContent();
-        return new Post(new JsonMessageContent($bodyContent));
+        return new Post(new FakeJsonMessageContent());
     }
 
     public function test__construct()
@@ -126,7 +118,7 @@ class PostTest extends HttpMethodTest
 
         $post = $this->newObjectFakeContent();
         self::assertInstanceOf(MessageContentInterface::class, $post->content());
-        self::assertInstanceOf(FakeMessageContent::class, $post->content());
+        self::assertInstanceOf(MessageContent::class, $post->content());
 
         $post = $this->newObjectTextMessageContent();
         self::assertInstanceOf(MessageContentInterface::class, $post->content());
@@ -185,7 +177,7 @@ class PostTest extends HttpMethodTest
 
         // Using FormUrlEncodedData as messageContent
         $post = $this->newObjectFormUrlEncoded();
-        $size = sizeof($this->arrayFormData());
+        $size = sizeof(FakeFormUrlencodedData::ARRAY_DATA);
         self::assertNotNull($post->data());
         self::assertNotEmpty($post->data());
         self::assertIsArray($post->data());

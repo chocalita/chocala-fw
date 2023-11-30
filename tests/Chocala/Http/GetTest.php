@@ -4,7 +4,6 @@ namespace Chocala\Http;
 
 require_once 'HttpMethodTest.php';
 
-use Chocala\Http\Parts\QueryParams;
 use Chocala\Http\Parts\QueryParamsInterface;
 use \Exception;
 class GetTest extends HttpMethodTest
@@ -12,7 +11,7 @@ class GetTest extends HttpMethodTest
 
     private function newObject(): Get
     {
-        $_GET = $this->arrayQueryParams();
+        $this->initQueryParams();
         return new Get();
     }
 
