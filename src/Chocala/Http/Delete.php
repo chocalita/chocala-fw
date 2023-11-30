@@ -8,7 +8,7 @@ use Chocala\Http\Parts\QueryParamsInterface;
 use Exception;
 
 /**
- * Description of Get
+ * Description of Delete
  *
  * @author ypra
  */
