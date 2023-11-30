@@ -1,0 +1,72 @@
+<?php
+
+namespace Chocala\Http;
+
+use Chocala\Http\Parts\MessageContentInterface;
+use Chocala\Http\Parts\QueryParams;
+use Chocala\Http\Parts\QueryParamsInterface;
+use Exception;
+
+/**
+ * Description of Get
+ *
+ * @author ypra
+ */
+class Delete implements HttpMethodInterface
+{
+    use HttpMethodTrait;
+
+    /**
+     * @throws Exception
+     */
+
+    public function __construct()
+    {
+        $get_arguments = func_get_args();
+        $number_of_arguments = func_num_args();
+        if (method_exists($this, $method_name = '__construct' . $number_of_arguments)) {
+            call_user_func_array([$this, $method_name], $get_arguments);
+        } else {
+            throw new \InvalidArgumentException('Invalid number of arguments to create object ' . __CLASS__);
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function __constructor(QueryParamsInterface $queryParams)
+    {
+        $this->name = HttpMethod::DELETE;
+        $this->id = $this->generateId();
+        $this->queryParams = $queryParams;
+    }
+
+    private function __construct0()
+    {
+        return $this->__constructor(new QueryParams());
+    }
+
+    private function __construct1(QueryParamsInterface $queryParams)
+    {
+        return $this->__constructor($queryParams);
+    }
+
+    /**
+     * @return MessageContentInterface
+     * @throws Exception
+     */
+    public function content() : MessageContentInterface
+    {
+        throw new Exception('DELETE method does not have body content');
+    }
+
+    /**
+     * Returns data from 'queryParam' property, it's an array. Data is taken from the QueryString found in the Url.
+     * @return array
+     */
+    public function data(): array
+    {
+        return $this->queryParams->data();
+    }
+
+}
