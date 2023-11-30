@@ -4,6 +4,7 @@ namespace Chocala\Http;
 
 use Chocala\Base\IllegalArgumentException;
 use Chocala\Http\Parts\Fakes\FakeMessageContent;
+use Chocala\Http\Parts\Fakes\FakePostFormDataContent;
 use Chocala\Http\Parts\Fakes\FakeQueryParams;
 use Chocala\Http\Parts\Fakes\FakeRawFormDataContent;
 use Chocala\Http\Parts\FormUrlencodedData;
@@ -12,8 +13,6 @@ use Chocala\Http\Parts\MessageContent;
 use Chocala\Http\Parts\MessageContentInterface;
 use Chocala\Http\Parts\PostFormDataContent;
 use Chocala\Http\Parts\QueryParamsInterface;
-use Chocala\Http\Parts\RawFormDataContent;
-use Chocala\Http\Parts\RawFormDataContentTest;
 use Chocala\Http\Parts\TextHtmlContent;
 use Chocala\System\ContentType;
 use InvalidArgumentException;
@@ -63,7 +62,7 @@ class PostTest extends HttpMethodTest
     {
         $this->initQueryParams();
         $_POST = $this->arrayFormData();
-        return new Post(new PostFormDataContent());
+        return new Post(new FakePostFormDataContent());
     }
 
     private function newObjectFormUrlEncoded(): Post
@@ -89,7 +88,7 @@ class PostTest extends HttpMethodTest
         self::assertIsObject($post);
 
         $this->expectException(IllegalArgumentException::class);
-//        $this->expectExceptionMessageRegExp('/does not support raw-data body/');
+        $this->expectExceptionMessageRegExp('/does not support raw-data body/');
         new Post(new FakeRawFormDataContent());
     }
 

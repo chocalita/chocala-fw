@@ -3,6 +3,7 @@
 namespace Chocala\Http\Parts;
 
 use Chocala\Base\IllegalStateException;
+use Chocala\Http\Parts\Fakes\FakePostFormDataContent;
 use Chocala\System\ContentType;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
@@ -20,15 +21,12 @@ class PostFormDataContentTest extends TestCase
         'lastKey' => 'last'
     ];
 
-    private function newObject(): PostFormDataContent
-    {
-        $_POST = self::ARRAY_VALUES;
-        return new PostFormDataContent();
-    }
-
     public function test__construct()
     {
         $postFormDataContent = new PostFormDataContent();
+        self::assertIsObject($postFormDataContent);
+
+        $postFormDataContent = new FakePostFormDataContent();
         self::assertIsObject($postFormDataContent);
 
         $this->expectException(InvalidArgumentException::class);
@@ -38,7 +36,7 @@ class PostFormDataContentTest extends TestCase
 
     public function testType()
     {
-        $postFormDataContent = $this->newObject();
+        $postFormDataContent = new FakePostFormDataContent();
         self::assertIsObject($postFormDataContent);
         self::assertNotEmpty($postFormDataContent->type());
         self::assertEquals(ContentType::MULTIPART_FORM_DATA, $postFormDataContent->type());
@@ -57,7 +55,7 @@ class PostFormDataContentTest extends TestCase
         self::assertCount(0, $postFormDataContent->data());
 
         // $_POST with test data
-        $postFormDataContent = $this->newObject();
+        $postFormDataContent = new FakePostFormDataContent();
         $size = sizeof(self::ARRAY_VALUES);
         self::assertNotNull($postFormDataContent->data());
         self::assertNotEmpty($postFormDataContent->data());

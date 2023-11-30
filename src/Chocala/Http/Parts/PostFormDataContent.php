@@ -3,7 +3,6 @@
 namespace Chocala\Http\Parts;
 
 use Chocala\Base\IllegalStateException;
-use Chocala\System\ContentType;
 use InvalidArgumentException;
 
 class PostFormDataContent extends FormDataContent implements MessageContentInterface
