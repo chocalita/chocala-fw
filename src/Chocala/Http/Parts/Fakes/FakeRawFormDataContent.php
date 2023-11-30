@@ -7,6 +7,8 @@ use Chocala\Http\Parts\RawFormDataContent;
 class FakeRawFormDataContent extends RawFormDataContent
 {
 
+    public const DATA_COUNT = 4;
+
     public const RESOURCES_DIR = __DIR__ . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR;
 
     public static function contentType(string $contentTypeId = '852526859393702478530519') : string

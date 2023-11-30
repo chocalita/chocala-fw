@@ -81,7 +81,7 @@ class HttpMethodTest extends TestCase
         // Using $_REQUEST as the data source
         $httpMethod = $this->httpMethodCustomClass();
         //print_r($httpMethod);
-        print_r("Printed object in " . __CLASS__ . "\n");
+        print_r("Printed object in -> " . __CLASS__ . "\n");
         print_r($httpMethod->content());
         $size = sizeof($this->arrayQueryParams());
         self::assertIsObject($httpMethod->content());

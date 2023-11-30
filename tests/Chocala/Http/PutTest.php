@@ -2,9 +2,21 @@
 
 namespace Chocala\Http;
 
-use Chocala\Http\Parts\Fakes\FakeFormDataContent;
+use Chocala\Base\IllegalArgumentException;
+use Chocala\Http\Parts\Fakes\FakeFormUrlencodedData;
+use Chocala\Http\Parts\Fakes\FakeJsonMessageContent;
 use Chocala\Http\Parts\Fakes\FakeMessageContent;
+use Chocala\Http\Parts\Fakes\FakePostFormDataContent;
+use Chocala\Http\Parts\Fakes\FakeQueryParams;
+use Chocala\Http\Parts\Fakes\FakeRawFormDataContent;
+use Chocala\Http\Parts\Fakes\FakeTextHtmlContent;
 use Chocala\Http\Parts\FormUrlencodedData;
+use Chocala\Http\Parts\JsonMessageContent;
+use Chocala\Http\Parts\MessageContent;
+use Chocala\Http\Parts\MessageContentInterface;
+use Chocala\Http\Parts\QueryParamsInterface;
+use Chocala\Http\Parts\RawFormDataContent;
+use Chocala\Http\Parts\TextHtmlContent;
 use InvalidArgumentException;
 
 require_once 'HttpMethodTest.php';
@@ -12,33 +24,185 @@ require_once 'HttpMethodTest.php';
 class PutTest extends HttpMethodTest
 {
 
-    private function initParams()
-    {
-        $_GET = $this->arrayQueryParams();
-        $_POST = FakeFormDataContent::ARRAY_DATA;
-    }
-
     private function newObject(): Put
     {
-        $this->initParams();
-        return new Put(new FormUrlencodedData('key1=value1&key2=value2 & '));
+        return $this->newObjectFakeContent();
+    }
+
+    private function newObjectFakeContent(): Put
+    {
+        $this->initQueryParams();
+        return new Put(new FakeMessageContent());
+    }
+
+    private function newObjectCustomMessageContent($bodyContent): Put
+    {
+        $this->initQueryParams();
+        return new Put(new FakeMessageContent($bodyContent));
+    }
+
+    private function newObjectTextMessageContent(): Put
+    {
+        return $this->newObjectCustomMessageContent($this->textContent());
+    }
+
+    private function newObjectTextHtmlContent(): Put
+    {
+        $this->initQueryParams();
+        return new Put(new FakeTextHtmlContent());
+    }
+
+    private function newObjectFormData(): Put
+    {
+        $this->initQueryParams();
+        return new Put(new FakeRawFormDataContent());
+    }
+
+    private function newObjectFormUrlEncoded(): Put
+    {
+        $this->initQueryParams();
+        return new Put(new FakeFormUrlencodedData());
+    }
+
+    private function newObjectJsonMessageContent(): Put
+    {
+        $this->initQueryParams();
+        return new Put(new FakeJsonMessageContent());
+    }
+
+    public function test__construct()
+    {
+        $put = new Put(new FakeMessageContent());
+        self::assertIsObject($put);
+
+        $put = new Put(new FakeQueryParams(), new FakeMessageContent());
+        self::assertIsObject($put);
+
+        $this->expectException(IllegalArgumentException::class);
+        $this->expectExceptionMessageRegExp('/does not support \$_POST body/');
+        new Put(new FakePostFormDataContent());
     }
 
     public function testName()
     {
-        $put = $this->newObject(new FakeMessageContent());
+        $put = $this->newObject();
         self::assertIsObject($put);
         self::assertEquals(HttpMethod::PUT, $put->name());
     }
 
-/*
-    public function testBody()
+    public function testId()
     {
         $put = $this->newObject();
-        //TODO: create tests
-        self::assertEmpty($put->body());
+        self::assertNotNull($put->id());
+        self::assertGreaterThan(8, strlen($put->id()));
     }
-*/
+
+    public function testQueryParams()
+    {
+        $put = $this->newObject();
+        $size = sizeof($this->arrayQueryParams());
+        self::assertNotNull($put->queryParams());
+        self::assertIsObject($put->queryParams());
+        self::assertInstanceOf(QueryParamsInterface::class, $put->queryParams());
+        self::assertCount($size, $put->queryParams()->data());
+        unset($_GET['lastKey']);
+        self::assertCount($size-1, $put->queryParams()->data());
+    }
+
+
+    public function testContent()
+    {
+        $put = $this->newObject();
+        self::assertNotNull($put->content());
+        self::assertIsObject($put->content());
+
+        $put = $this->newObjectFakeContent();
+        self::assertInstanceOf(MessageContentInterface::class, $put->content());
+        self::assertInstanceOf(MessageContent::class, $put->content());
+
+        $put = $this->newObjectTextMessageContent();
+        self::assertInstanceOf(MessageContentInterface::class, $put->content());
+        self::assertInstanceOf(MessageContent::class, $put->content());
+
+        $put = $this->newObjectTextHtmlContent();
+        self::assertInstanceOf(MessageContentInterface::class, $put->content());
+        self::assertInstanceOf(TextHtmlContent::class, $put->content());
+
+        $put = $this->newObjectFormData();
+        self::assertInstanceOf(MessageContentInterface::class, $put->content());
+        self::assertInstanceOf(RawFormDataContent::class, $put->content());
+
+        $put = $this->newObjectFormUrlEncoded();
+        self::assertInstanceOf(MessageContentInterface::class, $put->content());
+        self::assertInstanceOf(FormUrlencodedData::class, $put->content());
+
+        $put = $this->newObjectJsonMessageContent();
+        self::assertInstanceOf(MessageContentInterface::class, $put->content());
+        self::assertInstanceOf(JsonMessageContent::class, $put->content());
+
+        $put = $this->newObjectCustomMessageContent(new \ArrayIterator([1,10]));
+        self::assertInstanceOf(MessageContentInterface::class, $put->content());
+        self::assertInstanceOf(MessageContent::class, $put->content());
+    }
+
+    public function testData()
+    {
+        // Using FakeMessageContent as messageContent
+        $put = $this->newObjectFakeContent();
+        self::assertNotNull($put->data());
+        self::assertIsString($put->data());
+        self::assertEmpty($put->data());
+
+        // Using MessageContent as messageContent
+        $put = $this->newObjectTextMessageContent();
+        self::assertNotNull($put->data());
+        self::assertNotEmpty($put->data());
+        self::assertIsString($put->data());
+        self::assertContains('Text plain', $put->data());
+
+        // Using TextHtmlContent as messageContent
+        $put = $this->newObjectTextHtmlContent();
+        self::assertNotNull($put->data());
+        self::assertNotEmpty($put->data());
+        self::assertIsString($put->data());
+        self::assertContains('<h1>Title</h1>', $put->data());
+
+        // Using FormDataContent as messageContent (only allowed $_POST source)
+        $put = $this->newObjectFormData();
+        self::assertNotNull($put->data());
+        self::assertNotEmpty($put->data());
+        self::assertIsArray($put->data());
+        self::assertCount(FakeRawFormDataContent::DATA_COUNT, $put->data());
+
+        // Using FormUrlEncodedData as messageContent
+        $put = $this->newObjectFormUrlEncoded();
+        $size = sizeof(FakeFormUrlencodedData::ARRAY_DATA);
+        self::assertNotNull($put->data());
+        self::assertNotEmpty($put->data());
+        self::assertIsArray($put->data());
+        self::assertCount($size, $put->data());
+
+        // Using JsonMessageContent as messageContent
+        $put = $this->newObjectJsonMessageContent();
+        self::assertNotNull($put->data());
+        self::assertNotEmpty($put->data());
+        self::assertIsObject($put->data());
+        self::assertInstanceOf(\stdClass::class, $put->data());
+        self::assertObjectHasAttribute('key', $put->data());
+
+        // Using a custom MessageContent as messageContent
+        $arrayBase = [1, 2, 3];
+        $put = $this->newObjectCustomMessageContent(new \ArrayIterator($arrayBase));
+        self::assertNotNull($put->data());
+        self::assertNotEmpty($put->data());
+        self::assertIsNotArray($put->data());
+        self::assertIsObject($put->data());
+        self::assertInstanceOf(\ArrayIterator::class, $put->data());
+        self::assertSameSize($arrayBase, $put->data());
+        self::assertEquals(1, $put->data()->offsetGet(0));
+        self::assertEquals(2, $put->data()->offsetGet(1));
+        self::assertEquals(3, $put->data()->offsetGet(2));
+    }
 
     public function testConstructWithoutArgs()
     {
