@@ -6,7 +6,7 @@ use Chocala\Base\IllegalArgumentException;
 use Chocala\Http\Parts\Fakes\FakeFormDataBody;
 use Chocala\Http\Parts\Fakes\FakeFormUrlencodedBody;
 use Chocala\Http\Parts\Fakes\FakeJsonMessageBody;
-use Chocala\Http\Parts\Fakes\FakeMessage;
+use Chocala\Http\Parts\Fakes\FakeMessageBody;
 use Chocala\Http\Parts\Fakes\FakePostFormDataBody;
 use Chocala\Http\Parts\Fakes\FakeQueryParams;
 use Chocala\Http\Parts\Fakes\FakeRawFormDataBody;
@@ -33,13 +33,13 @@ class PostTest extends HttpMethodTest
     private function newObjectFakeContent(): Post
     {
         $this->initQueryParams();
-        return new Post(new FakeMessage());
+        return new Post(new FakeMessageBody());
     }
 
     private function newObjectCustomMessageContent($bodyContent): Post
     {
         $this->initQueryParams();
-        return new Post(new FakeMessage($bodyContent));
+        return new Post(new FakeMessageBody($bodyContent));
     }
 
     private function newObjectTextMessageContent(): Post
@@ -73,10 +73,10 @@ class PostTest extends HttpMethodTest
 
     public function test__construct()
     {
-        $post = new Post(new FakeMessage());
+        $post = new Post(new FakeMessageBody());
         self::assertIsObject($post);
 
-        $post = new Post(new FakeQueryParams(), new FakeMessage());
+        $post = new Post(new FakeQueryParams(), new FakeMessageBody());
         self::assertIsObject($post);
 
         $this->expectException(IllegalArgumentException::class);

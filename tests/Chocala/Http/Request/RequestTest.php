@@ -3,7 +3,7 @@
 namespace Chocala\Http\Request;
 
 use Chocala\Http\Parts\Fakes\FakeHeaders;
-use Chocala\Http\Parts\Fakes\FakeMessage;
+use Chocala\Http\Parts\Fakes\FakeMessageBody;
 use Chocala\Http\Parts\Fakes\FakeRequestLine;
 use PHPUnit\Framework\TestCase;
 
@@ -21,9 +21,9 @@ class RequestTest extends TestCase
     private FakeHeaders $fakeHeaders;
 
     /**
-     * @var FakeMessage
+     * @var FakeMessageBody
      */
-    private FakeMessage $fakeMessageBody;
+    private FakeMessageBody $fakeMessageBody;
 
     /**
      * @var Request
@@ -34,7 +34,7 @@ class RequestTest extends TestCase
     {
         $this->fakeRequestLine = new FakeRequestLine();
         $this->fakeHeaders = new FakeHeaders();
-        $this->fakeMessageBody = new FakeMessage();
+        $this->fakeMessageBody = new FakeMessageBody();
         $this->commonRequest = new Request($this->fakeRequestLine, $this->fakeHeaders, $this->fakeMessageBody);
     }
 

@@ -5,7 +5,7 @@ namespace Chocala\Http;
 use Chocala\Base\IllegalArgumentException;
 use Chocala\Http\Parts\Fakes\FakeFormUrlencodedBody;
 use Chocala\Http\Parts\Fakes\FakeJsonMessageBody;
-use Chocala\Http\Parts\Fakes\FakeMessage;
+use Chocala\Http\Parts\Fakes\FakeMessageBody;
 use Chocala\Http\Parts\Fakes\FakePostFormDataBody;
 use Chocala\Http\Parts\Fakes\FakeQueryParams;
 use Chocala\Http\Parts\Fakes\FakeRawFormDataBody;
@@ -32,13 +32,13 @@ class PutTest extends HttpMethodTest
     private function newObjectFakeContent(): Put
     {
         $this->initQueryParams();
-        return new Put(new FakeMessage());
+        return new Put(new FakeMessageBody());
     }
 
     private function newObjectCustomMessageContent($bodyContent): Put
     {
         $this->initQueryParams();
-        return new Put(new FakeMessage($bodyContent));
+        return new Put(new FakeMessageBody($bodyContent));
     }
 
     private function newObjectTextMessageContent(): Put
@@ -72,10 +72,10 @@ class PutTest extends HttpMethodTest
 
     public function test__construct()
     {
-        $put = new Put(new FakeMessage());
+        $put = new Put(new FakeMessageBody());
         self::assertIsObject($put);
 
-        $put = new Put(new FakeQueryParams(), new FakeMessage());
+        $put = new Put(new FakeQueryParams(), new FakeMessageBody());
         self::assertIsObject($put);
 
         $this->expectException(IllegalArgumentException::class);

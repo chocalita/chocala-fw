@@ -5,7 +5,7 @@ namespace Chocala\Http;
 use Chocala\Base\IllegalArgumentException;
 use Chocala\Http\Parts\Fakes\FakeFormUrlencodedBody;
 use Chocala\Http\Parts\Fakes\FakeJsonMessageBody;
-use Chocala\Http\Parts\Fakes\FakeMessage;
+use Chocala\Http\Parts\Fakes\FakeMessageBody;
 use Chocala\Http\Parts\Fakes\FakePostFormDataBody;
 use Chocala\Http\Parts\Fakes\FakeQueryParams;
 use Chocala\Http\Parts\Fakes\FakeRawFormDataBody;
@@ -32,13 +32,13 @@ class PatchTest extends HttpMethodTest
     private function newObjectFakeContent(): Patch
     {
         $this->initQueryParams();
-        return new Patch(new FakeMessage());
+        return new Patch(new FakeMessageBody());
     }
 
     private function newObjectCustomMessageContent($bodyContent): Patch
     {
         $this->initQueryParams();
-        return new Patch(new FakeMessage($bodyContent));
+        return new Patch(new FakeMessageBody($bodyContent));
     }
 
     private function newObjectTextMessageContent(): Patch
@@ -72,10 +72,10 @@ class PatchTest extends HttpMethodTest
 
     public function test__construct()
     {
-        $patch = new Patch(new FakeMessage());
+        $patch = new Patch(new FakeMessageBody());
         self::assertIsObject($patch);
 
-        $patch = new Patch(new FakeQueryParams(), new FakeMessage());
+        $patch = new Patch(new FakeQueryParams(), new FakeMessageBody());
         self::assertIsObject($patch);
 
         $this->expectException(IllegalArgumentException::class);

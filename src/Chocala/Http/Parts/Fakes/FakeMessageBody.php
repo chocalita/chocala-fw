@@ -5,7 +5,7 @@ namespace Chocala\Http\Parts\Fakes;
 use Chocala\Http\Parts\MessageBody;
 use Chocala\System\ContentType;
 
-class FakeMessage extends MessageBody
+class FakeMessageBody extends MessageBody
 {
 
     public const DEFAULT_DATA = '';
