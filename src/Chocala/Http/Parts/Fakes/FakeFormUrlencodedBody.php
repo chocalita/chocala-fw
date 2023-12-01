@@ -2,12 +2,12 @@
 
 namespace Chocala\Http\Parts\Fakes;
 
-use Chocala\Http\Parts\FormUrlencodedData;
+use Chocala\Http\Parts\FormUrlencodedBody;
 
-class FakeFormUrlencodedData extends FormUrlencodedData
+class FakeFormUrlencodedBody extends FormUrlencodedBody
 {
 
-    public const ARRAY_DATA = FakeFormDataContent::ARRAY_DATA;
+    public const ARRAY_DATA = FakeFormDataBody::ARRAY_DATA;
     public function __construct()
     {
         parent::__construct($this->arrayToQueryString(self::ARRAY_DATA));

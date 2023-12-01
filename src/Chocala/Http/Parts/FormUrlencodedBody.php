@@ -5,7 +5,7 @@ namespace Chocala\Http\Parts;
 use Chocala\Base\IllegalArgumentException;
 use Chocala\System\ContentType;
 
-class FormUrlencodedData implements MessageBodyInterface
+class FormUrlencodedBody implements MessageBodyInterface
 {
 
     /**

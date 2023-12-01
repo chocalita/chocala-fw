@@ -3,14 +3,14 @@
 namespace Chocala\Http;
 
 use Chocala\Base\IllegalArgumentException;
-use Chocala\Http\Parts\Fakes\FakeFormUrlencodedData;
-use Chocala\Http\Parts\Fakes\FakeJsonMessageContent;
-use Chocala\Http\Parts\Fakes\FakeMessageContent;
-use Chocala\Http\Parts\Fakes\FakePostFormDataContent;
+use Chocala\Http\Parts\Fakes\FakeFormUrlencodedBody;
+use Chocala\Http\Parts\Fakes\FakeJsonMessageBody;
+use Chocala\Http\Parts\Fakes\FakeMessage;
+use Chocala\Http\Parts\Fakes\FakePostFormDataBody;
 use Chocala\Http\Parts\Fakes\FakeQueryParams;
-use Chocala\Http\Parts\Fakes\FakeRawFormDataContent;
-use Chocala\Http\Parts\Fakes\FakeTextHtmlContent;
-use Chocala\Http\Parts\FormUrlencodedData;
+use Chocala\Http\Parts\Fakes\FakeRawFormDataBody;
+use Chocala\Http\Parts\Fakes\FakeTextHtmlBody;
+use Chocala\Http\Parts\FormUrlencodedBody;
 use Chocala\Http\Parts\JsonMessageBody;
 use Chocala\Http\Parts\MessageBody;
 use Chocala\Http\Parts\MessageBodyInterface;
@@ -32,13 +32,13 @@ class PatchTest extends HttpMethodTest
     private function newObjectFakeContent(): Patch
     {
         $this->initQueryParams();
-        return new Patch(new FakeMessageContent());
+        return new Patch(new FakeMessage());
     }
 
     private function newObjectCustomMessageContent($bodyContent): Patch
     {
         $this->initQueryParams();
-        return new Patch(new FakeMessageContent($bodyContent));
+        return new Patch(new FakeMessage($bodyContent));
     }
 
     private function newObjectTextMessageContent(): Patch
@@ -49,38 +49,38 @@ class PatchTest extends HttpMethodTest
     private function newObjectTextHtmlContent(): Patch
     {
         $this->initQueryParams();
-        return new Patch(new FakeTextHtmlContent());
+        return new Patch(new FakeTextHtmlBody());
     }
 
     private function newObjectFormData(): Patch
     {
         $this->initQueryParams();
-        return new Patch(new FakeRawFormDataContent());
+        return new Patch(new FakeRawFormDataBody());
     }
 
     private function newObjectFormUrlEncoded(): Patch
     {
         $this->initQueryParams();
-        return new Patch(new FakeFormUrlencodedData());
+        return new Patch(new FakeFormUrlencodedBody());
     }
 
     private function newObjectJsonMessageContent(): Patch
     {
         $this->initQueryParams();
-        return new Patch(new FakeJsonMessageContent());
+        return new Patch(new FakeJsonMessageBody());
     }
 
     public function test__construct()
     {
-        $patch = new Patch(new FakeMessageContent());
+        $patch = new Patch(new FakeMessage());
         self::assertIsObject($patch);
 
-        $patch = new Patch(new FakeQueryParams(), new FakeMessageContent());
+        $patch = new Patch(new FakeQueryParams(), new FakeMessage());
         self::assertIsObject($patch);
 
         $this->expectException(IllegalArgumentException::class);
         $this->expectExceptionMessageRegExp('/does not support \$_POST body/');
-        new Patch(new FakePostFormDataContent());
+        new Patch(new FakePostFormDataBody());
     }
 
     public function testName()
@@ -134,7 +134,7 @@ class PatchTest extends HttpMethodTest
 
         $patch = $this->newObjectFormUrlEncoded();
         self::assertInstanceOf(MessageBodyInterface::class, $patch->content());
-        self::assertInstanceOf(FormUrlencodedData::class, $patch->content());
+        self::assertInstanceOf(FormUrlencodedBody::class, $patch->content());
 
         $patch = $this->newObjectJsonMessageContent();
         self::assertInstanceOf(MessageBodyInterface::class, $patch->content());
@@ -172,11 +172,11 @@ class PatchTest extends HttpMethodTest
         self::assertNotNull($patch->data());
         self::assertNotEmpty($patch->data());
         self::assertIsArray($patch->data());
-        self::assertCount(FakeRawFormDataContent::DATA_COUNT, $patch->data());
+        self::assertCount(FakeRawFormDataBody::DATA_COUNT, $patch->data());
 
         // Using FormUrlEncodedData as messageContent
         $patch = $this->newObjectFormUrlEncoded();
-        $size = sizeof(FakeFormUrlencodedData::ARRAY_DATA);
+        $size = sizeof(FakeFormUrlencodedBody::ARRAY_DATA);
         self::assertNotNull($patch->data());
         self::assertNotEmpty($patch->data());
         self::assertIsArray($patch->data());

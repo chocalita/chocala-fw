@@ -3,14 +3,14 @@
 namespace Chocala\Http;
 
 use Chocala\Base\IllegalArgumentException;
-use Chocala\Http\Parts\Fakes\FakeFormUrlencodedData;
-use Chocala\Http\Parts\Fakes\FakeJsonMessageContent;
-use Chocala\Http\Parts\Fakes\FakeMessageContent;
-use Chocala\Http\Parts\Fakes\FakePostFormDataContent;
+use Chocala\Http\Parts\Fakes\FakeFormUrlencodedBody;
+use Chocala\Http\Parts\Fakes\FakeJsonMessageBody;
+use Chocala\Http\Parts\Fakes\FakeMessage;
+use Chocala\Http\Parts\Fakes\FakePostFormDataBody;
 use Chocala\Http\Parts\Fakes\FakeQueryParams;
-use Chocala\Http\Parts\Fakes\FakeRawFormDataContent;
-use Chocala\Http\Parts\Fakes\FakeTextHtmlContent;
-use Chocala\Http\Parts\FormUrlencodedData;
+use Chocala\Http\Parts\Fakes\FakeRawFormDataBody;
+use Chocala\Http\Parts\Fakes\FakeTextHtmlBody;
+use Chocala\Http\Parts\FormUrlencodedBody;
 use Chocala\Http\Parts\JsonMessageBody;
 use Chocala\Http\Parts\MessageBody;
 use Chocala\Http\Parts\MessageBodyInterface;
@@ -32,13 +32,13 @@ class PutTest extends HttpMethodTest
     private function newObjectFakeContent(): Put
     {
         $this->initQueryParams();
-        return new Put(new FakeMessageContent());
+        return new Put(new FakeMessage());
     }
 
     private function newObjectCustomMessageContent($bodyContent): Put
     {
         $this->initQueryParams();
-        return new Put(new FakeMessageContent($bodyContent));
+        return new Put(new FakeMessage($bodyContent));
     }
 
     private function newObjectTextMessageContent(): Put
@@ -49,38 +49,38 @@ class PutTest extends HttpMethodTest
     private function newObjectTextHtmlContent(): Put
     {
         $this->initQueryParams();
-        return new Put(new FakeTextHtmlContent());
+        return new Put(new FakeTextHtmlBody());
     }
 
     private function newObjectFormData(): Put
     {
         $this->initQueryParams();
-        return new Put(new FakeRawFormDataContent());
+        return new Put(new FakeRawFormDataBody());
     }
 
     private function newObjectFormUrlEncoded(): Put
     {
         $this->initQueryParams();
-        return new Put(new FakeFormUrlencodedData());
+        return new Put(new FakeFormUrlencodedBody());
     }
 
     private function newObjectJsonMessageContent(): Put
     {
         $this->initQueryParams();
-        return new Put(new FakeJsonMessageContent());
+        return new Put(new FakeJsonMessageBody());
     }
 
     public function test__construct()
     {
-        $put = new Put(new FakeMessageContent());
+        $put = new Put(new FakeMessage());
         self::assertIsObject($put);
 
-        $put = new Put(new FakeQueryParams(), new FakeMessageContent());
+        $put = new Put(new FakeQueryParams(), new FakeMessage());
         self::assertIsObject($put);
 
         $this->expectException(IllegalArgumentException::class);
         $this->expectExceptionMessageRegExp('/does not support \$_POST body/');
-        new Put(new FakePostFormDataContent());
+        new Put(new FakePostFormDataBody());
     }
 
     public function testName()
@@ -134,7 +134,7 @@ class PutTest extends HttpMethodTest
 
         $put = $this->newObjectFormUrlEncoded();
         self::assertInstanceOf(MessageBodyInterface::class, $put->content());
-        self::assertInstanceOf(FormUrlencodedData::class, $put->content());
+        self::assertInstanceOf(FormUrlencodedBody::class, $put->content());
 
         $put = $this->newObjectJsonMessageContent();
         self::assertInstanceOf(MessageBodyInterface::class, $put->content());
@@ -172,11 +172,11 @@ class PutTest extends HttpMethodTest
         self::assertNotNull($put->data());
         self::assertNotEmpty($put->data());
         self::assertIsArray($put->data());
-        self::assertCount(FakeRawFormDataContent::DATA_COUNT, $put->data());
+        self::assertCount(FakeRawFormDataBody::DATA_COUNT, $put->data());
 
         // Using FormUrlEncodedData as messageContent
         $put = $this->newObjectFormUrlEncoded();
-        $size = sizeof(FakeFormUrlencodedData::ARRAY_DATA);
+        $size = sizeof(FakeFormUrlencodedBody::ARRAY_DATA);
         self::assertNotNull($put->data());
         self::assertNotEmpty($put->data());
         self::assertIsArray($put->data());

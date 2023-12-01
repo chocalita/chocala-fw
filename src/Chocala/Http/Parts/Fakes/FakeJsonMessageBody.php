@@ -4,7 +4,7 @@ namespace Chocala\Http\Parts\Fakes;
 
 use Chocala\Http\Parts\JsonMessageBody;
 
-class FakeJsonMessageContent extends JsonMessageBody
+class FakeJsonMessageBody extends JsonMessageBody
 {
 
     public const DEFAULT_DATA = '{

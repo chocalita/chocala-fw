@@ -4,7 +4,7 @@ namespace Chocala\Http\Parts\Fakes;
 
 use Chocala\Http\Parts\RawFormDataBody;
 
-class FakeRawFormDataContent extends RawFormDataBody
+class FakeRawFormDataBody extends RawFormDataBody
 {
 
     public const DATA_COUNT = 4;

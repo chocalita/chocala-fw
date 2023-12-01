@@ -3,7 +3,7 @@
 namespace Chocala\Http\Fakes;
 
 use Chocala\Http\Parts\Fakes\FakeHeaders;
-use Chocala\Http\Parts\Fakes\FakeMessageContent;
+use Chocala\Http\Parts\Fakes\FakeMessage;
 use Chocala\Http\Parts\Fakes\FakeRequestLine;
 use Chocala\Http\Parts\HeadersInterface;
 use Chocala\Http\Parts\MessageBodyInterface;
@@ -21,7 +21,7 @@ class FakeRequest implements RequestInterface
     {
         $this->fakeRequestLine = new FakeRequestLine();
         $this->fakeHeaders = new FakeHeaders();
-        $this->fakeMessageBody = new FakeMessageContent();
+        $this->fakeMessageBody = new FakeMessage();
     }
 
     public function requestLine(): RequestLineInterface
