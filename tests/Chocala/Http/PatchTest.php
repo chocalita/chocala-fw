@@ -103,39 +103,39 @@ class PatchTest extends HttpMethodTest
     }
 
 
-    public function testContent()
+    public function testBody()
     {
         $patch = $this->newObject();
-        self::assertNotNull($patch->content());
-        self::assertIsObject($patch->content());
+        self::assertNotNull($patch->body());
+        self::assertIsObject($patch->body());
 
         $patch = $this->newObjectFakeBody();
-        self::assertInstanceOf(MessageBodyInterface::class, $patch->content());
-        self::assertInstanceOf(MessageBody::class, $patch->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $patch->body());
+        self::assertInstanceOf(MessageBody::class, $patch->body());
 
         $patch = $this->newObjectTextMessageBody();
-        self::assertInstanceOf(MessageBodyInterface::class, $patch->content());
-        self::assertInstanceOf(MessageBody::class, $patch->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $patch->body());
+        self::assertInstanceOf(MessageBody::class, $patch->body());
 
         $patch = $this->newObjectTextHtmlBody();
-        self::assertInstanceOf(MessageBodyInterface::class, $patch->content());
-        self::assertInstanceOf(TextHtmlBody::class, $patch->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $patch->body());
+        self::assertInstanceOf(TextHtmlBody::class, $patch->body());
 
         $patch = $this->newObjectFormData();
-        self::assertInstanceOf(MessageBodyInterface::class, $patch->content());
-        self::assertInstanceOf(RawFormDataBody::class, $patch->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $patch->body());
+        self::assertInstanceOf(RawFormDataBody::class, $patch->body());
 
         $patch = $this->newObjectFormUrlEncoded();
-        self::assertInstanceOf(MessageBodyInterface::class, $patch->content());
-        self::assertInstanceOf(FormUrlencodedBody::class, $patch->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $patch->body());
+        self::assertInstanceOf(FormUrlencodedBody::class, $patch->body());
 
         $patch = $this->newObjectJsonMessageBody();
-        self::assertInstanceOf(MessageBodyInterface::class, $patch->content());
-        self::assertInstanceOf(JsonMessageBody::class, $patch->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $patch->body());
+        self::assertInstanceOf(JsonMessageBody::class, $patch->body());
 
         $patch = $this->newObjectCustomMessageBody(new \ArrayIterator([1,10]));
-        self::assertInstanceOf(MessageBodyInterface::class, $patch->content());
-        self::assertInstanceOf(MessageBody::class, $patch->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $patch->body());
+        self::assertInstanceOf(MessageBody::class, $patch->body());
     }
 
     public function testData()

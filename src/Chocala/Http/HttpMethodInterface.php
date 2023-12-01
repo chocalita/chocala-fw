@@ -21,7 +21,7 @@ interface HttpMethodInterface
     /**
      * @return MessageBodyInterface
      */
-    public function content() : MessageBodyInterface;
+    public function body() : MessageBodyInterface;
 
     /**
      * @return mixed

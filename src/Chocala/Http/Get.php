@@ -74,7 +74,7 @@ class Get implements HttpMethodInterface
      * @return MessageBodyInterface
      * @throws Exception
      */
-    public function content() : MessageBodyInterface
+    public function body() : MessageBodyInterface
     {
         throw new Exception('GET method does not have body content');
     }

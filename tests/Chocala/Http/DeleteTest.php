@@ -34,13 +34,13 @@ class DeleteTest extends HttpMethodTest
         self::assertCount($size-1, $delete->queryParams()->data());
     }
 
-    public function testContent()
+    public function testBody()
     {
         $delete = $this->newObject();
         $this->expectException(Exception::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessageRegExp('/does not have body content/');
-        $delete->content();
+        $delete->body();
     }
 
     public function testData()

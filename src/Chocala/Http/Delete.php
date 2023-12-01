@@ -54,7 +54,7 @@ class Delete implements HttpMethodInterface
      * @return MessageBodyInterface
      * @throws Exception
      */
-    public function content() : MessageBodyInterface
+    public function body() : MessageBodyInterface
     {
         throw new Exception('DELETE method does not have body content');
     }

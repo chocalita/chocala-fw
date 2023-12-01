@@ -69,22 +69,22 @@ class HttpMethodTest extends TestCase
         self::assertCount($size-1, $httpMethod->queryParams()->data());
     }
 
-    public function testContent()
+    public function testBody()
     {
         // Using $_REQUEST as the data source
         $httpMethod = $this->httpMethodCustomClass();
         //print_r($httpMethod);
         print_r("Printed object in -> " . __CLASS__ . "\n");
-        print_r($httpMethod->content());
+        print_r($httpMethod->body());
         $size = sizeof($this->arrayQueryParams());
-        self::assertIsObject($httpMethod->content());
-        self::assertNotEmpty($httpMethod->content()->data());
-        self::assertCount($size, $httpMethod->content()->data());
+        self::assertIsObject($httpMethod->body());
+        self::assertNotEmpty($httpMethod->body()->data());
+        self::assertCount($size, $httpMethod->body()->data());
         $_REQUEST['123'] = 123;
-        self::assertCount($size + 1, $httpMethod->content()->data());
-        self::assertEquals(123, $httpMethod->content()->data()['123']);
+        self::assertCount($size + 1, $httpMethod->body()->data());
+        self::assertEquals(123, $httpMethod->body()->data()['123']);
         unset($_REQUEST['lastKey']);
-        self::assertCount($size, $httpMethod->content()->data());
+        self::assertCount($size, $httpMethod->body()->data());
     }
 
 //    public function testHas()

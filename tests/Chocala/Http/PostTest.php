@@ -103,39 +103,39 @@ class PostTest extends HttpMethodTest
         self::assertCount($size-1, $post->queryParams()->data());
     }
 
-    public function testContent()
+    public function testBody()
     {
         $post = $this->newObject();
-        self::assertNotNull($post->content());
-        self::assertIsObject($post->content());
+        self::assertNotNull($post->body());
+        self::assertIsObject($post->body());
 
         $post = $this->newObjectFakeBody();
-        self::assertInstanceOf(MessageBodyInterface::class, $post->content());
-        self::assertInstanceOf(MessageBody::class, $post->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $post->body());
+        self::assertInstanceOf(MessageBody::class, $post->body());
 
         $post = $this->newObjectTextMessageBody();
-        self::assertInstanceOf(MessageBodyInterface::class, $post->content());
-        self::assertInstanceOf(MessageBody::class, $post->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $post->body());
+        self::assertInstanceOf(MessageBody::class, $post->body());
 
         $post = $this->newObjectTextHtmlBody();
-        self::assertInstanceOf(MessageBodyInterface::class, $post->content());
-        self::assertInstanceOf(TextHtmlBody::class, $post->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $post->body());
+        self::assertInstanceOf(TextHtmlBody::class, $post->body());
 
         $post = $this->newObjectFormData();
-        self::assertInstanceOf(MessageBodyInterface::class, $post->content());
-        self::assertInstanceOf(PostFormDataBody::class, $post->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $post->body());
+        self::assertInstanceOf(PostFormDataBody::class, $post->body());
 
         $post = $this->newObjectFormUrlEncoded();
-        self::assertInstanceOf(MessageBodyInterface::class, $post->content());
-        self::assertInstanceOf(FormUrlencodedBody::class, $post->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $post->body());
+        self::assertInstanceOf(FormUrlencodedBody::class, $post->body());
 
         $post = $this->newObjectJsonMessageBody();
-        self::assertInstanceOf(MessageBodyInterface::class, $post->content());
-        self::assertInstanceOf(JsonMessageBody::class, $post->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $post->body());
+        self::assertInstanceOf(JsonMessageBody::class, $post->body());
 
         $post = $this->newObjectCustomMessageBody(new \ArrayIterator([1,10]));
-        self::assertInstanceOf(MessageBodyInterface::class, $post->content());
-        self::assertInstanceOf(MessageBody::class, $post->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $post->body());
+        self::assertInstanceOf(MessageBody::class, $post->body());
     }
 
     public function testData()

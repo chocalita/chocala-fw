@@ -42,13 +42,13 @@ class GetTest extends HttpMethodTest
         self::assertCount($size-1, $get->queryParams()->data());
     }
 
-    public function testContent()
+    public function testBody()
     {
         $get = $this->newObject();
         $this->expectException(Exception::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessageRegExp('/does not have body content/');
-        $get->content();
+        $get->body();
     }
 
     public function testData()
