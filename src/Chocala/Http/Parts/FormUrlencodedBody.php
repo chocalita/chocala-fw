@@ -11,7 +11,7 @@ class FormUrlencodedBody implements MessageBodyInterface
     /**
      * @var MessageBody
      */
-    private MessageBody $messageContent;
+    private MessageBody $messageBody;
 
     /**
      * FormUrlencodedData constructor.
@@ -25,7 +25,7 @@ class FormUrlencodedBody implements MessageBodyInterface
         }
         $arrayBody = [];
         parse_str($body, $arrayBody);
-        $this->messageContent = new MessageBody(ContentType::APPLICATION_FORM_URLENCODED, $arrayBody);
+        $this->messageBody = new MessageBody(ContentType::APPLICATION_FORM_URLENCODED, $arrayBody);
     }
 
     /**
@@ -33,7 +33,7 @@ class FormUrlencodedBody implements MessageBodyInterface
      */
     public function type(): string
     {
-        return $this->messageContent->type();
+        return $this->messageBody->type();
     }
 
     /**
@@ -41,7 +41,7 @@ class FormUrlencodedBody implements MessageBodyInterface
      */
     public function data()
     {
-        return $this->messageContent->data();
+        return $this->messageBody->data();
     }
 
 }

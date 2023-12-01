@@ -27,7 +27,7 @@ trait HttpMethodTrait
     /**
      * @var MessageBodyInterface
      */
-    private MessageBodyInterface $messageContent;
+    private MessageBodyInterface $messageBody;
 
     /**
      * @return string
@@ -58,7 +58,7 @@ trait HttpMethodTrait
      */
     public function content() : MessageBodyInterface
     {
-        return $this->messageContent;
+        return $this->messageBody;
     }
 
     /**

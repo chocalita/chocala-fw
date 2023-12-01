@@ -26,27 +26,27 @@ class PatchTest extends HttpMethodTest
 
     private function newObject(): Patch
     {
-        return $this->newObjectFakeContent();
+        return $this->newObjectFakeBody();
     }
 
-    private function newObjectFakeContent(): Patch
+    private function newObjectFakeBody(): Patch
     {
         $this->initQueryParams();
         return new Patch(new FakeMessageBody());
     }
 
-    private function newObjectCustomMessageContent($bodyContent): Patch
+    private function newObjectCustomMessageBody($bodyContent): Patch
     {
         $this->initQueryParams();
         return new Patch(new FakeMessageBody($bodyContent));
     }
 
-    private function newObjectTextMessageContent(): Patch
+    private function newObjectTextMessageBody(): Patch
     {
-        return $this->newObjectCustomMessageContent($this->textContent());
+        return $this->newObjectCustomMessageBody($this->textContent());
     }
 
-    private function newObjectTextHtmlContent(): Patch
+    private function newObjectTextHtmlBody(): Patch
     {
         $this->initQueryParams();
         return new Patch(new FakeTextHtmlBody());
@@ -64,7 +64,7 @@ class PatchTest extends HttpMethodTest
         return new Patch(new FakeFormUrlencodedBody());
     }
 
-    private function newObjectJsonMessageContent(): Patch
+    private function newObjectJsonMessageBody(): Patch
     {
         $this->initQueryParams();
         return new Patch(new FakeJsonMessageBody());
@@ -116,15 +116,15 @@ class PatchTest extends HttpMethodTest
         self::assertNotNull($patch->content());
         self::assertIsObject($patch->content());
 
-        $patch = $this->newObjectFakeContent();
+        $patch = $this->newObjectFakeBody();
         self::assertInstanceOf(MessageBodyInterface::class, $patch->content());
         self::assertInstanceOf(MessageBody::class, $patch->content());
 
-        $patch = $this->newObjectTextMessageContent();
+        $patch = $this->newObjectTextMessageBody();
         self::assertInstanceOf(MessageBodyInterface::class, $patch->content());
         self::assertInstanceOf(MessageBody::class, $patch->content());
 
-        $patch = $this->newObjectTextHtmlContent();
+        $patch = $this->newObjectTextHtmlBody();
         self::assertInstanceOf(MessageBodyInterface::class, $patch->content());
         self::assertInstanceOf(TextHtmlBody::class, $patch->content());
 
@@ -136,45 +136,45 @@ class PatchTest extends HttpMethodTest
         self::assertInstanceOf(MessageBodyInterface::class, $patch->content());
         self::assertInstanceOf(FormUrlencodedBody::class, $patch->content());
 
-        $patch = $this->newObjectJsonMessageContent();
+        $patch = $this->newObjectJsonMessageBody();
         self::assertInstanceOf(MessageBodyInterface::class, $patch->content());
         self::assertInstanceOf(JsonMessageBody::class, $patch->content());
 
-        $patch = $this->newObjectCustomMessageContent(new \ArrayIterator([1,10]));
+        $patch = $this->newObjectCustomMessageBody(new \ArrayIterator([1,10]));
         self::assertInstanceOf(MessageBodyInterface::class, $patch->content());
         self::assertInstanceOf(MessageBody::class, $patch->content());
     }
 
     public function testData()
     {
-        // Using FakeMessageContent as messageContent
-        $patch = $this->newObjectFakeContent();
+        // Using FakeMessageBody as messageBody
+        $patch = $this->newObjectFakeBody();
         self::assertNotNull($patch->data());
         self::assertIsString($patch->data());
         self::assertEmpty($patch->data());
 
-        // Using MessageContent as messageContent
-        $patch = $this->newObjectTextMessageContent();
+        // Using MessageBody as messageBody
+        $patch = $this->newObjectTextMessageBody();
         self::assertNotNull($patch->data());
         self::assertNotEmpty($patch->data());
         self::assertIsString($patch->data());
         self::assertContains('Text plain', $patch->data());
 
-        // Using TextHtmlContent as messageContent
-        $patch = $this->newObjectTextHtmlContent();
+        // Using TextHtmlBody as messageBody
+        $patch = $this->newObjectTextHtmlBody();
         self::assertNotNull($patch->data());
         self::assertNotEmpty($patch->data());
         self::assertIsString($patch->data());
         self::assertContains('<h1>Title</h1>', $patch->data());
 
-        // Using FormDataContent as messageContent (only allowed $_POST source)
+        // Using FormDataBody as messageBody (only allowed $_POST source)
         $patch = $this->newObjectFormData();
         self::assertNotNull($patch->data());
         self::assertNotEmpty($patch->data());
         self::assertIsArray($patch->data());
         self::assertCount(FakeRawFormDataBody::DATA_COUNT, $patch->data());
 
-        // Using FormUrlEncodedData as messageContent
+        // Using FormUrlEncodedData as messageBody
         $patch = $this->newObjectFormUrlEncoded();
         $size = sizeof(FakeFormUrlencodedBody::ARRAY_DATA);
         self::assertNotNull($patch->data());
@@ -182,17 +182,17 @@ class PatchTest extends HttpMethodTest
         self::assertIsArray($patch->data());
         self::assertCount($size, $patch->data());
 
-        // Using JsonMessageContent as messageContent
-        $patch = $this->newObjectJsonMessageContent();
+        // Using JsonMessageBody as messageBody
+        $patch = $this->newObjectJsonMessageBody();
         self::assertNotNull($patch->data());
         self::assertNotEmpty($patch->data());
         self::assertIsObject($patch->data());
         self::assertInstanceOf(\stdClass::class, $patch->data());
         self::assertObjectHasAttribute('key', $patch->data());
 
-        // Using a custom MessageContent as messageContent
+        // Using a custom MessageBody as messageBody
         $arrayBase = [1, 2, 3];
-        $patch = $this->newObjectCustomMessageContent(new \ArrayIterator($arrayBase));
+        $patch = $this->newObjectCustomMessageBody(new \ArrayIterator($arrayBase));
         self::assertNotNull($patch->data());
         self::assertNotEmpty($patch->data());
         self::assertIsNotArray($patch->data());

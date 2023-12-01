@@ -11,7 +11,7 @@ class JsonMessageBody implements MessageBodyInterface
     /**
      * @var MessageBody
      */
-    private MessageBody $messageContent;
+    private MessageBody $messageBody;
 
     /**
      * JsonMessageBody constructor.
@@ -23,7 +23,7 @@ class JsonMessageBody implements MessageBodyInterface
         if ($decodedBody === null || is_numeric($decodedBody)) {
             throw new IllegalArgumentException('Invalid json body');
         }
-        $this->messageContent = new MessageBody(ContentType::APPLICATION_JSON, $decodedBody);
+        $this->messageBody = new MessageBody(ContentType::APPLICATION_JSON, $decodedBody);
     }
 
     /**
@@ -31,7 +31,7 @@ class JsonMessageBody implements MessageBodyInterface
      */
     public function type(): string
     {
-        return $this->messageContent->type();
+        return $this->messageBody->type();
     }
 
     /**
@@ -39,7 +39,7 @@ class JsonMessageBody implements MessageBodyInterface
      */
     public function data()
     {
-        return $this->messageContent->data();
+        return $this->messageBody->data();
     }
 
 }

@@ -28,25 +28,25 @@ class Post implements HttpMethodInterface
         }
     }
 
-    private function __constructor(QueryParamsInterface $queryParams, MessageBodyInterface $messageContent)
+    private function __constructor(QueryParamsInterface $queryParams, MessageBodyInterface $messageBody)
     {
         $this->name = HttpMethod::POST;
         $this->id = $this->generateId();
         $this->queryParams = $queryParams;
-        if ($messageContent instanceof RawFormDataBody) {
+        if ($messageBody instanceof RawFormDataBody) {
             throw new IllegalArgumentException('POST method does not support raw-data body');
         }
-        $this->messageContent = $messageContent;
+        $this->messageBody = $messageBody;
     }
 
-    private function __construct1(MessageBodyInterface $messageContent)
+    private function __construct1(MessageBodyInterface $messageBody)
     {
-        $this->__constructor(new QueryParams(), $messageContent);
+        $this->__constructor(new QueryParams(), $messageBody);
     }
 
-    private function __construct2(QueryParamsInterface $queryParams, MessageBodyInterface $messageContent)
+    private function __construct2(QueryParamsInterface $queryParams, MessageBodyInterface $messageBody)
     {
-        $this->__constructor($queryParams, $messageContent);
+        $this->__constructor($queryParams, $messageBody);
     }
 
     /**
@@ -54,7 +54,7 @@ class Post implements HttpMethodInterface
      */
     public function data()
     {
-        return $this->messageContent->data();
+        return $this->messageBody->data();
     }
 
 }

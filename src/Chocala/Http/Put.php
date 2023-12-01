@@ -17,11 +17,6 @@ class Put implements HttpMethodInterface
 {
     use HttpMethodTrait;
 
-    /**
-     * @var MessageBodyInterface
-     */
-    private MessageBodyInterface $messageContent;
-
     public function __construct()
     {
         $get_arguments = func_get_args();
@@ -33,25 +28,25 @@ class Put implements HttpMethodInterface
         }
     }
 
-    private function __constructor(QueryParamsInterface $queryParams, MessageBodyInterface $messageContent)
+    private function __constructor(QueryParamsInterface $queryParams, MessageBodyInterface $messageBody)
     {
         $this->name = HttpMethod::PUT;
         $this->id = $this->generateId();
         $this->queryParams = $queryParams;
-        if ($messageContent instanceof PostFormDataBody) {
+        if ($messageBody instanceof PostFormDataBody) {
             throw new IllegalArgumentException('PUT method does not support $_POST body');
         }
-        $this->messageContent = $messageContent;
+        $this->messageBody = $messageBody;
     }
 
-    private function __construct1(MessageBodyInterface $messageContent)
+    private function __construct1(MessageBodyInterface $messageBody)
     {
-        return $this->__constructor(new QueryParams(), $messageContent);
+        return $this->__constructor(new QueryParams(), $messageBody);
     }
 
-    private function __construct2(QueryParamsInterface $queryParams, MessageBodyInterface $messageContent)
+    private function __construct2(QueryParamsInterface $queryParams, MessageBodyInterface $messageBody)
     {
-        return $this->__constructor($queryParams, $messageContent);
+        return $this->__constructor($queryParams, $messageBody);
     }
 
     /**
@@ -59,7 +54,7 @@ class Put implements HttpMethodInterface
      */
     public function data()
     {
-        return $this->messageContent->data();
+        return $this->messageBody->data();
     }
 
 }

@@ -13,7 +13,7 @@ class TextHtmlBody implements MessageBodyInterface
     /**
      * @var MessageBody
      */
-    private MessageBody $messageContent;
+    private MessageBody $messageBody;
 
     /**
      * FormUrlencodedData constructor.
@@ -25,7 +25,7 @@ class TextHtmlBody implements MessageBodyInterface
         if (!empty($body) && !preg_match(self::HTML_TAG_PATTERN, $body)) {
             throw new IllegalArgumentException('Invalid text html body');
         }
-        $this->messageContent = new MessageBody(ContentType::TEXT_HTML, $body);
+        $this->messageBody = new MessageBody(ContentType::TEXT_HTML, $body);
     }
 
     /**
@@ -33,7 +33,7 @@ class TextHtmlBody implements MessageBodyInterface
      */
     public function type(): string
     {
-        return $this->messageContent->type();
+        return $this->messageBody->type();
     }
 
     /**
@@ -41,7 +41,7 @@ class TextHtmlBody implements MessageBodyInterface
      */
     public function data()
     {
-        return $this->messageContent->data();
+        return $this->messageBody->data();
     }
 
 }

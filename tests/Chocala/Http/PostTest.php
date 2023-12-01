@@ -27,27 +27,27 @@ class PostTest extends HttpMethodTest
 
     private function newObject(): Post
     {
-        return $this->newObjectFakeContent();
+        return $this->newObjectFakeBody();
     }
 
-    private function newObjectFakeContent(): Post
+    private function newObjectFakeBody(): Post
     {
         $this->initQueryParams();
         return new Post(new FakeMessageBody());
     }
 
-    private function newObjectCustomMessageContent($bodyContent): Post
+    private function newObjectCustomMessageBody($bodyContent): Post
     {
         $this->initQueryParams();
         return new Post(new FakeMessageBody($bodyContent));
     }
 
-    private function newObjectTextMessageContent(): Post
+    private function newObjectTextMessageBody(): Post
     {
-        return $this->newObjectCustomMessageContent($this->textContent());
+        return $this->newObjectCustomMessageBody($this->textContent());
     }
 
-    private function newObjectTextHtmlContent(): Post
+    private function newObjectTextHtmlBody(): Post
     {
         $this->initQueryParams();
         return new Post(new FakeTextHtmlBody());
@@ -65,7 +65,7 @@ class PostTest extends HttpMethodTest
         return new Post(new FakeFormUrlencodedBody());
     }
 
-    private function newObjectJsonMessageContent(): Post
+    private function newObjectJsonMessageBody(): Post
     {
         $this->initQueryParams();
         return new Post(new FakeJsonMessageBody());
@@ -116,15 +116,15 @@ class PostTest extends HttpMethodTest
         self::assertNotNull($post->content());
         self::assertIsObject($post->content());
 
-        $post = $this->newObjectFakeContent();
+        $post = $this->newObjectFakeBody();
         self::assertInstanceOf(MessageBodyInterface::class, $post->content());
         self::assertInstanceOf(MessageBody::class, $post->content());
 
-        $post = $this->newObjectTextMessageContent();
+        $post = $this->newObjectTextMessageBody();
         self::assertInstanceOf(MessageBodyInterface::class, $post->content());
         self::assertInstanceOf(MessageBody::class, $post->content());
 
-        $post = $this->newObjectTextHtmlContent();
+        $post = $this->newObjectTextHtmlBody();
         self::assertInstanceOf(MessageBodyInterface::class, $post->content());
         self::assertInstanceOf(TextHtmlBody::class, $post->content());
 
@@ -136,38 +136,38 @@ class PostTest extends HttpMethodTest
         self::assertInstanceOf(MessageBodyInterface::class, $post->content());
         self::assertInstanceOf(FormUrlencodedBody::class, $post->content());
 
-        $post = $this->newObjectJsonMessageContent();
+        $post = $this->newObjectJsonMessageBody();
         self::assertInstanceOf(MessageBodyInterface::class, $post->content());
         self::assertInstanceOf(JsonMessageBody::class, $post->content());
 
-        $post = $this->newObjectCustomMessageContent(new \ArrayIterator([1,10]));
+        $post = $this->newObjectCustomMessageBody(new \ArrayIterator([1,10]));
         self::assertInstanceOf(MessageBodyInterface::class, $post->content());
         self::assertInstanceOf(MessageBody::class, $post->content());
     }
 
     public function testData()
     {
-        // Using FakeMessageContent as messageContent
-        $post = $this->newObjectFakeContent();
+        // Using FakeMessageBody as messageBody
+        $post = $this->newObjectFakeBody();
         self::assertNotNull($post->data());
         self::assertIsString($post->data());
         self::assertEmpty($post->data());
 
-        // Using MessageContent as messageContent
-        $post = $this->newObjectTextMessageContent();
+        // Using MessageBody as messageBody
+        $post = $this->newObjectTextMessageBody();
         self::assertNotNull($post->data());
         self::assertNotEmpty($post->data());
         self::assertIsString($post->data());
         self::assertContains('Text plain', $post->data());
 
-        // Using TextHtmlContent as messageContent
-        $post = $this->newObjectTextHtmlContent();
+        // Using TextHtmlContent as messageBody
+        $post = $this->newObjectTextHtmlBody();
         self::assertNotNull($post->data());
         self::assertNotEmpty($post->data());
         self::assertIsString($post->data());
         self::assertContains('<h1>Title</h1>', $post->data());
 
-        // Using FormDataContent as messageContent (only allowed $_POST source)
+        // Using FormDataContent as messageBody (only allowed $_POST source)
         $post = $this->newObjectFormData();
         $size = sizeof(FakeFormDataBody::ARRAY_DATA);
         self::assertNotNull($post->data());
@@ -175,7 +175,7 @@ class PostTest extends HttpMethodTest
         self::assertIsArray($post->data());
         self::assertCount($size, $post->data());
 
-        // Using FormUrlEncodedData as messageContent
+        // Using FormUrlEncodedData as messageBody
         $post = $this->newObjectFormUrlEncoded();
         $size = sizeof(FakeFormUrlencodedBody::ARRAY_DATA);
         self::assertNotNull($post->data());
@@ -183,17 +183,17 @@ class PostTest extends HttpMethodTest
         self::assertIsArray($post->data());
         self::assertCount($size, $post->data());
 
-        // Using JsonMessageContent as messageContent
-        $post = $this->newObjectJsonMessageContent();
+        // Using JsonMessageBody as messageBody
+        $post = $this->newObjectJsonMessageBody();
         self::assertNotNull($post->data());
         self::assertNotEmpty($post->data());
         self::assertIsObject($post->data());
         self::assertInstanceOf(\stdClass::class, $post->data());
         self::assertObjectHasAttribute('key', $post->data());
 
-        // Using a custom MessageContent as messageContent
+        // Using a custom MessageBody as messageBody
         $arrayBase = [1, 2, 3];
-        $post = $this->newObjectCustomMessageContent(new \ArrayIterator($arrayBase));
+        $post = $this->newObjectCustomMessageBody(new \ArrayIterator($arrayBase));
         self::assertNotNull($post->data());
         self::assertNotEmpty($post->data());
         self::assertIsNotArray($post->data());

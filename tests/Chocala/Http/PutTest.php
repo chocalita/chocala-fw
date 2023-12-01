@@ -26,27 +26,27 @@ class PutTest extends HttpMethodTest
 
     private function newObject(): Put
     {
-        return $this->newObjectFakeContent();
+        return $this->newObjectFakeBody();
     }
 
-    private function newObjectFakeContent(): Put
+    private function newObjectFakeBody(): Put
     {
         $this->initQueryParams();
         return new Put(new FakeMessageBody());
     }
 
-    private function newObjectCustomMessageContent($bodyContent): Put
+    private function newObjectCustomMessageBody($bodyContent): Put
     {
         $this->initQueryParams();
         return new Put(new FakeMessageBody($bodyContent));
     }
 
-    private function newObjectTextMessageContent(): Put
+    private function newObjectTextMessageBody(): Put
     {
-        return $this->newObjectCustomMessageContent($this->textContent());
+        return $this->newObjectCustomMessageBody($this->textContent());
     }
 
-    private function newObjectTextHtmlContent(): Put
+    private function newObjectTextHtmlBody(): Put
     {
         $this->initQueryParams();
         return new Put(new FakeTextHtmlBody());
@@ -64,7 +64,7 @@ class PutTest extends HttpMethodTest
         return new Put(new FakeFormUrlencodedBody());
     }
 
-    private function newObjectJsonMessageContent(): Put
+    private function newObjectJsonMessageBody(): Put
     {
         $this->initQueryParams();
         return new Put(new FakeJsonMessageBody());
@@ -116,15 +116,15 @@ class PutTest extends HttpMethodTest
         self::assertNotNull($put->content());
         self::assertIsObject($put->content());
 
-        $put = $this->newObjectFakeContent();
+        $put = $this->newObjectFakeBody();
         self::assertInstanceOf(MessageBodyInterface::class, $put->content());
         self::assertInstanceOf(MessageBody::class, $put->content());
 
-        $put = $this->newObjectTextMessageContent();
+        $put = $this->newObjectTextMessageBody();
         self::assertInstanceOf(MessageBodyInterface::class, $put->content());
         self::assertInstanceOf(MessageBody::class, $put->content());
 
-        $put = $this->newObjectTextHtmlContent();
+        $put = $this->newObjectTextHtmlBody();
         self::assertInstanceOf(MessageBodyInterface::class, $put->content());
         self::assertInstanceOf(TextHtmlBody::class, $put->content());
 
@@ -136,45 +136,45 @@ class PutTest extends HttpMethodTest
         self::assertInstanceOf(MessageBodyInterface::class, $put->content());
         self::assertInstanceOf(FormUrlencodedBody::class, $put->content());
 
-        $put = $this->newObjectJsonMessageContent();
+        $put = $this->newObjectJsonMessageBody();
         self::assertInstanceOf(MessageBodyInterface::class, $put->content());
         self::assertInstanceOf(JsonMessageBody::class, $put->content());
 
-        $put = $this->newObjectCustomMessageContent(new \ArrayIterator([1,10]));
+        $put = $this->newObjectCustomMessageBody(new \ArrayIterator([1,10]));
         self::assertInstanceOf(MessageBodyInterface::class, $put->content());
         self::assertInstanceOf(MessageBody::class, $put->content());
     }
 
     public function testData()
     {
-        // Using FakeMessageContent as messageContent
-        $put = $this->newObjectFakeContent();
+        // Using FakeMessageBody as messageBody
+        $put = $this->newObjectFakeBody();
         self::assertNotNull($put->data());
         self::assertIsString($put->data());
         self::assertEmpty($put->data());
 
-        // Using MessageContent as messageContent
-        $put = $this->newObjectTextMessageContent();
+        // Using MessageBody as messageBody
+        $put = $this->newObjectTextMessageBody();
         self::assertNotNull($put->data());
         self::assertNotEmpty($put->data());
         self::assertIsString($put->data());
         self::assertContains('Text plain', $put->data());
 
-        // Using TextHtmlContent as messageContent
-        $put = $this->newObjectTextHtmlContent();
+        // Using TextHtmlBody as messageBody
+        $put = $this->newObjectTextHtmlBody();
         self::assertNotNull($put->data());
         self::assertNotEmpty($put->data());
         self::assertIsString($put->data());
         self::assertContains('<h1>Title</h1>', $put->data());
 
-        // Using FormDataContent as messageContent (only allowed $_POST source)
+        // Using FormDataBody as messageBody (only allowed $_POST source)
         $put = $this->newObjectFormData();
         self::assertNotNull($put->data());
         self::assertNotEmpty($put->data());
         self::assertIsArray($put->data());
         self::assertCount(FakeRawFormDataBody::DATA_COUNT, $put->data());
 
-        // Using FormUrlEncodedData as messageContent
+        // Using FormUrlEncodedData as messageBody
         $put = $this->newObjectFormUrlEncoded();
         $size = sizeof(FakeFormUrlencodedBody::ARRAY_DATA);
         self::assertNotNull($put->data());
@@ -182,17 +182,17 @@ class PutTest extends HttpMethodTest
         self::assertIsArray($put->data());
         self::assertCount($size, $put->data());
 
-        // Using JsonMessageContent as messageContent
-        $put = $this->newObjectJsonMessageContent();
+        // Using JsonMessageBody as messageBody
+        $put = $this->newObjectJsonMessageBody();
         self::assertNotNull($put->data());
         self::assertNotEmpty($put->data());
         self::assertIsObject($put->data());
         self::assertInstanceOf(\stdClass::class, $put->data());
         self::assertObjectHasAttribute('key', $put->data());
 
-        // Using a custom MessageContent as messageContent
+        // Using a custom MessageBody as messageBody
         $arrayBase = [1, 2, 3];
-        $put = $this->newObjectCustomMessageContent(new \ArrayIterator($arrayBase));
+        $put = $this->newObjectCustomMessageBody(new \ArrayIterator($arrayBase));
         self::assertNotNull($put->data());
         self::assertNotEmpty($put->data());
         self::assertIsNotArray($put->data());

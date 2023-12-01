@@ -145,7 +145,7 @@ class HttpMethodTest extends TestCase
                 $this->name = 'CUSTOM';
                 $this->id = $this->generateId();
                 $this->queryParams = new QueryParams();
-                $this->messageContent = new RequestDataBody(ContentType::TEXT_HTML);
+                $this->messageBody = new RequestDataBody(ContentType::TEXT_HTML);
             }
 
         };
