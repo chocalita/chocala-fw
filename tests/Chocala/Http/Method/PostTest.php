@@ -1,8 +1,9 @@
 <?php
 
-namespace Chocala\Http;
+namespace Chocala\Http\Method;
 
 use Chocala\Base\IllegalArgumentException;
+use Chocala\Http\HttpMethod;
 use Chocala\Http\Parts\Fakes\FakeFormDataBody;
 use Chocala\Http\Parts\Fakes\FakeFormUrlencodedBody;
 use Chocala\Http\Parts\Fakes\FakeJsonMessageBody;
@@ -110,30 +111,44 @@ class PostTest extends HttpMethodTest
         self::assertIsObject($post->body());
 
         $post = $this->newObjectFakeBody();
+        self::assertNotNull($post->body());
+        self::assertIsObject($post->body());
         self::assertInstanceOf(MessageBodyInterface::class, $post->body());
         self::assertInstanceOf(MessageBody::class, $post->body());
 
         $post = $this->newObjectTextMessageBody();
+        self::assertNotNull($post->body());
+        self::assertIsObject($post->body());
         self::assertInstanceOf(MessageBodyInterface::class, $post->body());
         self::assertInstanceOf(MessageBody::class, $post->body());
 
         $post = $this->newObjectTextHtmlBody();
+        self::assertNotNull($post->body());
+        self::assertIsObject($post->body());
         self::assertInstanceOf(MessageBodyInterface::class, $post->body());
         self::assertInstanceOf(TextHtmlBody::class, $post->body());
 
         $post = $this->newObjectFormData();
+        self::assertNotNull($post->body());
+        self::assertIsObject($post->body());
         self::assertInstanceOf(MessageBodyInterface::class, $post->body());
         self::assertInstanceOf(PostFormDataBody::class, $post->body());
 
         $post = $this->newObjectFormUrlEncoded();
+        self::assertNotNull($post->body());
+        self::assertIsObject($post->body());
         self::assertInstanceOf(MessageBodyInterface::class, $post->body());
         self::assertInstanceOf(FormUrlencodedBody::class, $post->body());
 
         $post = $this->newObjectJsonMessageBody();
+        self::assertNotNull($post->body());
+        self::assertIsObject($post->body());
         self::assertInstanceOf(MessageBodyInterface::class, $post->body());
         self::assertInstanceOf(JsonMessageBody::class, $post->body());
 
         $post = $this->newObjectCustomMessageBody(new \ArrayIterator([1,10]));
+        self::assertNotNull($post->body());
+        self::assertIsObject($post->body());
         self::assertInstanceOf(MessageBodyInterface::class, $post->body());
         self::assertInstanceOf(MessageBody::class, $post->body());
     }

@@ -1,8 +1,10 @@
 <?php
 
-namespace Chocala\Http;
+namespace Chocala\Http\Method;
 
 use Chocala\Base\IllegalArgumentException;
+use Chocala\Http\HttpMethod;
+use Chocala\Http\HttpMethodInterface;
 use Chocala\Http\Parts\MessageBodyInterface;
 use Chocala\Http\Parts\QueryParams;
 use Chocala\Http\Parts\QueryParamsInterface;

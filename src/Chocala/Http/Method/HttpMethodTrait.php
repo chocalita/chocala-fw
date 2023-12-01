@@ -1,10 +1,9 @@
 <?php
 
-namespace Chocala\Http;
+namespace Chocala\Http\Method;
 
 use Chocala\Http\Parts\MessageBodyInterface;
 use Chocala\Http\Parts\QueryParamsInterface;
-use Exception;
 
 trait HttpMethodTrait
 {

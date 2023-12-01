@@ -1,11 +1,13 @@
 <?php
 
-namespace Chocala\Http;
+namespace Chocala\Http\Method;
 
 require_once 'HttpMethodTest.php';
 
+use Chocala\Http\HttpMethod;
 use Chocala\Http\Parts\QueryParamsInterface;
-use \Exception;
+use Exception;
+
 class DeleteTest extends HttpMethodTest
 {
 

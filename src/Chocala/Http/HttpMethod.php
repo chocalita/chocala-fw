@@ -2,6 +2,8 @@
 
 namespace Chocala\Http;
 
+use Chocala\Http\Method\HttpMethodTrait;
+
 abstract class HttpMethod
 {
     use HttpMethodTrait;

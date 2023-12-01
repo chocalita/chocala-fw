@@ -1,8 +1,9 @@
 <?php
 
-namespace Chocala\Http;
+namespace Chocala\Http\Method;
 
 use Chocala\Base\IllegalArgumentException;
+use Chocala\Http\HttpMethod;
 use Chocala\Http\Parts\Fakes\FakeFormUrlencodedBody;
 use Chocala\Http\Parts\Fakes\FakeJsonMessageBody;
 use Chocala\Http\Parts\Fakes\FakeMessageBody;
@@ -110,30 +111,44 @@ class PatchTest extends HttpMethodTest
         self::assertIsObject($patch->body());
 
         $patch = $this->newObjectFakeBody();
+        self::assertNotNull($patch->body());
+        self::assertIsObject($patch->body());
         self::assertInstanceOf(MessageBodyInterface::class, $patch->body());
         self::assertInstanceOf(MessageBody::class, $patch->body());
 
         $patch = $this->newObjectTextMessageBody();
+        self::assertNotNull($patch->body());
+        self::assertIsObject($patch->body());
         self::assertInstanceOf(MessageBodyInterface::class, $patch->body());
         self::assertInstanceOf(MessageBody::class, $patch->body());
 
         $patch = $this->newObjectTextHtmlBody();
+        self::assertNotNull($patch->body());
+        self::assertIsObject($patch->body());
         self::assertInstanceOf(MessageBodyInterface::class, $patch->body());
         self::assertInstanceOf(TextHtmlBody::class, $patch->body());
 
         $patch = $this->newObjectFormData();
+        self::assertNotNull($patch->body());
+        self::assertIsObject($patch->body());
         self::assertInstanceOf(MessageBodyInterface::class, $patch->body());
         self::assertInstanceOf(RawFormDataBody::class, $patch->body());
 
         $patch = $this->newObjectFormUrlEncoded();
+        self::assertNotNull($patch->body());
+        self::assertIsObject($patch->body());
         self::assertInstanceOf(MessageBodyInterface::class, $patch->body());
         self::assertInstanceOf(FormUrlencodedBody::class, $patch->body());
 
         $patch = $this->newObjectJsonMessageBody();
+        self::assertNotNull($patch->body());
+        self::assertIsObject($patch->body());
         self::assertInstanceOf(MessageBodyInterface::class, $patch->body());
         self::assertInstanceOf(JsonMessageBody::class, $patch->body());
 
         $patch = $this->newObjectCustomMessageBody(new \ArrayIterator([1,10]));
+        self::assertNotNull($patch->body());
+        self::assertIsObject($patch->body());
         self::assertInstanceOf(MessageBodyInterface::class, $patch->body());
         self::assertInstanceOf(MessageBody::class, $patch->body());
     }
