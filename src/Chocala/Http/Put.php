@@ -3,8 +3,8 @@
 namespace Chocala\Http;
 
 use Chocala\Base\IllegalArgumentException;
-use Chocala\Http\Parts\MessageContentInterface;
-use Chocala\Http\Parts\PostFormDataContent;
+use Chocala\Http\Parts\MessageBodyInterface;
+use Chocala\Http\Parts\PostFormDataBody;
 use Chocala\Http\Parts\QueryParams;
 use Chocala\Http\Parts\QueryParamsInterface;
 
@@ -18,9 +18,9 @@ class Put implements HttpMethodInterface
     use HttpMethodTrait;
 
     /**
-     * @var MessageContentInterface
+     * @var MessageBodyInterface
      */
-    private MessageContentInterface $messageContent;
+    private MessageBodyInterface $messageContent;
 
     public function __construct()
     {
@@ -33,23 +33,23 @@ class Put implements HttpMethodInterface
         }
     }
 
-    private function __constructor(QueryParamsInterface $queryParams, MessageContentInterface $messageContent)
+    private function __constructor(QueryParamsInterface $queryParams, MessageBodyInterface $messageContent)
     {
         $this->name = HttpMethod::PUT;
         $this->id = $this->generateId();
         $this->queryParams = $queryParams;
-        if ($messageContent instanceof PostFormDataContent) {
+        if ($messageContent instanceof PostFormDataBody) {
             throw new IllegalArgumentException('PUT method does not support $_POST body');
         }
         $this->messageContent = $messageContent;
     }
 
-    private function __construct1(MessageContentInterface $messageContent)
+    private function __construct1(MessageBodyInterface $messageContent)
     {
         return $this->__constructor(new QueryParams(), $messageContent);
     }
 
-    private function __construct2(QueryParamsInterface $queryParams, MessageContentInterface $messageContent)
+    private function __construct2(QueryParamsInterface $queryParams, MessageBodyInterface $messageContent)
     {
         return $this->__constructor($queryParams, $messageContent);
     }

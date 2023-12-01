@@ -2,7 +2,7 @@
 
 namespace Chocala\Http\Parts;
 
-interface MessageContentInterface
+interface MessageBodyInterface
 {
 
     /**

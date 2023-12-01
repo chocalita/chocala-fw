@@ -2,7 +2,7 @@
 
 namespace Chocala\Http;
 
-use Chocala\Http\Parts\MessageContentInterface;
+use Chocala\Http\Parts\MessageBodyInterface;
 use Chocala\Http\Parts\QueryParamsInterface;
 
 interface HttpMethodInterface
@@ -24,9 +24,9 @@ interface HttpMethodInterface
     public function queryParams(): QueryParamsInterface;
 
     /**
-     * @return MessageContentInterface
+     * @return MessageBodyInterface
      */
-    public function content() : MessageContentInterface;
+    public function content() : MessageBodyInterface;
 
     /**
      * @return mixed

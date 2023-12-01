@@ -11,12 +11,12 @@ use Chocala\Http\Parts\Fakes\FakeQueryParams;
 use Chocala\Http\Parts\Fakes\FakeRawFormDataContent;
 use Chocala\Http\Parts\Fakes\FakeTextHtmlContent;
 use Chocala\Http\Parts\FormUrlencodedData;
-use Chocala\Http\Parts\JsonMessageContent;
-use Chocala\Http\Parts\MessageContent;
-use Chocala\Http\Parts\MessageContentInterface;
+use Chocala\Http\Parts\JsonMessageBody;
+use Chocala\Http\Parts\MessageBody;
+use Chocala\Http\Parts\MessageBodyInterface;
 use Chocala\Http\Parts\QueryParamsInterface;
-use Chocala\Http\Parts\RawFormDataContent;
-use Chocala\Http\Parts\TextHtmlContent;
+use Chocala\Http\Parts\RawFormDataBody;
+use Chocala\Http\Parts\TextHtmlBody;
 use InvalidArgumentException;
 
 require_once 'HttpMethodTest.php';
@@ -117,32 +117,32 @@ class PatchTest extends HttpMethodTest
         self::assertIsObject($patch->content());
 
         $patch = $this->newObjectFakeContent();
-        self::assertInstanceOf(MessageContentInterface::class, $patch->content());
-        self::assertInstanceOf(MessageContent::class, $patch->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $patch->content());
+        self::assertInstanceOf(MessageBody::class, $patch->content());
 
         $patch = $this->newObjectTextMessageContent();
-        self::assertInstanceOf(MessageContentInterface::class, $patch->content());
-        self::assertInstanceOf(MessageContent::class, $patch->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $patch->content());
+        self::assertInstanceOf(MessageBody::class, $patch->content());
 
         $patch = $this->newObjectTextHtmlContent();
-        self::assertInstanceOf(MessageContentInterface::class, $patch->content());
-        self::assertInstanceOf(TextHtmlContent::class, $patch->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $patch->content());
+        self::assertInstanceOf(TextHtmlBody::class, $patch->content());
 
         $patch = $this->newObjectFormData();
-        self::assertInstanceOf(MessageContentInterface::class, $patch->content());
-        self::assertInstanceOf(RawFormDataContent::class, $patch->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $patch->content());
+        self::assertInstanceOf(RawFormDataBody::class, $patch->content());
 
         $patch = $this->newObjectFormUrlEncoded();
-        self::assertInstanceOf(MessageContentInterface::class, $patch->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $patch->content());
         self::assertInstanceOf(FormUrlencodedData::class, $patch->content());
 
         $patch = $this->newObjectJsonMessageContent();
-        self::assertInstanceOf(MessageContentInterface::class, $patch->content());
-        self::assertInstanceOf(JsonMessageContent::class, $patch->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $patch->content());
+        self::assertInstanceOf(JsonMessageBody::class, $patch->content());
 
         $patch = $this->newObjectCustomMessageContent(new \ArrayIterator([1,10]));
-        self::assertInstanceOf(MessageContentInterface::class, $patch->content());
-        self::assertInstanceOf(MessageContent::class, $patch->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $patch->content());
+        self::assertInstanceOf(MessageBody::class, $patch->content());
     }
 
     public function testData()

@@ -2,9 +2,9 @@
 
 namespace Chocala\Http\Parts\Fakes;
 
-use Chocala\Http\Parts\FormDataContent;
+use Chocala\Http\Parts\FormDataBody;
 
-class FakeFormDataContent extends FormDataContent
+class FakeFormDataContent extends FormDataBody
 {
 
     public const ARRAY_DATA = [

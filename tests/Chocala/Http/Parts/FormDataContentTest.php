@@ -38,9 +38,9 @@ class FormDataContentTest extends TestCase
         self::assertCount($size, $formDataContent->data());
     }
 
-    private function newFormDataContentCustomClass(): FormDataContent
+    private function newFormDataContentCustomClass(): FormDataBody
     {
-        $formDataContent = new class() extends FormDataContent {
+        $formDataContent = new class() extends FormDataBody {
 
             public function __construct()
             {

@@ -11,28 +11,28 @@ class TextHtmlContentTest extends TestCase
 
     public function test__construct()
     {
-        $textHtmlContent = new TextHtmlContent(null);
+        $textHtmlContent = new TextHtmlBody(null);
         self::assertIsObject($textHtmlContent);
-        $textHtmlContent = new TextHtmlContent('');
+        $textHtmlContent = new TextHtmlBody('');
         self::assertIsObject($textHtmlContent);
         self::assertIsObject($textHtmlContent);
-        $textHtmlContent = new TextHtmlContent('<h1>54</h1>');
+        $textHtmlContent = new TextHtmlBody('<h1>54</h1>');
         self::assertIsObject($textHtmlContent);
-        $textHtmlContent = new TextHtmlContent('<html><head>Header part 8</head><body>Body part</body></html>');
+        $textHtmlContent = new TextHtmlBody('<html><head>Header part 8</head><body>Body part</body></html>');
         self::assertIsObject($textHtmlContent);
         $this->expectException(IllegalArgumentException::class);
-        new TextHtmlContent('simpleWord');
+        new TextHtmlBody('simpleWord');
     }
 
     public function testType()
     {
-        $textHtmlContent = new TextHtmlContent(null);
+        $textHtmlContent = new TextHtmlBody(null);
         self::assertIsObject($textHtmlContent);
         self::assertEquals(ContentType::TEXT_HTML, $textHtmlContent->type());
-        $textHtmlContent = new TextHtmlContent(' ');
+        $textHtmlContent = new TextHtmlBody(' ');
         self::assertIsObject($textHtmlContent);
         self::assertEquals(ContentType::TEXT_HTML, $textHtmlContent->type());
-        $textHtmlContent = new TextHtmlContent('<html><head>Header part 8</head><body>Body part</body></html>');
+        $textHtmlContent = new TextHtmlBody('<html><head>Header part 8</head><body>Body part</body></html>');
         self::assertIsObject($textHtmlContent);
         self::assertEquals(ContentType::TEXT_HTML, $textHtmlContent->type());
     }
@@ -40,20 +40,20 @@ class TextHtmlContentTest extends TestCase
     public function testData()
     {
         $body = ' ';
-        $textHtmlContent = new TextHtmlContent($body);
+        $textHtmlContent = new TextHtmlBody($body);
         self::assertNotNull($textHtmlContent->data());
         self::assertEmpty($textHtmlContent->data());
         self::assertIsString($textHtmlContent->data());
 
         $body = ' <h2>not empty</h2>';
-        $textHtmlContent = new TextHtmlContent($body);
+        $textHtmlContent = new TextHtmlBody($body);
         self::assertNotNull($textHtmlContent->data());
         self::assertNotEmpty($textHtmlContent->data());
         self::assertIsString($textHtmlContent->data());
         self::assertEquals('<h2>not empty</h2>', $textHtmlContent->data());
 
         $body = '  <html><head>Header part <p>Paragraph</p></head><body>Body part</body></html>  ';
-        $textHtmlContent = new TextHtmlContent($body);
+        $textHtmlContent = new TextHtmlBody($body);
         self::assertNotNull($textHtmlContent->data());
         self::assertNotEmpty($textHtmlContent->data());
         self::assertIsString($textHtmlContent->data());
@@ -71,19 +71,19 @@ class TextHtmlContentTest extends TestCase
 
         $body = '{}';
         $this->expectException(IllegalArgumentException::class);
-        new TextHtmlContent($body);
+        new TextHtmlBody($body);
     }
 
     public function testNumericBody()
     {
         $this->expectException(IllegalArgumentException::class);
-        new TextHtmlContent(123);
+        new TextHtmlBody(123);
     }
 
     public function testInvalidBody()
     {
         $this->expectException(IllegalArgumentException::class);
-        new TextHtmlContent(' </> ');
+        new TextHtmlBody(' </> ');
     }
 
 }

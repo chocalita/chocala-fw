@@ -5,13 +5,13 @@ namespace Chocala\Http\Parts;
 use Chocala\Base\IllegalArgumentException;
 use Chocala\System\ContentType;
 
-class FormUrlencodedData implements MessageContentInterface
+class FormUrlencodedData implements MessageBodyInterface
 {
 
     /**
-     * @var MessageContent
+     * @var MessageBody
      */
-    private MessageContent $messageContent;
+    private MessageBody $messageContent;
 
     /**
      * FormUrlencodedData constructor.
@@ -25,7 +25,7 @@ class FormUrlencodedData implements MessageContentInterface
         }
         $arrayBody = [];
         parse_str($body, $arrayBody);
-        $this->messageContent = new MessageContent(ContentType::APPLICATION_FORM_URLENCODED, $arrayBody);
+        $this->messageContent = new MessageBody(ContentType::APPLICATION_FORM_URLENCODED, $arrayBody);
     }
 
     /**

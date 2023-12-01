@@ -14,7 +14,7 @@ class PostFormDataContentTest extends TestCase
 
     public function test__construct()
     {
-        $postFormDataContent = new PostFormDataContent();
+        $postFormDataContent = new PostFormDataBody();
         self::assertIsObject($postFormDataContent);
 
         $postFormDataContent = new FakePostFormDataContent();
@@ -22,7 +22,7 @@ class PostFormDataContentTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessageRegExp('/Too many arguments/');
-        new PostFormDataContent([100]);
+        new PostFormDataBody([100]);
     }
 
     public function testType()
@@ -39,7 +39,7 @@ class PostFormDataContentTest extends TestCase
     {
         // $_POST empty array
         $_POST = [];
-        $postFormDataContent = new PostFormDataContent();
+        $postFormDataContent = new PostFormDataBody();
         self::assertNotNull($postFormDataContent->data());
         self::assertEmpty($postFormDataContent->data());
         self::assertIsArray($postFormDataContent->data());
@@ -70,13 +70,13 @@ class PostFormDataContentTest extends TestCase
         $_POST = null;
         $this->expectException(IllegalStateException::class);
         $this->expectExceptionMessageRegExp('/resource is null/');
-        $postFormDataContent = new PostFormDataContent();
+        $postFormDataContent = new PostFormDataBody();
         $postFormDataContent->data();
     }
 
     public function testPOSTSetToNullValue() {
         // Setting $_POST value to null after object creation
-        $postFormDataContent = new PostFormDataContent();
+        $postFormDataContent = new PostFormDataBody();
         $this->expectException(IllegalStateException::class);
         $this->expectExceptionMessageRegExp('/resource is null/');
         $_POST = null;

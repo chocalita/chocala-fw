@@ -12,12 +12,12 @@ use Chocala\Http\Parts\Fakes\FakeQueryParams;
 use Chocala\Http\Parts\Fakes\FakeRawFormDataContent;
 use Chocala\Http\Parts\Fakes\FakeTextHtmlContent;
 use Chocala\Http\Parts\FormUrlencodedData;
-use Chocala\Http\Parts\JsonMessageContent;
-use Chocala\Http\Parts\MessageContent;
-use Chocala\Http\Parts\MessageContentInterface;
-use Chocala\Http\Parts\PostFormDataContent;
+use Chocala\Http\Parts\JsonMessageBody;
+use Chocala\Http\Parts\MessageBody;
+use Chocala\Http\Parts\MessageBodyInterface;
+use Chocala\Http\Parts\PostFormDataBody;
 use Chocala\Http\Parts\QueryParamsInterface;
-use Chocala\Http\Parts\TextHtmlContent;
+use Chocala\Http\Parts\TextHtmlBody;
 use InvalidArgumentException;
 
 require_once 'HttpMethodTest.php';
@@ -117,32 +117,32 @@ class PostTest extends HttpMethodTest
         self::assertIsObject($post->content());
 
         $post = $this->newObjectFakeContent();
-        self::assertInstanceOf(MessageContentInterface::class, $post->content());
-        self::assertInstanceOf(MessageContent::class, $post->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $post->content());
+        self::assertInstanceOf(MessageBody::class, $post->content());
 
         $post = $this->newObjectTextMessageContent();
-        self::assertInstanceOf(MessageContentInterface::class, $post->content());
-        self::assertInstanceOf(MessageContent::class, $post->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $post->content());
+        self::assertInstanceOf(MessageBody::class, $post->content());
 
         $post = $this->newObjectTextHtmlContent();
-        self::assertInstanceOf(MessageContentInterface::class, $post->content());
-        self::assertInstanceOf(TextHtmlContent::class, $post->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $post->content());
+        self::assertInstanceOf(TextHtmlBody::class, $post->content());
 
         $post = $this->newObjectFormData();
-        self::assertInstanceOf(MessageContentInterface::class, $post->content());
-        self::assertInstanceOf(PostFormDataContent::class, $post->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $post->content());
+        self::assertInstanceOf(PostFormDataBody::class, $post->content());
 
         $post = $this->newObjectFormUrlEncoded();
-        self::assertInstanceOf(MessageContentInterface::class, $post->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $post->content());
         self::assertInstanceOf(FormUrlencodedData::class, $post->content());
 
         $post = $this->newObjectJsonMessageContent();
-        self::assertInstanceOf(MessageContentInterface::class, $post->content());
-        self::assertInstanceOf(JsonMessageContent::class, $post->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $post->content());
+        self::assertInstanceOf(JsonMessageBody::class, $post->content());
 
         $post = $this->newObjectCustomMessageContent(new \ArrayIterator([1,10]));
-        self::assertInstanceOf(MessageContentInterface::class, $post->content());
-        self::assertInstanceOf(MessageContent::class, $post->content());
+        self::assertInstanceOf(MessageBodyInterface::class, $post->content());
+        self::assertInstanceOf(MessageBody::class, $post->content());
     }
 
     public function testData()

@@ -2,7 +2,7 @@
 
 namespace Chocala\Http;
 
-use Chocala\Http\Parts\MessageContentInterface;
+use Chocala\Http\Parts\MessageBodyInterface;
 use Chocala\Http\Parts\QueryParams;
 use Chocala\Http\Parts\QueryParamsInterface;
 use Exception;
@@ -52,10 +52,10 @@ class Delete implements HttpMethodInterface
     }
 
     /**
-     * @return MessageContentInterface
+     * @return MessageBodyInterface
      * @throws Exception
      */
-    public function content() : MessageContentInterface
+    public function content() : MessageBodyInterface
     {
         throw new Exception('DELETE method does not have body content');
     }

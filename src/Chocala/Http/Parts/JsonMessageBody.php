@@ -5,13 +5,13 @@ namespace Chocala\Http\Parts;
 use Chocala\Base\IllegalArgumentException;
 use Chocala\System\ContentType;
 
-class JsonMessageContent implements MessageContentInterface
+class JsonMessageBody implements MessageBodyInterface
 {
 
     /**
-     * @var MessageContent
+     * @var MessageBody
      */
-    private MessageContent $messageContent;
+    private MessageBody $messageContent;
 
     /**
      * JsonMessageBody constructor.
@@ -23,7 +23,7 @@ class JsonMessageContent implements MessageContentInterface
         if ($decodedBody === null || is_numeric($decodedBody)) {
             throw new IllegalArgumentException('Invalid json body');
         }
-        $this->messageContent = new MessageContent(ContentType::APPLICATION_JSON, $decodedBody);
+        $this->messageContent = new MessageBody(ContentType::APPLICATION_JSON, $decodedBody);
     }
 
     /**

@@ -5,16 +5,16 @@ namespace Chocala\Http\Parts;
 use Chocala\Base\IllegalStateException;
 use InvalidArgumentException;
 
-class PostFormDataContent extends FormDataContent implements MessageContentInterface
+class RequestDataBody extends MessageBody implements MessageBodyInterface
 {
 
-    public function __construct()
+    public function __construct(string $contentType)
     {
-        if (func_num_args() > 0) {
-            throw new InvalidArgumentException('Too many arguments to create object ' . __CLASS__);
+        if (func_num_args() != 1) {
+            throw new InvalidArgumentException('Invalid number of arguments to create a ' . __CLASS__);
         }
-        parent::__construct();
-        $this->data = &$_POST;
+        $this->type = $contentType;
+        $this->data = &$_REQUEST;
     }
 
     /**

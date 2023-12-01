@@ -11,32 +11,32 @@ class JsonMessageBodyTest extends TestCase
 
     public function test__construct()
     {
-        $jsonMessageBody = new JsonMessageContent(null);
+        $jsonMessageBody = new JsonMessageBody(null);
         self::assertIsObject($jsonMessageBody);
-        $jsonMessageBody = new JsonMessageContent('');
+        $jsonMessageBody = new JsonMessageBody('');
         self::assertIsObject($jsonMessageBody);
-        $jsonMessageBody = new JsonMessageContent('{}');
+        $jsonMessageBody = new JsonMessageBody('{}');
         self::assertIsObject($jsonMessageBody);
-        $jsonMessageBody = new JsonMessageContent('[]');
+        $jsonMessageBody = new JsonMessageBody('[]');
         self::assertIsObject($jsonMessageBody);
-        $jsonMessageBody = new JsonMessageContent('[{}]');
+        $jsonMessageBody = new JsonMessageBody('[{}]');
         self::assertIsObject($jsonMessageBody);
         $this->expectException(IllegalArgumentException::class);
-        new JsonMessageContent('TjKnH7kj3');
+        new JsonMessageBody('TjKnH7kj3');
     }
 
     public function testType()
     {
-        $jsonMessageBody = new JsonMessageContent(null);
+        $jsonMessageBody = new JsonMessageBody(null);
         self::assertIsObject($jsonMessageBody);
         self::assertEquals(ContentType::APPLICATION_JSON, $jsonMessageBody->type());
-        $jsonMessageBody = new JsonMessageContent('');
+        $jsonMessageBody = new JsonMessageBody('');
         self::assertIsObject($jsonMessageBody);
         self::assertEquals(ContentType::APPLICATION_JSON, $jsonMessageBody->type());
-        $jsonMessageBody = new JsonMessageContent('{}');
+        $jsonMessageBody = new JsonMessageBody('{}');
         self::assertIsObject($jsonMessageBody);
         self::assertEquals(ContentType::APPLICATION_JSON, $jsonMessageBody->type());
-        $jsonMessageBody = new JsonMessageContent('[]');
+        $jsonMessageBody = new JsonMessageBody('[]');
         self::assertIsObject($jsonMessageBody);
         self::assertEquals(ContentType::APPLICATION_JSON, $jsonMessageBody->type());
     }
@@ -44,20 +44,20 @@ class JsonMessageBodyTest extends TestCase
     public function testData()
     {
         $body = ' ';
-        $jsonMessageContent = new JsonMessageContent($body);
+        $jsonMessageContent = new JsonMessageBody($body);
         self::assertNotNull($jsonMessageContent->data());
         self::assertEmpty($jsonMessageContent->data());
         self::assertIsString($jsonMessageContent->data());
         self::assertEquals('', $jsonMessageContent->data());
 
         $body = '{ }';
-        $jsonMessageContent = new JsonMessageContent($body);
+        $jsonMessageContent = new JsonMessageBody($body);
         self::assertNotNull($jsonMessageContent->data());
         self::assertIsObject($jsonMessageContent->data());
         self::assertObjectNotHasAttribute('*', $jsonMessageContent->data());
 
         $body = '[ ]';
-        $jsonMessageContent = new JsonMessageContent($body);
+        $jsonMessageContent = new JsonMessageBody($body);
         self::assertNotNull($jsonMessageContent->data());
         self::assertIsArray($jsonMessageContent->data());
         self::assertEmpty($jsonMessageContent->data());
@@ -65,7 +65,7 @@ class JsonMessageBodyTest extends TestCase
         $body = '{
             "key": "value"
         }';
-        $jsonMessageContent = new JsonMessageContent($body);
+        $jsonMessageContent = new JsonMessageBody($body);
         self::assertNotEmpty($jsonMessageContent->data());
         self::assertIsObject($jsonMessageContent->data());
         self::assertObjectHasAttribute('key', $jsonMessageContent->data());
@@ -73,7 +73,7 @@ class JsonMessageBodyTest extends TestCase
         self::assertEquals('value', $jsonMessageContent->data()->key);
 
         $body = '[1,2,3,4,5,6,7,8,9]';
-        $jsonMessageContent = new JsonMessageContent($body);
+        $jsonMessageContent = new JsonMessageBody($body);
         self::assertNotEmpty($jsonMessageContent->data());
         self::assertIsArray($jsonMessageContent->data());
         self::assertNotEmpty($jsonMessageContent->data());
@@ -83,7 +83,7 @@ class JsonMessageBodyTest extends TestCase
         $body = '{
             "key": [1,2,3,4,5]
         }';
-        $jsonMessageContent = new JsonMessageContent($body);
+        $jsonMessageContent = new JsonMessageBody($body);
         self::assertNotEmpty($jsonMessageContent->data());
         self::assertIsObject($jsonMessageContent->data());
         self::assertNotNull($jsonMessageContent->data()->key);
@@ -100,7 +100,7 @@ class JsonMessageBodyTest extends TestCase
                 "oArray": ["x","y","z"]
             }
         }';
-        $jsonMessageContent = new JsonMessageContent($body);
+        $jsonMessageContent = new JsonMessageBody($body);
         self::assertNotEmpty($jsonMessageContent->data());
         self::assertIsObject($jsonMessageContent->data());
 
@@ -140,7 +140,7 @@ class JsonMessageBodyTest extends TestCase
                 "oArray": ["x","y","z"]
             }
         ]';
-        $jsonMessageContent = new JsonMessageContent($body);
+        $jsonMessageContent = new JsonMessageBody($body);
         self::assertNotEmpty($jsonMessageContent->data());
         self::assertIsArray($jsonMessageContent->data());
         self::assertNotNull($jsonMessageContent->data()[0]);
@@ -175,13 +175,13 @@ class JsonMessageBodyTest extends TestCase
     public function testNumericBody()
     {
         $this->expectException(IllegalArgumentException::class);
-        new JsonMessageContent('123');
+        new JsonMessageBody('123');
     }
 
     public function testInvalidBody()
     {
         $this->expectException(IllegalArgumentException::class);
-        new JsonMessageContent(' - ');
+        new JsonMessageBody(' - ');
     }
 
 }

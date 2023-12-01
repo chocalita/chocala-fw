@@ -2,9 +2,9 @@
 
 namespace Chocala\Http\Parts\Fakes;
 
-use Chocala\Http\Parts\PostFormDataContent;
+use Chocala\Http\Parts\PostFormDataBody;
 
-class FakePostFormDataContent extends PostFormDataContent
+class FakePostFormDataContent extends PostFormDataBody
 {
 
     public function __construct()

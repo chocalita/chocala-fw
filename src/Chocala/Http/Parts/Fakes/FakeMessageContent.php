@@ -2,10 +2,10 @@
 
 namespace Chocala\Http\Parts\Fakes;
 
-use Chocala\Http\Parts\MessageContent;
+use Chocala\Http\Parts\MessageBody;
 use Chocala\System\ContentType;
 
-class FakeMessageContent extends MessageContent
+class FakeMessageContent extends MessageBody
 {
 
     public const DEFAULT_DATA = '';

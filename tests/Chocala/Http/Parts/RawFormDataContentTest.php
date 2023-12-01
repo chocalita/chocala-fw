@@ -30,19 +30,19 @@ class RawFormDataContentTest extends TestCase
 
     public function test__construct()
     {
-        $rawFormDataContent = new RawFormDataContent($this->contentType, $this->rawData);
+        $rawFormDataContent = new RawFormDataBody($this->contentType, $this->rawData);
         self::assertIsObject($rawFormDataContent);
 
         // Empty raw data with empty string
-        $rawFormDataContent = new RawFormDataContent($this->contentType, '');
+        $rawFormDataContent = new RawFormDataBody($this->contentType, '');
         self::assertIsObject($rawFormDataContent);
 
         // Empty raw data with spaces
-        $rawFormDataContent = new RawFormDataContent($this->contentType, '  ');
+        $rawFormDataContent = new RawFormDataBody($this->contentType, '  ');
         self::assertIsObject($rawFormDataContent);
 
         // Empty raw data with new lines
-        $rawFormDataContent = new RawFormDataContent($this->contentType, ' 
+        $rawFormDataContent = new RawFormDataBody($this->contentType, ' 
 
         ');
         self::assertIsObject($rawFormDataContent);
@@ -50,12 +50,12 @@ class RawFormDataContentTest extends TestCase
         $this->expectException(IllegalArgumentException::class);
         $this->expectExceptionCode(31);
         $this->expectExceptionMessageRegExp('/Invalid/');
-        new RawFormDataContent('', '');
+        new RawFormDataBody('', '');
     }
 
     public function testType()
     {
-        $rawFormDataContent = new RawFormDataContent($this->contentType, ' ');
+        $rawFormDataContent = new RawFormDataBody($this->contentType, ' ');
         self::assertIsObject($rawFormDataContent);
         self::assertNotEmpty($rawFormDataContent->type());
         self::assertEquals(ContentType::MULTIPART_FORM_DATA, $rawFormDataContent->type());
@@ -71,7 +71,7 @@ class RawFormDataContentTest extends TestCase
     public function testData()
     {
         // Raw data empty value (with space case)
-        $rawFormDataContent = new RawFormDataContent($this->contentType, ' ');
+        $rawFormDataContent = new RawFormDataBody($this->contentType, ' ');
         self::assertNotNull($rawFormDataContent->data());
         self::assertEmpty($rawFormDataContent->data());
         self::assertIsArray($rawFormDataContent->data());
@@ -99,7 +99,7 @@ class RawFormDataContentTest extends TestCase
         //$bod = new RawFormDataContent($this->contentType, 'multipart/form-data' . $this->rawFormData);
 
         $this->expectException(IllegalArgumentException::class);
-        $bod = new RawFormDataContent($this->contentType, 'multipart/form-data; ');
+        $bod = new RawFormDataBody($this->contentType, 'multipart/form-data; ');
     }
 
     // Invalid content type
@@ -108,7 +108,7 @@ class RawFormDataContentTest extends TestCase
         $this->expectException(IllegalArgumentException::class);
         $this->expectExceptionCode(31);
         $this->expectExceptionMessageRegExp('/Invalid multipart\/form-data, Content-Type is not matching/');
-        new RawFormDataContent('multipart/form-data; ', $this->rawData);
+        new RawFormDataBody('multipart/form-data; ', $this->rawData);
     }
 
     // Invalid case: invalid raw data
@@ -117,7 +117,7 @@ class RawFormDataContentTest extends TestCase
         $this->expectException(IllegalArgumentException::class);
         $this->expectExceptionCode(31);
         $this->expectExceptionMessageRegExp('/Invalid multipart\/form-data/');
-        new RawFormDataContent($this->contentType, ' - ');
+        new RawFormDataBody($this->contentType, ' - ');
     }
 
     // Content has a txt file
@@ -144,7 +144,7 @@ class RawFormDataContentTest extends TestCase
     {
         $this->expectException(IllegalArgumentException::class);
         $this->expectExceptionMessageRegExp('/Invalid multipart\/form-data raw data/');
-        new RawFormDataContent($this->contentType, 123);
+        new RawFormDataBody($this->contentType, 123);
     }
 
 }

@@ -2,9 +2,9 @@
 
 namespace Chocala\Http\Parts\Fakes;
 
-use Chocala\Http\Parts\JsonMessageContent;
+use Chocala\Http\Parts\JsonMessageBody;
 
-class FakeJsonMessageContent extends JsonMessageContent
+class FakeJsonMessageContent extends JsonMessageBody
 {
 
     public const DEFAULT_DATA = '{

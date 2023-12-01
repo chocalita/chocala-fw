@@ -7,7 +7,7 @@ require_once __DIR__ . '/Parts/QueryParamsTest.php';
 use Chocala\Http\Parts\Fakes\FakeQueryParams;
 use Chocala\Http\Parts\QueryParams;
 use Chocala\Http\Parts\QueryParamsInterface;
-use Chocala\Http\Parts\RequestDataContent;
+use Chocala\Http\Parts\RequestDataBody;
 use Chocala\System\ContentType;
 use PHPUnit\Framework\TestCase;
 
@@ -145,7 +145,7 @@ class HttpMethodTest extends TestCase
                 $this->name = 'CUSTOM';
                 $this->id = $this->generateId();
                 $this->queryParams = new QueryParams();
-                $this->messageContent = new RequestDataContent(ContentType::TEXT_HTML);
+                $this->messageContent = new RequestDataBody(ContentType::TEXT_HTML);
             }
 
         };

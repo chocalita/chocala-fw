@@ -4,7 +4,7 @@ namespace Chocala\Http\Parts;
 
 use Chocala\Base\IllegalArgumentException;
 
-class MessageContent implements MessageContentInterface
+class MessageBody implements MessageBodyInterface
 {
 
     /**
