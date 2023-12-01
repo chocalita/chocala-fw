@@ -37,7 +37,6 @@ class Delete implements HttpMethodInterface
     private function __constructor(QueryParamsInterface $queryParams)
     {
         $this->name = HttpMethod::DELETE;
-        $this->id = $this->generateId();
         $this->queryParams = $queryParams;
     }
 

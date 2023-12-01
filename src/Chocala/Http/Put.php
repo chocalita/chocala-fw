@@ -31,7 +31,6 @@ class Put implements HttpMethodInterface
     private function __constructor(QueryParamsInterface $queryParams, MessageBodyInterface $messageBody)
     {
         $this->name = HttpMethod::PUT;
-        $this->id = $this->generateId();
         $this->queryParams = $queryParams;
         if ($messageBody instanceof PostFormDataBody) {
             throw new IllegalArgumentException('PUT method does not support $_POST body');

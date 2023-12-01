@@ -57,7 +57,6 @@ class Get implements HttpMethodInterface
     private function __constructor(QueryParamsInterface $queryParams)
     {
         $this->name = HttpMethod::GET;
-        $this->id = $this->generateId();
         $this->queryParams = $queryParams;
     }
 

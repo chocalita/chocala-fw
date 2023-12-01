@@ -15,11 +15,6 @@ trait HttpMethodTrait
     protected string $name;
 
     /**
-     * @var string
-     */
-    protected string $id;
-
-    /**
      * @var QueryParamsInterface
      */
     protected QueryParamsInterface $queryParams;
@@ -35,14 +30,6 @@ trait HttpMethodTrait
     public function name(): string
     {
         return $this->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function id(): string
-    {
-        return $this->id;
     }
 
     /**
@@ -77,15 +64,6 @@ trait HttpMethodTrait
 //        $request = new Request();
 //        return $request->getBody();
         return "";
-    }
-
-    /**
-     * @return string
-     * @throws Exception
-     */
-    protected function generateId(): string
-    {
-        return time() . '-' . random_int(100000000, 999999999);
     }
 
 }

@@ -22,12 +22,13 @@ class GetTest extends HttpMethodTest
         self::assertEquals(HttpMethod::GET, $get->name());
     }
 
-    public function testId()
-    {
-        $get = $this->newObject();
-        self::assertNotNull($get->id());
-        self::assertGreaterThan(8, strlen($get->id()));
-    }
+    // Move this test to Request class
+//    public function testId()
+//    {
+//        $get = $this->newObject();
+//        self::assertNotNull($get->id());
+//        self::assertGreaterThan(8, strlen($get->id()));
+//    }
 
     public function testQueryParams()
     {

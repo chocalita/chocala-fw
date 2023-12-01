@@ -22,13 +22,6 @@ class DeleteTest extends HttpMethodTest
         self::assertEquals(HttpMethod::DELETE, $delete->name());
     }
 
-    public function testId()
-    {
-        $delete = $this->newObject();
-        self::assertNotNull($delete->id());
-        self::assertGreaterThan(8, strlen($delete->id()));
-    }
-
     public function testQueryParams()
     {
         $delete = $this->newObject();

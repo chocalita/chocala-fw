@@ -31,7 +31,6 @@ class Post implements HttpMethodInterface
     private function __constructor(QueryParamsInterface $queryParams, MessageBodyInterface $messageBody)
     {
         $this->name = HttpMethod::POST;
-        $this->id = $this->generateId();
         $this->queryParams = $queryParams;
         if ($messageBody instanceof RawFormDataBody) {
             throw new IllegalArgumentException('POST method does not support raw-data body');

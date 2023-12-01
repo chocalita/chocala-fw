@@ -56,13 +56,6 @@ class HttpMethodTest extends TestCase
         self::assertEquals('CUSTOM', $httpMethod->name());
     }
 
-    public function testId()
-    {
-        $httpMethod = $this->httpMethodCustomClass();
-        self::assertNotNull($httpMethod->id());
-        self::assertGreaterThan(8, strlen($httpMethod->id()));
-    }
-
     public function testQueryParams()
     {
         $httpMethod = $this->httpMethodCustomClass();
@@ -143,7 +136,6 @@ class HttpMethodTest extends TestCase
             public function __construct()
             {
                 $this->name = 'CUSTOM';
-                $this->id = $this->generateId();
                 $this->queryParams = new QueryParams();
                 $this->messageBody = new RequestDataBody(ContentType::TEXT_HTML);
             }

@@ -62,4 +62,14 @@ class Request implements RequestInterface
         return $this->messageBody;
     }
 
+
+    /**
+     * @return string
+     * @throws Exception
+     */
+    protected function generateId(): string
+    {
+        return time() . '-' . random_int(100000000, 999999999);
+    }
+
 }

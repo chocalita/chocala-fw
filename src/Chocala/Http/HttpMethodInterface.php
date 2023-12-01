@@ -14,11 +14,6 @@ interface HttpMethodInterface
     public function name(): string;
 
     /**
-     * @return string
-     */
-    public function id(): string;
-
-    /**
      * @return QueryParamsInterface
      */
     public function queryParams(): QueryParamsInterface;

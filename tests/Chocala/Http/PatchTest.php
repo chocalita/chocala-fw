@@ -90,13 +90,6 @@ class PatchTest extends HttpMethodTest
         self::assertEquals(HttpMethod::PATCH, $patch->name());
     }
 
-    public function testId()
-    {
-        $patch = $this->newObject();
-        self::assertNotNull($patch->id());
-        self::assertGreaterThan(8, strlen($patch->id()));
-    }
-
     public function testQueryParams()
     {
         $patch = $this->newObject();

@@ -90,13 +90,6 @@ class PutTest extends HttpMethodTest
         self::assertEquals(HttpMethod::PUT, $put->name());
     }
 
-    public function testId()
-    {
-        $put = $this->newObject();
-        self::assertNotNull($put->id());
-        self::assertGreaterThan(8, strlen($put->id()));
-    }
-
     public function testQueryParams()
     {
         $put = $this->newObject();

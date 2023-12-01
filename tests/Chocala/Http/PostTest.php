@@ -91,13 +91,6 @@ class PostTest extends HttpMethodTest
         self::assertEquals(HttpMethod::POST, $post->name());
     }
 
-    public function testId()
-    {
-        $post = $this->newObject();
-        self::assertNotNull($post->id());
-        self::assertGreaterThan(8, strlen($post->id()));
-    }
-
     public function testQueryParams()
     {
         $post = $this->newObject();
