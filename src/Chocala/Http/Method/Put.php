@@ -4,7 +4,6 @@ namespace Chocala\Http\Method;
 
 use Chocala\Base\IllegalArgumentException;
 use Chocala\Http\HttpMethod;
-use Chocala\Http\HttpMethodInterface;
 use Chocala\Http\Parts\MessageBodyInterface;
 use Chocala\Http\Parts\PostFormDataBody;
 use Chocala\Http\Parts\QueryParams;
@@ -17,7 +16,25 @@ use Chocala\Http\Parts\QueryParamsInterface;
  */
 class Put //implements HttpMethodInterface
 {
-    use HttpMethodTrait;
+
+    /**
+     * @return mixed
+     */
+    public function contentsss()
+    {
+//        $rawInput = fopen('php://input', 'r');
+//        $tempStream = fopen('php://temp', 'r+');
+//        stream_copy_to_stream($rawInput, $tempStream);
+//        rewind($tempStream);
+//        return $tempStream;
+//        $entityBody = stream_get_contents(STDIN);
+//        return $entityBody;
+        //TODO: get body
+//        $request = new Request();
+//        return $request->getBody();
+        return "";
+    }
+
 
     public function __construct()
     {

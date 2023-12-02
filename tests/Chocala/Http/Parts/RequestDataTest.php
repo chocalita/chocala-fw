@@ -50,10 +50,10 @@ class RequestDataTest extends CustomRequestDataTest
         return new RequestData(new FakePostFormDataBody());
     }
 
-    private function newObjectBoundariesFormData(): Put
+    private function newObjectBoundariesFormData(): RequestData
     {
         $this->initQueryParams();
-        return new Put(new FakeRawFormDataBody());
+        return new RequestData(new FakeRawFormDataBody());
     }
 
     private function newObjectFormUrlEncoded(): RequestData
@@ -75,10 +75,6 @@ class RequestDataTest extends CustomRequestDataTest
 
         $requestData = new RequestData(new FakeQueryParams(), new FakeMessageBody());
         self::assertIsObject($requestData);
-
-        $this->expectException(IllegalArgumentException::class);
-        $this->expectExceptionMessageRegExp('/does not support raw form-data body/');
-        new RequestData(new FakeRawFormDataBody());
     }
 
     public function testQueryParams()

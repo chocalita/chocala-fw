@@ -3,7 +3,6 @@
 namespace Chocala\Http\Parts;
 
 use Chocala\Base\UnsupportedOperationException;
-use Chocala\Http\Method\HttpMethodTrait;
 use Exception;
 
 /**
@@ -13,7 +12,7 @@ use Exception;
  */
 class RequestDataNoBody implements RequestDataInterface
 {
-    use HttpMethodTrait;
+    use RequestDataTrait;
 
     /**
      * Represents a unique instance for the class in the system

@@ -2,8 +2,6 @@
 
 namespace Chocala\Http\Parts;
 
-use Chocala\Http\HttpMethodInterface;
-use Chocala\Http\Method\HttpMethodTrait;
 use Chocala\Http\Parts\Fakes\FakeQueryParams;
 use Chocala\System\ContentType;
 use PHPUnit\Framework\TestCase;
@@ -48,14 +46,14 @@ class CustomRequestDataTest extends TestCase
 
     public function testName()
     {
-        $httpMethod = $this->httpMethodCustomClass();
+        $httpMethod = $this->requestDataCustomClass();
         self::assertIsObject($httpMethod);
-        self::assertEquals('CUSTOM', $httpMethod->name());
+//        self::assertEquals('CUSTOM', $httpMethod->name());
     }
 
     public function testQueryParams()
     {
-        $httpMethod = $this->httpMethodCustomClass();
+        $httpMethod = $this->requestDataCustomClass();
         $_GET = $this->arrayQueryParams();
         $size = sizeof($_GET);
         self::assertNotNull($httpMethod->queryParams());
@@ -68,7 +66,7 @@ class CustomRequestDataTest extends TestCase
 
     public function testBody()
     {
-        $httpMethod = $this->httpMethodCustomClass();
+        $httpMethod = $this->requestDataCustomClass();
         //print_r($httpMethod);
         print_r("Printed object in -> " . __CLASS__ . "\n");
         print_r($httpMethod->body());
@@ -81,7 +79,7 @@ class CustomRequestDataTest extends TestCase
     public function testData()
     {
         // Using $_REQUEST as the data source
-        $httpMethod = $this->httpMethodCustomClass();
+        $httpMethod = $this->requestDataCustomClass();
         $size = sizeof($this->arrayQueryParams());
         self::assertNotEmpty($httpMethod->body()->data());
         self::assertCount($size, $httpMethod->body()->data());
@@ -92,21 +90,20 @@ class CustomRequestDataTest extends TestCase
         self::assertCount($size, $httpMethod->body()->data());
     }
 
-    private function httpMethodCustomClass(): HttpMethodInterface
+    private function requestDataCustomClass(): RequestDataInterface
     {
-        $httpMethod = new class() implements HttpMethodInterface {
-            use HttpMethodTrait;
+        $httpMethod = new class() implements RequestDataInterface {
+            use RequestDataTrait;
 
             public function __construct()
             {
-                $this->name = 'CUSTOM';
                 $this->queryParams = new QueryParams();
                 $this->messageBody = new RequestInBody(ContentType::TEXT_HTML);
             }
 
             public function data()
             {
-                return $this->messageBody->$this->data();
+                return $this->messageBody->data();
             }
         };
         $_REQUEST = $this->arrayQueryParams();

@@ -2,11 +2,8 @@
 
 namespace Chocala\Http;
 
-use Chocala\Http\Method\HttpMethodTrait;
-
 abstract class HttpMethod
 {
-    use HttpMethodTrait;
 
     public const GET = 'GET';
     public const POST = 'POST';
