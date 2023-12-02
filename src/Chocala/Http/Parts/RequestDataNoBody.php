@@ -73,7 +73,7 @@ class RequestDataNoBody implements RequestDataInterface
      */
     public function body() : MessageBodyInterface
     {
-        throw new Exception('GET method does not have body content');
+        throw new Exception('Safe HTTP method does not support body content');
     }
 
     /**

@@ -8,7 +8,7 @@ use Chocala\Http\Parts\Fakes\FakeQueryParams;
 use Chocala\System\ContentType;
 use PHPUnit\Framework\TestCase;
 
-class CustomRequestContentTest extends TestCase
+class CustomRequestDataTest extends TestCase
 {
 
     protected function arrayQueryParams(): array

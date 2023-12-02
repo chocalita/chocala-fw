@@ -4,6 +4,7 @@ namespace Chocala\Http\Request;
 
 use Chocala\Http\Parts\Fakes\FakeHeaders;
 use Chocala\Http\Parts\Fakes\FakeMessageBody;
+use Chocala\Http\Parts\Fakes\FakeRequestData;
 use Chocala\Http\Parts\Fakes\FakeRequestLine;
 use PHPUnit\Framework\TestCase;
 
@@ -21,9 +22,9 @@ class RequestTest extends TestCase
     private FakeHeaders $fakeHeaders;
 
     /**
-     * @var FakeMessageBody
+     * @var FakeRequestData
      */
-    private FakeMessageBody $fakeMessageBody;
+    private FakeRequestData $fakeRequestData;
 
     /**
      * @var Request
@@ -34,13 +35,13 @@ class RequestTest extends TestCase
     {
         $this->fakeRequestLine = new FakeRequestLine();
         $this->fakeHeaders = new FakeHeaders();
-        $this->fakeMessageBody = new FakeMessageBody();
-        $this->commonRequest = new Request($this->fakeRequestLine, $this->fakeHeaders, $this->fakeMessageBody);
+        $this->fakeRequestData = new FakeRequestData();
+        $this->commonRequest = new Request($this->fakeRequestLine, $this->fakeHeaders, $this->fakeRequestData);
     }
 
     public function test__construct()
     {
-        $request = new Request($this->fakeRequestLine, $this->fakeHeaders, $this->fakeMessageBody);
+        $request = new Request($this->fakeRequestLine, $this->fakeHeaders, $this->fakeRequestData);
         self::assertNotNull($request);
         self::assertIsObject($request);
         $this->expectException(\TypeError::class);
@@ -55,7 +56,7 @@ class RequestTest extends TestCase
         self::assertInstanceOf(Request::class, $request);
         self::assertObjectHasAttribute('requestLine', $request);
         self::assertObjectHasAttribute('headers', $request);
-        self::assertObjectHasAttribute('messageBody', $request);
+        self::assertObjectHasAttribute('requestData', $request);
     }
 
     public function testRequestLine()
@@ -74,12 +75,12 @@ class RequestTest extends TestCase
         self::assertIsObject($request->headers());
     }
 
-    public function testMessageBody()
+    public function testRequestData()
     {
         $request = $this->commonRequest;
         self::assertIsObject($request);
-        self::assertObjectHasAttribute('messageBody', $request);
-        self::assertIsObject($request->messageBody());
+        self::assertObjectHasAttribute('requestData', $request);
+        self::assertIsObject($request->requestData());
     }
 
 }

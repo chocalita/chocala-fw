@@ -9,16 +9,16 @@ use Chocala\Http\Parts\Fakes\FakeJsonMessageBody;
 use Chocala\Http\Parts\Fakes\FakeMessageBody;
 use Chocala\Http\Parts\Fakes\FakePostFormDataBody;
 use Chocala\Http\Parts\Fakes\FakeQueryParams;
-use Chocala\Http\Parts\Fakes\FakeBoundariedFormDataBody;
+use Chocala\Http\Parts\Fakes\FakeRawFormDataBody;
 use Chocala\Http\Parts\Fakes\FakeTextHtmlBody;
 use Chocala\Http\Parts\FormUrlencodedBody;
 use Chocala\Http\Parts\JsonMessageBody;
 use Chocala\Http\Parts\MessageBody;
 use Chocala\Http\Parts\MessageBodyInterface;
 use Chocala\Http\Parts\QueryParamsInterface;
-use Chocala\Http\Parts\BoundariedFormDataBody;
+use Chocala\Http\Parts\RawFormDataBody;
 use Chocala\Http\Parts\TextHtmlBody;
-use Chocala\Http\Request\CustomRequestContentTest;
+use Chocala\Http\Request\CustomRequestDataTest;
 use InvalidArgumentException;
 
 //require_once 'CustomRequestContentTest.php';
@@ -57,7 +57,7 @@ class PutTest //extends CustomRequestContentTest
     private function newObjectFormData(): Put
     {
         $this->initQueryParams();
-        return new Put(new FakeBoundariedFormDataBody());
+        return new Put(new FakeRawFormDataBody());
     }
 
     private function newObjectFormUrlEncoded(): Put
@@ -133,7 +133,7 @@ class PutTest //extends CustomRequestContentTest
         self::assertNotNull($put->body());
         self::assertIsObject($put->body());
         self::assertInstanceOf(MessageBodyInterface::class, $put->body());
-        self::assertInstanceOf(BoundariedFormDataBody::class, $put->body());
+        self::assertInstanceOf(RawFormDataBody::class, $put->body());
 
         $put = $this->newObjectFormUrlEncoded();
         self::assertNotNull($put->body());
@@ -181,7 +181,7 @@ class PutTest //extends CustomRequestContentTest
         self::assertNotNull($put->data());
         self::assertNotEmpty($put->data());
         self::assertIsArray($put->data());
-        self::assertCount(FakeBoundariedFormDataBody::DATA_COUNT, $put->data());
+        self::assertCount(FakeRawFormDataBody::DATA_COUNT, $put->data());
 
         // Using FormUrlEncodedData as messageBody
         $put = $this->newObjectFormUrlEncoded();

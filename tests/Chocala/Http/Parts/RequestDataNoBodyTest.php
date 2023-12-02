@@ -2,11 +2,11 @@
 
 namespace Chocala\Http\Parts;
 
-require_once 'CustomRequestContentTest.php';
+require_once 'CustomRequestDataTest.php';
 
 use Exception;
 
-class RequestDataNoBodyTest extends CustomRequestContentTest
+class RequestDataNoBodyTest extends CustomRequestDataTest
 {
 
     private function newObject(): RequestDataNoBody
@@ -40,7 +40,7 @@ class RequestDataNoBodyTest extends CustomRequestContentTest
         $requestDataNoBody = $this->newObject();
         $this->expectException(Exception::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessageRegExp('/does not have body content/');
+        $this->expectExceptionMessageRegExp('/does not support body content/');
         $requestDataNoBody->body();
     }
 

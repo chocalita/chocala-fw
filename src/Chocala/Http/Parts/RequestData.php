@@ -27,8 +27,8 @@ class RequestData implements RequestDataInterface
     private function __constructor(QueryParamsInterface $queryParams, MessageBodyInterface $messageBody)
     {
         $this->queryParams = $queryParams;
-        if ($messageBody instanceof BoundariedFormDataBody) {
-            throw new IllegalArgumentException('POST method does not support raw-data body');
+        if ($messageBody instanceof RawFormDataBody) {
+            throw new IllegalArgumentException('POST method does not support raw form-data body');
         }
         $this->messageBody = $messageBody;
     }

@@ -4,7 +4,6 @@ namespace Chocala\Http\Request;
 
 use Chocala\Http\Mapping\UriMappingInterface;
 use Chocala\Http\Parts\HeadersInterface;
-use Chocala\Http\Parts\MessageBodyInterface;
 use Chocala\Http\Parts\RequestDataInterface;
 use Chocala\Http\Parts\RequestLine;
 use Chocala\Http\Parts\RequestLineInterface;
@@ -68,14 +67,6 @@ class MappedRequest implements RequestInterface
     public function requestData(): RequestDataInterface
     {
         return $this->originalRequest->requestData();
-    }
-
-    /**
-     * @return MessageBodyInterface
-     */
-    public function messageBody(): MessageBodyInterface
-    {
-        return $this->originalRequest->messageBody();
     }
 
 }

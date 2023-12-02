@@ -8,6 +8,7 @@ use Chocala\Http\Mapping\Fakes\FakeUriMapping;
 use Chocala\Http\Mapping\UriMapping;
 use Chocala\Http\Parts\Fakes\FakeHeaders;
 use Chocala\Http\Parts\Fakes\FakeMessageBody;
+use Chocala\Http\Parts\Fakes\FakeRequestData;
 use Chocala\Http\Parts\RequestLine;
 use Chocala\Http\RequestInterface;
 use Chocala\Http\Route\DefaultRoutes;
@@ -20,12 +21,12 @@ class MappedRequestTest extends TestCase
     /**
      * @var FakeHeaders
      */
-    private $fakeHeaders;
+    private FakeHeaders $fakeHeaders;
 
     /**
-     * @var FakeMessageBody
+     * @var FakeRequestData
      */
-    private $fakeMessageBody;
+    private FakeRequestData $fakeRequestData;
 
     /**
      * @var DefaultRoutes
@@ -35,12 +36,12 @@ class MappedRequestTest extends TestCase
     /**
      * @var FakeRoutes
      */
-    private $fakeRoutes;
+    private FakeRoutes $fakeRoutes;
 
     public function setUp()
     {
         $this->fakeHeaders = new FakeHeaders();
-        $this->fakeMessageBody = new FakeMessageBody();
+        $this->fakeRequestData = new FakeRequestData();
         $this->defaultRoutes = new DefaultRoutes();
         $this->fakeRoutes = new FakeRoutes();
     }
@@ -229,19 +230,19 @@ class MappedRequestTest extends TestCase
         self::assertEquals($request->headers(), $mappedRequest->headers());
     }
 
-    public function testMessageBody()
+    public function testRequestData()
     {
         $request = new FakeRequest();
         $mappedRequest = new MappedRequest($request, new FakeUriMapping());
-        self::assertNotNull($mappedRequest->messageBody());
-        self::assertIsObject($mappedRequest->messageBody());
-        self::assertEquals($request->messageBody(), $mappedRequest->messageBody());
+        self::assertNotNull($mappedRequest->requestData());
+        self::assertIsObject($mappedRequest->requestData());
+        self::assertEquals($request->requestData(), $mappedRequest->requestData());
 
         $request = $this->createRequest('/', 'GET');
         $mappedRequest = new MappedRequest($request, new FakeUriMapping());
-        self::assertNotNull($mappedRequest->messageBody());
-        self::assertIsObject($mappedRequest->messageBody());
-        self::assertEquals($request->messageBody(), $mappedRequest->messageBody());
+        self::assertNotNull($mappedRequest->requestData());
+        self::assertIsObject($mappedRequest->requestData());
+        self::assertEquals($request->requestData(), $mappedRequest->requestData());
     }
 
     /**
@@ -252,7 +253,7 @@ class MappedRequestTest extends TestCase
     protected function createRequest(string $requestUri, string $method) : Request
     {
         $requestLine = new RequestLine($method, $requestUri, 'HTTP/1.1');
-        return new Request($requestLine, $this->fakeHeaders, $this->fakeMessageBody);
+        return new Request($requestLine, $this->fakeHeaders, $this->fakeRequestData);
     }
 
 }
