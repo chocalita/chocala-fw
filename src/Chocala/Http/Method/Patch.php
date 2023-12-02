@@ -15,7 +15,7 @@ use Chocala\Http\Parts\QueryParamsInterface;
  *
  * @author ypra
  */
-class Patch implements HttpMethodInterface
+class Patch //implements HttpMethodInterface
 {
     use HttpMethodTrait;
 

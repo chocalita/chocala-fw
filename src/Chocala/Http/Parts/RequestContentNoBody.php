@@ -1,12 +1,8 @@
 <?php
 
-namespace Chocala\Http\Method;
+namespace Chocala\Http\Parts;
 
-use Chocala\Http\HttpMethod;
-use Chocala\Http\HttpMethodInterface;
-use Chocala\Http\Parts\MessageBodyInterface;
-use Chocala\Http\Parts\QueryParams;
-use Chocala\Http\Parts\QueryParamsInterface;
+use Chocala\Http\Method\HttpMethodTrait;
 use Exception;
 
 /**
@@ -14,23 +10,23 @@ use Exception;
  *
  * @author ypra
  */
-class Get implements HttpMethodInterface
+class RequestContentNoBody implements RequestContentInterface
 {
     use HttpMethodTrait;
 
     /**
      * Represents a unique instance for the class in the system
      * @deprecated Deprecated since version 3.0
-     * @var Get|null
+     * @var RequestContentNoBody|null
      */
-    private static ?Get $instance = null;
+    private static ?RequestContentNoBody $instance = null;
 
     /**
      * A single class instance from this
-     * @deprecated Deprecated since version 3.0
-     * @return Get
+     * @return RequestContentNoBody
+     *@deprecated Deprecated since version 3.0
      */
-    public static function instance(): Get
+    public static function instance(): RequestContentNoBody
     {
         if (!is_object(static::$instance)) {
             static::$instance = new self();
@@ -58,7 +54,6 @@ class Get implements HttpMethodInterface
      */
     private function __constructor(QueryParamsInterface $queryParams)
     {
-        $this->name = HttpMethod::GET;
         $this->queryParams = $queryParams;
     }
 

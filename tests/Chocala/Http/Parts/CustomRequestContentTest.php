@@ -1,17 +1,14 @@
 <?php
 
-namespace Chocala\Http\Method;
+namespace Chocala\Http\Parts;
 
 use Chocala\Http\HttpMethodInterface;
+use Chocala\Http\Method\HttpMethodTrait;
 use Chocala\Http\Parts\Fakes\FakeQueryParams;
-use Chocala\Http\Parts\MessageBodyInterface;
-use Chocala\Http\Parts\QueryParams;
-use Chocala\Http\Parts\QueryParamsInterface;
-use Chocala\Http\Parts\RequestDataBody;
 use Chocala\System\ContentType;
 use PHPUnit\Framework\TestCase;
 
-class HttpMethodTest extends TestCase
+class CustomRequestContentTest extends TestCase
 {
 
     protected function arrayQueryParams(): array

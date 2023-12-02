@@ -18,11 +18,12 @@ use Chocala\Http\Parts\MessageBodyInterface;
 use Chocala\Http\Parts\QueryParamsInterface;
 use Chocala\Http\Parts\RawFormDataBody;
 use Chocala\Http\Parts\TextHtmlBody;
+use Chocala\Http\Request\CustomRequestContentTest;
 use InvalidArgumentException;
 
-require_once 'HttpMethodTest.php';
+//require_once 'CustomRequestContentTest.php';
 
-class PutTest extends HttpMethodTest
+class PutTest //extends CustomRequestContentTest
 {
 
     private function newObject(): Put

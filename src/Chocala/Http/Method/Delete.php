@@ -14,7 +14,7 @@ use Exception;
  *
  * @author ypra
  */
-class Delete implements HttpMethodInterface
+class Delete //implements HttpMethodInterface
 {
     use HttpMethodTrait;
 

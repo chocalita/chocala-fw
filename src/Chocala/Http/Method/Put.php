@@ -15,7 +15,7 @@ use Chocala\Http\Parts\QueryParamsInterface;
  *
  * @author ypra
  */
-class Put implements HttpMethodInterface
+class Put //implements HttpMethodInterface
 {
     use HttpMethodTrait;
 
