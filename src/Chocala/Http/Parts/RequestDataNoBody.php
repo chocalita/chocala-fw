@@ -2,6 +2,7 @@
 
 namespace Chocala\Http\Parts;
 
+use Chocala\Base\UnsupportedOperationException;
 use Chocala\Http\Method\HttpMethodTrait;
 use Exception;
 
@@ -73,7 +74,7 @@ class RequestDataNoBody implements RequestDataInterface
      */
     public function body() : MessageBodyInterface
     {
-        throw new Exception('Safe HTTP method does not support body content');
+        throw new UnsupportedOperationException('Safe HTTP method does not support body content');
     }
 
     /**

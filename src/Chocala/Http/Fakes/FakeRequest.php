@@ -17,11 +17,14 @@ class FakeRequest implements RequestInterface
     private HeadersInterface $fakeHeaders;
     private RequestDataInterface $fakeRequestContent;
 
-    public function __construct()
+    public function __construct(?RequestLineInterface $fakeRequestLine,
+                                ?HeadersInterface $fakeHeaders,
+                                ?RequestDataInterface $fakeRequestContent
+    )
     {
-        $this->fakeRequestLine = new FakeRequestLine();
-        $this->fakeHeaders = new FakeHeaders();
-        $this->fakeRequestContent = new FakeRequestData();
+        $this->fakeRequestLine = $fakeRequestLine?: new FakeRequestLine();
+        $this->fakeHeaders = $fakeHeaders?: new FakeHeaders();
+        $this->fakeRequestContent = $fakeRequestContent?: new FakeRequestData();
     }
 
     public function requestLine(): RequestLineInterface
