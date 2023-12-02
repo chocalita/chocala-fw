@@ -2,12 +2,12 @@
 
 namespace Chocala\Http\Fakes;
 
-use Chocala\Http\Parts\Fakes\FakeHeaders;
-use Chocala\Http\Parts\Fakes\FakeRequestData;
-use Chocala\Http\Parts\Fakes\FakeRequestLine;
-use Chocala\Http\Parts\HeadersInterface;
-use Chocala\Http\Parts\RequestDataInterface;
-use Chocala\Http\Parts\RequestLineInterface;
+use Chocala\Http\Request\Parts\Fakes\FakeHeaders;
+use Chocala\Http\Request\Parts\Fakes\FakeRequestData;
+use Chocala\Http\Request\Parts\Fakes\FakeRequestLine;
+use Chocala\Http\Request\Parts\HeadersInterface;
+use Chocala\Http\Request\Parts\RequestDataInterface;
+use Chocala\Http\Request\Parts\RequestLineInterface;
 use Chocala\Http\Request\Request;
 use Chocala\Http\RequestInterface;
 

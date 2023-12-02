@@ -2,9 +2,9 @@
 
 namespace Chocala\Http;
 
-use Chocala\Http\Parts\HeadersInterface;
-use Chocala\Http\Parts\RequestDataInterface;
-use Chocala\Http\Parts\RequestLineInterface;
+use Chocala\Http\Request\Parts\HeadersInterface;
+use Chocala\Http\Request\Parts\RequestDataInterface;
+use Chocala\Http\Request\Parts\RequestLineInterface;
 
 interface RequestInterface
 {

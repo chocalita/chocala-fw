@@ -1,40 +1,15 @@
 <?php
 
-namespace Chocala\Http\Method;
-
-use Chocala\Base\IllegalArgumentException;
-use Chocala\Http\HttpMethod;
-use Chocala\Http\Request\Parts\MessageBodyInterface;
-use Chocala\Http\Request\Parts\PostFormDataBody;
-use Chocala\Http\Request\Parts\QueryParams;
-use Chocala\Http\Request\Parts\QueryParamsInterface;
+namespace Chocala\Http\Request\Parts;
 
 /**
- * Description of Put
+ * Description of Post
  *
  * @author ypra
  */
-class Put //implements HttpMethodInterface
+class RequestData implements RequestDataInterface
 {
-
-    /**
-     * @return mixed
-     */
-    public function contentsss()
-    {
-//        $rawInput = fopen('php://input', 'r');
-//        $tempStream = fopen('php://temp', 'r+');
-//        stream_copy_to_stream($rawInput, $tempStream);
-//        rewind($tempStream);
-//        return $tempStream;
-//        $entityBody = stream_get_contents(STDIN);
-//        return $entityBody;
-        //TODO: get body
-//        $request = new Request();
-//        return $request->getBody();
-        return "";
-    }
-
+    use RequestDataTrait;
 
     public function __construct()
     {
@@ -49,13 +24,10 @@ class Put //implements HttpMethodInterface
 
     private function __constructor(QueryParamsInterface $queryParams, MessageBodyInterface $messageBody)
     {
-        $this->name = HttpMethod::PUT;
         $this->queryParams = $queryParams;
-        if ($messageBody instanceof PostFormDataBody) {
-            throw new IllegalArgumentException('PUT method does not support $_POST body');
-        }
         $this->messageBody = $messageBody;
     }
+
 
     private function __construct1(MessageBodyInterface $messageBody)
     {

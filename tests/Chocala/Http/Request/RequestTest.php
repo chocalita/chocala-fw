@@ -2,10 +2,9 @@
 
 namespace Chocala\Http\Request;
 
-use Chocala\Http\Parts\Fakes\FakeHeaders;
-use Chocala\Http\Parts\Fakes\FakeMessageBody;
-use Chocala\Http\Parts\Fakes\FakeRequestData;
-use Chocala\Http\Parts\Fakes\FakeRequestLine;
+use Chocala\Http\Request\Parts\Fakes\FakeHeaders;
+use Chocala\Http\Request\Parts\Fakes\FakeRequestData;
+use Chocala\Http\Request\Parts\Fakes\FakeRequestLine;
 use PHPUnit\Framework\TestCase;
 
 class RequestTest extends TestCase

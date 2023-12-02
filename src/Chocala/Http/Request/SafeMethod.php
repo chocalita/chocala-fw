@@ -3,11 +3,10 @@
 namespace Chocala\Http\Request;
 
 use Chocala\Base\UnsupportedOperationException;
-use Chocala\Http\Parts\HeadersInterface;
-use Chocala\Http\Parts\MessageBodyInterface;
-use Chocala\Http\Parts\RequestDataInterface;
-use Chocala\Http\Parts\RequestDataNoBody;
-use Chocala\Http\Parts\RequestLineInterface;
+use Chocala\Http\Request\Parts\HeadersInterface;
+use Chocala\Http\Request\Parts\RequestDataInterface;
+use Chocala\Http\Request\Parts\RequestDataNoBody;
+use Chocala\Http\Request\Parts\RequestLineInterface;
 use Chocala\Http\RequestInterface;
 
 class SafeMethod implements RequestInterface
