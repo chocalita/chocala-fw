@@ -4,7 +4,7 @@ namespace Chocala\Http\Parts;
 
 use Chocala\Base\IllegalArgumentException;
 
-class RawFormDataBody extends FormDataBody implements MessageBodyInterface
+class BoundariedFormDataBody extends FormDataBody implements MessageBodyInterface
 {
 
     /**

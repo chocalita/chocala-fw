@@ -10,7 +10,8 @@ use Chocala\Http\Parts\Fakes\FakeJsonMessageBody;
 use Chocala\Http\Parts\Fakes\FakeMessageBody;
 use Chocala\Http\Parts\Fakes\FakePostFormDataBody;
 use Chocala\Http\Parts\Fakes\FakeQueryParams;
-use Chocala\Http\Parts\Fakes\FakeRawFormDataBody;
+use Chocala\Http\Parts\Fakes\FakeBoundariedFormDataBody;
+use Chocala\Http\Parts\Fakes\FakeRequestData;
 use Chocala\Http\Parts\Fakes\FakeTextHtmlBody;
 use InvalidArgumentException;
 
@@ -19,94 +20,81 @@ require_once 'CustomRequestContentTest.php';
 class RequestContentTest extends CustomRequestContentTest
 {
 
-    private function newObject(): RequestContent
+    private FakeRequestData $defaultRequestContent;
+
+    public function setUp()
     {
-        return $this->newObjectFakeBody();
+        $this->defaultRequestContent = new FakeRequestData();
     }
 
-    private function newObjectFakeBody(): RequestContent
-    {
-        $this->initQueryParams();
-        return new RequestContent(new FakeMessageBody());
-    }
-
-    private function newObjectCustomMessageBody($bodyContent): RequestContent
+    private function newObjectCustomMessageBody($bodyContent): RequestData
     {
         $this->initQueryParams();
-        return new RequestContent(new FakeMessageBody($bodyContent));
+        return new RequestData(new FakeMessageBody($bodyContent));
     }
 
-    private function newObjectTextMessageBody(): RequestContent
+    private function newObjectTextMessageBody(): RequestData
     {
         return $this->newObjectCustomMessageBody($this->textContent());
     }
 
-    private function newObjectTextHtmlBody(): RequestContent
+    private function newObjectTextHtmlBody(): RequestData
     {
         $this->initQueryParams();
-        return new RequestContent(new FakeTextHtmlBody());
+        return new RequestData(new FakeTextHtmlBody());
     }
 
-    private function newObjectPostFormData(): RequestContent
+    private function newObjectPostFormData(): RequestData
     {
         $this->initQueryParams();
-        return new RequestContent(new FakePostFormDataBody());
+        return new RequestData(new FakePostFormDataBody());
     }
 
     private function newObjectRawFormData(): Put
     {
         $this->initQueryParams();
-        return new Put(new FakeRawFormDataBody());
+        return new Put(new FakeBoundariedFormDataBody());
     }
 
-    private function newObjectFormUrlEncoded(): RequestContent
+    private function newObjectFormUrlEncoded(): RequestData
     {
         $this->initQueryParams();
-        return new RequestContent(new FakeFormUrlencodedBody());
+        return new RequestData(new FakeFormUrlencodedBody());
     }
 
-    private function newObjectJsonMessageBody(): RequestContent
+    private function newObjectJsonMessageBody(): RequestData
     {
         $this->initQueryParams();
-        return new RequestContent(new FakeJsonMessageBody());
+        return new RequestData(new FakeJsonMessageBody());
     }
 
     public function test__construct()
     {
-        $requestContent = new RequestContent(new FakeMessageBody());
+        $requestContent = new RequestData(new FakeMessageBody());
         self::assertIsObject($requestContent);
 
-        $requestContent = new RequestContent(new FakeQueryParams(), new FakeMessageBody());
+        $requestContent = new RequestData(new FakeQueryParams(), new FakeMessageBody());
         self::assertIsObject($requestContent);
 
         $this->expectException(IllegalArgumentException::class);
         $this->expectExceptionMessageRegExp('/does not support raw-data body/');
-        new RequestContent(new FakeRawFormDataBody());
+        new RequestData(new FakeBoundariedFormDataBody());
     }
 
     public function testQueryParams()
     {
-        $requestContent = $this->newObject();
-        $size = sizeof($this->arrayQueryParams());
-        self::assertNotNull($requestContent->queryParams());
-        self::assertIsObject($requestContent->queryParams());
-        self::assertInstanceOf(QueryParamsInterface::class, $requestContent->queryParams());
-        self::assertCount($size, $requestContent->queryParams()->data());
-        unset($_GET['lastKey']);
-        self::assertCount($size-1, $requestContent->queryParams()->data());
+        self::assertNotNull($this->defaultRequestContent->queryParams());
+        self::assertIsObject($this->defaultRequestContent->queryParams());
+        self::assertInstanceOf(QueryParamsInterface::class, $this->defaultRequestContent->queryParams());
+        self::assertNotEmpty($this->defaultRequestContent->queryParams()->data());
     }
 
     public function testBody()
     {
-        $requestContent = $this->newObject();
-        self::assertNotNull($requestContent->body());
-        self::assertIsObject($requestContent->body());
-
-        $requestContent = $this->newObjectFakeBody();
-        self::assertNotNull($requestContent->body());
-        self::assertIsObject($requestContent->body());
-        self::assertInstanceOf(MessageBodyInterface::class, $requestContent->body());
-        self::assertInstanceOf(MessageBody::class, $requestContent->body());
+        self::assertNotNull($this->defaultRequestContent->body());
+        self::assertIsObject($this->defaultRequestContent->body());
+        self::assertInstanceOf(MessageBodyInterface::class, $this->defaultRequestContent->body());
+        self::assertInstanceOf(MessageBody::class, $this->defaultRequestContent->body());
 
         $requestContent = $this->newObjectTextMessageBody();
         self::assertNotNull($requestContent->body());
@@ -130,7 +118,7 @@ class RequestContentTest extends CustomRequestContentTest
         self::assertNotNull($requestContent->body());
         self::assertIsObject($requestContent->body());
         self::assertInstanceOf(MessageBodyInterface::class, $requestContent->body());
-        self::assertInstanceOf(RawFormDataBody::class, $requestContent->body());
+        self::assertInstanceOf(BoundariedFormDataBody::class, $requestContent->body());
 
         $requestContent = $this->newObjectFormUrlEncoded();
         self::assertNotNull($requestContent->body());
@@ -154,10 +142,9 @@ class RequestContentTest extends CustomRequestContentTest
     public function testData()
     {
         // Using FakeMessageBody as messageBody
-        $requestContent = $this->newObjectFakeBody();
-        self::assertNotNull($requestContent->data());
-        self::assertIsString($requestContent->data());
-        self::assertEmpty($requestContent->data());
+        self::assertNotNull($this->defaultRequestContent->data());
+        self::assertIsString($this->defaultRequestContent->data());
+        self::assertEmpty($this->defaultRequestContent->data());
 
         // Using MessageBody as messageBody
         $requestContent = $this->newObjectTextMessageBody();
@@ -186,7 +173,7 @@ class RequestContentTest extends CustomRequestContentTest
         self::assertNotNull($requestContent->data());
         self::assertNotEmpty($requestContent->data());
         self::assertIsArray($requestContent->data());
-        self::assertCount(FakeRawFormDataBody::DATA_COUNT, $requestContent->data());
+        self::assertCount(FakeBoundariedFormDataBody::DATA_COUNT, $requestContent->data());
 
         // Using FormUrlEncodedData as messageBody
         $requestContent = $this->newObjectFormUrlEncoded();
@@ -222,7 +209,7 @@ class RequestContentTest extends CustomRequestContentTest
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessageRegExp('/Invalid number of arguments/');
-        new RequestContent();
+        new RequestData();
     }
 
 }

@@ -3,8 +3,9 @@
 namespace Chocala\Http\Parts\Fakes;
 
 use Chocala\Http\Parts\FormDataBody;
+use Chocala\Http\Parts\MessageBodyInterface;
 
-class FakeFormDataBody extends FormDataBody
+class FakeFormDataBody extends FormDataBody implements MessageBodyInterface
 {
 
     public const ARRAY_DATA = [

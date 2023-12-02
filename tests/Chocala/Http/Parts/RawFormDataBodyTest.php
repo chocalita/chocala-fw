@@ -3,7 +3,7 @@
 namespace Chocala\Http\Parts;
 
 use Chocala\Base\IllegalArgumentException;
-use Chocala\Http\Parts\Fakes\FakeRawFormDataBody;
+use Chocala\Http\Parts\Fakes\FakeBoundariedFormDataBody;
 use Chocala\System\ContentType;
 use PHPUnit\Framework\TestCase;
 
@@ -24,25 +24,25 @@ class RawFormDataBodyTest extends TestCase
 
     public function setUp()
     {
-        $this->contentType = FakeRawFormDataBody::contentType();
-        $this->rawData = FakeRawFormDataBody::rawData();
+        $this->contentType = FakeBoundariedFormDataBody::contentType();
+        $this->rawData = FakeBoundariedFormDataBody::rawData();
     }
 
     public function test__construct()
     {
-        $rawFormDataBody = new RawFormDataBody($this->contentType, $this->rawData);
+        $rawFormDataBody = new BoundariedFormDataBody($this->contentType, $this->rawData);
         self::assertIsObject($rawFormDataBody);
 
         // Empty raw data with empty string
-        $rawFormDataBody = new RawFormDataBody($this->contentType, '');
+        $rawFormDataBody = new BoundariedFormDataBody($this->contentType, '');
         self::assertIsObject($rawFormDataBody);
 
         // Empty raw data with spaces
-        $rawFormDataBody = new RawFormDataBody($this->contentType, '  ');
+        $rawFormDataBody = new BoundariedFormDataBody($this->contentType, '  ');
         self::assertIsObject($rawFormDataBody);
 
         // Empty raw data with new lines
-        $rawFormDataBody = new RawFormDataBody($this->contentType, ' 
+        $rawFormDataBody = new BoundariedFormDataBody($this->contentType, ' 
 
         ');
         self::assertIsObject($rawFormDataBody);
@@ -50,18 +50,18 @@ class RawFormDataBodyTest extends TestCase
         $this->expectException(IllegalArgumentException::class);
         $this->expectExceptionCode(31);
         $this->expectExceptionMessageRegExp('/Invalid/');
-        new RawFormDataBody('', '');
+        new BoundariedFormDataBody('', '');
     }
 
     public function testType()
     {
-        $rawFormDataBody = new RawFormDataBody($this->contentType, ' ');
+        $rawFormDataBody = new BoundariedFormDataBody($this->contentType, ' ');
         self::assertIsObject($rawFormDataBody);
         self::assertNotEmpty($rawFormDataBody->type());
         self::assertEquals(ContentType::MULTIPART_FORM_DATA, $rawFormDataBody->type());
         self::assertNotEquals(ContentType::TEXT_PLAIN, $rawFormDataBody->type());
 
-        $rawFormDataBody = new FakeRawFormDataBody();
+        $rawFormDataBody = new FakeBoundariedFormDataBody();
         self::assertIsObject($rawFormDataBody);
         self::assertNotEmpty($rawFormDataBody->type());
         self::assertEquals(ContentType::MULTIPART_FORM_DATA, $rawFormDataBody->type());
@@ -71,14 +71,14 @@ class RawFormDataBodyTest extends TestCase
     public function testData()
     {
         // Raw data empty value (with space case)
-        $rawFormDataBody = new RawFormDataBody($this->contentType, ' ');
+        $rawFormDataBody = new BoundariedFormDataBody($this->contentType, ' ');
         self::assertNotNull($rawFormDataBody->data());
         self::assertEmpty($rawFormDataBody->data());
         self::assertIsArray($rawFormDataBody->data());
         self::assertCount(0, $rawFormDataBody->data());
 
         // Raw data from 'raw_form-data' resource
-        $rawFormDataBody = new FakeRawFormDataBody();
+        $rawFormDataBody = new FakeBoundariedFormDataBody();
         self::assertNotNull($rawFormDataBody->data());
         self::assertNotEmpty($rawFormDataBody->data());
         self::assertIsArray($rawFormDataBody->data());
@@ -99,7 +99,7 @@ class RawFormDataBodyTest extends TestCase
         //$bod = new RawFormDataContent($this->contentType, 'multipart/form-data' . $this->rawFormData);
 
         $this->expectException(IllegalArgumentException::class);
-        $bod = new RawFormDataBody($this->contentType, 'multipart/form-data; ');
+        $bod = new BoundariedFormDataBody($this->contentType, 'multipart/form-data; ');
     }
 
     // Invalid content type
@@ -108,7 +108,7 @@ class RawFormDataBodyTest extends TestCase
         $this->expectException(IllegalArgumentException::class);
         $this->expectExceptionCode(31);
         $this->expectExceptionMessageRegExp('/Invalid multipart\/form-data, Content-Type is not matching/');
-        new RawFormDataBody('multipart/form-data; ', $this->rawData);
+        new BoundariedFormDataBody('multipart/form-data; ', $this->rawData);
     }
 
     // Invalid case: invalid raw data
@@ -117,13 +117,13 @@ class RawFormDataBodyTest extends TestCase
         $this->expectException(IllegalArgumentException::class);
         $this->expectExceptionCode(31);
         $this->expectExceptionMessageRegExp('/Invalid multipart\/form-data/');
-        new RawFormDataBody($this->contentType, ' - ');
+        new BoundariedFormDataBody($this->contentType, ' - ');
     }
 
     // Content has a txt file
     public function testFormDataWithTxtFile()
     {
-        $rawFormDataBody = new FakeRawFormDataBody('738248700975810852557521', 'raw_form-data_txt_file');
+        $rawFormDataBody = new FakeBoundariedFormDataBody('738248700975810852557521', 'raw_form-data_txt_file');
         self::assertIsObject($rawFormDataBody);
         self::assertEquals(ContentType::MULTIPART_FORM_DATA, $rawFormDataBody->type());
         self::assertIsArray($rawFormDataBody->data());
@@ -133,7 +133,7 @@ class RawFormDataBodyTest extends TestCase
     // Content has a zip file
     public function testFormDataWithZipFile()
     {
-        $rawFormDataBody = new FakeRawFormDataBody('365774502836687403390313', 'raw_form-data_zip_file');
+        $rawFormDataBody = new FakeBoundariedFormDataBody('365774502836687403390313', 'raw_form-data_zip_file');
         self::assertIsObject($rawFormDataBody);
         self::assertEquals(ContentType::MULTIPART_FORM_DATA, $rawFormDataBody->type());
         self::assertIsArray($rawFormDataBody->data());
@@ -144,7 +144,7 @@ class RawFormDataBodyTest extends TestCase
     {
         $this->expectException(IllegalArgumentException::class);
         $this->expectExceptionMessageRegExp('/Invalid multipart\/form-data raw data/');
-        new RawFormDataBody($this->contentType, 123);
+        new BoundariedFormDataBody($this->contentType, 123);
     }
 
 }

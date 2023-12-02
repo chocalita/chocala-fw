@@ -5,6 +5,7 @@ namespace Chocala\Http\Request;
 use Chocala\Base\UnsupportedOperationException;
 use Chocala\Http\Parts\HeadersInterface;
 use Chocala\Http\Parts\MessageBodyInterface;
+use Chocala\Http\Parts\RequestDataInterface;
 use Chocala\Http\Parts\RequestLineInterface;
 use Chocala\Http\RequestInterface;
 
@@ -29,6 +30,11 @@ class SafeMethod implements RequestInterface
     public function headers(): HeadersInterface
     {
         return $this->request->headers();
+    }
+
+    public function requestData(): RequestDataInterface
+    {
+        return $this->request->requestData();
     }
 
     public function messageBody(): MessageBodyInterface

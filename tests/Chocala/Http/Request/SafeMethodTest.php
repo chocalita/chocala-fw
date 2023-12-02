@@ -17,12 +17,12 @@ class SafeMethodTest extends TestCase
     /**
      * @var FakeRequest
      */
-    private $baseFakeRequest;
+    private FakeRequest $baseFakeRequest;
 
     /**
      * @var SafeMethod
      */
-    private $defaultSafeMethod;
+    private SafeMethod $defaultSafeMethod;
 
     public function setUp()
     {

@@ -2,7 +2,7 @@
 
 namespace Chocala\Http\Parts;
 
-interface RequestContentInterface
+interface RequestDataInterface
 {
 
     /**

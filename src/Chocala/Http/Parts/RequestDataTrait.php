@@ -2,7 +2,7 @@
 
 namespace Chocala\Http\Parts;
 
-trait RequestContentTrait
+trait RequestDataTrait
 {
 
     /**

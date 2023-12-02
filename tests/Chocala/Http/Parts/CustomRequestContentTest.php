@@ -75,7 +75,7 @@ class CustomRequestContentTest extends TestCase
         self::assertNotNull($httpMethod->body());
         self::assertIsObject($httpMethod->body());
         self::assertInstanceOf(MessageBodyInterface::class, $httpMethod->body());
-        self::assertInstanceOf(RequestDataBody::class, $httpMethod->body());
+        self::assertInstanceOf(RequestInBody::class, $httpMethod->body());
 
     }
     public function testData()
@@ -101,7 +101,7 @@ class CustomRequestContentTest extends TestCase
             {
                 $this->name = 'CUSTOM';
                 $this->queryParams = new QueryParams();
-                $this->messageBody = new RequestDataBody(ContentType::TEXT_HTML);
+                $this->messageBody = new RequestInBody(ContentType::TEXT_HTML);
             }
 
             public function data()

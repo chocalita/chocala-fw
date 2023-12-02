@@ -5,7 +5,7 @@ namespace Chocala\Http\Parts;
 use Chocala\Base\IllegalStateException;
 use InvalidArgumentException;
 
-class RequestDataBody extends MessageBody implements MessageBodyInterface
+class RequestInBody extends MessageBody implements MessageBodyInterface
 {
 
     public function __construct(string $contentType)

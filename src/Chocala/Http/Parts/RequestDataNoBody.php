@@ -10,23 +10,23 @@ use Exception;
  *
  * @author ypra
  */
-class RequestContentNoBody implements RequestContentInterface
+class RequestDataNoBody implements RequestDataInterface
 {
     use HttpMethodTrait;
 
     /**
      * Represents a unique instance for the class in the system
      * @deprecated Deprecated since version 3.0
-     * @var RequestContentNoBody|null
+     * @var RequestDataNoBody|null
      */
-    private static ?RequestContentNoBody $instance = null;
+    private static ?RequestDataNoBody $instance = null;
 
     /**
      * A single class instance from this
-     * @return RequestContentNoBody
+     * @return RequestDataNoBody
      *@deprecated Deprecated since version 3.0
      */
-    public static function instance(): RequestContentNoBody
+    public static function instance(): RequestDataNoBody
     {
         if (!is_object(static::$instance)) {
             static::$instance = new self();

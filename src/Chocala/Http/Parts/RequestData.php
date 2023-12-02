@@ -9,9 +9,9 @@ use Chocala\Base\IllegalArgumentException;
  *
  * @author ypra
  */
-class RequestContent implements RequestContentInterface
+class RequestData implements RequestDataInterface
 {
-    use RequestContentTrait;
+    use RequestDataTrait;
 
     public function __construct()
     {
@@ -27,7 +27,7 @@ class RequestContent implements RequestContentInterface
     private function __constructor(QueryParamsInterface $queryParams, MessageBodyInterface $messageBody)
     {
         $this->queryParams = $queryParams;
-        if ($messageBody instanceof RawFormDataBody) {
+        if ($messageBody instanceof BoundariedFormDataBody) {
             throw new IllegalArgumentException('POST method does not support raw-data body');
         }
         $this->messageBody = $messageBody;
