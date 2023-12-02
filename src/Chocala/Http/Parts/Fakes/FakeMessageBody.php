@@ -3,9 +3,10 @@
 namespace Chocala\Http\Parts\Fakes;
 
 use Chocala\Http\Parts\MessageBody;
+use Chocala\Http\Parts\MessageBodyInterface;
 use Chocala\System\ContentType;
 
-class FakeMessageBody extends MessageBody
+class FakeMessageBody extends MessageBody implements MessageBodyInterface
 {
 
     public const DEFAULT_DATA = '';

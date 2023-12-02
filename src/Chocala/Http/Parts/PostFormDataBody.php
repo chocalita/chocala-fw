@@ -13,7 +13,8 @@ class PostFormDataBody extends FormDataBody implements MessageBodyInterface
         if (func_num_args() > 0) {
             throw new InvalidArgumentException('Too many arguments to create object ' . __CLASS__);
         }
-        parent::__construct();
+        // override data, because it's referenced to global $_POST var
+        parent::__construct([]);
         $this->data = &$_POST;
     }
 

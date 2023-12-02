@@ -40,12 +40,13 @@ class FormDataBodyTest extends TestCase
 
     private function newFormDataContentCustomClass(): FormDataBody
     {
-        $formDataBody = new class() extends FormDataBody {
+        $formDataBody = new class() extends FormDataBody implements MessageBodyInterface {
 
             public function __construct()
             {
-                parent::__construct();
-                $this->data = [];
+                parent::__construct(
+                    []
+                );
             }
 
         };

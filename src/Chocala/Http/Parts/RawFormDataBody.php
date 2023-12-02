@@ -14,8 +14,9 @@ class RawFormDataBody extends FormDataBody implements MessageBodyInterface
      */
     public function __construct(string $contentType, string $rawData)
     {
-        parent::__construct();
-        $this->data = $this->parseData($contentType, $rawData);
+        parent::__construct(
+            $this->parseData($contentType, $rawData)
+        );
     }
 
     /**

@@ -2,9 +2,10 @@
 
 namespace Chocala\Http\Parts\Fakes;
 
+use Chocala\Http\Parts\MessageBodyInterface;
 use Chocala\Http\Parts\RawFormDataBody;
 
-class FakeRawFormDataBody extends RawFormDataBody
+class FakeRawFormDataBody extends RawFormDataBody implements MessageBodyInterface
 {
 
     public const DATA_COUNT = 4;
@@ -34,7 +35,10 @@ class FakeRawFormDataBody extends RawFormDataBody
 
     public function __constructor(string $contentType, string $rawData)
     {
-        parent::__construct($contentType, $rawData);
+        parent::__construct(
+            $contentType,
+            $rawData
+        );
     }
 
     private function __construct0()

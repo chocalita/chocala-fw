@@ -3,8 +3,9 @@
 namespace Chocala\Http\Parts\Fakes;
 
 use Chocala\Http\Parts\JsonMessageBody;
+use Chocala\Http\Parts\MessageBodyInterface;
 
-class FakeJsonMessageBody extends JsonMessageBody
+class FakeJsonMessageBody extends JsonMessageBody implements MessageBodyInterface
 {
 
     public const DEFAULT_DATA = '{
@@ -13,7 +14,9 @@ class FakeJsonMessageBody extends JsonMessageBody
 
     public function __construct()
     {
-        parent::__construct(self::DEFAULT_DATA);
+        parent::__construct(
+            self::DEFAULT_DATA
+        );
     }
 
 }

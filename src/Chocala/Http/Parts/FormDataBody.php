@@ -7,9 +7,12 @@ use Chocala\System\ContentType;
 abstract class FormDataBody extends MessageBody implements MessageBodyInterface
 {
 
-    public function __construct()
+    public function __construct(array $data)
     {
-        $this->type = ContentType::MULTIPART_FORM_DATA;
+        parent::__construct(
+            ContentType::MULTIPART_FORM_DATA,
+            $data
+        );
     }
 
     /**

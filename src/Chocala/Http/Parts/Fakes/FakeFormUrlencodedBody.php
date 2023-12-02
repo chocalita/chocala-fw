@@ -3,14 +3,17 @@
 namespace Chocala\Http\Parts\Fakes;
 
 use Chocala\Http\Parts\FormUrlencodedBody;
+use Chocala\Http\Parts\MessageBodyInterface;
 
-class FakeFormUrlencodedBody extends FormUrlencodedBody
+class FakeFormUrlencodedBody extends FormUrlencodedBody implements MessageBodyInterface
 {
 
     public const ARRAY_DATA = FakeFormDataBody::ARRAY_DATA;
     public function __construct()
     {
-        parent::__construct($this->arrayToQueryString(self::ARRAY_DATA));
+        parent::__construct(
+            $this->arrayToQueryString(self::ARRAY_DATA)
+        );
     }
 
     /**

@@ -20,8 +20,9 @@ class FakeFormDataBody extends FormDataBody implements MessageBodyInterface
 
     public function __construct()
     {
-        parent::__construct();
-        $this->data = self::ARRAY_DATA;
+        parent::__construct(
+            self::ARRAY_DATA
+        );
     }
 
 }
