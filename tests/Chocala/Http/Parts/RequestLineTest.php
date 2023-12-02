@@ -3,6 +3,7 @@
 namespace Chocala\Http\Parts;
 
 use Chocala\Base\IllegalArgumentException;
+use Chocala\Http\HttpMethod;
 use PHPUnit\Framework\TestCase;
 
 class RequestLineTest extends TestCase
@@ -33,7 +34,7 @@ class RequestLineTest extends TestCase
     public function testMethod()
     {
         self::assertNotNull($this->requestLine->method());
-        self::assertEquals('PUT', $this->requestLine->method());
+        self::assertEquals(HttpMethod::PUT, $this->requestLine->method());
     }
 
     public function testRequestUri()

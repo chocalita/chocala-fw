@@ -10,26 +10,26 @@ use Chocala\Http\Parts\RequestDataInterface;
 class FakeRequestData implements RequestDataInterface
 {
 
-    private RequestData $requestContent;
+    private RequestData $requestData;
 
     public function __construct()
     {
-        $this->requestContent = new RequestData(new FakeQueryParams(), new FakeMessageBody());
+        $this->requestData = new RequestData(new FakeQueryParams(), new FakeMessageBody());
     }
 
     public function queryParams(): QueryParamsInterface
     {
-        return $this->requestContent->queryParams();
+        return $this->requestData->queryParams();
     }
 
     public function body(): MessageBodyInterface
     {
-        return $this->requestContent->body();
+        return $this->requestData->body();
     }
 
     public function data()
     {
-        return $this->requestContent->data();
+        return $this->requestData->data();
     }
 
 }
