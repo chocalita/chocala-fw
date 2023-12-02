@@ -3,18 +3,16 @@
 namespace Chocala\Http\Request;
 
 use Chocala\Base\UnsupportedOperationException;
-use Chocala\Http\Fakes\FakeRequestLine;
 use Chocala\Http\Fakes\FakeHeaders;
 use Chocala\Http\Fakes\FakeMessageBody;
 use Chocala\Http\Fakes\FakeRequest;
+use Chocala\Http\Fakes\FakeRequestLine;
 use Chocala\Http\Parts\Fakes\FakeRequestDataNoBody;
 use Chocala\Http\Parts\HeadersInterface;
 use Chocala\Http\Parts\RequestDataInterface;
 use Chocala\Http\Parts\RequestDataNoBody;
 use Chocala\Http\Parts\RequestLineInterface;
 use PHPUnit\Framework\TestCase;
-
-require_once '../Parts/Fakes/FakeRequestDataNoBody.php';
 
 class SafeMethodTest extends TestCase
 {

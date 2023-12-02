@@ -4,6 +4,7 @@ namespace Chocala\Http\Parts;
 
 require_once 'CustomRequestDataTest.php';
 
+use Chocala\Base\UnsupportedOperationException;
 use Exception;
 
 class RequestDataNoBodyTest extends CustomRequestDataTest
@@ -38,8 +39,8 @@ class RequestDataNoBodyTest extends CustomRequestDataTest
     public function testBody()
     {
         $requestDataNoBody = $this->newObject();
-        $this->expectException(Exception::class);
-        $this->expectExceptionCode(0);
+        $this->expectException(UnsupportedOperationException::class);
+        $this->expectExceptionCode(41);
         $this->expectExceptionMessageRegExp('/does not support body content/');
         $requestDataNoBody->body();
     }
