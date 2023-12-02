@@ -56,17 +56,17 @@ class ActionMap implements ActionMapInterface
 
     private function __construct3($module, $controller, $action)
     {
-        return $this->__construct4($module, $controller, $action, []);
+        $this->__construct4($module, $controller, $action, []);
     }
 
     private function __construct4($module, $controller, $action, $params)
     {
-        return $this->__constructor($module, $controller, $action, null, $params);
+        $this->__constructor($module, $controller, $action, null, $params);
     }
 
     private function __construct5($module, $controller, $action, $id, $params)
     {
-        return $this->__constructor($module, $controller, $action, $id, $params);
+        $this->__constructor($module, $controller, $action, $id, $params);
     }
 
     /**

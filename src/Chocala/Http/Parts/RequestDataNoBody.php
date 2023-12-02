@@ -60,12 +60,12 @@ class RequestDataNoBody implements RequestDataInterface
 
     private function __construct0()
     {
-        return $this->__constructor(new QueryParams());
+        $this->__constructor(new QueryParams());
     }
 
     private function __construct1(QueryParamsInterface $queryParams)
     {
-        return $this->__constructor($queryParams);
+        $this->__constructor($queryParams);
     }
 
     /**

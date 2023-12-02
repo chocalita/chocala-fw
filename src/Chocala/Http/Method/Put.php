@@ -42,12 +42,12 @@ class Put //implements HttpMethodInterface
 
     private function __construct1(MessageBodyInterface $messageBody)
     {
-        return $this->__constructor(new QueryParams(), $messageBody);
+        $this->__constructor(new QueryParams(), $messageBody);
     }
 
     private function __construct2(QueryParamsInterface $queryParams, MessageBodyInterface $messageBody)
     {
-        return $this->__constructor($queryParams, $messageBody);
+        $this->__constructor($queryParams, $messageBody);
     }
 
     /**
