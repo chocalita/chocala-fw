@@ -2,8 +2,6 @@
 
 namespace Chocala\Http\Request\Parts;
 
-use Chocala\Base\IllegalArgumentException;
-use Chocala\Http\HttpMethod;
 use Chocala\Http\HttpMethodEnum;
 
 class RequestLine implements RequestLineInterface
