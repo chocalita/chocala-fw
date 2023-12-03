@@ -4,7 +4,7 @@ namespace Chocala\Http\Response;
 
 use Chocala\Http\Response\Parts\ResponseBodyInterface;
 use Chocala\Http\Response\Parts\ResponseHeadersInterface;
-use Chocala\Http\Response\Parts\StatusCodeInterface;
+use Chocala\Http\Response\Parts\StatusCodeEnum;
 use Chocala\Http\ResponseInterface;
 
 class Response implements ResponseInterface
@@ -13,9 +13,9 @@ class Response implements ResponseInterface
     /**
      * Represents the StatusLine for HTTP Responses (contains status code and status message)
      *
-     * @var StatusCodeInterface
+     * @var StatusCodeEnum
      */
-    private StatusCodeInterface $statusCode;
+    private StatusCodeEnum $statusCode;
 
     /**
      * @var ResponseHeadersInterface
@@ -28,11 +28,11 @@ class Response implements ResponseInterface
     private ResponseBodyInterface $body;
 
     /**
-     * @param StatusCodeInterface $statusCode
+     * @param StatusCodeEnum $statusCode
      * @param ResponseHeadersInterface $headers
      * @param ResponseBodyInterface $body
      */
-    public function __construct(StatusCodeInterface   $statusCode, ResponseHeadersInterface $headers,
+    public function __construct(StatusCodeEnum        $statusCode, ResponseHeadersInterface $headers,
                                 ResponseBodyInterface $body)
     {
         $this->statusCode = $statusCode;
@@ -41,9 +41,9 @@ class Response implements ResponseInterface
     }
 
     /**
-     * @return StatusCodeInterface
+     * @return StatusCodeEnum
      */
-    public function status(): StatusCodeInterface
+    public function status(): StatusCodeEnum
     {
         return $this->statusCode;
     }

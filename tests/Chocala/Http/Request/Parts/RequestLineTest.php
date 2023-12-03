@@ -2,9 +2,9 @@
 
 namespace Chocala\Http\Request\Parts;
 
-use Chocala\Base\IllegalArgumentException;
 use Chocala\Http\HttpMethod;
 use PHPUnit\Framework\TestCase;
+use TypeError;
 
 class RequestLineTest extends TestCase
 {
@@ -12,12 +12,12 @@ class RequestLineTest extends TestCase
     /**
      * @var RequestLine
      */
-    private $requestLine;
+    private RequestLine $requestLine;
 
     protected function setUp()
     {
         $this->requestLine = new RequestLine(
-            'PUT',
+            HttpMethod::PUT(),
             'http://localhost/api/vx/custom/uri',
             'HTTP/1.1'
         );
@@ -25,16 +25,17 @@ class RequestLineTest extends TestCase
 
     public function test__construct()
     {
-        $requestLine = new RequestLine('GET', 'http://localhost/api/va', 'HTTP/1.1');
+        $requestLine = new RequestLine(HttpMethod::GET(), 'http://localhost/api/va', 'HTTP/1.1');
         self::assertIsObject($requestLine);
-        $this->expectException(IllegalArgumentException::class);
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessageRegExp('/Argument 1 passed to/');
         new RequestLine('NO GET', 'http://localhost/api/vb', 'HTTP/1.0');
     }
 
     public function testMethod()
     {
         self::assertNotNull($this->requestLine->method());
-        self::assertEquals(HttpMethod::PUT, $this->requestLine->method());
+        self::assertEquals(HttpMethod::PUT(), $this->requestLine->method());
     }
 
     public function testRequestUri()

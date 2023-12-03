@@ -4,15 +4,15 @@ namespace Chocala\Http;
 
 use Chocala\Http\Response\Parts\ResponseBodyInterface;
 use Chocala\Http\Response\Parts\ResponseHeadersInterface;
-use Chocala\Http\Response\Parts\StatusCodeInterface;
+use Chocala\Http\Response\Parts\StatusCodeEnum;
 
 interface ResponseInterface
 {
 
     /**
-     * @return StatusCodeInterface
+     * @return StatusCodeEnum
      */
-    public function status() : StatusCodeInterface;
+    public function status() : StatusCodeEnum;
 
     /**
      * @return ResponseHeadersInterface

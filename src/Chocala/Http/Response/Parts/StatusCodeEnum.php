@@ -2,7 +2,7 @@
 
 namespace Chocala\Http\Response\Parts;
 
-interface StatusCodeInterface
+interface StatusCodeEnum
 {
 
     public function code() : int;

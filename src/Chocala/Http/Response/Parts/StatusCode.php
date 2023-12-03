@@ -5,20 +5,25 @@ namespace Chocala\Http\Response\Parts;
 /**
  * Enum class for HTTP Status codes
  */
-abstract class StatusCode implements StatusCodeInterface
+abstract class StatusCode implements StatusCodeEnum
 {
 
     protected int $code;
     protected string $message;
 
-    public function code(): int
+    final public function code(): int
     {
         return $this->code;
     }
 
-    public function message(): string
+    final public function message(): string
     {
         return $this->message;
+    }
+
+    final public function __toString()
+    {
+        return strval($this->code);
     }
 
     public static function OK(): StatusCode

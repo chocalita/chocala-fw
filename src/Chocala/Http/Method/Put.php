@@ -3,7 +3,6 @@
 namespace Chocala\Http\Method;
 
 use Chocala\Base\IllegalArgumentException;
-use Chocala\Http\HttpMethod;
 use Chocala\Http\Request\Parts\MessageBodyInterface;
 use Chocala\Http\Request\Parts\PostFormDataBody;
 use Chocala\Http\Request\Parts\QueryParams;
@@ -49,7 +48,6 @@ class Put //implements HttpMethodInterface
 
     private function __constructor(QueryParamsInterface $queryParams, MessageBodyInterface $messageBody)
     {
-        $this->name = HttpMethod::PUT;
         $this->queryParams = $queryParams;
         if ($messageBody instanceof PostFormDataBody) {
             throw new IllegalArgumentException('PUT method does not support $_POST body');

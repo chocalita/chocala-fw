@@ -3,9 +3,11 @@
 namespace Chocala\Http\Mapping;
 
 use Chocala\Base\IllegalArgumentException;
+use Chocala\Http\HttpMethod;
 use Chocala\Http\Route\DefaultRoutes;
 use Chocala\Http\Route\Fakes\FakeRoutes;
 use PHPUnit\Framework\TestCase;
+use TypeError;
 
 class UriMappingTest extends TestCase
 {
@@ -40,7 +42,8 @@ class UriMappingTest extends TestCase
     public function testInvalidHttpMethod()
     {
         $uriMapping = new UriMapping($this->defaultRoutes);
-        $this->expectException(IllegalArgumentException::class);
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessageRegExp('/Argument 2 passed to/');
         $uriMapping->realUri('/a/uri', 'X_METHOD');
     }
 
@@ -50,7 +53,7 @@ class UriMappingTest extends TestCase
         $realRoute = $routes->routes()['/contact'];
         $uriMapping = new UriMapping($routes);
         self::assertIsObject($uriMapping);
-        $realUri = $uriMapping->realUri('/contact', 'GET');
+        $realUri = $uriMapping->realUri('/contact', HttpMethod::GET());
         self::assertNotEmpty($realUri);
         self::assertIsString($realUri);
         self::assertEquals($realRoute, $realUri);
@@ -61,7 +64,7 @@ class UriMappingTest extends TestCase
         $key = '/Nk343Olt34Zp4/o1p0J6H7Re/RandomValue';
         $uriMapping = new UriMapping($this->defaultRoutes);
         self::assertIsObject($uriMapping);
-        $realUri = $uriMapping->realUri($key, 'GET');
+        $realUri = $uriMapping->realUri($key, HttpMethod::GET());
         self::assertNotEmpty($realUri);
         self::assertIsString($realUri);
         self::assertEquals($key, $realUri);
@@ -74,67 +77,67 @@ class UriMappingTest extends TestCase
         self::assertIsObject($uriMapping);
 
         $key = '/context-module/page/action/ID';
-        $realUri = $uriMapping->realUri($key, 'GET');
+        $realUri = $uriMapping->realUri($key, HttpMethod::GET());
         self::assertNotEmpty($realUri);
         self::assertIsString($realUri);
         self::assertEquals($key, $realUri);
 
         $key = '/moduleX/pageX/actionX/99';
-        $realUri = $uriMapping->realUri($key, 'POST');
+        $realUri = $uriMapping->realUri($key, HttpMethod::POST());
         self::assertNotEmpty($realUri);
         self::assertIsString($realUri);
         self::assertEquals($key, $realUri);
 
         $key = '/moduleX/pageX/actionX/';
-        $realUri = $uriMapping->realUri($key, 'POST');
+        $realUri = $uriMapping->realUri($key, HttpMethod::POST());
         self::assertNotEmpty($realUri);
         self::assertIsString($realUri);
         self::assertEquals($key, $realUri);
 
         $key = '/context-path/index';
-        $realUri = $uriMapping->realUri($key, 'DELETE');
+        $realUri = $uriMapping->realUri($key, HttpMethod::DELETE());
         self::assertNotEmpty($realUri);
         self::assertIsString($realUri);
         self::assertEquals('/moduleDef/controllerDef/actionDef/idDef', $realUri);
 
         $key = '/context-path/mod/ctrl';
-        $realUri = $uriMapping->realUri($key, 'POST');
+        $realUri = $uriMapping->realUri($key, HttpMethod::POST());
         self::assertNotEmpty($realUri);
         self::assertIsString($realUri);
         self::assertEquals('/moduleTest/controllerTest/actionTest/idTest', $realUri);
 
         $key = '/context-path/http/methods';
-        $realUri = $uriMapping->realUri($key, 'GET');
+        $realUri = $uriMapping->realUri($key, HttpMethod::GET());
         self::assertNotEmpty($realUri);
         self::assertIsString($realUri);
         self::assertEquals('/module/controller/getAction', $realUri);
 
         $key = '/context-path/http/methods';
-        $realUri = $uriMapping->realUri($key, 'POST');
+        $realUri = $uriMapping->realUri($key, HttpMethod::POST());
         self::assertNotEmpty($realUri);
         self::assertIsString($realUri);
         self::assertEquals('/module/controller/postAction', $realUri);
 
         $key = '/context-path/http/methods';
-        $realUri = $uriMapping->realUri($key, 'PUT');
+        $realUri = $uriMapping->realUri($key, HttpMethod::PUT());
         self::assertNotEmpty($realUri);
         self::assertIsString($realUri);
         self::assertEquals('/module/controller/putAction', $realUri);
 
         $key = '/context-path/http/methods';
-        $realUri = $uriMapping->realUri($key, 'PATCH');
+        $realUri = $uriMapping->realUri($key, HttpMethod::PATCH());
         self::assertNotEmpty($realUri);
         self::assertIsString($realUri);
         self::assertEquals('/module/controller/patchAction', $realUri);
 
         $key = '/context-path/http/methods';
-        $realUri = $uriMapping->realUri($key, 'DELETE');
+        $realUri = $uriMapping->realUri($key, HttpMethod::DELETE());
         self::assertNotEmpty($realUri);
         self::assertIsString($realUri);
         self::assertEquals('/module/controller/deleteAction', $realUri);
 
         $key = '/context-path/entity/9';
-        $realUri = $uriMapping->realUri($key, 'DELETE');
+        $realUri = $uriMapping->realUri($key, HttpMethod::DELETE());
         self::assertNotEmpty($realUri);
         self::assertIsString($realUri);
         self::assertEquals('/moduleTest/controllerTest/actionTest/{id}', $realUri);

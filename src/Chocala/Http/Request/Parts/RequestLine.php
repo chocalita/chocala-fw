@@ -4,14 +4,15 @@ namespace Chocala\Http\Request\Parts;
 
 use Chocala\Base\IllegalArgumentException;
 use Chocala\Http\HttpMethod;
+use Chocala\Http\HttpMethodEnum;
 
 class RequestLine implements RequestLineInterface
 {
 
     /**
-     * @var string
+     * @var HttpMethodEnum
      */
-    private string $method;
+    private HttpMethodEnum $method;
 
     /**
      * @var string
@@ -25,24 +26,21 @@ class RequestLine implements RequestLineInterface
 
     /**
      * RequestLine constructor.
-     * @param string $method
+     * @param HttpMethodEnum $method
      * @param string $requestUri
      * @param string $httpVersion
      */
-    public function __construct(string $method, string $requestUri, string $httpVersion)
+    public function __construct(HttpMethodEnum $method, string $requestUri, string $httpVersion)
     {
-        if (!in_array($method, HttpMethod::METHODS)) {
-            throw new IllegalArgumentException(sprintf('Invalid \'%s\' method', $method));
-        }
         $this->method = $method;
         $this->requestUri = $requestUri;
         $this->httpVersion = $httpVersion;
     }
 
     /**
-     * @return string
+     * @return HttpMethodEnum
      */
-    public function method(): string
+    public function method(): HttpMethodEnum
     {
         return $this->method;
     }

@@ -3,7 +3,6 @@
 namespace Chocala\Http\Method;
 
 use Chocala\Base\IllegalArgumentException;
-use Chocala\Http\HttpMethod;
 use Chocala\Http\Request\CustomRequestDataTest;
 use Chocala\Http\Request\Parts\Fakes\FakeFormUrlencodedBody;
 use Chocala\Http\Request\Parts\Fakes\FakeJsonMessageBody;
@@ -83,13 +82,6 @@ class PutTest //extends CustomRequestContentTest
         $this->expectException(IllegalArgumentException::class);
         $this->expectExceptionMessageRegExp('/does not support \$_POST body/');
         new Put(new FakePostFormDataBody());
-    }
-
-    public function testName()
-    {
-        $put = $this->newObject();
-        self::assertIsObject($put);
-        self::assertEquals(HttpMethod::PUT, $put->name());
     }
 
     public function testQueryParams()

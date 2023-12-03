@@ -4,6 +4,7 @@ namespace Chocala\Http\Mapping;
 
 use Chocala\Base\IllegalArgumentException;
 use Chocala\Http\HttpMethod;
+use Chocala\Http\HttpMethodEnum;
 use Chocala\Http\Route\RoutesInterface;
 
 class UriMapping implements UriMappingInterface
@@ -27,16 +28,13 @@ class UriMapping implements UriMappingInterface
      * Find the real URI in uriMapping.routes configuration, if it's not defined return the same value
      *
      * @param string $uri
-     * @param string $method
+     * @param HttpMethodEnum $method
      * @return string
      */
-    public function realUri(string $uri, string $method): string
+    public function realUri(string $uri, HttpMethodEnum $method): string
     {
         if ($uri === '') {
             return $uri;
-        }
-        if (!in_array($method, HttpMethod::METHODS)) {
-            throw new IllegalArgumentException(sprintf('Invalid method \'%s\' ', $method));
         }
         $routes = $this->routes->routes();
         $patternRoutes = [];
@@ -48,7 +46,7 @@ class UriMapping implements UriMappingInterface
                     $foundRoute = $vRoute;
     //                if (is_array($vRoute)) {
     //                    foreach ($vRoute as $kMetho => $vURI) {
-    //                        if (strtoupper($kMethod) == $method) {
+    //                        if (strtoupper($kMethod) == $method->name()) {
     //                            return $vURI;
     //                        }
     //                    }
@@ -74,7 +72,7 @@ class UriMapping implements UriMappingInterface
         if ($foundRoute !== null) {
             if (is_array($foundRoute)) {
                 foreach ($foundRoute as $kMethod => $vURI) {
-                    if (strtoupper($kMethod) == $method) {
+                    if (strtoupper($kMethod) == $method->name()) {
                         return $vURI;
                     }
                 }

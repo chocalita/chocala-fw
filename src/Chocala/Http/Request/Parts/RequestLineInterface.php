@@ -2,13 +2,15 @@
 
 namespace Chocala\Http\Request\Parts;
 
+use Chocala\Http\HttpMethodEnum;
+
 interface RequestLineInterface
 {
 
     /**
-     * @return string
+     * @return HttpMethodEnum
      */
-    public function method(): string;
+    public function method(): HttpMethodEnum;
 
     /**
      * @return string

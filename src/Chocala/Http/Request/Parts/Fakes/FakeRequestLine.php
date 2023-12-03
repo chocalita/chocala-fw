@@ -3,17 +3,32 @@
 namespace Chocala\Http\Request\Parts\Fakes;
 
 use Chocala\Http\HttpMethod;
+use Chocala\Http\HttpMethodEnum;
+use Chocala\Http\Request\Parts\RequestLine;
 use Chocala\Http\Request\Parts\RequestLineInterface;
 
 class FakeRequestLine implements RequestLineInterface
 {
+    public const DEFAULT_REQUEST_URI = 'http://localhost:8081/api/vx/resource';
+    public const DEFAULT_HTTP_VERSION = 'HTTP/1.1';
+
+    private RequestLineInterface $requestLine;
+
+    public function __construct()
+    {
+        $this->requestLine = new RequestLine(
+            HttpMethod::POST(),
+            self::DEFAULT_REQUEST_URI,
+            self::DEFAULT_HTTP_VERSION
+        );
+    }
 
     /**
      * @inheritDoc
      */
-    public function method(): string
+    public function method(): HttpMethodEnum
     {
-        return HttpMethod::POST;
+        return $this->requestLine->method();
     }
 
     /**
@@ -21,7 +36,7 @@ class FakeRequestLine implements RequestLineInterface
      */
     public function requestUri(): string
     {
-        return 'http://localhost:8081/api/vx/resource';
+        return $this->requestLine->requestUri();
     }
 
     /**
@@ -29,7 +44,7 @@ class FakeRequestLine implements RequestLineInterface
      */
     public function httpVersion(): string
     {
-        return 'HTTP/1.1';
+        return $this->requestLine->httpVersion();
     }
 
 }
