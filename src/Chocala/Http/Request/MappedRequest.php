@@ -2,9 +2,10 @@
 
 namespace Chocala\Http\Request;
 
+use Chocala\Http\HeadersInterface;
 use Chocala\Http\Mapping\UriMappingInterface;
-use Chocala\Http\Request\Parts\HeadersInterface;
 use Chocala\Http\Request\Parts\RequestDataInterface;
+use Chocala\Http\Request\Parts\RequestHeadersInterface;
 use Chocala\Http\Request\Parts\RequestLine;
 use Chocala\Http\Request\Parts\RequestLineInterface;
 use Chocala\Http\RequestInterface;
@@ -54,9 +55,9 @@ class MappedRequest implements RequestInterface
     }
 
     /**
-     * @return HeadersInterface
+     * @return RequestHeadersInterface
      */
-    public function headers(): HeadersInterface
+    public function headers(): RequestHeadersInterface
     {
         return $this->originalRequest->headers();
     }

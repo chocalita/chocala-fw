@@ -1,6 +1,6 @@
 <?php
 
-namespace Chocala\Http\Request\Parts;
+namespace Chocala\Http;
 
 use Chocala\Base\IllegalArgumentException;
 use Chocala\Base\NotFoundException;
@@ -166,14 +166,6 @@ class Headers implements HeadersInterface
             array_merge(
                 array_merge(self::GENERAL_KEYS, self::ENTITY_KEYS),
                 array_merge(self::REQUEST_KEYS, self::RESPONSE_KEYS));
-        $this->headerTypes = [];
-        $this->upperHeaders = [];
-    }
-
-    private function __constructor(array $headersList, array $officialKeyList)
-    {
-        $this->headers = $headersList;
-        $this->officialKeyList = $officialKeyList;
         $this->headerTypes = [];
         $this->upperHeaders = [];
     }

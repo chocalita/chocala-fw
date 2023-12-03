@@ -2,10 +2,11 @@
 
 namespace Chocala\Http\Request\Parts;
 
+use ArgumentCountError;
 use Chocala\Base\IllegalArgumentException;
 use Chocala\Base\NotFoundException;
+use Chocala\Http\Headers;
 use PHPUnit\Framework\TestCase;
-use TypeError;
 
 class RequestHeadersTest extends TestCase
 {
@@ -13,12 +14,12 @@ class RequestHeadersTest extends TestCase
     /**
      * @var array
      */
-    private $defaultHeadersList;
+    private array $defaultHeadersList;
 
     /**
-     * @var Headers
+     * @var RequestHeaders Headers
      */
-    private $defaultRequestHeaders;
+    private RequestHeaders $defaultRequestHeaders;
 
     public function setUp()
     {
@@ -30,7 +31,8 @@ class RequestHeadersTest extends TestCase
     {
         $headers = new RequestHeaders($this->defaultHeadersList);
         self::assertIsObject($headers);
-        $this->expectException(TypeError::class);
+
+        $this->expectException(ArgumentCountError::class);
         new RequestHeaders();
     }
 
@@ -128,7 +130,7 @@ class RequestHeadersTest extends TestCase
         self::assertArrayHasKey('AGE', $headersType);
     }
 
-    private function customHeadersList()
+    private function customHeadersList() : array
     {
         $headersList = [
             // One header by type

@@ -1,11 +1,12 @@
 <?php
 
-namespace Chocala\Http\Request\Parts;
+namespace Chocala\Http\Response\Parts;
 
+use ArgumentCountError;
 use Chocala\Base\IllegalArgumentException;
 use Chocala\Base\NotFoundException;
+use Chocala\Http\Headers;
 use PHPUnit\Framework\TestCase;
-use TypeError;
 
 class ResponseHeadersTest extends TestCase
 {
@@ -13,12 +14,12 @@ class ResponseHeadersTest extends TestCase
     /**
      * @var array
      */
-    private $defaultHeadersList;
+    private array $defaultHeadersList;
 
     /**
-     * @var Headers
+     * @var ResponseHeaders
      */
-    private $defaultResponseHeaders;
+    private ResponseHeaders $defaultResponseHeaders;
 
     public function setUp()
     {
@@ -30,7 +31,8 @@ class ResponseHeadersTest extends TestCase
     {
         $headers = new ResponseHeaders($this->defaultHeadersList);
         self::assertIsObject($headers);
-        $this->expectException(TypeError::class);
+
+        $this->expectException(ArgumentCountError::class);
         new ResponseHeaders();
     }
 
@@ -128,7 +130,7 @@ class ResponseHeadersTest extends TestCase
         self::assertArrayHasKey('Accept-Charset', $headersType);
     }
 
-    private function customHeadersList()
+    private function customHeadersList(): array
     {
         $headersList = [
             // One header by type

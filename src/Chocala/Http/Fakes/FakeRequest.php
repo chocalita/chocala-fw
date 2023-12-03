@@ -2,10 +2,10 @@
 
 namespace Chocala\Http\Fakes;
 
-use Chocala\Http\Request\Parts\Fakes\FakeHeaders;
+use Chocala\Http\HeadersInterface;
+use Chocala\Http\Request\Parts\Fakes\FakeRequestHeaders;
 use Chocala\Http\Request\Parts\Fakes\FakeRequestData;
 use Chocala\Http\Request\Parts\Fakes\FakeRequestLine;
-use Chocala\Http\Request\Parts\HeadersInterface;
 use Chocala\Http\Request\Parts\RequestDataInterface;
 use Chocala\Http\Request\Parts\RequestLineInterface;
 use Chocala\Http\Request\Request;
@@ -21,7 +21,7 @@ class FakeRequest extends Request implements RequestInterface
     {
         parent::__construct(
             $fakeRequestLine?: new FakeRequestLine(),
-            $fakeHeaders?: new FakeHeaders(),
+            $fakeHeaders?: new FakeRequestHeaders(),
             $fakeRequestData?: new FakeRequestData()
         );
     }

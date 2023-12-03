@@ -3,23 +3,25 @@
 namespace Chocala\Http\Request\Parts;
 
 use Chocala\Base\IllegalArgumentException;
+use Chocala\Http\Headers;
+use Chocala\Http\HeadersInterface;
 
 /**
  * Class RequestHeader
- * @package Chocala\Http
+ * @package Chocala\Http\Request\Parts
  *
  *
  * In addition, CORS defines a subset of request headers as simple headers, request headers that are
  * always considered authorized and are not explicitly listed in responses to preflight requests.
  * https://developer.mozilla.org/en-US/docs/Glossary/CORS
  */
-class RequestHeaders implements HeadersInterface
+class RequestHeaders implements RequestHeadersInterface
 {
 
     /**
-     * @var Headers
+     * @var HeadersInterface
      */
-    private $headers;
+    private HeadersInterface $headers;
 
     public function __construct(array $headersList)
     {

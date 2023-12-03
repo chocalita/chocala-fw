@@ -2,10 +2,10 @@
 
 namespace Chocala\Http\Request\Parts\Fakes;
 
-use Chocala\Http\Request\Parts\Headers;
-use Chocala\Http\Request\Parts\HeadersInterface;
+use Chocala\Http\Headers;
+use Chocala\Http\Request\Parts\RequestHeadersInterface;
 
-class FakeHeaders implements HeadersInterface
+class FakeRequestHeaders implements RequestHeadersInterface
 {
 
     private Headers $header;

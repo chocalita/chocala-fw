@@ -6,7 +6,7 @@ use ArgumentCountError;
 use Chocala\Http\Fakes\FakeRequest;
 use Chocala\Http\Mapping\Fakes\FakeUriMapping;
 use Chocala\Http\Mapping\UriMapping;
-use Chocala\Http\Request\Parts\Fakes\FakeHeaders;
+use Chocala\Http\Request\Parts\Fakes\FakeRequestHeaders;
 use Chocala\Http\Request\Parts\Fakes\FakeRequestData;
 use Chocala\Http\Request\Parts\RequestLine;
 use Chocala\Http\RequestInterface;
@@ -18,9 +18,9 @@ class MappedRequestTest extends TestCase
 {
 
     /**
-     * @var FakeHeaders
+     * @var FakeRequestHeaders
      */
-    private FakeHeaders $fakeHeaders;
+    private FakeRequestHeaders $fakeHeaders;
 
     /**
      * @var FakeRequestData
@@ -39,7 +39,7 @@ class MappedRequestTest extends TestCase
 
     public function setUp()
     {
-        $this->fakeHeaders = new FakeHeaders();
+        $this->fakeHeaders = new FakeRequestHeaders();
         $this->fakeRequestData = new FakeRequestData();
         $this->defaultRoutes = new DefaultRoutes();
         $this->fakeRoutes = new FakeRoutes();

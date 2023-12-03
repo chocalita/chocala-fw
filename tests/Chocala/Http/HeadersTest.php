@@ -1,6 +1,6 @@
 <?php
 
-namespace Chocala\Http\Request\Parts;
+namespace Chocala\Http;
 
 use Chocala\Base\NotFoundException;
 use PHPUnit\Framework\TestCase;
@@ -12,12 +12,12 @@ class HeadersTest extends TestCase
     /**
      * @var array
      */
-    private $defaultHeadersList;
+    private array $defaultHeadersList;
 
     /**
      * @var Headers
      */
-    private $defaultHeaders;
+    private Headers $defaultHeaders;
 
     public function setUp()
     {
@@ -166,7 +166,7 @@ class HeadersTest extends TestCase
         self::assertArrayHasKey(Headers::ALLOW_KEY, $headersType);
     }
 
-    private function customHeadersList()
+    private function customHeadersList(): array
     {
         return [
             // One header by type

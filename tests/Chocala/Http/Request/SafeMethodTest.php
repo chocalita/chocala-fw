@@ -7,11 +7,15 @@ use Chocala\Http\Fakes\FakeHeaders;
 use Chocala\Http\Fakes\FakeMessageBody;
 use Chocala\Http\Fakes\FakeRequest;
 use Chocala\Http\Fakes\FakeRequestLine;
+use Chocala\Http\HeadersInterface;
+use Chocala\Http\Request\Parts\Fakes\FakeRequestData;
 use Chocala\Http\Request\Parts\Fakes\FakeRequestDataNoBody;
-use Chocala\Http\Request\Parts\HeadersInterface;
+use Chocala\Http\Request\Parts\Fakes\FakeRequestHeaders;
 use Chocala\Http\Request\Parts\RequestDataInterface;
 use Chocala\Http\Request\Parts\RequestDataNoBody;
+use Chocala\Http\Request\Parts\RequestHeadersInterface;
 use Chocala\Http\Request\Parts\RequestLineInterface;
+use Chocala\Http\RequestInterface;
 use PHPUnit\Framework\TestCase;
 
 class SafeMethodTest extends TestCase
@@ -36,7 +40,7 @@ class SafeMethodTest extends TestCase
     {
         $this->baseFakeRequest = new FakeRequest(
             new Parts\Fakes\FakeRequestLine(),
-            new Parts\Fakes\FakeHeaders(),
+            new Parts\Fakes\FakeRequestHeaders(),
             new FakeRequestDataNoBody()
         );
         $this->defaultSafeMethod = new SafeMethod($this->baseFakeRequest);
@@ -82,14 +86,14 @@ class SafeMethodTest extends TestCase
                 return new FakeRequestLine();
             }
 
-            public function headers(): HeadersInterface
+            public function headers(): RequestHeadersInterface
             {
-                return new FakeHeaders();
+                return new FakeRequestHeaders();
             }
 
-            public function messageBody(): MessageBodyInterface
+            public function requestData(): RequestDataInterface
             {
-                return new FakeMessageBody();
+                return new FakeRequestData();
             }
         };
         return new $request();

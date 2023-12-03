@@ -1,6 +1,6 @@
 <?php
 
-namespace Chocala\Http\Request\Parts;
+namespace Chocala\Http;
 
 interface HeadersInterface
 {

@@ -1,16 +1,18 @@
 <?php
 
-namespace Chocala\Http\Request\Parts;
+namespace Chocala\Http\Response\Parts;
 
 use Chocala\Base\IllegalArgumentException;
+use Chocala\Http\Headers;
+use Chocala\Http\HeadersInterface;
 
-class ResponseHeaders implements HeadersInterface
+class ResponseHeaders implements ResponseHeadersInterface
 {
 
     /**
-     * @var Headers
+     * @var HeadersInterface
      */
-    private $headers;
+    private HeadersInterface $headers;
 
     public function __construct(array $headersList)
     {
