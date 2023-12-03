@@ -3,14 +3,12 @@
 namespace Chocala\Http\Request;
 
 use Chocala\Base\UnsupportedOperationException;
-use Chocala\Http\Fakes\FakeHeaders;
-use Chocala\Http\Fakes\FakeMessageBody;
 use Chocala\Http\Fakes\FakeRequest;
-use Chocala\Http\Fakes\FakeRequestLine;
 use Chocala\Http\HeadersInterface;
 use Chocala\Http\Request\Parts\Fakes\FakeRequestData;
 use Chocala\Http\Request\Parts\Fakes\FakeRequestDataNoBody;
 use Chocala\Http\Request\Parts\Fakes\FakeRequestHeaders;
+use Chocala\Http\Request\Parts\Fakes\FakeRequestLine;
 use Chocala\Http\Request\Parts\RequestDataInterface;
 use Chocala\Http\Request\Parts\RequestDataNoBody;
 use Chocala\Http\Request\Parts\RequestHeadersInterface;
