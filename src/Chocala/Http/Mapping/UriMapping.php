@@ -2,8 +2,6 @@
 
 namespace Chocala\Http\Mapping;
 
-use Chocala\Base\IllegalArgumentException;
-use Chocala\Http\HttpMethod;
 use Chocala\Http\HttpMethodEnum;
 use Chocala\Http\Route\RoutesInterface;
 

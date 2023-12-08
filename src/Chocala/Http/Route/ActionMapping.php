@@ -5,11 +5,12 @@ namespace Chocala\Http\Route;
 use Chocala\Base\DuplicateElementException;
 use Chocala\Http\Mapping\ActionMapInterface;
 use Chocala\Http\Mapping\PatternMap;
+use Exception;
 
 class ActionMapping implements ActionMappingInterface
 {
 
-    private $patternMap;
+    private const VALUES_CHARSET = '([-_0-9a-zA-Z]+)?';
 
     public function __construct(RoutesInterface $routes)
     {
@@ -19,7 +20,8 @@ class ActionMapping implements ActionMappingInterface
     /**
      * @param string $uri
      * @return ActionMapInterface
-     * @throws \Exception
+     * @throws DuplicateElementException
+     * @throws Exception
      */
     public function actionMap(string $uri): ActionMapInterface
     {
@@ -39,7 +41,7 @@ class ActionMapping implements ActionMappingInterface
 
             $t = preg_match_all('/^' . $pattern . '/i', $uri, $out, PREG_PATTERN_ORDER);
             if (!$t) {
-                throw new \Exception("Mapping is wrong (default mapping)");
+                throw new Exception("Mapping is wrong (default mapping)");
             }
 
             $patternMapIndexes = array_flip($patternMap->map());
@@ -62,7 +64,7 @@ class ActionMapping implements ActionMappingInterface
      *
      * @param string $uri
      * @return mixed|string
-     * @throws \Exception
+     * @throws DuplicateElementException
      */
     private function matchCase(string $uri)
     {

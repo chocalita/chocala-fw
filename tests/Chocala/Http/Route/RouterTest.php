@@ -23,7 +23,7 @@ class RouterTest extends TestCase
         self::assertIsObject($router);
         self::assertEquals($realRoute, $router->realUri());
     }
-
+/*
     public function testRouteRandomURI()
     {
         $routes = new DefaultRoutes();
@@ -33,6 +33,9 @@ class RouterTest extends TestCase
         self::assertEquals($key, $router->realUri());
     }*/
 
+    /**
+     * @throws \Exception
+     */
     public function testRoutesCustomClass()
     {
         $routes = $this->fakeRoutes;
@@ -112,7 +115,7 @@ class RouterTest extends TestCase
         $key = '/context-path/http/methods';
         $router = new Router($routes, $key, 'POST');
         self::assertIsObject($router);
-//        self::assertEquals('/module/controller/postAction', $router->realUri());
+        //self::assertEquals('/module/controller/postAction', $router->realUri());
 
         $actionMap = $router->resolvedUri();
         self::assertEquals('module', $actionMap->module());

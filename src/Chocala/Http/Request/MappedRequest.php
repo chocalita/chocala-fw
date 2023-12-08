@@ -2,7 +2,6 @@
 
 namespace Chocala\Http\Request;
 
-use Chocala\Http\HeadersInterface;
 use Chocala\Http\Mapping\UriMappingInterface;
 use Chocala\Http\Request\Parts\RequestDataInterface;
 use Chocala\Http\Request\Parts\RequestHeadersInterface;

@@ -2,10 +2,8 @@
 
 namespace Chocala\Http\Control;
 
-use Chocala\Http\Mapping\UriMappingInterface;
 use Chocala\Http\RequestInterface;
 use Chocala\Http\ResponseInterface;
-use Chocala\Http\Route\ActionMapping;
 use Chocala\Http\Route\ActionMappingInterface;
 use Chocala\Http\ServerInterface;
 

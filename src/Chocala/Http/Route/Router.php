@@ -5,6 +5,7 @@ namespace Chocala\Http\Route;
 use Chocala\Base\DuplicateElementException;
 use Chocala\Http\Mapping\ActionMap;
 use Chocala\Http\Mapping\PatternMap;
+use Exception;
 
 class Router
 {
@@ -36,7 +37,8 @@ class Router
 
     /**
      * @return ActionMap|null
-     * @throws \Exception
+     * @throws DuplicateElementException
+     * @throws Exception
      */
     public function resolvedUri() : ?ActionMap
     {
@@ -57,7 +59,7 @@ class Router
 
             $t = preg_match_all('/^' . $pattern . '/i', $uri, $out, PREG_PATTERN_ORDER);
             if (!$t) {
-                throw new \Exception("Mapping is wrong (default mapping)");
+                throw new Exception("Mapping is wrong (default mapping)");
             }
 
             $patternMapIndexes = array_flip($patternMap->map());
@@ -69,8 +71,7 @@ class Router
             $id = $out[$patternMapIndexes[PatternMap::ID]][0];
             $params = [];
 
-            $actionMap = new ActionMap($module, $controller, $action, $id, $params);
-            return $actionMap;
+            return new ActionMap($module, $controller, $action, $id, $params);
         } else {
             $kMatched = array_key_first($matchCase);
             $vMatched = $matchCase[$kMatched];
@@ -113,7 +114,7 @@ class Router
      *
      * @param string $uri
      * @return mixed|string
-     * @throws \Exception
+     * @throws DuplicateElementException
      */
     private function matchCase(string $uri)
     {

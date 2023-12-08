@@ -2,7 +2,6 @@
 
 namespace Chocala\Http\Mapping;
 
-use Chocala\Base\IllegalArgumentException;
 use Chocala\Http\Route\DefaultRoutes;
 use Chocala\Http\Route\Fakes\FakeRoutes;
 use PHPUnit\Framework\TestCase;

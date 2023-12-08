@@ -18,8 +18,7 @@ define('VALIDATION_EXCEPTION', 46);
  *
  * @author ypra
  */
-class
-ChocalaException extends \LogicException
+class ChocalaException extends \LogicException
 {
 
     /**
