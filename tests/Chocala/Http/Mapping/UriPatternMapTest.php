@@ -12,7 +12,7 @@ class UriPatternMapTest extends TestCase
     /**
      * @var DefaultRoutes
      */
-    private $defaultRoutes;
+    private DefaultRoutes $defaultRoutes;
 
     /**
      * @var FakeRoutes

@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 class SingletonizedTest extends TestCase
 {
 
-    private $objectName;
+    private string $objectName;
     private $objectTime;
 
     public function setUp()

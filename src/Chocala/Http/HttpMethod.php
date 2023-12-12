@@ -37,7 +37,6 @@ abstract class HttpMethod implements HttpMethodEnum
     {
         return new class extends HttpMethod
         {
-
             protected string $name = 'POST';
             protected bool $isSafe = false;
         };

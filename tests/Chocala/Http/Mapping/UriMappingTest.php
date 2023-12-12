@@ -14,12 +14,12 @@ class UriMappingTest extends TestCase
     /**
      * @var DefaultRoutes
      */
-    private $defaultRoutes;
+    private DefaultRoutes $defaultRoutes;
 
     /**
      * @var FakeRoutes
      */
-    private $fakeRoutes;
+    private FakeRoutes $fakeRoutes;
 
     public function setUp()
     {

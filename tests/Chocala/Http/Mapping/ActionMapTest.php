@@ -13,9 +13,11 @@ class ActionMapTest extends TestCase
     private int $id = 1000;
     private array $params = ['paramA', 'paramB'];
 
-    public function testCreations()
+    public function test__construct()
     {
         $actionMap3 = new ActionMap($this->module, $this->controller, $this->action);
+        self::assertIsObject($actionMap3);
+        self::assertInstanceOf(ActionMap::class, $actionMap3);
         self::assertEquals($this->module, $actionMap3->module());
         self::assertEquals($this->controller, $actionMap3->controller());
         self::assertEquals($this->action, $actionMap3->action());
@@ -23,6 +25,8 @@ class ActionMapTest extends TestCase
         self::assertEmpty($actionMap3->params());
 
         $actionMap4 = new ActionMap($this->module, $this->controller, $this->action, $this->params);
+        self::assertIsObject($actionMap4);
+        self::assertInstanceOf(ActionMap::class, $actionMap4);
         self::assertEquals($this->module, $actionMap4->module());
         self::assertEquals($this->controller, $actionMap4->controller());
         self::assertEquals($this->action, $actionMap4->action());
@@ -31,6 +35,8 @@ class ActionMapTest extends TestCase
         self::assertCount(2, $actionMap4->params());
 
         $actionMap5 = new ActionMap($this->module, $this->controller, $this->action, $this->id, $this->params);
+        self::assertIsObject($actionMap5);
+        self::assertInstanceOf(ActionMap::class, $actionMap5);
         self::assertEquals($this->module, $actionMap5->module());
         self::assertEquals($this->controller, $actionMap5->controller());
         self::assertEquals($this->action, $actionMap5->action());

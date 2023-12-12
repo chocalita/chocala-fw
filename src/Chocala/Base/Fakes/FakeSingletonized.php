@@ -8,7 +8,7 @@ class FakeSingletonized
 {
     use Singletonized;
 
-    public $name;
+    public string $name;
 
     public $time;
 

@@ -5,7 +5,7 @@ namespace Chocala\Base;
 class ObjectResources implements ObjectResourcesInterface
 {
 
-    private $resources;
+    private array $resources;
 
     public function __construct()
     {

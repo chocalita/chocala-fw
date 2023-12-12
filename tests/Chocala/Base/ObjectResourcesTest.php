@@ -97,7 +97,7 @@ class ObjectResourcesTest extends TestCase
     /**
      * @return ObjectResources
      */
-    private function initializedObject()
+    private function initializedObject(): ObjectResources
     {
         $objectResources = new ObjectResources();
         $objectResources->register('Var-1', new \ArrayIterator());
