@@ -25,6 +25,9 @@ class ContentType
     /* JSON contents */
     const APPLICATION_JSON = 'application/json';
 
+    /* It's just a non-standard way of restating "octet-stream" */
+    const APPLICATION_BINARY = 'application/binary';
+
     /* Strict type for binary date, include to downloads */
     const APPLICATION_OCTET_STREAM = 'application/octet-stream';
 
@@ -65,7 +68,7 @@ class ContentType
     const TEXT_HTML = 'text/html';
 
     /* Mixed files and attachments */
-    const TYPE_MIXED = 'multipart/mixed';
+    const MULTIPART_MIXED = 'multipart/mixed';
 
     /* Rich Text files */
     const TEXT_RICHTEXT = 'text/richtext';

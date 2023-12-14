@@ -24,6 +24,13 @@ use PHPUnit\Framework\TestCase;
 class MessageBodiesTest extends TestCase
 {
 
+    private MessageBodies $messageBodies;
+
+    public function setUp()
+    {
+        $this->messageBodies = new MessageBodies();
+    }
+
     public function test__construct()
     {
         $object = new MessageBodies();
@@ -40,14 +47,12 @@ class MessageBodiesTest extends TestCase
 
     public function testMakeFormDataBody()
     {
-        $messageBodies = new MessageBodies();
-
         $headers = [
             Headers::CONTENT_TYPE_KEY => ContentType::MULTIPART_FORM_DATA
         ];
 
         $_POST = FakeFormDataBody::ARRAY_DATA;
-        $formDataBody = $messageBodies->make(HttpMethod::POST(), $headers, new FakeInputStream(''));
+        $formDataBody = $this->messageBodies->make(HttpMethod::POST(), $headers, new FakeInputStream(''));
         self::assertNotNull($formDataBody);
         self::assertIsObject($formDataBody);
         self::assertInstanceOf(FormDataBody::class, $formDataBody);
@@ -59,7 +64,7 @@ class MessageBodiesTest extends TestCase
             Headers::CONTENT_TYPE_KEY => $contentType
         ];
 
-        $formDataBody = $messageBodies->make(HttpMethod::PUT(), $headers, new FakeInputStream($rawData));
+        $formDataBody = $this->messageBodies->make(HttpMethod::PUT(), $headers, new FakeInputStream($rawData));
         self::assertIsObject($formDataBody);
         self::assertNotNull($formDataBody);
         self::assertIsObject($formDataBody);
@@ -68,99 +73,129 @@ class MessageBodiesTest extends TestCase
         self::assertInstanceOf(RawFormDataBody::class, $formDataBody);
 
         $this->expectException(IllegalArgumentException::class);
-        $messageBodies->make(HttpMethod::PUT(), $headers, new FakeInputStream('some body'));
-    }
-
-    public function testMakeXml()
-    {
-        $messageBodies = new MessageBodies();
-
-        $headers = [
-            Headers::CONTENT_TYPE_KEY => ContentType::APPLICATION_XML
-        ];
-
-        $this->expectException(UnsupportedOperationException::class);
-        $messageBodies->make(HttpMethod::PATCH(), $headers, new FakeInputStream('some content'));
+        $this->messageBodies->make(HttpMethod::PUT(), $headers, new FakeInputStream('some body'));
     }
 
     public function testMakeTextPlain()
     {
-        $messageBodies = new MessageBodies();
-
         $headers = [
             Headers::CONTENT_TYPE_KEY => ContentType::TEXT_PLAIN
         ];
 
-        $textHtmlBody = $messageBodies->make(HttpMethod::PATCH(), $headers, new FakeInputStream('<h1>54</h1>'));
+        $textHtmlBody = $this->messageBodies->make(HttpMethod::PATCH(), $headers, new FakeInputStream('<h1>54</h1>'));
         self::assertNotNull($textHtmlBody);
         self::assertIsObject($textHtmlBody);
         self::assertInstanceOf(MessageBodyInterface::class, $textHtmlBody);
         self::assertInstanceOf(MessageBody::class, $textHtmlBody);
 
         $this->expectException(\InvalidArgumentException::class);
-        $messageBodies->make(HttpMethod::PATCH(), $headers, new FakeInputStream(null));
+        $this->messageBodies->make(HttpMethod::PATCH(), $headers, new FakeInputStream(null));
     }
 
     public function testMakeTextHtmlBody()
     {
-        $messageBodies = new MessageBodies();
-
         $headers = [
             Headers::CONTENT_TYPE_KEY => ContentType::TEXT_HTML
         ];
 
-        $textHtmlBody = $messageBodies->make(HttpMethod::PATCH(), $headers, new FakeInputStream('<h1>54</h1>'));
+        $textHtmlBody = $this->messageBodies->make(HttpMethod::PATCH(), $headers, new FakeInputStream('<h1>54</h1>'));
         self::assertNotNull($textHtmlBody);
         self::assertIsObject($textHtmlBody);
         self::assertInstanceOf(MessageBodyInterface::class, $textHtmlBody);
         self::assertInstanceOf(TextHtmlBody::class, $textHtmlBody);
 
         $this->expectException(IllegalArgumentException::class);
-        $messageBodies->make(HttpMethod::PATCH(), $headers, new FakeInputStream('< NO HTML</h1>'));
+        $this->messageBodies->make(HttpMethod::PATCH(), $headers, new FakeInputStream('< NO HTML</h1>'));
     }
 
     public function testJsonMessageBody()
     {
-        $messageBodies = new MessageBodies();
-
         $headers = [
             Headers::CONTENT_TYPE_KEY => ContentType::APPLICATION_JSON
         ];
 
-        $jsonMessageBody = $messageBodies->make(HttpMethod::PATCH(), $headers, new FakeInputStream(''));
+        $jsonMessageBody = $this->messageBodies->make(HttpMethod::PATCH(), $headers, new FakeInputStream(''));
         self::assertNotNull($jsonMessageBody);
         self::assertIsObject($jsonMessageBody);
         self::assertInstanceOf(MessageBodyInterface::class, $jsonMessageBody);
         self::assertInstanceOf(JsonMessageBody::class, $jsonMessageBody);
 
         $this->expectException(IllegalArgumentException::class);
-        $messageBodies->make(HttpMethod::PATCH(), $headers, new FakeInputStream('NO JSON'));
+        $this->messageBodies->make(HttpMethod::PATCH(), $headers, new FakeInputStream('NO JSON'));
     }
 
     public function testFormUrlencodedBody($headers = null)
     {
-        $messageBodies = new MessageBodies();
-
         if ($headers == null) {
             $headers = [
                 Headers::CONTENT_TYPE_KEY => ContentType::APPLICATION_FORM_URLENCODED
             ];
         }
 
-        $jsonMessageBody = $messageBodies->make(HttpMethod::PATCH(), $headers, new FakeInputStream(''));
+        $jsonMessageBody = $this->messageBodies->make(HttpMethod::PATCH(), $headers, new FakeInputStream(''));
         self::assertNotNull($jsonMessageBody);
         self::assertIsObject($jsonMessageBody);
         self::assertInstanceOf(MessageBodyInterface::class, $jsonMessageBody);
         self::assertInstanceOf(FormUrlencodedBody::class, $jsonMessageBody);
 
         $this->expectException(IllegalArgumentException::class);
-        $messageBodies->make(HttpMethod::PATCH(), $headers, new FakeInputStream('NO DATA'));
+        $this->messageBodies->make(HttpMethod::PATCH(), $headers, new FakeInputStream('NO DATA'));
     }
 
     public function testDefaultHeader()
     {
         // testing default case without header content type, this returns and tests a FormUrlencodedBody
         $this->testFormUrlencodedBody([]);
+    }
+
+    public function testMakeXml()
+    {
+        $headers = [
+            Headers::CONTENT_TYPE_KEY => ContentType::APPLICATION_XML
+        ];
+
+        $this->expectException(UnsupportedOperationException::class);
+        $this->messageBodies->make(HttpMethod::PATCH(), $headers, new FakeInputStream('some content'));
+    }
+
+    public function testMultipartMixed()
+    {
+        $headers = [
+            Headers::CONTENT_TYPE_KEY => ContentType::MULTIPART_MIXED
+        ];
+
+        $this->expectException(UnsupportedOperationException::class);
+        $this->messageBodies->make(HttpMethod::PATCH(), $headers, new FakeInputStream('some content'));
+    }
+
+    public function testMultipartAlternative()
+    {
+        $headers = [
+            Headers::CONTENT_TYPE_KEY => ContentType::MULTIPART_ALTERNATIVE
+        ];
+
+        $this->expectException(UnsupportedOperationException::class);
+        $this->messageBodies->make(HttpMethod::PATCH(), $headers, new FakeInputStream('some content'));
+    }
+
+    public function testBinary()
+    {
+        $headers = [
+            Headers::CONTENT_TYPE_KEY => ContentType::APPLICATION_BINARY
+        ];
+
+        $this->expectException(UnsupportedOperationException::class);
+        $this->messageBodies->make(HttpMethod::PATCH(), $headers, new FakeInputStream('some content'));
+    }
+
+    public function testOctetStream()
+    {
+        $headers = [
+            Headers::CONTENT_TYPE_KEY => ContentType::APPLICATION_OCTET_STREAM
+        ];
+
+        $this->expectException(UnsupportedOperationException::class);
+        $this->messageBodies->make(HttpMethod::PATCH(), $headers, new FakeInputStream('some content'));
     }
 
 }

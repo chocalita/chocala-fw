@@ -34,14 +34,21 @@ class MessageBodies
                 // TODO: move InputStream->content inside RawFormDataBody class
                 return new RawFormDataBody($contentType, $inputStream->content());
             }
-        } elseif ($contentType == ContentType::APPLICATION_XML) {
-            throw new UnsupportedOperationException(ContentType::APPLICATION_XML . ' is not supported yet');
         } elseif ($contentType == ContentType::TEXT_PLAIN) {
             return new MessageBody(ContentType::TEXT_PLAIN, $inputStream->content());
         } elseif ($contentType == ContentType::TEXT_HTML) {
             return new TextHtmlBody($inputStream->content());
         } elseif ($contentType == ContentType::APPLICATION_JSON) {
             return new JsonMessageBody($inputStream->content());
+        } elseif ($contentType == ContentType::APPLICATION_XML) {
+            throw new UnsupportedOperationException(ContentType::APPLICATION_XML . ' is not supported yet');
+        } elseif ($contentType == ContentType::MULTIPART_MIXED) {
+            throw new UnsupportedOperationException(ContentType::MULTIPART_MIXED . ' is not supported yet');
+        } elseif ($contentType == ContentType::MULTIPART_ALTERNATIVE) {
+            throw new UnsupportedOperationException(ContentType::MULTIPART_ALTERNATIVE . ' is not supported yet');
+        } elseif ($contentType == ContentType::APPLICATION_BINARY ||
+            $contentType == ContentType::APPLICATION_OCTET_STREAM) {
+            throw new UnsupportedOperationException(ContentType::APPLICATION_OCTET_STREAM . ' is not supported yet');
         } else {
             // 'application/x-www-form-urlencoded' This is the default content type
             $contentType = ContentType::APPLICATION_FORM_URLENCODED;

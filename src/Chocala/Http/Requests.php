@@ -26,19 +26,18 @@ class Requests
     {
         $httpMethod = (new HttpMethods())->make($this->serverVars['REQUEST_METHOD']);
 
+        $headers = new RequestHeaders(getallheaders());
+
         $requestLine = new RequestLine(
             $httpMethod,
             $this->serverVars['REQUEST_URI'],
             $this->serverVars['SERVER_PROTOCOL']
         );
 
-        $headers = new RequestHeaders(getallheaders());
-
-        //$contentType = $headers->header(Headers::CONTENT_TYPE_KEY);
 
         $messageBody = (new MessageBodies())->make(
             $httpMethod,
-            $headers,
+            $headers->headerList(),
             new InputStream()
         );
 
