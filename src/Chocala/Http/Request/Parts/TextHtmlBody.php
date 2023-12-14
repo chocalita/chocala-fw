@@ -21,7 +21,7 @@ class TextHtmlBody implements MessageBodyInterface
      */
     public function __construct(?string $body)
     {
-        $body = is_null($body) ? '' : (is_string($body) ? trim($body) : $body);
+        $body = is_null($body) ? '' : trim($body);
         if (!empty($body) && !preg_match(self::HTML_TAG_PATTERN, $body)) {
             throw new IllegalArgumentException('Invalid text html body');
         }

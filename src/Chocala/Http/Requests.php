@@ -2,7 +2,12 @@
 
 namespace Chocala\Http;
 
+use Chocala\Http\IO\InputStream;
+use Chocala\Http\Request\Parts\MessageBodies;
+use Chocala\Http\Request\Parts\QueryParams;
 use Chocala\Http\Request\Parts\RequestDataNoBody;
+use Chocala\Http\Request\Parts\RequestDatas;
+use Chocala\Http\Request\Parts\RequestHeaders;
 use Chocala\Http\Request\Request;
 
 class Requests
@@ -29,15 +34,19 @@ class Requests
 
         $headers = new RequestHeaders(getallheaders());
 
-        if ($httpMethod->isSafe()) {
-            $requestData = new RequestDataNoBody(
+        //$contentType = $headers->header(Headers::CONTENT_TYPE_KEY);
 
-            );
-        }  else {
-            $requestData = new FakeRequestData(
+        $messageBody = (new MessageBodies())->make(
+            $httpMethod,
+            $headers,
+            new InputStream()
+        );
 
-            );
-        }
+        $requestData = (new RequestDatas())->make(
+            $httpMethod,
+            new QueryParams(),
+            $messageBody
+        );
 
         return new Request(
             $requestLine,

@@ -4,18 +4,21 @@ namespace Chocala\Http\Request\Parts;
 
 use Chocala\Base\IllegalArgumentException;
 
+/**
+ *
+ */
 class RawFormDataBody extends FormDataBody implements MessageBodyInterface
 {
 
     /**
-     * @param string $contentType - Request header 'Content-Type' , contains a boundary key that should be
+     * @param string $contentTypeBoundary - Request header 'Content-Type' , contains a boundary key that should be
      * present in the 'rawData' too
      * @param string $rawData - Request message body content that arrives with multipart/form-data
      */
-    public function __construct(string $contentType, string $rawData)
+    public function __construct(string $contentTypeBoundary, string $rawData)
     {
         parent::__construct(
-            $this->parseData($contentType, $rawData)
+            $this->parseData($contentTypeBoundary, $rawData)
         );
     }
 
@@ -30,17 +33,17 @@ class RawFormDataBody extends FormDataBody implements MessageBodyInterface
     /**
      * Parse method based in this strategy: https://stackoverflow.com/a/72747444
      *
-     * @param string $contentType
+     * @param string $contentTypeBoundary
      * @param string $rawData
      * @return array
      */
-    private function parseData(string $contentType, string $rawData) : array
+    private function parseData(string $contentTypeBoundary, string $rawData) : array
     {
-        if (preg_match('/^multipart\/form-data; boundary=.*$/ui', $contentType) !== 1) {
+        if (preg_match('/^multipart\/form-data; boundary=.*$/ui', $contentTypeBoundary) !== 1) {
             throw new IllegalArgumentException('Invalid multipart/form-data, Content-Type is not matching with the required.');
         }
         #Get boundary value
-        $boundary = preg_replace('/(^multipart\/form-data; boundary=)(.*$)/ui', '$2', $contentType);
+        $boundary = preg_replace('/(^multipart\/form-data; boundary=)(.*$)/ui', '$2', $contentTypeBoundary);
         #Exit if failed to get the input or if it's not compliant with the RFC2046
         if (trim($rawData) !== '' && preg_match('/^\s*--'.$boundary.'.*\s*--'.$boundary.'--\s*$/muis', $rawData) !== 1) {
             throw new IllegalArgumentException('Invalid multipart/form-data raw data');

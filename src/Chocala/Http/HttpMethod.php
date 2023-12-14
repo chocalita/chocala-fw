@@ -13,6 +13,11 @@ abstract class HttpMethod implements HttpMethodEnum
         return $this->name;
     }
 
+    final public function equals(HttpMethodEnum $value): bool
+    {
+        return $this->name === $value->name();
+    }
+
     final public function isSafe(): bool
     {
         return $this->isSafe;

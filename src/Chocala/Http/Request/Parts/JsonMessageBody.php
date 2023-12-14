@@ -16,6 +16,7 @@ class JsonMessageBody implements MessageBodyInterface
     /**
      * JsonMessageBody constructor.
      * @param $body mixed
+     * @throws IllegalArgumentException
      */
     public function __construct(?string $body)
     {

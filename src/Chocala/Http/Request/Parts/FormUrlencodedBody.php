@@ -15,9 +15,9 @@ class FormUrlencodedBody implements MessageBodyInterface
 
     /**
      * FormUrlencodedData constructor.
-     * @param $body mixed
+     * @param string|null $body
      */
-    public function __construct($body)
+    public function __construct(?string $body)
     {
         $body = is_null($body) ? '' : $body;
         if (!is_string($body) || (trim($body) !== '' && strpos($body, '=') === false)) {

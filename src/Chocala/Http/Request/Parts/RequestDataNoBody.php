@@ -4,6 +4,7 @@ namespace Chocala\Http\Request\Parts;
 
 use Chocala\Base\UnsupportedOperationException;
 use Exception;
+use InvalidArgumentException;
 
 /**
  * Description of Get
@@ -15,29 +16,8 @@ class RequestDataNoBody implements RequestDataInterface
     use RequestDataTrait;
 
     /**
-     * Represents a unique instance for the class in the system
-     * @deprecated Deprecated since version 3.0
-     * @var RequestDataNoBody|null
+     * @throws InvalidArgumentException
      */
-    private static ?RequestDataNoBody $instance = null;
-
-    /**
-     * A single class instance from this
-     * @return RequestDataNoBody
-     *@deprecated Deprecated since version 3.0
-     */
-    public static function instance(): RequestDataNoBody
-    {
-        if (!is_object(static::$instance)) {
-            static::$instance = new self();
-        }
-        return static::$instance;
-    }
-
-    /**
-     * @throws Exception
-     */
-
     public function __construct()
     {
         $get_arguments = func_get_args();
@@ -45,7 +25,7 @@ class RequestDataNoBody implements RequestDataInterface
         if (method_exists($this, $method_name = '__construct' . $number_of_arguments)) {
             call_user_func_array([$this, $method_name], $get_arguments);
         } else {
-            throw new \InvalidArgumentException('Invalid number of arguments to create object ' . __CLASS__);
+            throw new InvalidArgumentException('Invalid number of arguments to create object ' . __CLASS__);
         }
     }
 
