@@ -4,6 +4,7 @@ namespace Chocala\Http\Request\Parts;
 
 use Chocala\Base\IllegalArgumentException;
 use Chocala\Base\UnsupportedOperationException;
+use Chocala\Http\Headers;
 use Chocala\Http\HttpMethodEnum;
 use Chocala\Http\IO\InputStream;
 use InvalidArgumentException;
@@ -31,9 +32,10 @@ class RequestDatas
         if ($httpMethod->isSafe()) {
             return new RequestDataNoBody($queryParams);
         } else {
+            $contentType = $headers->header(Headers::CONTENT_TYPE_KEY);
             $messageBody = (new MessageBodies())->make(
                 $httpMethod,
-                $headers->header(Headers::CONTENT_TYPE_KEY),
+                $contentType,
                 new InputStream()
             );
             return new RequestData($queryParams, $messageBody);

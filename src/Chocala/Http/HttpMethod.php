@@ -13,14 +13,14 @@ abstract class HttpMethod implements HttpMethodEnum
         return $this->name;
     }
 
-    final public function equals(HttpMethodEnum $value): bool
-    {
-        return $this->name === $value->name();
-    }
-
     final public function isSafe(): bool
     {
         return $this->isSafe;
+    }
+
+    final public function equals(HttpMethodEnum $value): bool
+    {
+        return $this->name === $value->name();
     }
 
     final public function __toString()
@@ -28,6 +28,21 @@ abstract class HttpMethod implements HttpMethodEnum
         return $this->name;
     }
 
+
+    public static function all(): array
+    {
+        return [
+            self::GET(),
+            self::POST(),
+            self::PUT(),
+            self::PATCH(),
+            self::DELETE(),
+            self::OPTIONS(),
+            self::HEAD(),
+            self::CONNECT(),
+            self::TRACE()
+        ];
+    }
 
     public static function GET(): HttpMethod
     {

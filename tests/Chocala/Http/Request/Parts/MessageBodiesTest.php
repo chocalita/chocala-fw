@@ -37,6 +37,10 @@ class MessageBodiesTest extends TestCase
         self::assertNotNull($object);
         self::assertIsObject($object);
         self::assertInstanceOf(MessageBodies::class, $object);
+
+        self::assertNotNull($this->messageBodies);
+        self::assertIsObject($this->messageBodies);
+        self::assertInstanceOf(MessageBodies::class, $this->messageBodies);
     }
 
     public function testMake()
