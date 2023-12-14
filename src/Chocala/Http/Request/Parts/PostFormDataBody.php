@@ -8,6 +8,9 @@ use InvalidArgumentException;
 class PostFormDataBody extends FormDataBody implements MessageBodyInterface
 {
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function __construct()
     {
         if (func_num_args() > 0) {

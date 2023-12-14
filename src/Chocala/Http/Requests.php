@@ -2,10 +2,7 @@
 
 namespace Chocala\Http;
 
-use Chocala\Http\IO\InputStream;
-use Chocala\Http\Request\Parts\MessageBodies;
 use Chocala\Http\Request\Parts\QueryParams;
-use Chocala\Http\Request\Parts\RequestDataNoBody;
 use Chocala\Http\Request\Parts\RequestDatas;
 use Chocala\Http\Request\Parts\RequestHeaders;
 use Chocala\Http\Request\Request;
@@ -26,30 +23,23 @@ class Requests
     {
         $httpMethod = (new HttpMethods())->make($this->serverVars['REQUEST_METHOD']);
 
-        $headers = new RequestHeaders(getallheaders());
-
         $requestLine = new RequestLine(
             $httpMethod,
             $this->serverVars['REQUEST_URI'],
             $this->serverVars['SERVER_PROTOCOL']
         );
 
-
-        $messageBody = (new MessageBodies())->make(
-            $httpMethod,
-            $headers->headerList(),
-            new InputStream()
-        );
+        $requestHeaders = new RequestHeaders(getallheaders());
 
         $requestData = (new RequestDatas())->make(
             $httpMethod,
-            new QueryParams(),
-            $messageBody
+            $requestHeaders,
+            new QueryParams()
         );
 
         return new Request(
             $requestLine,
-            $headers,
+            $requestHeaders,
             $requestData
         );
 

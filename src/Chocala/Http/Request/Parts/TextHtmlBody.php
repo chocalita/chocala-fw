@@ -18,6 +18,7 @@ class TextHtmlBody implements MessageBodyInterface
     /**
      * FormUrlencodedData constructor.
      * @param $body mixed
+     * @throws IllegalArgumentException
      */
     public function __construct(?string $body)
     {

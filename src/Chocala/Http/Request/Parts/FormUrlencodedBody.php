@@ -16,6 +16,7 @@ class FormUrlencodedBody implements MessageBodyInterface
     /**
      * FormUrlencodedData constructor.
      * @param string|null $body
+     * @throws IllegalArgumentException
      */
     public function __construct(?string $body)
     {

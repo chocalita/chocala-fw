@@ -21,6 +21,7 @@ class MessageBody implements MessageBodyInterface
      * MessageBody constructor.
      * @param string $type
      * @param $data
+     * @throws IllegalArgumentException
      */
     public function __construct(string $type, $data)
     {

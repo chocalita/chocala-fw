@@ -14,6 +14,7 @@ class RawFormDataBody extends FormDataBody implements MessageBodyInterface
      * @param string $contentTypeBoundary - Request header 'Content-Type' , contains a boundary key that should be
      * present in the 'rawData' too
      * @param string $rawData - Request message body content that arrives with multipart/form-data
+     * @throws IllegalArgumentException
      */
     public function __construct(string $contentTypeBoundary, string $rawData)
     {

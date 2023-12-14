@@ -4,7 +4,6 @@ namespace Chocala\Http\Request\Parts;
 
 use Chocala\Base\IllegalArgumentException;
 use Chocala\Base\UnsupportedOperationException;
-use Chocala\Http\Headers;
 use Chocala\Http\HttpMethod;
 use Chocala\Http\HttpMethodEnum;
 use Chocala\Http\IO\InputStreamInterface;
@@ -19,14 +18,17 @@ class MessageBodies
 
     /**
      * @param HttpMethodEnum $method
-     * @param array $headers
+     * @param string $contentType
      * @param InputStreamInterface $inputStream
      * @return MessageBodyInterface
+     * @throws InvalidArgumentException
      * @throws IllegalArgumentException
+     * @throws UnsupportedOperationException
      */
-    public function make(HttpMethodEnum $method, array $headers, InputStreamInterface $inputStream) : MessageBodyInterface
+    public function make(HttpMethodEnum       $method,
+                         string               $contentType,
+                         InputStreamInterface $inputStream) : MessageBodyInterface
     {
-        $contentType = $headers[Headers::CONTENT_TYPE_KEY];
         if ( strpos($contentType, ContentType::MULTIPART_FORM_DATA) === 0 ) {
             if ($method->equals(HttpMethod::POST())) {
                 return new PostFormDataBody();

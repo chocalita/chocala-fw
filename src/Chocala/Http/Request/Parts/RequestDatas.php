@@ -2,7 +2,10 @@
 
 namespace Chocala\Http\Request\Parts;
 
+use Chocala\Base\IllegalArgumentException;
+use Chocala\Base\UnsupportedOperationException;
 use Chocala\Http\HttpMethodEnum;
+use Chocala\Http\IO\InputStream;
 use InvalidArgumentException;
 
 class RequestDatas
@@ -13,15 +16,26 @@ class RequestDatas
     }
 
     /**
+     * @param HttpMethodEnum $httpMethod
+     * @param RequestHeadersInterface $headers
+     * @param QueryParamsInterface $queryParams
+     * @return RequestDataInterface
      * @throws InvalidArgumentException
+     * @throws IllegalArgumentException
+     * @throws UnsupportedOperationException
      */
     public function make(HttpMethodEnum       $httpMethod,
-                         QueryParamsInterface $queryParams,
-                         MessageBodyInterface $messageBody) : RequestDataInterface
+                         RequestHeadersInterface $headers,
+                         QueryParamsInterface $queryParams) : RequestDataInterface
     {
         if ($httpMethod->isSafe()) {
             return new RequestDataNoBody($queryParams);
         } else {
+            $messageBody = (new MessageBodies())->make(
+                $httpMethod,
+                $headers->header(Headers::CONTENT_TYPE_KEY),
+                new InputStream()
+            );
             return new RequestData($queryParams, $messageBody);
         }
     }

@@ -2,6 +2,8 @@
 
 namespace Chocala\Http\Request\Parts;
 
+use InvalidArgumentException;
+
 /**
  * Description of Post
  *
@@ -18,7 +20,7 @@ class RequestData implements RequestDataInterface
         if (method_exists($this, $method_name = '__construct' . $number_of_arguments)) {
             call_user_func_array([$this, $method_name], $get_arguments);
         } else {
-            throw new \InvalidArgumentException('Invalid number of arguments to create object ' . __CLASS__);
+            throw new InvalidArgumentException('Invalid number of arguments to create object ' . __CLASS__);
         }
     }
 
