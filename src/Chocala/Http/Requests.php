@@ -5,6 +5,7 @@ namespace Chocala\Http;
 use Chocala\Http\Request\Parts\QueryParams;
 use Chocala\Http\Request\Parts\RequestDatas;
 use Chocala\Http\Request\Parts\RequestHeaders;
+use Chocala\Http\Request\Parts\RequestLine;
 use Chocala\Http\Request\Request;
 
 class Requests
