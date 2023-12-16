@@ -8,6 +8,8 @@ use Chocala\Http\Route\RoutesInterface;
 class UriMapping implements UriMappingInterface
 {
 
+    private const VALUES_CHARSET = '([-_0-9a-zA-Z]+)?';
+
     /**
      * @var RoutesInterface
      */
@@ -42,15 +44,6 @@ class UriMapping implements UriMappingInterface
             foreach ($routes as $kRoute => $vRoute) {
                 if (strpos($kRoute, $uri) === 0) {
                     $foundRoute = $vRoute;
-    //                if (is_array($vRoute)) {
-    //                    foreach ($vRoute as $kMetho => $vURI) {
-    //                        if (strtoupper($kMethod) == $method->name()) {
-    //                            return $vURI;
-    //                        }
-    //                    }
-    //                } else {
-    //                    return $vRoute;
-    //                }
                 }
                 if (strpos($kRoute, '{') !== false && strpos($kRoute, '}') !== false) {
                     $patternRoutes[$kRoute] = $vRoute;
@@ -80,7 +73,5 @@ class UriMapping implements UriMappingInterface
         }
         return $uri;
     }
-
-    private const VALUES_CHARSET = '([-_0-9a-zA-Z]+)?';
 
 }

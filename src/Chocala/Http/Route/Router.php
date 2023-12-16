@@ -4,6 +4,7 @@ namespace Chocala\Http\Route;
 
 use Chocala\Base\DuplicateElementException;
 use Chocala\Http\Mapping\ActionMap;
+use Chocala\Http\Mapping\ActionMapInterface;
 use Chocala\Http\Mapping\PatternMap;
 use Exception;
 
@@ -36,11 +37,11 @@ class Router
     }
 
     /**
-     * @return ActionMap|null
+     * @return ActionMapInterface|null
      * @throws DuplicateElementException
      * @throws Exception
      */
-    public function resolvedUri() : ?ActionMap
+    public function resolvedUri() : ?ActionMapInterface
     {
         $uri = $this->realUri();
         $matchCase = $this->matchCase($uri);

@@ -4,11 +4,11 @@ namespace Http\Mapping;
 
 use Chocala\Http\Mapping\ActionMap;
 use Chocala\Http\Mapping\ActionMapInterface;
-use Chocala\Http\Mapping\ArrayActionMap;
+use Chocala\Http\Mapping\LinkedActionMap;
 use Chocala\Http\Mapping\Fakes\FakeActionMap;
 use PHPUnit\Framework\TestCase;
 
-class ArrayActionMapTest extends TestCase
+class LinkedActionMapTest extends TestCase
 {
 
     private array $mapValues = [
@@ -26,18 +26,18 @@ class ArrayActionMapTest extends TestCase
 
     public function test__construct()
     {
-        $object = new ArrayActionMap($_REQUEST, new FakeActionMap());
+        $object = new LinkedActionMap($_REQUEST, new FakeActionMap());
         self::assertNotNull($object);
         self::assertIsObject($object);
         self::assertInstanceOf(ActionMapInterface::class, $object);
-        self::assertInstanceOf(ArrayActionMap::class, $object);
+        self::assertInstanceOf(LinkedActionMap::class, $object);
         self::assertNotInstanceOf(ActionMap::class, $object);
     }
 
     public function testModule()
     {
         $this->initRequest();
-        $arrayActionMap = new ArrayActionMap($_REQUEST, new FakeActionMap());
+        $arrayActionMap = new LinkedActionMap($_REQUEST, new FakeActionMap());
         self::assertIsObject($arrayActionMap);
         self::assertNotNull($arrayActionMap->module());
         self::assertNotEmpty($arrayActionMap->module());
@@ -54,7 +54,7 @@ class ArrayActionMapTest extends TestCase
     public function testController()
     {
         $this->initRequest();
-        $arrayActionMap = new ArrayActionMap($_REQUEST, new FakeActionMap());
+        $arrayActionMap = new LinkedActionMap($_REQUEST, new FakeActionMap());
         self::assertIsObject($arrayActionMap);
         self::assertNotNull($arrayActionMap->controller());
         self::assertNotEmpty($arrayActionMap->controller());
@@ -71,7 +71,7 @@ class ArrayActionMapTest extends TestCase
     public function testAction()
     {
         $this->initRequest();
-        $arrayActionMap = new ArrayActionMap($_REQUEST, new FakeActionMap());
+        $arrayActionMap = new LinkedActionMap($_REQUEST, new FakeActionMap());
         self::assertIsObject($arrayActionMap);
         self::assertNotNull($arrayActionMap->action());
         self::assertNotEmpty($arrayActionMap->action());
@@ -88,7 +88,7 @@ class ArrayActionMapTest extends TestCase
     public function testId()
     {
         $this->initRequest();
-        $arrayActionMap = new ArrayActionMap($_REQUEST, new FakeActionMap());
+        $arrayActionMap = new LinkedActionMap($_REQUEST, new FakeActionMap());
         self::assertIsObject($arrayActionMap);
         self::assertNotNull($arrayActionMap->id());
         self::assertNotEmpty($arrayActionMap->id());
@@ -113,7 +113,7 @@ class ArrayActionMapTest extends TestCase
     public function testParams()
     {
         $this->initRequest();
-        $arrayActionMap = new ArrayActionMap($_REQUEST, new FakeActionMap());
+        $arrayActionMap = new LinkedActionMap($_REQUEST, new FakeActionMap());
         self::assertIsObject($arrayActionMap);
         self::assertNotNull($arrayActionMap->params());
         self::assertNotEmpty($arrayActionMap->params());
@@ -135,7 +135,7 @@ class ArrayActionMapTest extends TestCase
             '_params' => [],
         ];
         $this->initRequest();
-        $arrayActionMap = new ArrayActionMap($overValues, new ArrayActionMap($_REQUEST, new FakeActionMap()));
+        $arrayActionMap = new LinkedActionMap($overValues, new LinkedActionMap($_REQUEST, new FakeActionMap()));
         self::assertIsObject($arrayActionMap);
 
         self::assertEquals($overValues['_module'], $arrayActionMap->module());

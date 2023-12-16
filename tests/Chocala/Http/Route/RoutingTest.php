@@ -42,45 +42,45 @@ class RoutingTest extends TestCase
         $oo->routes();
     }
 
-    private function routingClass()
+    private function routingClass(): RoutesInterface
     {
         return new class() implements RoutesInterface {
             use Routing;
 
-            protected $urlPattern = '/{module}/{controller}/{action}/{id}';
+            protected string $urlPattern = '/{module}/{controller}/{action}/{id}';
 
-            protected $mapping = [
+            protected array $mapping = [
             ];
 
         };
     }
 
-    private function emptyDefaultMapRoutingClass()
+    private function emptyDefaultMapRoutingClass(): RoutesInterface
     {
         return new class() implements RoutesInterface {
             use Routing;
 
-            protected $urlPattern = '';
+            protected string $urlPattern = '';
 
         };
     }
 
-    private function invalidPathDefaultMapRoutingClass()
+    private function invalidPathDefaultMapRoutingClass(): RoutesInterface
     {
         return new class() implements RoutesInterface {
             use Routing;
 
-            protected $urlPattern = 'noPathValue';
+            protected string $urlPattern = 'noPathValue';
 
         };
     }
 
-    private function undefinedMappingRoutingClass()
+    private function undefinedMappingRoutingClass(): RoutesInterface
     {
         return new class() implements RoutesInterface {
             use Routing;
 
-            protected $urlPattern = '/a/valid/path';
+            protected string $urlPattern = '/a/valid/path';
 
         };
     }

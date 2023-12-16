@@ -2,7 +2,7 @@
 
 namespace Chocala\Http\Mapping;
 
-class ArrayActionMap implements ActionMapInterface
+class LinkedActionMap implements ActionMapInterface
 {
 
     /**
@@ -15,6 +15,10 @@ class ArrayActionMap implements ActionMapInterface
      */
     private ActionMapInterface $actionMap;
 
+    /**
+     * @param array $map
+     * @param ActionMapInterface $actionMap
+     */
     public function __construct(array &$map, ActionMapInterface $actionMap)
     {
         $this->map = &$map;

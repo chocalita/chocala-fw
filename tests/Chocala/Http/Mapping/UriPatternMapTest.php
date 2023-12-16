@@ -2,6 +2,7 @@
 
 namespace Chocala\Http\Mapping;
 
+use ArgumentCountError;
 use Chocala\Http\Route\DefaultRoutes;
 use Chocala\Http\Route\Fakes\FakeRoutes;
 use PHPUnit\Framework\TestCase;
@@ -32,7 +33,7 @@ class UriPatternMapTest extends TestCase
         self::assertIsObject($uriPatternMap);
         self::assertInstanceOf(UriPatternMap::class, $uriPatternMap);
 
-        $this->expectException(\ArgumentCountError::class);
+        $this->expectException(ArgumentCountError::class);
         new UriPatternMap();
     }
 

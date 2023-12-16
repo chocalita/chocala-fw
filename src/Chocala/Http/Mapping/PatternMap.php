@@ -2,6 +2,8 @@
 
 namespace Chocala\Http\Mapping;
 
+use InvalidArgumentException;
+
 class PatternMap implements PatternMapInterface
 {
 
@@ -25,6 +27,9 @@ class PatternMap implements PatternMapInterface
      */
     private ?array $map = null;
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function __construct()
     {
         $get_arguments = func_get_args();
@@ -32,7 +37,7 @@ class PatternMap implements PatternMapInterface
         if (method_exists($this, $method_name = '__construct' . $number_of_arguments)) {
             call_user_func_array(array($this, $method_name), $get_arguments);
         } else {
-            throw new \InvalidArgumentException('Invalid number of arguments to create object ' . __CLASS__);
+            throw new InvalidArgumentException('Invalid number of arguments to create object ' . __CLASS__);
         }
     }
 

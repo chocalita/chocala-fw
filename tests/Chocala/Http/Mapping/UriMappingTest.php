@@ -12,26 +12,27 @@ class UriMappingTest extends TestCase
 {
 
     /**
-     * @var DefaultRoutes
-     */
-    private DefaultRoutes $defaultRoutes;
-
-    /**
      * @var FakeRoutes
      */
     private FakeRoutes $fakeRoutes;
 
     public function setUp()
     {
-        $this->defaultRoutes = new DefaultRoutes();
         $this->fakeRoutes = new FakeRoutes();
     }
 
     public function test__construct()
     {
-        $uriMapping = new UriMapping($this->defaultRoutes);
+        $uriMapping = new UriMapping(new DefaultRoutes());
         self::assertNotNull($uriMapping);
         self::assertIsObject($uriMapping);
+        self::assertInstanceOf(UriMappingInterface::class, $uriMapping);
+        self::assertInstanceOf(UriMapping::class, $uriMapping);
+
+        $uriMapping = new UriMapping($this->fakeRoutes);
+        self::assertNotNull($uriMapping);
+        self::assertIsObject($uriMapping);
+        self::assertInstanceOf(UriMappingInterface::class, $uriMapping);
         self::assertInstanceOf(UriMapping::class, $uriMapping);
 
         $this->expectException(\ArgumentCountError::class);
@@ -40,7 +41,7 @@ class UriMappingTest extends TestCase
 
     public function testInvalidHttpMethod()
     {
-        $uriMapping = new UriMapping($this->defaultRoutes);
+        $uriMapping = new UriMapping($this->fakeRoutes);
         $this->expectException(TypeError::class);
         $this->expectExceptionMessageRegExp('/Argument 2 passed to/');
         $uriMapping->realUri('/a/uri', 'X_METHOD');
@@ -48,11 +49,11 @@ class UriMappingTest extends TestCase
 
     public function testSimpleRealUri()
     {
-        $routes = $this->defaultRoutes;
-        $realRoute = $routes->routes()['/contact'];
+        $routes = $this->fakeRoutes;
+        $realRoute = $routes->routes()['/context-path/index'];
         $uriMapping = new UriMapping($routes);
         self::assertIsObject($uriMapping);
-        $realUri = $uriMapping->realUri('/contact', HttpMethod::GET());
+        $realUri = $uriMapping->realUri('/context-path/index', HttpMethod::GET());
         self::assertNotEmpty($realUri);
         self::assertIsString($realUri);
         self::assertEquals($realRoute, $realUri);
@@ -61,7 +62,7 @@ class UriMappingTest extends TestCase
     public function testRandomRealUri()
     {
         $key = '/Nk343Olt34Zp4/o1p0J6H7Re/RandomValue';
-        $uriMapping = new UriMapping($this->defaultRoutes);
+        $uriMapping = new UriMapping($this->fakeRoutes);
         self::assertIsObject($uriMapping);
         $realUri = $uriMapping->realUri($key, HttpMethod::GET());
         self::assertNotEmpty($realUri);
