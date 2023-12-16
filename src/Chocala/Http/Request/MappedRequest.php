@@ -23,6 +23,7 @@ class MappedRequest implements RequestInterface
     private UriMappingInterface $uriMapping;
 
     /**
+     * Cache var for resolved requestLine
      * @var RequestLineInterface|null
      */
     private ?RequestLineInterface $requestLine;

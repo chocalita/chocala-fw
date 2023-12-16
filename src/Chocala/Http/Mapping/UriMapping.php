@@ -50,6 +50,9 @@ class UriMapping implements UriMappingInterface
                 }
             }
         }
+        // TODO: replace matches in their positions
+        // mapping: '/context-path/connect-{module}/{id}' => '/{module}/connect/postAction/{id}'
+        // result : '/context-path/connect-admin/9' -> /admin/connect/postAction/9'
         if ($foundRoute === null) {
             foreach ($patternRoutes as $kRoute => $vRoute) {
                 $valuesCharset = sprintf('{%s}', self::VALUES_CHARSET);

@@ -152,16 +152,16 @@ class UriMappingTest extends TestCase
         self::assertEquals('/moduleTest/{controller}/myActionTest/{id}', $realUri);
 
         // matches with -> /context-path/connect-{module}/{id}
-        // {module} -> pages
-        $key = '/context-path/connect-pages/9';
+        // {module} -> admin
+        $key = '/context-path/connect-admin/9';
         $realUri = $uriMapping->realUri($key, HttpMethod::GET());
         self::assertNotEmpty($realUri);
         self::assertIsString($realUri);
         self::assertEquals('/{module}/connect/getAction/{id}', $realUri);
 
         // matches with -> /context-path/connect-{module}/{id}
-        // {module} -> pages
-        $key = '/context-path/connect-pages/9';
+        // {module} -> admin
+        $key = '/context-path/connect-admin/9';
         $realUri = $uriMapping->realUri($key, HttpMethod::POST());
         self::assertNotEmpty($realUri);
         self::assertIsString($realUri);
