@@ -136,11 +136,36 @@ class UriMappingTest extends TestCase
         self::assertIsString($realUri);
         self::assertEquals('/module/controller/deleteAction', $realUri);
 
+        // matches with -> /context-path/entity/{id}
         $key = '/context-path/entity/9';
         $realUri = $uriMapping->realUri($key, HttpMethod::DELETE());
         self::assertNotEmpty($realUri);
         self::assertIsString($realUri);
         self::assertEquals('/moduleTest/controllerTest/actionTest/{id}', $realUri);
+
+        // matches with -> /context-path/my-{controller}/{id}
+        // {controller} -> profile
+        $key = '/context-path/my-profile/9';
+        $realUri = $uriMapping->realUri($key, HttpMethod::PUT());
+        self::assertNotEmpty($realUri);
+        self::assertIsString($realUri);
+        self::assertEquals('/moduleTest/{controller}/myActionTest/{id}', $realUri);
+
+        // matches with -> /context-path/connect-{module}/{id}
+        // {module} -> pages
+        $key = '/context-path/connect-pages/9';
+        $realUri = $uriMapping->realUri($key, HttpMethod::GET());
+        self::assertNotEmpty($realUri);
+        self::assertIsString($realUri);
+        self::assertEquals('/{module}/connect/getAction/{id}', $realUri);
+
+        // matches with -> /context-path/connect-{module}/{id}
+        // {module} -> pages
+        $key = '/context-path/connect-pages/9';
+        $realUri = $uriMapping->realUri($key, HttpMethod::POST());
+        self::assertNotEmpty($realUri);
+        self::assertIsString($realUri);
+        self::assertEquals('/{module}/connect/postAction/{id}', $realUri);
     }
 
 }
