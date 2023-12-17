@@ -20,30 +20,24 @@ class MappedRequestTest extends TestCase
 {
 
     /**
-     * @var FakeRequestHeaders
+     * @var FakeRequest
      */
-    private FakeRequestHeaders $fakeHeaders;
+    private FakeRequest $fakeRequest;
 
     /**
-     * @var FakeRequestData
+     * @var FakeRoutesMapping
      */
-    private FakeRequestData $fakeRequestData;
-
-    /**
-     * @var FakeRoutes
-     */
-    private FakeRoutes $fakeRoutes;
+    private FakeRoutesMapping $fakeRoutesMapping;
 
     public function setUp()
     {
-        $this->fakeHeaders = new FakeRequestHeaders();
-        $this->fakeRequestData = new FakeRequestData();
-        $this->fakeRoutes = new FakeRoutes();
+        $this->fakeRequest = new FakeRequest();
+        $this->fakeRoutesMapping = new FakeRoutesMapping();
     }
 
     public function test__construct()
     {
-        $mappedRequest = new MappedRequest(new FakeRequest(), new FakeRoutesMapping());
+        $mappedRequest = new MappedRequest($this->fakeRequest, $this->fakeRoutesMapping);
         self::assertNotEmpty($mappedRequest);
         self::assertIsObject($mappedRequest);
         self::assertInstanceOf(RequestInterface::class, $mappedRequest);
@@ -55,16 +49,16 @@ class MappedRequestTest extends TestCase
 
     public function testRequestLine()
     {
-        $request = new FakeRequest();
+        $request = $this->fakeRequest;
         // FakeRoutesMapping always this returns the same 'requestUri' as the original request
-        $mappedRequest = new MappedRequest($request, new FakeRoutesMapping());
+        $mappedRequest = new MappedRequest($request, $this->fakeRoutesMapping);
         $this->assertsRequestLine($mappedRequest);
         self::assertNotEquals($request->requestLine(), $mappedRequest->requestLine());
         self::assertEquals($request->requestLine()->requestUri(), $mappedRequest->requestLine()->requestUri());
 
         // Request object returns the same 'requestUri' as the original request
         $request = $this->createRequest('/', HttpMethod::GET());
-        $mappedRequest = new MappedRequest($request, new FakeRoutesMapping());
+        $mappedRequest = new MappedRequest($request, $this->fakeRoutesMapping);
         $this->assertsRequestLine($mappedRequest);
         self::assertEquals($request->requestLine(), $mappedRequest->requestLine());
         self::assertEquals($request->requestLine()->requestUri(), $mappedRequest->requestLine()->requestUri());
@@ -96,7 +90,7 @@ class MappedRequestTest extends TestCase
 
     public function testRequestLineMapped()
     {
-        $routesMapping = new RoutesMapping($this->fakeRoutes);
+        $routesMapping = new RoutesMapping(new FakeRoutes());
 
         $key = '/context-module/page/action/ID';
         $request = $this->createRequest($key, HttpMethod::GET());
@@ -171,14 +165,14 @@ class MappedRequestTest extends TestCase
 
     public function testHeaders()
     {
-        $request = new FakeRequest();
-        $mappedRequest = new MappedRequest($request, new FakeRoutesMapping());
+        $request = $this->fakeRequest;
+        $mappedRequest = new MappedRequest($request, $this->fakeRoutesMapping);
         self::assertNotNull($mappedRequest->headers());
         self::assertIsObject($mappedRequest->headers());
         self::assertEquals($request->headers(), $mappedRequest->headers());
 
         $request = $this->createRequest('/', HttpMethod::GET());
-        $mappedRequest = new MappedRequest($request, new FakeRoutesMapping());
+        $mappedRequest = new MappedRequest($request, $this->fakeRoutesMapping);
         self::assertNotNull($mappedRequest->headers());
         self::assertIsObject($mappedRequest->headers());
         self::assertEquals($request->headers(), $mappedRequest->headers());
@@ -186,14 +180,14 @@ class MappedRequestTest extends TestCase
 
     public function testRequestData()
     {
-        $request = new FakeRequest();
-        $mappedRequest = new MappedRequest($request, new FakeRoutesMapping());
+        $request = $this->fakeRequest;
+        $mappedRequest = new MappedRequest($request, $this->fakeRoutesMapping);
         self::assertNotNull($mappedRequest->requestData());
         self::assertIsObject($mappedRequest->requestData());
         self::assertEquals($request->requestData(), $mappedRequest->requestData());
 
         $request = $this->createRequest('/', HttpMethod::GET());
-        $mappedRequest = new MappedRequest($request, new FakeRoutesMapping());
+        $mappedRequest = new MappedRequest($request, $this->fakeRoutesMapping);
         self::assertNotNull($mappedRequest->requestData());
         self::assertIsObject($mappedRequest->requestData());
         self::assertEquals($request->requestData(), $mappedRequest->requestData());
@@ -207,7 +201,7 @@ class MappedRequestTest extends TestCase
     protected function createRequest(string $requestUri, HttpMethodEnum $method) : Request
     {
         $requestLine = new RequestLine($method, $requestUri, 'HTTP/1.1');
-        return new Request($requestLine, $this->fakeHeaders, $this->fakeRequestData);
+        return new Request($requestLine, new FakeRequestHeaders(), new FakeRequestData());
     }
 
     private function assertsRequestLine(MappedRequest $mappedRequest) : void

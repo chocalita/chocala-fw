@@ -3,7 +3,6 @@
 namespace Chocala\Http\Request;
 
 use Chocala\Base\UnsupportedOperationException;
-use Chocala\Http\Fakes\FakeRequest;
 use Chocala\Http\HeadersInterface;
 use Chocala\Http\Request\Parts\Fakes\FakeRequestData;
 use Chocala\Http\Request\Parts\Fakes\FakeRequestDataNoBody;
@@ -16,13 +15,14 @@ use Chocala\Http\Request\Parts\RequestLineInterface;
 use Chocala\Http\RequestInterface;
 use PHPUnit\Framework\TestCase;
 
+// TODO: check if SafeMethod class is right
 class SafeMethodTest extends TestCase
 {
 
     /**
-     * @var FakeRequest
+     * @var RequestInterface
      */
-    private FakeRequest $baseFakeRequest;
+    private RequestInterface $baseRequest;
 
     /**
      * @var SafeMethod
@@ -36,37 +36,37 @@ class SafeMethodTest extends TestCase
 
     public function setUp()
     {
-        $this->baseFakeRequest = new FakeRequest(
+        $this->baseRequest = new Request(
             new Parts\Fakes\FakeRequestLine(),
             new Parts\Fakes\FakeRequestHeaders(),
             new FakeRequestDataNoBody()
         );
-        $this->defaultSafeMethod = new SafeMethod($this->baseFakeRequest);
+        $this->defaultSafeMethod = new SafeMethod($this->baseRequest);
     }
 
     public function test__construct()
     {
-        $safeMethod = new SafeMethod($this->baseFakeRequest);
+        $safeMethod = new SafeMethod($this->baseRequest);
         self::assertIsObject($safeMethod);
     }
 
     public function testUri()
     {
         self::assertInstanceOf(RequestLineInterface::class, $this->defaultSafeMethod->requestLine());
-        self::assertEquals($this->baseFakeRequest->requestLine(), $this->defaultSafeMethod->requestLine());
+        self::assertEquals($this->baseRequest->requestLine(), $this->defaultSafeMethod->requestLine());
     }
 
     public function testHeaders()
     {
         self::assertInstanceOf(HeadersInterface::class, $this->defaultSafeMethod->headers());
-        self::assertEquals($this->baseFakeRequest->headers(), $this->defaultSafeMethod->headers());
+        self::assertEquals($this->baseRequest->headers(), $this->defaultSafeMethod->headers());
     }
 
     public function testRequestData()
     {
         self::assertInstanceOf(RequestDataInterface::class, $this->defaultSafeMethod->requestData());
         self::assertInstanceOf(RequestDataNoBody::class, $this->defaultSafeMethod->requestData());
-        self::assertEquals($this->baseFakeRequest->requestData(), $this->defaultSafeMethod->requestData());
+        self::assertEquals($this->baseRequest->requestData(), $this->defaultSafeMethod->requestData());
     }
 
     public function testNoBody()
