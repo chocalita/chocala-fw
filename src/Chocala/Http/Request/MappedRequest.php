@@ -2,12 +2,12 @@
 
 namespace Chocala\Http\Request;
 
-use Chocala\Http\Mapping\UriMappingInterface;
 use Chocala\Http\Request\Parts\RequestDataInterface;
 use Chocala\Http\Request\Parts\RequestHeadersInterface;
 use Chocala\Http\Request\Parts\RequestLine;
 use Chocala\Http\Request\Parts\RequestLineInterface;
 use Chocala\Http\RequestInterface;
+use Chocala\Http\Route\RoutesMappingInterface;
 
 class MappedRequest implements RequestInterface
 {
@@ -18,9 +18,9 @@ class MappedRequest implements RequestInterface
     private RequestInterface $originalRequest;
 
     /**
-     * @var UriMappingInterface
+     * @var RoutesMappingInterface
      */
-    private UriMappingInterface $uriMapping;
+    private RoutesMappingInterface $routesMapping;
 
     /**
      * Cache var for resolved requestLine
@@ -28,10 +28,10 @@ class MappedRequest implements RequestInterface
      */
     private ?RequestLineInterface $requestLine;
 
-    public function __construct(RequestInterface $request, UriMappingInterface $uriMapping)
+    public function __construct(RequestInterface $request, RoutesMappingInterface $routesMapping)
     {
         $this->originalRequest = &$request;
-        $this->uriMapping = &$uriMapping;
+        $this->routesMapping = &$routesMapping;
         $this->requestLine = null;
     }
 
@@ -41,7 +41,7 @@ class MappedRequest implements RequestInterface
     public function requestLine(): RequestLineInterface
     {
         if (is_null($this->requestLine)) {
-            $realUri = $this->uriMapping->realUri(
+            $realUri = $this->routesMapping->realUri(
                 $this->originalRequest->requestLine()->requestUri(),
                 $this->originalRequest->requestLine()->method()
             );

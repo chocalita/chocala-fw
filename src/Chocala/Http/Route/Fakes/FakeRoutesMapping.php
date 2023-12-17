@@ -1,11 +1,11 @@
 <?php
 
-namespace Chocala\Http\Mapping\Fakes;
+namespace Chocala\Http\Route\Fakes;
 
 use Chocala\Http\HttpMethodEnum;
-use Chocala\Http\Mapping\UriMappingInterface;
+use Chocala\Http\Route\RoutesMappingInterface;
 
-class FakeUriMapping implements UriMappingInterface
+class FakeRoutesMapping implements RoutesMappingInterface
 {
 
     public function realUri(string $uri, HttpMethodEnum $method): string

@@ -1,10 +1,10 @@
 <?php
 
-namespace Chocala\Http\Mapping;
+namespace Chocala\Http\Route;
 
 use Chocala\Http\HttpMethodEnum;
 
-interface UriMappingInterface
+interface RoutesMappingInterface
 {
 
     public function realUri(string $uri, HttpMethodEnum $method): string;

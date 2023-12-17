@@ -1,11 +1,10 @@
 <?php
 
-namespace Chocala\Http\Mapping;
+namespace Chocala\Http\Route;
 
 use Chocala\Http\HttpMethodEnum;
-use Chocala\Http\Route\RoutesInterface;
 
-class UriMapping implements UriMappingInterface
+class RoutesMapping implements RoutesMappingInterface
 {
 
     private const VALUES_CHARSET = '([-_0-9a-zA-Z]+)?';
@@ -16,7 +15,7 @@ class UriMapping implements UriMappingInterface
     private RoutesInterface $routes;
 
     /**
-     * UriMapping constructor.
+     * RoutesMapping constructor.
      * @param RoutesInterface $routes
      */
     public function __construct(RoutesInterface $routes)
@@ -25,7 +24,7 @@ class UriMapping implements UriMappingInterface
     }
 
     /**
-     * Find the real URI in uriMapping.routes configuration, if it's not defined return the same value
+     * Find the real URI in uriMapping.routes (a Routing class) configuration, if it's not defined return the same value
      *
      * @param string $uri
      * @param HttpMethodEnum $method

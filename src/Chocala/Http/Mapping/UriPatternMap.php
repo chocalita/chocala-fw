@@ -8,21 +8,21 @@ use Chocala\Http\Route\RoutesInterface;
 class UriPatternMap implements UriPatternMapInterface
 {
 
+    private const VALUES_CHARSET = '([-_0-9a-zA-Z]+)?';
+
     /**
      * @var RoutesInterface
      */
     private RoutesInterface $routes;
 
     /**
-     * UriMapping constructor.
+     * UriPatternMap constructor.
      * @param RoutesInterface $routes
      */
     public function __construct(RoutesInterface $routes)
     {
         $this->routes = &$routes;
     }
-
-    private const VALUES_CHARSET = '([-_0-9a-zA-Z]+)?';
 
     /**
      * Matches uri input in all mapping cases defined in uriMapping.mapping
