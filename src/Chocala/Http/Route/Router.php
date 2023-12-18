@@ -3,9 +3,11 @@
 namespace Chocala\Http\Route;
 
 use Chocala\Base\DuplicateElementException;
+use Chocala\Http\HttpMethod;
 use Chocala\Http\Mapping\ActionMap;
 use Chocala\Http\Mapping\ActionMapInterface;
 use Chocala\Http\Mapping\PatternMap;
+use Chocala\Http\Mapping\UriMapping;
 use Exception;
 
 class Router
@@ -24,16 +26,20 @@ class Router
     private string $uri;
 
     /**
-     * @var string
+     * @var HttpMethod
      *
      */
-    private string $method;
+    private HttpMethod $method;
 
     public function __construct(RoutesInterface $routing, string $uri, string $method)
     {
         $this->routes = $routing;
         $this->uri = $uri;
-        $this->method = strtoupper($method);
+        foreach (HttpMethod::all() as $m) {
+            if ($m->name() == strtoupper($method)) {
+                $this->method = $m;
+            }
+        }
     }
 
     /**
@@ -43,8 +49,8 @@ class Router
      */
     public function resolvedUri() : ?ActionMapInterface
     {
-        $uri = $this->realUri();
-        $matchCase = $this->matchCase($uri);
+        $uri = (new RoutesMapping($this->routes))->realUri($this->uri, $this->method);
+        $matchCase = (new UriMapping($this->routes))->matchCase($uri);
         if (empty($matchCase)) {
 
             $uriParts = array_map(function ($uriPart) {
@@ -78,75 +84,19 @@ class Router
             $vMatched = $matchCase[$kMatched];
             //TODO: find keywords in kMatched
             if (is_array($vMatched)) {
+                $module = $vMatched[PatternMap::MODULE];
+                $controller = $vMatched[PatternMap::CONTROLLER];
+                $action = $vMatched[PatternMap::ACTION];
+                $id = key_exists(PatternMap::ID, $vMatched)? $vMatched[PatternMap::ID]: null;
+                $params = [];
+
+                return new ActionMap($module, $controller, $action, $id, $params);
 
             } else if (is_string($vMatched)) {
 
             }
         }
         return null;
-    }
-
-    /**
-     * Find the real URI in uriMapping.routes configuration, if it's not defined return the same value
-     *
-     * @return string
-     */
-    private function realUri(): string
-    {
-        $routes = $this->routes->routes();
-        foreach ($routes as $kRoute => $vRoute) {
-            if (strpos($kRoute, $this->uri) === 0) {
-                if (is_array($vRoute)) {
-                    foreach ($vRoute as $kMethod => $vURI) {
-                        if (strtoupper($kMethod) == $this->method) {
-                            return $vURI;
-                        }
-                    }
-                } else {
-                    return $vRoute;
-                }
-            }
-        }
-        return $this->uri;
-    }
-
-    /**
-     * Matches uri input in all mapping cases defined in uriMapping.mapping
-     *
-     * @param string $uri
-     * @return mixed|string
-     * @throws DuplicateElementException
-     */
-    private function matchCase(string $uri)
-    {
-        $mapping = $this->routes->mapping();
-        if (array_key_exists($uri, $mapping)) {
-            return $mapping[$uri];
-        }
-
-        $uriParts = array_map(function ($uriPart) {
-            return "{" . $uriPart . "}";
-        }, PatternMap::URI_STANDARD_PARTS);
-
-        $matches = [];
-        foreach ($mapping as $kRouteCase => $vRouteCase) {
-            $nReplaces = 0;
-            $pattern = str_replace($uriParts, self::VALUES_CHARSET, $kRouteCase, $nReplaces);
-            $pattern = str_replace('/', '\/', $pattern);
-
-            $t = preg_match('/^' . $pattern . '/i', $uri, $out, PREG_OFFSET_CAPTURE);
-            if ($t && sizeof($out) > 1) {
-                if (array_key_exists($nReplaces, $matches)) {
-                    throw new DuplicateElementException(sprintf("Illegal conflict to match case with mapping '%s'", $kRouteCase));
-                }
-                $matches[$nReplaces] = [$kRouteCase => $vRouteCase];
-            }
-        }
-        if (sizeof($matches) > 0) {
-            ksort($matches);
-            return array_shift($matches);
-        }
-        return [];
     }
 
 }

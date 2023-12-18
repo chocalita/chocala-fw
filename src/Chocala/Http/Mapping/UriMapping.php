@@ -5,7 +5,7 @@ namespace Chocala\Http\Mapping;
 use Chocala\Base\DuplicateElementException;
 use Chocala\Http\Route\RoutesInterface;
 
-class UriPatternMap implements UriPatternMapInterface
+class UriMapping implements UriMappingInterface
 {
 
     private const VALUES_CHARSET = '([-_0-9a-zA-Z]+)?';
@@ -16,7 +16,7 @@ class UriPatternMap implements UriPatternMapInterface
     private RoutesInterface $routes;
 
     /**
-     * UriPatternMap constructor.
+     * UriMapping constructor.
      * @param RoutesInterface $routes
      */
     public function __construct(RoutesInterface $routes)
@@ -28,14 +28,14 @@ class UriPatternMap implements UriPatternMapInterface
      * Matches uri input in all mapping cases defined in uriMapping.mapping
      *
      * @param string $uri
-     * @return mixed|string
+     * @return array
      * @throws DuplicateElementException
      */
-    public function matchCase(string $uri)
+    public function matchCase(string $uri) : array
     {
         $mapping = $this->routes->mapping();
         if (array_key_exists($uri, $mapping)) {
-            return $mapping[$uri];
+            return [$uri => $mapping[$uri]];
         }
 
         $uriParts = array_map(function ($uriPart) {

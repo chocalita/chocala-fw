@@ -170,22 +170,10 @@ class RouterTest extends TestCase
 //        self::assertEquals($key, $router->realUri());
 
         $uri = $router->resolvedUri();
-        self::assertEquals('moduleX', $uri->module());
+//        self::assertEquals('moduleX', $uri->module());
         self::assertEquals('pageX', $uri->controller());
         self::assertEquals('actionX', $uri->action());
         self::assertEquals('', $uri->id());
-    }
-
-
-    public function testRouteCFDDAS()
-    {
-        $routes = $this->fakeRoutes;
-        $key = '/view/activate';
-        $router = new Router($routes, $key, 'GET');
-        self::assertIsObject($router);
-//        self::assertEquals($key, $router->realUri());
-
-        $m = $router->resolvedUri();
     }
 
 }

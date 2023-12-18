@@ -12,12 +12,13 @@ class FakeRoutes implements RoutesInterface
     protected string $urlPattern = '/{module}/{controller}/{action}/{id}';
 
     protected array $mapping = [
-        '/X{module}/{controller}/{action}' => 'threeParam',
-        '/my{controller}/{action}' => 'twoParam',
+        '/X{module}/{controller}/{action}' => '/{module}/{controller}/{action}/{id}',
+        '/my{controller}/{action}' => '/myModule/{controller}/{action}/{id}',
+        //'/{controller}/{action}' => '/moduleX/{controller}/{action}',
         '/view/{action}' => '/moduleX/controllerX/{action}',
-        '/view' => ['module' => ''],
-        '/view/tiktok' => ['module' => 'myModule', 'controller' => 'myController', 'action' => 'myAction'],
-        'x' => 'y'
+        '/view' => ['module' => 'viewModule', 'controller' => 'viewController', 'action' => 'viewAction'],
+        '/view/foo' => ['module' => 'myModule', 'controller' => 'myController', 'action' => 'myAction', 'id' => 'foo'],
+        '/map' => ['module' => 'portal', 'controller' => 'page', 'action' => 'map']
     ];
 
     protected array $routes = [
