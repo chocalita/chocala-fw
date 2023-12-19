@@ -3,8 +3,13 @@
 namespace Chocala\Http\Route;
 
 use Chocala\Base\DuplicateElementException;
+use Chocala\Base\NotFoundException;
+use Chocala\Http\Mapping\ActionMap;
 use Chocala\Http\Mapping\ActionMapInterface;
 use Chocala\Http\Mapping\PatternMap;
+use Chocala\Http\Mapping\PatternMapInterface;
+use Chocala\Http\Mapping\UriMapping;
+use Chocala\Http\Mapping\UriMappingInterface;
 use Exception;
 
 class ActionMapping implements ActionMappingInterface
@@ -12,9 +17,20 @@ class ActionMapping implements ActionMappingInterface
 
     private const VALUES_CHARSET = '([-_0-9a-zA-Z]+)?';
 
-    public function __construct(RoutesInterface $routes)
+    /**
+     * @var PatternMapInterface
+     */
+    private PatternMapInterface $patternMap;
+
+    /**
+     * @var UriMappingInterface
+     */
+    private UriMappingInterface $uriMapping;
+
+    public function __construct(RoutesInterface $routing)
     {
-        $this->patternMap = new PatternMap();
+        $this->patternMap = new PatternMap($routing->urlPattern());
+        $this->uriMapping = new UriMapping($routing);
     }
 
     /**
@@ -25,16 +41,14 @@ class ActionMapping implements ActionMappingInterface
      */
     public function actionMap(string $uri): ActionMapInterface
     {
-        $matchCase = $this->matchCase($uri);
+        $matchCase = $this->uriMapping->matchCase($uri);
         if (empty($matchCase)) {
             $uriParts = array_map(function ($uriPart) {
                 return "{" . $uriPart . "}";
             }, PatternMap::URI_STANDARD_PARTS);
 
-            $patternMap = new PatternMap($this->routing->urlPattern());
-            $pattern = str_replace($uriParts, self::VALUES_CHARSET, $patternMap->pattern(), $nReplaces);
+            $pattern = str_replace($uriParts, self::VALUES_CHARSET, $this->patternMap->pattern(), $nReplaces);
 //            $pattern = str_replace('/', '\/', $pattern);
-
             $pattern = str_replace('/', '\/?', $pattern);
             $pos = strpos($pattern, "\/?");
             $pattern = substr_replace($pattern, '\/', $pos, 3);
@@ -44,7 +58,7 @@ class ActionMapping implements ActionMappingInterface
                 throw new Exception("Mapping is wrong (default mapping)");
             }
 
-            $patternMapIndexes = array_flip($patternMap->map());
+            $patternMapIndexes = array_flip($this->patternMap->map());
 
             array_shift($out);
             $module = $out[$patternMapIndexes[PatternMap::MODULE]][0];
@@ -54,20 +68,23 @@ class ActionMapping implements ActionMappingInterface
             $params = [];
 
             return new ActionMap($module, $controller, $action, $id, $params);
+        } else {
+            $kMatched = array_key_first($matchCase);
+            $vMatched = $matchCase[$kMatched];
+            //TODO: find keywords in kMatched
+            if (is_array($vMatched)) {
+                $module = $vMatched[PatternMap::MODULE];
+                $controller = $vMatched[PatternMap::CONTROLLER];
+                $action = $vMatched[PatternMap::ACTION];
+                $id = key_exists(PatternMap::ID, $vMatched)? $vMatched[PatternMap::ID]: null;
+                $params = [];
+
+                return new ActionMap($module, $controller, $action, $id, $params);
+            } else if (is_string($vMatched)) {
+
+            }
         }
-
-    }
-
-
-    /**
-     * Matches uri input in all mapping cases defined in uriMapping.mapping
-     *
-     * @param string $uri
-     * @return mixed|string
-     * @throws DuplicateElementException
-     */
-    private function matchCase(string $uri)
-    {
+        throw new NotFoundException('Uri is not matching with any mapped case.');
     }
 
 }

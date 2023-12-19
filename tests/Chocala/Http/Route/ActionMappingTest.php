@@ -2,17 +2,22 @@
 
 namespace Chocala\Http\Route;
 
+use Chocala\Http\HttpMethod;
 use Chocala\Http\Route\Fakes\FakeRoutes;
+use Exception;
 use PHPUnit\Framework\TestCase;
 
-class RouterTest extends TestCase
+class ActionMappingTest extends TestCase
 {
 
-    private $fakeRoutes;
+    private RoutesInterface $fakeRoutes;
+
+    private RoutesMappingInterface $routesNapping;
 
     public function setUp()
     {
         $this->fakeRoutes = new FakeRoutes();
+        $this->routesNapping = new RoutesMapping($this->fakeRoutes);
     }
 
 /*    public function testRouteDefaultRoutes()
@@ -34,18 +39,17 @@ class RouterTest extends TestCase
     }*/
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testRoutesCustomClass()
     {
-        $routes = $this->fakeRoutes;
+        $router = new ActionMapping($this->fakeRoutes);
+        self::assertIsObject($router);
 
         $key = '/context-module/page/action/ID';
-        $router = new Router($routes, $key, 'GET');
-        self::assertIsObject($router);
-//        self::assertEquals($key, $router->realUri());
+        $uri = $this->routesNapping->realUri($key, HttpMethod::GET());
 
-        $actionMap = $router->resolvedUri();
+        $actionMap = $router->actionMap($uri);
         self::assertEquals('context-module', $actionMap->module());
         self::assertEquals('page', $actionMap->controller());
         self::assertEquals('action', $actionMap->action());
@@ -53,11 +57,9 @@ class RouterTest extends TestCase
 
 
         $key = '/moduleX/pageX/actionX/99';
-        $router = new Router($routes, $key, 'POST');
-        self::assertIsObject($router);
-//        self::assertEquals($key, $router->realUri());
+        $uri = $this->routesNapping->realUri($key, HttpMethod::POST());
 
-        $actionMap = $router->resolvedUri();
+        $actionMap = $router->actionMap($uri);
         self::assertEquals('moduleX', $actionMap->module());
         self::assertEquals('pageX', $actionMap->controller());
         self::assertEquals('actionX', $actionMap->action());
@@ -65,11 +67,9 @@ class RouterTest extends TestCase
 
 
         $key = '/moduleX/pageX/actionX/';
-        $router = new Router($routes, $key, 'POST');
-        self::assertIsObject($router);
-//        self::assertEquals($key, $router->realUri());
+        $uri = $this->routesNapping->realUri($key, HttpMethod::POST());
 
-        $actionMap = $router->resolvedUri();
+        $actionMap = $router->actionMap($key);
         self::assertEquals('moduleX', $actionMap->module());
         self::assertEquals('pageX', $actionMap->controller());
         self::assertEquals('actionX', $actionMap->action());
@@ -77,11 +77,9 @@ class RouterTest extends TestCase
 
 
         $key = '/context-path/index';
-        $router = new Router($routes, $key, 'DELETE');
-        self::assertIsObject($router);
-//        self::assertEquals('/moduleDef/controllerDef/actionDef/idDef', $router->realUri());
+        $uri = $this->routesNapping->realUri($key, HttpMethod::DELETE());
 
-        $actionMap = $router->resolvedUri();
+        $actionMap = $router->actionMap($uri);
         self::assertEquals('moduleDef', $actionMap->module());
         self::assertEquals('controllerDef', $actionMap->controller());
         self::assertEquals('actionDef', $actionMap->action());
@@ -89,11 +87,9 @@ class RouterTest extends TestCase
 
 
         $key = '/context-path/mod/ctrl';
-        $router = new Router($routes, $key, 'POST');
-        self::assertIsObject($router);
-//        self::assertEquals('/moduleTest/controllerTest/actionTest/idTest', $router->realUri());
+        $uri = $this->routesNapping->realUri($key, HttpMethod::POST());
 
-        $actionMap = $router->resolvedUri();
+        $actionMap = $router->actionMap($uri);
         self::assertEquals('moduleTest', $actionMap->module());
         self::assertEquals('controllerTest', $actionMap->controller());
         self::assertEquals('actionTest', $actionMap->action());
@@ -101,11 +97,9 @@ class RouterTest extends TestCase
 
 
         $key = '/context-path/http/methods';
-        $router = new Router($routes, $key, 'GET');
-        self::assertIsObject($router);
-//        self::assertEquals('/module/controller/getAction', $router->realUri());
+        $uri = $this->routesNapping->realUri($key, HttpMethod::GET());
 
-        $actionMap = $router->resolvedUri();
+        $actionMap = $router->actionMap($uri);
         self::assertEquals('module', $actionMap->module());
         self::assertEquals('controller', $actionMap->controller());
         self::assertEquals('getAction', $actionMap->action());
@@ -113,11 +107,9 @@ class RouterTest extends TestCase
 
 
         $key = '/context-path/http/methods';
-        $router = new Router($routes, $key, 'POST');
-        self::assertIsObject($router);
-        //self::assertEquals('/module/controller/postAction', $router->realUri());
+        $uri = $this->routesNapping->realUri($key, HttpMethod::POST());
 
-        $actionMap = $router->resolvedUri();
+        $actionMap = $router->actionMap($uri);
         self::assertEquals('module', $actionMap->module());
         self::assertEquals('controller', $actionMap->controller());
         self::assertEquals('postAction', $actionMap->action());
@@ -125,11 +117,9 @@ class RouterTest extends TestCase
 
 
         $key = '/context-path/http/methods';
-        $router = new Router($routes, $key, 'PUT');
-        self::assertIsObject($router);
-//        self::assertEquals('/module/controller/putAction', $router->realUri());
+        $uri = $this->routesNapping->realUri($key, HttpMethod::PUT());
 
-        $actionMap = $router->resolvedUri();
+        $actionMap = $router->actionMap($uri);
         self::assertEquals('module', $actionMap->module());
         self::assertEquals('controller', $actionMap->controller());
         self::assertEquals('putAction', $actionMap->action());
@@ -137,11 +127,9 @@ class RouterTest extends TestCase
 
 
         $key = '/context-path/http/methods';
-        $router = new Router($routes, $key, 'PATCH');
-        self::assertIsObject($router);
-//        self::assertEquals('/module/controller/patchAction', $router->realUri());
+        $uri = $this->routesNapping->realUri($key, HttpMethod::PATCH());
 
-        $actionMap = $router->resolvedUri();
+        $actionMap = $router->actionMap($uri);
         self::assertEquals('module', $actionMap->module());
         self::assertEquals('controller', $actionMap->controller());
         self::assertEquals('patchAction', $actionMap->action());
@@ -149,31 +137,29 @@ class RouterTest extends TestCase
 
 
         $key = '/context-path/http/methods';
-        $router = new Router($routes, $key, 'DELETE');
-        self::assertIsObject($router);
-//        self::assertEquals('/module/controller/deleteAction', $router->realUri());
+        $uri = $this->routesNapping->realUri($key, HttpMethod::DELETE());
 
-        $actionMap = $router->resolvedUri();
+        $actionMap = $router->actionMap($uri);
         self::assertEquals('module', $actionMap->module());
         self::assertEquals('controller', $actionMap->controller());
         self::assertEquals('deleteAction', $actionMap->action());
         self::assertEmpty($actionMap->id());
     }
 
+    /**
+     * @throws Exception
+     */
     public function testResolvedUriRoutesCustomClass()
     {
-        $routes = $this->fakeRoutes;
+        $router = new ActionMapping($this->fakeRoutes);
 
-        $key = '/moduleX/pageX/actionX/';
-        $router = new Router($routes, $key, 'POST');
-        self::assertIsObject($router);
-//        self::assertEquals($key, $router->realUri());
+        $uri = '/moduleX/pageX/actionX/';
+        $actionMap = $router->actionMap($uri);
 
-        $uri = $router->resolvedUri();
-//        self::assertEquals('moduleX', $uri->module());
-        self::assertEquals('pageX', $uri->controller());
-        self::assertEquals('actionX', $uri->action());
-        self::assertEquals('', $uri->id());
+        self::assertEquals('moduleX', $actionMap->module());
+        self::assertEquals('pageX', $actionMap->controller());
+        self::assertEquals('actionX', $actionMap->action());
+        self::assertEquals('', $actionMap->id());
     }
 
 }

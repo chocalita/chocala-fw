@@ -200,7 +200,7 @@ class MappedRequestTest extends TestCase
      */
     protected function createRequest(string $requestUri, HttpMethodEnum $method) : Request
     {
-        $requestLine = new RequestLine($method, $requestUri, 'HTTP/1.1');
+        $requestLine = new RequestLine($method, $requestUri);
         return new Request($requestLine, new FakeRequestHeaders(), new FakeRequestData());
     }
 

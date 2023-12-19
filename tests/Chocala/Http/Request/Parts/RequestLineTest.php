@@ -27,6 +27,10 @@ class RequestLineTest extends TestCase
     {
         $requestLine = new RequestLine(HttpMethod::GET(), 'http://localhost/api/va', 'HTTP/1.1');
         self::assertIsObject($requestLine);
+
+        $requestLine = new RequestLine(HttpMethod::GET(), 'http://localhost/api/va');
+        self::assertIsObject($requestLine);
+
         $this->expectException(TypeError::class);
         $this->expectExceptionMessageRegExp('/Argument 1 passed to/');
         new RequestLine('NO GET', 'http://localhost/api/vb', 'HTTP/1.0');
