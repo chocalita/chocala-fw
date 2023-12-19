@@ -1,8 +1,6 @@
 <?php
 
-namespace Chocala\Http\Route;
-
-use Chocala\Http\Mapping\ActionMapInterface;
+namespace Chocala\Http\Mapping;
 
 interface ActionMappingInterface
 {

@@ -12,12 +12,10 @@ class Requests
 {
 
     private array $serverVars;
-    private array $requestVars;
 
     public function __construct()
     {
         $this->serverVars = &$_SERVER;
-        $this->requestVars = &$_REQUEST;
     }
 
     public function make() : RequestInterface

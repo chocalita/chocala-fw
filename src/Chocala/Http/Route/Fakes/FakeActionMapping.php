@@ -4,8 +4,8 @@ namespace Chocala\Http\Route\Fakes;
 
 use Chocala\Base\DuplicateElementException;
 use Chocala\Http\Mapping\ActionMapInterface;
-use Chocala\Http\Route\ActionMapping;
-use Chocala\Http\Route\ActionMappingInterface;
+use Chocala\Http\Mapping\ActionMapping;
+use Chocala\Http\Mapping\ActionMappingInterface;
 use Exception;
 
 class FakeActionMapping implements ActionMappingInterface

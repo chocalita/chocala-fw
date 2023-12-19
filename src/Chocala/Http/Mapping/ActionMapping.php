@@ -1,15 +1,10 @@
 <?php
 
-namespace Chocala\Http\Route;
+namespace Chocala\Http\Mapping;
 
 use Chocala\Base\DuplicateElementException;
 use Chocala\Base\NotFoundException;
-use Chocala\Http\Mapping\ActionMap;
-use Chocala\Http\Mapping\ActionMapInterface;
-use Chocala\Http\Mapping\PatternMap;
-use Chocala\Http\Mapping\PatternMapInterface;
-use Chocala\Http\Mapping\UriMapping;
-use Chocala\Http\Mapping\UriMappingInterface;
+use Chocala\Http\Route\RoutesInterface;
 use Exception;
 
 class ActionMapping implements ActionMappingInterface

@@ -59,7 +59,6 @@ class RequestsTest extends TestCase
         self::assertIsObject($object);
         self::assertInstanceOf(Requests::class, $object);
         self::assertObjectHasAttribute('serverVars', $object);
-        self::assertObjectHasAttribute('requestVars', $object);
 
         self::assertNotNull($this->requests);
         self::assertIsObject($this->requests);

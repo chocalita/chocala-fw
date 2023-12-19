@@ -36,7 +36,8 @@ class FakeRoutes implements RoutesInterface
         '/context-path/connect-{module}/{id}' => [
             'GET' => '/{module}/connect/getAction/{id}',
             'POST' => '/{module}/connect/postAction/{id}'
-        ]
+        ],
+        '/contact' => '/pages/landing/contact'
     ];
 
 }
