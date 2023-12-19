@@ -38,10 +38,47 @@ class ActionMappingTest extends TestCase
         self::assertEquals($key, $router->realUri());
     }*/
 
+
     /**
      * @throws Exception
      */
-    public function testRoutesCustomClass()
+    public function testActionMap()
+    {
+        $router = new ActionMapping($this->fakeRoutes);
+
+        $uri = '/moduleX/pageY/actionZ/1';
+        $actionMap = $router->actionMap($uri);
+
+        self::assertEquals('moduleX', $actionMap->module());
+        self::assertEquals('pageY', $actionMap->controller());
+        self::assertEquals('actionZ', $actionMap->action());
+        self::assertEquals('1', $actionMap->id());
+
+
+        $uri = '/moduleX/pageX/actionX/';
+        $actionMap = $router->actionMap($uri);
+
+        self::assertEquals('moduleX', $actionMap->module());
+        self::assertEquals('pageX', $actionMap->controller());
+        self::assertEquals('actionX', $actionMap->action());
+        self::assertEquals('', $actionMap->id());
+
+
+        $uri = '/module/controller/action/1/param=value&x=y';
+        $actionMap = $router->actionMap($uri);
+
+        self::assertEquals('module', $actionMap->module());
+        self::assertEquals('controller', $actionMap->controller());
+        self::assertEquals('action', $actionMap->action());
+        self::assertEquals('1', $actionMap->id());
+        // TODO: fill and evaluate params
+        self::assertEquals([], $actionMap->params());
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testWithRoutesNapping()
     {
         $router = new ActionMapping($this->fakeRoutes);
         self::assertIsObject($router);
@@ -144,22 +181,6 @@ class ActionMappingTest extends TestCase
         self::assertEquals('controller', $actionMap->controller());
         self::assertEquals('deleteAction', $actionMap->action());
         self::assertEmpty($actionMap->id());
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function testResolvedUriRoutesCustomClass()
-    {
-        $router = new ActionMapping($this->fakeRoutes);
-
-        $uri = '/moduleX/pageX/actionX/';
-        $actionMap = $router->actionMap($uri);
-
-        self::assertEquals('moduleX', $actionMap->module());
-        self::assertEquals('pageX', $actionMap->controller());
-        self::assertEquals('actionX', $actionMap->action());
-        self::assertEquals('', $actionMap->id());
     }
 
 }
