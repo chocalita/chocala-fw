@@ -36,6 +36,7 @@ class ActionMapping implements ActionMappingInterface
      */
     public function actionMap(string $uri): ActionMapInterface
     {
+        // TODO: extract only uri part
         $matchCase = $this->uriMapping->matchCase($uri);
         if (empty($matchCase)) {
             $uriParts = array_map(function ($uriPart) {

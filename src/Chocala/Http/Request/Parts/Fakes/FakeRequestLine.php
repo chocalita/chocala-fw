@@ -9,7 +9,7 @@ use Chocala\Http\Request\Parts\RequestLineInterface;
 
 class FakeRequestLine implements RequestLineInterface
 {
-    public const DEFAULT_REQUEST_URI = 'http://localhost:8081/api/vx/resource';
+    public const DEFAULT_REQUEST_URI = '/section/vx/resource';
     public const DEFAULT_HTTP_VERSION = 'HTTP/1.1';
 
     private RequestLineInterface $requestLine;
