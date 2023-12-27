@@ -5,7 +5,8 @@ namespace Chocala\Base;
 use Throwable;
 
 define('IO_EXCEPTION', 21);
-define('ILLEGAL_STATE_EXCEPTION', 23);
+define('ILLEGAL_STATE_EXCEPTION', 22);
+define('CLASS_CAST_EXCEPTION', 23);
 define('DUPLICATE_ELEMENT_EXCEPTION', 24);
 define('ILLEGAL_ARGUMENT_EXCEPTION', 31);
 define('UNSUPPORTED_EXCEPTION', 41);
