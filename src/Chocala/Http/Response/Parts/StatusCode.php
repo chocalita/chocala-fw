@@ -60,11 +60,99 @@ class StatusCode implements StatusCodeEnum
         );
     }
 
+    final public static function ACCEPTED(?string $message = null): StatusCodeEnum
+    {
+        return new StatusCode(
+            202,
+            $message ?? 'Accepted'
+        );
+    }
+
+    final public static function NON_AUTHORITATIVE(?string $message = null): StatusCodeEnum
+    {
+        return new StatusCode(
+            203,
+            $message ?? 'Non-Authoritative Information'
+        );
+    }
+
+    final public static function NO_CONTENT(?string $message = null): StatusCodeEnum
+    {
+        return new StatusCode(
+            204,
+            $message ?? 'No Content'
+        );
+    }
+
+    final public static function RESET_CONTENT(?string $message = null): StatusCodeEnum
+    {
+        return new StatusCode(
+            205,
+            $message ?? 'Reset Content'
+        );
+    }
+
+    final public static function PARTIAL_CONTENT(?string $message = null): StatusCodeEnum
+    {
+        return new StatusCode(
+            206,
+            $message ?? 'Partial Content'
+        );
+    }
+
+    final public static function MULTI_STATUS(?string $message = null): StatusCodeEnum
+    {
+        return new StatusCode(
+            207,
+            $message ?? 'Multi-Status'
+        );
+    }
+
     final public static function MULTIPLE_CHOICES(?string $message = null): StatusCode
     {
         return new StatusCode(
             300,
             $message ?? 'Multiple Choices'
+        );
+    }
+
+    final public static function MOVED_PERMANENTLY(?string $message = null): StatusCode
+    {
+        return new StatusCode(
+            301,
+            $message ?? 'Moved Permanently'
+        );
+    }
+
+    final public static function MOVED_TEMPORARILY(?string $message = null): StatusCode
+    {
+        return new StatusCode(
+            302,
+            $message ?? 'Moved temporarily'
+        );
+    }
+
+    final public static function SEE_OTHER(?string $message = null): StatusCode
+    {
+        return new StatusCode(
+            303,
+            $message ?? 'See Other'
+        );
+    }
+
+    final public static function NOT_MODIFIED(?string $message = null): StatusCode
+    {
+        return new StatusCode(
+            304,
+            $message ?? 'Not Modified'
+        );
+    }
+
+    final public static function USE_PROXY(?string $message = null): StatusCode
+    {
+        return new StatusCode(
+            305,
+            $message ?? 'Use Proxy'
         );
     }
 
@@ -124,6 +212,38 @@ class StatusCode implements StatusCodeEnum
         );
     }
 
+    final public static function PROXY_AUTHENTICATION_REQUIRED(?string $message = null): StatusCode
+    {
+        return new StatusCode(
+            407,
+            $message ?? 'Proxy Authentication Required'
+        );
+    }
+
+    final public static function REQUEST_TIMEOUT(?string $message = null): StatusCode
+    {
+        return new StatusCode(
+            408,
+            $message ?? 'Request Timeout'
+        );
+    }
+
+    final public static function UNPROCESSABLE_CONTENT(?string $message = null): StatusCode
+    {
+        return new StatusCode(
+            422,
+            $message ?? 'Unprocessable Content'
+        );
+    }
+
+    final public static function UPGRADE_REQUIRED(?string $message = null): StatusCode
+    {
+        return new StatusCode(
+            426,
+            $message ?? 'Upgrade Required'
+        );
+    }
+
     final public static function SERVER_ERROR(?string $message = null): StatusCode
     {
         return new StatusCode(
@@ -132,11 +252,11 @@ class StatusCode implements StatusCodeEnum
         );
     }
 
-    final public static function CODE_501(?string $message = null): StatusCode
+    final public static function NOT_IMPLEMENTED(?string $message = null): StatusCode
     {
         return new StatusCode(
             501,
-            $message ?? 'code 501'
+            $message ?? 'Not Implemented'
         );
     }
 

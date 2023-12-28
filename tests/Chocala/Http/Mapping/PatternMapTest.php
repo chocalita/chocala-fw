@@ -57,14 +57,14 @@ class PatternMapTest extends TestCase
 
         $var = '/testMo/ActiontestCo/testMo/testC/1';
         $t = preg_match('/^'.$pattern.'/i', $var, $out, PREG_OFFSET_CAPTURE);
-//        $t = preg_match_all('/^'.$pattern.'/i', $var, $out, PREG_PATTERN_ORDER);
+        //$t = preg_match_all('/^'.$pattern.'/i', $var, $out, PREG_PATTERN_ORDER);
         print_r($t);
         print_r("\n");
         print_r($out);
         print_r("\n");
 
 
-//        $t = preg_match_all('/\/controller\/[0-9a-zA-Z-_]+\//', '/controller/asa-aaapo/123', $out, PREG_OFFSET_CAPTURE);
+//        $t = preg_match_all('/\/controller\/[0-9a-zA-Z-_]+\/([0-9a-zA-Z-_]+)/', '/controller/asa-aaapo/123', $out, PREG_OFFSET_CAPTURE);
 //        print_r($t);
 //        print_r("\n");
 //        print_r($out);

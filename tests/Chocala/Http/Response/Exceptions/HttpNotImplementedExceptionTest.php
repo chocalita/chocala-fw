@@ -6,31 +6,31 @@ use Chocala\Http\Response\Parts\StatusCode;
 use Chocala\Http\Response\Parts\StatusCodeEnum;
 use PHPUnit\Framework\TestCase;
 
-class HttpServerErrorExceptionTest extends TestCase
+class HttpNotImplementedExceptionTest extends TestCase
 {
 
     private StatusCodeEnum $defaultStatusCode;
 
     public function setUp()
     {
-        $this->defaultStatusCode = StatusCode::SERVER_ERROR();
+        $this->defaultStatusCode = StatusCode::NOT_IMPLEMENTED();
     }
 
     public function test__construct()
     {
-        $e = new HttpServerErrorException();
+        $e = new HttpNotImplementedException();
         $this->assertBasics($e);
 
-        $e = new HttpServerErrorException('My message');
+        $e = new HttpNotImplementedException('My message');
         $this->assertBasics($e);
 
-        $e = new HttpServerErrorException('My message', new \Exception('Test exception'));
+        $e = new HttpNotImplementedException('My message', new \Exception('Test exception'));
         $this->assertBasics($e);
     }
 
     public function testStatusCode()
     {
-        $e = new HttpServerErrorException();
+        $e = new HttpNotImplementedException();
         $this->assertBasics($e);
         $this->assertBasicsStatusCode($e);
         self::assertEquals($this->defaultStatusCode, $e->statusCode());
@@ -39,14 +39,14 @@ class HttpServerErrorExceptionTest extends TestCase
 
     public function testStatusCodeProperties()
     {
-        $e = new HttpServerErrorException();
+        $e = new HttpNotImplementedException();
         $this->assertBasics($e);
         $this->assertBasicsStatusCode($e);
         self::assertEquals($this->defaultStatusCode->code(), $e->statusCode()->code());
         self::assertEquals($this->defaultStatusCode->message(), $e->statusCode()->message());
 
-        $myMessage = 'My internal server error message';
-        $e = new HttpServerErrorException($myMessage);
+        $myMessage = 'My not implemented message';
+        $e = new HttpNotImplementedException($myMessage);
         $this->assertBasics($e);
         $this->assertBasicsStatusCode($e);
         self::assertEquals($this->defaultStatusCode->code(), $e->statusCode()->code());
@@ -60,7 +60,7 @@ class HttpServerErrorExceptionTest extends TestCase
         self::assertIsObject($e);
         self::assertInstanceOf(HttpResponseExceptionInterface::class, $e);
         self::assertInstanceOf(HttpResponseException::class, $e);
-        self::assertInstanceOf(HttpServerErrorException::class, $e);
+        self::assertInstanceOf(HttpNotImplementedException::class, $e);
     }
 
     private function assertBasicsStatusCode($e)
