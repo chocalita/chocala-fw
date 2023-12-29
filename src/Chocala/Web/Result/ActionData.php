@@ -2,7 +2,7 @@
 
 namespace Chocala\Web\Result;
 
-class ControllerResult implements ControllerResultInterface
+class ActionData implements ActionDataInterface
 {
 
     /**

@@ -2,7 +2,7 @@
 
 namespace Chocala\Web\Result;
 
-interface ControllerResultInterface
+interface ActionDataInterface
 {
 
     public function vars(): array;

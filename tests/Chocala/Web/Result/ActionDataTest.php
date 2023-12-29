@@ -4,7 +4,7 @@ namespace Chocala\Web\Result;
 
 use PHPUnit\Framework\TestCase;
 
-class ControllerResultTest extends TestCase
+class ActionDataTest extends TestCase
 {
 
     private array $values = [
@@ -15,20 +15,20 @@ class ControllerResultTest extends TestCase
 
     public function test__construct()
     {
-        $object = new ControllerResult();
+        $object = new ActionData();
         self::assertNotNull($object);
         self::assertIsObject($object);
     }
 
     public function testVars()
     {
-        $object = new ControllerResult();
+        $object = new ActionData();
         $this->objectBasics($object);
     }
 
     public function testSetVar()
     {
-        $object = new ControllerResult();
+        $object = new ActionData();
         $this->objectBasics($object);
         $object->setVar('key', 'value');
         $object->setVar('numeric', 1);
@@ -38,7 +38,7 @@ class ControllerResultTest extends TestCase
 
     public function testSetVars()
     {
-        $object = new ControllerResult();
+        $object = new ActionData();
         $this->objectBasics($object);
         $object->setVar('numeric', 1);
         self::assertCount(1, $object->vars());
@@ -51,7 +51,7 @@ class ControllerResultTest extends TestCase
 
     public function test__toString()
     {
-        $object = new ControllerResult();
+        $object = new ActionData();
         $this->objectBasics($object);
         self::assertEmpty($object->__toString());
         self::assertSame('', $object->__toString());
@@ -62,7 +62,7 @@ class ControllerResultTest extends TestCase
         self::assertStringEndsWith('}', $object->__toString());
     }
 
-    private function objectBasics(ControllerResult $object)
+    private function objectBasics(ActionData $object)
     {
         self::assertNotNull($object);
         self::assertIsObject($object);
