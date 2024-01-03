@@ -12,8 +12,8 @@ interface ControllerInterface
 
     public function _isAllowedMethod(string $action, HttpMethodEnum $method): bool;
 
-    public function _result(): ActionResultInterface;
+    public function _apply(ActionResultInterface $actionResult);
 
-    public function _isRendered(): bool;
+    public function _render();
 
 }

@@ -13,7 +13,7 @@ trait ControllerTrait
 
     protected ActionDataInterface $_data;
 
-    protected ActionResultInterface $_defaultResult;
+    protected ActionResultInterface $_actionResult;
 
     protected bool $_isRendered = false;
 
@@ -25,14 +25,23 @@ trait ControllerTrait
         return true;
     }
 
-    final public function _result(): ActionResultInterface
+    final public function _apply(ActionResultInterface $actionResult)
     {
-        return $this->_defaultResult;
+        $this->_actionResult = $actionResult;
     }
 
-    final public function _isRendered(): bool
+    /**
+     * Generates content for the Response
+     *
+     * @return mixed
+     */
+    final public function _render()
     {
-        return $this->_isRendered;
+        if (!$this->_isRendered) {
+            $this->_isRendered = true;
+            return $this->_actionResult->result($this->_data);
+        }
+        throw new DuplicatedRenderException();
     }
 
 }
