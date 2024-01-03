@@ -20,12 +20,13 @@ trait ControllerTrait
     final public function _isAllowedMethod(string $action, HttpMethodEnum $method): bool
     {
         if (isset($this->_allowedMethods[$action])) {
-            return strtoupper(trim($this->_allowedMethods[$action])) == $method;
+            $value = strtoupper(trim($this->_allowedMethods[$action]));
+            return $value == $method->name() || $value == '*';
         }
         return true;
     }
 
-    final public function _apply(ActionResultInterface $actionResult)
+    final public function _apply(ActionResultInterface $actionResult): void
     {
         $this->_actionResult = $actionResult;
     }

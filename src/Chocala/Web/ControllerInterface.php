@@ -12,7 +12,7 @@ interface ControllerInterface
 
     public function _isAllowedMethod(string $action, HttpMethodEnum $method): bool;
 
-    public function _apply(ActionResultInterface $actionResult);
+    public function _apply(ActionResultInterface $actionResult): void;
 
     public function _render();
 

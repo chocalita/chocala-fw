@@ -8,16 +8,16 @@ use Chocala\Http\Response\Parts\StatusCode;
 use Chocala\Web\Result\Fakes\FakeActionData;
 use PHPUnit\Framework\TestCase;
 
-class JsonActionResultTest extends TestCase
+class PrintActionResultTest extends TestCase
 {
 
-    private JsonActionResult $defaultActionResult;
+    private PrintActionResult $defaultActionResult;
 
     private ActionDataInterface $fakeActionData;
 
     public function setUp()
     {
-        $this->defaultActionResult = new JsonActionResult(
+        $this->defaultActionResult = new PrintActionResult(
             StatusCode::OK(),
             new Headers([], [])
         );
@@ -26,14 +26,14 @@ class JsonActionResultTest extends TestCase
 
     public function test__construct()
     {
-        $actionResult = new JsonActionResult(
+        $actionResult = new PrintActionResult(
             StatusCode::SERVER_ERROR(),
             new Headers(['fooHeader' => 'one'])
         );
         self::assertNotNull($actionResult);
         self::assertIsObject($actionResult);
 
-        $actionResult = new JsonActionResult(
+        $actionResult = new PrintActionResult(
             StatusCode::SERVER_ERROR()
         );
         self::assertNotNull($actionResult);
@@ -41,8 +41,7 @@ class JsonActionResultTest extends TestCase
 
         $this->expectException(ArgumentCountError::class);
         $this->expectExceptionMessageRegExp('/Too few arguments to function/');
-        new JsonActionResult();
-
+        new PrintActionResult();
     }
 
     public function testHeaders()
@@ -52,7 +51,7 @@ class JsonActionResultTest extends TestCase
         self::assertIsObject($this->defaultActionResult->headers());
         self::assertEmpty($this->defaultActionResult->headers()->headerList());
 
-        $actionResult = new JsonActionResult(
+        $actionResult = new PrintActionResult(
             StatusCode::OK(),
             new Headers(
                 [
@@ -65,7 +64,6 @@ class JsonActionResultTest extends TestCase
         self::assertIsObject($actionResult);
         self::assertIsObject($actionResult->headers());
         self::assertNotEmpty($actionResult->headers()->headerList());
-        //print_r($actionResult->headers());
     }
 
     public function testStatus()
@@ -76,26 +74,26 @@ class JsonActionResultTest extends TestCase
         self::assertNotEmpty($this->defaultActionResult->status()->message());
         self::assertNotEmpty($this->defaultActionResult->status()->code());
 
-        $actionResult = new JsonActionResult(StatusCode::OK(''));
+        $actionResult = new PrintActionResult(StatusCode::OK(''));
         self::assertIsObject($actionResult);
         self::assertNotNull($actionResult->status());
         self::assertIsObject($actionResult->status());
         self::assertEquals(StatusCode::OK(''), $actionResult->status());
         self::assertEmpty($actionResult->status()->message());
 
-        $actionResult = new JsonActionResult(StatusCode::MOVED_PERMANENTLY());
+        $actionResult = new PrintActionResult(StatusCode::MOVED_PERMANENTLY());
         self::assertIsObject($actionResult);
         self::assertNotNull($actionResult->status());
         self::assertIsObject($actionResult->status());
         self::assertEquals(StatusCode::MOVED_PERMANENTLY(), $actionResult->status());
 
-        $actionResult = new JsonActionResult(StatusCode::NOT_FOUND());
+        $actionResult = new PrintActionResult(StatusCode::NOT_FOUND());
         self::assertIsObject($actionResult);
         self::assertNotNull($actionResult->status());
         self::assertIsObject($actionResult->status());
         self::assertEquals(StatusCode::NOT_FOUND(), $actionResult->status());
 
-        $actionResult = new JsonActionResult(StatusCode::SERVER_ERROR());
+        $actionResult = new PrintActionResult(StatusCode::SERVER_ERROR());
         self::assertIsObject($actionResult);
         self::assertNotNull($actionResult->status());
         self::assertIsObject($actionResult->status());
@@ -109,18 +107,16 @@ class JsonActionResultTest extends TestCase
         $result = $this->defaultActionResult->result($this->fakeActionData);
         self::assertNotNull($result);
         self::assertNotEmpty($result);
-        self::assertJson($result);
-        $jsonString = json_encode(FakeActionData::DEFAULT_VARS);
-        self::assertEquals($jsonString, $result);
-        //echo $result;
+        $expectedString = print_r(FakeActionData::DEFAULT_VARS, true);
+        self::assertEquals($expectedString, $result);
 
-        $actionResult = new JsonActionResult(StatusCode::OK());
+        $actionResult = new PrintActionResult(StatusCode::OK());
         self::assertIsObject($actionResult);
         $result = $actionResult->result(new FakeActionData([]));
         self::assertNotNull($result);
         self::assertNotEmpty($result);
-        self::assertEquals('[]', $result);
-        //echo $result;
+        $expectedString = print_r([], true);
+        self::assertEquals($expectedString, $result);
     }
 
 }

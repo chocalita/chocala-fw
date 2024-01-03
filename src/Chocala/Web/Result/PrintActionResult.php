@@ -5,7 +5,7 @@ namespace Chocala\Web\Result;
 use Chocala\Http\Headers;
 use Chocala\Http\Response\Parts\StatusCode;
 
-class JsonActionResult implements ActionResultInterface
+class PrintActionResult implements ActionResultInterface
 {
     use ActionResultTrait;
 
@@ -17,8 +17,7 @@ class JsonActionResult implements ActionResultInterface
 
     public function result(ActionDataInterface $data)
     {
-        $vars = $data->vars();
-        return json_encode($vars);
+        return print_r($data->vars(), true);
     }
 
 }
