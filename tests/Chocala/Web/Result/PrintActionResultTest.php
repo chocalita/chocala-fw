@@ -3,7 +3,7 @@
 namespace Chocala\Web\Result;
 
 use ArgumentCountError;
-use Chocala\Http\Headers;
+use Chocala\Http\Response\Parts\ResponseHeaders;
 use Chocala\Http\Response\Parts\StatusCode;
 use Chocala\Web\Result\Fakes\FakeActionData;
 use PHPUnit\Framework\TestCase;
@@ -19,7 +19,7 @@ class PrintActionResultTest extends TestCase
     {
         $this->defaultActionResult = new PrintActionResult(
             StatusCode::OK(),
-            new Headers([], [])
+            new ResultHeaders([])
         );
         $this->fakeActionData = new FakeActionData();
     }
@@ -28,7 +28,7 @@ class PrintActionResultTest extends TestCase
     {
         $actionResult = new PrintActionResult(
             StatusCode::SERVER_ERROR(),
-            new Headers(['fooHeader' => 'one'])
+            new ResultHeaders(['fooHeader' => 'one'])
         );
         self::assertNotNull($actionResult);
         self::assertIsObject($actionResult);
@@ -53,12 +53,11 @@ class PrintActionResultTest extends TestCase
 
         $actionResult = new PrintActionResult(
             StatusCode::OK(),
-            new Headers(
+            new ResultHeaders(
                 [
                     'fooHeader' => 'one',
                     'barHeader' => 'two'
-                ],
-                []
+                ]
             )
         );
         self::assertIsObject($actionResult);

@@ -2,8 +2,8 @@
 
 namespace Chocala\Web\Result;
 
-use Chocala\Http\Headers;
 use Chocala\Http\Response\Parts\StatusCode;
+use Chocala\Http\Response\Parts\StatusCodeEnum;
 
 class DefaultActionResult implements ActionResultInterface
 {
@@ -14,22 +14,22 @@ class DefaultActionResult implements ActionResultInterface
     {
         $this->actionResult = new JsonActionResult(
             StatusCode::OK(),
-            new Headers([], [])
+            new ResultHeaders()
         );
 
     }
 
-    public function status(): StatusCode
+    public function status(): StatusCodeEnum
     {
         return $this->actionResult->status();
     }
 
-    public function headers(): Headers
+    public function headers(): ResultHeadersInterface
     {
         return $this->actionResult->headers();
     }
 
-    public function result(ActionData $data)
+    public function result(ActionDataInterface $data)
     {
         return $this->actionResult->result($data);
     }

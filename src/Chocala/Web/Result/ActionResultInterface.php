@@ -2,16 +2,15 @@
 
 namespace Chocala\Web\Result;
 
-use Chocala\Http\Headers;
-use Chocala\Http\Response\Parts\StatusCode;
+use Chocala\Http\Response\Parts\StatusCodeEnum;
 
 interface ActionResultInterface
 {
 
-    public function status(): StatusCode;
+    public function status(): StatusCodeEnum;
 
-    public function headers(): Headers;
+    public function headers(): ResultHeadersInterface;
 
-    public function result(ActionData $data);
+    public function result(ActionDataInterface $data);
 
 }

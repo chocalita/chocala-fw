@@ -2,23 +2,22 @@
 
 namespace Chocala\Web\Result;
 
-use Chocala\Http\Headers;
 use Chocala\Http\Response\Parts\StatusCode;
+use Chocala\Http\Response\Parts\StatusCodeEnum;
 
 trait ActionResultTrait
 {
 
     protected StatusCode $statusCode;
 
-    //TODO: change this with a subtype of ResponseHeaders
-    protected Headers $headers;
+    protected ResultHeadersInterface $headers;
 
-    public function status(): StatusCode
+    public function status(): StatusCodeEnum
     {
         return $this->statusCode;
     }
 
-    public function headers(): Headers
+    public function headers(): ResultHeadersInterface
     {
         return $this->headers;
     }

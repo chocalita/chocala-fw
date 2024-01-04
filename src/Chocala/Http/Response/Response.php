@@ -32,8 +32,9 @@ class Response implements ResponseInterface
      * @param ResponseHeadersInterface $headers
      * @param ResponseBodyInterface $body
      */
-    public function __construct(StatusCodeEnum        $statusCode, ResponseHeadersInterface $headers,
-                                ResponseBodyInterface $body)
+    public function __construct(StatusCodeEnum           $statusCode,
+                                ResponseHeadersInterface $headers,
+                                ResponseBodyInterface    $body)
     {
         $this->statusCode = $statusCode;
         $this->headers = $headers;

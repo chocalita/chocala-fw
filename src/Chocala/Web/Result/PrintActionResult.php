@@ -2,17 +2,16 @@
 
 namespace Chocala\Web\Result;
 
-use Chocala\Http\Headers;
 use Chocala\Http\Response\Parts\StatusCode;
 
 class PrintActionResult implements ActionResultInterface
 {
     use ActionResultTrait;
 
-    public function __construct(StatusCode $statusCode, Headers $headers = null)
+    public function __construct(StatusCode $statusCode, ResultHeaders $headers = null)
     {
         $this->statusCode = $statusCode;
-        $this->headers = $headers ?? new Headers([], []);
+        $this->headers = $headers ?? new ResultHeaders();
     }
 
     public function result(ActionDataInterface $data)
