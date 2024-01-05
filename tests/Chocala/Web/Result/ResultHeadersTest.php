@@ -2,7 +2,6 @@
 
 namespace Chocala\Web\Result;
 
-use ArgumentCountError;
 use Chocala\Base\IllegalArgumentException;
 use Chocala\Base\NotFoundException;
 use Chocala\Http\Headers;
@@ -148,6 +147,5 @@ class ResultHeadersTest extends TestCase
             'token' => 'TgU02iSTwe73eRh'
         ];
     }
-
 
 }

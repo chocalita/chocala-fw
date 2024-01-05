@@ -2,15 +2,17 @@
 
 namespace Chocala\Web\Result;
 
-use Chocala\Http\Response\Parts\StatusCode;
+use Chocala\Http\Response\Parts\ResponseBodyInterface;
 use Chocala\Http\Response\Parts\StatusCodeEnum;
 
 trait ActionResultTrait
 {
 
-    protected StatusCode $statusCode;
+    protected StatusCodeEnum $statusCode;
 
     protected ResultHeadersInterface $headers;
+
+    protected ResponseBodyInterface $body;
 
     public function status(): StatusCodeEnum
     {

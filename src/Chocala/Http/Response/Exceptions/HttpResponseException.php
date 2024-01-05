@@ -23,7 +23,7 @@ class HttpResponseException extends ChocalaException implements HttpResponseExce
 
     protected StatusCodeEnum $statusCode;
 
-    public function __construct(StatusCode $statusCode, \Throwable $previous = null)
+    public function __construct(StatusCodeEnum $statusCode, \Throwable $previous = null)
     {
         parent::__construct($statusCode->message(), $statusCode->code(), $previous);
         $this->statusCode = $statusCode;

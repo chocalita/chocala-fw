@@ -4,8 +4,8 @@ namespace Chocala\Web;
 
 use Chocala\Http\HttpMethod;
 use Chocala\Http\Response\Parts\StatusCode;
-use Chocala\Web\Result\DefaultActionResult;
-use Chocala\Web\Result\PrintActionResult;
+use Chocala\Web\Result\DefaultActionBody;
+use Chocala\Web\Result\PrintActionBody;
 use Exception;
 use PHPUnit\Framework\TestCase;
 
@@ -55,31 +55,31 @@ class ControllerBaseTest extends TestCase
         self::assertTrue($controllerBase->_isAllowedMethod('delete', HttpMethod::DELETE()));
     }
 
-    public function test_apply()
+    public function test_bodyAs()
     {
         $controllerBase = $this->newControllerBaseCustomClass();
         self::assertIsObject($controllerBase);
         try {
-            self::assertAttributeInstanceOf(DefaultActionResult::class, '_actionResult', $controllerBase);
-            $controllerBase->_apply(new PrintActionResult(StatusCode::OK()));
+            self::assertAttributeInstanceOf(DefaultActionBody::class, '_actionBody', $controllerBase);
+            $controllerBase->_bodyAs(new PrintActionBody(StatusCode::OK()));
             self::assertTrue(true);
             $controllerBase->set('name', 'john');
             $controllerBase->set('lastname', 'doe');
-            self::assertAttributeInstanceOf(PrintActionResult::class, '_actionResult', $controllerBase);
+            self::assertAttributeInstanceOf(PrintActionBody::class, '_actionBody', $controllerBase);
         } catch (Exception $e) {
             self::fail();
         }
     }
 
-    public function test_render()
+    public function test_process()
     {
         $controllerBase = $this->newControllerBaseCustomClass();
         self::assertIsObject($controllerBase);
         self::assertObjectHasAttribute('_data', $controllerBase);
-        self::assertObjectHasAttribute('_actionResult', $controllerBase);
+        self::assertObjectHasAttribute('_actionBody', $controllerBase);
         $controllerBase->set('name', 'john');
         $controllerBase->set('lastname', 'doe');
-        $res = $controllerBase->_render();
+        $res = $controllerBase->_process();
         $expected = json_encode(['name' => 'john', 'lastname' => 'doe']);
         self::assertNotNull($res);
         self::assertNotEmpty($res);
@@ -87,14 +87,17 @@ class ControllerBaseTest extends TestCase
         self::assertEquals($expected, $res);
     }
 
-    public function test_duplicatedRender()
+    /**
+     * @throws Exception
+     */
+    public function test_duplicatedProcess()
     {
         $controllerBase = $this->newControllerBaseCustomClass();
-        $res = $controllerBase->_render();
+        $res = $controllerBase->_process();
         $controllerBase->set('name', 'john');
         $this->expectException(DuplicatedRenderException::class);
         $this->expectExceptionMessageRegExp('/Operation render was did before./');
-        $res2 = $controllerBase->_render();
+        $res2 = $controllerBase->_process();
     }
 
     private function newControllerBaseCustomClass()

@@ -2,8 +2,10 @@
 
 namespace Chocala\Web;
 
+use Chocala\Http\Response\Parts\StatusCode;
 use Chocala\Web\Result\ActionData;
-use Chocala\Web\Result\DefaultActionResult;
+use Chocala\Web\Result\DefaultActionBody;
+use Chocala\Web\Result\EmptyActionResult;
 
 abstract class ControllerBase implements ControllerInterface
 {
@@ -12,7 +14,8 @@ abstract class ControllerBase implements ControllerInterface
     public function __construct()
     {
         $this->_data = new ActionData();
-        $this->_actionResult = new DefaultActionResult();
+        $this->_actionBody = new DefaultActionBody();
+        $this->_actionResult = new EmptyActionResult(StatusCode::OK());
     }
 
     /**

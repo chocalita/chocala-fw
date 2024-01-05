@@ -8,7 +8,7 @@ use Chocala\Web\Result\ActionDataInterface;
 class FakeActionData implements ActionDataInterface
 {
 
-    public const DEFAULT_VARS = [
+    public const DEFAULT_DATA = [
         'name' => 'John',
         'lastname' => 'Doe',
         'age' => 25,
@@ -18,9 +18,9 @@ class FakeActionData implements ActionDataInterface
         ]
     ];
 
-    private ActionData $actionData;
+    private ActionDataInterface $actionData;
 
-    public function __construct(array $vars = self::DEFAULT_VARS)
+    public function __construct(array $vars = self::DEFAULT_DATA)
     {
         $this->actionData = new ActionData();
         $this->actionData->setVars($vars);

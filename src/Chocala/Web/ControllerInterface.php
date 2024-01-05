@@ -4,6 +4,7 @@ namespace Chocala\Web;
 
 use Chocala\Http\HttpMethodEnum;
 use Chocala\Web\Result\ActionResultInterface;
+use Chocala\Web\Result\ActionBodyInterface;
 
 interface ControllerInterface
 {
@@ -12,8 +13,8 @@ interface ControllerInterface
 
     public function _isAllowedMethod(string $action, HttpMethodEnum $method): bool;
 
-    public function _apply(ActionResultInterface $actionResult): void;
+    public function _bodyAs(ActionBodyInterface $actionBody): void;
 
-    public function _render();
+    public function _process(string $actionName): ActionResultInterface;
 
 }

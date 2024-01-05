@@ -3,8 +3,11 @@
 namespace Chocala\Web;
 
 use Chocala\Http\HttpMethodEnum;
-use Chocala\Web\Result\ActionDataInterface;
+use Chocala\Web\Result\ActionResult;
 use Chocala\Web\Result\ActionResultInterface;
+use Chocala\Web\Result\ActionBodyInterface;
+use Chocala\Web\Result\ActionDataInterface;
+use Exception;
 
 trait ControllerTrait
 {
@@ -12,6 +15,8 @@ trait ControllerTrait
     protected array $_allowedMethods = [];
 
     protected ActionDataInterface $_data;
+
+    protected ActionBodyInterface $_actionBody;
 
     protected ActionResultInterface $_actionResult;
 
@@ -26,21 +31,31 @@ trait ControllerTrait
         return true;
     }
 
-    final public function _apply(ActionResultInterface $actionResult): void
+    final public function _bodyAs(ActionBodyInterface $actionBody): void
     {
-        $this->_actionResult = $actionResult;
+        $this->_actionBody = $actionBody;
     }
 
     /**
      * Generates content for the Response
      *
-     * @return mixed
+     * @param string $actionName
+     * @return ActionResultInterface
+     * @throws Exception
      */
-    final public function _render()
+    final public function _process(string $actionName): ActionResultInterface
     {
         if (!$this->_isRendered) {
-            $this->_isRendered = true;
-            return $this->_actionResult->result($this->_data);
+            try {
+                $this->$actionName();
+                $bodyContent = $this->_actionBody->result($this->_data);
+                return new ActionResult($this->_actionResult, $bodyContent);
+            } catch (Exception $e) {
+                // TODO: improve this expecting HttpExceptions
+                throw $e;
+            } finally {
+                $this->_isRendered = true;
+            }
         }
         throw new DuplicatedRenderException();
     }
