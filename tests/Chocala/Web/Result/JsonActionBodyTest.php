@@ -40,6 +40,16 @@ class JsonActionBodyTest extends TestCase
         self::assertNotEquals($fakeDataJson, $result);
         self::assertEquals($emptyArrayJson, $result);
         //echo $result;
+
+        // TODO return empty string and empty object (this method always returns empty array)
+        $actionBody = new JsonActionBody();
+        self::assertIsObject($actionBody);
+        $result = $actionBody->result(new ActionData());
+        self::assertNotNull($result);
+        self::assertNotEmpty($result);
+        self::assertNotEquals($fakeDataJson, $result);
+        self::assertEquals($emptyArrayJson, $result);
+        //echo $result;
     }
 
 }

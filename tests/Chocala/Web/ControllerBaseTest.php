@@ -71,7 +71,10 @@ class ControllerBaseTest extends TestCase
         }
     }
 
-    public function test_process()
+    /**
+     * @throws Exception
+     */
+    public function test_callback()
     {
         $controllerBase = $this->newControllerBaseCustomClass();
         self::assertIsObject($controllerBase);
@@ -79,12 +82,13 @@ class ControllerBaseTest extends TestCase
         self::assertObjectHasAttribute('_actionBody', $controllerBase);
         $controllerBase->set('name', 'john');
         $controllerBase->set('lastname', 'doe');
-        $res = $controllerBase->_process();
+        $res = $controllerBase->_callback('testData');
         $expected = json_encode(['name' => 'john', 'lastname' => 'doe']);
         self::assertNotNull($res);
         self::assertNotEmpty($res);
-        self::assertIsNotObject($res);
-        self::assertEquals($expected, $res);
+        self::assertIsObject($res);
+        self::assertIsObject($res->body());
+        self::assertEquals($expected, $res->body()->data());
     }
 
     /**
@@ -93,11 +97,11 @@ class ControllerBaseTest extends TestCase
     public function test_duplicatedProcess()
     {
         $controllerBase = $this->newControllerBaseCustomClass();
-        $res = $controllerBase->_process();
+        $res = $controllerBase->_callback('testData');
         $controllerBase->set('name', 'john');
         $this->expectException(DuplicatedRenderException::class);
         $this->expectExceptionMessageRegExp('/Operation render was did before./');
-        $res2 = $controllerBase->_process();
+        $res2 = $controllerBase->_callback('testData');
     }
 
     private function newControllerBaseCustomClass()
@@ -118,6 +122,7 @@ class ControllerBaseTest extends TestCase
                 parent::__construct();
             }
 
+            // check why this method is not in the interface
             public function testData()
             {
                 return $this->_data;

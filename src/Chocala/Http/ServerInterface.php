@@ -5,6 +5,6 @@ namespace Chocala\Http;
 interface ServerInterface
 {
 
-    public function submit(RequestInterface $request): ResponseInterface;
+    public function submit(): ResponseInterface;
 
 }

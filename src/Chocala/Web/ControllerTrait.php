@@ -43,7 +43,7 @@ trait ControllerTrait
      * @return ActionResultInterface
      * @throws Exception
      */
-    final public function _process(string $actionName): ActionResultInterface
+    final public function _callback(string $actionName): ActionResultInterface
     {
         if (!$this->_isRendered) {
             try {

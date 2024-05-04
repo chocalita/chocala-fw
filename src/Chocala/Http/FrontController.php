@@ -21,7 +21,7 @@ class FrontController implements HttpManagement
     public function route()
     {
         // TODO: Implement route() method.
-        $this->server->submit(null);
+        $this->server->submit();
     }
 
 }

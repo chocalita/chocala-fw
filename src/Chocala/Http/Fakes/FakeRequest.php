@@ -14,15 +14,15 @@ use Chocala\Http\RequestInterface;
 class FakeRequest extends Request implements RequestInterface
 {
 
-    public function __construct(?RequestLineInterface $fakeRequestLine = null,
-                                ?HeadersInterface $fakeHeaders = null,
-                                ?RequestDataInterface $fakeRequestData = null
+    public function __construct(?RequestLineInterface $requestLine = null,
+                                ?HeadersInterface     $headers = null,
+                                ?RequestDataInterface $requestData = null
     )
     {
         parent::__construct(
-            $fakeRequestLine?: new FakeRequestLine(),
-            $fakeHeaders?: new FakeRequestHeaders(),
-            $fakeRequestData?: new FakeRequestData()
+            $requestLine?: new FakeRequestLine(),
+            $headers?: new FakeRequestHeaders(),
+            $requestData?: new FakeRequestData()
         );
     }
 

@@ -15,6 +15,6 @@ interface ControllerInterface
 
     public function _bodyAs(ActionBodyInterface $actionBody): void;
 
-    public function _process(string $actionName): ActionResultInterface;
+    public function _callback(string $actionName): ActionResultInterface;
 
 }
