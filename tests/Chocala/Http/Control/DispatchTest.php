@@ -1,8 +1,7 @@
 <?php
 
-namespace Http\Control;
+namespace Chocala\Http\Control;
 
-use Chocala\Http\Control\Dispatch;
 use Chocala\Http\Fakes\FakeRequest;
 use Chocala\Http\Route\Fakes\FakeActionMapping;
 use Chocala\Http\ServerInterface;
@@ -21,6 +20,8 @@ class DispatchTest extends TestCase
     public function test__construct()
     {
         $object = new Dispatch(
+            //new FakeRequest(new RequestLine(HttpMethod::GET(), '/uriTo/controller/action')),
+            //new FakeRequest(new RequestLine(HttpMethod::GET(), 'http://localhost:8081/uriTo/controller/action')),
             new FakeRequest(),
             new FakeActionMapping()
         );
@@ -34,6 +35,17 @@ class DispatchTest extends TestCase
     {
         // TODO: test $dispatch->submit() method
         self::assertNotNull(1);
+        $object = new Dispatch(
+            new FakeRequest(),
+            new FakeActionMapping()
+        );
+        $vx = new \App\Controllers\section\VxController();
+        $response = $object->submit();
+
+        //self::assertNotNull($response);
+
+        $x = "y";
+
     }
 
 }

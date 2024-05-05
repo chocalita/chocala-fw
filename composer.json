@@ -16,6 +16,7 @@
       "App/model/domain/"
     ],
     "psr-4": {
+      "App\\": "src/App",
       "Chocala\\": "src/Chocala"
     }
   },

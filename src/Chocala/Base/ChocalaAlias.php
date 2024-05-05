@@ -17,7 +17,7 @@ class ChocalaAlias
      * @param string $key
      * @return boolean
      */
-    public static function isAlias($key)
+    public static function isAlias(string $key): bool
     {
         return isset(AppConfig::$aliases[$key]);
     }
@@ -27,7 +27,7 @@ class ChocalaAlias
      * @param string $key
      * @return string
      */
-    public static function aliasDir($key)
+    public static function aliasDir(string $key): ?string
     {
         return self::isAlias($key)? AppConfig::$aliases[$key]: null;
     }
