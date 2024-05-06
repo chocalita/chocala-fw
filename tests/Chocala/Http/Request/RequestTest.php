@@ -2,8 +2,8 @@
 
 namespace Chocala\Http\Request;
 
-use Chocala\Http\Request\Parts\Fakes\FakeRequestHeaders;
 use Chocala\Http\Request\Parts\Fakes\FakeRequestData;
+use Chocala\Http\Request\Parts\Fakes\FakeRequestHeaders;
 use Chocala\Http\Request\Parts\Fakes\FakeRequestLine;
 use PHPUnit\Framework\TestCase;
 

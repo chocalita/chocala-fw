@@ -20,6 +20,11 @@
       "Chocala\\": "src/Chocala"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Chocala\\": "tests/Chocala"
+    }
+  },
   "repositories": [
     {
       "type": "composer",

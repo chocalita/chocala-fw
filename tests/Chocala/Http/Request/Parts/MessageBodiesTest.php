@@ -4,7 +4,6 @@ namespace Http\Request\Parts;
 
 use Chocala\Base\IllegalArgumentException;
 use Chocala\Base\UnsupportedOperationException;
-use Chocala\Http\Headers;
 use Chocala\Http\HttpMethod;
 use Chocala\Http\IO\Fakes\FakeInputStream;
 use Chocala\Http\Request\Parts\Fakes\FakeFormDataBody;

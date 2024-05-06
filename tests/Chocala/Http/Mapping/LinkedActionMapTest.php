@@ -4,8 +4,8 @@ namespace Http\Mapping;
 
 use Chocala\Http\Mapping\ActionMap;
 use Chocala\Http\Mapping\ActionMapInterface;
-use Chocala\Http\Mapping\LinkedActionMap;
 use Chocala\Http\Mapping\Fakes\FakeActionMap;
+use Chocala\Http\Mapping\LinkedActionMap;
 use PHPUnit\Framework\TestCase;
 
 class LinkedActionMapTest extends TestCase

@@ -3,8 +3,8 @@
 namespace Chocala\Http\Fakes;
 
 use Chocala\Http\HeadersInterface;
-use Chocala\Http\Request\Parts\Fakes\FakeRequestHeaders;
 use Chocala\Http\Request\Parts\Fakes\FakeRequestData;
+use Chocala\Http\Request\Parts\Fakes\FakeRequestHeaders;
 use Chocala\Http\Request\Parts\Fakes\FakeRequestLine;
 use Chocala\Http\Request\Parts\RequestDataInterface;
 use Chocala\Http\Request\Parts\RequestLineInterface;
