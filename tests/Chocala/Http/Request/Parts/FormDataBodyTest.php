@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 class FormDataBodyTest extends TestCase
 {
-
     public function test__construct()
     {
         $formDataBody = new FakeFormDataBody();
@@ -40,17 +39,14 @@ class FormDataBodyTest extends TestCase
 
     private function newFormDataContentCustomClass(): FormDataBody
     {
-        $formDataBody = new class() extends FormDataBody implements MessageBodyInterface {
-
+        $formDataBody = new class () extends FormDataBody implements MessageBodyInterface {
             public function __construct()
             {
                 parent::__construct(
                     []
                 );
             }
-
         };
         return new $formDataBody();
     }
-
 }

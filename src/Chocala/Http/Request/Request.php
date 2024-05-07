@@ -10,7 +10,6 @@ use Exception;
 
 class Request implements RequestInterface
 {
-
     /**
      * @var RequestLineInterface
      */
@@ -32,8 +31,11 @@ class Request implements RequestInterface
      * @param RequestHeadersInterface $headers
      * @param RequestDataInterface $requestData
      */
-    public function __construct(RequestLineInterface $requestLine, RequestHeadersInterface $headers,
-                                RequestDataInterface $requestData)
+    public function __construct(
+        RequestLineInterface    $requestLine,
+        RequestHeadersInterface $headers,
+        RequestDataInterface    $requestData
+    )
     {
         $this->requestLine = $requestLine;
         $this->headers = $headers;
@@ -73,5 +75,4 @@ class Request implements RequestInterface
     {
         return time() . '-' . random_int(100000000, 999999999);
     }
-
 }

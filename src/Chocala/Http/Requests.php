@@ -10,7 +10,6 @@ use Chocala\Http\Request\Request;
 
 class Requests
 {
-
     private array $serverVars;
 
     public function __construct()
@@ -18,7 +17,7 @@ class Requests
         $this->serverVars = &$_SERVER;
     }
 
-    public function make() : RequestInterface
+    public function make(): RequestInterface
     {
         $httpMethod = (new HttpMethods())->make($this->serverVars['REQUEST_METHOD']);
 
@@ -41,7 +40,5 @@ class Requests
             $requestHeaders,
             $requestData
         );
-
     }
-
 }

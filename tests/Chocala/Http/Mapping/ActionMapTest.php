@@ -6,10 +6,9 @@ use PHPUnit\Framework\TestCase;
 
 class ActionMapTest extends TestCase
 {
-
-    private string $module = "testModule";
-    private string $controller = "testController";
-    private string $action = "testAction";
+    private string $module = 'testModule';
+    private string $controller = 'testController';
+    private string $action = 'testAction';
     private int $id = 1000;
     private array $params = ['paramA', 'paramB'];
 
@@ -49,5 +48,4 @@ class ActionMapTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         new ActionMap($this->module, $this->controller);
     }
-
 }

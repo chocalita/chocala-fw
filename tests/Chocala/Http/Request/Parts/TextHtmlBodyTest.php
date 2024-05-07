@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 class TextHtmlBodyTest extends TestCase
 {
-
     public function test__construct()
     {
         $textHtmlBody = new TextHtmlBody(null);
@@ -85,5 +84,4 @@ class TextHtmlBodyTest extends TestCase
         $this->expectException(IllegalArgumentException::class);
         new TextHtmlBody(' </> ');
     }
-
 }

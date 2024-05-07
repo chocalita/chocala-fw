@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class PrintActionBodyTest extends TestCase
 {
-
     public function test__construct()
     {
         $actionBody = new PrintActionBody();
@@ -38,5 +37,4 @@ class PrintActionBodyTest extends TestCase
         self::assertNotEquals($fakeDataString, $result);
         self::assertEquals($emptyArrayString, $result);
     }
-
 }

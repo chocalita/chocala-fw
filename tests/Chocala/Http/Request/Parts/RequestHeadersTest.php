@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 class RequestHeadersTest extends TestCase
 {
-
     /**
      * @var array
      */
@@ -130,7 +129,7 @@ class RequestHeadersTest extends TestCase
         self::assertArrayHasKey('AGE', $headersType);
     }
 
-    private function customHeadersList() : array
+    private function customHeadersList(): array
     {
         $headersList = [
             // One header by type
@@ -149,5 +148,4 @@ class RequestHeadersTest extends TestCase
         }
         return $headersList;
     }
-
 }

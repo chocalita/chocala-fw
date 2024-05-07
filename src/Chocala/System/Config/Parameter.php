@@ -11,7 +11,6 @@ use Chocala\Base\IllegalArgumentException;
  */
 class Parameter extends ConfigBase
 {
-
     /** Integer values accepted */
     const TYPE_INTEGER = 'INTEGER';
 
@@ -92,9 +91,14 @@ class Parameter extends ConfigBase
      * @param string $description [optional] Description of the configuration
      * @param array $options [optional] List of options by configuration
      */
-    public function __construct($name, $value, $type,
-                                $access = self::PROTECTED_ACCESS, $description = '',
-                                $options = [])
+    public function __construct(
+        $name,
+        $value,
+        $type,
+        $access = self::PROTECTED_ACCESS,
+        $description = '',
+        $options = []
+    )
     {
         parent::__construct($name, $value, $access, $description);
         $this->setType($type);
@@ -116,5 +120,4 @@ class Parameter extends ConfigBase
             self::TYPE_SWITCH => self::TYPE_SWITCH
         ];
     }
-
 }

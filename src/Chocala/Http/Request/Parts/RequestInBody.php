@@ -7,7 +7,6 @@ use InvalidArgumentException;
 
 class RequestInBody extends MessageBody implements MessageBodyInterface
 {
-
     public function __construct(string $contentType)
     {
         if (func_num_args() != 1) {
@@ -21,12 +20,11 @@ class RequestInBody extends MessageBody implements MessageBodyInterface
      * @return array
      * @throws IllegalStateException
      */
-    public function data() : array
+    public function data(): array
     {
-        if ($this->data === null ) {
+        if ($this->data === null) {
             throw new IllegalStateException('Data resource is null ' . __CLASS__);
         }
         return $this->data;
     }
-
 }

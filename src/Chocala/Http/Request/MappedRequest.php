@@ -11,7 +11,6 @@ use Chocala\Http\Route\RoutesMappingInterface;
 
 class MappedRequest implements RequestInterface
 {
-
     /**
      * @var RequestInterface
      */
@@ -69,5 +68,4 @@ class MappedRequest implements RequestInterface
     {
         return $this->originalRequest->requestData();
     }
-
 }

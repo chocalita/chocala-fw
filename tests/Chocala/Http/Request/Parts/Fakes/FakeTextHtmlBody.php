@@ -15,5 +15,4 @@ class FakeTextHtmlBody extends TextHtmlBody implements MessageBodyInterface
             self::DEFAULT_DATA
         );
     }
-
 }

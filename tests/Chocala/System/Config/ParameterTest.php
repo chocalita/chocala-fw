@@ -7,10 +7,9 @@ use PHPUnit\Framework\TestCase;
 
 class ParameterTest extends TestCase
 {
-
-    private $name = "param0";
-    private $value = "TestValue";
-    private $description = "Test Description";
+    private $name = 'param0';
+    private $value = 'TestValue';
+    private $description = 'Test Description';
 
     /**
      * @covers Chocala\Base\Parameter
@@ -32,8 +31,8 @@ class ParameterTest extends TestCase
     public function testOtherConstructors()
     {
         $parameter = new Parameter('paramParent', 'TestValueParent', Parameter::TYPE_STRING);
-        $this->assertEquals("paramParent", $parameter->getName());
-        $this->assertEquals("TestValueParent", $parameter->getValue());
+        $this->assertEquals('paramParent', $parameter->getName());
+        $this->assertEquals('TestValueParent', $parameter->getValue());
         $this->assertEquals(Parameter::TYPE_STRING, $parameter->getType());
         $this->assertEquals(Parameter::PROTECTED_ACCESS, $parameter->getAccess());
         $this->assertNotNull($parameter->getOptions());
@@ -94,10 +93,13 @@ class ParameterTest extends TestCase
      */
     private function basicObject()
     {
-        return new Parameter($this->name, $this->value, Parameter::TYPE_STRING,
-            Parameter::PROTECTED_ACCESS, $this->description,
+        return new Parameter(
+            $this->name,
+            $this->value,
+            Parameter::TYPE_STRING,
+            Parameter::PROTECTED_ACCESS,
+            $this->description,
             []
         );
     }
-
 }

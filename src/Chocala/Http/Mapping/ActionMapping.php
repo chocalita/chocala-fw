@@ -9,7 +9,6 @@ use Exception;
 
 class ActionMapping implements ActionMappingInterface
 {
-
     private const VALUES_CHARSET = '([-_0-9a-zA-Z]+)?';
 
     /**
@@ -39,19 +38,22 @@ class ActionMapping implements ActionMappingInterface
         // TODO: extract only uri part
         $matchCase = $this->uriMapping->matchCase($uri);
         if (empty($matchCase)) {
-            $uriParts = array_map(function ($uriPart) {
-                return "{" . $uriPart . "}";
-            }, PatternMap::URI_STANDARD_PARTS);
+            $uriParts = array_map(
+                function ($uriPart) {
+                    return '{' . $uriPart . '}';
+                },
+                PatternMap::URI_STANDARD_PARTS
+            );
 
             $pattern = str_replace($uriParts, self::VALUES_CHARSET, $this->patternMap->pattern(), $nReplaces);
 //            $pattern = str_replace('/', '\/', $pattern);
             $pattern = str_replace('/', '\/?', $pattern);
-            $pos = strpos($pattern, "\/?");
+            $pos = strpos($pattern, '\/?');
             $pattern = substr_replace($pattern, '\/', $pos, 3);
 
             $t = preg_match_all('/^' . $pattern . '/i', $uri, $out, PREG_PATTERN_ORDER);
             if (!$t) {
-                throw new Exception("Mapping is wrong (default mapping)");
+                throw new Exception('Mapping is wrong (default mapping)');
             }
 
             $patternMapIndexes = array_flip($this->patternMap->map());
@@ -72,15 +74,13 @@ class ActionMapping implements ActionMappingInterface
                 $module = $vMatched[PatternMap::MODULE];
                 $controller = $vMatched[PatternMap::CONTROLLER];
                 $action = $vMatched[PatternMap::ACTION];
-                $id = key_exists(PatternMap::ID, $vMatched)? $vMatched[PatternMap::ID]: null;
+                $id = key_exists(PatternMap::ID, $vMatched) ? $vMatched[PatternMap::ID] : null;
                 $params = [];
 
                 return new ActionMap($module, $controller, $action, $id, $params);
-            } else if (is_string($vMatched)) {
-
+            } elseif (is_string($vMatched)) {
             }
         }
         throw new NotFoundException('Uri is not matching with any mapped case.');
     }
-
 }

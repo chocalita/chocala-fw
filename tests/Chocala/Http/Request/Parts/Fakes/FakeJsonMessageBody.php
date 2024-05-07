@@ -7,7 +7,6 @@ use Chocala\Http\Request\Parts\MessageBodyInterface;
 
 class FakeJsonMessageBody extends JsonMessageBody implements MessageBodyInterface
 {
-
     public const DEFAULT_DATA = '{
             "key": "value"
         }';
@@ -18,5 +17,4 @@ class FakeJsonMessageBody extends JsonMessageBody implements MessageBodyInterfac
             self::DEFAULT_DATA
         );
     }
-
 }

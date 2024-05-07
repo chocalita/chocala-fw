@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 class JsonMessageBodyTest extends TestCase
 {
-
     public function test__construct()
     {
         $jsonMessageBody = new JsonMessageBody(null);
@@ -128,7 +127,7 @@ class JsonMessageBodyTest extends TestCase
         self::assertIsArray($jsonMessageBody->data()->object->oArray);
         self::assertEquals('oWord', $jsonMessageBody->data()->object->oString);
         self::assertCount(3, $jsonMessageBody->data()->object->oArray);
-        self::assertEquals("x", $jsonMessageBody->data()->object->oArray[0]);
+        self::assertEquals('x', $jsonMessageBody->data()->object->oArray[0]);
 
         $body = '[
             12,
@@ -183,5 +182,4 @@ class JsonMessageBodyTest extends TestCase
         $this->expectException(IllegalArgumentException::class);
         new JsonMessageBody(' - ');
     }
-
 }

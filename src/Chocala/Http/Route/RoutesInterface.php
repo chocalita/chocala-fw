@@ -4,7 +4,6 @@ namespace Chocala\Http\Route;
 
 interface RoutesInterface
 {
-
     /**
      * @return string
      */
@@ -19,5 +18,4 @@ interface RoutesInterface
      * @return array
      */
     public function routes(): array;
-
 }

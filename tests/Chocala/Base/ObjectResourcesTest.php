@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 class ObjectResourcesTest extends TestCase
 {
-
     public function test__construct()
     {
         $objectResources = new ObjectResources();
@@ -104,5 +103,4 @@ class ObjectResourcesTest extends TestCase
         $objectResources->register('Var-2', new \ArrayIterator());
         return $objectResources;
     }
-
 }

@@ -24,7 +24,6 @@ use InvalidArgumentException;
 
 class PutTest //extends CustomRequestContentTest
 {
-
     private function newObject(): Put
     {
         return $this->newObjectFakeBody();
@@ -93,7 +92,7 @@ class PutTest //extends CustomRequestContentTest
         self::assertInstanceOf(QueryParamsInterface::class, $put->queryParams());
         self::assertCount($size, $put->queryParams()->data());
         unset($_GET['lastKey']);
-        self::assertCount($size-1, $put->queryParams()->data());
+        self::assertCount($size - 1, $put->queryParams()->data());
     }
 
 
@@ -211,5 +210,4 @@ class PutTest //extends CustomRequestContentTest
         $this->expectExceptionMessageRegExp('/Invalid number of arguments/');
         new Put();
     }
-
 }

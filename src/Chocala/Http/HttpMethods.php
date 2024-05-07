@@ -6,15 +6,13 @@ use Chocala\Base\ChocalaException;
 
 class HttpMethods
 {
-
     /**
      * @param $key
      * @return HttpMethodEnum
      */
-    public function make($key) : HttpMethodEnum
+    public function make($key): HttpMethodEnum
     {
         switch (strtoupper($key)) {
-
             case HttpMethod::GET()->name():
                 return HttpMethod::GET();
 
@@ -46,5 +44,4 @@ class HttpMethods
                 throw new ChocalaException('Invalid Http method.', 10);
         }
     }
-
 }

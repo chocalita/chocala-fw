@@ -8,7 +8,6 @@ use Chocala\System\ContentType;
 
 class FakeMessageBody extends MessageBody implements MessageBodyInterface
 {
-
     public const DEFAULT_DATA = '';
 
     /**
@@ -18,5 +17,4 @@ class FakeMessageBody extends MessageBody implements MessageBodyInterface
     {
         parent::__construct(ContentType::TEXT_PLAIN, $bodyContent);
     }
-
 }

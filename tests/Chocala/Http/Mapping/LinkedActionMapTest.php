@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 class LinkedActionMapTest extends TestCase
 {
-
     private array $mapValues = [
         '_module' => 'testModule',
         '_controller' => 'testController',
@@ -169,7 +168,5 @@ class LinkedActionMapTest extends TestCase
         self::assertNotEquals($this->mapValues['_params'], $arrayActionMap->params());
         unset($_REQUEST['_params']);
         self::assertEquals(FakeActionMap::DEFAULT_PARAMS, $arrayActionMap->params());
-
     }
-
 }

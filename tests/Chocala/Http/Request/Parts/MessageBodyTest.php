@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 class MessageBodyTest extends TestCase
 {
-
     public function test__construct()
     {
         $messageBody = new MessageBody(ContentType::TEXT_PLAIN, 'message');
@@ -53,5 +52,4 @@ class MessageBodyTest extends TestCase
         self::assertEquals(2, $messageBody->data()->offsetGet(1));
         self::assertEquals(3, $messageBody->data()->offsetGet(2));
     }
-
 }

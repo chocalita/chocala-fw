@@ -9,10 +9,9 @@ namespace Chocala\System\Config;
  */
 class Configuration extends ConfigBase
 {
+    const ASSIGNATOR = '=';
 
-    const ASSIGNATOR = "=";
-
-    const COMMENTOR = "#";
+    const COMMENTOR = '#';
 
     /**
      *
@@ -25,5 +24,4 @@ class Configuration extends ConfigBase
     {
         parent::__construct($name, $value, self::PRIVATE_ACCESS, $description);
     }
-
 }

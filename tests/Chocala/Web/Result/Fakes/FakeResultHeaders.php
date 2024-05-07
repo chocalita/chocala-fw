@@ -7,7 +7,6 @@ use Chocala\Web\Result\ResultHeadersInterface;
 
 class FakeResultHeaders implements ResultHeadersInterface
 {
-
     public const DEFAULT_DATA = [
         'fooHeader' => 'one',
         'barHeader' => 'two'
@@ -58,5 +57,4 @@ class FakeResultHeaders implements ResultHeadersInterface
     {
         $this->resultHeaders->addHeader($key, $value);
     }
-
 }

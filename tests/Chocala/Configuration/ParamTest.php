@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 class ParamTest extends TestCase
 {
-
     /**
      * @var Param
      */
@@ -29,8 +28,10 @@ class ParamTest extends TestCase
     public function setUp()
     {
         $this->params = Param::instance();
-        $this->file = new File(__DIR__ . DIRECTORY_SEPARATOR . 'resources' .
-            DIRECTORY_SEPARATOR . 'test-params.xml');
+        $this->file = new File(
+            __DIR__ . DIRECTORY_SEPARATOR . 'resources' .
+            DIRECTORY_SEPARATOR . 'test-params.xml'
+        );
         $this->noFile = new File(__DIR__ . 'xyz.xml');
         $this->params->load($this->file);
     }
@@ -63,7 +64,6 @@ class ParamTest extends TestCase
         self::assertNotEmpty($params->list());
         $this->expectException(IOException::class);
         $params->load($this->noFile);
-
     }
 
     public function testList()
@@ -126,5 +126,4 @@ class ParamTest extends TestCase
         self::assertIsString($notValue);
         self::assertEquals('', $notValue);
     }
-
 }

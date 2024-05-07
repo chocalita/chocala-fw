@@ -7,7 +7,6 @@ use Chocala\System\ContentType;
 
 class FormUrlencodedBody implements MessageBodyInterface
 {
-
     /**
      * @var MessageBody
      */
@@ -44,5 +43,4 @@ class FormUrlencodedBody implements MessageBodyInterface
     {
         return $this->messageBody->data();
     }
-
 }

@@ -6,7 +6,6 @@ use Chocala\Base\IllegalArgumentException;
 
 class MessageBody implements MessageBodyInterface
 {
-
     /**
      * @var string
      */
@@ -47,5 +46,4 @@ class MessageBody implements MessageBodyInterface
     {
         return $this->data;
     }
-
 }

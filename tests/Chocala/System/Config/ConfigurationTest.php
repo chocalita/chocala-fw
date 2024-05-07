@@ -6,10 +6,9 @@ use PHPUnit\Framework\TestCase;
 
 class ConfigurationTest extends TestCase
 {
-
-    private $name = "config0";
-    private $value = "TestValue";
-    private $description = "Test Description";
+    private $name = 'config0';
+    private $value = 'TestValue';
+    private $description = 'Test Description';
 
 
     /**
@@ -29,10 +28,10 @@ class ConfigurationTest extends TestCase
      */
     public function testOtherConstructors()
     {
-        $param = new Configuration('paramParent', 'TestValueParent', "Test Description");
-        $this->assertEquals("paramParent", $param->getName());
-        $this->assertEquals("TestValueParent", $param->getValue());
-        $this->assertEquals("Test Description", $param->getDescription());
+        $param = new Configuration('paramParent', 'TestValueParent', 'Test Description');
+        $this->assertEquals('paramParent', $param->getName());
+        $this->assertEquals('TestValueParent', $param->getValue());
+        $this->assertEquals('Test Description', $param->getDescription());
         $this->assertEquals(Parameter::PRIVATE_ACCESS, $param->getAccess());
     }
 
@@ -66,6 +65,4 @@ class ConfigurationTest extends TestCase
     {
         return new Configuration($this->name, $this->value, $this->description);
     }
-
-
 }

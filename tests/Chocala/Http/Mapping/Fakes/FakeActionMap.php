@@ -6,7 +6,6 @@ use Chocala\Http\Mapping\ActionMap;
 
 class FakeActionMap extends ActionMap
 {
-
     /**
      * @var ActionMap wrapped fake object
      */
@@ -53,5 +52,4 @@ class FakeActionMap extends ActionMap
     {
         return $this->actionMap->params();
     }
-
 }

@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 class UriMappingTest extends TestCase
 {
-
     /**
      * @var FakeRoutes
      */
@@ -97,8 +96,5 @@ class UriMappingTest extends TestCase
         self::assertCount(3, $mapping);
 
         print_r($matchCase);
-
     }
-
-
 }

@@ -4,7 +4,6 @@ namespace Chocala\Base;
 
 class ObjectResources implements ObjectResourcesInterface
 {
-
     private array $resources;
 
     public function __construct()
@@ -62,5 +61,4 @@ class ObjectResources implements ObjectResourcesInterface
         }
         unset($this->resources[$name]);
     }
-
 }

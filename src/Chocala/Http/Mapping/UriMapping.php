@@ -7,7 +7,6 @@ use Chocala\Http\Route\RoutesInterface;
 
 class UriMapping implements UriMappingInterface
 {
-
     private const VALUES_CHARSET = '([-_0-9a-zA-Z]+)?';
 
     /**
@@ -31,16 +30,19 @@ class UriMapping implements UriMappingInterface
      * @return array
      * @throws DuplicateElementException
      */
-    public function matchCase(string $uri) : array
+    public function matchCase(string $uri): array
     {
         $mapping = $this->routes->mapping();
         if (array_key_exists($uri, $mapping)) {
             return [$uri => $mapping[$uri]];
         }
 
-        $uriParts = array_map(function ($uriPart) {
-            return "{" . $uriPart . "}";
-        }, PatternMap::URI_STANDARD_PARTS);
+        $uriParts = array_map(
+            function ($uriPart) {
+                return '{' . $uriPart . '}';
+            },
+            PatternMap::URI_STANDARD_PARTS
+        );
 
         $matches = [];
         foreach ($mapping as $kRouteCase => $vRouteCase) {
@@ -62,5 +64,4 @@ class UriMapping implements UriMappingInterface
         }
         return [];
     }
-
 }

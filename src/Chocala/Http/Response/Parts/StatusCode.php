@@ -7,7 +7,6 @@ namespace Chocala\Http\Response\Parts;
  */
 class StatusCode implements StatusCodeEnum
 {
-
     protected int $code;
     protected string $message;
 
@@ -275,5 +274,4 @@ class StatusCode implements StatusCodeEnum
             $message ?? 'Service Unavailable'
         );
     }
-
 }

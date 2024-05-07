@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class RequestTest extends TestCase
 {
-
     /**
      * @var FakeRequestLine
      */
@@ -81,5 +80,4 @@ class RequestTest extends TestCase
         self::assertObjectHasAttribute('requestData', $request);
         self::assertIsObject($request->requestData());
     }
-
 }

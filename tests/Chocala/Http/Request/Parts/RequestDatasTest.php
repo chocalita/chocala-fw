@@ -16,28 +16,31 @@ use PHPUnit\Framework\TestCase;
 
 class RequestDatasTest extends TestCase
 {
-
     private RequestDatas $requestDatas;
     private array $noBodyMethods;
     private array $withBodyMethods;
 
-    private function createHeaders(string $contentType) : RequestHeaders
+    private function createHeaders(string $contentType): RequestHeaders
     {
-        return new RequestHeaders([
+        return new RequestHeaders(
+            [
             Headers::CONTENT_TYPE_KEY => $contentType
-        ]);
+            ]
+        );
     }
 
     public function setUp()
     {
         $this->requestDatas = new RequestDatas();
         $allMethods = HttpMethod::all();
-        $this->noBodyMethods = array_filter($allMethods,
+        $this->noBodyMethods = array_filter(
+            $allMethods,
             function ($xMethod) {
                 return $xMethod->isSafe();
             }
         );
-        $this->withBodyMethods = array_filter($allMethods,
+        $this->withBodyMethods = array_filter(
+            $allMethods,
             function ($xMethod) {
                 return !$xMethod->isSafe();
             }
@@ -116,5 +119,4 @@ class RequestDatasTest extends TestCase
             self::assertInstanceOf(RequestData::class, $requestData);
         }
     }
-
 }

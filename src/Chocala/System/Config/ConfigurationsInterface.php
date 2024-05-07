@@ -6,7 +6,6 @@ use Chocala\System\IO\File;
 
 interface ConfigurationsInterface
 {
-
     public function load(File $file);
 
     public function list(): array;
@@ -14,5 +13,4 @@ interface ConfigurationsInterface
     public function config($name): Configuration;
 
     public function value($name);
-
 }

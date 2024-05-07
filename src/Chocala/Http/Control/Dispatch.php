@@ -15,7 +15,6 @@ use Chocala\Web\ControllerInterface;
 
 class Dispatch implements ServerInterface
 {
-
     /**
      * @var RequestInterface
      */
@@ -49,7 +48,6 @@ class Dispatch implements ServerInterface
         $controller = $this->controller($controllerName, $module);
 
         if ($controller->_isAllowedMethod($action, $this->request->requestLine()->method())) {
-
 //            foreach(ChocalaFiltersManager::filters() as $filter){
 //                $filter->beforeAction();
 //            }
@@ -90,7 +88,6 @@ class Dispatch implements ServerInterface
         } else {
             throw new HttpMethodNotAllowedException();
         }
-
     }
 
     private function controller(string $controllerName, string $moduleName): ControllerInterface
@@ -103,5 +100,4 @@ class Dispatch implements ServerInterface
         }
         return $controller;
     }
-
 }

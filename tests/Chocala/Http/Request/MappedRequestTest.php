@@ -18,7 +18,6 @@ use PHPUnit\Framework\TestCase;
 
 class MappedRequestTest extends TestCase
 {
-
     /**
      * @var FakeRequest
      */
@@ -198,13 +197,13 @@ class MappedRequestTest extends TestCase
      * @param HttpMethodEnum $method
      * @return Request
      */
-    protected function createRequest(string $requestUri, HttpMethodEnum $method) : Request
+    protected function createRequest(string $requestUri, HttpMethodEnum $method): Request
     {
         $requestLine = new RequestLine($method, $requestUri);
         return new Request($requestLine, new FakeRequestHeaders(), new FakeRequestData());
     }
 
-    private function assertsRequestLine(MappedRequest $mappedRequest) : void
+    private function assertsRequestLine(MappedRequest $mappedRequest): void
     {
         self::assertNotNull($mappedRequest->requestLine());
         self::assertIsObject($mappedRequest->requestLine());

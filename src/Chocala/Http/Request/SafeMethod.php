@@ -12,7 +12,6 @@ use Chocala\Http\RequestInterface;
 
 class SafeMethod implements RequestInterface
 {
-
     /**
      * @var RequestInterface
      */
@@ -20,8 +19,8 @@ class SafeMethod implements RequestInterface
 
     public function __construct(RequestInterface $request)
     {
-        if(!($request->requestData() instanceof RequestDataNoBody)) {
-            throw new UnsupportedOperationException("Safe HTTP method does not support message body content.");
+        if (!($request->requestData() instanceof RequestDataNoBody)) {
+            throw new UnsupportedOperationException('Safe HTTP method does not support message body content.');
         }
         $this->request = $request;
     }
@@ -40,5 +39,4 @@ class SafeMethod implements RequestInterface
     {
         return $this->request->requestData();
     }
-
 }

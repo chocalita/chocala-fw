@@ -22,9 +22,11 @@ class ActionResult implements ActionResultInterface
         }
     }
 
-    private function __constructor(StatusCodeEnum         $statusCode,
-                                   ResultHeadersInterface $headers,
-                                   ResponseBodyInterface  $body)
+    private function __constructor(
+        StatusCodeEnum         $statusCode,
+        ResultHeadersInterface $headers,
+        ResponseBodyInterface  $body
+    )
     {
         $this->statusCode = $statusCode;
         $this->headers = $headers;
@@ -37,13 +39,15 @@ class ActionResult implements ActionResultInterface
             $actionResult->status(),
             $actionResult->headers(),
             // TODO: check if should be send the content type info (here is empty '')
-            new ResponseBody('', $data));
+            new ResponseBody('', $data)
+        );
     }
 
-    private function __construct3(StatusCodeEnum         $statusCode,
-                                  ResultHeadersInterface $headers,
-                                  ResponseBodyInterface  $body)
-    {
+    private function __construct3(
+        StatusCodeEnum         $statusCode,
+        ResultHeadersInterface $headers,
+        ResponseBodyInterface  $body
+    ) {
         $this->__constructor($statusCode, $headers, $body);
     }
 
@@ -51,5 +55,4 @@ class ActionResult implements ActionResultInterface
     {
         return $this->body;
     }
-
 }

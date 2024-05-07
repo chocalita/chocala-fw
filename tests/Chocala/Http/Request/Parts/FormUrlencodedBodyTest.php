@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 class FormUrlencodedBodyTest extends TestCase
 {
-
     public function test__construct()
     {
         $jsonMessageBody = new FormUrlencodedBody(null);
@@ -103,6 +102,4 @@ class FormUrlencodedBodyTest extends TestCase
         $this->expectException(IllegalArgumentException::class);
         new FormUrlencodedBody(' - ');
     }
-
-
 }

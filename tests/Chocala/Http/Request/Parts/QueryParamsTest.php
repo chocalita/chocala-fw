@@ -9,7 +9,6 @@ use TypeError;
 
 class QueryParamsTest extends TestCase
 {
-
     private function newObject(): QueryParams
     {
         $_GET = FakeQueryParams::ARRAY_DATA;
@@ -84,7 +83,8 @@ class QueryParamsTest extends TestCase
         self::assertCount($size - 1, $queryParams->data());
     }
 
-    public function testGETNullValue() {
+    public function testGETNullValue()
+    {
         // Setting $_GET value to null before object creation
         $_GET = null;
         $this->expectException(TypeError::class);
@@ -92,7 +92,8 @@ class QueryParamsTest extends TestCase
         new QueryParams();
     }
 
-    public function testGETSetToNullValue() {
+    public function testGETSetToNullValue()
+    {
         // Setting $_GET value to null after object creation
         $queryParams = $this->newObject();
         self::assertIsObject($queryParams);
@@ -100,5 +101,4 @@ class QueryParamsTest extends TestCase
         $this->expectExceptionMessageRegExp('/Cannot assign null to reference held by property/');
         $_GET = null;
     }
-
 }

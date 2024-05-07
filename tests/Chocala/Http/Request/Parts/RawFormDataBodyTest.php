@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class RawFormDataBodyTest extends TestCase
 {
-
     protected const RESOURCES_DIR = __DIR__ . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR;
 
     /**
@@ -42,9 +41,12 @@ class RawFormDataBodyTest extends TestCase
         self::assertIsObject($rawFormDataBody);
 
         // Empty raw data with new lines
-        $rawFormDataBody = new RawFormDataBody($this->contentType, ' 
+        $rawFormDataBody = new RawFormDataBody(
+            $this->contentType,
+            ' 
 
-        ');
+        '
+        );
         self::assertIsObject($rawFormDataBody);
 
         $this->expectException(IllegalArgumentException::class);
@@ -146,5 +148,4 @@ class RawFormDataBodyTest extends TestCase
         $this->expectExceptionMessageRegExp('/Invalid multipart\/form-data raw data/');
         new RawFormDataBody($this->contentType, 123);
     }
-
 }

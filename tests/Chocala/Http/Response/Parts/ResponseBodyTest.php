@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 class ResponseBodyTest extends TestCase
 {
-
     private const DEFAULT_DATA = [
         'name' => 'John',
         'lastname' => 'Doe'
@@ -71,5 +70,4 @@ class ResponseBodyTest extends TestCase
         self::assertNotEmpty($data);
         self::assertEquals($bodyContent, $data);
     }
-
 }

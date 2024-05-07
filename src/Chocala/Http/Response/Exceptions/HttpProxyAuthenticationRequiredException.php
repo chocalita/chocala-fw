@@ -6,10 +6,8 @@ use Chocala\Http\Response\Parts\StatusCode;
 
 class HttpProxyAuthenticationRequiredException extends HttpResponseException
 {
-
     public function __construct(?string $message = null, \Throwable $previous = null)
     {
         parent::__construct(StatusCode::PROXY_AUTHENTICATION_REQUIRED($message), $previous);
     }
-
 }

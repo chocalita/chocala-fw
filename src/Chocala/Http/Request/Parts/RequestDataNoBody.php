@@ -51,7 +51,7 @@ class RequestDataNoBody implements RequestDataInterface
      * @return MessageBodyInterface
      * @throws Exception
      */
-    public function body() : MessageBodyInterface
+    public function body(): MessageBodyInterface
     {
         throw new UnsupportedOperationException('Safe HTTP method does not support body content');
     }
@@ -64,5 +64,4 @@ class RequestDataNoBody implements RequestDataInterface
     {
         return $this->queryParams->data();
     }
-
 }

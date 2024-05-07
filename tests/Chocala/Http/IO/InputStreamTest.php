@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class InputStreamTest extends TestCase
 {
-
     private const FAKE_CONTENT = 'fake content';
 
     private FakeInputStream $fakeInputStream;
@@ -52,5 +51,4 @@ class InputStreamTest extends TestCase
         self::assertIsString($inputStream->content());
         self::assertEquals($customContent, $inputStream->content());
     }
-
 }

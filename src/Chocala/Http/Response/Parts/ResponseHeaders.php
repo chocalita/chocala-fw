@@ -8,7 +8,6 @@ use Chocala\Http\HeadersInterface;
 
 class ResponseHeaders implements ResponseHeadersInterface
 {
-
     /**
      * @var HeadersInterface
      */
@@ -16,9 +15,12 @@ class ResponseHeaders implements ResponseHeadersInterface
 
     public function __construct(array $headersList)
     {
-        $this->headers = new Headers($headersList, array_merge(
+        $this->headers = new Headers(
+            $headersList,
+            array_merge(
                 array_merge(Headers::GENERAL_KEYS, Headers::ENTITY_KEYS),
-                Headers::RESPONSE_KEYS)
+                Headers::RESPONSE_KEYS
+            )
         );
     }
 
@@ -50,5 +52,4 @@ class ResponseHeaders implements ResponseHeadersInterface
         }
         return $this->headers->headersType($type);
     }
-
 }

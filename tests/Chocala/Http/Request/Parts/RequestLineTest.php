@@ -8,7 +8,6 @@ use TypeError;
 
 class RequestLineTest extends TestCase
 {
-
     /**
      * @var RequestLine
      */
@@ -53,5 +52,4 @@ class RequestLineTest extends TestCase
         self::assertNotNull($this->requestLine->httpVersion());
         self::assertEquals('HTTP/1.1', $this->requestLine->httpVersion());
     }
-
 }

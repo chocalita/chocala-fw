@@ -7,7 +7,6 @@ use Chocala\Base\NotFoundException;
 
 class Headers implements HeadersInterface
 {
-
     public const TYPE_GENERAL = 'General';
     public const TYPE_ENTITY = 'Entity';
     public const TYPE_REQUEST = 'Request';
@@ -165,7 +164,8 @@ class Headers implements HeadersInterface
         $this->officialKeyList = is_array($officialKeyList) ? $officialKeyList :
             array_merge(
                 array_merge(self::GENERAL_KEYS, self::ENTITY_KEYS),
-                array_merge(self::REQUEST_KEYS, self::RESPONSE_KEYS));
+                array_merge(self::REQUEST_KEYS, self::RESPONSE_KEYS)
+            );
         $this->headerTypes = [];
         $this->upperHeaders = [];
     }
@@ -209,22 +209,36 @@ class Headers implements HeadersInterface
                     $keyList = self::RESPONSE_KEYS;
                     break;
                 case self::TYPE_CUSTOM:
-                    $toExcludeKeys = array_map(function ($v) {
-                        return strtoupper($v);
-                    }, $this->officialKeyList);
-                    $this->headerTypes[$type] = array_filter($this->headers, function ($k) use ($toExcludeKeys) {
-                        return !in_array(strtoupper($k), $toExcludeKeys);
-                    }, ARRAY_FILTER_USE_KEY);
+                    $toExcludeKeys = array_map(
+                        function ($v) {
+                            return strtoupper($v);
+                        },
+                        $this->officialKeyList
+                    );
+                    $this->headerTypes[$type] = array_filter(
+                        $this->headers,
+                        function ($k) use ($toExcludeKeys) {
+                            return !in_array(strtoupper($k), $toExcludeKeys);
+                        },
+                        ARRAY_FILTER_USE_KEY
+                    );
                     return $this->headerTypes[$type];
                 default:
                     throw new IllegalArgumentException(sprintf('Illegal header type \'%s\'', $type));
             }
-            $keyList = array_map(function ($v) {
-                return strtoupper($v);
-            }, $keyList);
-            $this->headerTypes[$type] = array_filter($this->headers, function ($k) use ($keyList) {
-                return in_array(strtoupper($k), $keyList);
-            }, ARRAY_FILTER_USE_KEY);
+            $keyList = array_map(
+                function ($v) {
+                    return strtoupper($v);
+                },
+                $keyList
+            );
+            $this->headerTypes[$type] = array_filter(
+                $this->headers,
+                function ($k) use ($keyList) {
+                    return in_array(strtoupper($k), $keyList);
+                },
+                ARRAY_FILTER_USE_KEY
+            );
         }
         return $this->headerTypes[$type];
     }
@@ -241,5 +255,4 @@ class Headers implements HeadersInterface
         }
         return $this->upperHeaders;
     }
-
 }

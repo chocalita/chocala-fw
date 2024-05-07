@@ -9,7 +9,6 @@ use Chocala\Http\ResponseInterface;
 
 class Response implements ResponseInterface
 {
-
     /**
      * Represents the StatusLine for HTTP Responses (contains status code and status message)
      *
@@ -32,9 +31,11 @@ class Response implements ResponseInterface
      * @param ResponseHeadersInterface $headers
      * @param ResponseBodyInterface $body
      */
-    public function __construct(StatusCodeEnum           $statusCode,
-                                ResponseHeadersInterface $headers,
-                                ResponseBodyInterface    $body)
+    public function __construct(
+        StatusCodeEnum           $statusCode,
+        ResponseHeadersInterface $headers,
+        ResponseBodyInterface    $body
+    )
     {
         $this->statusCode = $statusCode;
         $this->headers = $headers;
@@ -64,5 +65,4 @@ class Response implements ResponseInterface
     {
         return $this->body;
     }
-
 }

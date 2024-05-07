@@ -6,7 +6,6 @@ use Chocala\Http\HttpMethodEnum;
 
 interface RequestLineInterface
 {
-
     /**
      * @return HttpMethodEnum
      */
@@ -21,5 +20,4 @@ interface RequestLineInterface
      * @return string
      */
     public function httpVersion(): string;
-
 }

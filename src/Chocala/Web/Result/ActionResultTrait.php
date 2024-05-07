@@ -7,7 +7,6 @@ use Chocala\Http\Response\Parts\StatusCodeEnum;
 
 trait ActionResultTrait
 {
-
     protected StatusCodeEnum $statusCode;
 
     protected ResultHeadersInterface $headers;
@@ -23,5 +22,4 @@ trait ActionResultTrait
     {
         return $this->headers;
     }
-
 }

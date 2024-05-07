@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 class HttpMethodTest extends TestCase
 {
-
     public function testHttpEnum()
     {
         $httpEnumValue = HttpMethod::GET();
@@ -73,12 +72,11 @@ class HttpMethodTest extends TestCase
         self::assertTrue($httpEnumValue->isSafe());
     }
 
-    static private function basicAsserts($httpEnumValue)
+    private static function basicAsserts($httpEnumValue)
     {
         self::assertNotNull($httpEnumValue);
         self::assertIsObject($httpEnumValue);
         self::assertInstanceOf(HttpMethodEnum::class, $httpEnumValue);
         self::assertInstanceOf(HttpMethod::class, $httpEnumValue);
     }
-
 }

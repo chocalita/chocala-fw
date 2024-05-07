@@ -84,14 +84,17 @@ class Param implements ParametersInterface, Singleton
         Chocala::import('System.util.XMLParser');
         $arrXML = array();
         ksort($params);
-        array_push($arrXML, array('tag' => 'params',
+        array_push(
+            $arrXML,
+            array('tag' => 'params',
                 'type' => XMLParser::OPEN_TAG,
                 'level' => 1,
                 'value' => ''
             )
         );
         foreach ($params as $param) {
-            array_push($arrXML,
+            array_push(
+                $arrXML,
                 array(
                     'tag' => 'param',
                     'type' => XMLParser::OPEN_TAG,
@@ -105,14 +108,16 @@ class Param implements ParametersInterface, Singleton
                     )
                 )
             );
-            array_push($arrXML,
+            array_push(
+                $arrXML,
                 array('tag' => 'description',
                     'type' => XMLParser::COMPLETE_TAG,
                     'level' => 3,
                     'value' => utf8_encode($param->getDescription()),
                 )
             );
-            array_push($arrXML,
+            array_push(
+                $arrXML,
                 array('tag' => 'options',
                     'type' => XMLParser::OPEN_TAG,
                     'level' => 3,
@@ -120,23 +125,25 @@ class Param implements ParametersInterface, Singleton
                 )
             );
             foreach ($param->getOptions() as $option) {
-                array_push($arrXML,
+                array_push(
+                    $arrXML,
                     array('tag' => 'option',
                         'type' => XMLParser::OPEN_TAG,
                         'level' => 4,
                         'value' => utf8_encode($option),
                     )
                 );
-
             }
-            array_push($arrXML,
+            array_push(
+                $arrXML,
                 array('tag' => 'options',
                     'type' => XMLParser::CLOSE_TAG,
                     'level' => 3,
                     'value' => '',
                 )
             );
-            array_push($arrXML,
+            array_push(
+                $arrXML,
                 array('tag' => 'param',
                     'type' => XMLParser::CLOSE_TAG,
                     'level' => 2,
@@ -144,7 +151,9 @@ class Param implements ParametersInterface, Singleton
                 )
             );
         }
-        array_push($arrXML, array('tag' => 'params',
+        array_push(
+            $arrXML,
+            array('tag' => 'params',
                 'type' => XMLParser::CLOSE_TAG,
                 'level' => 1,
                 'value' => ''
@@ -153,5 +162,4 @@ class Param implements ParametersInterface, Singleton
         $parser = new XMLParser($arrXML);
         $parser->saveAs(BIN_DIR . self::PARAMS_FILE);
     }
-
 }

@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class JsonActionBodyTest extends TestCase
 {
-
     public function test__construct()
     {
         $actionBody = new JsonActionBody();
@@ -51,5 +50,4 @@ class JsonActionBodyTest extends TestCase
         self::assertEquals($emptyArrayJson, $result);
         //echo $result;
     }
-
 }

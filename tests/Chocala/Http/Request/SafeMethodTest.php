@@ -18,7 +18,6 @@ use PHPUnit\Framework\TestCase;
 // TODO: check if SafeMethod class is right
 class SafeMethodTest extends TestCase
 {
-
     /**
      * @var RequestInterface
      */
@@ -31,7 +30,7 @@ class SafeMethodTest extends TestCase
 
     public function testVar()
     {
-        self::assertEquals('', "");
+        self::assertEquals('', '');
     }
 
     public function setUp()
@@ -77,8 +76,7 @@ class SafeMethodTest extends TestCase
 
     private function requestCustomObject(): RequestInterface
     {
-        $request = new class() implements RequestInterface {
-
+        $request = new class () implements RequestInterface {
             public function requestLine(): RequestLineInterface
             {
                 return new FakeRequestLine();
@@ -96,5 +94,4 @@ class SafeMethodTest extends TestCase
         };
         return new $request();
     }
-
 }

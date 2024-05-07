@@ -6,7 +6,6 @@ use InvalidArgumentException;
 
 class PatternMap implements PatternMapInterface
 {
-
     public const MODULE = 'module';
 
     public const CONTROLLER = 'controller';
@@ -58,7 +57,7 @@ class PatternMap implements PatternMapInterface
     {
         if ($this->map === null) {
             foreach (self::URI_STANDARD_PARTS as $uriPart) {
-                $parts[strpos($this->pattern, "{" . $uriPart . "}")] = $uriPart;
+                $parts[strpos($this->pattern, '{' . $uriPart . '}')] = $uriPart;
             }
             ksort($parts);
             $this->map = [];
@@ -71,5 +70,4 @@ class PatternMap implements PatternMapInterface
         }
         return $this->map;
     }
-
 }

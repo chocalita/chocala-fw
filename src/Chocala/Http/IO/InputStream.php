@@ -6,7 +6,6 @@ use InvalidArgumentException;
 
 class InputStream implements InputStreamInterface
 {
-
     /**
      * @var string
      */
@@ -48,5 +47,4 @@ class InputStream implements InputStreamInterface
     {
         return $this->content;
     }
-
 }

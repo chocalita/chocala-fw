@@ -20,7 +20,6 @@ define('HTTP_Y_RESPONSE_EXCEPTION', 5000);
 
 class HttpResponseException extends ChocalaException implements HttpResponseExceptionInterface
 {
-
     protected StatusCodeEnum $statusCode;
 
     public function __construct(StatusCodeEnum $statusCode, \Throwable $previous = null)
@@ -33,5 +32,4 @@ class HttpResponseException extends ChocalaException implements HttpResponseExce
     {
         return $this->statusCode;
     }
-
 }

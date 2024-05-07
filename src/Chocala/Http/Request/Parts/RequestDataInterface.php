@@ -4,7 +4,6 @@ namespace Chocala\Http\Request\Parts;
 
 interface RequestDataInterface
 {
-
     /**
      * @return QueryParamsInterface
      */
@@ -13,11 +12,10 @@ interface RequestDataInterface
     /**
      * @return MessageBodyInterface
      */
-    public function body() : MessageBodyInterface;
+    public function body(): MessageBodyInterface;
 
     /**
      * @return mixed
      */
     public function data();
-
 }

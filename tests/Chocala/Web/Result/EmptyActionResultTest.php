@@ -13,7 +13,6 @@ use PHPUnit\Framework\TestCase;
 
 class EmptyActionResultTest extends TestCase
 {
-
     private EmptyActionResult $defaultActionResult;
 
     private ActionDataInterface $fakeActionData;
@@ -125,5 +124,4 @@ class EmptyActionResultTest extends TestCase
         $this->expectExceptionMessageRegExp('/This class does not have any body/');
         $this->defaultActionResult->body();
     }
-
 }

@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 class HttpResponseExceptionTest extends TestCase
 {
-
     public function test__construct()
     {
         $e = new HttpResponseException(new StatusCode(1, 'Message'));
@@ -38,5 +37,4 @@ class HttpResponseExceptionTest extends TestCase
         self::assertInstanceOf(HttpResponseExceptionInterface::class, $e);
         self::assertInstanceOf(HttpResponseException::class, $e);
     }
-
 }

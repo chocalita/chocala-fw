@@ -4,7 +4,6 @@ namespace Chocala\Http;
 
 abstract class HttpMethod implements HttpMethodEnum
 {
-
     protected string $name;
     protected bool $isSafe = false;
 
@@ -140,5 +139,4 @@ abstract class HttpMethod implements HttpMethodEnum
 //        self::OPTIONS, self::HEAD, self::CONNECT, self::TRACE];
 //
 //    public const SAFE_METHODS = [self::GET, self::OPTIONS, self::HEAD, self::TRACE];
-
 }

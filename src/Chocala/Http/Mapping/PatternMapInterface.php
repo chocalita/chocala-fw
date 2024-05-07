@@ -4,7 +4,6 @@ namespace Chocala\Http\Mapping;
 
 interface PatternMapInterface
 {
-
     /**
      * @return string
      */
@@ -14,5 +13,4 @@ interface PatternMapInterface
      * @return array
      */
     public function map(): array;
-
 }

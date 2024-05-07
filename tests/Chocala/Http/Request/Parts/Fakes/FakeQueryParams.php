@@ -7,7 +7,6 @@ use Chocala\Http\Request\Parts\QueryParamsInterface;
 
 class FakeQueryParams extends QueryParams implements QueryParamsInterface
 {
-
     public const ARRAY_DATA = [
         'var0' => 'zero',
         'numericKey' => 789,
@@ -22,5 +21,4 @@ class FakeQueryParams extends QueryParams implements QueryParamsInterface
     {
         $this->data = self::ARRAY_DATA;
     }
-
 }

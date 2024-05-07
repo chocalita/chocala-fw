@@ -17,5 +17,4 @@ class FakeSingletonized
         $this->name = 'FakeSingletonized-' . microtime(true);
         $this->time = microtime();
     }
-
 }

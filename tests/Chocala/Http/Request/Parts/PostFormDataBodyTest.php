@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 
 class PostFormDataBodyTest extends TestCase
 {
-
     public function test__construct()
     {
         $postFormDataBody = new PostFormDataBody();
@@ -65,7 +64,8 @@ class PostFormDataBodyTest extends TestCase
         self::assertCount($size, $postFormDataBody->data());
     }
 
-    public function testPOSTNullValue() {
+    public function testPOSTNullValue()
+    {
         // Setting $_POST value to null before object creation
         $_POST = null;
         $this->expectException(IllegalStateException::class);
@@ -74,7 +74,8 @@ class PostFormDataBodyTest extends TestCase
         $postFormDataBody->data();
     }
 
-    public function testPOSTSetToNullValue() {
+    public function testPOSTSetToNullValue()
+    {
         // Setting $_POST value to null after object creation
         $postFormDataBody = new PostFormDataBody();
         $this->expectException(IllegalStateException::class);
@@ -82,5 +83,4 @@ class PostFormDataBodyTest extends TestCase
         $_POST = null;
         $postFormDataBody->data();
     }
-
 }

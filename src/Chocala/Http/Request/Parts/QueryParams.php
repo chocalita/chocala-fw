@@ -6,7 +6,6 @@ use InvalidArgumentException;
 
 class QueryParams implements QueryParamsInterface
 {
-
     /**
      * @var array
      */
@@ -73,5 +72,4 @@ class QueryParams implements QueryParamsInterface
         $this->delete($key);
         return $value;
     }
-
 }

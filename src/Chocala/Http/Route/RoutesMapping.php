@@ -6,7 +6,6 @@ use Chocala\Http\HttpMethodEnum;
 
 class RoutesMapping implements RoutesMappingInterface
 {
-
     private const VALUES_CHARSET = '([-_0-9a-zA-Z]+)?';
 
     /**
@@ -37,7 +36,7 @@ class RoutesMapping implements RoutesMappingInterface
         }
         $routes = $this->routes->routes();
         $patternRoutes = [];
-        $foundRoute = array_key_exists($uri, $routes)? $routes[$uri]:  null;
+        $foundRoute = array_key_exists($uri, $routes) ? $routes[$uri] :  null;
 
         if ($foundRoute === null) {
             foreach ($routes as $kRoute => $vRoute) {
@@ -75,5 +74,4 @@ class RoutesMapping implements RoutesMappingInterface
         }
         return $uri;
     }
-
 }

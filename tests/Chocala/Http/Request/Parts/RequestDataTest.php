@@ -17,7 +17,6 @@ require_once 'CustomRequestDataTest.php';
 
 class RequestDataTest extends CustomRequestDataTest
 {
-
     private FakeRequestData $fakeRequestData;
 
     public function setUp()
@@ -205,5 +204,4 @@ class RequestDataTest extends CustomRequestDataTest
         $this->expectExceptionMessageRegExp('/Invalid number of arguments/');
         new RequestData();
     }
-
 }

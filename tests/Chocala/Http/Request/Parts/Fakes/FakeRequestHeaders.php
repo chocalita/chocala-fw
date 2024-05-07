@@ -8,16 +8,17 @@ use Chocala\Http\Request\Parts\RequestHeadersInterface;
 
 class FakeRequestHeaders implements RequestHeadersInterface
 {
-
     private RequestHeadersInterface $header;
 
     public function __construct()
     {
-        $this->header = new RequestHeaders([
+        $this->header = new RequestHeaders(
+            [
             Headers::CONTENT_TYPE_KEY => 'application/json',
             Headers::USER_AGENT_KEY => 'Mozilla/5.0',
             Headers::ACCEPT_LANGUAGE_KEY => 'en-US;q=0.9'
-        ]);
+            ]
+        );
     }
 
     /**
@@ -43,5 +44,4 @@ class FakeRequestHeaders implements RequestHeadersInterface
     {
         return $this->header->headersType($type);
     }
-
 }

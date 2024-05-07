@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class ConfigurationsTest extends TestCase
 {
-
     /**
      * @var Configurations
      */
@@ -28,8 +27,10 @@ class ConfigurationsTest extends TestCase
     public function setUp()
     {
         $this->configurations = new Configurations();
-        $this->file = new File(__DIR__ . DIRECTORY_SEPARATOR . 'resources' .
-            DIRECTORY_SEPARATOR . 'test-configs.properties');
+        $this->file = new File(
+            __DIR__ . DIRECTORY_SEPARATOR . 'resources' .
+            DIRECTORY_SEPARATOR . 'test-configs.properties'
+        );
         $this->noFile = new File(__DIR__ . 'xyz.properties');
         $this->configurations->load($this->file);
     }
@@ -98,7 +99,6 @@ class ConfigurationsTest extends TestCase
         $configurations = new Configurations();
         $this->expectException(NotFoundException::class);
         $configurations->config('not.config');
-
     }
 
     public function testNotFoundParameter()
@@ -146,5 +146,4 @@ class ConfigurationsTest extends TestCase
         self::assertIsString($notValue);
         self::assertEquals('', $notValue);
     }
-
 }

@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 class ResponseHeadersTest extends TestCase
 {
-
     /**
      * @var array
      */
@@ -149,5 +148,4 @@ class ResponseHeadersTest extends TestCase
         }
         return $headersList;
     }
-
 }

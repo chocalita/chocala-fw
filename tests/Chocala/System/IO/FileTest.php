@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 class FileTest extends TestCase
 {
-
     /**
      * @var string
      */
@@ -258,8 +257,10 @@ class FileTest extends TestCase
         $dirsDirectory = ['d1', 'd2', 'd3', 'dirTest'];
         $dirsFile = ['f1', 'f2', 'f3', 'fileTest'];
         $dirTest = new File($tempDir . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $dirsDirectory));
-        $fileTest = new File($tempDir . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $dirsFile) .
-            DIRECTORY_SEPARATOR . 'test.txt');
+        $fileTest = new File(
+            $tempDir . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $dirsFile) .
+            DIRECTORY_SEPARATOR . 'test.txt'
+        );
         $dirMkdir = $dirTest->mkdirs();
         $fileMkdir = $fileTest->mkdirs();
 
@@ -299,5 +300,4 @@ class FileTest extends TestCase
         }
         return rmdir($dir);
     }
-
 }

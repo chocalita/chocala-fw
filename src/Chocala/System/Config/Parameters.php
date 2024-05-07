@@ -8,7 +8,6 @@ use Chocala\System\IO\File;
 
 class Parameters implements ParametersInterface
 {
-
     /**
      * XML manager
      * @var SimpleXMLElement
@@ -59,8 +58,14 @@ class Parameters implements ParametersInterface
                     }
                 }
             }
-            $this->list[$name] = new Parameter($name, $value, $type, $access,
-                $description, $options);
+            $this->list[$name] = new Parameter(
+                $name,
+                $value,
+                $type,
+                $access,
+                $description,
+                $options
+            );
         }
     }
 
@@ -101,5 +106,4 @@ class Parameters implements ParametersInterface
             return '';
         }
     }
-
 }

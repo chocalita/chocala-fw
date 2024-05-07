@@ -11,7 +11,6 @@ use Chocala\System\IO\File;
  */
 class Configurations implements ConfigurationsInterface
 {
-
     /**
      * The complete list of Configuration objects
      * @var array
@@ -56,7 +55,8 @@ class Configurations implements ConfigurationsInterface
                     } else {
                         throw new ChocalaException(
                             ChocalaErrors::CONFIG_MALFORMED_DECLARATION .
-                            ": " . $line);
+                            ': ' . $line
+                        );
                     }
                 }
                 $nLine++;
@@ -102,5 +102,4 @@ class Configurations implements ConfigurationsInterface
             return '';
         }
     }
-
 }

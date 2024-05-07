@@ -22,7 +22,6 @@ use PHPUnit\Framework\TestCase;
 
 class MessageBodiesTest extends TestCase
 {
-
     private MessageBodies $messageBodies;
 
     public function setUp()
@@ -159,5 +158,4 @@ class MessageBodiesTest extends TestCase
         $this->expectException(UnsupportedOperationException::class);
         $this->messageBodies->make(HttpMethod::PATCH(), ContentType::APPLICATION_OCTET_STREAM, new FakeInputStream('some content'));
     }
-
 }

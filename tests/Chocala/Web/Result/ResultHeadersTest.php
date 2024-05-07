@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 class ResultHeadersTest extends TestCase
 {
-
     /**
      * @var array
      */
@@ -147,5 +146,4 @@ class ResultHeadersTest extends TestCase
             'token' => 'TgU02iSTwe73eRh'
         ];
     }
-
 }

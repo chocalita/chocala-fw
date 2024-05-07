@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 
 class ControllerBaseTest extends TestCase
 {
-
     public function test__construct()
     {
         $controllerBase = $this->newControllerBaseCustomClass();
@@ -106,8 +105,7 @@ class ControllerBaseTest extends TestCase
 
     private function newControllerBaseCustomClass()
     {
-        $controllerBase = new class() extends ControllerBase implements ControllerInterface {
-
+        $controllerBase = new class () extends ControllerBase implements ControllerInterface {
             protected array $_allowedMethods = [
                 'index' => '*',
                 'get' => 'GET',
@@ -127,10 +125,8 @@ class ControllerBaseTest extends TestCase
             {
                 return $this->_data;
             }
-
         };
 
         return new $controllerBase();
     }
-
 }

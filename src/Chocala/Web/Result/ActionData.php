@@ -4,7 +4,6 @@ namespace Chocala\Web\Result;
 
 class ActionData implements ActionDataInterface
 {
-
     /**
      *
      * @var array
@@ -33,5 +32,4 @@ class ActionData implements ActionDataInterface
         }
         return '';
     }
-
 }

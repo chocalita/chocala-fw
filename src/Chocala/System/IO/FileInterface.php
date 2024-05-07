@@ -4,7 +4,6 @@ namespace Chocala\System\IO;
 
 interface FileInterface
 {
-
     public function path(): string;
 
     public function exists(): bool;
@@ -26,5 +25,4 @@ interface FileInterface
     public function mkdirs(): bool;
 
     public function properties(): FileProperties;
-
 }

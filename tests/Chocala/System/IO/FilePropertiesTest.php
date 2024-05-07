@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 class FilePropertiesTest extends TestCase
 {
-
     /**
      * @var string
      */

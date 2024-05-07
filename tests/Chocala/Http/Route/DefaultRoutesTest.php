@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class DefaultRoutesTest extends TestCase
 {
-
     public function testClassValues()
     {
         $defaultRoutes = new DefaultRoutes();
@@ -16,7 +15,7 @@ class DefaultRoutesTest extends TestCase
         self::assertNotEmpty($defaultRoutes->mapping());
         self::assertIsArray($defaultRoutes->routes());
         self::assertNotEmpty($defaultRoutes->routes());
-        self::assertArrayHasKey("/", $defaultRoutes->routes());
+        self::assertArrayHasKey('/', $defaultRoutes->routes());
     }
 
     public function testDefaultMap()
@@ -30,5 +29,4 @@ class DefaultRoutesTest extends TestCase
         self::assertContains('controller', $patternMap->map());
         self::assertContains('action', $patternMap->map());
     }
-
 }

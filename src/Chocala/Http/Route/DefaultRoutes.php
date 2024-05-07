@@ -23,5 +23,4 @@ final class DefaultRoutes implements RoutesInterface
         '/map' =>
             '/main/system/map'
     ];
-
 }

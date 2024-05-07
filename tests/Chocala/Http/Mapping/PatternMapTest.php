@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 class PatternMapTest extends TestCase
 {
-
     public function testMap()
     {
         $pattern = '/{module}/{controller}/{action}/{id}';
@@ -43,10 +42,10 @@ class PatternMapTest extends TestCase
         $uri = '/{controller}Mo/{id}Co/';
         $r = 1;
         $pattern = $uri;
-        $pattern = str_replace("{" . PatternMap::MODULE . "}", $charSet, $pattern, $r);
-        $pattern = str_replace("{" . PatternMap::CONTROLLER . "}", $charSet, $pattern, $r);
-        $pattern = str_replace("{" . PatternMap::ACTION . "}", $charSet, $pattern, $r);
-        $pattern = str_replace("{" . PatternMap::ID . "}", $charSet, $pattern, $r);
+        $pattern = str_replace('{' . PatternMap::MODULE . '}', $charSet, $pattern, $r);
+        $pattern = str_replace('{' . PatternMap::CONTROLLER . '}', $charSet, $pattern, $r);
+        $pattern = str_replace('{' . PatternMap::ACTION . '}', $charSet, $pattern, $r);
+        $pattern = str_replace('{' . PatternMap::ID . '}', $charSet, $pattern, $r);
         $pattern = str_replace('/', '\/', $pattern, $r);
 
         print_r($r);
@@ -56,7 +55,7 @@ class PatternMapTest extends TestCase
         print_r("\n");
 
         $var = '/testMo/ActiontestCo/testMo/testC/1';
-        $t = preg_match('/^'.$pattern.'/i', $var, $out, PREG_OFFSET_CAPTURE);
+        $t = preg_match('/^' . $pattern . '/i', $var, $out, PREG_OFFSET_CAPTURE);
         //$t = preg_match_all('/^'.$pattern.'/i', $var, $out, PREG_PATTERN_ORDER);
         print_r($t);
         print_r("\n");
@@ -75,5 +74,4 @@ class PatternMapTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         new PatternMap();
     }
-
 }

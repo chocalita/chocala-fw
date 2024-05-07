@@ -39,5 +39,4 @@ class FakeRoutes implements RoutesInterface
         ],
         '/contact' => '/pages/landing/contact'
     ];
-
 }

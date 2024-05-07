@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class DispatchTest extends TestCase
 {
-
     private Dispatch $dispatch;
 
     public function setUp()
@@ -44,8 +43,6 @@ class DispatchTest extends TestCase
 
         //self::assertNotNull($response);
 
-        $x = "y";
-
+        $x = 'y';
     }
-
 }

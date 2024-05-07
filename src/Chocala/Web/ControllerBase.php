@@ -39,5 +39,4 @@ abstract class ControllerBase implements ControllerInterface
         $this->_data->setVar($name, $value);
         return $this;
     }
-
 }

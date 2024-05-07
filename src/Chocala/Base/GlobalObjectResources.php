@@ -55,5 +55,4 @@ class GlobalObjectResources implements ObjectResourcesInterface, Singleton
     {
         return $this->objectResource->resource($name);
     }
-
 }

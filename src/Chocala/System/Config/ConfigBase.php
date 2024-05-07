@@ -9,7 +9,6 @@ namespace Chocala\System\Config;
  */
 abstract class ConfigBase
 {
-
     /** Access restrcted for superuser manager */
     const PRIVATE_ACCESS = 'PRIVATE';
 
@@ -139,5 +138,4 @@ abstract class ConfigBase
             self::PUBLIC_ACCESS => self::PUBLIC_ACCESS
         ];
     }
-
 }

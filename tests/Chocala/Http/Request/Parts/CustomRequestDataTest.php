@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 class CustomRequestDataTest extends TestCase
 {
-
     protected function arrayQueryParams(): array
     {
         return FakeQueryParams::ARRAY_DATA;
@@ -29,19 +28,22 @@ class CustomRequestDataTest extends TestCase
      * @return string
      * Source: https://stackoverflow.com/a/11427592
      */
-    protected function arrayToQueryString(array $input) : string
+    protected function arrayToQueryString(array $input): string
     {
-        return implode('&', array_map(
-            function ($v, $k) {
-                if(is_array($v)){
-                    return $k.'[]='.implode('&'.$k.'[]=', $v);
-                }else{
-                    return $k.'='.$v;
-                }
-            },
-            $input,
-            array_keys($input)
-        ));
+        return implode(
+            '&',
+            array_map(
+                function ($v, $k) {
+                    if (is_array($v)) {
+                        return $k . '[]=' . implode('&' . $k . '[]=', $v);
+                    } else {
+                        return $k . '=' . $v;
+                    }
+                },
+                $input,
+                array_keys($input)
+            )
+        );
     }
 
     public function testName()
@@ -61,20 +63,19 @@ class CustomRequestDataTest extends TestCase
         self::assertInstanceOf(QueryParamsInterface::class, $httpMethod->queryParams());
         self::assertCount($size, $httpMethod->queryParams()->data());
         unset($_GET['lastKey']);
-        self::assertCount($size-1, $httpMethod->queryParams()->data());
+        self::assertCount($size - 1, $httpMethod->queryParams()->data());
     }
 
     public function testBody()
     {
         $httpMethod = $this->requestDataCustomClass();
         //print_r($httpMethod);
-        print_r("Printed object in -> " . __CLASS__ . "\n");
+        print_r('Printed object in -> ' . __CLASS__ . "\n");
         print_r($httpMethod->body());
         self::assertNotNull($httpMethod->body());
         self::assertIsObject($httpMethod->body());
         self::assertInstanceOf(MessageBodyInterface::class, $httpMethod->body());
         self::assertInstanceOf(RequestInBody::class, $httpMethod->body());
-
     }
     public function testData()
     {
@@ -92,7 +93,7 @@ class CustomRequestDataTest extends TestCase
 
     private function requestDataCustomClass(): RequestDataInterface
     {
-        $httpMethod = new class() implements RequestDataInterface {
+        $httpMethod = new class () implements RequestDataInterface {
             use RequestDataTrait;
 
             public function __construct()
@@ -109,5 +110,4 @@ class CustomRequestDataTest extends TestCase
         $_REQUEST = $this->arrayQueryParams();
         return new $httpMethod();
     }
-
 }

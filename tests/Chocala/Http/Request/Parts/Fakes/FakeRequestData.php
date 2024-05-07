@@ -9,7 +9,6 @@ use Chocala\Http\Request\Parts\RequestDataInterface;
 
 class FakeRequestData implements RequestDataInterface
 {
-
     private RequestData $requestData;
 
     public function __construct()
@@ -31,5 +30,4 @@ class FakeRequestData implements RequestDataInterface
     {
         return $this->requestData->data();
     }
-
 }

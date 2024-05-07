@@ -6,5 +6,4 @@ use Chocala\Http\ResponseInterface;
 
 interface ActionResultInterface extends ResponseInterface
 {
-
 }

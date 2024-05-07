@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 class HttpUnprocessableContentExceptionTest extends TestCase
 {
-
     private StatusCodeEnum $defaultStatusCode;
 
     public function setUp()
@@ -34,7 +33,6 @@ class HttpUnprocessableContentExceptionTest extends TestCase
         $this->assertBasics($e);
         $this->assertBasicsStatusCode($e);
         self::assertEquals($this->defaultStatusCode, $e->statusCode());
-
     }
 
     public function testStatusCodeProperties()
@@ -69,5 +67,4 @@ class HttpUnprocessableContentExceptionTest extends TestCase
         self::assertIsObject($e->statusCode());
         self::assertInstanceOf(StatusCodeEnum::class, $e->statusCode());
     }
-
 }

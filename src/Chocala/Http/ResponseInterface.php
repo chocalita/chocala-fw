@@ -8,20 +8,18 @@ use Chocala\Http\Response\Parts\StatusCodeEnum;
 
 interface ResponseInterface
 {
-
     /**
      * @return StatusCodeEnum
      */
-    public function status() : StatusCodeEnum;
+    public function status(): StatusCodeEnum;
 
     /**
      * @return ResponseHeadersInterface
      */
-    public function headers() : ResponseHeadersInterface;
+    public function headers(): ResponseHeadersInterface;
 
     /**
      * @return ResponseBodyInterface
      */
-    public function body() : ResponseBodyInterface;
-
+    public function body(): ResponseBodyInterface;
 }

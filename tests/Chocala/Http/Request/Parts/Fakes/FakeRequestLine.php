@@ -46,5 +46,4 @@ class FakeRequestLine implements RequestLineInterface
     {
         return $this->requestLine->httpVersion();
     }
-
 }

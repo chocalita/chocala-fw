@@ -15,7 +15,6 @@ use Chocala\Http\Request\Parts\QueryParamsInterface;
  */
 class Put //implements HttpMethodInterface
 {
-
     /**
      * @return mixed
      */
@@ -31,7 +30,7 @@ class Put //implements HttpMethodInterface
         //TODO: get body
 //        $request = new Request();
 //        return $request->getBody();
-        return "";
+        return '';
     }
 
 
@@ -72,5 +71,4 @@ class Put //implements HttpMethodInterface
     {
         return $this->messageBody->data();
     }
-
 }

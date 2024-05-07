@@ -7,7 +7,6 @@ use Chocala\System\ContentType;
 
 class JsonMessageBody implements MessageBodyInterface
 {
-
     /**
      * @var MessageBody
      */
@@ -42,5 +41,4 @@ class JsonMessageBody implements MessageBodyInterface
     {
         return $this->messageBody->data();
     }
-
 }

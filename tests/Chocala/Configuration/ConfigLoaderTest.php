@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 class ConfigLoaderTest extends TestCase
 {
-
     private $configLoader;
 
     protected function setUp()
@@ -29,5 +28,4 @@ class ConfigLoaderTest extends TestCase
 //        $this->configLoader->loadAll();
         self::assertNull(null);
     }
-
 }

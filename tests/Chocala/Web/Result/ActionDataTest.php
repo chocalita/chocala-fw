@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 class ActionDataTest extends TestCase
 {
-
     private array $values = [
         'key' => 'value',
         'foo' => 'bar',
@@ -69,5 +68,4 @@ class ActionDataTest extends TestCase
         self::assertNotNull($object->vars());
         self::assertIsArray($object->vars());
     }
-
 }

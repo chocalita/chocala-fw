@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 class ConfigTest extends TestCase
 {
-
     /**
      * @var Config
      */
@@ -29,8 +28,10 @@ class ConfigTest extends TestCase
     public function setUp()
     {
         $this->configs = Config::instance();
-        $this->file = new File(__DIR__ . DIRECTORY_SEPARATOR . 'resources' .
-            DIRECTORY_SEPARATOR . 'test-configs.properties');
+        $this->file = new File(
+            __DIR__ . DIRECTORY_SEPARATOR . 'resources' .
+            DIRECTORY_SEPARATOR . 'test-configs.properties'
+        );
         $this->noFile = new File(__DIR__ . 'xyz.properties');
         $this->configs->load($this->file);
     }
@@ -106,7 +107,6 @@ class ConfigTest extends TestCase
 
         $this->expectException(NotFoundException::class);
         $configs->config('not.config');
-
     }
 
     public function testValue()
@@ -137,5 +137,4 @@ class ConfigTest extends TestCase
         self::assertIsString($notValue);
         self::assertEquals('', $notValue);
     }
-
 }

@@ -4,7 +4,6 @@ namespace Chocala\Http\Mapping;
 
 interface ActionMapInterface
 {
-
     /**
      * @return string
      */
@@ -29,5 +28,4 @@ interface ActionMapInterface
      * @return array
      */
     public function params(): array;
-
 }

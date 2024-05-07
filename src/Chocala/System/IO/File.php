@@ -4,7 +4,6 @@ namespace Chocala\System\IO;
 
 class File implements FileInterface
 {
-
     /**
      * @var string
      */
@@ -21,8 +20,11 @@ class File implements FileInterface
      */
     public function __construct(string $filePath)
     {
-        $this->filePath = str_replace('\\', DIRECTORY_SEPARATOR,
-            str_replace('/', DIRECTORY_SEPARATOR, $filePath));
+        $this->filePath = str_replace(
+            '\\',
+            DIRECTORY_SEPARATOR,
+            str_replace('/', DIRECTORY_SEPARATOR, $filePath)
+        );
         $this->fileProperties = new FileProperties($filePath);
     }
 
@@ -106,5 +108,4 @@ class File implements FileInterface
     {
         return $this->fileProperties;
     }
-
 }

@@ -4,7 +4,6 @@ namespace Chocala\Http\Request\Parts;
 
 interface MessageBodyInterface
 {
-
     /**
      * @return string
      */
@@ -14,5 +13,4 @@ interface MessageBodyInterface
      * @return mixed
      */
     public function data();
-
 }

@@ -12,7 +12,6 @@ use PHPUnit\Framework\TestCase;
 
 class ActionMappingTest extends TestCase
 {
-
     private ActionMapping $actionMapping;
 
     private RoutesMappingInterface $routesNapping;
@@ -199,5 +198,4 @@ class ActionMappingTest extends TestCase
         self::assertEquals('contact', $actionMap->action());
         self::assertEmpty($actionMap->id());
     }
-
 }

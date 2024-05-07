@@ -7,7 +7,6 @@ use Chocala\Http\Headers;
 
 class ResultHeaders extends Headers implements ResultHeadersInterface
 {
-
     public function __construct(array $headersList = [])
     {
         parent::__construct($headersList, []);
@@ -30,5 +29,4 @@ class ResultHeaders extends Headers implements ResultHeadersInterface
     {
         $this->headers[$key] = $value;
     }
-
 }

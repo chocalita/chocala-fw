@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class SingletonizedTest extends TestCase
 {
-
     private string $objectName;
     private $objectTime;
 
@@ -32,5 +31,4 @@ class SingletonizedTest extends TestCase
         self::assertEquals($this->objectName, FakeSingletonized::instance()->name);
         self::assertEquals($this->objectTime, FakeSingletonized::instance()->time);
     }
-
 }

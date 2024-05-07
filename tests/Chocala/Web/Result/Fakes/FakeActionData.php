@@ -7,7 +7,6 @@ use Chocala\Web\Result\ActionDataInterface;
 
 class FakeActionData implements ActionDataInterface
 {
-
     public const DEFAULT_DATA = [
         'name' => 'John',
         'lastname' => 'Doe',
@@ -45,5 +44,4 @@ class FakeActionData implements ActionDataInterface
     {
         return $this->actionData->__toString();
     }
-
 }

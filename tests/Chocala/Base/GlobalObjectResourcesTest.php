@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 class GlobalObjectResourcesTest extends TestCase
 {
-
     public function testSingleton()
     {
         $className = GlobalObjectResources::class;

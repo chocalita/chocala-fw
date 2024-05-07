@@ -7,17 +7,16 @@ use Chocala\Http\Request\Parts\RawFormDataBody;
 
 class FakeRawFormDataBody extends RawFormDataBody implements MessageBodyInterface
 {
-
     public const DATA_COUNT = 4;
 
     public const RESOURCES_DIR = __DIR__ . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR;
 
-    public static function contentType(string $contentTypeId = '852526859393702478530519') : string
+    public static function contentType(string $contentTypeId = '852526859393702478530519'): string
     {
-        return 'multipart/form-data; boundary=--------------------------'.$contentTypeId;
+        return 'multipart/form-data; boundary=--------------------------' . $contentTypeId;
     }
 
-    public static function rawData(string $filename = 'raw_form-data') : string
+    public static function rawData(string $filename = 'raw_form-data'): string
     {
         return file_get_contents(self::RESOURCES_DIR . $filename);
     }
@@ -54,5 +53,4 @@ class FakeRawFormDataBody extends RawFormDataBody implements MessageBodyInterfac
         $rawData = self::rawData($filename);
         $this->__constructor($contentType, $rawData);
     }
-
 }

@@ -48,5 +48,4 @@ class RequestData implements RequestDataInterface
     {
         return $this->messageBody->data();
     }
-
 }

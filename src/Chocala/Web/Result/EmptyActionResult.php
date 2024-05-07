@@ -42,7 +42,7 @@ class EmptyActionResult implements ActionResultInterface
     public function body(): ResponseBodyInterface
     {
         throw new UnsupportedOperationException(
-            'This class does not have any body, it should be filled in a concrete ActionResult');
+            'This class does not have any body, it should be filled in a concrete ActionResult'
+        );
     }
-
 }

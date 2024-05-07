@@ -4,7 +4,6 @@ namespace Chocala\Http\Request\Parts;
 
 interface QueryParamsInterface
 {
-
     /**
      * @return array
      */
@@ -35,5 +34,4 @@ interface QueryParamsInterface
      * @return mixed
      */
     public function extract(string $key, $default);
-
 }

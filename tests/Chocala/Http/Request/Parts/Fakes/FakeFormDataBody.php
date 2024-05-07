@@ -7,7 +7,6 @@ use Chocala\Http\Request\Parts\MessageBodyInterface;
 
 class FakeFormDataBody extends FormDataBody implements MessageBodyInterface
 {
-
     public const ARRAY_DATA = [
         'var0' => 'zero',
         'numericKey' => 789,
@@ -24,5 +23,4 @@ class FakeFormDataBody extends FormDataBody implements MessageBodyInterface
             self::ARRAY_DATA
         );
     }
-
 }

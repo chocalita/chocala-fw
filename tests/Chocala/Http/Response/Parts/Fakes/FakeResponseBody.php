@@ -8,7 +8,6 @@ use Chocala\System\ContentType;
 
 class FakeResponseBody extends ResponseBody implements ResponseBodyInterface
 {
-
     public const DEFAULT_DATA = '';
 
     /**
@@ -18,5 +17,4 @@ class FakeResponseBody extends ResponseBody implements ResponseBodyInterface
     {
         parent::__construct(ContentType::TEXT_PLAIN, $bodyContent);
     }
-
 }

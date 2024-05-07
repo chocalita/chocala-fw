@@ -6,7 +6,6 @@ use Chocala\Http\HttpMethodEnum;
 
 class RequestLine implements RequestLineInterface
 {
-
     public const DEFAULT_HTTP_VERSION = 'HTTP/1.1';
 
     /**
@@ -30,9 +29,11 @@ class RequestLine implements RequestLineInterface
      * @param string $requestUri
      * @param string $httpVersion
      */
-    public function __construct(HttpMethodEnum $method,
-                                string $requestUri,
-                                string $httpVersion = self::DEFAULT_HTTP_VERSION)
+    public function __construct(
+        HttpMethodEnum $method,
+        string $requestUri,
+        string $httpVersion = self::DEFAULT_HTTP_VERSION
+    )
     {
         $this->method = $method;
         $this->requestUri = $requestUri;
@@ -62,5 +63,4 @@ class RequestLine implements RequestLineInterface
     {
         return $this->httpVersion;
     }
-
 }

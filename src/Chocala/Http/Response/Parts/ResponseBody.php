@@ -4,7 +4,6 @@ namespace Chocala\Http\Response\Parts;
 
 class ResponseBody implements ResponseBodyInterface
 {
-
     /**
      * @var string
      */
@@ -41,5 +40,4 @@ class ResponseBody implements ResponseBodyInterface
     {
         return $this->data;
     }
-
 }

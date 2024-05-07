@@ -4,7 +4,6 @@ namespace Chocala\Http\Mapping;
 
 class LinkedActionMap implements ActionMapInterface
 {
-
     /**
      * @var array
      */
@@ -49,5 +48,4 @@ class LinkedActionMap implements ActionMapInterface
     {
         return $this->actionMap->params();
     }
-
 }

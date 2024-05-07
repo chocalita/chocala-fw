@@ -7,7 +7,6 @@ use Chocala\System\HttpManagement;
 
 class FrontController implements HttpManagement
 {
-
     /**
      * @var ServerInterface
      */
@@ -23,5 +22,4 @@ class FrontController implements HttpManagement
         // TODO: Implement route() method.
         $this->server->submit();
     }
-
 }

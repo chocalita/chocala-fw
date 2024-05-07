@@ -4,7 +4,6 @@ namespace Chocala\Http\Request\Parts;
 
 trait RequestDataTrait
 {
-
     /**
      * @var QueryParamsInterface
      */
@@ -26,9 +25,8 @@ trait RequestDataTrait
     /**
      * @return MessageBodyInterface
      */
-    public function body() : MessageBodyInterface
+    public function body(): MessageBodyInterface
     {
         return $this->messageBody;
     }
-
 }

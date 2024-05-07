@@ -4,7 +4,6 @@ namespace Chocala\System\IO;
 
 class FileProperties
 {
-
     /**
      * @var string
      */
@@ -55,7 +54,7 @@ class FileProperties
             }
             return $totalSize;
         }
-        if (substr(PHP_OS, 0, 3) == "WIN") {
+        if (substr(PHP_OS, 0, 3) == 'WIN') {
             // WINDOWS: The system cannot find the path specified.
             // WINDOWS: El sistema no puede encontrar la ruta especificada.
             exec('for %I in ("' . $this->filePath . '") do @echo %~zI', $output, $res);
@@ -64,5 +63,4 @@ class FileProperties
             return filesize($this->filePath);
         }
     }
-
 }

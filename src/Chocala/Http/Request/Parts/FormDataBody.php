@@ -6,7 +6,6 @@ use Chocala\System\ContentType;
 
 abstract class FormDataBody extends MessageBody implements MessageBodyInterface
 {
-
     public function __construct(array $data)
     {
         parent::__construct(
@@ -18,9 +17,8 @@ abstract class FormDataBody extends MessageBody implements MessageBodyInterface
     /**
      * @return array
      */
-    public function data() : array
+    public function data(): array
     {
         return $this->data;
     }
-
 }

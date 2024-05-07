@@ -6,5 +6,4 @@ use Chocala\Http\HeadersInterface;
 
 interface RequestHeadersInterface extends HeadersInterface
 {
-
 }

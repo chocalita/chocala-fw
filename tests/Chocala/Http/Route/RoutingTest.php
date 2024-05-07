@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 class RoutingTest extends TestCase
 {
-
     public function testRoutingClass()
     {
         $routingClass = $this->routingClass();
@@ -44,45 +43,40 @@ class RoutingTest extends TestCase
 
     private function routingClass(): RoutesInterface
     {
-        return new class() implements RoutesInterface {
+        return new class () implements RoutesInterface {
             use Routing;
 
             protected string $urlPattern = '/{module}/{controller}/{action}/{id}';
 
             protected array $mapping = [
             ];
-
         };
     }
 
     private function emptyDefaultMapRoutingClass(): RoutesInterface
     {
-        return new class() implements RoutesInterface {
+        return new class () implements RoutesInterface {
             use Routing;
 
             protected string $urlPattern = '';
-
         };
     }
 
     private function invalidPathDefaultMapRoutingClass(): RoutesInterface
     {
-        return new class() implements RoutesInterface {
+        return new class () implements RoutesInterface {
             use Routing;
 
             protected string $urlPattern = 'noPathValue';
-
         };
     }
 
     private function undefinedMappingRoutingClass(): RoutesInterface
     {
-        return new class() implements RoutesInterface {
+        return new class () implements RoutesInterface {
             use Routing;
 
             protected string $urlPattern = '/a/valid/path';
-
         };
     }
-
 }

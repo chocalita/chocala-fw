@@ -8,7 +8,6 @@ use TypeError;
 
 class HeadersTest extends TestCase
 {
-
     /**
      * @var array
      */
@@ -105,7 +104,7 @@ class HeadersTest extends TestCase
         self::assertEquals('keep-alive', $headers->header('connection'));
         self::assertNotEmpty($headers->header('content-type'));
         self::assertEquals('application/json', $headers->header('content-type'));
-        -self::assertNotEmpty($headers->header('praGma'));
+        - self::assertNotEmpty($headers->header('praGma'));
         self::assertEquals('no-cache', $headers->header('praGma'));
 
         // Custom Headers
@@ -193,5 +192,4 @@ class HeadersTest extends TestCase
             'token' => 'TgU02iSTwe73eRh'
         ];
     }
-
 }

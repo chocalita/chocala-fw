@@ -4,7 +4,6 @@ namespace Chocala\Http\Mapping;
 
 class ActionMap implements ActionMapInterface
 {
-
     /**
      * @var string
      */
@@ -108,5 +107,4 @@ class ActionMap implements ActionMapInterface
     {
         return $this->params;
     }
-
 }

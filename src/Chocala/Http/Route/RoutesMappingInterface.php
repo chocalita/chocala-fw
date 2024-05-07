@@ -6,7 +6,5 @@ use Chocala\Http\HttpMethodEnum;
 
 interface RoutesMappingInterface
 {
-
     public function realUri(string $uri, HttpMethodEnum $method): string;
-
 }

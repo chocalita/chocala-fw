@@ -4,7 +4,6 @@ namespace Chocala\Http;
 
 class MimeTypes
 {
-
     public const APPLICATION_JAVASCRIPT = 'application/javascript';
     public const APPLICATION_JSON = 'application/json';
     public const APPLICATION_OCTET_STREAM = 'application/octet-stream';
@@ -33,5 +32,4 @@ class MimeTypes
         self::TEXT_HTML,
         self::APPLICATION_XML
     ];
-
 }

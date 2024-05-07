@@ -11,9 +11,8 @@ use Chocala\System\IO\File;
  */
 class ConfigLoader
 {
-
     /** Config file */
-    public const PARAMS_FILE = "params.xml";
+    public const PARAMS_FILE = 'params.xml';
 
     private $configCoreFiles = ['chocala.properties', 'default.properties'];
 
@@ -85,15 +84,15 @@ class ConfigLoader
     {
         if (file_exists(realpath($configFile))) {
             return realpath($configFile);
-        } else if (file_exists(realpath(CONFIGS_DIR . $configFile))) {
+        } elseif (file_exists(realpath(CONFIGS_DIR . $configFile))) {
             return realpath(CONFIGS_DIR . $configFile);
-        } else if (file_exists(realpath(BIN_DIR . $configFile))) {
+        } elseif (file_exists(realpath(BIN_DIR . $configFile))) {
             return realpath(BIN_DIR . $configFile);
         } else {
             throw new ChocalaException(
-                ChocalaErrors::CONFIGURATION_FILE_NOT_FOUND . ": " .
-                $configFile);
+                ChocalaErrors::CONFIGURATION_FILE_NOT_FOUND . ': ' .
+                $configFile
+            );
         }
     }
-
 }

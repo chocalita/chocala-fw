@@ -10,7 +10,6 @@ use Exception;
 
 class FakeActionMapping implements ActionMappingInterface
 {
-
     private ActionMappingInterface $actionMapping;
 
     public function __construct()
@@ -28,5 +27,4 @@ class FakeActionMapping implements ActionMappingInterface
     {
         return $this->actionMapping->actionMap($uri);
     }
-
 }

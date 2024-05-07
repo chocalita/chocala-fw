@@ -9,7 +9,6 @@ use TypeError;
 
 class RoutesMappingTest extends TestCase
 {
-
     /**
      * @var FakeRoutes
      */
@@ -166,5 +165,4 @@ class RoutesMappingTest extends TestCase
         self::assertIsString($realUri);
         self::assertEquals('/{module}/connect/postAction/{id}', $realUri);
     }
-
 }

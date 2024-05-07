@@ -9,7 +9,6 @@ use Chocala\Base\IllegalArgumentException;
  */
 class RawFormDataBody extends FormDataBody implements MessageBodyInterface
 {
-
     /**
      * @param string $contentTypeBoundary - Request header 'Content-Type' , contains a boundary key that should be
      * present in the 'rawData' too
@@ -26,7 +25,7 @@ class RawFormDataBody extends FormDataBody implements MessageBodyInterface
     /**
      * @return array
      */
-    public function data() : array
+    public function data(): array
     {
         return $this->data;
     }
@@ -38,7 +37,7 @@ class RawFormDataBody extends FormDataBody implements MessageBodyInterface
      * @param string $rawData
      * @return array
      */
-    private function parseData(string $contentTypeBoundary, string $rawData) : array
+    private function parseData(string $contentTypeBoundary, string $rawData): array
     {
         if (preg_match('/^multipart\/form-data; boundary=.*$/ui', $contentTypeBoundary) !== 1) {
             throw new IllegalArgumentException('Invalid multipart/form-data, Content-Type is not matching with the required.');
@@ -46,13 +45,13 @@ class RawFormDataBody extends FormDataBody implements MessageBodyInterface
         #Get boundary value
         $boundary = preg_replace('/(^multipart\/form-data; boundary=)(.*$)/ui', '$2', $contentTypeBoundary);
         #Exit if failed to get the input or if it's not compliant with the RFC2046
-        if (trim($rawData) !== '' && preg_match('/^\s*--'.$boundary.'.*\s*--'.$boundary.'--\s*$/muis', $rawData) !== 1) {
+        if (trim($rawData) !== '' && preg_match('/^\s*--' . $boundary . '.*\s*--' . $boundary . '--\s*$/muis', $rawData) !== 1) {
             throw new IllegalArgumentException('Invalid multipart/form-data raw data');
         }
         #Strip ending boundary
-        $rawData = preg_replace('/(^\s*--'.$boundary.'.*)(\s*--'.$boundary.'--\s*$)/muis', '$1', trim($rawData));
+        $rawData = preg_replace('/(^\s*--' . $boundary . '.*)(\s*--' . $boundary . '--\s*$)/muis', '$1', trim($rawData));
         #Split data into array of fields
-        $rawData = preg_split('/\s*--'.$boundary.'\s*Content-Disposition: form-data;\s*/muis', $rawData, 0, PREG_SPLIT_NO_EMPTY);
+        $rawData = preg_split('/\s*--' . $boundary . '\s*Content-Disposition: form-data;\s*/muis', $rawData, 0, PREG_SPLIT_NO_EMPTY);
         #Convert to associative array
         $parsedData = [];
         foreach ($rawData as $field) {
@@ -85,5 +84,4 @@ class RawFormDataBody extends FormDataBody implements MessageBodyInterface
         #Return the raw parsed data into an array
         return $parsedData;
     }
-
 }

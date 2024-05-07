@@ -8,7 +8,6 @@ use Chocala\Base\UnsupportedOperationException;
 
 class RequestDataNoBodyTest extends CustomRequestDataTest
 {
-
     private function newObject(): RequestDataNoBody
     {
         $this->initQueryParams();
@@ -32,7 +31,7 @@ class RequestDataNoBodyTest extends CustomRequestDataTest
         self::assertInstanceOf(QueryParamsInterface::class, $requestDataNoBody->queryParams());
         self::assertCount($size, $requestDataNoBody->queryParams()->data());
         unset($_GET['lastKey']);
-        self::assertCount($size-1, $requestDataNoBody->queryParams()->data());
+        self::assertCount($size - 1, $requestDataNoBody->queryParams()->data());
     }
 
     public function testBody()
@@ -53,5 +52,4 @@ class RequestDataNoBodyTest extends CustomRequestDataTest
         self::assertNotEmpty($requestDataNoBody->data());
         self::assertCount($size, $requestDataNoBody->data());
     }
-
 }

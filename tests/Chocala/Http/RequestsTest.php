@@ -13,7 +13,6 @@ use PHPUnit\Framework\TestCase;
 
 class RequestsTest extends TestCase
 {
-
     private Requests $requests;
 
     private array $serverVars = [
@@ -83,7 +82,7 @@ class RequestsTest extends TestCase
     {
         $this->initializeSERVER();
         foreach (HttpMethod::all() as $httpMethod) {
-            if ( $httpMethod->isSafe() ) {
+            if ($httpMethod->isSafe()) {
                 $_SERVER['REQUEST_METHOD'] = $httpMethod;
                 $request = $this->requests->make();
                 self::assertNotNull($request);
@@ -106,7 +105,7 @@ class RequestsTest extends TestCase
     {
         $this->initializeSERVER();
         foreach (HttpMethod::all() as $httpMethod) {
-            if ( !$httpMethod->isSafe() ) {
+            if (!$httpMethod->isSafe()) {
                 $_SERVER['REQUEST_METHOD'] = $httpMethod;
                 $request = $this->requests->make();
                 self::assertNotNull($request);
@@ -124,5 +123,4 @@ class RequestsTest extends TestCase
             }
         }
     }
-
 }

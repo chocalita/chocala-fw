@@ -4,7 +4,6 @@ namespace Chocala\Http;
 
 interface HeadersInterface
 {
-
     /**
      * @param string $name
      * @return mixed
@@ -21,5 +20,4 @@ interface HeadersInterface
      * @return array
      */
     public function headersType(string $type): array;
-
 }

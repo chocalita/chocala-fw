@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 class HttpMethodsTest extends TestCase
 {
-
     private array $methods = [
         'GET',
         'POST',
@@ -48,5 +47,4 @@ class HttpMethodsTest extends TestCase
         $this->expectException(\Exception::class);
         $object->make('REQ');
     }
-
 }

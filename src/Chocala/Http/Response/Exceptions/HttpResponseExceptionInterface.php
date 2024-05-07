@@ -7,7 +7,5 @@ use Chocala\Http\Response\Parts\StatusCodeEnum;
 
 interface HttpResponseExceptionInterface extends HttpExceptionInterface
 {
-
     public function statusCode(): StatusCodeEnum;
-
 }

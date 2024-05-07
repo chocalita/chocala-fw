@@ -12,7 +12,6 @@ use PHPUnit\Framework\TestCase;
 
 class ActionResultTest extends TestCase
 {
-
     private ActionResult $defaultActionResult;
     private ActionDataInterface $fakeActionData;
 
@@ -197,5 +196,4 @@ class ActionResultTest extends TestCase
         self::assertEquals(FakeActionData::DEFAULT_DATA, $body->data());
         //print_r($body->data());
     }
-
 }

@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 class ParametersTest extends TestCase
 {
-
     /**
      * @var Parameters
      */
@@ -29,8 +28,10 @@ class ParametersTest extends TestCase
     public function setUp()
     {
         $this->parameters = new Parameters();
-        $this->file = new File(__DIR__ . DIRECTORY_SEPARATOR . 'resources' .
-            DIRECTORY_SEPARATOR . 'test-params.xml');
+        $this->file = new File(
+            __DIR__ . DIRECTORY_SEPARATOR . 'resources' .
+            DIRECTORY_SEPARATOR . 'test-params.xml'
+        );
         $this->noFile = new File(__DIR__ . 'xyz.xml');
         $this->parameters->load($this->file);
     }
@@ -147,5 +148,4 @@ class ParametersTest extends TestCase
         self::assertIsString($notValue);
         self::assertEquals('', $notValue);
     }
-
 }
