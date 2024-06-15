@@ -9,7 +9,6 @@ namespace Chocala\Base;
  */
 class ChocalaErrors
 {
-
     const CONFIGURATION_FILE_NOT_FOUND = 'Configuration File is not found';
 
     const DIRECTORY_NOT_FOUND = 'Directory is not found';
@@ -25,5 +24,4 @@ class ChocalaErrors
     const CONFIG_MALFORMED_DECLARATION = 'Config is malformed in its declaration';
 
     const INVALID_RESOURCE = 'Invalid requested resource';
-
 }

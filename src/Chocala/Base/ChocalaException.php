@@ -22,7 +22,6 @@ define('VALIDATION_EXCEPTION', 46);
  */
 class ChocalaException extends \LogicException
 {
-
     /**
      * Construct a Chocala framework exception.
      * @param string $message The Exception message to throw (message is NOT binary safe).
@@ -35,4 +34,12 @@ class ChocalaException extends \LogicException
         parent::__construct($message, $code, $previous);
     }
 
+    /**
+     * Gets the Exception message
+     * @return string the Exception message as a string.
+     */
+    public function message(): string
+    {
+        return $this->getMessage();
+    }
 }

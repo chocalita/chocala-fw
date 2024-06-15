@@ -6,6 +6,7 @@ use Chocala\Web\ControllerBase;
 
 class VxController extends ControllerBase
 {
+
     public function resource()
     {
     }

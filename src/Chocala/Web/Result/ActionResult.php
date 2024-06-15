@@ -41,6 +41,7 @@ class ActionResult implements ActionResultInterface
             // TODO: check if should be send the content type info (here is empty '')
             new ResponseBody('', $data)
         );
+
     }
 
     private function __construct3(

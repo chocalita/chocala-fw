@@ -3,15 +3,22 @@
 namespace Chocala\Http\Control;
 
 use Chocala\Base\ClassCastException;
+use Chocala\Http\Headers;
 use Chocala\Http\Mapping\ActionMapInterface;
 use Chocala\Http\Mapping\ActionMappingInterface;
 use Chocala\Http\RequestInterface;
 use Chocala\Http\Response\Exceptions\HttpMethodNotAllowedException;
 use Chocala\Http\Response\Exceptions\HttpNotImplementedException;
+use Chocala\Http\Response\Exceptions\HttpResponseException;
+use Chocala\Http\Response\Exceptions\HttpResponseExceptionInterface;
+use Chocala\Http\Response\Parts\ResponseHeaders;
 use Chocala\Http\Response\Response;
 use Chocala\Http\ResponseInterface;
 use Chocala\Http\ServerInterface;
+use Chocala\System\ContentType;
 use Chocala\Web\ControllerInterface;
+use Chocala\Web\Result\ResponseExceptionResult;
+use Chocala\Web\Result\ResultHeaders;
 
 class Dispatch implements ServerInterface
 {
@@ -64,15 +71,31 @@ class Dispatch implements ServerInterface
 //                $filter->afterAction();
 //            }
 
-            $actionResult = $controller->_callback($action);
+            try {
+                $actionResult = $controller->_callback($action);
 
-            //isRendered is inside the controller->_process()
+                //isRendered is inside the controller->_process()
 //            if (!$controller->isRendered()) {
 //                $controller->renderView($this->controller . '.' . $this->action,
 //                    $this->module);
 //            }
 
-            $afterProcessResponse = $actionResult;
+                $afterProcessResponse = $actionResult;
+
+            } catch (HttpResponseException $e) {
+                $requestHeaders = $this->request->headers();
+                $contentType = $this->request->headers()->header(Headers::CONTENT_TYPE_KEY);
+
+                $e->message();
+                $e->statusCode();
+
+                $afterProcessResponse = new ResponseExceptionResult(
+                    $e,
+                    new ResultHeaders($requestHeaders->headersType(Headers::TYPE_GENERAL)),
+                    $requestHeaders->header(Headers::CONTENT_TYPE_KEY)
+                );
+            }
+
 
 //            foreach(ChocalaFiltersManager::filters() as $filter){
 //                $filter->afterView();

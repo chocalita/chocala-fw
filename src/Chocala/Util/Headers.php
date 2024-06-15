@@ -16,7 +16,7 @@ class Headers
      *
      * @var bool
      */
-    private $allowCache = true;
+    private bool $allowCache = true;
 
     /**
      *

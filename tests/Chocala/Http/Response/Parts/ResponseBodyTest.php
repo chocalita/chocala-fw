@@ -49,10 +49,9 @@ class ResponseBodyTest extends TestCase
         $bodyContent = '<html><head></head><body><h1>some tittle</h1></body></html>';
         $responseBody = new ResponseBody(ContentType::TEXT_HTML, $bodyContent);
         self::assertIsObject($responseBody);
-        $type = $responseBody->type();
-        self::assertNotNull($type);
-        self::assertNotEmpty($type);
-        self::assertEquals(ContentType::TEXT_HTML, $type);
+        self::assertNotNull($responseBody->type());
+        self::assertNotEmpty($responseBody->type());
+        self::assertEquals(ContentType::TEXT_HTML, $responseBody->type());
     }
 
     public function testData()
@@ -65,9 +64,8 @@ class ResponseBodyTest extends TestCase
 
         $bodyContent = '<html><head></head><body><h1>some tittle</h1></body></html>';
         $responseBody = new ResponseBody(ContentType::TEXT_HTML, $bodyContent);
-        $data = $responseBody->data();
-        self::assertNotNull($data);
-        self::assertNotEmpty($data);
-        self::assertEquals($bodyContent, $data);
+        self::assertNotNull($responseBody->data());
+        self::assertNotEmpty($responseBody->data());
+        self::assertEquals($bodyContent, $responseBody->data());
     }
 }

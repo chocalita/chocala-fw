@@ -60,7 +60,7 @@ class ControllerBaseTest extends TestCase
         self::assertIsObject($controllerBase);
         try {
             self::assertAttributeInstanceOf(DefaultActionBody::class, '_actionBody', $controllerBase);
-            $controllerBase->_bodyAs(new PrintActionBody(StatusCode::OK()));
+            $controllerBase->_bodyAs(new PrintActionBody());
             self::assertTrue(true);
             $controllerBase->set('name', 'john');
             $controllerBase->set('lastname', 'doe');

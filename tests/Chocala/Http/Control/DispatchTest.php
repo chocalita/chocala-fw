@@ -3,6 +3,10 @@
 namespace Chocala\Http\Control;
 
 use Chocala\Http\Fakes\FakeRequest;
+use Chocala\Http\HttpMethod;
+use Chocala\Http\Request\Parts\RequestLine;
+use Chocala\Http\Response\Response;
+use Chocala\Http\ResponseInterface;
 use Chocala\Http\Route\Fakes\FakeActionMapping;
 use Chocala\Http\ServerInterface;
 use PHPUnit\Framework\TestCase;
@@ -18,31 +22,75 @@ class DispatchTest extends TestCase
 
     public function test__construct()
     {
-        $object = new Dispatch(
-            //new FakeRequest(new RequestLine(HttpMethod::GET(), '/uriTo/controller/action')),
-            //new FakeRequest(new RequestLine(HttpMethod::GET(), 'http://localhost:8081/uriTo/controller/action')),
+        $dispatch = new Dispatch(
             new FakeRequest(),
             new FakeActionMapping()
         );
-        self::assertNotNull($object);
-        self::assertIsObject($object);
-        self::assertInstanceOf(ServerInterface::class, $object);
-        self::assertInstanceOf(Dispatch::class, $object);
+        self::assertNotNull($dispatch);
+        self::assertIsObject($dispatch);
+        self::assertInstanceOf(ServerInterface::class, $dispatch);
+        self::assertInstanceOf(Dispatch::class, $dispatch);
     }
 
     public function testSubmit()
     {
-        // TODO: test $dispatch->submit() method
         self::assertNotNull(1);
-        $object = new Dispatch(
+        $dispatch = new Dispatch(
             new FakeRequest(),
             new FakeActionMapping()
         );
         $vx = new \App\Controllers\section\VxController();
-        $response = $object->submit();
+        $response = $dispatch->submit();
 
-        //self::assertNotNull($response);
+        self::assertNotNull($response);
+        self::assertIsObject($response);
+        self::assertInstanceOf(ResponseInterface::class, $response);
+        self::assertInstanceOf(Response::class, $response);
+        self::assertEquals(200, $response->status()->code());
+        self::assertEmpty($response->headers()->headerList());
+        self::assertNotEmpty($response->body()->data());
 
-        $x = 'y';
+        self::assertNotNull($response);
     }
+
+    public function testSubmitActions()
+    {
+        $dispatch = new Dispatch(
+            new FakeRequest(new RequestLine(HttpMethod::GET(), '/section/test/dummy')),
+            //new FakeRequest(new RequestLine(HttpMethod::GET(), 'http://localhost:8081/uriTo/controller/action')),
+            new FakeActionMapping()
+        );
+        $response = $dispatch->submit();
+
+        self::assertNotNull($response);
+        self::assertIsObject($response);
+        self::assertInstanceOf(ResponseInterface::class, $response);
+        self::assertInstanceOf(Response::class, $response);
+        self::assertEquals(406, $response->status()->code());
+        self::assertEmpty($response->headers()->headerList());
+        self::assertNotEmpty($response->body()->data());
+
+        self::assertNotNull($response);
+    }
+
+    public function testHttpExceptionResponse()
+    {
+        $dispatch = new Dispatch(
+            new FakeRequest(new RequestLine(HttpMethod::GET(), '/section/test/dummy')),
+            //new FakeRequest(new RequestLine(HttpMethod::GET(), 'http://localhost:8081/uriTo/controller/action')),
+            new FakeActionMapping()
+        );
+        $response = $dispatch->submit();
+
+        self::assertNotNull($response);
+        self::assertIsObject($response);
+        self::assertInstanceOf(ResponseInterface::class, $response);
+        self::assertInstanceOf(Response::class, $response);
+        self::assertEquals(406, $response->status()->code());
+        self::assertEmpty($response->headers()->headerList());
+        self::assertNotEmpty($response->body()->data());
+
+        self::assertNotNull($response);
+    }
+
 }
