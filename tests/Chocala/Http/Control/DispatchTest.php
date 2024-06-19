@@ -34,7 +34,6 @@ class DispatchTest extends TestCase
 
     public function testSubmit()
     {
-        self::assertNotNull(1);
         $dispatch = new Dispatch(
             new FakeRequest(),
             new FakeActionMapping()
@@ -56,8 +55,7 @@ class DispatchTest extends TestCase
     public function testSubmitActions()
     {
         $dispatch = new Dispatch(
-            new FakeRequest(new RequestLine(HttpMethod::GET(), '/section/test/dummy')),
-            //new FakeRequest(new RequestLine(HttpMethod::GET(), 'http://localhost:8081/uriTo/controller/action')),
+            new FakeRequest(new RequestLine(HttpMethod::GET(), '/section/test/dummy406')),
             new FakeActionMapping()
         );
         $response = $dispatch->submit();
@@ -76,7 +74,7 @@ class DispatchTest extends TestCase
     public function testHttpExceptionResponse()
     {
         $dispatch = new Dispatch(
-            new FakeRequest(new RequestLine(HttpMethod::GET(), '/section/test/dummy')),
+            new FakeRequest(new RequestLine(HttpMethod::GET(), '/section/test/dummy500')),
             //new FakeRequest(new RequestLine(HttpMethod::GET(), 'http://localhost:8081/uriTo/controller/action')),
             new FakeActionMapping()
         );
@@ -86,7 +84,7 @@ class DispatchTest extends TestCase
         self::assertIsObject($response);
         self::assertInstanceOf(ResponseInterface::class, $response);
         self::assertInstanceOf(Response::class, $response);
-        self::assertEquals(406, $response->status()->code());
+        self::assertEquals(500, $response->status()->code());
         self::assertEmpty($response->headers()->headerList());
         self::assertNotEmpty($response->body()->data());
 
