@@ -1,6 +1,6 @@
 <?php
 
-namespace Chocala\System;
+namespace Chocala\Http;
 
 /**
  *

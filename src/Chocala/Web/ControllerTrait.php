@@ -4,15 +4,11 @@ namespace Chocala\Web;
 
 use Chocala\Http\HttpMethodEnum;
 use Chocala\Http\Response\Exceptions\HttpResponseException;
-use Chocala\Http\Response\Parts\ResponseBodyInterface;
-use Chocala\Http\Response\Parts\StatusCodeEnum;
 use Chocala\Web\Result\ActionResult;
 use Chocala\Web\Result\ActionResultInterface;
 use Chocala\Web\Result\ActionBodyInterface;
 use Chocala\Web\Result\ActionDataInterface;
 use Chocala\Web\Result\PrintActionBody;
-use Chocala\Web\Result\ResponseExceptionResult;
-use Chocala\Web\Result\ResultHeadersInterface;
 use Exception;
 
 trait ControllerTrait

@@ -38,7 +38,6 @@ class DispatchTest extends TestCase
             new FakeRequest(),
             new FakeActionMapping()
         );
-        $vx = new \App\Controllers\section\VxController();
         $response = $dispatch->submit();
 
         self::assertNotNull($response);

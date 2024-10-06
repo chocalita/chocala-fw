@@ -2,8 +2,8 @@
 
 namespace Chocala\Http\Control;
 
+use Chocala\Http\HttpManagement;
 use Chocala\Http\ServerInterface;
-use Chocala\System\HttpManagement;
 
 class FrontController implements HttpManagement
 {
@@ -20,6 +20,15 @@ class FrontController implements HttpManagement
     public function route()
     {
         // TODO: Implement route() method.
-        $this->server->submit();
+        $response = $this->server->submit();
+
+        foreach ($response->headers()->headerList() as $hKey => $hValue) {
+            \HttpResponse::setHeader($hKey, $hValue);
+        }
+        // TODO: apply cache info headers
+        // TODO: set http status
+
+        echo $response->body()->data();
+
     }
 }

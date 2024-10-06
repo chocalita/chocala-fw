@@ -3,7 +3,6 @@
 namespace Chocala\Web;
 
 use Chocala\Http\HttpMethod;
-use Chocala\Http\Response\Parts\StatusCode;
 use Chocala\Web\Result\DefaultActionBody;
 use Chocala\Web\Result\PrintActionBody;
 use Exception;
@@ -61,7 +60,6 @@ class ControllerBaseTest extends TestCase
         try {
             self::assertAttributeInstanceOf(DefaultActionBody::class, '_actionBody', $controllerBase);
             $controllerBase->_bodyAs(new PrintActionBody());
-            self::assertTrue(true);
             $controllerBase->set('name', 'john');
             $controllerBase->set('lastname', 'doe');
             self::assertAttributeInstanceOf(PrintActionBody::class, '_actionBody', $controllerBase);
