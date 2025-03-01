@@ -9,7 +9,6 @@ namespace Chocala\Base;
  */
 class SingletonRegistry implements ISingletonRegistry
 {
-
     /**
      * Single static instance from this class
      * @var SingletonRegistry
@@ -55,5 +54,4 @@ class SingletonRegistry implements ISingletonRegistry
     {
         return self::instance()->globalVars;
     }
-
 }

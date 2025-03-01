@@ -8,7 +8,6 @@ use Chocala\Web\ControllerBase;
 
 class TestController extends ControllerBase
 {
-
     public function dummy406()
     {
         throw new HttpNotAcceptableException('Not Acceptable (custom response)');
@@ -18,5 +17,4 @@ class TestController extends ControllerBase
     {
         throw new HttpServerErrorException('Server Error (custom response)');
     }
-
 }

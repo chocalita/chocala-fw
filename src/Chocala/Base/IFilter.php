@@ -8,11 +8,9 @@ namespace Chocala\Base;
  */
 interface IFilter
 {
-
     public function beforeAction();
 
     public function afterAction();
 
     public function afterView();
-
 }

@@ -74,7 +74,7 @@ trait Validatable
      */
     public function validate($columns = null)
     {
-        if($this->preValidate($columns)){
+        if ($this->preValidate($columns)) {
             $res =  $this->doValidate($columns);
         }
         if ($res === true) {
@@ -105,19 +105,19 @@ trait Validatable
             $this->alreadyInValidation = true;
             $failureMap = array();
             $relationsManyToOne = $this->relationsManyToOne();
-            foreach($relationsManyToOne as $relationMap){
-                $relationName = 'a'.$relationMap->getName();
-                if($this->$relationName !== null){
+            foreach ($relationsManyToOne as $relationMap) {
+                $relationName = 'a' . $relationMap->getName();
+                if ($this->$relationName !== null) {
                     if (!$this->$relationName->validate($columns)) {
                         $failureMap = array_merge($failureMap, $this->$relationName->getValidationFailures());
                     }
                 }
             }
             $relationsOneToMany = $this->relationsOneToMany();
-            foreach($relationsOneToMany as $relationMap){
+            foreach ($relationsOneToMany as $relationMap) {
                 // TODO: perform to many related FK with a class // name(s)RelatedByAColumn
-                $relationName = 'coll'.$relationMap->getName().'s';
-                if($this->$relationName !== null){
+                $relationName = 'coll' . $relationMap->getName() . 's';
+                if ($this->$relationName !== null) {
                     foreach ($this->$relationName as $referrerFK) {
                         if (!$referrerFK->validate($columns)) {
                             $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
@@ -139,7 +139,7 @@ trait Validatable
                 }
             }
 */
-            if(property_exists(__CLASS__, 'validationRules')){
+            if (property_exists(__CLASS__, 'validationRules')) {
                 $validationErrors = ValidationHelper::validateObject($this, static::$validationRules);
                 $failureMap = ValidationHelper::mergeFailures($failureMap, $validationErrors);
             }
@@ -157,5 +157,4 @@ trait Validatable
     {
         return ValidationHelper::failuresMap($this->validationFailures);
     }
-
 }

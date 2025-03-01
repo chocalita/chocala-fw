@@ -14,7 +14,6 @@ use Monolog\Handler\StreamHandler as StreamHandler;
  */
 class Logger implements \Psr\Log\LoggerInterface
 {
-
     /**
      * @var \Monolog\Logger null
      */
@@ -34,7 +33,7 @@ class Logger implements \Psr\Log\LoggerInterface
         $this->log = new Monolog('ChocalaLogger');
         $formatter = new LineFormatter(
             "[%datetime%] %level_name% %message% %context% %extra%\n",
-            "Y-m-d H:i:s",
+            'Y-m-d H:i:s',
             true,
             true
         );
@@ -173,5 +172,4 @@ class Logger implements \Psr\Log\LoggerInterface
     {
         $this->log->addRecord($level, $message, $context);
     }
-
 }

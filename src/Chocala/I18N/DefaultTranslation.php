@@ -13,10 +13,9 @@ use Chocala\System\IO\File;
  */
 class DefaultTranslation implements TranslationInterface
 {
-
     const DEFAULT_LANG_FILE = 'default';
 
-    const EXTENSION = ".php";
+    const EXTENSION = '.php';
 
     /**
      *
@@ -68,7 +67,7 @@ class DefaultTranslation implements TranslationInterface
      * @return void
      * @throws NotFoundException
      */
-    private function loadDefaultMessages() : void
+    private function loadDefaultMessages(): void
     {
         $langFile = new File(I18N_DIR . self::DEFAULT_LANG_FILE . self::EXTENSION);
         if ($langFile->exists()) {
@@ -137,5 +136,4 @@ class DefaultTranslation implements TranslationInterface
             }
         }
     }
-
 }

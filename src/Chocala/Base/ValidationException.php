@@ -9,10 +9,8 @@ namespace Chocala\Base;
  */
 class ValidationException extends ChocalaException
 {
-
     public function __construct($message, $code = VALIDATION_EXCEPTION, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }
-
 }

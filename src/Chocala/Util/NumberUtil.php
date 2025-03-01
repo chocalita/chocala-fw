@@ -11,12 +11,11 @@ namespace Chocala\Util;
  */
 class NumberUtil
 {
-
     //TODO: implements Number functions
 
     public static function format($number, $dec = 2)
     {
-        if(is_numeric($number)) {
+        if (is_numeric($number)) {
             return number_format($number, $dec);
         }
         return null;
@@ -24,11 +23,10 @@ class NumberUtil
 
     public static function value($value)
     {
-        if(is_numeric($value*1)) {
-            $value = $value."";
-            return $value != "" ? str_replace(',','',$value)* 1 : 0;
+        if (is_numeric($value * 1)) {
+            $value = $value . '';
+            return $value != '' ? str_replace(',', '', $value) * 1 : 0;
         }
         return 0;
     }
-
 }

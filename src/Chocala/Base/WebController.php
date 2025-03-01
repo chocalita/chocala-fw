@@ -12,7 +12,6 @@ use Chocala\Util\Headers;
  */
 abstract class WebController implements IController
 {
-
     protected $allowedMethods = array();
 
     /**
@@ -141,7 +140,7 @@ abstract class WebController implements IController
      * @param string $module
      * @return void
      */
-    final public function renderViewWithoutLayout($view, $module=null)
+    final public function renderViewWithoutLayout($view, $module = null)
     {
         $this->view->renderViewWithoutLayout(lcfirst($view), $module);
         $this->rendered = true;
@@ -198,5 +197,4 @@ abstract class WebController implements IController
         }
         return true;
     }
-
 }

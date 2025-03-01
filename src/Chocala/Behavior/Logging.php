@@ -12,7 +12,6 @@ use Psr\Log\LoggerInterface;
  */
 trait Logging
 {
-
     /**
      * @return LoggerInterface
      */
@@ -154,7 +153,6 @@ trait Logging
 
     private function formatedMessage($message)
     {
-        return "[" . get_called_class() . '] ' . $message;
+        return '[' . get_called_class() . '] ' . $message;
     }
-
 }

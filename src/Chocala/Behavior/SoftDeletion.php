@@ -10,7 +10,6 @@ namespace Chocala\Behavior;
  */
 interface SoftDeletion
 {
-
 //    public static function create($modelAlias = null, Criteria $criteria = null);
     public static function create($modelAlias = null, \Propel\Runtime\ActiveQuery\Criteria $criteria = null);
 
@@ -23,5 +22,4 @@ interface SoftDeletion
     public static function createValids($noDeletes = true, $modelAlias = null, Criteria $criteria = null);
 
     public function orders($orderByArray);
-
 }

@@ -8,7 +8,6 @@ namespace Chocala\Base;
  */
 interface IController
 {
-
     public function __construct();
 
     public function _init();
@@ -20,5 +19,4 @@ interface IController
     public function renderAsJSON();
         
     public function isRendered();
-
 }

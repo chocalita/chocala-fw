@@ -8,7 +8,5 @@ namespace Chocala\Base;
  */
 interface IChocalaErrorsManager
 {
-
     public static function manage($exception);
-    
 }

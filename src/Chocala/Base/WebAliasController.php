@@ -8,9 +8,8 @@ namespace Chocala\Base;
  */
 abstract class WebAliasController extends WebController
 {
-
     /**
-     * Initialization of generic operations, configurations or steps for all 
+     * Initialization of generic operations, configurations or steps for all
      * methods of the controller class
      * @return void
      */
@@ -18,5 +17,4 @@ abstract class WebAliasController extends WebController
     {
         $this->view = new WebAliasView($this->layout);
     }
-
 }

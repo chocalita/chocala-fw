@@ -12,7 +12,6 @@ use Chocala\Configuration\Config;
  */
 class GlobalVars implements Singleton
 {
-
     /**
      *
      * @var string
@@ -125,5 +124,4 @@ class GlobalVars implements Singleton
     {
         return $this->id;
     }
-
 }

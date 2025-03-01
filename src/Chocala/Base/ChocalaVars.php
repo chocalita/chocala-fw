@@ -9,7 +9,6 @@ namespace Chocala\Base;
  */
 abstract class ChocalaVars
 {
-
     const ADMIN_MODULE = 'admin';
 
     const NO_LAYOUT = 'noLayout';
@@ -35,8 +34,7 @@ abstract class ChocalaVars
     public static function asBoolean($value)
     {
         $value = strtoupper(trim($value));
-        return ($value===true || $value==='ON' || $value==='YES' ||
-                $value==='SI');
+        return ($value === true || $value === 'ON' || $value === 'YES' ||
+                $value === 'SI');
     }
-
 }

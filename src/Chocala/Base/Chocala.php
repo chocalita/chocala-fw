@@ -9,5 +9,4 @@ namespace Chocala\Base;
  */
 class Chocala extends ChocalaBase
 {
-    
 }

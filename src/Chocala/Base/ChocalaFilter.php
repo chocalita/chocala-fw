@@ -9,7 +9,6 @@ namespace Chocala\Base;
  */
 class ChocalaFilter implements IFilter
 {
-
     protected $moduleName = null;
 
     protected $controllerName = null;
@@ -28,7 +27,7 @@ class ChocalaFilter implements IFilter
     }
 
     /**
-     * 
+     *
      * @param array $arrayMap
      * @param boolean $permanently
      * @return void
@@ -39,10 +38,15 @@ class ChocalaFilter implements IFilter
         Headers::instance()->redirectTo($URI, $permanently);
     }
 
-    public function beforeAction(){}
+    public function beforeAction()
+    {
+    }
 
-    public function afterAction(){}
+    public function afterAction()
+    {
+    }
 
-    public function afterView(){}
-
+    public function afterView()
+    {
+    }
 }

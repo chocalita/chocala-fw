@@ -9,35 +9,34 @@ namespace Chocala\Base;
  */
 abstract class ChocalaBase
 {
-
     /**
      * The Chocala Framework version
      */
-    const VERSION = "0.9";
+    const VERSION = '0.9';
 
     /**
      * File's extension for classes in the system
      * @var string
      */
-    const CLASS_EXTENSION = ".php";
+    const CLASS_EXTENSION = '.php';
 
     /**
      * File's extension from bars
      * @var string
      */
-    const BAR_EXTENSION = ".bar";
+    const BAR_EXTENSION = '.bar';
 
     /**
      * File's extension from layouts
      * @var string
      */
-    const LAYOUT_EXTENSION = ".lyt";
+    const LAYOUT_EXTENSION = '.lyt';
 
     /**
      * File's extension from templates
      * @var string
      */
-    const TEMPLATE_EXTENSION = ".phtml";
+    const TEMPLATE_EXTENSION = '.phtml';
 
     /**
      * List of included files
@@ -61,33 +60,33 @@ abstract class ChocalaBase
      */
     public static function import($namespace, $verify = true)
     {
-        if(isset(self::$namespacesList[$namespace])){
+        if (isset(self::$namespacesList[$namespace])) {
             return false;
         }
-        try{
-            if(($pos=strrpos($namespace,'.')) === false){
-                require_once($namespace.self::CLASS_EXTENSION);
+        try {
+            if (($pos = strrpos($namespace, '.')) === false) {
+                require_once($namespace . self::CLASS_EXTENSION);
                 return true;
-            }elseif(($path=self::namespacePath($namespace))!= ""){
-                $className = substr($namespace,$pos+1);
+            } elseif (($path = self::namespacePath($namespace)) != '') {
+                $className = substr($namespace, $pos + 1);
                 self::$namespacesList[$namespace] = $path;
-                if($className==='*'){ // un directorio
+                if ($className === '*') { // un directorio
                     self::exist($path);
-                    set_include_path($path.PATH_SEPARATOR.get_include_path());
+                    set_include_path($path . PATH_SEPARATOR . get_include_path());
                     return true;
-                }else{ // un archivo
-                    if(!$verify || !class_exists($className, false)){
-                        self::exist($path.self::CLASS_EXTENSION, false);
-                        require_once($path.self::CLASS_EXTENSION);
+                } else { // un archivo
+                    if (!$verify || !class_exists($className, false)) {
+                        self::exist($path . self::CLASS_EXTENSION, false);
+                        require_once($path . self::CLASS_EXTENSION);
                         return true;
-                    }else{
+                    } else {
                         return false;
                     }
                 }
-            }else{
+            } else {
                 return false;
             }
-        }catch (ChocalaException $che){
+        } catch (ChocalaException $che) {
             ChocalaErrorsManager::manage($che);
             return false;
         }
@@ -100,20 +99,22 @@ abstract class ChocalaBase
      */
     public static function namespacePath($namespace)
     {
-        if(isset(self::$namespacesList[$namespace])){
-        	return self::$namespacesList[$namespace];
-        }elseif(isset(self::$aliasesList[$namespace])){
-        	return self::$aliasesList[$namespace];
-        }else{
-            $path = "";
-        	$segs = explode('.',$namespace);
-        	$alias = array_shift($segs);
+        if (isset(self::$namespacesList[$namespace])) {
+            return self::$namespacesList[$namespace];
+        } elseif (isset(self::$aliasesList[$namespace])) {
+            return self::$aliasesList[$namespace];
+        } else {
+            $path = '';
+            $segs = explode('.', $namespace);
+            $alias = array_shift($segs);
             $file = array_pop($segs);
-            if($file !== null){
+            if ($file !== null) {
                 $root = self::aliasPath($alias);
-                if($root !== null){
-                    $path = rtrim($root.implode(DIRECTORY_SEPARATOR,$segs),
-                            '/\\').DIRECTORY_SEPARATOR.(($file==='*')?'':$file);
+                if ($root !== null) {
+                    $path = rtrim(
+                        $root . implode(DIRECTORY_SEPARATOR, $segs),
+                        '/\\'
+                    ) . DIRECTORY_SEPARATOR . (($file === '*') ? '' : $file);
                 }
             }
             return $path;
@@ -127,7 +128,7 @@ abstract class ChocalaBase
      */
     public static function aliasPath($alias)
     {
-        return isset(self::$aliasesList[$alias])?self::$aliasesList[$alias]:"";
+        return isset(self::$aliasesList[$alias]) ? self::$aliasesList[$alias] : '';
     }
 
     /**
@@ -137,9 +138,9 @@ abstract class ChocalaBase
      * directory
      * @return bool
      */
-    final public static function exist($path, $isDirectory=true)
+    final public static function exist($path, $isDirectory = true)
     {
-        return $isDirectory? is_dir($path): file_exists($path);
+        return $isDirectory ? is_dir($path) : file_exists($path);
     }
 
     /**
@@ -165,5 +166,4 @@ abstract class ChocalaBase
         $rc = new \ReflectionClass($class);
         return $rc->hasMethod($method);
     }
-
 }

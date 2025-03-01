@@ -9,7 +9,6 @@ namespace Chocala;
  */
 abstract class ChocalaRunner
 {
-
     public static function run()
     {
         \Chocala\Bin\ChocalaInitVars::frameworkInit();
@@ -19,5 +18,4 @@ abstract class ChocalaRunner
         \Chocala\System\Flash::initialize();
         \Chocala\Base\FrontController::instance()->route();
     }
-
 }

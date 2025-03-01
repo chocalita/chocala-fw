@@ -7,5 +7,4 @@ namespace Chocala\Base;
  */
 abstract class ChocalaService
 {
-
 }

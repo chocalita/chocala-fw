@@ -10,7 +10,6 @@ namespace Chocala\Base;
  */
 abstract class ChocalaSingleService extends ChocalaService implements Singleton
 {
-
     /**
      * @var \ChocalaSingleService
      */
@@ -21,7 +20,7 @@ abstract class ChocalaSingleService extends ChocalaService implements Singleton
      */
     public static function instance()
     {
-        if(!is_object(self::$instance)) {
+        if (!is_object(self::$instance)) {
             static::$instance = new static();
         }
         return static::$instance;
@@ -33,5 +32,4 @@ abstract class ChocalaSingleService extends ChocalaService implements Singleton
     {
         $this->_init();
     }
-
 }

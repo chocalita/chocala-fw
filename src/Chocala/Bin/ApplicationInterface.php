@@ -4,5 +4,4 @@ namespace Chocala\Bin;
 
 interface ApplicationInterface
 {
-
 }

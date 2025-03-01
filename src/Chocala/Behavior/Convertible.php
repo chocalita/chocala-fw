@@ -10,7 +10,6 @@ namespace Chocala\Behavior;
  */
 trait Convertible
 {
-
     public function jsonSerialize()
     {
         return $this->toArray();
@@ -20,5 +19,4 @@ trait Convertible
     {
         return json_encode($this);
     }
-
 }

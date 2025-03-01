@@ -7,7 +7,6 @@ use Chocala\Base\Chocala;
  */
 class ChocalaAutoload
 {
-
     /**
      *
      * @var array
@@ -133,20 +132,20 @@ class ChocalaAutoload
      */
     public static function loading($_className)
     {
-        if (strpos($_className, "Chocala\\") === 0) {
+        if (strpos($_className, 'Chocala\\') === 0) {
 //            $namespace = explode("\\", $_className)[0];
-            $classname = str_replace('\\', DIRECTORY_SEPARATOR, str_replace("Chocala\\", "", $_className));
-            $filename = CHOCALA_DIR . $classname . ".php";
+            $classname = str_replace('\\', DIRECTORY_SEPARATOR, str_replace('Chocala\\', '', $_className));
+            $filename = CHOCALA_DIR . $classname . '.php';
             if (file_exists($filename)) {
                 include_once $filename;
             }
             return true;
         }
 
-        if (strpos($_className, "App\\") === 0) {
+        if (strpos($_className, 'App\\') === 0) {
 //            $namespace = explode("\\", $_className)[0];
-            $classname = str_replace('\\', DIRECTORY_SEPARATOR, str_replace("App\\", "", $_className));
-            $filename = APP_DIR . $classname . ".php";
+            $classname = str_replace('\\', DIRECTORY_SEPARATOR, str_replace('App\\', '', $_className));
+            $filename = APP_DIR . $classname . '.php';
             if (file_exists($filename)) {
                 include_once $filename;
             }
@@ -179,9 +178,7 @@ class ChocalaAutoload
         }
 
         return false;
-
     }
-
 }
 
 spl_autoload_register('ChocalaAutoload::loading');

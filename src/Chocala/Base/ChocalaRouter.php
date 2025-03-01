@@ -9,7 +9,6 @@ namespace Chocala\Base;
  */
 class ChocalaRouter
 {
-
     /**
      *
      * @param string $key
@@ -29,7 +28,6 @@ class ChocalaRouter
     public static function routeURL($key)
     {
         // TODO: use for url mapping with URI::instance()
-        return self::isAlias($key)? AppConfig::$aliases[$key]: null;
+        return self::isAlias($key) ? AppConfig::$aliases[$key] : null;
     }
-
 }

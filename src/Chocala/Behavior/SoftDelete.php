@@ -10,7 +10,6 @@ namespace Chocala\Behavior;
  */
 abstract class SoftDelete
 {
-
     const ACTIVE = 'ACTIVE', ACTIVE_VALUE = 'Activo';
     const INACTIVE = 'INACTIVE', INACTIVE_VALUE = 'Inactivo';
     const DELETED = 'DELETED', DELETED_VALUE = 'Eliminado';
@@ -22,7 +21,7 @@ abstract class SoftDelete
 
     public static function statusMap()
     {
-        if(static::$statusMap == null){
+        if (static::$statusMap == null) {
             static::$statusMap = array(
                 static::ACTIVE => static::ACTIVE_VALUE,
                 static::INACTIVE => static::INACTIVE_VALUE,
@@ -31,5 +30,4 @@ abstract class SoftDelete
         }
         return static::$statusMap;
     }
-
 }

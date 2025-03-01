@@ -9,7 +9,6 @@ namespace Chocala\System;
  */
 class Req extends GlobalVar
 {
-
     /**
      * Represents a unique instance for the class in the system
      * @var Req
@@ -34,7 +33,7 @@ class Req extends GlobalVar
      */
     public static function instance()
     {
-        if(!is_object(static::$instance)){
+        if (!is_object(static::$instance)) {
             static::$instance = new self();
         }
         return static::$instance;
@@ -55,7 +54,7 @@ class Req extends GlobalVar
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function method()
@@ -64,18 +63,18 @@ class Req extends GlobalVar
     }
 
     /**
-     * 
+     *
      * @param string $id
      * @return void
      */
-    public function read($id=null)
-    {    
+    public function read($id = null)
+    {
         $this->data = &$_REQUEST;
         return null;
     }
 
     /**
-     * 
+     *
      * @return boolean
      */
     public function write()
@@ -84,7 +83,7 @@ class Req extends GlobalVar
     }
 
     /**
-     * 
+     *
      * @return boolean
      */
     public function restart()
@@ -94,7 +93,7 @@ class Req extends GlobalVar
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function regenerate()
@@ -103,12 +102,11 @@ class Req extends GlobalVar
     }
 
     /**
-     * 
+     *
      * @return boolean
      */
     public function destroy()
     {
         $this->destroy();
     }
-
 }

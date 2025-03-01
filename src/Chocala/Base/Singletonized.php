@@ -4,7 +4,6 @@ namespace Chocala\Base;
 
 trait Singletonized
 {
-
     /**
      * Represents a unique instance for the class in the system
      * @var $this
@@ -22,5 +21,4 @@ trait Singletonized
         }
         return self::$INTANCE;
     }
-
 }

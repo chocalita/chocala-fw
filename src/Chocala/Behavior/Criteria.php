@@ -10,5 +10,4 @@ namespace Chocala\Behavior;
  */
 class Criteria extends \Propel\Runtime\ActiveQuery\Criteria
 {
-
 }

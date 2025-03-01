@@ -9,7 +9,6 @@ namespace Chocala\System;
  */
 class Flash
 {
-
     const FLASH_SESSION = '__FLASH';
 
     const MESSAGE_VAR = 'message';
@@ -41,10 +40,10 @@ class Flash
     {
         $flash = Session::_(self::FLASH_SESSION);
 //        print_r($flash); exit();
-        if(!is_object($flash)){
+        if (!is_object($flash)) {
             $flash = new Flash();
         }
-        $flash->oldVars = $flash->newVars?: [];
+        $flash->oldVars = $flash->newVars ?: [];
         $flash->newVars = [];
         Session::bind(self::FLASH_SESSION, $flash);
         return $flash;
@@ -55,7 +54,7 @@ class Flash
      */
     public static function instance()
     {
-        if(!Session::has(self::FLASH_SESSION)){
+        if (!Session::has(self::FLASH_SESSION)) {
             static::initialize();
         }
         return Session::_(self::FLASH_SESSION);
@@ -79,7 +78,7 @@ class Flash
      * @param null $default
      * @return mixed|null
      */
-    public static function get($key, $default=null)
+    public static function get($key, $default = null)
     {
         return static::instance()->_get($key, $default);
     }
@@ -120,7 +119,7 @@ class Flash
      * @param null $default
      * @return mixed
      */
-    public static function extract($key, $default=null)
+    public static function extract($key, $default = null)
     {
         return static::instance()->_extract($key, $default);
     }
@@ -140,7 +139,7 @@ class Flash
      * @param null $default
      * @return mixed|null
      */
-    public static function _($key, $default=null)
+    public static function _($key, $default = null)
     {
         return static::instance()->_get($key, $default);
     }
@@ -151,7 +150,7 @@ class Flash
      */
     public static function message($message = null)
     {
-        return is_null($message)? static::_(self::MESSAGE_VAR): static::set(self::MESSAGE_VAR, $message)
+        return is_null($message) ? static::_(self::MESSAGE_VAR) : static::set(self::MESSAGE_VAR, $message)
             ->get(self::MESSAGE_VAR);
     }
 
@@ -161,7 +160,7 @@ class Flash
      */
     public static function info($info = null)
     {
-        return is_null($info)? static::_(self::INFO_VAR): static::set(self::INFO_VAR, $info);
+        return is_null($info) ? static::_(self::INFO_VAR) : static::set(self::INFO_VAR, $info);
     }
 
     /**
@@ -170,7 +169,7 @@ class Flash
      */
     public static function success($success = null)
     {
-        return is_null($success)? static::_(self::SUCCESS_VAR): static::set(self::SUCCESS_VAR, $success);
+        return is_null($success) ? static::_(self::SUCCESS_VAR) : static::set(self::SUCCESS_VAR, $success);
     }
 
     /**
@@ -179,7 +178,7 @@ class Flash
      */
     public static function warning($warning = null)
     {
-        return is_null($warning)? static::_(self::WARNING_VAR): static::set(self::WARNING_VAR, $warning);
+        return is_null($warning) ? static::_(self::WARNING_VAR) : static::set(self::WARNING_VAR, $warning);
     }
 
     /**
@@ -188,7 +187,7 @@ class Flash
      */
     public static function error($error = null)
     {
-        return is_null($error)? static::_(self::ERROR_VAR): static::set(self::ERROR_VAR, $error);
+        return is_null($error) ? static::_(self::ERROR_VAR) : static::set(self::ERROR_VAR, $error);
     }
 
     /**
@@ -204,9 +203,9 @@ class Flash
      * @param null $default
      * @return mixed
      */
-    public function _get($key, $default=null)
+    public function _get($key, $default = null)
     {
-        return isset($this->oldVars[$key])? $this->oldVars[$key]: $default;
+        return isset($this->oldVars[$key]) ? $this->oldVars[$key] : $default;
     }
 
     /**
@@ -237,11 +236,10 @@ class Flash
      * @param null $default
      * @return mixed
      */
-    public function _extract($key, $default=null)
+    public function _extract($key, $default = null)
     {
         $value = $this->_get($key, $default);
         $this->_delete($key);
         return $value;
     }
-
 }

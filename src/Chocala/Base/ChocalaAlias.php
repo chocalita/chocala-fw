@@ -11,7 +11,6 @@ use App\configs\AppConfig;
  */
 class ChocalaAlias
 {
-
     /**
      *
      * @param string $key
@@ -29,7 +28,6 @@ class ChocalaAlias
      */
     public static function aliasDir(string $key): ?string
     {
-        return self::isAlias($key)? AppConfig::$aliases[$key]: null;
+        return self::isAlias($key) ? AppConfig::$aliases[$key] : null;
     }
-
 }

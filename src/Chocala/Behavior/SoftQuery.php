@@ -10,7 +10,6 @@ namespace Chocala\Behavior;
  */
 trait SoftQuery
 {
-
     public static function statusMap()
     {
         return SoftDelete::statusMap();
@@ -61,8 +60,8 @@ trait SoftQuery
      */
     public function filterValids()
     {
-        return method_exists($this, "filterByStatus")?
-            $this->filterByStatus(static::validStatusList(), Criteria::IN): $this;
+        return method_exists($this, 'filterByStatus') ?
+            $this->filterByStatus(static::validStatusList(), Criteria::IN) : $this;
     }
 
     /**
@@ -74,7 +73,7 @@ trait SoftQuery
     public static function createValids($noDeletes = true, $modelAlias = null, Criteria $criteria = null)
     {
         $query = static::createQuery($modelAlias, $criteria);
-        return ($noDeletes && ($query instanceof SoftDeletion))? $query->filterValids(): $query;
+        return ($noDeletes && ($query instanceof SoftDeletion)) ? $query->filterValids() : $query;
 //        return $noDeletes? $query->filterValids(): $query;
     }
 
@@ -103,5 +102,4 @@ trait SoftQuery
             return strtoupper($order) == Criteria::DESC ? Criteria::DESC : Criteria::ASC;
         }
     }
-
 }

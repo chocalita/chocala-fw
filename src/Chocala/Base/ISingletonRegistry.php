@@ -10,7 +10,5 @@ namespace Chocala\Base;
  */
 interface ISingletonRegistry extends Singleton
 {
-
     public static function updateRegistry($var, $object);
-
 }

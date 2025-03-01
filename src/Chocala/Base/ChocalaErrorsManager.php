@@ -9,7 +9,6 @@ namespace Chocala\Base;
  */
 class ChocalaErrorsManager implements IChocalaErrorsManager, Singleton
 {
-
     /**
      *
      * @var ChocalaErrorsManager
@@ -37,7 +36,7 @@ class ChocalaErrorsManager implements IChocalaErrorsManager, Singleton
      */
     public static function instance()
     {
-        if(!is_object(self::$instance)){
+        if (!is_object(self::$instance)) {
             self::$instance = new ChocalaErrorsManager();
         }
         return self::$instance;
@@ -57,5 +56,4 @@ class ChocalaErrorsManager implements IChocalaErrorsManager, Singleton
         array_push(self::instance()->exceptions, $exception);
         // TODO manage the error by severity level
     }
-
 }

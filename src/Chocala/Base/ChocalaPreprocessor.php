@@ -7,7 +7,6 @@ namespace Chocala\Base;
  */
 class ChocalaPreprocessor
 {
-
     /**
      * @param $object
      * @param $excludes
@@ -33,36 +32,35 @@ class ChocalaPreprocessor
             $service = '';
             foreach (explode("\n", $doc) as $docLine) {
                 $docLine = preg_replace('/^\/\*\*\s*|^\s*\*\s*|\s*\*\/$|\s*$/', '', $docLine);
-                if (preg_match('/^\@('.$aFilters.')\s*(.*)?$/i', $docLine, $matches)) {
-                    $explodes = explode(" ", $matches[2]);
+                if (preg_match('/^\@(' . $aFilters . ')\s*(.*)?$/i', $docLine, $matches)) {
+                    $explodes = explode(' ', $matches[2]);
                     $service = trim($explodes[0]);
                 }
             }
-            if($service != ''){
-                if(strpos($service, '.')){
-                    Chocala::import('Modules.'.$service);
+            if ($service != '') {
+                if (strpos($service, '.')) {
+                    Chocala::import('Modules.' . $service);
                     $parts = explode('.', $service);
-                    $service = $parts[sizeof($parts)-1];
-                }else{
+                    $service = $parts[sizeof($parts) - 1];
+                } else {
                     $classname = get_class($controller);
                     $c = new \ReflectionClass($classname);
                     $serviceFile = str_replace($classname, $service, $c->getFileName());
-                    if(file_exists($serviceFile)){
+                    if (file_exists($serviceFile)) {
                         require_once($serviceFile);
-                    }else{
+                    } else {
                         //TODO: importar dentro del mismo módulo o de manera general
                         throw new ChocalaException('Service file not fount');
                     }
                 }
                 $propertyName = $property->getName();
                 //TODO: implementar como Singleton
-                $controller->$propertyName = class_implements($service, 'ISingleton')?
-                    $service::instance(): new $service();
-                if(is_object($controller->$propertyName)){
+                $controller->$propertyName = class_implements($service, 'ISingleton') ?
+                    $service::instance() : new $service();
+                if (is_object($controller->$propertyName)) {
                     self::preprocessServices($controller->$propertyName);
                 }
             }
         }
     }
-
 }

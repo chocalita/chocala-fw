@@ -9,7 +9,6 @@ namespace Chocala\System;
  */
 class Session extends GlobalVar
 {
-
     /**
      * Represents a unique instance for the class in the system
      * @var Session
@@ -28,16 +27,16 @@ class Session extends GlobalVar
      */
     public static function instance()
     {
-        if(!is_object(static::$instance)){
+        if (!is_object(static::$instance)) {
             static::$instance = new self();
         }
         return static::$instance;
     }
 
-    private function __construct($id=null)
+    private function __construct($id = null)
     {
         $this->name = 'SESSION';
-        if($this->encrypted){
+        if ($this->encrypted) {
             // TODO: encrypted proccess
         }
         // TODO: setting an id
@@ -57,7 +56,7 @@ class Session extends GlobalVar
      * @param string $id
      * @return void
      */
-    public function read($id=null)
+    public function read($id = null)
     {
 //        Sync up the session cookie with Cookie parameters
 //        session_set_cookie_params($this->lifetime, Cookie::$path,
@@ -67,7 +66,7 @@ class Session extends GlobalVar
         session_cache_limiter(false);
         // Set the session cookie name
         session_name($this->name);
-        if($id){
+        if ($id) {
             session_id($id);
         }
         session_start();
@@ -114,11 +113,10 @@ class Session extends GlobalVar
     {
         session_destroy();
         $status = !session_id();
-        if($status){
+        if ($status) {
             // TODO: delete cookies from Cookie class
 //            Cookie::delete($this->_name);
         }
         return $status;
     }
-
 }

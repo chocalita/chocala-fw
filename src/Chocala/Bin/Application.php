@@ -12,7 +12,6 @@ use Psr\Log\LoggerInterface;
 
 class Application
 {
-
     public const LOGGER = 'LOGGER';
 
     private $configLoader;
@@ -40,5 +39,4 @@ class Application
     {
         $this->configLoader->loadConfigs();
     }
-
 }

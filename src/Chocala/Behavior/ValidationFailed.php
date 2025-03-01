@@ -23,7 +23,6 @@ namespace Chocala\Behavior;
  */
 class ValidationFailed
 {
-
     /** Column name in ENTITY_NAME format */
     private $entityName;
 
@@ -143,5 +142,4 @@ class ValidationFailed
     {
         return $this->getMessage();
     }
-
 }

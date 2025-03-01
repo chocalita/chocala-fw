@@ -9,7 +9,6 @@ namespace Chocala\Behavior;
  */
 trait Relatable
 {
-
     /**
      * @return \Propel\Runtime\Map\TableMap
      */
@@ -33,9 +32,12 @@ trait Relatable
      */
     private function relationsFilter($type)
     {
-        return array_filter($this->relationMaps(), function($relation) use ($type){
-            return $relation->getType() == $type;
-        });
+        return array_filter(
+            $this->relationMaps(),
+            function ($relation) use ($type) {
+                return $relation->getType() == $type;
+            }
+        );
     }
 
     /**
@@ -69,5 +71,4 @@ trait Relatable
     {
         return $this->relationsFilter(\Propel\Runtime\Map\RelationMap::MANY_TO_MANY);
     }
-
 }
