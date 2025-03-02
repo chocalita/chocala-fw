@@ -1,0 +1,162 @@
+
+<div class="form-group">
+    <label class="control-label col-sm-3" for="EmailId">Email</label>
+    <div class="col-sm-9">
+        <select id="EmailId" name="EmailId"
+                class="form-control">
+            <option value="">-Seleccionar-</option>
+        <?php
+        foreach($sysEmailList as $sysEmail):
+            $sel = $emailSent && $emailSent->getEmailId() == $sysEmail->getId()? 'selected="yes"': '';
+        ?>
+        <option value="<?=$sysEmail->getId();?>" <?=$sel;?>><?=$sysEmail->get();?></option>
+        <?php
+        endforeach;
+        ?>
+        </select>
+    </div>
+</div>
+    
+<div class="form-group">
+    <label class="control-label col-sm-3" for="UserId">Usuario</label>
+    <div class="col-sm-9">
+        <select id="UserId" name="UserId"
+                class="form-control">
+            <option value="">-Seleccionar-</option>
+        <?php
+        foreach($sysUserList as $sysUser):
+            $sel = $emailSent && $emailSent->getUserId() == $sysUser->getId()? 'selected="yes"': '';
+        ?>
+        <option value="<?=$sysUser->getId();?>" <?=$sel;?>><?=$sysUser->get();?></option>
+        <?php
+        endforeach;
+        ?>
+        </select>
+    </div>
+</div>
+    
+<div class="form-group">
+    <label class="control-label col-sm-3" for="SenderId">Sender Id</label>
+    <div class="col-sm-9">
+        
+        <input type="text" id="SenderId" name="SenderId" value="<?=$emailSent? $emailSent->getSenderId(): '';?>" placeholder="SenderId..."
+               class="form-control" />
+        
+    </div>
+</div>
+    
+<div class="form-group">
+    <label class="control-label col-sm-3" for="HashString">Hash String</label>
+    <div class="col-sm-9">
+        
+        <input type="text" id="HashString" name="HashString" value="<?=$emailSent? $emailSent->getHashString(): '';?>" placeholder="HashString..."
+               class="form-control" maxlength="500" />
+        
+    </div>
+</div>
+    
+<div class="form-group">
+    <label class="control-label col-sm-3" for="FromName">From Name</label>
+    <div class="col-sm-9">
+        
+        <input type="text" id="FromName" name="FromName" value="<?=$emailSent? $emailSent->getFromName(): '';?>" placeholder="FromName..."
+               class="form-control" maxlength="100" />
+        
+    </div>
+</div>
+    
+<div class="form-group">
+    <label class="control-label col-sm-3" for="FromEmail">From Email</label>
+    <div class="col-sm-9">
+        
+        <input type="text" id="FromEmail" name="FromEmail" value="<?=$emailSent? $emailSent->getFromEmail(): '';?>" placeholder="FromEmail..."
+               class="form-control" maxlength="100" />
+        
+    </div>
+</div>
+    
+<div class="form-group">
+    <label class="control-label col-sm-3" for="ToEmail">To Email</label>
+    <div class="col-sm-9">
+        
+        <textarea id="ToEmail"  name="ToEmail" placeholder="ToEmail..."
+                  class="form-control" rows="2" cols="25"><?=$emailSent? $emailSent->getToEmail(): '';?></textarea>
+        
+    </div>
+</div>
+    
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Cc">Cc</label>
+    <div class="col-sm-9">
+        
+        <textarea id="Cc"  name="Cc" placeholder="Cc..."
+                  class="form-control" rows="2" cols="25"><?=$emailSent? $emailSent->getCc(): '';?></textarea>
+        
+    </div>
+</div>
+    
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Bcc">Bcc</label>
+    <div class="col-sm-9">
+        
+        <textarea id="Bcc"  name="Bcc" placeholder="Bcc..."
+                  class="form-control" rows="2" cols="25"><?=$emailSent? $emailSent->getBcc(): '';?></textarea>
+        
+    </div>
+</div>
+    
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Subject">Subject</label>
+    <div class="col-sm-9">
+        
+        <input type="text" id="Subject" name="Subject" value="<?=$emailSent? $emailSent->getSubject(): '';?>" placeholder="Subject..."
+               class="form-control" maxlength="500" />
+        
+    </div>
+</div>
+    
+<div class="form-group">
+    <label class="control-label col-sm-3" for="Content">Content</label>
+    <div class="col-sm-9">
+        
+        <textarea id="Content"  name="Content" placeholder="Content..."
+                  class="form-control" rows="2" cols="25"><?=$emailSent? $emailSent->getContent(): '';?></textarea>
+        
+    </div>
+</div>
+    
+<div class="form-group">
+    <label class="control-label col-sm-3" for="IsSuccess">Is Success</label>
+    <div class="col-sm-9">
+        
+        <input type="text" id="IsSuccess" name="IsSuccess" value="<?=$emailSent? $emailSent->getIsSuccess(): '';?>" placeholder="IsSuccess..."
+               class="form-control" maxlength="1" />
+        
+    </div>
+</div>
+    
+<div class="form-group">
+    <label class="control-label col-sm-3" for="ShippingDate">Shipping Date</label>
+    <div class="col-sm-9">
+        
+        <input type="text" id="ShippingDate" name="ShippingDate" value="<?=$emailSent? $emailSent->getShippingDate(): '';?>" placeholder="ShippingDate..."
+               class="form-control" />
+        
+    </div>
+</div>
+    
+<div class="form-group">
+    <label class="control-label col-sm-3" for="OpeningDate">Opening Date</label>
+    <div class="col-sm-9">
+        
+        <input type="text" id="OpeningDate" name="OpeningDate" value="<?=$emailSent? $emailSent->getOpeningDate(): '';?>" placeholder="OpeningDate..."
+               class="form-control" />
+        
+    </div>
+</div>
+    
+<script type="text/javascript">
+    $().ready(function(){
+        $('.ajaxPost').formAjaxPost();
+    });
+</script>

@@ -1,0 +1,120 @@
+.pointer{
+    cursor: hand;
+    cursor: pointer;
+}
+.uppercase{
+    text-transform: uppercase;
+}
+.lowercase{
+    text-transform: lowercase;
+}
+.capitalize{
+    text-transform: capitalize;
+}
+.display-none{
+    display: none;
+}
+.text-blue {
+    color: #1c84c6;
+}
+
+/* TOP MENU
+**********************************************************/
+.landing-page .navbar-fixed-top{
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #e7eaec !important;
+}
+.landing-page .navbar-fixed-top .top-left{
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+/* LANDING PAGE BUTTON
+**********************************************************/
+.landing-page .btn-primary{
+    background-color: transparent;
+    color: #1ab394;
+}
+.landing-page .btn-primary:hover{
+    background-color: #1ab394;
+    color: #FFFFFF;
+}
+.landing-page .btn-success{
+    background-color: transparent;
+    color: #1a7bb9;
+}
+.landing-page .btn-success:hover{
+    background-color: #1a7bb9;
+    color: #FFFFFF;
+}
+.profile-element .img-circle{
+    max-height: 50px;
+    max-width: 50px;
+}
+
+.datepicker-dropdown {
+    z-index: 10000 !important;
+}
+
+.ui-autocomplete {
+    z-index: 10000 !important;
+}
+
+
+.landing-page .navbar-default .nav li a,
+.landing-page .navbar-default .navbar-nav > .active > a, .landing-page .navbar-default .navbar-nav > .active > a:hover{
+    color: #1AB394;
+}
+
+.agile-box {
+    background: #F8F8F9;
+    border: 1px solid #e7eaec;
+    margin: 0 0 10px 0;
+    padding: 10px;
+    border-radius: 2px;
+}
+.agile-box:hover {
+    /*cursor: pointer;*/
+    background: #fff;
+}
+.agile-detail {
+    margin-top: 5px;
+    font-size: 12px;
+}
+.warning-element {
+    border-left: 3px solid #f8ac59;
+}
+.danger-element {
+    border-left: 3px solid #ed5565;
+}
+.info-element {
+    border-left: 3px solid #1c84c6;
+}
+.success-element {
+    border-left: 3px solid #1ab394;
+}
+.aviso-details {
+    padding: 10px 30px;
+}
+.aviso-details .row{
+    padding: 5px 0;
+
+}
+
+/*  PRIVATE LAYOUT STYLES
+******************************************************/
+@media only screen and (max-device-width : 320px) {
+    .loginColumns {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 50px 20px 20px 20px;
+    }
+}
+
+/*  MEDIA QUERIES
+******************************************************/
+@media only screen and (max-device-width : 320px) {
+    .navbar-wrapper .to-hide{
+        display: none;
+    }
+}

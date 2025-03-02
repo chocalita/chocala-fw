@@ -1,0 +1,62 @@
+<?= BarView::renderBar('messages'); ?>
+<div class="dialog" style="padding: 0 250px">
+
+    <div class="fRight">
+        <a href="<?= URI::toPage().'dataList'; ?>" class="linkGoBack">Go to data list</a>
+        <a href="<?= URI::toPage().'edit/'.$userParam->getPrimaryKey(); ?>" class="linkEdit">Edit UserParam</a>
+        <a href="<?= URI::toPage().'delete/'.$userParam->getPrimaryKey(); ?>" class="linkDelete" onclick="return confirm('¿Do you sure to delete this record?');">Delete UserParam</a>
+    </div>
+    <h1>UserParam Details</h1>
+    <hr />
+    
+        
+    <div class="input">
+        <label class="name">SysUser</label>
+        <div class="value">
+            <a href="<?= WEB_ROOT.'sysUser/show/'.$userParam->getSysUser()->getID(); ?>"><?= $userParam->getSysUser()->getID(); ?></a>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">SysParam</label>
+        <div class="value">
+            <a href="<?= WEB_ROOT.'sysParam/show/'.$userParam->getSysParam()->getID(); ?>"><?= $userParam->getSysParam()->getID(); ?></a>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Value</label>
+        <div class="value">
+            <?= $userParam->getValue(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Description</label>
+        <div class="value">
+            <?= $userParam->getDescription(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Last User Id</label>
+        <div class="value">
+            <?= $userParam->getLastUserId(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Creation Date</label>
+        <div class="value">
+            <?= $userParam->getCreationDate(); ?>
+        </div>
+    </div>
+            
+    <div class="input">
+        <label class="name">Modification Date</label>
+        <div class="value">
+            <?= $userParam->getModificationDate(); ?>
+        </div>
+    </div>
+            
+</div>

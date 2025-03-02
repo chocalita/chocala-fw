@@ -1,0 +1,68 @@
+<?php
+foreach($mapedColumns as $columnMap):
+    $camelName = SpecialStrings::camelCase($columnMap->getPhpName());
+    $pascalName = SpecialStrings::pascalCase($columnMap->getPhpName());
+    $capitalizedName = ucwords(strtolower(str_replace('_',' ', $columnMap->getName())));
+    if($columnMap->isForeignKey()):
+        $relatedClassName = SpecialStrings::camelCase($columnMap->getRelatedTableName());
+        $relatedFieldName = SpecialStrings::camelCase(strtolower($hashColumns[$columnMap->getName()]['field']));
+        $pascalRelatedClassName = SpecialStrings::pascalCase($relatedClassName);
+        $relatedColumnName = SpecialStrings::camelCase(strtolower($columnMap->getRelatedColumnName()));
+    ?>
+
+<div class="form-group">
+    <label class="control-label col-sm-3" for="<?= $camelName;?>"><?= $relatedClassName;?></label>
+    <div class="col-sm-9">
+        <select id="<?= $camelName;?>" name="<?= $camelName;?>"
+                class="form-control">
+            <option value="">-Select-</option>
+        <?=CodeGenerator::TAG_OPEN;?>
+
+        foreach($<?= $pascalRelatedClassName;?>List as $<?= $pascalRelatedClassName;?>):
+            $sel = $#MODEL_NAME# && $#MODEL_NAME#->get<?= $camelName;?>() ==  <?=CodeGenerator::TAG_OPEN_SHORT;?>$<?= $pascalRelatedClassName;?>->get<?=$relatedColumnName;?>()? 'selected="yes"': '';
+        <?=CodeGenerator::TAG_CLOSE;?>
+
+        <option value="<?=CodeGenerator::TAG_OPEN_SHORT;?>$<?= $pascalRelatedClassName;?>->get<?=$relatedColumnName;?>();<?=CodeGenerator::TAG_CLOSE;?>" <?=CodeGenerator::TAG_OPEN_SHORT;?>$sel;<?=CodeGenerator::TAG_CLOSE;?>><?=CodeGenerator::TAG_OPEN_SHORT;?>$<?= $pascalRelatedClassName;?>->get<?= $relatedFieldName;?>();<?=CodeGenerator::TAG_CLOSE;?></option>
+        <?=CodeGenerator::TAG_OPEN;?>
+
+        endforeach;
+        <?=CodeGenerator::TAG_CLOSE;?>
+
+        </select>
+    </div>
+</div>
+    <?php
+    elseif(!$columnMap->isPrimaryKey()):
+    ?>
+
+<div class="form-group">
+    <label class="control-label col-sm-3" for="<?= $camelName;?>"><?= $capitalizedName;?></label>
+    <div class="col-sm-9">
+        <?php
+        if($columnMap->getType() == \Propel\Generator\Model\PropelTypes::LONGVARCHAR){
+        ?>
+
+        <textarea id="<?= $camelName;?>"  name="<?= $camelName;?>" placeholder="<?= $camelName;?>..."
+                  class="form-control" rows="2" cols="25"><?=CodeGenerator::TAG_OPEN_SHORT;?>$#MODEL_NAME#? $#MODEL_NAME#->get<?= $camelName;?>(): '';<?=CodeGenerator::TAG_CLOSE;?></textarea>
+        <?php
+        }else{
+        ?>
+
+        <input type="text" id="<?=$camelName;?>" name="<?=$camelName;?>" value="<?=CodeGenerator::TAG_OPEN_SHORT;?>$#MODEL_NAME#? $#MODEL_NAME#->get<?= $camelName;?>(): '';<?=CodeGenerator::TAG_CLOSE;?>" placeholder="<?= $camelName;?>..."
+               class="form-control" <?= $columnMap->getSize()? 'maxlength="'.$columnMap->getSize().'" ': '';?>/>
+        <?php
+        }
+        ?>
+
+    </div>
+</div>
+    <?php
+    endif;
+endforeach;
+?>
+
+<script type="text/javascript">
+    $().ready(function(){
+        $('.ajaxPost').formAjaxPost();
+    });
+</script>
