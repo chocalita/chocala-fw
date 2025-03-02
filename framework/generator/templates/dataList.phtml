@@ -1,0 +1,124 @@
+<?=CodeGenerator::TAG_OPEN_SHORT;?> BarView::renderBar('messages'); <?=CodeGenerator::TAG_CLOSE;?>
+
+<div class="fRight">
+    <a href="<?=CodeGenerator::TAG_OPEN_SHORT;?> URI::toPage().'create'; <?=CodeGenerator::TAG_CLOSE;?>" class="linkAdd">Create #CLASS_NAME#</a>
+</div>
+<h1>#CLASS_NAME#s List</h1>
+
+<hr class="clear" />
+
+<table class="tList tSorter" align="center" width="100%">
+    <thead>
+        <tr>
+            <th>Nº</th>
+        <?php
+        foreach($hashColumns as $hashColumn):
+            $columnMap = $hashColumn['maped'];
+            $camelName = SpecialStrings::camelCase($columnMap->getColumnName());
+            $pascalName = SpecialStrings::pascalCase($columnMap->getColumnName());
+            if($columnMap->isForeignKey()):
+                $relatedClassName = SpecialStrings::camelCase($columnMap->getRelatedTableName());
+                $relatedFieldName = SpecialStrings::camelCase($hashColumn['field']);
+            ?>
+
+            <th><?= $relatedClassName;?></th>
+            <?php
+            elseif(!$columnMap->isPrimaryKey()):
+            ?>
+            
+            <th><?= $camelName;?></th>
+            <?php
+            endif;
+        endforeach;
+        ?>
+            
+            <th>Details</th>
+
+            <th>Edit</th>
+
+            <th>Delete</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <?=CodeGenerator::TAG_OPEN;?>
+
+        $i = 0;
+        foreach(#CLASS_PAGER# as #CLASS_INSTANCE#):
+        <?=CodeGenerator::TAG_CLOSE;?>
+
+        <tr class="<?=CodeGenerator::TAG_OPEN_SHORT;?> #CLASS_PAGER#->isOdd()? 'odd': 'even'; <?=CodeGenerator::TAG_CLOSE;?>">
+            <td><?=CodeGenerator::TAG_OPEN_SHORT;?> #CLASS_PAGER#->getFirstIndex() + $i; <?=CodeGenerator::TAG_CLOSE;?></td>
+            <?php
+            $nColumns = 0;
+            foreach($hashColumns as $hashColumn):
+                $columnMap = $hashColumn['maped'];
+                $camelName = SpecialStrings::camelCase($columnMap->getColumnName());
+                $pascalName = SpecialStrings::pascalCase($columnMap->getColumnName());
+                if($columnMap->isForeignKey()):
+                    $relatedClassName = SpecialStrings::camelCase($columnMap->getRelatedTableName());
+                    $relatedFieldName = SpecialStrings::camelCase($hashColumn['field']);
+                    $nColumns++;
+                    if($className == $relatedClassName):
+                        $relatedClassName = SpecialStrings::camelCase($columnMap->getRelatedTableName());
+                        $columnName = SpecialStrings::camelCase($columnMap->getColumnName());
+                        ?>
+
+            <td><?=CodeGenerator::TAG_OPEN_SHORT;?> #CLASS_INSTANCE#->get<?= $relatedClassName;?>RelatedBy<?= $columnName;?>()?  #CLASS_INSTANCE#->get<?= $relatedClassName;?>RelatedBy<?= $columnName;?>()->get<?= $relatedFieldName;?>(): '-'; <?=CodeGenerator::TAG_CLOSE;?></td>
+            <?php
+                    else:
+            ?>
+
+            <td><?=CodeGenerator::TAG_OPEN_SHORT;?> #CLASS_INSTANCE#->get<?= $relatedClassName;?>()->get<?= $relatedFieldName;?>(); <?=CodeGenerator::TAG_CLOSE;?></td>
+            <?php
+                    endif;
+                elseif(!$columnMap->isPrimaryKey()):
+                    $nColumns++;
+            ?>
+
+            <td><?=CodeGenerator::TAG_OPEN_SHORT;?> #CLASS_INSTANCE#->get<?= $camelName;?>(); <?=CodeGenerator::TAG_CLOSE;?></td>
+            <?php
+                endif;
+            endforeach;
+            ?>
+
+            <td class="center">
+                <a href="<?=CodeGenerator::TAG_OPEN_SHORT;?> URI::toPage().'show/'.#CLASS_INSTANCE#->getPrimaryKey(); <?=CodeGenerator::TAG_CLOSE;?>" class=""><img src="<?=CodeGenerator::TAG_OPEN_SHORT;?> ICO_16.'view_details.png' <?=CodeGenerator::TAG_CLOSE;?>" alt="Show" title="Show" /></a>
+            </td>
+
+            <td class="center">
+                <a href="<?=CodeGenerator::TAG_OPEN_SHORT;?> URI::toPage().'edit/'.#CLASS_INSTANCE#->getPrimaryKey(); <?=CodeGenerator::TAG_CLOSE;?>" class=""><img src="<?=CodeGenerator::TAG_OPEN_SHORT;?> ICO_16.'edit.png' <?=CodeGenerator::TAG_CLOSE;?>" alt="Edit" title="Edit" /></a>
+            </td>
+
+            <td class="center">
+                <a href="<?=CodeGenerator::TAG_OPEN_SHORT;?> URI::toPage().'delete/'.#CLASS_INSTANCE#->getPrimaryKey(); <?=CodeGenerator::TAG_CLOSE;?>" class=""><img src="<?=CodeGenerator::TAG_OPEN_SHORT;?> ICO_16.'delete.png' <?=CodeGenerator::TAG_CLOSE;?>" alt="Edit" title="Edit" /></a>
+            </td>
+        </tr>
+        <?=CodeGenerator::TAG_OPEN;?>
+
+            $i++;
+        endforeach;
+        if(#CLASS_PAGER#->isEmpty()):
+        <?=CodeGenerator::TAG_CLOSE;?>
+
+        <tr class="odd">
+            <td class="center" colspan="<?= $nColumns+1;?>">* There are no #CLASS_NAME#s *</td>
+        </tr>
+        <?=CodeGenerator::TAG_OPEN;?> endif; <?=CodeGenerator::TAG_CLOSE;?>
+
+    </tbody>
+    <tfoot>
+        <tr>
+            <td class="paginateButtons" colspan="<?= $nColumns+1;?>">
+                <?=CodeGenerator::TAG_OPEN;?> if(#CLASS_PAGER#->haveToPaginate()): <?=CodeGenerator::TAG_CLOSE;?>
+
+                <p>Page <?=CodeGenerator::TAG_OPEN_SHORT;?> #CLASS_PAGER#->getPage(); <?=CodeGenerator::TAG_CLOSE;?> of <?=CodeGenerator::TAG_OPEN_SHORT;?> #CLASS_PAGER#->getLastPage(); <?=CodeGenerator::TAG_CLOSE;?> </p>
+                <p>Displaying results <?=CodeGenerator::TAG_OPEN_SHORT;?> #CLASS_PAGER#->getFirstIndex(); <?=CodeGenerator::TAG_CLOSE;?> to <?=CodeGenerator::TAG_OPEN_SHORT;?> #CLASS_PAGER#->getLastIndex(); <?=CodeGenerator::TAG_CLOSE;?>
+
+                    on a total of <?=CodeGenerator::TAG_OPEN_SHORT;?> #CLASS_PAGER#->getNbResults(); <?=CodeGenerator::TAG_CLOSE;?> </p>
+                <?=CodeGenerator::TAG_OPEN;?> endif; <?=CodeGenerator::TAG_CLOSE;?>
+
+            </td>
+        </tr>
+    </tfoot>
+</table>

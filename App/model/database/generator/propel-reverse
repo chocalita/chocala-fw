@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-propel reverse --output-dir="." default
